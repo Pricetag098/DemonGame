@@ -93,11 +93,11 @@ public class Gun : MonoBehaviour
                         HitVfx vfx;
                         if (hit.collider.TryGetComponent(out vfx))
                         {
-                            vfx.Play(hit.point, hit.normal);
+                            vfx.Play(hit.point, Vector3.Lerp(-Camera.main.transform.forward, hit.normal,.5f));
                         }
                         else
                         {
-                            VfxSpawner.SpawnVfx(0, hit.point, hit.normal);
+                            VfxSpawner.SpawnVfx(0, hit.point, Vector3.Lerp(-Camera.main.transform.forward, hit.normal, .5f));
                         }
                         if(visualiserPool.Enabled)
                         visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin, hit.point,Vector3.Distance(origin.position, hit.point) / bulletVisualiserSpeed);

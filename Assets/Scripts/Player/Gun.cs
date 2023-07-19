@@ -6,31 +6,53 @@ using UnityEngine.InputSystem;
 
 public class Gun : MonoBehaviour
 {
-    [SerializeField] bool auto;
-    [SerializeField] float damage = 10;
+
+    public enum GunStates
+	{
+        awaiting,
+        firing,
+        reloading,
+        disabled
+	}
+    GunStates gunState;
     
-    [SerializeField] float bulletRange = float.PositiveInfinity, bulletSpreadDegrees = 0;
-    [SerializeField] int shotsPerFiring = 1;
-    [SerializeField] int ammoLeft, maxAmmo = 10;
-    [SerializeField] float fireCoolDown = 1, reloadDuration = 1;
+    public enum FireTypes
+    {
+        single,
+        burst,
+        auto
+    }
+    [Header("Gun Settings")]
+    public FireTypes fireSelect;
+    public float damage = 10;
+    public float bulletRange = float.PositiveInfinity, bulletSpreadDegrees = 0;
+    [Min(1)]
+    public int shotsPerFiring = 1;
+    public int ammoLeft, maxAmmo = 10;
+    public float fireCoolDown = 1, reloadDuration = 1;
     float fireTimer = 0, reloadTimer;
-    bool reloading = false;
-    [SerializeField] Transform origin;
 
-
-    
-    [SerializeField] SoundPlayer shootSound, reloadSound, emptySound;
-    [SerializeField] Optional<ParticleSystem> gunfire;
-    [SerializeField] LayerMask hitMask = int.MaxValue;
+    [Min(1)]
+    public int burstRounds;
+    int ammoBurstsDone = 0;
+    public float burstCooldown = 0.1f;
+    float burstTimer =0;
 
     
-
-
-    [SerializeField] InputActionProperty shootAction;
-    [SerializeField] InputActionProperty reloadAction;
-
-    [SerializeField] Optional<ObjectPooler> visualiserPool;
-    [SerializeField] float bulletVisualiserSpeed;
+    [Header("Assign These")]
+    public Transform origin;
+    public SoundPlayer shootSound, reloadSound, emptySound;
+    public Optional<ParticleSystem> gunfire;
+    public LayerMask hitMask = int.MaxValue;
+    
+    
+    
+    
+    public InputActionProperty shootAction;
+    public InputActionProperty reloadAction;
+    
+    public Optional<ObjectPooler> visualiserPool;
+    public float bulletVisualiserSpeed;
 
     // Start is called before the first frame update
     void Start()
@@ -57,22 +79,75 @@ public class Gun : MonoBehaviour
 	private void Update()
     {
         fireTimer -= Time.deltaTime;
-        if (reloading)
-        {
-            reloadTimer += Time.deltaTime;
-            if (reloadTimer >= reloadDuration)
-            {
-                Reload();
-            }
-        }
-        if ((shootAction.action.WasPressedThisFrame() && !auto) || (shootAction.action.IsPressed() && auto))
-            Shoot();
+
+		switch (gunState)
+		{
+            case GunStates.awaiting:
+                if (fireTimer <= 0)
+                {
+                    switch (fireSelect)
+                    {
+                        case FireTypes.single:
+                            if (shootAction.action.WasPressedThisFrame())
+                                Shoot();
+                            break;
+                        case FireTypes.burst:
+                            if (shootAction.action.WasPressedThisFrame())
+                            {
+                                Shoot();
+                                ammoBurstsDone++;
+                                gunState = GunStates.firing;
+                            }
+
+                            
+                            break;
+                        case FireTypes.auto:
+                            if (shootAction.action.IsPressed())
+                                Shoot();
+                            break;
+                    }
+                    
+                }
+                break;
+            case GunStates.firing:
+                if(fireSelect == FireTypes.burst)
+				{
+                    burstTimer -= Time.deltaTime;
+                    if(ammoBurstsDone >= burstRounds)
+					{
+                        gunState = GunStates.awaiting;
+                        ammoBurstsDone = 0;
+                        burstTimer = burstCooldown;
+                        break;
+                    }
+                    if(burstTimer <=0 )
+					{
+                        burstTimer = burstCooldown;
+                        Shoot();
+                        ammoBurstsDone++;
+					}
+				}
+                break;
+            case GunStates.reloading:
+                reloadTimer += Time.deltaTime;
+                if (reloadTimer >= reloadDuration)
+                {
+                    Reload();
+                }
+                break;
+            case GunStates.disabled:
+                break;
+		}
+
+
+		
+
+        
     }
 
     public void Shoot()
     {
-        if (fireTimer <= 0 && !reloading)
-        {
+       
             if (ammoLeft > 0)
             {
                 for (int i = 0; i < shotsPerFiring; i++)
@@ -120,8 +195,14 @@ public class Gun : MonoBehaviour
                 }
             }
             //play no ammo sound / fx
-            emptySound.Play();
-        }
+            if(ammoLeft == 0)
+			{
+                emptySound.Play();
+                ammoLeft--;
+            }
+            
+
+        
 
     }
 
@@ -131,16 +212,16 @@ public class Gun : MonoBehaviour
     public void StartReload(InputAction.CallbackContext context)
     {
         
-        if (reloading || ammoLeft == maxAmmo)
+        if (gunState != GunStates.awaiting || ammoLeft == maxAmmo)
             return;
-        reloading = true;
+        gunState = GunStates.reloading;
         reloadTimer = 0;
         reloadSound.Play();
     }
     void Reload()
     {
         ammoLeft = maxAmmo;
-        reloading = false;
-       
+        gunState = GunStates.awaiting;
+
     }
 }

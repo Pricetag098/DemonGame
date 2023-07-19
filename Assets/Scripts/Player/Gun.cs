@@ -102,6 +102,11 @@ public class Gun : MonoBehaviour
                         if(visualiserPool.Enabled)
                         visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin, hit.point,Vector3.Distance(origin.position, hit.point) / bulletVisualiserSpeed);
                     }
+					else
+					{
+                        if (visualiserPool.Enabled)
+                            visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin, Camera.main.transform.forward * 1000, 1000 / bulletVisualiserSpeed);
+                    }
 
                 }
                 

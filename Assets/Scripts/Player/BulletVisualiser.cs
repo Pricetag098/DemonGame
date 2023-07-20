@@ -38,6 +38,7 @@ public class BulletVisualiser : MonoBehaviour
         origin = from;
         target = to;
         travelTime = time;
+        transform.position = origin.position;
         timer = 0;
         mr.enabled = true;
         enabled = true;

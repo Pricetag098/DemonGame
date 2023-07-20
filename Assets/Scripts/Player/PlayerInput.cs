@@ -33,22 +33,26 @@ namespace Movement
 		[SerializeField] float walkMaxSpeed = 10;
 		[SerializeField] float walkAcceleration = 10;
 		[SerializeField] float walkSlowForce = 10;
+		[SerializeField] float walkControlForce = 10;
 		
 
 		[Header("Run Settings")]
 		[SerializeField] float runMaxSpeed = 10;
 		[SerializeField] float runAcceleration = 10;
 		[SerializeField] float runSlowForce = 10;
+		[SerializeField] float runControlForce = 10;
 
 		[Header("Crouch Settings")]
 		[SerializeField] float crouchMaxSpeed = 10;
 		[SerializeField] float crouchAcceleration = 10;
 		[SerializeField] float crouchSlowForce = 10;
+		[SerializeField] float crouchControlForce = 10;
 
 		[Header("AirControl Settings")]
 		[SerializeField] float airMaxSpeed = 10;
 		[SerializeField] float airAcceleration = 10;
 		[SerializeField] float airSlowForce = 10;
+		[SerializeField] float airControlForce = 10;
 		[SerializeField] float jumpForce = 100;
 
 		[Header("CameraFollowSettings")]
@@ -216,20 +220,20 @@ namespace Movement
 		{
 			if (!IsGrounded())
 			{
-				Move(airMaxSpeed, airAcceleration, airSlowForce);
+				Move(airMaxSpeed, airAcceleration, airSlowForce, airControlForce);
 			}
 			else
 			{
 				switch (moveState)
 				{
 					case MoveStates.walk:
-						Move(walkMaxSpeed, walkAcceleration, walkSlowForce);
+						Move(walkMaxSpeed, walkAcceleration, walkSlowForce, walkControlForce);
 						break;
 					case MoveStates.run:
-						Move(runMaxSpeed, runAcceleration, runSlowForce);
+						Move(runMaxSpeed, runAcceleration, runSlowForce, runControlForce);
 						break;
 					case MoveStates.crouch:
-						Move(crouchMaxSpeed, crouchAcceleration, crouchSlowForce);
+						Move(crouchMaxSpeed, crouchAcceleration, crouchSlowForce, crouchControlForce);
 						break;
 					case MoveStates.slide:
 						//Move(crouchMaxSpeed, crouchAcceleration, crouchSlowForce);
@@ -261,8 +265,12 @@ namespace Movement
 		
 
 
-		void Move(float maxSpeed,float acceleration,float slowForce)
+		void Move(float maxSpeed,float acceleration,float slowForce,float controlForce)
 		{
+
+			acceleration *= Time.fixedDeltaTime;
+			slowForce *= Time.fixedDeltaTime;
+			controlForce *= Time.fixedDeltaTime;
 			Vector3 force = Vector3.zero;
 
 			Vector3 playerVel = rb.velocity;
@@ -286,7 +294,7 @@ namespace Movement
 
 			if (rightVel < maxSpeed * playerStats.speedMulti * Mathf.Abs(inputDir.x))
 			{
-				Vector3 forceDir = orientation.right * inputDir.x * acceleration;
+				Vector3 forceDir = orientation.right * inputDir.x * acceleration * playerStats.accelerationMulti;
 				if (Mathf.Sign(rightVel) < 0)
 				{
 					forceDir *= 2;
@@ -314,7 +322,10 @@ namespace Movement
 			}
 
 			rb.AddForce(force);
-
+			if(rb.velocity.magnitude > maxSpeed)
+			{
+				rb.AddForce(-rb.velocity.normalized * controlForce);
+			}
 			
 		}
 

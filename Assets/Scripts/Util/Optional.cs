@@ -7,14 +7,14 @@ using UnityEngine;
 public struct Optional<T> 
 {
     [SerializeField] private bool enabled;
-    [SerializeField] private T value;
+    [SerializeField] private T val;
 
-    public bool Enabled => enabled;
-    public T Value => value;
+    public bool Enabled { get { return enabled; } set { enabled = value; } }
+    public T Value { get { return val; } set { val = value; } }
 
     public Optional(T initialValue)
     {
-        value = initialValue;
+        val = initialValue;
         enabled = true;
     }
 }

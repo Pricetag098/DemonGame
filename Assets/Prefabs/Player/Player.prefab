@@ -184,6 +184,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageMulti: 1
   speedMulti: 1
+  accelerationMulti: 1
   healthMulti: 1
   regenMulti: 1
 --- !u!114 &3899720132604462813
@@ -271,19 +272,23 @@ MonoBehaviour:
   groundingLayer:
     serializedVersion: 2
     m_Bits: 1
-  walkMaxSpeed: 20
-  walkAcceleration: 40
-  walkSlowForce: 20
-  runMaxSpeed: 40
-  runAcceleration: 80
-  runSlowForce: 20
+  walkMaxSpeed: 25
+  walkAcceleration: 1200
+  walkSlowForce: 900
+  walkControlForce: 10
+  runMaxSpeed: 45
+  runAcceleration: 1200
+  runSlowForce: 900
+  runControlForce: 0
   crouchMaxSpeed: 10
   crouchAcceleration: 10
   crouchSlowForce: 10
+  crouchControlForce: 10
   airMaxSpeed: 10
   airAcceleration: 10
   airSlowForce: 0
-  jumpForce: 1000
+  airControlForce: 10
+  jumpForce: 800
   camMovementEasing:
     serializedVersion: 2
     m_Curve:

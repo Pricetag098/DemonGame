@@ -338,7 +338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32f2d4d87bd59bc41ac713724e5efb7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  auto: 1
+  fireSelect: 0
   damage: 10
   bulletRange: Infinity
   bulletSpreadDegrees: 1
@@ -347,16 +347,20 @@ MonoBehaviour:
   maxAmmo: 30
   fireCoolDown: 0.1
   reloadDuration: 1
+  burstRounds: 0
+  burstCooldown: 0.1
+  stash: 0
+  maxStash: 0
   origin: {fileID: 3118617947092816437}
   shootSound: {fileID: 3118617946565345703}
   reloadSound: {fileID: 3118617946296180872}
   emptySound: {fileID: 3118617946848949296}
   gunfire:
     enabled: 0
-    value: {fileID: 0}
+    val: {fileID: 0}
   hitMask:
     serializedVersion: 2
-    m_Bits: 2147483647
+    m_Bits: 51
   shootAction:
     m_UseReference: 1
     m_Action:
@@ -381,9 +385,10 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: 783454978375702003, guid: b5b5fd5d1836ae549b2c0e6bb6d5cf61, type: 3}
+  holster: {fileID: 0}
   visualiserPool:
     enabled: 1
-    value: {fileID: 0}
+    val: {fileID: 0}
   bulletVisualiserSpeed: 300
 --- !u!1 &3118617946848949298
 GameObject:

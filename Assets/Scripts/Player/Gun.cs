@@ -38,6 +38,10 @@ public class Gun : MonoBehaviour
     public float burstCooldown = 0.1f;
     float burstTimer =0;
 
+    [Header("Stash Settings")]
+    public int stash;
+    public int maxStash;
+
     
     [Header("Assign These")]
     public Transform origin;
@@ -89,24 +93,73 @@ public class Gun : MonoBehaviour
                     {
                         case FireTypes.single:
                             if (shootAction.action.WasPressedThisFrame())
-                                Shoot();
+                            {
+                                if (ammoLeft <= 0)
+                                {
+                                    if (stash <= 0)
+                                    {
+                                        emptySound.Play();
+                                    }
+									else
+									{
+                                        StartReload();
+									}
+                                }
+								else
+								{
+                                    Shoot();
+                                }
+                                    
+                            }
                             break;
                         case FireTypes.burst:
                             if (shootAction.action.WasPressedThisFrame())
                             {
-                                Shoot();
-                                ammoBurstsDone++;
-                                gunState = GunStates.firing;
-                            }
+                                if (ammoLeft <= 0)
+                                {
+                                    if (stash <= 0)
+                                    {
+                                        emptySound.Play();
+                                    }
+                                    else
+                                    {
+                                        StartReload();
+                                    }
+                                }
+                                else
+                                {
+                                    Shoot();
+                                    ammoBurstsDone++;
+                                    gunState = GunStates.firing;
+                                }
 
-                            
+
+                                
+                            }
                             break;
                         case FireTypes.auto:
                             if (shootAction.action.IsPressed())
-                                Shoot();
+                            {
+                                if (ammoLeft <= 0)
+                                {
+                                    if (stash <= 0)
+                                    {
+                                        if (shootAction.action.WasPressedThisFrame())
+                                            emptySound.Play();
+                                    }
+                                    else
+                                    {
+                                        StartReload();
+                                    }
+                                }
+                                else
+                                {
+                                    Shoot();
+                                }
+
+                            }
                             break;
                     }
-                    
                 }
                 break;
             case GunStates.firing:
@@ -139,71 +192,57 @@ public class Gun : MonoBehaviour
                 break;
 		}
 
-
-		
-
-        
     }
 
     public void Shoot()
     {
        
-            if (ammoLeft > 0)
+            
+            for (int i = 0; i < shotsPerFiring; i++)
             {
-                for (int i = 0; i < shotsPerFiring; i++)
-                {
-                    Vector3 randVal = Random.insideUnitSphere * bulletSpreadDegrees;
-                    Vector3 dir = Quaternion.Euler(randVal) * Camera.main.transform.forward;
-                    Debug.DrawRay(Camera.main.transform.position, dir * 10, Color.green);
+                Vector3 randVal = Random.insideUnitSphere * bulletSpreadDegrees;
+                Vector3 dir = Quaternion.Euler(randVal) * Camera.main.transform.forward;
+                Debug.DrawRay(Camera.main.transform.position, dir * 10, Color.green);
 
-                    RaycastHit hit;
-                    if (Physics.Raycast(Camera.main.transform.position, dir, out hit, bulletRange, hitMask))
+                RaycastHit hit;
+                if (Physics.Raycast(Camera.main.transform.position, dir, out hit, bulletRange, hitMask))
+                {
+                    HitBox hitBox;
+                    if (hit.collider.TryGetComponent(out hitBox))
                     {
-                        HitBox hitBox;
-                        if (hit.collider.TryGetComponent(out hitBox))
-                        {
-                            hitBox.OnHit(damage);
+                        hitBox.OnHit(damage);
 
-                        }
-                        HitVfx vfx;
-                        if (hit.collider.TryGetComponent(out vfx))
-                        {
-                            vfx.Play(hit.point, Vector3.Lerp(-Camera.main.transform.forward, hit.normal,.5f));
-                        }
-                        else
-                        {
-                            VfxSpawner.SpawnVfx(0, hit.point, Vector3.Lerp(-Camera.main.transform.forward, hit.normal, .5f));
-                        }
-                        if(visualiserPool.Enabled)
-                        visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin, hit.point,Vector3.Distance(origin.position, hit.point) / bulletVisualiserSpeed);
                     }
-					else
-					{
-                        if (visualiserPool.Enabled)
-                            visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin, Camera.main.transform.forward * 1000, 1000 / bulletVisualiserSpeed);
+                    HitVfx vfx;
+                    if (hit.collider.TryGetComponent(out vfx))
+                    {
+                        vfx.Play(hit.point, Vector3.Lerp(-Camera.main.transform.forward, hit.normal,.5f));
                     }
+                    else
+                    {
+                        VfxSpawner.SpawnVfx(0, hit.point, Vector3.Lerp(-Camera.main.transform.forward, hit.normal, .5f));
+                    }
+                    if(visualiserPool.Enabled)
+                    visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin, hit.point,Vector3.Distance(origin.position, hit.point) / bulletVisualiserSpeed);
+                }
+				else
+				{
+                    if (visualiserPool.Enabled)
+                        visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin, Camera.main.transform.forward * 1000, 1000 / bulletVisualiserSpeed);
+                }
 
-                }
-                
-                ammoLeft--;
-                fireTimer = fireCoolDown;
-                
-                shootSound.Play();
-                if (gunfire.Enabled)
-                {
-                    gunfire.Value.Play();
-                }
             }
-            //play no ammo sound / fx
-            if(ammoLeft == 0)
-			{
-                emptySound.Play();
-                ammoLeft--;
+                
+            ammoLeft--;
+            fireTimer = fireCoolDown;
+                
+            shootSound.Play();
+            if (gunfire.Enabled)
+            {
+                gunfire.Value.Play();
             }
             
-
-        
-
+            
     }
 
     
@@ -211,8 +250,13 @@ public class Gun : MonoBehaviour
 
     public void StartReload(InputAction.CallbackContext context)
     {
+        StartReload();
         
-        if (gunState != GunStates.awaiting || ammoLeft == maxAmmo)
+    }
+
+    public void StartReload()
+	{
+        if (gunState != GunStates.awaiting || ammoLeft == maxAmmo || stash <= 0)
             return;
         gunState = GunStates.reloading;
         reloadTimer = 0;
@@ -220,8 +264,41 @@ public class Gun : MonoBehaviour
     }
     void Reload()
     {
-        ammoLeft = maxAmmo;
+        int ammoDrawn = maxAmmo - ammoLeft;
+        if (stash >= ammoDrawn)
+		{
+            ammoLeft = maxAmmo;
+            stash -= ammoDrawn;
+        }
+		else
+		{
+            ammoLeft = stash;
+            stash -= ammoLeft;
+		}
+        
+
         gunState = GunStates.awaiting;
 
     }
+
+    public void AddToStash(int amount)
+	{
+        stash += amount;
+        if(stash >= maxStash)
+		{
+            stash = maxStash;
+		}
+	}
+
+    public void AddToStash(float percent)
+	{
+        percent = Mathf.Clamp01(percent);
+        int ammoToAdd = Mathf.RoundToInt(percent * (float)maxStash);
+        AddToStash(ammoToAdd);
+	}
+
+    public void RefillStash()
+	{
+        AddToStash(1);
+	}
 }

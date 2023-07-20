@@ -55,6 +55,10 @@ namespace Movement
 		[SerializeField] float airControlForce = 10;
 		[SerializeField] float jumpForce = 100;
 
+		[Header("Slide Settings")]
+		[SerializeField] float slideGravityModifier = 2;
+		[SerializeField] float slideSlowForce = 2;
+
 		[Header("CameraFollowSettings")]
 		[SerializeField] AnimationCurve camMovementEasing = AnimationCurve.Linear(0,0,1,1);
 		[SerializeField] Vector3 camStandingPos;
@@ -239,11 +243,19 @@ namespace Movement
 						//Move(crouchMaxSpeed, crouchAcceleration, crouchSlowForce);
 						if (IsGrounded())
 						{
-							rb.AddForce(gravityDir * 2);
+							rb.AddForce(gravityDir * slideGravityModifier);
 						}
 						else
 						{
 							rb.AddForce(gravityDir);
+						}
+						rb.AddForce(-rb.velocity.normalized * slideSlowForce * Time.fixedDeltaTime);
+						if(rb.velocity.magnitude < crouchMaxSpeed)
+						{
+							moveState = MoveStates.crouch;
+							lastCamPos = cam.localPosition;
+							targetCamPos = camCrouchingPos;
+							camMovementTimer = 0;
 						}
 						break;
 

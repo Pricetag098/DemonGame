@@ -29,13 +29,13 @@ public class Gun : MonoBehaviour
     [Min(1)]
     public int shotsPerFiring = 1;
     public int ammoLeft, maxAmmo = 10;
-    public float fireCoolDown = 1, reloadDuration = 1;
+    public float roundsPerMin = 1, reloadDuration = 1;
     float fireTimer = 0, reloadTimer;
 
     [Min(1)]
     public int burstRounds;
     int ammoBurstsDone = 0;
-    public float burstCooldown = 0.1f;
+    public float burstRpm = 0.1f;
     float burstTimer =0;
 
     [Header("Stash Settings")]
@@ -175,12 +175,12 @@ public class Gun : MonoBehaviour
 					{
                         gunState = GunStates.awaiting;
                         ammoBurstsDone = 0;
-                        burstTimer = burstCooldown;
+                        burstTimer = 1/(burstRpm/60);
                         break;
                     }
                     if(burstTimer <=0 )
 					{
-                        burstTimer = burstCooldown;
+                        burstTimer = 1/(burstRpm/60);
                         Shoot();
                         ammoBurstsDone++;
 					}
@@ -239,7 +239,7 @@ public class Gun : MonoBehaviour
             }
                 
             ammoLeft--;
-            fireTimer = fireCoolDown;
+            fireTimer = 1/(roundsPerMin/60);
                 
             shootSound.Play();
             if (gunfire.Enabled)

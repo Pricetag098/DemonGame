@@ -63,7 +63,7 @@ namespace Movement
 
 		float camRotX = 0;
 		Vector2 inputDir;
-		
+		PlayerStats playerStats;
 		public enum MoveStates
 		{
 			walk,
@@ -80,6 +80,7 @@ namespace Movement
 			jumpAction.action.performed += Jump;
 			Cursor.lockState = CursorLockMode.Locked;
 			rb = GetComponent<Rigidbody>();
+			playerStats = GetComponent<PlayerStats>();
 
 		}
 
@@ -272,9 +273,9 @@ namespace Movement
 			float rightVel = Vector3.Dot(playerVel, orientation.right * Mathf.Sign(inputDir.x));
 			
 
-			if (fwVel < maxSpeed * Mathf.Abs(inputDir.y))
+			if (fwVel < maxSpeed * playerStats.speedMulti * Mathf.Abs(inputDir.y))
 			{
-				Vector3 forceDir = orientation.forward * inputDir.y * acceleration;
+				Vector3 forceDir = orientation.forward * inputDir.y * acceleration * playerStats.accelerationMulti;
 
 				if (Mathf.Sign(fwVel) < 0)
 				{
@@ -283,7 +284,7 @@ namespace Movement
 				force += forceDir;
 			}
 
-			if (rightVel < maxSpeed * Mathf.Abs(inputDir.x))
+			if (rightVel < maxSpeed * playerStats.speedMulti * Mathf.Abs(inputDir.x))
 			{
 				Vector3 forceDir = orientation.right * inputDir.x * acceleration;
 				if (Mathf.Sign(rightVel) < 0)

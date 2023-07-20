@@ -54,7 +54,8 @@ public class Gun : MonoBehaviour
     
     public InputActionProperty shootAction;
     public InputActionProperty reloadAction;
-    
+
+    public Holster holster;
     public Optional<ObjectPooler> visualiserPool;
     public float bulletVisualiserSpeed;
 
@@ -63,6 +64,7 @@ public class Gun : MonoBehaviour
     {
         ammoLeft = maxAmmo;
         reloadAction.action.performed += StartReload;
+        GetComponentInParent<Holster>().HeldGun = this;
     }
 
 	private void OnDestroy()
@@ -102,6 +104,7 @@ public class Gun : MonoBehaviour
                                     }
 									else
 									{
+                                        emptySound.Play();
                                         StartReload();
 									}
                                 }
@@ -123,6 +126,7 @@ public class Gun : MonoBehaviour
                                     }
                                     else
                                     {
+                                        emptySound.Play();
                                         StartReload();
                                     }
                                 }
@@ -149,6 +153,7 @@ public class Gun : MonoBehaviour
                                     }
                                     else
                                     {
+                                        emptySound.Play();
                                         StartReload();
                                     }
                                 }

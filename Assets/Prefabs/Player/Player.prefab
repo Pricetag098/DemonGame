@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2081458984}
+  - component: {fileID: 7681016054825031318}
   m_Layer: 3
   m_Name: Holster
   m_TagString: Untagged
@@ -32,6 +33,20 @@ Transform:
   m_Father: {fileID: 3899720134046173352}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7681016054825031318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2081458983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27d5fe2e75a443544a9f24e50192066a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats: {fileID: 5051605694942058646}
+  bulletVisualierPool: {fileID: 0}
 --- !u!1 &1707303233209307108
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,6 +140,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3899720132604462369}
+  - component: {fileID: 5051605694942058646}
   - component: {fileID: 3899720132604462813}
   - component: {fileID: 3899720132604462812}
   m_Layer: 6
@@ -154,6 +170,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5051605694942058646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3899720132604462811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92e64a2c0c7c620479fa15871456c5c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageMulti: 1
+  speedMulti: 1
+  healthMulti: 1
+  regenMulti: 1
 --- !u!114 &3899720132604462813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -772,6 +804,18 @@ PrefabInstance:
     - target: {fileID: 4868316833858716474, guid: e7a9c4651b7f3844fa3cd4335fafb914, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4868316833858716475, guid: e7a9c4651b7f3844fa3cd4335fafb914, type: 3}
+      propertyPath: stash
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4868316833858716475, guid: e7a9c4651b7f3844fa3cd4335fafb914, type: 3}
+      propertyPath: maxStash
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4868316833858716475, guid: e7a9c4651b7f3844fa3cd4335fafb914, type: 3}
+      propertyPath: fireSelect
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4868316833858716475, guid: e7a9c4651b7f3844fa3cd4335fafb914, type: 3}
       propertyPath: burstRounds

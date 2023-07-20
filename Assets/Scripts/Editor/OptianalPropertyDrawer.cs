@@ -8,7 +8,7 @@ public class OptionalPropertyDrawer : PropertyDrawer
 {
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
-        var valueProperty = property.FindPropertyRelative("value");
+        var valueProperty = property.FindPropertyRelative("val");
         return EditorGUI.GetPropertyHeight(valueProperty);
     }
     public override void OnGUI(
@@ -16,7 +16,7 @@ public class OptionalPropertyDrawer : PropertyDrawer
         SerializedProperty property,
         GUIContent label)
     {
-        var valueProperty = property.FindPropertyRelative("value");
+        var valueProperty = property.FindPropertyRelative("val");
         var enabledProperty = property.FindPropertyRelative("enabled");
 
         position.width -= 24;

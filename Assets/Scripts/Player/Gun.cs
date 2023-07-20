@@ -215,7 +215,7 @@ public class Gun : MonoBehaviour
                     HitBox hitBox;
                     if (hit.collider.TryGetComponent(out hitBox))
                     {
-                        hitBox.OnHit(damage);
+                        hitBox.OnHit(damage * holster.stats.damageMulti);
 
                     }
                     HitVfx vfx;

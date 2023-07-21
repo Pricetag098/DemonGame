@@ -41,7 +41,7 @@ public class Gun : MonoBehaviour
 
     [Header("Penetration Settings")]
     public int maxPenetrations = 3;
-    public LayerMask validPenetrations;
+    
     public float damageLossDivisor = 2;
 
     [Header("Stash Settings")]
@@ -222,6 +222,8 @@ public class Gun : MonoBehaviour
             {
                 float currentDamage = damage;
                 int penIndex = 0;
+
+                //Reorder raycast hits in order of hit
                 List<RaycastHit> hits = new List<RaycastHit>();
                 for (int j = 0; j < hitArray.Length; j++)
                 { 
@@ -230,39 +232,51 @@ public class Gun : MonoBehaviour
                 List<Health> healths = new List<Health>();
                 hits.Sort((a, b) => (a.distance.CompareTo(b.distance)));
                 int completePens = 0;
+
+
                 for (int j = 0; j < hits.Count; j++)
                 {
                     if (completePens > maxPenetrations)
                         break;
                     RaycastHit hit = hits[j];
                     Debug.Log(hit.transform);
-                    bool penetrable = validPenetrations == (validPenetrations | (1 << hit.collider.gameObject.layer));
+                    
                     penIndex = j;
+
+                    bool playFx = true;
+
+                    bool penetrable = false;
                     HitBox hitBox;
                     if (hit.collider.TryGetComponent(out hitBox))
                     {
-                        if (!hitBox.penetrable)
-                            penetrable = false;
+                        
                         if (healths.Contains(hitBox.health))
                         {
-                            if (penetrable)
-                                continue;
-                            else { break; }
+                            playFx = false;
                         }
-                        healths.Add(hitBox.health);
-                        hitBox.OnHit(currentDamage * holster.stats.damageMulti);
+						else
+						{
+                            healths.Add(hitBox.health);
+                            hitBox.OnHit(currentDamage * holster.stats.damageMulti);
+                        }
+                        
 
                     }
-                    HitVfx vfx;
-                    if (hit.collider.TryGetComponent(out vfx))
+                    HitSettings hitSettings;
+                    if (hit.collider.TryGetComponent(out hitSettings))
                     {
-                        vfx.Play(hit.point, Vector3.Lerp(-Camera.main.transform.forward, hit.normal, .5f));
+                        if (hitSettings.Penetrable)
+                            penetrable = true;
+                        if(playFx)
+                        hitSettings.PlayVfx(hit.point, Vector3.Lerp(-Camera.main.transform.forward, hit.normal, .5f));
                     }
                     else
                     {
+                        if(playFx)
                         VfxSpawner.SpawnVfx(0, hit.point, Vector3.Lerp(-Camera.main.transform.forward, hit.normal, .5f));
                     }
-                    
+
+
 
                     currentDamage /= damageLossDivisor;
                     if (!penetrable)

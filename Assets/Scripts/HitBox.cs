@@ -6,7 +6,7 @@ public class HitBox : MonoBehaviour
 {
     public float multi = 1;
 
-    public bool penetrable = true;
+    
     public Health health;
     // Start is called before the first frame update
     void Start()

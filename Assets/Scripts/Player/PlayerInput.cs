@@ -53,9 +53,10 @@ namespace Movement
 		[SerializeField] float airAcceleration = 10;
 		[SerializeField] float airSlowForce = 10;
 		[SerializeField] float airControlForce = 10;
-		[SerializeField] float jumpForce = 100;
+		[SerializeField] float jumpHeight = 100;
 
 		[Header("Slide Settings")]
+		[SerializeField] float slideLaunchVel;
 		[SerializeField] float slideGravityModifier = 2;
 		[SerializeField] float slideSlowForce = 2;
 
@@ -138,9 +139,11 @@ namespace Movement
 				slideInput = false;
 
 			}
+			
 
-
-			rb.AddForce(orientation.up *jumpForce);
+			float a = (Vector3.Dot(orientation.up,gravityDir) * jumpHeight) / (-0.5f);
+			float jumpForce = Mathf.Sqrt(a);
+			rb.AddForce(orientation.up *jumpForce,ForceMode.VelocityChange);
 		}
 
 		void SetCollider(int i)
@@ -214,6 +217,13 @@ namespace Movement
 						lastCamPos = cam.localPosition;
 						targetCamPos = camCrouchingPos;
 						camMovementTimer = 0;
+						RaycastHit hit;
+						Vector3 force = slideLaunchVel * orientation.forward;
+						if (Physics.Raycast(orientation.position, -orientation.up, out hit, 5, groundingLayer))
+						{
+							force = Vector3.ProjectOnPlane(force, hit.normal);
+						}
+						rb.AddForce(force, ForceMode.VelocityChange);
 						return;
 					}
 					break;
@@ -279,13 +289,13 @@ namespace Movement
 						//Move(crouchMaxSpeed, crouchAcceleration, crouchSlowForce);
 						if (IsGrounded())
 						{
-							rb.AddForce(gravityDir * slideGravityModifier);
+							rb.AddForce(gravityDir * slideGravityModifier, ForceMode.Acceleration);
 						}
 						else
 						{
-							rb.AddForce(gravityDir);
+							rb.AddForce(gravityDir, ForceMode.Acceleration);
 						}
-						rb.AddForce(-rb.velocity.normalized * slideSlowForce * Time.fixedDeltaTime);
+						rb.AddForce(-rb.velocity.normalized * slideSlowForce * Time.fixedDeltaTime,ForceMode.Acceleration);
 						if(rb.velocity.magnitude < crouchMaxSpeed)
 						{
 							moveState = MoveStates.crouch;

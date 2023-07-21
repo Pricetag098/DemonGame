@@ -5,8 +5,11 @@ using UnityEngine;
 
 public class GunCreator : EditorWindow
 {
-    [SerializeField] GameObject baseGun;
+    public GameObject baseGun;
 
+    GameObject currentGun;
+
+    Vector2 scorllPos;
 
     [MenuItem("Window/Gun Creator")]
     public static void OpenWindow()
@@ -19,7 +22,7 @@ public class GunCreator : EditorWindow
 
     private void CreateGUI()
     {
-
+        currentGun = PrefabUtility.InstantiatePrefab(baseGun) as GameObject;
     }
 
     private void OnGUI()

@@ -398,25 +398,25 @@ MonoBehaviour:
   groundingLayer:
     serializedVersion: 2
     m_Bits: 1
-  walkMaxSpeed: 25
-  walkAcceleration: 1200
+  walkMaxSpeed: 5
+  walkAcceleration: 2000
   walkSlowForce: 900
   walkControlForce: 10
-  runMaxSpeed: 45
-  runAcceleration: 1200
-  runSlowForce: 900
+  runMaxSpeed: 10
+  runAcceleration: 2000
+  runSlowForce: 10000
   runControlForce: 0
-  crouchMaxSpeed: 10
-  crouchAcceleration: 10
-  crouchSlowForce: 10
+  crouchMaxSpeed: 3
+  crouchAcceleration: 2000
+  crouchSlowForce: 700
   crouchControlForce: 10
-  airMaxSpeed: 10
-  airAcceleration: 10
+  airMaxSpeed: 5
+  airAcceleration: 100
   airSlowForce: 0
   airControlForce: 10
   jumpForce: 800
   slideGravityModifier: 2
-  slideSlowForce: 1000
+  slideSlowForce: 500
   camMovementEasing:
     serializedVersion: 2
     m_Curve:
@@ -1073,6 +1073,10 @@ PrefabInstance:
       value: 1000000
       objectReference: {fileID: 0}
     - target: {fileID: 4868316833858716475, guid: e7a9c4651b7f3844fa3cd4335fafb914, type: 3}
+      propertyPath: burstRpm
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4868316833858716475, guid: e7a9c4651b7f3844fa3cd4335fafb914, type: 3}
       propertyPath: maxStash
       value: 1000000
       objectReference: {fileID: 0}
@@ -1087,6 +1091,10 @@ PrefabInstance:
     - target: {fileID: 4868316833858716475, guid: e7a9c4651b7f3844fa3cd4335fafb914, type: 3}
       propertyPath: fireCoolDown
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4868316833858716475, guid: e7a9c4651b7f3844fa3cd4335fafb914, type: 3}
+      propertyPath: roundsPerMin
+      value: 1800
       objectReference: {fileID: 0}
     - target: {fileID: 4868316833858716475, guid: e7a9c4651b7f3844fa3cd4335fafb914, type: 3}
       propertyPath: burstCooldown

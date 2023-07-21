@@ -229,9 +229,11 @@ public class Gun : MonoBehaviour
                 }
                 List<Health> healths = new List<Health>();
                 hits.Sort((a, b) => (a.distance.CompareTo(b.distance)));
+                int completePens = 0;
                 for (int j = 0; j < hits.Count; j++)
                 {
-                   
+                    if (completePens > maxPenetrations)
+                        break;
                     RaycastHit hit = hits[j];
                     Debug.Log(hit.transform);
                     bool penetrable = validPenetrations == (validPenetrations | (1 << hit.collider.gameObject.layer));
@@ -267,6 +269,7 @@ public class Gun : MonoBehaviour
                     {
                         break;
                     }
+                    completePens++;
                 }
                 if (visualiserPool.Enabled)
                 {

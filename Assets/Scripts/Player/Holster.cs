@@ -14,7 +14,7 @@ public class Holster : MonoBehaviour
             Destroy(gun.gameObject);
             gun = value;
             gun.holster = this;
-            if(gun.visualiserPool.Enabled)
+            if(gun.visualiserPool.Enabled && !gun.useOwnVisualiser)
             gun.visualiserPool.Value = bulletVisualierPool;
         }
     }

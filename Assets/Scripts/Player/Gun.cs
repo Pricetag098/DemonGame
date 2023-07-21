@@ -56,6 +56,8 @@ public class Gun : MonoBehaviour
     public InputActionProperty reloadAction;
 
     public Holster holster;
+
+    public bool useOwnVisualiser;
     public Optional<ObjectPooler> visualiserPool;
     public float bulletVisualiserSpeed;
 

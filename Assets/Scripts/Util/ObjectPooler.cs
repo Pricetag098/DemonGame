@@ -110,7 +110,10 @@ public class ObjectPooler : MonoBehaviour
             DespawnOldest();
 		}
 	}
+	private void OnDestroy()
+	{
+        Destroy(poolContainer.gameObject);
+	}
 
-	
 
 }

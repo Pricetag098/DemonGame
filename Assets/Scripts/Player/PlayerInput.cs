@@ -80,7 +80,7 @@ namespace Movement
 			slide
 		}
 
-		public bool pressToSlide;
+		public bool holdToSlide;
 		// Start is called before the first frame update
 		void Start()
 		{
@@ -135,8 +135,8 @@ namespace Movement
 					targetCamPos = camCrouchingPos;
 					camMovementTimer = 0;
 				}
+				slideInput = false;
 
-				return;
 			}
 
 
@@ -150,6 +150,8 @@ namespace Movement
 			slideCollider.enabled = i == 2;
 		}
 
+		bool slideInput;
+
 		// Update is called once per frame
 		void Update()
 		{
@@ -161,6 +163,16 @@ namespace Movement
 			camMovementTimer = Mathf.Clamp(camMovementTimer + Time.deltaTime, 0, camMovementTime);
 
 			cam.localPosition = Vector3.LerpUnclamped(lastCamPos, targetCamPos, camMovementEasing.Evaluate(Mathf.Clamp01(camMovementTimer/camMovementTime)));
+
+			if (holdToSlide)
+			{
+				slideInput = crouchAction.action.IsPressed();
+			}
+			else
+			{
+				if (crouchAction.action.WasPressedThisFrame())
+					slideInput = !slideInput;
+			}
 			//Different update for each state
 			switch (moveState)
 			{
@@ -196,7 +208,7 @@ namespace Movement
 						camMovementTimer = 0;
 						return;
 					}
-					if (crouchAction.action.IsPressed())
+					if (slideInput)
 					{
 						moveState = MoveStates.slide;
 						lastCamPos = cam.localPosition;
@@ -219,7 +231,7 @@ namespace Movement
 				case MoveStates.slide:
 					SetCollider(2);
 					//Move(crouchMaxSpeed, crouchAcceleration, crouchSlowForce);
-					if (!crouchAction.action.IsPressed())
+					if (!slideInput)
 					{
 						if (CanStopCrouch())
 						{
@@ -280,6 +292,7 @@ namespace Movement
 							lastCamPos = cam.localPosition;
 							targetCamPos = camCrouchingPos;
 							camMovementTimer = 0;
+							slideInput = false;
 						}
 						break;
 

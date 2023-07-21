@@ -79,7 +79,8 @@ namespace Movement
 			crouch,
 			slide
 		}
-		
+
+		public bool pressToSlide;
 		// Start is called before the first frame update
 		void Start()
 		{
@@ -116,6 +117,29 @@ namespace Movement
 			{
 				return;
 			}
+
+
+			if (moveState == MoveStates.slide)
+			{
+				if (CanStopCrouch())
+				{
+					moveState = MoveStates.run;
+					lastCamPos = cam.localPosition;
+					targetCamPos = camStandingPos;
+					camMovementTimer = 0;
+				}
+				else
+				{
+					moveState = MoveStates.crouch;
+					lastCamPos = cam.localPosition;
+					targetCamPos = camCrouchingPos;
+					camMovementTimer = 0;
+				}
+
+				return;
+			}
+
+
 			rb.AddForce(orientation.up *jumpForce);
 		}
 

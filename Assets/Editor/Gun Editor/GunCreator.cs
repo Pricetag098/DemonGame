@@ -112,6 +112,23 @@ public class GunCreator : EditorWindow
         gun.maxStash = EditorGUILayout.IntField("Max Stash", gun.maxStash, GUILayout.Width(455));
         EditorGUILayout.LabelField("The maximum spare ammo a player can carry for this gun.", EditorStyles.miniLabel);
 
+        GUILayout.Space(15);
+        EditorGUILayout.LabelField("Penetration Settings", EditorStyles.boldLabel);
+
+        GUILayout.Space(5);
+
+        gun.maxPenetrations = EditorGUILayout.IntField("Max Penetrations", gun.maxPenetrations, GUILayout.Width(455));
+        EditorGUILayout.LabelField("Amount of enemies that a bullet can penetrate through.", EditorStyles.miniLabel);
+
+        GUILayout.Space(5);
+
+        gun.validPenetrations = EditorGUILayout.LayerField("Valid Penetrations", gun.validPenetrations, GUILayout.Width(455));
+        EditorGUILayout.LabelField("Layers a bullet can penetrate through.", EditorStyles.miniLabel);
+
+        GUILayout.Space(5);
+
+        gun.damageLossDivisor = EditorGUILayout.FloatField("Damage Loss Divisor", gun.damageLossDivisor, GUILayout.Width(455));
+        EditorGUILayout.LabelField("Damage divided by x amount is the damage after each penetration.", EditorStyles.miniLabel);
 
         GUILayout.Space(15);
         EditorGUILayout.LabelField("Pre Fabs", EditorStyles.boldLabel);

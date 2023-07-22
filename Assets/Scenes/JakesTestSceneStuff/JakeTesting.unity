@@ -367,8 +367,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 643855392}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -95.7, y: -6.42, z: 81.9}
-  m_LocalScale: {x: 26.217, y: 26.217, z: 26.217}
+  m_LocalPosition: {x: -54.86, y: -6.42, z: 53.2}
+  m_LocalScale: {x: 4.2832, y: 10.437, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 833549766}
@@ -409,6 +409,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vfxIndex: 1
+  Penetrable: 0
 --- !u!114 &736116596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -733,6 +734,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3899720133498506835, guid: 605e7777b6e363040b68f76a7e212120, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 247
+      objectReference: {fileID: 0}
+    - target: {fileID: 4868316834041374505, guid: 605e7777b6e363040b68f76a7e212120, type: 3}
+      propertyPath: hitMask.m_Bits
+      value: 179
+      objectReference: {fileID: 0}
+    - target: {fileID: 4868316834041374505, guid: 605e7777b6e363040b68f76a7e212120, type: 3}
+      propertyPath: maxPenetrations
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4868316834041374505, guid: 605e7777b6e363040b68f76a7e212120, type: 3}
+      propertyPath: damageLossDivisor
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4868316834041374505, guid: 605e7777b6e363040b68f76a7e212120, type: 3}
+      propertyPath: validPenetrations.m_Bits
+      value: 128
+      objectReference: {fileID: 0}
     - target: {fileID: 7681016054825031318, guid: 605e7777b6e363040b68f76a7e212120, type: 3}
       propertyPath: bulletVisualierPool
       value: 
@@ -756,10 +777,10 @@ GameObject:
   - component: {fileID: 993078465}
   - component: {fileID: 993078464}
   - component: {fileID: 993078463}
-  - component: {fileID: 993078462}
   - component: {fileID: 993078461}
   - component: {fileID: 993078460}
-  m_Layer: 0
+  - component: {fileID: 993078467}
+  m_Layer: 7
   m_Name: Capsule (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -779,6 +800,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vfxIndex: 1
+  Penetrable: 0
 --- !u!114 &993078461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -794,20 +816,6 @@ MonoBehaviour:
   multi: 1
   penetrable: 1
   health: {fileID: 0}
---- !u!114 &993078462
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 993078459}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92e3e2a29ca31b74292024e792c15860, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 0
-  maxHealth: 100
 --- !u!136 &993078463
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -880,13 +888,27 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 993078459}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.46, y: 1, z: 22.07}
+  m_LocalPosition: {x: -0.467, y: 1, z: 22.135}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &993078467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 993078459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92e3e2a29ca31b74292024e792c15860, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  maxHealth: 100
 --- !u!1 &1171573025
 GameObject:
   m_ObjectHideFlags: 0
@@ -922,6 +944,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vfxIndex: 1
+  Penetrable: 0
 --- !u!114 &1171573027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1312,6 +1335,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vfxIndex: 1
+  Penetrable: 0
 --- !u!114 &1527609238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1483,7 +1507,7 @@ GameObject:
   - component: {fileID: 1564357048}
   - component: {fileID: 1564357047}
   - component: {fileID: 1564357046}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Capsule (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1503,6 +1527,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vfxIndex: 1
+  Penetrable: 0
 --- !u!114 &1564357047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1604,7 +1629,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1564357045}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.46, y: 1, z: 25.84}
+  m_LocalPosition: {x: -0.46, y: 1, z: 27.47}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1626,7 +1651,7 @@ GameObject:
   - component: {fileID: 1636054403}
   - component: {fileID: 1636054402}
   - component: {fileID: 1636054401}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Capsule (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1646,6 +1671,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vfxIndex: 1
+  Penetrable: 1
 --- !u!114 &1636054402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2032,6 +2058,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vfxIndex: 1
+  Penetrable: 0
 --- !u!114 &1834733589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2291,6 +2318,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vfxIndex: 1
+  Penetrable: 0
 --- !u!114 &1877304648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2434,6 +2462,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vfxIndex: 1
+  Penetrable: 0
 --- !u!114 &1890080817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2774,7 +2803,7 @@ GameObject:
   - component: {fileID: 1994802697}
   - component: {fileID: 1994802696}
   - component: {fileID: 1994802695}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Capsule (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2794,6 +2823,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vfxIndex: 1
+  Penetrable: 1
 --- !u!114 &1994802696
 MonoBehaviour:
   m_ObjectHideFlags: 0

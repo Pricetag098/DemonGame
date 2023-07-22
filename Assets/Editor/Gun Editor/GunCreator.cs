@@ -6,7 +6,11 @@ using UnityEngine;
 
 public class GunCreator : EditorWindow
 {
-    [SerializeField] public GameObject baseGun;
+    [SerializeField] GameObject baseGun;
+
+    [SerializeField] GameObject testPlayer;
+
+    GameObject currentPlayer;
 
     GameObject currentGun;
 
@@ -36,7 +40,9 @@ public class GunCreator : EditorWindow
     private void CreateGUI()
     {
         currentGun = PrefabUtility.InstantiatePrefab(baseGun) as GameObject;
+        currentPlayer = PrefabUtility.InstantiatePrefab(testPlayer) as GameObject;
         gun = currentGun.GetComponent<Gun>();
+        currentGun.transform.parent = currentPlayer.GetComponentInChildren<Holster>().transform;
     }
 
     private void OnGUI()
@@ -173,7 +179,9 @@ public class GunCreator : EditorWindow
 
         if (GUILayout.Button("Generate Gun", GUILayout.Width(150), GUILayout.Height(20)))
         {
-            Instantiate(gunModel, currentGun.transform);
+            GameObject model = Instantiate(gunModel, currentGun.transform);
+            model.transform.localPosition = Vector3.zero;
+            model.transform.localRotation = Quaternion.Euler(0,0,0);
 
             if (hasVFX)
             {

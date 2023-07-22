@@ -141,11 +141,6 @@ public class GunCreator : EditorWindow
 
             GUILayout.Space(5);
 
-            gun.validPenetrations = EditorGUILayout.LayerField("Valid Penetrations", gun.validPenetrations, GUILayout.Width(455));
-            EditorGUILayout.LabelField("Layers a bullet can penetrate through.", EditorStyles.miniLabel);
-
-            GUILayout.Space(5);
-
             gun.damageLossDivisor = EditorGUILayout.FloatField("Damage Loss Divisor", gun.damageLossDivisor, GUILayout.Width(455));
             EditorGUILayout.LabelField("Damage divided by x amount is the damage after each penetration.", EditorStyles.miniLabel);
 

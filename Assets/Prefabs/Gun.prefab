@@ -349,6 +349,11 @@ MonoBehaviour:
   reloadDuration: 1
   burstRounds: 0
   burstRpm: 0.1
+  maxPenetrations: 3
+  validPenetrations:
+    serializedVersion: 2
+    m_Bits: 0
+  damageLossDivisor: 2
   stash: 0
   maxStash: 0
   origin: {fileID: 3118617947092816437}
@@ -386,8 +391,9 @@ MonoBehaviour:
       m_Flags: 0
     m_Reference: {fileID: 783454978375702003, guid: b5b5fd5d1836ae549b2c0e6bb6d5cf61, type: 3}
   holster: {fileID: 0}
+  useOwnVisualiser: 0
   visualiserPool:
-    enabled: 1
+    enabled: 0
     val: {fileID: 0}
   bulletVisualiserSpeed: 300
 --- !u!1 &3118617946848949298

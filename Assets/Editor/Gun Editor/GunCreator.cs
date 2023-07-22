@@ -32,6 +32,8 @@ public class GunCreator : EditorWindow
 
     Gun gun;
 
+    Vector3 oldVFXScale;
+
     bool hasFinished = false;
     bool hasGeneratedGun = false;
     bool editingVFX = false;
@@ -196,12 +198,16 @@ public class GunCreator : EditorWindow
 
                     if (hasVFX)
                     {
+                        oldVFXScale = vfx.transform.localScale;
+
                         vfx = Instantiate(vfx, currentGunModel.transform);
 
                         gun.gunfire.Value = vfx.GetComponent<ParticleSystem>();
 
                         vfx.transform.localPosition = Vector3.zero;
+                        vfx.transform.localScale = oldVFXScale;
                     }
+
 
                     string newWeaponPath = "Assets/Prefabs/Guns/" + gunName + ".prefab";
                     savedPrefab = PrefabUtility.SaveAsPrefabAsset(currentGun, newWeaponPath) as GameObject;

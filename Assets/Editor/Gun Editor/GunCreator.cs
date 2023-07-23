@@ -264,6 +264,17 @@ public class GunCreator : EditorWindow
 
                 gun.bulletVisualiserSpeed = EditorGUILayout.FloatField("Visualiser Speed", gun.bulletVisualiserSpeed, GUILayout.Width(455));
                 EditorGUILayout.LabelField("Speed of the fake bullet being shot.", EditorStyles.miniLabel);
+
+                GUILayout.Space(5);
+
+                gun.useOwnVisualiser = EditorGUILayout.Toggle("Use Own Visualiser", gun.useOwnVisualiser, GUILayout.Width(455));
+                EditorGUILayout.LabelField("Use own visualiser instead of the deafult.", EditorStyles.miniLabel);
+
+                if(gun.useOwnVisualiser)
+                {
+                    gun.visualiserPool.Value = (ObjectPooler)EditorGUILayout.ObjectField("Visualiser", gun.visualiserPool.Value, typeof(ObjectPooler), allowSceneObjects: false, GUILayout.Width(305));
+                    EditorGUILayout.LabelField("The visualiser the gun will use.", EditorStyles.miniLabel);
+                }
             }
 
             GUILayout.Space(15);

@@ -23,6 +23,7 @@ namespace Movement
 		[SerializeField] InputActionProperty crouchAction;
 		[SerializeField] InputActionProperty jumpAction;
 		[SerializeField] InputActionProperty mouseAction;
+		[SerializeField] InputActionProperty fireAction; //trust me
 
 		[Header("Grounding")]
 		public Transform groundingPoint;
@@ -102,6 +103,7 @@ namespace Movement
 			sprintAction.action.Enable();
 			crouchAction.action.Enable();
 			jumpAction.action.Enable();
+			fireAction.action.Enable();
 		}
 		private void OnDisable()
 		{
@@ -110,6 +112,7 @@ namespace Movement
 			sprintAction.action.Disable();
 			crouchAction.action.Disable();
 			jumpAction.action.Disable();
+			fireAction.action.Disable();
 		}
 
 		void Jump(InputAction.CallbackContext context)
@@ -182,7 +185,7 @@ namespace Movement
 				case MoveStates.walk:
 
 					SetCollider(0);
-					if (sprintAction.action.IsPressed() && inputDir.y > 0)
+					if (sprintAction.action.IsPressed() && inputDir.y > 0 && !fireAction.action.IsPressed())
 					{
 						moveState = MoveStates.run;
 						lastCamPos = cam.localPosition;
@@ -203,7 +206,7 @@ namespace Movement
 					break;
 				case MoveStates.run:
 					SetCollider(0);
-					if (!sprintAction.action.IsPressed() || inputDir.y <= 0)
+					if (!sprintAction.action.IsPressed() || inputDir.y <= 0 || fireAction.action.IsPressed())
 					{
 						moveState = MoveStates.walk;
 						lastCamPos = cam.localPosition;

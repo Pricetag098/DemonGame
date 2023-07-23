@@ -239,7 +239,7 @@ public class Gun : MonoBehaviour
                     if (completePens > maxPenetrations)
                         break;
                     RaycastHit hit = hits[j];
-                    Debug.Log(hit.transform);
+                    //Debug.Log(hit.transform);
                     
                     penIndex = j;
 

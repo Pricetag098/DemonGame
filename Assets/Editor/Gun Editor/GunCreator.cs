@@ -10,6 +10,12 @@ public class GunCreator : EditorWindow
 
     [SerializeField] GameObject testPlayer;
 
+    [SerializeField] AudioClip deafultReload;
+
+    [SerializeField] AudioClip deafultShoot;
+
+    [SerializeField] AudioClip deafultEmpty;
+
     GameObject savedPrefab;
 
     GameObject currentPlayer;
@@ -34,6 +40,11 @@ public class GunCreator : EditorWindow
 
     Vector3 oldVFXScale;
 
+    List<AudioClip> shootClips;
+    List<AudioClip> reloadClips;
+    List<AudioClip> emptyClips;
+
+
     bool hasFinished = false;
     bool hasGeneratedGun = false;
     bool editingVFX = false;
@@ -56,6 +67,10 @@ public class GunCreator : EditorWindow
         gun = currentGun.GetComponent<Gun>();
         currentGun.transform.parent = currentPlayer.GetComponentInChildren<Holster>().transform;
         currentGun.transform.localPosition = Vector3.zero;
+
+        shootClips = new List<AudioClip>();
+        reloadClips = new List<AudioClip>();
+        emptyClips = new List<AudioClip>();
     }
 
     private void OnGUI()
@@ -147,6 +162,73 @@ public class GunCreator : EditorWindow
             EditorGUILayout.LabelField("Damage divided by x amount is the damage after each penetration.", EditorStyles.miniLabel);
 
             GUILayout.Space(15);
+            EditorGUILayout.LabelField("Sounds", EditorStyles.boldLabel);
+
+            GUILayout.Space(5);
+
+            EditorGUILayout.LabelField("Shoot Clips", EditorStyles.boldLabel);
+            for (int i = 0; i < shootClips.Count; i++)
+            {
+                shootClips[i] = (AudioClip)EditorGUILayout.ObjectField("Shoot Clip " + i.ToString(), shootClips[i], typeof(AudioClip), allowSceneObjects: false, GUILayout.Width(305));
+            }
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(355);
+            if (GUILayout.Button("+", GUILayout.Width(50), GUILayout.Height(15)))
+            {
+                shootClips.Add(null);
+            }
+            if (GUILayout.Button("-", GUILayout.Width(50), GUILayout.Height(15)))
+            {
+                shootClips.Remove(shootClips[shootClips.Count - 1]);
+            }
+            GUILayout.EndHorizontal();
+            GUILayout.Space(2f);
+            EditorGUILayout.LabelField("Clips that are played when shooting.", EditorStyles.miniLabel);
+
+            GUILayout.Space(5);
+
+            EditorGUILayout.LabelField("Reload Clips", EditorStyles.boldLabel);
+            for (int i = 0; i < reloadClips.Count; i++)
+            {
+                reloadClips[i] = (AudioClip)EditorGUILayout.ObjectField("Reload Clip " + i.ToString(), reloadClips[i], typeof(AudioClip), allowSceneObjects: false, GUILayout.Width(305));
+            }
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(355);
+            if (GUILayout.Button("+", GUILayout.Width(50), GUILayout.Height(15)))
+            {
+                reloadClips.Add(null);
+            }
+            if (GUILayout.Button("-", GUILayout.Width(50), GUILayout.Height(15)))
+            {
+                reloadClips.Remove(reloadClips[reloadClips.Count - 1]);
+            }
+            GUILayout.EndHorizontal();
+            GUILayout.Space(2f);
+            EditorGUILayout.LabelField("Clips that are played when reloading.", EditorStyles.miniLabel);
+
+            GUILayout.Space(5);
+
+            EditorGUILayout.LabelField("Empty Clips", EditorStyles.boldLabel);
+            for (int i = 0; i < emptyClips.Count; i++)
+            {
+                emptyClips[i] = (AudioClip)EditorGUILayout.ObjectField("Empty Clip " + i.ToString(), emptyClips[i], typeof(AudioClip), allowSceneObjects: false, GUILayout.Width(305));
+            }
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(355);
+            if (GUILayout.Button("+", GUILayout.Width(50), GUILayout.Height(15)))
+            {
+                emptyClips.Add(null);
+            }
+            if (GUILayout.Button("-", GUILayout.Width(50), GUILayout.Height(15)))
+            {
+                emptyClips.Remove(emptyClips[emptyClips.Count - 1]);
+            }
+            GUILayout.EndHorizontal();
+            GUILayout.Space(2f);
+            EditorGUILayout.LabelField("Clips that are played when clip is empty.", EditorStyles.miniLabel);
+
+
+            GUILayout.Space(15);
             EditorGUILayout.LabelField("Pre Fabs", EditorStyles.boldLabel);
             GUILayout.Space(5);
 
@@ -182,6 +264,17 @@ public class GunCreator : EditorWindow
 
                 gun.bulletVisualiserSpeed = EditorGUILayout.FloatField("Visualiser Speed", gun.bulletVisualiserSpeed, GUILayout.Width(455));
                 EditorGUILayout.LabelField("Speed of the fake bullet being shot.", EditorStyles.miniLabel);
+
+                GUILayout.Space(5);
+
+                gun.useOwnVisualiser = EditorGUILayout.Toggle("Use Own Visualiser", gun.useOwnVisualiser, GUILayout.Width(455));
+                EditorGUILayout.LabelField("Use own visualiser instead of the deafult.", EditorStyles.miniLabel);
+
+                if(gun.useOwnVisualiser)
+                {
+                    gun.visualiserPool.Value = (ObjectPooler)EditorGUILayout.ObjectField("Visualiser", gun.visualiserPool.Value, typeof(ObjectPooler), allowSceneObjects: false, GUILayout.Width(305));
+                    EditorGUILayout.LabelField("The visualiser the gun will use.", EditorStyles.miniLabel);
+                }
             }
 
             GUILayout.Space(15);
@@ -191,6 +284,32 @@ public class GunCreator : EditorWindow
 
                 if (GUILayout.Button("Generate Gun", GUILayout.Width(150), GUILayout.Height(20)))
                 {
+                    CheckAudioList(shootClips, deafultShoot);
+
+                    CheckAudioList(reloadClips, deafultReload);
+
+                    CheckAudioList(emptyClips, deafultEmpty);
+
+
+                    foreach (Transform t in currentGun.transform)
+                    {
+                        if(t.TryGetComponent<SoundPlayerID>(out SoundPlayerID soundPlayer))
+                        {
+                            if(soundPlayer.soundLoc == SoundPlayerID.SoundSourceLocation.shoot)
+                            {
+                                soundPlayer.clips.AddRange(shootClips);
+                            }
+                            else if (soundPlayer.soundLoc == SoundPlayerID.SoundSourceLocation.reload)
+                            {
+                                soundPlayer.clips.AddRange(reloadClips);
+                            }
+                            else if (soundPlayer.soundLoc == SoundPlayerID.SoundSourceLocation.empty)
+                            {
+                                soundPlayer.clips.AddRange(emptyClips);
+                            }
+                        }
+                    }
+
                     currentGunModel = Instantiate(gunModel, currentGun.transform);
                     currentGunModel.transform.localPosition = Vector3.zero;
                     currentGunModel.transform.localRotation = Quaternion.Euler(0,0,0);
@@ -312,6 +431,22 @@ public class GunCreator : EditorWindow
 
         GUILayout.Space(25);
         EditorGUILayout.EndScrollView();
+    }
+
+    public void CheckAudioList(List<AudioClip> list , AudioClip deafult)
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            if (list[i] = null)
+            {
+                list.RemoveAt(i);
+            }
+        }
+
+        if (list.Count <= 0)
+        {
+            list.Add(deafult);
+        }
     }
 
     private void OnDestroy()

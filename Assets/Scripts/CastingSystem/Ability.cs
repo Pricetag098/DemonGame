@@ -8,7 +8,13 @@ public abstract class Ability : ScriptableObject
 	public string abilityName;
 	protected AbilityCaster caster;
 	
-	
+	public enum CastModes
+	{
+		press,
+		hold,
+		passive
+	}
+	public CastModes castMode;
 	public virtual void Tick(bool active)
 	{
 
@@ -18,6 +24,11 @@ public abstract class Ability : ScriptableObject
 	{
 		caster = abilityCaster;
 		OnEquip();
+	}
+
+	public virtual void Cast()
+	{
+
 	}
 
 	protected virtual void OnEquip()
@@ -30,14 +41,6 @@ public abstract class Ability : ScriptableObject
 
 	}
 
-	public virtual void EnableInputs()
-	{
-
-	}
-	public virtual void DisableInputs()
-	{
-
-	}
 	
 
 }

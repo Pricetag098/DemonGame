@@ -23,6 +23,7 @@ namespace Movement
 		[SerializeField] InputActionProperty crouchAction;
 		[SerializeField] InputActionProperty jumpAction;
 		[SerializeField] InputActionProperty mouseAction;
+		[SerializeField] InputActionProperty fireAction; //trust me
 
 		[Header("Grounding")]
 		public Transform groundingPoint;
@@ -53,7 +54,12 @@ namespace Movement
 		[SerializeField] float airAcceleration = 10;
 		[SerializeField] float airSlowForce = 10;
 		[SerializeField] float airControlForce = 10;
-		[SerializeField] float jumpForce = 100;
+		[SerializeField] float jumpHeight = 100;
+
+		[Header("Slide Settings")]
+		[SerializeField] float slideLaunchVel;
+		[SerializeField] float slideGravityModifier = 2;
+		[SerializeField] float slideSlowForce = 2;
 
 		[Header("CameraFollowSettings")]
 		[SerializeField] AnimationCurve camMovementEasing = AnimationCurve.Linear(0,0,1,1);
@@ -75,7 +81,8 @@ namespace Movement
 			crouch,
 			slide
 		}
-		
+
+		public bool holdToSlide;
 		// Start is called before the first frame update
 		void Start()
 		{
@@ -96,6 +103,7 @@ namespace Movement
 			sprintAction.action.Enable();
 			crouchAction.action.Enable();
 			jumpAction.action.Enable();
+			fireAction.action.Enable();
 		}
 		private void OnDisable()
 		{
@@ -104,6 +112,7 @@ namespace Movement
 			sprintAction.action.Disable();
 			crouchAction.action.Disable();
 			jumpAction.action.Disable();
+			fireAction.action.Disable();
 		}
 
 		void Jump(InputAction.CallbackContext context)
@@ -112,7 +121,32 @@ namespace Movement
 			{
 				return;
 			}
-			rb.AddForce(orientation.up *jumpForce);
+
+
+			if (moveState == MoveStates.slide)
+			{
+				if (CanStopCrouch())
+				{
+					moveState = MoveStates.run;
+					lastCamPos = cam.localPosition;
+					targetCamPos = camStandingPos;
+					camMovementTimer = 0;
+				}
+				else
+				{
+					moveState = MoveStates.crouch;
+					lastCamPos = cam.localPosition;
+					targetCamPos = camCrouchingPos;
+					camMovementTimer = 0;
+				}
+				slideInput = false;
+
+			}
+			
+
+			float a = (Vector3.Dot(orientation.up,gravityDir) * jumpHeight) / (-0.5f);
+			float jumpForce = Mathf.Sqrt(a);
+			rb.AddForce(orientation.up *jumpForce,ForceMode.VelocityChange);
 		}
 
 		void SetCollider(int i)
@@ -121,6 +155,8 @@ namespace Movement
 			crouchedCollider.enabled = i == 1;
 			slideCollider.enabled = i == 2;
 		}
+
+		bool slideInput;
 
 		// Update is called once per frame
 		void Update()
@@ -133,13 +169,23 @@ namespace Movement
 			camMovementTimer = Mathf.Clamp(camMovementTimer + Time.deltaTime, 0, camMovementTime);
 
 			cam.localPosition = Vector3.LerpUnclamped(lastCamPos, targetCamPos, camMovementEasing.Evaluate(Mathf.Clamp01(camMovementTimer/camMovementTime)));
+
+			if (holdToSlide)
+			{
+				slideInput = crouchAction.action.IsPressed();
+			}
+			else
+			{
+				if (crouchAction.action.WasPressedThisFrame())
+					slideInput = !slideInput;
+			}
 			//Different update for each state
 			switch (moveState)
 			{
 				case MoveStates.walk:
 
 					SetCollider(0);
-					if (sprintAction.action.IsPressed() && inputDir.y > 0)
+					if (sprintAction.action.IsPressed() && inputDir.y > 0 && !fireAction.action.IsPressed())
 					{
 						moveState = MoveStates.run;
 						lastCamPos = cam.localPosition;
@@ -160,7 +206,7 @@ namespace Movement
 					break;
 				case MoveStates.run:
 					SetCollider(0);
-					if (!sprintAction.action.IsPressed() || inputDir.y <= 0)
+					if (!sprintAction.action.IsPressed() || inputDir.y <= 0 || fireAction.action.IsPressed())
 					{
 						moveState = MoveStates.walk;
 						lastCamPos = cam.localPosition;
@@ -168,12 +214,19 @@ namespace Movement
 						camMovementTimer = 0;
 						return;
 					}
-					if (crouchAction.action.IsPressed())
+					if (slideInput)
 					{
 						moveState = MoveStates.slide;
 						lastCamPos = cam.localPosition;
 						targetCamPos = camCrouchingPos;
 						camMovementTimer = 0;
+						RaycastHit hit;
+						Vector3 force = slideLaunchVel * orientation.forward;
+						if (Physics.Raycast(orientation.position, -orientation.up, out hit, 5, groundingLayer))
+						{
+							force = Vector3.ProjectOnPlane(force, hit.normal);
+						}
+						rb.AddForce(force, ForceMode.VelocityChange);
 						return;
 					}
 					break;
@@ -191,7 +244,7 @@ namespace Movement
 				case MoveStates.slide:
 					SetCollider(2);
 					//Move(crouchMaxSpeed, crouchAcceleration, crouchSlowForce);
-					if (!crouchAction.action.IsPressed())
+					if (!slideInput)
 					{
 						if (CanStopCrouch())
 						{
@@ -239,11 +292,20 @@ namespace Movement
 						//Move(crouchMaxSpeed, crouchAcceleration, crouchSlowForce);
 						if (IsGrounded())
 						{
-							rb.AddForce(gravityDir * 2);
+							rb.AddForce(gravityDir * slideGravityModifier, ForceMode.Acceleration);
 						}
 						else
 						{
-							rb.AddForce(gravityDir);
+							rb.AddForce(gravityDir, ForceMode.Acceleration);
+						}
+						rb.AddForce(-rb.velocity.normalized * slideSlowForce * Time.fixedDeltaTime,ForceMode.Acceleration);
+						if(rb.velocity.magnitude < crouchMaxSpeed)
+						{
+							moveState = MoveStates.crouch;
+							lastCamPos = cam.localPosition;
+							targetCamPos = camCrouchingPos;
+							camMovementTimer = 0;
+							slideInput = false;
 						}
 						break;
 

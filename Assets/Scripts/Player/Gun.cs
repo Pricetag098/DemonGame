@@ -29,14 +29,21 @@ public class Gun : MonoBehaviour
     [Min(1)]
     public int shotsPerFiring = 1;
     public int ammoLeft, maxAmmo = 10;
-    public float fireCoolDown = 1, reloadDuration = 1;
+    public float roundsPerMin = 1, reloadDuration = 1;
     float fireTimer = 0, reloadTimer;
+    public float bloodGainMulti = 1;
 
+    [Header("Burst Settings")]
     [Min(1)]
     public int burstRounds;
     int ammoBurstsDone = 0;
-    public float burstCooldown = 0.1f;
+    public float burstRpm = 0.1f;
     float burstTimer =0;
+
+    [Header("Penetration Settings")]
+    public int maxPenetrations = 3;
+    
+    public float damageLossDivisor = 2;
 
     [Header("Stash Settings")]
     public int stash;
@@ -56,6 +63,8 @@ public class Gun : MonoBehaviour
     public InputActionProperty reloadAction;
 
     public Holster holster;
+
+    public bool useOwnVisualiser;
     public Optional<ObjectPooler> visualiserPool;
     public float bulletVisualiserSpeed;
 
@@ -175,12 +184,12 @@ public class Gun : MonoBehaviour
 					{
                         gunState = GunStates.awaiting;
                         ammoBurstsDone = 0;
-                        burstTimer = burstCooldown;
+                        burstTimer = 1/(burstRpm/60);
                         break;
                     }
                     if(burstTimer <=0 )
 					{
-                        burstTimer = burstCooldown;
+                        burstTimer = 1/(burstRpm/60);
                         Shoot();
                         ammoBurstsDone++;
 					}
@@ -201,51 +210,105 @@ public class Gun : MonoBehaviour
 
     public void Shoot()
     {
-       
-            
-            for (int i = 0; i < shotsPerFiring; i++)
-            {
-                Vector3 randVal = Random.insideUnitSphere * bulletSpreadDegrees;
-                Vector3 dir = Quaternion.Euler(randVal) * Camera.main.transform.forward;
-                Debug.DrawRay(Camera.main.transform.position, dir * 10, Color.green);
 
-                RaycastHit hit;
-                if (Physics.Raycast(Camera.main.transform.position, dir, out hit, bulletRange, hitMask))
+
+        for (int i = 0; i < shotsPerFiring; i++)
+        {
+            Vector3 randVal = Random.insideUnitSphere * bulletSpreadDegrees;
+            Vector3 dir = Quaternion.Euler(randVal) * Camera.main.transform.forward;
+            Debug.DrawRay(Camera.main.transform.position, dir * 10, Color.green);
+
+            RaycastHit[] hitArray = Physics.RaycastAll(Camera.main.transform.position, dir, bulletRange, hitMask);
+            if (hitArray.Length > 0)
+            {
+                float currentDamage = damage;
+                int penIndex = 0;
+
+                //Reorder raycast hits in order of hit
+                List<RaycastHit> hits = new List<RaycastHit>();
+                for (int j = 0; j < hitArray.Length; j++)
+                { 
+                    hits.Add(hitArray[j]);
+                }
+                List<Health> healths = new List<Health>();
+                hits.Sort((a, b) => (a.distance.CompareTo(b.distance)));
+                int completePens = 0;
+
+
+                for (int j = 0; j < hits.Count; j++)
                 {
+                    if (completePens > maxPenetrations)
+                        break;
+                    RaycastHit hit = hits[j];
+                    //Debug.Log(hit.transform);
+                    
+                    penIndex = j;
+
+                    bool playFx = true;
+
+                    bool penetrable = false;
                     HitBox hitBox;
                     if (hit.collider.TryGetComponent(out hitBox))
                     {
-                        hitBox.OnHit(damage * holster.stats.damageMulti);
+                        
+                        if (healths.Contains(hitBox.health))
+                        {
+                            playFx = false;
+                        }
+						else
+						{
+                            healths.Add(hitBox.health);
+                            hitBox.OnHit(currentDamage * holster.stats.damageMulti);
+                            holster.OnHit(damage * holster.stats.damageMulti * hitBox.multi);
+                        }
+                        
 
                     }
-                    HitVfx vfx;
-                    if (hit.collider.TryGetComponent(out vfx))
+                    HitSettings hitSettings;
+                    if (hit.collider.TryGetComponent(out hitSettings))
                     {
-                        vfx.Play(hit.point, Vector3.Lerp(-Camera.main.transform.forward, hit.normal,.5f));
+                        if (hitSettings.Penetrable)
+                            penetrable = true;
+                        if(playFx)
+                        hitSettings.PlayVfx(hit.point, Vector3.Lerp(-Camera.main.transform.forward, hit.normal, .5f));
                     }
                     else
                     {
+                        if(playFx)
                         VfxSpawner.SpawnVfx(0, hit.point, Vector3.Lerp(-Camera.main.transform.forward, hit.normal, .5f));
                     }
-                    if(visualiserPool.Enabled)
-                    visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin, hit.point,Vector3.Distance(origin.position, hit.point) / bulletVisualiserSpeed);
-                }
-				else
-				{
-                    if (visualiserPool.Enabled)
-                        visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin, Camera.main.transform.forward * 1000, 1000 / bulletVisualiserSpeed);
-                }
 
+
+
+                    currentDamage /= damageLossDivisor;
+                    if (!penetrable)
+                    {
+                        break;
+                    }
+                    completePens++;
+                }
+                if (visualiserPool.Enabled)
+                {
+                    visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin, hits[penIndex].point, Vector3.Distance(origin.position, hits[penIndex].point) / bulletVisualiserSpeed);
+                }
             }
-                
-            ammoLeft--;
-            fireTimer = fireCoolDown;
-                
-            shootSound.Play();
-            if (gunfire.Enabled)
+
+            else
             {
-                gunfire.Value.Play();
+                if (visualiserPool.Enabled)
+                    visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin, Camera.main.transform.forward * 1000, 1000 / bulletVisualiserSpeed);
             }
+
+        }
+                
+        ammoLeft--;
+        fireTimer = 1/(roundsPerMin/60);
+                
+        shootSound.Play();
+        if (gunfire.Enabled)
+        {
+            gunfire.Value.Play();
+        }
             
             
     }

@@ -7,6 +7,7 @@ public class Holster : MonoBehaviour
 
     public PlayerStats stats;
     public ObjectPooler bulletVisualierPool;
+    public AbilityCaster abilityCaster;
     Gun gun;
     public Gun HeldGun { get { return gun; } set
         {
@@ -19,4 +20,8 @@ public class Holster : MonoBehaviour
         }
     }
     
+    public void OnHit(float damage)
+	{
+        abilityCaster.AddBlood(damage * gun.bloodGainMulti * stats.bloodGainMulti);
+	}
 }

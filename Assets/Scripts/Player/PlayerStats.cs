@@ -9,4 +9,5 @@ public class PlayerStats : MonoBehaviour
     public float accelerationMulti = 1;
     public float healthMulti = 1;
     public float regenMulti = 1;
+    public float bloodGainMulti = 1;
 }

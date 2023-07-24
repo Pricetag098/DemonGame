@@ -28,6 +28,14 @@ public class ObjectPooler : MonoBehaviour
 		}
         FillPool();
     }
+
+    public void CreatePool(GameObject prefab, int size)
+	{
+        prefabToPool = prefab;
+        poolSize = size;
+        poolContainer = transform;
+        FillPool();
+	}
    
     /// <summary>
     /// Grabs an object from the pool and adds it to the active list

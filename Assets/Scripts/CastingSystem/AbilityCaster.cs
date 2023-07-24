@@ -11,7 +11,10 @@ public class AbilityCaster : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        for (int i = 0; i < abilities.Length; i++)
+        {
+            abilities[i].Equip(this);
+        }
     }
 	private void OnEnable()
 	{
@@ -37,4 +40,9 @@ public class AbilityCaster : MonoBehaviour
             abilities[i].Tick(i == activeIndex);
 		}
     }
+
+    public void AddBlood(float amount)
+	{
+        blood = Mathf.Clamp(blood + amount, 0, maxBlood);
+	}
 }

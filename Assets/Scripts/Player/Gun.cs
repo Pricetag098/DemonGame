@@ -31,6 +31,7 @@ public class Gun : MonoBehaviour
     public int ammoLeft, maxAmmo = 10;
     public float roundsPerMin = 1, reloadDuration = 1;
     float fireTimer = 0, reloadTimer;
+    public float bloodGainMulti = 1;
 
     [Header("Burst Settings")]
     [Min(1)]
@@ -258,6 +259,7 @@ public class Gun : MonoBehaviour
 						{
                             healths.Add(hitBox.health);
                             hitBox.OnHit(currentDamage * holster.stats.damageMulti);
+                            holster.OnHit(damage * holster.stats.damageMulti * hitBox.multi);
                         }
                         
 

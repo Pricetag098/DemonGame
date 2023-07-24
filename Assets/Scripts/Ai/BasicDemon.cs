@@ -3,19 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class BasicDemon : MonoBehaviour, IDemon
+public class BasicDemon : DemonBase, IDemon
 {
     private NavMeshAgent agent;
-    [SerializeField] private GameObject target;
-
-    [Header("Stats")]
-    public float _damage;
-    public float _attackSpeed;
-    public float _health;
-    public float _maxHealth;
-    public float _moveSpeed;
-    public float _attackRange;
-    public float _stoppingDistance;
+    private NavMeshPath currentPath;
 
     private void Awake()
     {
@@ -26,21 +17,45 @@ public class BasicDemon : MonoBehaviour, IDemon
     {
         agent.speed = _moveSpeed;
         agent.stoppingDistance = _stoppingDistance;
-
+        calculatePath = true;
     }
     private void Update()
     {
-        PathFinding();
+        PathFinding(calculatePath);
     }
-    public void PathFinding()
+    public void PathFinding(bool calculate)
     {
+        if (calculatePath == true)
+        {
+            Transform pathingTarget = _target.transform;
 
+            currentPath = CalculatePath(pathingTarget);
+
+            agent.SetPath(currentPath);
+
+            calculatePath = false;
+        }
     }
+
+    NavMeshPath CalculatePath(Transform targetPos)
+    {
+        NavMeshPath path = new NavMeshPath();
+
+        agent.CalculatePath(targetPos.position, path);
+
+        return path;
+    }
+
+    float DistanceToTarget(Transform targetPos)
+    {
+        return agent.remainingDistance;
+    }
+    
 
     #region HelperFunctions
     public void UpdateTarget(GameObject newTarget)
     { 
-        target = newTarget;
+        _target = newTarget;
     }
     public void UpdateAttackSpeed(float amount)
     { 

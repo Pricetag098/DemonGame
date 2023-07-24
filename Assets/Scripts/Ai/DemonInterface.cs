@@ -10,5 +10,5 @@ public interface IDemon
     void UpdateAttackRange(float amount);
     void UpdateMoveSpeed(float amount);
     void UpdateDamage(float amount);
-    void PathFinding();
+    void PathFinding(bool calculatePath);
 }

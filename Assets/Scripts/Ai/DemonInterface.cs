@@ -5,8 +5,8 @@ using UnityEngine.AI;
 
 public interface IDemon
 {
-    void SetTarget(GameObject newTarget);
-    GameObject GetTarget();
+    void SetTarget(Transform newTarget);
+    Transform GetTarget();
     void UpdateAttackSpeed(float amount);
     void SetAttackSpeed(float amount);
     void UpdateHealth(float amount);
@@ -19,7 +19,6 @@ public interface IDemon
     void SetMoveSpeed(float amount);
     void UpdateDamage(float amount);
     void SetDamage(float amount);
-    void PathFinding(bool calculatePath);
     NavMeshPath CalculatePath(Transform targetPos);
     void StopPathing();
 }

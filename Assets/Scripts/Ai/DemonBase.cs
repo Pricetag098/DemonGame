@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class DemonBase : MonoBehaviour, IDemon
 {
     [Header("Target")]
-    [SerializeField] protected GameObject _target;
+    [SerializeField] protected Transform _target;
 
     [Header("Stats")]
     [SerializeField] protected float _damage;
@@ -17,10 +17,17 @@ public class DemonBase : MonoBehaviour, IDemon
     [SerializeField] protected float _attackRange;
     [SerializeField] protected float _stoppingDistance;
 
+    [Header("AnimationCurves")]
+    [SerializeField] protected AnimationCurve _damageCurve;
+    [SerializeField] protected AnimationCurve _maxHealthCurve;
+    [SerializeField] protected AnimationCurve _moveSpeedCurve;
+
     [Header("Ai Pathing")]
     [SerializeField] protected bool _calculatePath = false;
     protected NavMeshAgent _agent;
     protected NavMeshPath _currentPath;
+
+    [SerializeField] int wave;
 
     private void Awake()
     {
@@ -29,7 +36,11 @@ public class DemonBase : MonoBehaviour, IDemon
 
     private void Start()
     {
+        _agent.stoppingDistance = _stoppingDistance;
+        _calculatePath = true;
+
         Setup();
+        CalculateStats(wave);
     }
     private void Update()
     {
@@ -38,6 +49,14 @@ public class DemonBase : MonoBehaviour, IDemon
 
     public virtual void Setup() { }
     public virtual void Tick() { }
+    public virtual void Attack() { }
+    public virtual void PathFinding() { }
+    public void CalculateStats(int round)
+    {
+        _damage = _damageCurve.Evaluate(round);
+        _maxHealth = _maxHealthCurve.Evaluate(round);
+        _moveSpeed = _moveSpeedCurve.Evaluate(round);
+    }
 
     #region Properties
     protected float DistanceToTarget // gets path distance remaining to target
@@ -50,19 +69,7 @@ public class DemonBase : MonoBehaviour, IDemon
     #endregion
 
     #region Interface
-    public void PathFinding(bool calculate)
-    {
-        if (calculate == true)
-        {
-            Transform pathingTarget = _target.transform;
-
-            _currentPath = CalculatePath(pathingTarget);
-
-            _agent.SetPath(_currentPath);
-
-            calculate = false;
-        }
-    }
+    
     public NavMeshPath CalculatePath(Transform targetPos)
     {
         NavMeshPath path = new NavMeshPath();
@@ -76,11 +83,11 @@ public class DemonBase : MonoBehaviour, IDemon
         _agent.isStopped = true;
         _agent.ResetPath();
     }
-    public void SetTarget(GameObject newTarget)
+    public void SetTarget(Transform newTarget)
     {
         _target = newTarget;
     }
-    public GameObject GetTarget()
+    public Transform GetTarget()
     {
         return _target;
     }

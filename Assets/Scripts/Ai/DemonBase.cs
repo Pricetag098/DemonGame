@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class DemonBase : MonoBehaviour
+public class DemonBase : MonoBehaviour, IDemon
 {
     [Header("Target")]
     [SerializeField] protected GameObject _target;
@@ -15,7 +16,122 @@ public class DemonBase : MonoBehaviour
     [SerializeField] protected float _moveSpeed;
     [SerializeField] protected float _attackRange;
     [SerializeField] protected float _stoppingDistance;
-    [SerializeField] protected bool calculatePath = false;
 
+    [Header("Ai Pathing")]
+    [SerializeField] protected bool _calculatePath = false;
+    protected NavMeshAgent _agent;
+    protected NavMeshPath _currentPath;
 
+    private void Awake()
+    {
+        _agent = GetComponent<NavMeshAgent>();
+    }
+
+    private void Start()
+    {
+        Setup();
+    }
+    private void Update()
+    {
+        Tick();
+    }
+
+    public virtual void Setup() { }
+    public virtual void Tick() { }
+
+    #region Properties
+    protected float DistanceToTarget // gets path distance remaining to target
+    {
+        get
+        {
+            return _agent.remainingDistance;
+        }
+    }
+    #endregion
+
+    #region Interface
+    public void PathFinding(bool calculate)
+    {
+        if (calculate == true)
+        {
+            Transform pathingTarget = _target.transform;
+
+            _currentPath = CalculatePath(pathingTarget);
+
+            _agent.SetPath(_currentPath);
+
+            calculate = false;
+        }
+    }
+    public NavMeshPath CalculatePath(Transform targetPos)
+    {
+        NavMeshPath path = new NavMeshPath();
+
+        _agent.CalculatePath(targetPos.position, path);
+
+        return path;
+    }
+    public void StopPathing()
+    {
+        _agent.isStopped = true;
+        _agent.ResetPath();
+    }
+    public void SetTarget(GameObject newTarget)
+    {
+        _target = newTarget;
+    }
+    public GameObject GetTarget()
+    {
+        return _target;
+    }
+    public void UpdateAttackSpeed(float amount)
+    {
+        _attackSpeed = amount;
+    }
+    public void SetAttackSpeed(float amount)
+    {
+        _attackSpeed += amount;
+    }
+    public void UpdateHealth(float amount)
+    {
+        _health += amount;
+    }
+    public void SetHealth(float amount)
+    {
+        _health = amount;
+        if (_health > _maxHealth) _health = _maxHealth;
+    }
+    public void UpdateMaxHealth(float amount)
+    {
+        _maxHealth += amount;
+    }
+    public void SetMaxHealth(float amount)
+    {
+        _maxHealth = amount;
+    }
+    public void UpdateAttackRange(float amount)
+    {
+        _attackRange += amount;
+    }
+    public void SetAttackRange(float amount)
+    {
+        _attackRange = amount;
+    }
+    public void UpdateMoveSpeed(float amount)
+    {
+        _moveSpeed += amount;
+    }
+    public void SetMoveSpeed(float amount)
+    {
+        _moveSpeed = amount;
+    }
+    public void UpdateDamage(float amount)
+    {
+        _damage += amount;
+    }
+    public void SetDamage(float amount)
+    {
+        _damage = amount;
+    }
+    #endregion
 }

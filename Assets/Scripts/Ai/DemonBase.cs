@@ -8,12 +8,17 @@ public class DemonBase : MonoBehaviour, IDemon
     [Header("Target")]
     [SerializeField] protected Transform _target;
 
+    [Header("BaseStats")]
+    [SerializeField] protected float _baseDamage;
+    [SerializeField] protected float _baseHealth;
+    [SerializeField] protected float _baseMoveSpeed;
+
     [Header("Stats")]
     [SerializeField] protected float _damage;
-    [SerializeField] protected float _attackSpeed;
-    [SerializeField] protected float _health;
-    [SerializeField] protected float _maxHealth;
     [SerializeField] protected float _moveSpeed;
+    [SerializeField] protected float _maxHealth;
+    [SerializeField] protected float _health;
+    [SerializeField] protected float _attackSpeed;
     [SerializeField] protected float _attackRange;
     [SerializeField] protected float _stoppingDistance;
 
@@ -36,11 +41,13 @@ public class DemonBase : MonoBehaviour, IDemon
 
     private void Start()
     {
-        _agent.stoppingDistance = _stoppingDistance;
         _calculatePath = true;
 
         Setup();
         CalculateStats(wave);
+
+        _agent.stoppingDistance = _stoppingDistance;
+        _health = _maxHealth;
     }
     private void Update()
     {
@@ -51,12 +58,9 @@ public class DemonBase : MonoBehaviour, IDemon
     public virtual void Tick() { }
     public virtual void Attack() { }
     public virtual void PathFinding() { }
-    public void CalculateStats(int round)
-    {
-        _damage = _damageCurve.Evaluate(round);
-        _maxHealth = _maxHealthCurve.Evaluate(round);
-        _moveSpeed = _moveSpeedCurve.Evaluate(round);
-    }
+    public virtual void OnDeath() { }
+    public virtual void OnSpawn() { }
+    public virtual void OnBuff() { }
 
     #region Properties
     protected float DistanceToTarget // gets path distance remaining to target
@@ -77,6 +81,12 @@ public class DemonBase : MonoBehaviour, IDemon
         _agent.CalculatePath(targetPos.position, path);
 
         return path;
+    }
+    public void CalculateStats(int round)
+    {
+        _damage = _damageCurve.Evaluate(round) + _baseDamage;
+        _maxHealth = _maxHealthCurve.Evaluate(round) + _baseHealth;
+        _moveSpeed = _moveSpeedCurve.Evaluate(round) + _baseMoveSpeed;
     }
     public void StopPathing()
     {
@@ -139,6 +149,10 @@ public class DemonBase : MonoBehaviour, IDemon
     public void SetDamage(float amount)
     {
         _damage = amount;
+    }
+    public void TakeDamage(float amount)
+    {
+        _health -= amount;
     }
     #endregion
 }

@@ -19,6 +19,8 @@ public interface IDemon
     void SetMoveSpeed(float amount);
     void UpdateDamage(float amount);
     void SetDamage(float amount);
+    void TakeDamage(float amount);
+    public void CalculateStats(int round);
     NavMeshPath CalculatePath(Transform targetPos);
     void StopPathing();
 }

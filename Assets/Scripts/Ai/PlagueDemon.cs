@@ -1,10 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.AI;
 
-public class BasicDemon : DemonBase
+public class PlagueDemon : DemonBase
 {
     public override void Setup()
     {
@@ -12,7 +10,7 @@ public class BasicDemon : DemonBase
     }
     public override void Tick()
     {
-        PathFinding();
+        
     }
     public override void Attack()
     {
@@ -20,13 +18,12 @@ public class BasicDemon : DemonBase
     }
     public override void OnSpawn()
     {
-        
+
     }
     public override void OnDeath()
     {
-        
-    }
 
+    }
     public override void PathFinding()
     {
         if (_calculatePath == true)

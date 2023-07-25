@@ -32,8 +32,6 @@ public class DemonBase : MonoBehaviour, IDemon
     protected NavMeshAgent _agent;
     protected NavMeshPath _currentPath;
 
-    [SerializeField] int wave;
-
     private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
@@ -44,7 +42,6 @@ public class DemonBase : MonoBehaviour, IDemon
         _calculatePath = true;
 
         Setup();
-        CalculateStats(wave);
 
         _agent.stoppingDistance = _stoppingDistance;
         _health = _maxHealth;

@@ -6,9 +6,12 @@ using UnityEngine.AI;
 
 public class BasicDemon : DemonBase
 {
+    [Header("Demon")]
+    [SerializeField] int wave;
+
     public override void Setup()
     {
-        
+        CalculateStats(wave);
     }
     public override void Tick()
     {
@@ -20,7 +23,7 @@ public class BasicDemon : DemonBase
     }
     public override void OnSpawn()
     {
-        
+        CalculateStats(wave);
     }
     public override void OnDeath()
     {

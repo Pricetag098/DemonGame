@@ -11,6 +11,8 @@ public class BasicDemon : DemonBase
 
     public override void Setup()
     {
+        _agent.stoppingDistance = _stoppingDistance;
+
         CalculateStats(wave);
     }
     public override void Tick()
@@ -19,15 +21,22 @@ public class BasicDemon : DemonBase
     }
     public override void Attack()
     {
-        
+        // deal damage
     }
     public override void OnSpawn()
     {
         CalculateStats(wave);
+        
+        _health = _maxHealth;
+        _calculatePath = true;
     }
     public override void OnDeath()
     {
-        
+        // add back to pool of demon type
+    }
+    public override void OnBuff()
+    {
+        // apply stat updates
     }
 
     public override void PathFinding()

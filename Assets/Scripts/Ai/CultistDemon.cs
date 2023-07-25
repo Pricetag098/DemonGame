@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class CultistDemon : DemonBase
 {
+    [Header("Cultist Stats")]
+    public int abilityDamage;
+
+
     public override void Setup()
     {
        

@@ -39,12 +39,7 @@ public class DemonBase : MonoBehaviour, IDemon
 
     private void Start()
     {
-        _calculatePath = true;
-
         Setup();
-
-        _agent.stoppingDistance = _stoppingDistance;
-        _health = _maxHealth;
     }
     private void Update()
     {

@@ -11,6 +11,7 @@ public class BulletVisualiser : MonoBehaviour
     PooledObject pooledObject;
     MeshRenderer mr;
     
+    
 	private void Awake()
 	{
 		pooledObject = GetComponent<PooledObject>();
@@ -29,7 +30,7 @@ public class BulletVisualiser : MonoBehaviour
             mr.enabled = false;
             enabled = false;
 		}
-        timer += Time.deltaTime;
+        timer += Time.deltaTime ;
     }
 
     public void Shoot(Transform from, Vector3 to, float time)

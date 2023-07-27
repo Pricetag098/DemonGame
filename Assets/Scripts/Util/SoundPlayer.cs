@@ -14,14 +14,19 @@ public class SoundPlayer : MonoBehaviour
     private void Awake()
     {
         source = GetComponent<AudioSource>();
+        source.playOnAwake = false;
+        
+    }
+	private void OnEnable()
+	{
         if (playOnAwake)
         {
             Play();
         }
     }
 
-    // Update is called once per frame
-    void Update()
+	// Update is called once per frame
+	void Update()
     {
         
     }

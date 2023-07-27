@@ -129,6 +129,12 @@ public class GunCreator : EditorWindow
             gun.reloadDuration = EditorGUILayout.FloatField("Reload Duration", gun.reloadDuration, GUILayout.Width(455));
             EditorGUILayout.LabelField("Amount of seconds to complete a reload.", EditorStyles.miniLabel);
 
+
+            GUILayout.Space(5);
+
+            gun.bloodGainMulti = EditorGUILayout.FloatField("Blood Gain Multiplier", gun.bloodGainMulti, GUILayout.Width(455));
+            EditorGUILayout.LabelField("Damage times by X equals blood gained.", EditorStyles.miniLabel);
+
             if (gun.fireSelect == Gun.FireTypes.burst)
             {
                 GUILayout.Space(5);

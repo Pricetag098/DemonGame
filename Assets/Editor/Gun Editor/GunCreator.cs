@@ -34,6 +34,10 @@ public class GunCreator : EditorWindow
 
     bool hasVisualiser;
 
+    bool moveModel;
+
+    GameObject bulletVisualiser;
+
     String gunName;
 
     Gun gun;
@@ -117,7 +121,7 @@ public class GunCreator : EditorWindow
 
             GUILayout.Space(5);
 
-            gun.roundsPerMin = EditorGUILayout.FloatField("Rounds per minute", gun.roundsPerMin, GUILayout.Width(455));
+            gun.roundsPerMin = EditorGUILayout.FloatField("Rounds Per Minute", gun.roundsPerMin, GUILayout.Width(455));
             EditorGUILayout.LabelField("Amount of bullets fired in a minute (Doesn't include increased Shots Per Firing).", EditorStyles.miniLabel);
 
             GUILayout.Space(5);
@@ -134,8 +138,8 @@ public class GunCreator : EditorWindow
 
                 GUILayout.Space(5);
 
-                gun.burstRounds = EditorGUILayout.IntField("Shots Per Burst", gun.burstRounds, GUILayout.Width(455));
-                EditorGUILayout.LabelField("Amount of bullets fired per bust (Doesn't include increased Shots Per Firing).", EditorStyles.miniLabel);
+                gun.burstRpm = EditorGUILayout.FloatField("Burst RPM", gun.burstRpm, GUILayout.Width(455));
+                EditorGUILayout.LabelField("RPM of bullets fired per burst.", EditorStyles.miniLabel);
             }
 
             GUILayout.Space(15);
@@ -272,8 +276,8 @@ public class GunCreator : EditorWindow
 
                 if(gun.useOwnVisualiser)
                 {
-                    gun.visualiserPool.Value = (ObjectPooler)EditorGUILayout.ObjectField("Visualiser", gun.visualiserPool.Value, typeof(ObjectPooler), allowSceneObjects: false, GUILayout.Width(305));
-                    EditorGUILayout.LabelField("The visualiser the gun will use.", EditorStyles.miniLabel);
+                    bulletVisualiser = (GameObject)EditorGUILayout.ObjectField("Visualiser", bulletVisualiser, typeof(GameObject), allowSceneObjects: false, GUILayout.Width(305));
+                    EditorGUILayout.LabelField("The bullet visualiser the gun will use.", EditorStyles.miniLabel);
                 }
             }
 
@@ -327,6 +331,20 @@ public class GunCreator : EditorWindow
                         vfx.transform.localScale = oldVFXScale;
                     }
 
+                    if (gun.useOwnVisualiser)
+                    {
+                        GameObject vis = Instantiate(bulletVisualiser);
+                        vis.transform.position = Vector3.zero;
+                        vis.AddComponent<BulletVisualiser>();
+                        vis.AddComponent<PooledObject>();
+
+                        string newWeaponPath2 = "Assets/Prefabs/Guns/" + gunName + "Bullet" + ".prefab";
+                        GameObject bulletVisPreFab = PrefabUtility.SaveAsPrefabAsset(vis, newWeaponPath2) as GameObject;
+
+                        gun.visualiserPool.Value = bulletVisPreFab.GetComponent<ObjectPooler>();
+
+                        DestroyImmediate(bulletVisPreFab);
+                    }
 
                     string newWeaponPath = "Assets/Prefabs/Guns/" + gunName + ".prefab";
                     savedPrefab = PrefabUtility.SaveAsPrefabAsset(currentGun, newWeaponPath) as GameObject;
@@ -350,24 +368,44 @@ public class GunCreator : EditorWindow
 
             if (!editingVFX && !hasFinished)
             {
-                currentGunModel.transform.localPosition = EditorGUILayout.Vector3Field("Gun Position", currentGunModel.transform.localPosition, GUILayout.Width(305));
-                EditorGUILayout.LabelField("Line up the gun in the correct position for the view port.", EditorStyles.miniLabel);
+                moveModel = EditorGUILayout.Toggle("Move Model", moveModel, GUILayout.Width(305));
+                EditorGUILayout.LabelField("If true move the model not moving the gun prefab position.", EditorStyles.miniLabel);
 
                 GUILayout.Space(5);
 
-                Quaternion rot = currentGunModel.transform.rotation;
-                rot.eulerAngles = EditorGUILayout.Vector3Field("Gun Rotation", currentGunModel.transform.localRotation.eulerAngles, GUILayout.Width(305));
-                EditorGUILayout.LabelField("Line up the rotation to work in the viewport.", EditorStyles.miniLabel);
-                currentGunModel.transform.rotation = rot;
+                if (moveModel)
+                {
+                    currentGunModel.transform.localPosition = EditorGUILayout.Vector3Field("Model Position", currentGunModel.transform.localPosition, GUILayout.Width(305));
+                    EditorGUILayout.LabelField("Line up the model in the correct position for the view port.", EditorStyles.miniLabel);
+
+                    GUILayout.Space(5);
+
+                    Quaternion rot = currentGunModel.transform.rotation;
+                    rot.eulerAngles = EditorGUILayout.Vector3Field("Model Rotation", currentGunModel.transform.localRotation.eulerAngles, GUILayout.Width(305));
+                    EditorGUILayout.LabelField("Line up the rotation to work in the viewport.", EditorStyles.miniLabel);
+                    currentGunModel.transform.rotation = rot;
+
+                    GUILayout.Space(5);
+
+                    currentGunModel.transform.localScale = EditorGUILayout.Vector3Field("Model Scale", currentGunModel.transform.localScale, GUILayout.Width(305));
+                    EditorGUILayout.LabelField("Scale the model if needed.", EditorStyles.miniLabel);
+                }
+                else
+                {
+                    currentGun.transform.localPosition = EditorGUILayout.Vector3Field("Gun Position", currentGun.transform.localPosition, GUILayout.Width(305));
+                    EditorGUILayout.LabelField("Line up the gun in the correct position for the view port.", EditorStyles.miniLabel);
+
+                    GUILayout.Space(5);
+
+                    Quaternion rot = currentGun.transform.rotation;
+                    rot.eulerAngles = EditorGUILayout.Vector3Field("Gun Rotation", currentGun.transform.localRotation.eulerAngles, GUILayout.Width(305));
+                    EditorGUILayout.LabelField("Line up the rotation to work in the viewport.", EditorStyles.miniLabel);
+                    currentGun.transform.rotation = rot;
+                }
 
                 GUILayout.Space(5);
 
-                currentGunModel.transform.localScale = EditorGUILayout.Vector3Field("Gun Scale", currentGunModel.transform.localScale, GUILayout.Width(305));
-                EditorGUILayout.LabelField("Scale the model if needed.", EditorStyles.miniLabel);
-
-                GUILayout.Space(5);
-
-                if (GUILayout.Button("Finish With Model", GUILayout.Width(150), GUILayout.Height(20)))
+                if (GUILayout.Button("Finished With Gun Placement", GUILayout.Width(150), GUILayout.Height(20)))
                 {
                     if (hasVFX)
                     {

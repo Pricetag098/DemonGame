@@ -190,8 +190,16 @@ public class Gun : MonoBehaviour
                     if(burstTimer <=0 )
 					{
                         burstTimer = 1/(burstRpm/60);
-                        Shoot();
-                        ammoBurstsDone++;
+                        if(ammoLeft <= 0)
+						{
+                            ammoBurstsDone = burstRounds;
+						}
+						else
+						{
+                            Shoot();
+                            ammoBurstsDone++;
+                        }
+                        
 					}
 				}
                 break;

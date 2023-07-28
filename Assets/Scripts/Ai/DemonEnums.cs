@@ -9,3 +9,11 @@ public enum BuffType
     MoveSpeed,
     AttackSpeed
 }
+
+public enum DemonId
+{
+    Walker,
+    Jogger,
+    Sprinter,
+    Cultist
+}

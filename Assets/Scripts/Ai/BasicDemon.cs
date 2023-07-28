@@ -14,8 +14,6 @@ public class BasicDemon : DemonBase
         CalculateStats(wave);
         CalculateAndSetPath(_target);
         _agent.stoppingDistance = _stoppingDistance;
-
-
     }
     public override void Tick()
     {

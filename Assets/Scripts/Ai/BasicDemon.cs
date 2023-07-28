@@ -29,17 +29,19 @@ public class BasicDemon : DemonBase
         CalculateAndSetPath(target);
 
         _target = target;
-        _health = _maxHealth;
+        _health.health = _maxHealth;
         _calculatePath = true;
 
-        Health h = GetComponent<Health>();
-        h.health = _maxHealth;
+        _health.OnDeath += OnDeath;
+        _health.OnHit += OnHit;
 
         Debug.Log("this has been spawned");
     }
-    public override void OnDeath()
+    public override void OnDeath() // add back to pool of demon type
     {
-        // add back to pool of demon type
+        _health.OnDeath -= OnDeath;
+        _health.OnHit -= OnHit;
+        _pooler.Despawn(GetComponent<PooledObject>());
     }
     public override void OnBuff()
     {

@@ -21,27 +21,27 @@ public class DemonSpawner : MonoBehaviour
     [SerializeField] ObjectPooler baseDemonPooler;
     [SerializeField] ObjectPooler SprinterDemonPooler;
 
-    Dictionary<Demon, ObjectPooler> demonPoolers = new Dictionary<Demon, ObjectPooler>();
+    Dictionary<DemonId, ObjectPooler> demonPoolers = new Dictionary<DemonId, ObjectPooler>();
+
+    Queue<DemonId> DemonQueue = new Queue<DemonId>();
 
     private void Awake()
     {
-        demonPoolers.Add(baseDemon, baseDemonPooler);
-        demonPoolers.Add(SprinterDemon, SprinterDemonPooler);
+        demonPoolers.Add(DemonId.Walker, baseDemonPooler);
+        demonPoolers.Add(DemonId.Sprinter, SprinterDemonPooler);
     }
 
     private void Start()
     {
-        SpawnDemon(baseDemon, new Vector3(3, 5, 0));
-        SpawnDemon(baseDemon, new Vector3(8, 5, 3));
-        SpawnDemon(SprinterDemon, new Vector3(5, 5, 0));
+        SpawnDemon(baseDemon.demon, new Vector3(3, 5, 0));
     }
 
     private void Update()
     {
-        
+        SpawnDemon(DemonQueue.Dequeue(), new Vector3(3, 5, 0));
     }
 
-    void SpawnDemon(Demon demon, Vector3 pos)
+    void SpawnDemon(DemonId demon, Vector3 pos)
     {
         GameObject demonTemp = demonPoolers[demon].Spawn();
 
@@ -52,9 +52,8 @@ public class DemonSpawner : MonoBehaviour
         demonTemp.transform.position = pos;
     }
 
-    int GetDemonSpawnChance(float min, float max)
+    int GetDemonSpawnChance(float min, float max) // calculates each types spawn chance
     {
-        // calculates each types spawn chance
         float chance = Random.Range(min, max);
 
         if(chance > 0)
@@ -67,9 +66,12 @@ public class DemonSpawner : MonoBehaviour
         return 0;
     }
 
-    List<string> ShuffleList(List<string> list)
+    void AddListToQueue(Queue q, List<DemonId> list)
     {
-        return HelperFuntions.ShuffleList(list);
+        foreach(DemonId item in list) 
+        {
+            q.Enqueue(item);
+        }
     }
 
     void OnWaveStart()
@@ -81,6 +83,4 @@ public class DemonSpawner : MonoBehaviour
     {
 
     }
-
-    
 }

@@ -16,7 +16,7 @@ public class CultistDemon : DemonBase
     {
         PathFinding();
     }
-    public override void Attack()
+    public override void OnAttack()
     {
 
     }

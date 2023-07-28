@@ -12,7 +12,7 @@ public class SummonerDemon : DemonBase
     {
 
     }
-    public override void Attack()
+    public override void OnAttack()
     {
 
     }

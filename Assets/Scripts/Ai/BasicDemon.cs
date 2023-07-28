@@ -11,15 +11,17 @@ public class BasicDemon : DemonBase
 
     public override void Setup()
     {
+        CalculateStats(wave);
+        CalculateAndSetPath(_target);
         _agent.stoppingDistance = _stoppingDistance;
 
-        CalculateStats(wave);
+
     }
     public override void Tick()
     {
         PathFinding();
     }
-    public override void Attack()
+    public override void OnAttack()
     {
         // deal damage
     }
@@ -38,18 +40,13 @@ public class BasicDemon : DemonBase
     {
         // apply stat updates
     }
+    public override void OnHit()
+    {
+        
+    }
 
     public override void PathFinding()
     {
-        if (_calculatePath == true)
-        {
-            Transform pathingTarget = _target.transform;
-
-            _currentPath = CalculatePath(pathingTarget);
-
-            _agent.SetPath(_currentPath);
-
-            _calculatePath = false;
-        }
+        CalculateAndSetPath(_target);
     }
 }

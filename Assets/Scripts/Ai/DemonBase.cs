@@ -48,7 +48,8 @@ public class DemonBase : MonoBehaviour, IDemon
 
     public virtual void Setup() { }
     public virtual void Tick() { }
-    public virtual void Attack() { }
+    public virtual void OnAttack() { }
+    public virtual void OnHit() { }
     public virtual void PathFinding() { }
     public virtual void OnDeath() { }
     public virtual void OnSpawn() { }
@@ -74,11 +75,21 @@ public class DemonBase : MonoBehaviour, IDemon
 
         return path;
     }
+    public void CalculateAndSetPath(Transform targetPos)
+    {
+        NavMeshPath path = new NavMeshPath();
+
+        _agent.CalculatePath(targetPos.position, path);
+
+        _agent.SetPath(path);
+    }
     public void CalculateStats(int round)
     {
         _damage = _damageCurve.Evaluate(round) + _baseDamage;
         _maxHealth = _maxHealthCurve.Evaluate(round) + _baseHealth;
         _moveSpeed = _moveSpeedCurve.Evaluate(round) + _baseMoveSpeed;
+
+        _agent.speed = _moveSpeed;
     }
     public void StopPathing()
     {

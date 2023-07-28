@@ -23,12 +23,19 @@ public class BasicDemon : DemonBase
     {
         // deal damage
     }
-    public override void OnSpawn()
+    public override void OnSpawn(Transform target)
     {
         CalculateStats(wave);
-        
+        CalculateAndSetPath(target);
+
+        _target = target;
         _health = _maxHealth;
         _calculatePath = true;
+
+        Health h = GetComponent<Health>();
+        h.health = _maxHealth;
+
+        Debug.Log("this has been spawned");
     }
     public override void OnDeath()
     {

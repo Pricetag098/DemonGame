@@ -52,7 +52,7 @@ public class DemonBase : MonoBehaviour, IDemon
     public virtual void OnHit() { }
     public virtual void PathFinding() { }
     public virtual void OnDeath() { }
-    public virtual void OnSpawn() { }
+    public virtual void OnSpawn(Transform target) { }
     public virtual void OnBuff() { }
 
     #region Properties

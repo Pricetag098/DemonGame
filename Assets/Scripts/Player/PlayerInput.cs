@@ -354,7 +354,7 @@ namespace Movement
 							Vector3 forceDir = orientation.right * inputDir.x * slideHorizontalAcceleration * playerStats.accelerationMulti;
 							if (Mathf.Sign(rightVel) < 0)
 							{
-								forceDir *= 2;
+								forceDir *= slideOppositeVelMulti;
 							}
 							rb.AddForce(forceDir);
 						}

@@ -17,7 +17,6 @@ public class DemonBase : MonoBehaviour, IDemon
     [SerializeField] protected float _damage;
     [SerializeField] protected float _moveSpeed;
     [SerializeField] protected float _maxHealth;
-    [SerializeField] protected float _health;
     [SerializeField] protected float _attackSpeed;
     [SerializeField] protected float _attackRange;
     [SerializeField] protected float _stoppingDistance;
@@ -32,9 +31,14 @@ public class DemonBase : MonoBehaviour, IDemon
     protected NavMeshAgent _agent;
     protected NavMeshPath _currentPath;
 
+    protected Health _health;
+    protected ObjectPooler _pooler;
+
     private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
+        _health = GetComponent<Health>();
+        _pooler = GetComponentInParent<ObjectPooler>();
     }
 
     private void Start()
@@ -52,7 +56,7 @@ public class DemonBase : MonoBehaviour, IDemon
     public virtual void OnHit() { }
     public virtual void PathFinding() { }
     public virtual void OnDeath() { }
-    public virtual void OnSpawn() { }
+    public virtual void OnSpawn(Transform target) { }
     public virtual void OnBuff() { }
 
     #region Properties
@@ -114,12 +118,12 @@ public class DemonBase : MonoBehaviour, IDemon
     }
     public void UpdateHealth(float amount)
     {
-        _health += amount;
+        _health.health += amount;
     }
     public void SetHealth(float amount)
     {
-        _health = amount;
-        if (_health > _maxHealth) _health = _maxHealth;
+        _health.health = amount;
+        if (_health.health > _maxHealth) _health.health = _maxHealth;
     }
     public void UpdateMaxHealth(float amount)
     {
@@ -155,7 +159,7 @@ public class DemonBase : MonoBehaviour, IDemon
     }
     public void TakeDamage(float amount)
     {
-        _health -= amount;
+        _health.health -= amount;
     }
     #endregion
 }

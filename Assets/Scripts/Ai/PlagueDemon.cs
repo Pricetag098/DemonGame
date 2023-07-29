@@ -16,7 +16,7 @@ public class PlagueDemon : DemonBase
     {
         
     }
-    public override void OnSpawn()
+    public override void OnSpawn(Transform target)
     {
 
     }

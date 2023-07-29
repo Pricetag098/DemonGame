@@ -23,16 +23,25 @@ public class BasicDemon : DemonBase
     {
         // deal damage
     }
-    public override void OnSpawn()
+    public override void OnSpawn(Transform target)
     {
         CalculateStats(wave);
-        
-        _health = _maxHealth;
+        CalculateAndSetPath(target);
+
+        _target = target;
+        _health.health = _maxHealth;
         _calculatePath = true;
+
+        _health.OnDeath += OnDeath;
+        _health.OnHit += OnHit;
+
+        Debug.Log("this has been spawned");
     }
-    public override void OnDeath()
+    public override void OnDeath() // add back to pool of demon type
     {
-        // add back to pool of demon type
+        _health.OnDeath -= OnDeath;
+        _health.OnHit -= OnHit;
+        _pooler.Despawn(GetComponent<PooledObject>());
     }
     public override void OnBuff()
     {

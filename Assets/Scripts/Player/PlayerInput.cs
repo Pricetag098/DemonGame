@@ -61,8 +61,10 @@ namespace Movement
 		[SerializeField] float slideGravityModifier = 2;
 		[SerializeField] float slideSlowForce = 2;
 		[SerializeField] float maxSlideSpeed = float.PositiveInfinity;
+        [SerializeField] float slideMinVel = 2;
 
-		[Header("CameraFollowSettings")]
+
+        [Header("CameraFollowSettings")]
 		[SerializeField] AnimationCurve camMovementEasing = AnimationCurve.Linear(0,0,1,1);
 		[SerializeField] Vector3 camStandingPos;
 		[SerializeField] Vector3 camCrouchingPos;
@@ -170,7 +172,7 @@ namespace Movement
 			DoCamRot();
 			orientation.eulerAngles = new Vector3(orientation.eulerAngles.x, cam.eulerAngles.y, orientation.eulerAngles.z);
 			inputDir = moveAction.action.ReadValue<Vector2>();
-
+			if(grounded)
 			camMovementTimer = Mathf.Clamp(camMovementTimer + Time.deltaTime, 0, camMovementTime);
 
 			cam.localPosition = Vector3.LerpUnclamped(lastCamPos, targetCamPos, camMovementEasing.Evaluate(Mathf.Clamp01(camMovementTimer/camMovementTime)));
@@ -200,7 +202,7 @@ namespace Movement
 
 						return;
 					}
-					if (crouchAction.action.IsPressed())
+					if (crouchAction.action.IsPressed() && grounded)
 					{
 						moveState = MoveStates.crouch;
 						lastCamPos = cam.localPosition;
@@ -327,7 +329,7 @@ namespace Movement
 							rb.AddForce(gravityDir, ForceMode.Acceleration);
 						}
 						rb.AddForce(-rb.velocity.normalized * slideSlowForce * Time.fixedDeltaTime,ForceMode.Acceleration);
-						if(rb.velocity.magnitude < crouchMaxSpeed || Vector3.Dot(rb.velocity,slideEntryVel) < 0)
+						if(rb.velocity.magnitude < slideMinVel || Vector3.Dot(rb.velocity,slideEntryVel) < 0)
 						{
 							moveState = MoveStates.crouch;
 							lastCamPos = cam.localPosition;

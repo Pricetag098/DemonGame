@@ -14,7 +14,7 @@ namespace Movement
 		public float sense;
 		public MoveStates moveState;
 		Rigidbody rb;
-		[SerializeField] CapsuleCollider standingCollider, crouchedCollider, slideCollider;
+		[SerializeField] CapsuleCollider standingCollider, crouchedCollider;
 
 
 		[Header("InputActions")]
@@ -158,7 +158,7 @@ namespace Movement
 		{
 			standingCollider.enabled = i == 0;
 			crouchedCollider.enabled = i == 1;
-			slideCollider.enabled = i == 2;
+			
 		}
 
 		bool slideInput;
@@ -244,7 +244,7 @@ namespace Movement
 					}
 					break;
 				case MoveStates.slide:
-					SetCollider(2);
+					SetCollider(1);
 					//Move(crouchMaxSpeed, crouchAcceleration, crouchSlowForce);
 					if (!slideInput)
 					{

@@ -313,20 +313,20 @@ namespace Movement
 
 			if (!grounded)
 			{
-				Move(airMaxSpeed, airAcceleration, airSlowForce, airControlForce);
+				Move(airMaxSpeed, airAcceleration, airSlowForce, airControlForce,airOppositeVelMulti);
 			}
 			else
 			{
 				switch (moveState)
 				{
 					case MoveStates.walk:
-						Move(walkMaxSpeed, walkAcceleration, walkSlowForce, walkControlForce);
+						Move(walkMaxSpeed, walkAcceleration, walkSlowForce, walkControlForce,walkOppositeVelMulti);
 						break;
 					case MoveStates.run:
-						Move(runMaxSpeed, runAcceleration, runSlowForce, runControlForce);
+						Move(runMaxSpeed, runAcceleration, runSlowForce, runControlForce,runOppositeVelMulti);
 						break;
 					case MoveStates.crouch:
-						Move(crouchMaxSpeed, crouchAcceleration, crouchSlowForce, crouchControlForce);
+						Move(crouchMaxSpeed, crouchAcceleration, crouchSlowForce, crouchControlForce,crouchOppositeVelMulti);
 						break;
 					case MoveStates.slide:
 						//Move(crouchMaxSpeed, crouchAcceleration, crouchSlowForce);

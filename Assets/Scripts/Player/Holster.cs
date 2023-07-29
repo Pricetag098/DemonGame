@@ -22,10 +22,21 @@ public class Holster : MonoBehaviour
 	private void Start()
 	{
         input.action.performed += SwapGun;
+        int j = 0;
+        for(int i = 0; i < transform.childCount; i++)
+		{
+            Gun g;
+			if (transform.GetChild(i).TryGetComponent(out g))
+			{
+                SetGun(j, g);
+                j++;
+			}
+		}
 	}
 
 	public void SetGun(int slot,Gun gun)
 	{
+        Debug.Log(slot);
         if (slot > MaxGuns)
             return;
         if(guns[slot] != null)

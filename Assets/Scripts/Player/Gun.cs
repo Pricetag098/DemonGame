@@ -73,12 +73,14 @@ public class Gun : MonoBehaviour
     {
         ammoLeft = maxAmmo;
         reloadAction.action.performed += StartReload;
-        GetComponentInParent<Holster>().SetGun(transform.GetSiblingIndex(),this);
+        //GetComponentInParent<Holster>().SetGun(transform.GetSiblingIndex(),this);
     }
 
 	private void OnDestroy()
 	{
         reloadAction.action.performed -= StartReload;
+        if(visualiserPool.Enabled)
+            visualiserPool.Value.DespawnAll();
     }
 
 	private void OnEnable()

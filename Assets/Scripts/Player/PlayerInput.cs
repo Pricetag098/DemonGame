@@ -35,6 +35,7 @@ namespace Movement
 		[SerializeField] float walkAcceleration = 10;
 		[SerializeField] float walkSlowForce = 10;
 		[SerializeField] float walkControlForce = 10;
+		[SerializeField] float walkOppositeVelMulti = 2;
 		
 
 		[Header("Run Settings")]
@@ -42,12 +43,14 @@ namespace Movement
 		[SerializeField] float runAcceleration = 10;
 		[SerializeField] float runSlowForce = 10;
 		[SerializeField] float runControlForce = 10;
+		[SerializeField] float runOppositeVelMulti = 2;
 
 		[Header("Crouch Settings")]
 		[SerializeField] float crouchMaxSpeed = 10;
 		[SerializeField] float crouchAcceleration = 10;
 		[SerializeField] float crouchSlowForce = 10;
 		[SerializeField] float crouchControlForce = 10;
+		[SerializeField] float crouchOppositeVelMulti = 2;
 
 		[Header("AirControl Settings")]
 		[SerializeField] float airMaxSpeed = 10;
@@ -55,6 +58,7 @@ namespace Movement
 		[SerializeField] float airSlowForce = 10;
 		[SerializeField] float airControlForce = 10;
 		[SerializeField] float jumpHeight = 100;
+		[SerializeField] float airOppositeVelMulti = 2;
 
 		[Header("Slide Settings")]
 		[SerializeField] float slideLaunchVel;
@@ -62,9 +66,12 @@ namespace Movement
 		[SerializeField] float slideSlowForce = 2;
 		[SerializeField] float maxSlideSpeed = float.PositiveInfinity;
         [SerializeField] float slideMinVel = 2;
+		[SerializeField] float slideHorizontalAcceleration;
+		[SerializeField] float slideOppositeVelMulti = 2;
 
 
-        [Header("CameraFollowSettings")]
+
+		[Header("CameraFollowSettings")]
 		[SerializeField] AnimationCurve camMovementEasing = AnimationCurve.Linear(0,0,1,1);
 		[SerializeField] Vector3 camStandingPos;
 		[SerializeField] Vector3 camCrouchingPos;
@@ -256,14 +263,17 @@ namespace Movement
 							lastCamPos = cam.localPosition;
 							targetCamPos = camStandingPos;
 							camMovementTimer = 0;
+
+
 						}
-						else
-						{
-							moveState = MoveStates.crouch;
-							lastCamPos = cam.localPosition;
-							targetCamPos = camCrouchingPos;
-							camMovementTimer = 0;
-						}
+						//else
+						//{
+							
+						//	moveState = MoveStates.crouch;
+						//	lastCamPos = cam.localPosition;
+						//	targetCamPos = camCrouchingPos;
+						//	camMovementTimer = 0;
+						//}
 						
 						return;
 					}
@@ -336,7 +346,19 @@ namespace Movement
 							targetCamPos = camCrouchingPos;
 							camMovementTimer = 0;
 							slideInput = false;
+							break;
 						}
+						float rightVel = Vector3.Dot(rb.velocity, orientation.right * Mathf.Sign(inputDir.x));
+						if (rightVel < maxSlideSpeed * playerStats.speedMulti * Mathf.Abs(inputDir.x))
+						{
+							Vector3 forceDir = orientation.right * inputDir.x * slideHorizontalAcceleration * playerStats.accelerationMulti;
+							if (Mathf.Sign(rightVel) < 0)
+							{
+								forceDir *= 2;
+							}
+							rb.AddForce(forceDir);
+						}
+
 						break;
 
 				}
@@ -357,7 +379,7 @@ namespace Movement
 		
 
 
-		void Move(float maxSpeed,float acceleration,float slowForce,float controlForce)
+		void Move(float maxSpeed,float acceleration,float slowForce,float controlForce,float oppositeVelMulti)
 		{
 
 			acceleration *= Time.fixedDeltaTime;
@@ -379,7 +401,7 @@ namespace Movement
 
 				if (Mathf.Sign(fwVel) < 0)
 				{
-					forceDir *= 2;
+					forceDir *= oppositeVelMulti;
 				}
 				force += forceDir;
 			}
@@ -389,7 +411,7 @@ namespace Movement
 				Vector3 forceDir = orientation.right * inputDir.x * acceleration * playerStats.accelerationMulti;
 				if (Mathf.Sign(rightVel) < 0)
 				{
-					forceDir *= 2;
+					forceDir *= oppositeVelMulti;
 				}
 				force += forceDir;
 			}

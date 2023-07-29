@@ -10,4 +10,6 @@ public class PlayerStats : MonoBehaviour
     public float healthMulti = 1;
     public float regenMulti = 1;
     public float bloodGainMulti = 1;
+
+    public int points = 0;
 }

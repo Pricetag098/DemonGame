@@ -60,6 +60,7 @@ namespace Movement
 		[SerializeField] float slideLaunchVel;
 		[SerializeField] float slideGravityModifier = 2;
 		[SerializeField] float slideSlowForce = 2;
+		[SerializeField] float maxSlideSpeed = float.PositiveInfinity;
 
 		[Header("CameraFollowSettings")]
 		[SerializeField] AnimationCurve camMovementEasing = AnimationCurve.Linear(0,0,1,1);
@@ -220,13 +221,18 @@ namespace Movement
 						lastCamPos = cam.localPosition;
 						targetCamPos = camCrouchingPos;
 						camMovementTimer = 0;
-						RaycastHit hit;
-						Vector3 force = slideLaunchVel * orientation.forward;
-						if (Physics.Raycast(orientation.position, -orientation.up, out hit, 5, groundingLayer))
+
+						if(Vector3.Dot(rb.velocity,orientation.forward) < maxSlideSpeed)
 						{
-							force = Vector3.ProjectOnPlane(force, hit.normal);
+							RaycastHit hit;
+							Vector3 force = slideLaunchVel * orientation.forward;
+							if (Physics.Raycast(orientation.position, -orientation.up, out hit, 5, groundingLayer))
+							{
+								force = Vector3.ProjectOnPlane(force, hit.normal);
+							}
+							rb.AddForce(force, ForceMode.VelocityChange);
 						}
-						rb.AddForce(force, ForceMode.VelocityChange);
+						
 						return;
 					}
 					break;

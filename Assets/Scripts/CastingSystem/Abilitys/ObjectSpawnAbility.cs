@@ -11,7 +11,7 @@ public class ObjectSpawnAbility : Ability
 	public float castsPerMin = 100;
 	public float projectileSpeed = 300;
 	public float damage = 10;
-	public float bloodCost = 10;
+	
 	public float spawnOffset = 1; // will look into a raycast for this later
 
 
@@ -24,7 +24,7 @@ public class ObjectSpawnAbility : Ability
 	
 	
 	// Start is called before the first frame update
-	public override void Tick(bool active)
+	public override void Tick()
 	{
 		
 		timer -= Time.deltaTime;
@@ -44,22 +44,22 @@ public class ObjectSpawnAbility : Ability
 		Destroy(pool);
 	}
 
-	public override void Cast()
+	public override void Cast(Vector3 origin, Vector3 direction)
 	{
 		if (timer < 0 && caster.blood >= bloodCost)
 		{
-			Fire();
+			Fire(origin,direction);
 			timer = 1 / (castsPerMin / 60);
 			caster.blood -= bloodCost;
 		}
 	}
 
-	protected virtual void Fire()
+	protected virtual void Fire(Vector3 origin, Vector3 direction)
 	{
 		
 			GameObject projectile = pool.Spawn();
 			//Debug.Log(projectile != null);
-			projectile.GetComponent<DamageProjectiles>().Shoot(Camera.main.transform.position, Camera.main.transform.forward * projectileSpeed, damage, caster.castOrigin);
+			projectile.GetComponent<DamageProjectiles>().Shoot(origin, direction * projectileSpeed, damage, caster.castOrigin);
 		
 	}
 }

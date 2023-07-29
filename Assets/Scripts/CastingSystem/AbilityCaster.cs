@@ -4,33 +4,33 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class AbilityCaster : MonoBehaviour
 {
+    [SerializeField] Ability emptyAbility;
     public float blood;
     public float maxBlood;
     public Ability[] abilities;
-    public int activeIndex;
-    public InputActionProperty useAction;
 
+    const string BaseAbilityPath = "Abilities/Empty";
     [Tooltip("For visualiser")]
     public Transform castOrigin;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         if (abilities.Length == 0)
             return;
         for (int i = 0; i < abilities.Length; i++)
         {
+            if(abilities[i] == null)
+			{
+                abilities[i] = Instantiate(Resources.Load<Ability>(BaseAbilityPath));
+			}
+			else
+			{
+                abilities[i] = Instantiate(abilities[i]);
+			}
             abilities[i].Equip(this);
         }
     }
-	private void OnEnable()
-	{
-		useAction.action.Enable();
-	}
-	private void OnDisable()
-	{
-		useAction.action.Disable();
-	}
-
+	
 
 	// Update is called once per frame
 	void Update()
@@ -39,15 +39,17 @@ public class AbilityCaster : MonoBehaviour
             return;
         for(int i = 0; i < abilities.Length; i++)
 		{
-            abilities[i].Tick(i == activeIndex);
+            abilities[i].Tick();
 		}
-		if ((useAction.action.IsPressed() && abilities[activeIndex].castMode == Ability.CastModes.hold) ||
-            (useAction.action.WasPerformedThisFrame() && abilities[activeIndex].castMode == Ability.CastModes.press) || 
-            abilities[activeIndex].castMode == Ability.CastModes.passive)
-		{
-            abilities[activeIndex].Cast();
+		
+    }
 
-        }
+    public void Cast(int index,Vector3 origin,Vector3 direction)
+	{
+        if (blood < abilities[index].bloodCost)
+            return;
+       
+        abilities[index].Cast(origin, direction);
     }
 
     public void AddBlood(float amount)

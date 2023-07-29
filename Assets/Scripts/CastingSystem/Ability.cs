@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-//[CreateAssetMenu(menuName = "Ability")]
-public abstract class Ability : ScriptableObject
+[CreateAssetMenu(menuName = "Ability/Empty")]
+public class Ability : ScriptableObject
 {
 	public string abilityName;
 	protected AbilityCaster caster;
-	
+	public float bloodCost = 10;
 	public enum CastModes
 	{
 		press,
@@ -15,7 +15,7 @@ public abstract class Ability : ScriptableObject
 		passive
 	}
 	public CastModes castMode;
-	public virtual void Tick(bool active)
+	public virtual void Tick()
 	{
 
 	}
@@ -26,7 +26,7 @@ public abstract class Ability : ScriptableObject
 		OnEquip();
 	}
 
-	public virtual void Cast()
+	public virtual void Cast(Vector3 origin,Vector3 direction)
 	{
 
 	}

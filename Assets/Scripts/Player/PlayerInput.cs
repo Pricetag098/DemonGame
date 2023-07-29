@@ -75,6 +75,8 @@ namespace Movement
 		float camRotX = 0;
 		Vector2 inputDir;
 		PlayerStats playerStats;
+
+		bool grounded;
 		public enum MoveStates
 		{
 			walk,
@@ -171,6 +173,7 @@ namespace Movement
 
 			cam.localPosition = Vector3.LerpUnclamped(lastCamPos, targetCamPos, camMovementEasing.Evaluate(Mathf.Clamp01(camMovementTimer/camMovementTime)));
 
+			
 			if (holdToSlide)
 			{
 				slideInput = crouchAction.action.IsPressed();
@@ -222,16 +225,7 @@ namespace Movement
 						targetCamPos = camCrouchingPos;
 						camMovementTimer = 0;
 
-						if(Vector3.Dot(rb.velocity,orientation.forward) < maxSlideSpeed)
-						{
-							RaycastHit hit;
-							Vector3 force = slideLaunchVel * orientation.forward;
-							if (Physics.Raycast(orientation.position, -orientation.up, out hit, 5, groundingLayer))
-							{
-								force = Vector3.ProjectOnPlane(force, hit.normal);
-							}
-							rb.AddForce(force, ForceMode.VelocityChange);
-						}
+						
 						
 						return;
 					}
@@ -274,10 +268,36 @@ namespace Movement
 
 		}
 
-
+		void OnHitGround()
+		{
+			switch (moveState)
+			{
+				case MoveStates.slide:
+					if (Vector3.Dot(rb.velocity, orientation.forward) < maxSlideSpeed)
+					{
+						RaycastHit hit;
+						Vector3 force = slideLaunchVel * orientation.forward;
+						if (Physics.Raycast(orientation.position, -orientation.up, out hit, 5, groundingLayer))
+						{
+							force = Vector3.ProjectOnPlane(force, hit.normal);
+						}
+						rb.AddForce(force, ForceMode.VelocityChange);
+					}
+					break;
+				default:
+					//do some animation stuff
+					break;
+			}
+		}
 		private void FixedUpdate()
 		{
-			if (!IsGrounded())
+			bool groundCheck = IsGrounded();
+			if (groundCheck && !grounded)
+				OnHitGround();
+			grounded = groundCheck;
+
+
+			if (!grounded)
 			{
 				Move(airMaxSpeed, airAcceleration, airSlowForce, airControlForce);
 			}
@@ -296,7 +316,7 @@ namespace Movement
 						break;
 					case MoveStates.slide:
 						//Move(crouchMaxSpeed, crouchAcceleration, crouchSlowForce);
-						if (IsGrounded())
+						if (grounded)
 						{
 							rb.AddForce(gravityDir * slideGravityModifier, ForceMode.Acceleration);
 						}

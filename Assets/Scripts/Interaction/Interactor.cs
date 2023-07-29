@@ -7,6 +7,7 @@ public class Interactor : MonoBehaviour
     [SerializeField] LayerMask layerMask;
     [SerializeField] float interactionRange;
 
+    bool hasInteractor;
     Interactable lastInteractor;
 
     // Update is called once per frame
@@ -20,14 +21,23 @@ public class Interactor : MonoBehaviour
 			{
                 if(lastInteractor != interactable)
 				{
+                    hasInteractor = true;
                     lastInteractor = interactable;
                     interactable.StartHover();
 				}
 			}
 			else
 			{
-                lastInteractor.EndHover();
+                if(hasInteractor)
+                    lastInteractor.EndHover();
+                hasInteractor=false;
 			}
 		}
+		else
+		{
+            if (hasInteractor)
+                lastInteractor.EndHover();
+            hasInteractor=false;
+        }
     }
 }

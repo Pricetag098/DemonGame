@@ -428,6 +428,12 @@ namespace Movement
 		{
 			return Physics.CheckSphere(groundingPoint.position, groundingRadius, groundingLayer);
 		}
+
+		private void OnDrawGizmosSelected()
+		{
+			Gizmos.color = Color.green;
+			Gizmos.DrawWireSphere(groundingPoint.position, groundingRadius);
+		}
 	}
 }
 

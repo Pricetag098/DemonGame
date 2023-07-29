@@ -367,6 +367,7 @@ GameObject:
   - component: {fileID: 5051605694942058646}
   - component: {fileID: 3899720132604462813}
   - component: {fileID: 3899720132604462812}
+  - component: {fileID: 4828313314159770983}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -411,6 +412,8 @@ MonoBehaviour:
   maxBlood: 1000
   abilities:
   - {fileID: 11400000, guid: ce9d51cad44e9e54fb3cbc6f28eb0595, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
   castOrigin: {fileID: 1954936625}
 --- !u!114 &1939894390265207123
 MonoBehaviour:
@@ -475,7 +478,6 @@ MonoBehaviour:
   moveState: 0
   standingCollider: {fileID: 3899720133823062389}
   crouchedCollider: {fileID: 3899720133021509131}
-  slideCollider: {fileID: 3899720133717467614}
   moveAction:
     m_UseReference: 1
     m_Action:
@@ -619,6 +621,34 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 1
+--- !u!114 &4828313314159770983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3899720132604462811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ccec2cd724874c41ba17d90bf2d01a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 513
+  interactionRange: 2
+  inputAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Input
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 4b93a182-79a4-416e-abca-57663d68d471
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -2709232723541738238, guid: b5b5fd5d1836ae549b2c0e6bb6d5cf61, type: 3}
 --- !u!1 &3899720132956419846
 GameObject:
   m_ObjectHideFlags: 0

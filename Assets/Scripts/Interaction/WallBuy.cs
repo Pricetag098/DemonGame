@@ -2,17 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WallBuy : MonoBehaviour
+public class WallBuy : ShopInteractable
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    Holster holster;
+	[SerializeField] GameObject prefab;
+	
+	private void Start()
+	{
+		holster = FindObjectOfType<Holster>();
+	}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	protected override bool CanBuy()
+	{
+		return true;
+	}
+
+	protected override void DoBuy()
+	{
+		GameObject gun = Instantiate(prefab,holster.transform);
+		holster.HeldGun = gun.GetComponent<Gun>();
+	}
 }

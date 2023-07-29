@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 
 public class Holster : MonoBehaviour
 {
-
     public PlayerStats stats;
     public ObjectPooler bulletVisualierPool;
     public AbilityCaster abilityCaster;
@@ -13,9 +12,9 @@ public class Holster : MonoBehaviour
     [SerializeField] InputActionProperty input;
 
     public int heldGunIndex = 0;
-    public Gun HeldGun { get { return guns[heldGunIndex]; }
-        private set { }
-        
+    public Gun HeldGun { 
+        get { return guns[heldGunIndex]; }
+        set { SetGun(heldGunIndex, value); }
     }
     const int MaxGuns = 2;
     Gun[] guns = new Gun[MaxGuns];

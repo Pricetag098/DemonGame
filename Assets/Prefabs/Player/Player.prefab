@@ -363,6 +363,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3899720132604462369}
   - component: {fileID: 7993373105473173447}
+  - component: {fileID: 1939894390265207123}
   - component: {fileID: 5051605694942058646}
   - component: {fileID: 3899720132604462813}
   - component: {fileID: 3899720132604462812}
@@ -405,24 +406,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d654545eff43754099865e3a7c52c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  emptyAbility: {fileID: 0}
   blood: 1000
   maxBlood: 1000
   abilities:
   - {fileID: 11400000, guid: ce9d51cad44e9e54fb3cbc6f28eb0595, type: 2}
+  castOrigin: {fileID: 1954936625}
+--- !u!114 &1939894390265207123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3899720132604462811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1838364d9254c8547b526b88a073c5b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   activeIndex: 0
   useAction:
-    m_UseReference: 1
+    m_UseReference: 0
     m_Action:
       m_Name: Use
       m_Type: 0
       m_ExpectedControlType: 
-      m_Id: 8266da48-e98c-43a8-94cd-e3648ff27103
+      m_Id: ef75a1a1-da4b-4bb7-ab3f-3765eb21255f
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 1297926457830254427, guid: b5b5fd5d1836ae549b2c0e6bb6d5cf61, type: 3}
-  castOrigin: {fileID: 1954936625}
+    m_Reference: {fileID: 0}
 --- !u!114 &5051605694942058646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -441,6 +455,7 @@ MonoBehaviour:
   healthMulti: 1
   regenMulti: 1
   bloodGainMulti: 1
+  points: 0
 --- !u!114 &3899720132604462813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -558,6 +573,7 @@ MonoBehaviour:
   slideLaunchVel: 5
   slideGravityModifier: 2
   slideSlowForce: 400
+  maxSlideSpeed: Infinity
   camMovementEasing:
     serializedVersion: 2
     m_Curve:

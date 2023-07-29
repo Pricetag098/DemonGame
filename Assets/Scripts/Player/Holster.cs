@@ -43,6 +43,7 @@ public class Holster : MonoBehaviour
 
     public void SetGunIndex(int index)
 	{
+        heldGunIndex = index;
         for(int i = 0; i < guns.Length; i++)
 		{
             if (guns[i] != null)

@@ -77,6 +77,8 @@ namespace Movement
 		PlayerStats playerStats;
 
 		bool grounded;
+
+		Vector3 slideEntryVel;
 		public enum MoveStates
 		{
 			walk,
@@ -224,7 +226,7 @@ namespace Movement
 						lastCamPos = cam.localPosition;
 						targetCamPos = camCrouchingPos;
 						camMovementTimer = 0;
-
+						slideEntryVel = rb.velocity;
 						
 						
 						return;
@@ -325,7 +327,7 @@ namespace Movement
 							rb.AddForce(gravityDir, ForceMode.Acceleration);
 						}
 						rb.AddForce(-rb.velocity.normalized * slideSlowForce * Time.fixedDeltaTime,ForceMode.Acceleration);
-						if(rb.velocity.magnitude < crouchMaxSpeed)
+						if(rb.velocity.magnitude < crouchMaxSpeed || Vector3.Dot(rb.velocity,slideEntryVel) < 0)
 						{
 							moveState = MoveStates.crouch;
 							lastCamPos = cam.localPosition;

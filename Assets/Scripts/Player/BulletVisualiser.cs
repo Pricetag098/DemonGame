@@ -33,7 +33,7 @@ public class BulletVisualiser : MonoBehaviour
         timer += Time.deltaTime ;
     }
 
-    public void Shoot(Transform from, Vector3 to, float time)
+    public void Shoot(Transform from, Vector3 to, float time,Vector3 direction)
 	{
         
         origin = from;
@@ -43,6 +43,7 @@ public class BulletVisualiser : MonoBehaviour
         timer = 0;
         mr.enabled = true;
         enabled = true;
+        transform.forward = direction;
         
     }
 }

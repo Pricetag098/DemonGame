@@ -280,12 +280,12 @@ public class Gun : MonoBehaviour
                         if (hitSettings.Penetrable)
                             penetrable = true;
                         if(playFx)
-                        hitSettings.PlayVfx(hit.point, Vector3.Lerp(-Camera.main.transform.forward, hit.normal, .5f));
+                        hitSettings.PlayVfx(hit.point, Vector3.Lerp(-dir, hit.normal, .5f));
                     }
                     else
                     {
                         if(playFx)
-                        VfxSpawner.SpawnVfx(0, hit.point, Vector3.Lerp(-Camera.main.transform.forward, hit.normal, .5f));
+                        VfxSpawner.SpawnVfx(0, hit.point, Vector3.Lerp(-dir, hit.normal, .5f));
                     }
 
 
@@ -299,14 +299,14 @@ public class Gun : MonoBehaviour
                 }
                 if (visualiserPool.Enabled)
                 {
-                    visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin, hits[penIndex].point, Vector3.Distance(origin.position, hits[penIndex].point) / bulletVisualiserSpeed);
+                    visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin, hits[penIndex].point, Vector3.Distance(origin.position, hits[penIndex].point) / bulletVisualiserSpeed,dir);
                 }
             }
 
             else
             {
                 if (visualiserPool.Enabled)
-                    visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin, Camera.main.transform.forward * 1000, 1000 / bulletVisualiserSpeed);
+                    visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin, Camera.main.transform.forward * 1000, 1000 / bulletVisualiserSpeed,dir);
             }
 
         }

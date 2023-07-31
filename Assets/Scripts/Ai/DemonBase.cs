@@ -32,18 +32,18 @@ public class DemonBase : MonoBehaviour, IDemon
     protected NavMeshPath _currentPath;
 
     protected Health _health;
-    protected ObjectPooler _pooler;
+    protected PooledObject _pooledObject;
 
     private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
         _health = GetComponent<Health>();
-        _pooler = GetComponentInParent<ObjectPooler>();
     }
 
     private void Start()
     {
         Setup();
+        _pooledObject = GetComponent<PooledObject>();
     }
     private void Update()
     {
@@ -86,6 +86,8 @@ public class DemonBase : MonoBehaviour, IDemon
         _agent.CalculatePath(targetPos.position, path);
 
         _agent.SetPath(path);
+
+        _target = targetPos;
     }
     public void CalculateStats(int round)
     {
@@ -156,10 +158,6 @@ public class DemonBase : MonoBehaviour, IDemon
     public void SetDamage(float amount)
     {
         _damage = amount;
-    }
-    public void TakeDamage(float amount)
-    {
-        _health.health -= amount;
     }
     #endregion
 }

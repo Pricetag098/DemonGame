@@ -19,7 +19,7 @@ public class DemonSpawner : MonoBehaviour
 
     [Header("Object Poolers")]
     [SerializeField] ObjectPooler baseDemonPooler;
-    [SerializeField] ObjectPooler SprinterDemonPooler;
+    [SerializeField] ObjectPooler sprinterDemonPooler;
 
     Dictionary<DemonId, ObjectPooler> demonPoolers = new Dictionary<DemonId, ObjectPooler>();
 
@@ -28,20 +28,21 @@ public class DemonSpawner : MonoBehaviour
     private void Awake()
     {
         demonPoolers.Add(DemonId.Walker, baseDemonPooler);
-        demonPoolers.Add(DemonId.Sprinter, SprinterDemonPooler);
+        demonPoolers.Add(DemonId.Sprinter, sprinterDemonPooler);
+        //DemonQueue.Enqueue(DemonId.Sprinter);
     }
 
     private void Start()
     {
-        SpawnDemon(baseDemon.demon, new Vector3(3, 5, 0));
+        //SpawnDemon(DemonQueue.Dequeue(), new Vector3(15, 5, 0));
     }
 
     private void Update()
     {
-        SpawnDemon(DemonQueue.Dequeue(), new Vector3(3, 5, 0));
+        
     }
 
-    void SpawnDemon(DemonId demon, Vector3 pos)
+    void SpawnDemon(DemonId demon, Vector3 pos) // spawns demon at location
     {
         GameObject demonTemp = demonPoolers[demon].Spawn();
 
@@ -74,7 +75,14 @@ public class DemonSpawner : MonoBehaviour
         }
     }
 
-    void OnWaveStart()
+    List<T> ShuffleList<T>(List<T> list)
+    {
+        return HelperFuntions.ShuffleList(list);
+    }
+
+    
+
+    void OnWaveStart(Wave currentwave)
     {
 
     }

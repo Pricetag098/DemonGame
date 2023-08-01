@@ -19,7 +19,16 @@ public class WallBuy : ShopInteractable
 
 	protected override void DoBuy()
 	{
-		GameObject gun = Instantiate(prefab,holster.transform);
-		holster.HeldGun = gun.GetComponent<Gun>();
+		Gun g;
+		if (holster.HasGun(prefab.GetComponent<Gun>(),out g))
+		{
+			g.AddToStash(1);
+		}
+		else
+		{
+            GameObject gun = Instantiate(prefab, holster.transform);
+            holster.HeldGun = gun.GetComponent<Gun>();
+        }
+		
 	}
 }

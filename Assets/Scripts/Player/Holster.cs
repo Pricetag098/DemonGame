@@ -87,4 +87,25 @@ public class Holster : MonoBehaviour
 		}
         SetGunIndex(heldGunIndex);
 	}
+
+    public bool HasGun(Gun g)
+    {
+        Gun emptyGun;
+        return HasGun(g, out emptyGun);
+        
+    }
+    public bool HasGun(Gun g,out Gun returnedGun)
+    {
+        foreach (Gun gun in guns)
+        {
+            if (g.gunName == gun.gunName)
+            {
+                returnedGun = gun;
+                return true;
+            }
+                
+        }
+        returnedGun = null;
+        return false;
+    }
 }

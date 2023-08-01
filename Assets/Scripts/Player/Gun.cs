@@ -23,6 +23,7 @@ public class Gun : MonoBehaviour
         auto
     }
     [Header("Gun Settings")]
+    public string gunName;
     public FireTypes fireSelect;
     public float damage = 10;
     public float bulletRange = float.PositiveInfinity, bulletSpreadDegrees = 0;

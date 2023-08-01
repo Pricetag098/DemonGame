@@ -10,5 +10,13 @@ using DemonCum;
 [CreateAssetMenu(fileName = "Wave", menuName = "Wave/Create Wave", order = 0)]
 public class Wave : ScriptableObject
 {
-    public List<DemonType> types = new List<DemonType>();
+    [Header("Boss Wave")]
+    public bool BossWave;
+
+    [Header("Demons")]
+    public DemonType Base;
+    public DemonType Summoner;
+    public DemonType Stalker;
+    public DemonType Choas;
+    public DemonType Cultist;
 }

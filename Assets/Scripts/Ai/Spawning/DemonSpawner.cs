@@ -41,12 +41,20 @@ public class DemonSpawner : MonoBehaviour
     [SerializeField] ObjectPooler choasDemonPooler;
     [SerializeField] ObjectPooler cultistDemonPooler;
 
+    [Header("Demons")]
+    private int _base;
+    private int _Summoner;
+    private int _stalker;
+    private int _choas;
+    private int _cultist;
+
     [Header("Timers")]
     float spawnTimer;
 
     private Dictionary<DemonID, ObjectPooler> demonPoolers = new Dictionary<DemonID, ObjectPooler>();
 
     private Queue<DemonID> DemonQueue = new Queue<DemonID>();
+    private Queue<Demon> DemonQueue2 = new Queue<Demon>();
 
     private void Awake()
     {
@@ -60,6 +68,7 @@ public class DemonSpawner : MonoBehaviour
         {
             DemonQueue.Enqueue(DemonID.Base);
         }
+
     }
 
     private void Start()
@@ -80,7 +89,7 @@ public class DemonSpawner : MonoBehaviour
         //OnWaveEnd();
         //OnWaveStart(wave);
 
-        if(HelperFuntions.TimerGreaterThan(spawnTimer, timeBetweenSpawns) && canSpawn == true)
+        if (HelperFuntions.TimerGreaterThan(spawnTimer, timeBetweenSpawns) && canSpawn == true)
         {
             if (HelperFuntions.IntGreaterThanOrEqual(maxDemonsAtOnce, currentDemons))
             {
@@ -98,7 +107,7 @@ public class DemonSpawner : MonoBehaviour
 
                 if(maxDemonsToSpawn < toSpawn) { toSpawn = maxDemonsToSpawn; }
 
-                Debug.Log("Amount of Demons To Spawn: " + toSpawn);
+                //Debug.Log("Amount of Demons To Spawn: " + toSpawn);
 
                 ActiveSpawners(player, baseSpawners, specialSpawners);
 
@@ -113,6 +122,32 @@ public class DemonSpawner : MonoBehaviour
                 }
             }
         }
+    }
+    void OnWaveStart(Wave currentwave)
+    {
+        wave = currentwave;
+        currentRound++;
+
+        maxDemonsAtOnce = (int)demonsToSpawn.Evaluate(currentRound);
+        demonsToSpawnEachTick = (int)spawnsEachTick.Evaluate(currentRound);
+
+        // create and set the demon queue
+        _base = Mathf.FloorToInt(GetDemonSpawnChance(wave.Base.Amount, maxDemonsToSpawn));
+        _Summoner = Mathf.FloorToInt(GetDemonSpawnChance(wave.Summoner.Amount, maxDemonsToSpawn));
+        _stalker = Mathf.FloorToInt(GetDemonSpawnChance(wave.Stalker.Amount, maxDemonsToSpawn));
+        _choas = Mathf.FloorToInt(GetDemonSpawnChance(wave.Choas.Amount, maxDemonsToSpawn));
+        _cultist = Mathf.FloorToInt(GetDemonSpawnChance(wave.Cultist.Amount, maxDemonsToSpawn));
+
+
+
+
+        canSpawn = true;
+    }
+
+    void OnWaveEnd()
+    {
+        DemonQueue.Clear();
+        canSpawn = false;
     }
 
     #region Propterties
@@ -149,19 +184,24 @@ public class DemonSpawner : MonoBehaviour
         maxDemonsToSpawn--;
     }
 
-    int GetDemonSpawnChance(float min, float max) // calculates each types spawn chance
+    float GetDemonSpawnChance(float percentage, int maxDemons)
     {
-        float chance = Random.Range(min, max);
-
-        if(chance > 0)
-        {
-            float spawnFloat = 0;
-            spawnFloat = maxDemonsToSpawn * chance;
-            return Mathf.FloorToInt(spawnFloat);
-        }
-
-        return 0;
+        return (percentage / 100) * maxDemons;
     }
+
+    //int GetDemonSpawnChance(float min, float max) // calculates each types spawn chance
+    //{
+    //    float chance = Random.Range(min, max);
+
+    //    if(chance > 0)
+    //    {
+    //        float spawnFloat = 0;
+    //        spawnFloat = maxDemonsToSpawn * chance;
+    //        return Mathf.FloorToInt(spawnFloat);
+    //    }
+
+    //    return 0;
+    //}
 
     void AddListToQueue(Queue q, List<DemonID> list)
     {
@@ -171,25 +211,7 @@ public class DemonSpawner : MonoBehaviour
         }
     }
 
-    void OnWaveStart(Wave currentwave)
-    {
-        wave = currentwave;
-        currentRound++;
-
-        maxDemonsAtOnce = (int)demonsToSpawn.Evaluate(currentRound);
-        demonsToSpawnEachTick = (int)spawnsEachTick.Evaluate(currentRound);
-
-        // create and set the demon queue
-
-
-
-        canSpawn = true;
-    }
-
-    void OnWaveEnd()
-    {
-        DemonQueue.Clear();
-    }
+    
 
     void Timers()
     {

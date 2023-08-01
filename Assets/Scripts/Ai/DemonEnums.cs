@@ -23,5 +23,12 @@ namespace DemonCum
         Chaos,
         Cultist
     }
+    public enum SpawnType
+    {
+        Null,
+        Basic,
+        Special,
+        Boss
+    }
 }
 

@@ -8,6 +8,9 @@ public class DemonBase : MonoBehaviour, IDemon
     [Header("Target")]
     [SerializeField] protected Transform _target;
 
+    [Header("Spawner")]
+    [SerializeField] protected DemonSpawner _spawner;
+
     [Header("BaseStats")]
     [SerializeField] protected float _baseDamage;
     [SerializeField] protected float _baseHealth;
@@ -38,6 +41,7 @@ public class DemonBase : MonoBehaviour, IDemon
     {
         _agent = GetComponent<NavMeshAgent>();
         _health = GetComponent<Health>();
+        _spawner = FindObjectOfType<DemonSpawner>();
     }
 
     private void Start()

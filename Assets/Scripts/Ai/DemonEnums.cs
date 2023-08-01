@@ -1,19 +1,27 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum BuffType
+namespace DemonCum
 {
-    Damage,
-    Health,
-    MoveSpeed,
-    AttackSpeed
+    [Serializable]
+    public enum BuffType
+    {
+        Damage,
+        Health,
+        MoveSpeed,
+        AttackSpeed
+    }
+    [Serializable]
+    public enum DemonID
+    {
+        Null,
+        Base,
+        Summoner,
+        Stalker,
+        Chaos,
+        Cultist
+    }
 }
 
-public enum DemonId
-{
-    Walker,
-    Jogger,
-    Sprinter,
-    Cultist
-}

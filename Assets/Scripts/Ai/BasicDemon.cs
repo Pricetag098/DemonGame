@@ -33,6 +33,7 @@ public class BasicDemon : DemonBase
     public override void OnDeath() // add back to pool of demon type
     {
         _pooledObject.Despawn();
+        _spawner.DemonKilled();
     }
     public override void OnBuff()
     {

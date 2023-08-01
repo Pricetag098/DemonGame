@@ -1,48 +1,129 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DemonCum;
 
 public class DemonSpawner : MonoBehaviour
 {
     [SerializeField] Transform player;
 
-    [Header("Demons")]
-    [SerializeField] Demon baseDemon;
-    [SerializeField] Demon SprinterDemon;
-
     [Header("Wave")]
-    [SerializeField] int wave;
+    [SerializeField] int currentRound;
+    [SerializeField] Wave wave;
 
     [Header("Spawning Stats")]
-    [SerializeField] int demonsToSpawn;
-    [SerializeField] int maxSpawningDistance;
+    [SerializeField] int maxDemonsToSpawn;
+    [SerializeField] int maxDemonsAtOnce;
+    [SerializeField] int currentDemons;
+    [SerializeField] float maxSpawningDistance;
+    [SerializeField] float timeBetweenSpawns;
+    [SerializeField] int demonsToSpawnEachTick;
+
+    [SerializeField] bool canSpawn;
+
+    [Header("Animation Curves")]
+    [SerializeField] AnimationCurve demonsToSpawn;
+    [SerializeField] AnimationCurve spawnsEachTick;
+
+    [Header("Spawn Location")]
+    [SerializeField] Transform baseSpawner;
+    [SerializeField] List<Transform> baseActiveSpawners = new List<Transform>();
+    [SerializeField] private List<Transform> baseSpawners = new List<Transform>();
+
+    [SerializeField] Transform SpecialSpawner;
+    [SerializeField] List<Transform> specialActiveSpawners = new List<Transform>();
+    [SerializeField] private List<Transform> specialSpawners = new List<Transform>();
 
     [Header("Object Poolers")]
     [SerializeField] ObjectPooler baseDemonPooler;
-    [SerializeField] ObjectPooler sprinterDemonPooler;
+    [SerializeField] ObjectPooler summonerDemonPooler;
+    [SerializeField] ObjectPooler stalkerDemonPooler;
+    [SerializeField] ObjectPooler choasDemonPooler;
+    [SerializeField] ObjectPooler cultistDemonPooler;
 
-    Dictionary<DemonId, ObjectPooler> demonPoolers = new Dictionary<DemonId, ObjectPooler>();
+    [Header("Timers")]
+    float spawnTimer;
 
-    Queue<DemonId> DemonQueue = new Queue<DemonId>();
+    private Dictionary<DemonID, ObjectPooler> demonPoolers = new Dictionary<DemonID, ObjectPooler>();
+
+    private Queue<DemonID> DemonQueue = new Queue<DemonID>();
 
     private void Awake()
     {
-        demonPoolers.Add(DemonId.Walker, baseDemonPooler);
-        demonPoolers.Add(DemonId.Sprinter, sprinterDemonPooler);
-        //DemonQueue.Enqueue(DemonId.Sprinter);
+        demonPoolers.Add(DemonID.Base, baseDemonPooler);
+        demonPoolers.Add(DemonID.Summoner, summonerDemonPooler);
+        demonPoolers.Add(DemonID.Stalker, stalkerDemonPooler);
+        demonPoolers.Add(DemonID.Chaos, choasDemonPooler);
+        demonPoolers.Add(DemonID.Cultist, cultistDemonPooler);
+
+        for (int i = 0; i < 200; i++)
+        {
+            DemonQueue.Enqueue(DemonID.Base);
+        }
     }
 
     private void Start()
     {
-        //SpawnDemon(DemonQueue.Dequeue(), new Vector3(15, 5, 0));
+        AddChildrenToList(baseSpawner, baseSpawners);
+        AddChildrenToList(SpecialSpawner, specialSpawners);
+
+        ActiveSpawners(player, baseSpawners, specialSpawners);
     }
 
     private void Update()
     {
-        
+        Timers();
+
+        //OnWaveEnd();
+        //OnWaveStart(wave);
+
+        if(HelperFuntions.TimerGreaterThan(spawnTimer, timeBetweenSpawns) && canSpawn == true)
+        {
+            if (HelperFuntions.IntGreaterThanOrEqual(maxDemonsAtOnce, currentDemons))
+            {
+                spawnTimer = 0;
+
+                if (maxDemonsToSpawn <= 0)
+                {
+                    canSpawn = false;
+                    return;
+                }
+
+                int toSpawn = maxDemonsAtOnce - currentDemons;
+                if(toSpawn <= demonsToSpawnEachTick) { }
+                else { toSpawn = demonsToSpawnEachTick; }
+
+                if(maxDemonsToSpawn < toSpawn) { toSpawn = maxDemonsToSpawn; }
+
+                Debug.Log("Amount of Demons To Spawn: " + toSpawn);
+
+                ActiveSpawners(player, baseSpawners, specialSpawners);
+
+                for (int i = 0; i < toSpawn; i++)
+                {
+                    // logic for getting which spawner
+                    int temp = Random.Range(0, baseActiveSpawners.Count);
+                    Vector3 pos = baseActiveSpawners[temp].position;
+
+                    // spawn using object poolers
+                    SpawnDemon(DemonQueue.Dequeue(), pos); // place holder spawn location
+                }
+            }
+        }
     }
 
-    void SpawnDemon(DemonId demon, Vector3 pos) // spawns demon at location
+    public void DemonKilled()
+    {
+        currentDemons--;
+    }
+
+    public void DemonRespawn()
+    {
+        currentDemons--;
+        maxDemonsToSpawn++;
+    }
+
+    void SpawnDemon(DemonID demon, Vector3 pos) // spawns demon at location
     {
         GameObject demonTemp = demonPoolers[demon].Spawn();
 
@@ -51,6 +132,9 @@ public class DemonSpawner : MonoBehaviour
         demonBase.OnSpawn(player);
 
         demonTemp.transform.position = pos;
+
+        currentDemons++;
+        maxDemonsToSpawn--;
     }
 
     int GetDemonSpawnChance(float min, float max) // calculates each types spawn chance
@@ -60,35 +144,108 @@ public class DemonSpawner : MonoBehaviour
         if(chance > 0)
         {
             float spawnFloat = 0;
-            spawnFloat = demonsToSpawn * chance;
+            spawnFloat = maxDemonsToSpawn * chance;
             return Mathf.FloorToInt(spawnFloat);
         }
 
         return 0;
     }
 
-    void AddListToQueue(Queue q, List<DemonId> list)
+    void AddListToQueue(Queue q, List<DemonID> list)
     {
-        foreach(DemonId item in list) 
+        foreach(DemonID item in list) 
         {
             q.Enqueue(item);
         }
     }
 
-    List<T> ShuffleList<T>(List<T> list)
-    {
-        return HelperFuntions.ShuffleList(list);
-    }
-
-    
-
     void OnWaveStart(Wave currentwave)
     {
+        wave = currentwave;
 
+        maxDemonsAtOnce = (int)demonsToSpawn.Evaluate(currentRound);
+        demonsToSpawnEachTick = (int)spawnsEachTick.Evaluate(currentRound);
+
+        // create and set the demon queue
+
+
+
+        canSpawn = true;
     }
 
     void OnWaveEnd()
     {
 
+    }
+
+    void Timers()
+    {
+        spawnTimer += Time.deltaTime;
+    }
+
+    void AddChildrenToList(Transform parent, List<Transform> list)
+    {
+        foreach(Transform child in parent)
+        {
+            list.Add(child);
+        }
+    }
+
+    void AddSpawnersToActiveSpawners(Transform parent, List<Transform> spawnPoints)
+    {
+        foreach(Transform t in parent)
+        {
+            spawnPoints.Add(t);
+        }
+    }
+
+    void ActiveSpawners(Transform player, List<Transform> baseSpawns, List<Transform> specialSpawns)
+    {
+        Transform p = player;
+        Vector2 playerPos = new Vector2(p.position.x, p.position.z);
+
+        foreach(Transform bt in baseSpawns)
+        {
+            Vector2 spawnerPos = new Vector2(bt.position.x, bt.position.z);
+
+            float dist = Vector2.Distance(playerPos, spawnerPos);
+
+            if(dist < maxSpawningDistance)
+            {
+                if(!baseActiveSpawners.Contains(bt))
+                {
+                    baseActiveSpawners.Add(bt);
+                }
+            }
+            else
+            {
+                if(baseActiveSpawners.Contains(bt))
+                {
+                    baseActiveSpawners.Remove(bt);
+                }
+            }
+        }
+
+        foreach(Transform st in specialSpawns)
+        {
+            Vector2 spawnerPos = new Vector2(st.position.x, st.position.z);
+
+            float dist = Vector2.Distance(playerPos, spawnerPos);
+
+            if (dist < maxSpawningDistance)
+            {
+                if (!specialActiveSpawners.Contains(st))
+                {
+                    specialActiveSpawners.Add(st);
+                }
+            }
+            else
+            {
+                if (specialActiveSpawners.Contains(st))
+                {
+                    specialActiveSpawners.Remove(st);
+                }
+            }
+        }
     }
 }

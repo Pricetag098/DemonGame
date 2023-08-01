@@ -97,7 +97,7 @@ public class DemonBase : MonoBehaviour, IDemon
     {
         _damage = _damageCurve.Evaluate(round) + _baseDamage;
         _maxHealth = _maxHealthCurve.Evaluate(round) + _baseHealth;
-        _moveSpeed = _moveSpeedCurve.Evaluate(round) + _baseMoveSpeed;
+        //_moveSpeed = _moveSpeedCurve.Evaluate(round) + _baseMoveSpeed;
 
         _agent.speed = _moveSpeed;
     }

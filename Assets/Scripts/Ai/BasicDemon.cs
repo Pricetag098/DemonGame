@@ -6,8 +6,6 @@ using UnityEngine.AI;
 
 public class BasicDemon : DemonBase
 {
-    [Header("Demon")]
-    [SerializeField] int wave;
 
     public override void Setup()
     {
@@ -25,7 +23,7 @@ public class BasicDemon : DemonBase
     }
     public override void OnSpawn(Transform target)
     {
-        CalculateStats(wave);
+        CalculateStats(_spawner.currentRound);
         CalculateAndSetPath(target);
 
         _health.health = _maxHealth;

@@ -8,7 +8,7 @@ public class DemonSpawner : MonoBehaviour
     [SerializeField] Transform player;
 
     [Header("Wave")]
-    [SerializeField] int currentRound;
+    public int currentRound;
     [SerializeField] Wave wave;
 
     [Header("Spawning Stats")]
@@ -68,6 +68,9 @@ public class DemonSpawner : MonoBehaviour
         AddChildrenToList(SpecialSpawner, specialSpawners);
 
         ActiveSpawners(player, baseSpawners, specialSpawners);
+
+        maxDemonsToSpawn = (int)demonsToSpawn.Evaluate(currentRound);
+        demonsToSpawnEachTick = (int)spawnsEachTick.Evaluate(currentRound);
     }
 
     private void Update()
@@ -111,6 +114,15 @@ public class DemonSpawner : MonoBehaviour
             }
         }
     }
+
+    #region Propterties
+
+    bool EndRound
+    {
+        get { return maxDemonsToSpawn <= 0 && currentDemons <= 0; }
+    }
+
+    #endregion
 
     public void DemonKilled()
     {
@@ -162,6 +174,7 @@ public class DemonSpawner : MonoBehaviour
     void OnWaveStart(Wave currentwave)
     {
         wave = currentwave;
+        currentRound++;
 
         maxDemonsAtOnce = (int)demonsToSpawn.Evaluate(currentRound);
         demonsToSpawnEachTick = (int)spawnsEachTick.Evaluate(currentRound);
@@ -175,7 +188,7 @@ public class DemonSpawner : MonoBehaviour
 
     void OnWaveEnd()
     {
-
+        DemonQueue.Clear();
     }
 
     void Timers()

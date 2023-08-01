@@ -219,7 +219,7 @@ public class Gun : MonoBehaviour
 
     }
 
-    public void Shoot()
+    protected virtual void Shoot()
     {
 
 

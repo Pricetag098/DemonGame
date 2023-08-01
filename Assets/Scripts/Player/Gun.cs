@@ -80,7 +80,7 @@ public class Gun : MonoBehaviour
 	private void OnDestroy()
 	{
         reloadAction.action.performed -= StartReload;
-        if(visualiserPool.Enabled)
+        if(visualiserPool.Enabled && visualiserPool.Value != null)
             visualiserPool.Value.DespawnAll();
     }
 

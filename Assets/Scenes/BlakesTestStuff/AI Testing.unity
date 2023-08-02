@@ -253,7 +253,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabToPool: {fileID: 945232076521600294, guid: bcd7250091e0c0f4f9b2ae7335ce374f, type: 3}
   poolSize: 15
-  autoRefillPool: 0
+  autoRefillPool: 1
   poolContainer: {fileID: 359785374}
 --- !u!1 &377850115
 GameObject:
@@ -382,7 +382,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabToPool: {fileID: 945232076521600294, guid: ff398e5425d86344b89ece69c85d8170, type: 3}
   poolSize: 15
-  autoRefillPool: 0
+  autoRefillPool: 1
   poolContainer: {fileID: 797823053}
 --- !u!1 &808618215
 GameObject:
@@ -437,8 +437,11 @@ MonoBehaviour:
   maxDemonsAtOnce: 30
   maxSpawningDistance: 500
   timeBetweenSpawns: 5
+  timeBetweenRounds: 5
   demonsToSpawnEachTick: 4
-  minMax: {x: 10, y: 90}
+  minMax: {x: 30, y: 80}
+  endRound: 0
+  startRound: 0
   demonsToSpawn:
     serializedVersion: 2
     m_Curve:
@@ -854,7 +857,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabToPool: {fileID: 945232076521600294, guid: bcf62be3afcbebd44863c39b998c6856, type: 3}
   poolSize: 15
-  autoRefillPool: 0
+  autoRefillPool: 1
   poolContainer: {fileID: 1276463407}
 --- !u!1 &1509644663
 GameObject:
@@ -1058,7 +1061,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabToPool: {fileID: 945232076521600294, guid: f2e4019130e3af840b32496fb0b1e9ba, type: 3}
   poolSize: 50
-  autoRefillPool: 0
+  autoRefillPool: 1
   poolContainer: {fileID: 1763640106}
 --- !u!1001 &1781136061
 PrefabInstance:

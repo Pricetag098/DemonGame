@@ -20,8 +20,12 @@ public class DemonSpawner : MonoBehaviour
     [SerializeField] int maxDemonsAtOnce;
     [SerializeField] float maxSpawningDistance;
     [SerializeField] float timeBetweenSpawns;
+    [SerializeField] float timeBetweenRounds;
     [SerializeField] int demonsToSpawnEachTick;
     [SerializeField] Vector2Int minMax;
+
+    [SerializeField] private bool endRound;
+    [SerializeField] private bool startRound;
 
     [Header("Animation Curves")]
     [SerializeField] AnimationCurve demonsToSpawn;
@@ -52,6 +56,7 @@ public class DemonSpawner : MonoBehaviour
 
     [Header("Timers")]
     private float spawnTimer;
+    private float endRoundTimer;
 
     private Dictionary<DemonID, ObjectPooler> demonPoolers = new Dictionary<DemonID, ObjectPooler>();
 
@@ -79,9 +84,23 @@ public class DemonSpawner : MonoBehaviour
     private void Update()
     {
         Timers();
+        Bools();
 
-        //OnWaveEnd();
-        //OnWaveStart(wave);
+        if(endRound == true)
+        {
+            OnWaveEnd();
+        }
+
+        if(startRound == true)
+        {
+            endRoundTimer += Time.deltaTime;
+            if(HelperFuntions.TimerGreaterThan(endRoundTimer, timeBetweenRounds))
+            {
+                OnWaveStart(wave);
+                endRoundTimer = 0f;
+                startRound = false;
+            }
+        }
 
         if (HelperFuntions.TimerGreaterThan(spawnTimer, timeBetweenSpawns) && canSpawn == true)
         {
@@ -89,19 +108,17 @@ public class DemonSpawner : MonoBehaviour
             {
                 spawnTimer = 0;
 
-                //if (maxDemonsToSpawn <= 0)
-                //{
-                //    canSpawn = false;
-                //    return;
-                //}
+                if (maxDemonsToSpawn <= 0)
+                {
+                    canSpawn = false;
+                    return;
+                }
 
                 int toSpawn = maxDemonsAtOnce - currentDemons;
                 if(toSpawn <= demonsToSpawnEachTick) { }
                 else { toSpawn = demonsToSpawnEachTick; }
 
                 if(maxDemonsToSpawn < toSpawn) { toSpawn = maxDemonsToSpawn; }
-
-                //Debug.Log("Amount of Demons To Spawn: " + toSpawn);
 
                 ActiveSpawners(player, baseSpawners, specialSpawners);
 
@@ -122,7 +139,7 @@ public class DemonSpawner : MonoBehaviour
                     }
 
                     // spawn using object poolers
-                    SpawnDemon(dt.Id, pos); // place holder spawn location
+                    SpawnDemon(dt.Id, pos);
                 }
             }
         }
@@ -191,6 +208,7 @@ public class DemonSpawner : MonoBehaviour
 
         AddListToQueue(DemonQueue, DemonsToSpawn);
 
+        startRound = false;
         canSpawn = true;
     }
 
@@ -198,6 +216,19 @@ public class DemonSpawner : MonoBehaviour
     {
         DemonQueue.Clear();
         canSpawn = false;
+        startRound = true;
+        endRound = false;
+    }
+
+    void Timers()
+    {
+        spawnTimer += Time.deltaTime;
+    }
+
+    void Bools()
+    {
+        if (maxDemonsToSpawn <= 0 && currentDemons <= 0 && startRound == false) endRound = true;
+        //else { endRound = false; }
     }
 
     #region Propterties
@@ -245,11 +276,6 @@ public class DemonSpawner : MonoBehaviour
         {
             q.Enqueue(item);
         }
-    }
-
-    void Timers()
-    {
-        spawnTimer += Time.deltaTime;
     }
 
     void AddChildrenToList(Transform parent, List<Transform> list)

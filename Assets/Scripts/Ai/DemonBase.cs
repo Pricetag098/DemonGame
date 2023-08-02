@@ -11,6 +11,9 @@ public class DemonBase : MonoBehaviour, IDemon
     [Header("Spawner")]
     [SerializeField] protected DemonSpawner _spawner;
 
+    [Header("Demon Type")]
+    [SerializeField] protected DemonType _type;
+
     [Header("BaseStats")]
     [SerializeField] protected float _baseDamage;
     [SerializeField] protected float _baseHealth;

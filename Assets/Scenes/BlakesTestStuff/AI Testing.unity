@@ -432,12 +432,13 @@ MonoBehaviour:
   currentRound: 20
   wave: {fileID: 11400000, guid: a7607fed6d8bd18458260716b056d7b1, type: 2}
   maxDemonsToSpawn: 0
-  maxDemonsAtOnce: 30
   currentDemons: 0
+  canSpawn: 1
+  maxDemonsAtOnce: 30
   maxSpawningDistance: 500
   timeBetweenSpawns: 5
   demonsToSpawnEachTick: 4
-  canSpawn: 1
+  minMax: {x: 25, y: 75}
   demonsToSpawn:
     serializedVersion: 2
     m_Curve:
@@ -497,6 +498,8 @@ MonoBehaviour:
   stalkerDemonPooler: {fileID: 797823054}
   choasDemonPooler: {fileID: 359785375}
   cultistDemonPooler: {fileID: 680613036}
+  test: []
+  test2: []
 --- !u!4 &930078329 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2081458984, guid: 605e7777b6e363040b68f76a7e212120, type: 3}

@@ -19,6 +19,9 @@ public class Holster : MonoBehaviour
     const int MaxGuns = 2;
     Gun[] guns = new Gun[MaxGuns];
 
+    public delegate void OnDealDamageAction(float amount);
+    public OnDealDamageAction OnDealDamage;
+
 	private void Start()
 	{
         input.action.performed += SwapGun;
@@ -63,9 +66,12 @@ public class Holster : MonoBehaviour
 		}
 	}
     
+    
     public void OnHit(float damage)
 	{
         abilityCaster.AddBlood(damage * HeldGun.bloodGainMulti * stats.bloodGainMulti);
+        if(OnDealDamage != null)
+        OnDealDamage(damage);
 	}
 
 	private void OnEnable()

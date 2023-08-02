@@ -208,7 +208,7 @@ public class Gun : MonoBehaviour
                 break;
             case GunStates.reloading:
                 reloadTimer += Time.deltaTime;
-                if (reloadTimer >= reloadDuration)
+                if (reloadTimer >= reloadDuration * holster.stats.reloadTimeMulti)
                 {
                     Reload();
                 }

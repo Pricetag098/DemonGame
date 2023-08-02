@@ -16,7 +16,7 @@ namespace Movement
 		Rigidbody rb;
 		[SerializeField] CapsuleCollider standingCollider, crouchedCollider;
 
-
+		public bool canSprintAndShoot = false;
 		[Header("InputActions")]
 		[SerializeField] InputActionProperty moveAction;
 		[SerializeField] InputActionProperty sprintAction;
@@ -221,7 +221,7 @@ namespace Movement
 					break;
 				case MoveStates.run:
 					SetCollider(0);
-					if (!sprintAction.action.IsPressed() || inputDir.y <= 0 || fireAction.action.IsPressed())
+					if (!sprintAction.action.IsPressed() || inputDir.y <= 0 || (fireAction.action.IsPressed() && !canSprintAndShoot))
 					{
 						moveState = MoveStates.walk;
 						lastCamPos = cam.localPosition;

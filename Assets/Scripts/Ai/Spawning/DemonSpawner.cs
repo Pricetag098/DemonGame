@@ -55,8 +55,7 @@ public class DemonSpawner : MonoBehaviour
 
     private Dictionary<DemonID, ObjectPooler> demonPoolers = new Dictionary<DemonID, ObjectPooler>();
 
-    private Queue<DemonID> DemonQueue = new Queue<DemonID>();
-    private Queue<DemonType> DemonQueue2 = new Queue<DemonType>();
+    private Queue<DemonType> DemonQueue = new Queue<DemonType>();
 
     private void Awake()
     {
@@ -65,12 +64,6 @@ public class DemonSpawner : MonoBehaviour
         demonPoolers.Add(DemonID.Stalker, stalkerDemonPooler);
         demonPoolers.Add(DemonID.Chaos, choasDemonPooler);
         demonPoolers.Add(DemonID.Cultist, cultistDemonPooler);
-
-        for (int i = 0; i < 200; i++)
-        {
-            DemonQueue.Enqueue(DemonID.Base);
-        }
-
     }
 
     private void Start()
@@ -114,19 +107,26 @@ public class DemonSpawner : MonoBehaviour
 
                 for (int i = 0; i < toSpawn; i++)
                 {
-                    // logic for getting which spawner
-                    int temp = Random.Range(0, baseActiveSpawners.Count);
-                    Vector3 pos = baseActiveSpawners[temp].position;
+                    DemonType dt = DemonQueue.Dequeue();
+                    Vector3 pos = Vector3.zero;
+
+                    if (dt.SpawnType == SpawnType.Basic)
+                    {
+                        int temp = Random.Range(0, baseActiveSpawners.Count);
+                        pos = baseActiveSpawners[temp].position;
+                    }
+                    else if(dt.SpawnType == SpawnType.Special)
+                    {
+                        int temp = Random.Range(0, specialActiveSpawners.Count);
+                        pos = specialActiveSpawners[temp].position;
+                    }
 
                     // spawn using object poolers
-                    SpawnDemon(DemonQueue.Dequeue(), pos); // place holder spawn location
+                    SpawnDemon(dt.Id, pos); // place holder spawn location
                 }
             }
         }
     }
-
-    public List<DemonType> test = new List<DemonType>();
-    public List<DemonType> test2 = new List<DemonType>();
 
     void OnWaveStart(Wave currentwave)
     {
@@ -136,7 +136,6 @@ public class DemonSpawner : MonoBehaviour
         maxDemonsToSpawn = (int)demonsToSpawn.Evaluate(currentRound);
         demonsToSpawnEachTick = (int)spawnsEachTick.Evaluate(currentRound);
 
-        // create and set the demon queue
         _base = Mathf.RoundToInt(GetDemonSpawnChance(wave.Base.Percentage, maxDemonsToSpawn));
         _Summoner = Mathf.RoundToInt(GetDemonSpawnChance(wave.Summoner.Percentage, maxDemonsToSpawn));
         _stalker = Mathf.RoundToInt(GetDemonSpawnChance(wave.Stalker.Percentage, maxDemonsToSpawn));
@@ -144,56 +143,53 @@ public class DemonSpawner : MonoBehaviour
 
         int temp = maxDemonsToSpawn;
 
-        List<DemonType> baseDemonTypes = new List<DemonType>();
+        List<DemonType> DemonsToSpawn = new List<DemonType>();
         List<DemonType> specialDemonTypes = new List<DemonType>();
 
         for (int i = 0; i < _base; i++)
         {
-            test.Add(wave.Base);
+            DemonsToSpawn.Add(wave.Base);
         }
 
         temp -= _base;
 
         for (int i = 0; i < _Summoner; i++)
         {
-            test2.Add(wave.Summoner);
+            specialDemonTypes.Add(wave.Summoner);
         }
 
         temp -= _Summoner;
 
         for (int i = 0; i < _stalker; i++)
         {
-            test2.Add(wave.Stalker);
+            specialDemonTypes.Add(wave.Stalker);
         }
 
         temp -= _stalker;
 
         for (int i = 0; i < _choas; i++)
         {
-            test2.Add(wave.Summoner);
+            specialDemonTypes.Add(wave.Summoner);
         }
 
         temp -= _choas;
         maxDemonsToSpawn -= temp;
 
-        HelperFuntions.ShuffleList(test2); // shuffles the special demon list
+        specialDemonTypes = HelperFuntions.ShuffleList(specialDemonTypes); // shuffles the special demon list
 
-        // add special demon list to the baseDemonList
         int listSize = specialDemonTypes.Count;
 
         for (int i = 0; i < listSize; i++)
         {
             // calculate at what position to add demon
-            int min = Mathf.RoundToInt(GetDemonSpawnChance(minMax.x, test.Count));
-            int max = Mathf.RoundToInt(GetDemonSpawnChance(minMax.y, test.Count));
+            int min = Mathf.RoundToInt(GetDemonSpawnChance(minMax.x, DemonsToSpawn.Count));
+            int max = Mathf.RoundToInt(GetDemonSpawnChance(minMax.x, minMax.y));
             int index = Random.Range(min, max);
 
-            test.Insert(index, test2[i]);
+            DemonsToSpawn.Insert(index, specialDemonTypes[i]);
         }
 
-        // add list of demons to the queue
-        // once list has been shuffled and arranged
-        AddListToQueue(DemonQueue2, baseDemonTypes);
+        AddListToQueue(DemonQueue, DemonsToSpawn);
 
         canSpawn = true;
     }
@@ -250,8 +246,6 @@ public class DemonSpawner : MonoBehaviour
             q.Enqueue(item);
         }
     }
-
-    
 
     void Timers()
     {

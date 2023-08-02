@@ -13,6 +13,9 @@ public class Wave : ScriptableObject
     [Header("Boss Wave")]
     public bool BossWave;
 
+    [Header("Wave id")]
+    public int Round;
+
     [Header("Demons")]
     public DemonType Base;
     public DemonType Summoner;

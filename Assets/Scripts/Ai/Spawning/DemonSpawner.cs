@@ -10,6 +10,11 @@ public class DemonSpawner : MonoBehaviour
     [Header("Wave")]
     public int currentRound;
     [SerializeField] Wave wave;
+    [SerializeField] Wave BaseWave;
+    [SerializeField] Wave BossWave;
+    [SerializeField] List<Wave> waves = new List<Wave>();
+
+    private Wave[] WavesContainer = new Wave[101];
 
     [Header("Display Stats")]
     [SerializeField] int maxDemonsToSpawn;
@@ -76,9 +81,11 @@ public class DemonSpawner : MonoBehaviour
         AddChildrenToList(baseSpawner, baseSpawners);
         AddChildrenToList(SpecialSpawner, specialSpawners);
 
+        SetWaves(waves);
+
         ActiveSpawners(player, baseSpawners, specialSpawners);
 
-        OnWaveStart(wave);
+        OnWaveStart();
     }
 
     private void Update()
@@ -96,7 +103,7 @@ public class DemonSpawner : MonoBehaviour
             endRoundTimer += Time.deltaTime;
             if(HelperFuntions.TimerGreaterThan(endRoundTimer, timeBetweenRounds))
             {
-                OnWaveStart(wave);
+                OnWaveStart();
                 endRoundTimer = 0f;
                 startRound = false;
             }
@@ -145,10 +152,9 @@ public class DemonSpawner : MonoBehaviour
         }
     }
 
-    void OnWaveStart(Wave currentwave)
+    void OnWaveStart()
     {
-        wave = currentwave;
-        currentRound++;
+        wave = GetWave(currentRound);
 
         maxDemonsToSpawn = (int)demonsToSpawn.Evaluate(currentRound);
         demonsToSpawnEachTick = (int)spawnsEachTick.Evaluate(currentRound);
@@ -199,14 +205,19 @@ public class DemonSpawner : MonoBehaviour
         for (int i = 0; i < listSize; i++)
         {
             // calculate at what position to add demon
-            int min = Mathf.RoundToInt(GetDemonSpawnChance(minMax.x, DemonsToSpawn.Count));
-            int max = Mathf.RoundToInt(GetDemonSpawnChance(minMax.x, minMax.y));
-            int index = Random.Range(min, max);
+            int index = Mathf.RoundToInt(GetRandomIndexBetweenMinMax(minMax.x, minMax.y, maxDemonsToSpawn));
 
             DemonsToSpawn.Insert(index, specialDemonTypes[i]);
         }
 
+        if(wave.BossWave == true) // add boss at 10% way through
+
         AddListToQueue(DemonQueue, DemonsToSpawn);
+
+        foreach(DemonType d in DemonQueue)
+        {
+            Debug.Log(d.Id);
+        }
 
         startRound = false;
         canSpawn = true;
@@ -215,6 +226,7 @@ public class DemonSpawner : MonoBehaviour
     void OnWaveEnd()
     {
         DemonQueue.Clear();
+        currentRound++;
         canSpawn = false;
         startRound = true;
         endRound = false;
@@ -228,7 +240,42 @@ public class DemonSpawner : MonoBehaviour
     void Bools()
     {
         if (maxDemonsToSpawn <= 0 && currentDemons <= 0 && startRound == false) endRound = true;
-        //else { endRound = false; }
+    }
+
+    void SetWaves(List<Wave> list)
+    {
+        foreach(Wave w in list)
+        {
+            if(w.Round != 0)
+            {
+                WavesContainer[w.Round] = w;
+            }
+        }
+
+        int count = WavesContainer.Length;
+
+        for (int i = 0; i < count; i++)
+        {
+            if(i % 5 == 0 && i != 5)
+            {
+                WavesContainer[i] = BossWave;
+            }
+        }
+
+
+        for (int i = 0; i < count; i++) // set all left over rounds as base rounds
+        {
+            if (WavesContainer[i] == null)
+            {
+                WavesContainer[i] = BaseWave;
+            }
+        }
+    }
+
+    Wave GetWave(int currentRound)
+    {
+       if (currentRound > WavesContainer.Length) return wave = BaseWave;
+       return wave = WavesContainer[currentRound];
     }
 
     #region Propterties
@@ -268,6 +315,14 @@ public class DemonSpawner : MonoBehaviour
     float GetDemonSpawnChance(float percentage, int maxDemons)
     {
         return (percentage / 100) * maxDemons;
+    }
+
+    float GetRandomIndexBetweenMinMax(float minPercent, float maxPercent, float total)
+    {
+        float min = (minPercent / 100) * total;
+        float max = (maxPercent / 100) * total;
+
+        return Random.Range(min, max);
     }
 
     void AddListToQueue(Queue<DemonType> q, List<DemonType> list)

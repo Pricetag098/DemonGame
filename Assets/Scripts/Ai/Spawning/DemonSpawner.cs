@@ -205,14 +205,17 @@ public class DemonSpawner : MonoBehaviour
         for (int i = 0; i < listSize; i++)
         {
             // calculate at what position to add demon
-            int index = Mathf.RoundToInt(GetRandomIndexBetweenMinMax(minMax.x, minMax.y, maxDemonsToSpawn));
+            int index = Mathf.RoundToInt(GetRandomIndexBetweenMinMax(minMax.x, minMax.y, maxDemonsToSpawn)) - 1;
 
             DemonsToSpawn.Insert(index, specialDemonTypes[i]);
         }
 
         if(wave.BossWave == true) // add boss at 10% way through
+        {
 
-        AddListToQueue(DemonQueue, DemonsToSpawn);
+        }
+
+        DemonQueue = AddListToQueue(DemonQueue, DemonsToSpawn);
 
         foreach(DemonType d in DemonQueue)
         {
@@ -325,12 +328,14 @@ public class DemonSpawner : MonoBehaviour
         return Random.Range(min, max);
     }
 
-    void AddListToQueue(Queue<DemonType> q, List<DemonType> list)
+    Queue<DemonType> AddListToQueue(Queue<DemonType> q, List<DemonType> list)
     {
         foreach(DemonType item in list) 
         {
             q.Enqueue(item);
         }
+
+        return q;
     }
 
     void AddChildrenToList(Transform parent, List<Transform> list)

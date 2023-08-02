@@ -11,7 +11,7 @@ public class PerkBuy : ShopInteractable
 	{
 		perkManager.AddPerk(Instantiate(perk));
 	}
-
+	
 	protected override bool CanBuy()
 	{
 		return !perkManager.HasPerk(perk);

@@ -365,6 +365,8 @@ GameObject:
   - component: {fileID: 7993373105473173447}
   - component: {fileID: 1939894390265207123}
   - component: {fileID: 5051605694942058646}
+  - component: {fileID: 5858707596002619737}
+  - component: {fileID: 8339324333281444828}
   - component: {fileID: 3899720132604462813}
   - component: {fileID: 3899720132604462812}
   - component: {fileID: 4828313314159770983}
@@ -453,12 +455,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageMulti: 1
+  reloadTimeMulti: 1
   speedMulti: 1
   accelerationMulti: 1
   healthMulti: 1
   regenMulti: 1
   bloodGainMulti: 1
   points: 0
+--- !u!114 &5858707596002619737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3899720132604462811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fc48f5f2ce27fe47b0fbe4c8e5c6aa6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  perkList: []
+--- !u!114 &8339324333281444828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3899720132604462811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92e3e2a29ca31b74292024e792c15860, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  maxHealth: 100
 --- !u!114 &3899720132604462813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -478,6 +508,7 @@ MonoBehaviour:
   moveState: 0
   standingCollider: {fileID: 3899720133823062389}
   crouchedCollider: {fileID: 3899720133021509131}
+  canSprintAndShoot: 0
   moveAction:
     m_UseReference: 1
     m_Action:

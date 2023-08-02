@@ -22,6 +22,8 @@ public class PerkManager : MonoBehaviour
 	{
         if (perkList.Contains(perk))
             return;
+        Debug.Log(perk);
+        perk.Equip(this);
         perkList.Add(perk);
 	}
 
@@ -58,6 +60,7 @@ public class PerkManager : MonoBehaviour
 
 	private void OnDestroy()
 	{
+        if(GetComponent<Health>()!=null)
         GetComponent<Health>().OnDeath -= ClearPerks;
         ClearPerks();
 	}

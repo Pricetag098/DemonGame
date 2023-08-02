@@ -22,7 +22,7 @@ public class PerkManager : MonoBehaviour
 	{
         if (perkList.Contains(perk))
             return;
-        Debug.Log(perk);
+        Debug.Log(perk.GetType());
         perk.Equip(this);
         perkList.Add(perk);
 	}
@@ -52,7 +52,7 @@ public class PerkManager : MonoBehaviour
 	{
         foreach(Perk p in perkList)
 		{
-            if(p.perkName == perk.perkName)
+            if(p.GetType() == perk.GetType())
                 return true;
 		}
         return false;

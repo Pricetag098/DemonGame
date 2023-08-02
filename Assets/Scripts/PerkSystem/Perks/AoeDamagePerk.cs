@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Perks/BloodGain")]
+[CreateAssetMenu(menuName = "Perks/AoeDamage")]
 public class AoeDamagePerk : Perk
 {
 	[SerializeField] float decayRate;

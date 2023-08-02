@@ -11,15 +11,17 @@ public class DemonSpawner : MonoBehaviour
     public int currentRound;
     [SerializeField] Wave wave;
 
-    [Header("Spawning Stats")]
+    [Header("Display Stats")]
     [SerializeField] int maxDemonsToSpawn;
-    [SerializeField] int maxDemonsAtOnce;
     [SerializeField] int currentDemons;
+
+    [Header("Spawning Stats")]
+    [SerializeField] bool canSpawn;
+    [SerializeField] int maxDemonsAtOnce;
     [SerializeField] float maxSpawningDistance;
     [SerializeField] float timeBetweenSpawns;
     [SerializeField] int demonsToSpawnEachTick;
-
-    [SerializeField] bool canSpawn;
+    [SerializeField] Vector2Int minMax;
 
     [Header("Animation Curves")]
     [SerializeField] AnimationCurve demonsToSpawn;
@@ -49,12 +51,12 @@ public class DemonSpawner : MonoBehaviour
     private int _cultist;
 
     [Header("Timers")]
-    float spawnTimer;
+    private float spawnTimer;
 
     private Dictionary<DemonID, ObjectPooler> demonPoolers = new Dictionary<DemonID, ObjectPooler>();
 
     private Queue<DemonID> DemonQueue = new Queue<DemonID>();
-    private Queue<Demon> DemonQueue2 = new Queue<Demon>();
+    private Queue<DemonType> DemonQueue2 = new Queue<DemonType>();
 
     private void Awake()
     {
@@ -78,8 +80,7 @@ public class DemonSpawner : MonoBehaviour
 
         ActiveSpawners(player, baseSpawners, specialSpawners);
 
-        maxDemonsToSpawn = (int)demonsToSpawn.Evaluate(currentRound);
-        demonsToSpawnEachTick = (int)spawnsEachTick.Evaluate(currentRound);
+        OnWaveStart(wave);
     }
 
     private void Update()
@@ -95,11 +96,11 @@ public class DemonSpawner : MonoBehaviour
             {
                 spawnTimer = 0;
 
-                if (maxDemonsToSpawn <= 0)
-                {
-                    canSpawn = false;
-                    return;
-                }
+                //if (maxDemonsToSpawn <= 0)
+                //{
+                //    canSpawn = false;
+                //    return;
+                //}
 
                 int toSpawn = maxDemonsAtOnce - currentDemons;
                 if(toSpawn <= demonsToSpawnEachTick) { }
@@ -123,23 +124,76 @@ public class DemonSpawner : MonoBehaviour
             }
         }
     }
+
+    public List<DemonType> test = new List<DemonType>();
+    public List<DemonType> test2 = new List<DemonType>();
+
     void OnWaveStart(Wave currentwave)
     {
         wave = currentwave;
         currentRound++;
 
-        maxDemonsAtOnce = (int)demonsToSpawn.Evaluate(currentRound);
+        maxDemonsToSpawn = (int)demonsToSpawn.Evaluate(currentRound);
         demonsToSpawnEachTick = (int)spawnsEachTick.Evaluate(currentRound);
 
         // create and set the demon queue
-        _base = Mathf.FloorToInt(GetDemonSpawnChance(wave.Base.Amount, maxDemonsToSpawn));
-        _Summoner = Mathf.FloorToInt(GetDemonSpawnChance(wave.Summoner.Amount, maxDemonsToSpawn));
-        _stalker = Mathf.FloorToInt(GetDemonSpawnChance(wave.Stalker.Amount, maxDemonsToSpawn));
-        _choas = Mathf.FloorToInt(GetDemonSpawnChance(wave.Choas.Amount, maxDemonsToSpawn));
-        _cultist = Mathf.FloorToInt(GetDemonSpawnChance(wave.Cultist.Amount, maxDemonsToSpawn));
+        _base = Mathf.RoundToInt(GetDemonSpawnChance(wave.Base.Percentage, maxDemonsToSpawn));
+        _Summoner = Mathf.RoundToInt(GetDemonSpawnChance(wave.Summoner.Percentage, maxDemonsToSpawn));
+        _stalker = Mathf.RoundToInt(GetDemonSpawnChance(wave.Stalker.Percentage, maxDemonsToSpawn));
+        _choas = Mathf.RoundToInt(GetDemonSpawnChance(wave.Choas.Percentage, maxDemonsToSpawn));
 
+        int temp = maxDemonsToSpawn;
 
+        List<DemonType> baseDemonTypes = new List<DemonType>();
+        List<DemonType> specialDemonTypes = new List<DemonType>();
 
+        for (int i = 0; i < _base; i++)
+        {
+            test.Add(wave.Base);
+        }
+
+        temp -= _base;
+
+        for (int i = 0; i < _Summoner; i++)
+        {
+            test2.Add(wave.Summoner);
+        }
+
+        temp -= _Summoner;
+
+        for (int i = 0; i < _stalker; i++)
+        {
+            test2.Add(wave.Stalker);
+        }
+
+        temp -= _stalker;
+
+        for (int i = 0; i < _choas; i++)
+        {
+            test2.Add(wave.Summoner);
+        }
+
+        temp -= _choas;
+        maxDemonsToSpawn -= temp;
+
+        HelperFuntions.ShuffleList(test2); // shuffles the special demon list
+
+        // add special demon list to the baseDemonList
+        int listSize = specialDemonTypes.Count;
+
+        for (int i = 0; i < listSize; i++)
+        {
+            // calculate at what position to add demon
+            int min = Mathf.RoundToInt(GetDemonSpawnChance(minMax.x, test.Count));
+            int max = Mathf.RoundToInt(GetDemonSpawnChance(minMax.y, test.Count));
+            int index = Random.Range(min, max);
+
+            test.Insert(index, test2[i]);
+        }
+
+        // add list of demons to the queue
+        // once list has been shuffled and arranged
+        AddListToQueue(DemonQueue2, baseDemonTypes);
 
         canSpawn = true;
     }
@@ -189,23 +243,9 @@ public class DemonSpawner : MonoBehaviour
         return (percentage / 100) * maxDemons;
     }
 
-    //int GetDemonSpawnChance(float min, float max) // calculates each types spawn chance
-    //{
-    //    float chance = Random.Range(min, max);
-
-    //    if(chance > 0)
-    //    {
-    //        float spawnFloat = 0;
-    //        spawnFloat = maxDemonsToSpawn * chance;
-    //        return Mathf.FloorToInt(spawnFloat);
-    //    }
-
-    //    return 0;
-    //}
-
-    void AddListToQueue(Queue q, List<DemonID> list)
+    void AddListToQueue(Queue<DemonType> q, List<DemonType> list)
     {
-        foreach(DemonID item in list) 
+        foreach(DemonType item in list) 
         {
             q.Enqueue(item);
         }

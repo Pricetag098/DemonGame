@@ -332,7 +332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df5b4a59829e3604b874842283b3d83f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabToPool: {fileID: 0}
+  prefabToPool: {fileID: 945232076521600294, guid: 84ae506706de99246b0e975578c9f1dc, type: 3}
   poolSize: 1
   autoRefillPool: 0
   poolContainer: {fileID: 680613035}
@@ -429,10 +429,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1628965437}
-  currentRound: 1
+  currentRound: 10
   wave: {fileID: 0}
   BaseWave: {fileID: 11400000, guid: 015fc906b1610234d983b5748dc5f6f0, type: 2}
-  BossWave: {fileID: 11400000, guid: 015fc906b1610234d983b5748dc5f6f0, type: 2}
+  BossWave: {fileID: 11400000, guid: 519c888fbfeec2a49a516f3b8b41db46, type: 2}
   waves:
   - {fileID: 11400000, guid: a7607fed6d8bd18458260716b056d7b1, type: 2}
   - {fileID: 11400000, guid: f18ab071e3fa1474fa6e78c7566d0393, type: 2}
@@ -443,10 +443,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ec47bd969c0d86f4dac6f8fd59e223ca, type: 2}
   - {fileID: 11400000, guid: 61cc772e02f4a77448b7be3328878e60, type: 2}
   - {fileID: 11400000, guid: 8e65b517b4321984e862f597bf71a6fe, type: 2}
+  BossWaveIncrement: 5
   maxDemonsToSpawn: 0
   currentDemons: 0
   canSpawn: 1
-  maxDemonsAtOnce: 30
+  maxDemonsAtOnce: 150
   maxSpawningDistance: 500
   timeBetweenSpawns: 5
   timeBetweenRounds: 5
@@ -482,8 +483,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0.01033783
-      value: 6.155243
+      time: 0.012722015
+      value: 4.0119667
       inSlope: 0
       outSlope: 0
       tangentMode: 0

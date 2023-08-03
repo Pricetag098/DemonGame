@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DemonCum;
+using System.Reflection;
 
 public class DemonSpawner : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class DemonSpawner : MonoBehaviour
     [SerializeField] Wave BaseWave;
     [SerializeField] Wave BossWave;
     [SerializeField] List<Wave> waves = new List<Wave>();
+
+    [SerializeField] int BossWaveIncrement;
 
     private Wave[] WavesContainer = new Wave[101];
 
@@ -57,7 +60,6 @@ public class DemonSpawner : MonoBehaviour
     private int _Summoner;
     private int _stalker;
     private int _choas;
-    private int _cultist;
 
     [Header("Timers")]
     private float spawnTimer;
@@ -202,28 +204,45 @@ public class DemonSpawner : MonoBehaviour
 
         int listSize = specialDemonTypes.Count;
 
+        ClearLog();
+
         for (int i = 0; i < listSize; i++)
         {
             // calculate at what position to add demon
-            int index = Mathf.RoundToInt(GetRandomIndexBetweenMinMax(minMax.x, minMax.y, maxDemonsToSpawn)) - 1;
+            int index = Mathf.RoundToInt(GetRandomIndexBetweenMinMax(minMax.x, minMax.y, DemonsToSpawn.Count));
+
+            Debug.Log("Index to add: " + index + " Max Size is: " + DemonsToSpawn.Count);
 
             DemonsToSpawn.Insert(index, specialDemonTypes[i]);
         }
 
         if(wave.BossWave == true) // add boss at 10% way through
         {
+            // calculate at what position to add demon
+            int index = GetSpawnIndex(40, maxDemonsToSpawn);
 
+            DemonsToSpawn.Insert(index, wave.Cultist);
+
+            maxDemonsToSpawn++;
         }
 
         DemonQueue = AddListToQueue(DemonQueue, DemonsToSpawn);
 
-        foreach(DemonType d in DemonQueue)
-        {
-            Debug.Log(d.Id);
-        }
+        //foreach(DemonType d in DemonQueue)
+        //{
+        //    Debug.Log(d.Id);
+        //}
 
         startRound = false;
         canSpawn = true;
+    }
+
+    public void ClearLog()
+    {
+        var assembly = Assembly.GetAssembly(typeof(UnityEditor.Editor));
+        var type = assembly.GetType("UnityEditor.LogEntries");
+        var method = type.GetMethod("Clear");
+        method.Invoke(new object(), null);
     }
 
     void OnWaveEnd()
@@ -259,7 +278,7 @@ public class DemonSpawner : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
-            if(i % 5 == 0 && i != 5)
+            if(i % BossWaveIncrement == 0 && i != 5)
             {
                 WavesContainer[i] = BossWave;
             }
@@ -318,6 +337,11 @@ public class DemonSpawner : MonoBehaviour
     float GetDemonSpawnChance(float percentage, int maxDemons)
     {
         return (percentage / 100) * maxDemons;
+    }
+
+    int GetSpawnIndex(float percentage, int total)
+    {
+        return Mathf.RoundToInt((percentage / 100) * total);
     }
 
     float GetRandomIndexBetweenMinMax(float minPercent, float maxPercent, float total)

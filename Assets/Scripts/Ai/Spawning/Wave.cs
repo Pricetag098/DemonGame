@@ -18,8 +18,13 @@ public class Wave : ScriptableObject
 
     [Header("Demons")]
     public DemonType Base;
+    public float BasePercentage;
     public DemonType Summoner;
+    public float SummonerPercentage;
     public DemonType Stalker;
+    public float StalkerPercentage;
     public DemonType Choas;
+    public float ChoasPercentage;
     public DemonType Cultist;
+    public float Amount;
 }

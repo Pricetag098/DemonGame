@@ -5,7 +5,7 @@ using UnityEngine;
 public class Health : MonoBehaviour
 {
     public float health;
-    public float maxHealth = 100;
+    public float maxHealth;
 
     public delegate void Action();
     public Action OnDeath;
@@ -23,7 +23,7 @@ public class Health : MonoBehaviour
     }
     public void TakeDmg(float dmg)
     {
-        health = Mathf.Clamp(health -dmg,0,maxHealth);
+        health = Mathf.Clamp(health -dmg, 0, maxHealth);
         if(OnHit != null)
         OnHit();
         if(health <= 0)

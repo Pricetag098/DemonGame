@@ -9,5 +9,4 @@ public class DemonType
 {
     public DemonID Id;
     public SpawnType SpawnType;
-    public float Percentage;
 }

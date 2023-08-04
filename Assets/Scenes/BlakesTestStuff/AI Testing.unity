@@ -433,25 +433,16 @@ MonoBehaviour:
   wave: {fileID: 0}
   BaseWave: {fileID: 11400000, guid: 015fc906b1610234d983b5748dc5f6f0, type: 2}
   BossWave: {fileID: 11400000, guid: 519c888fbfeec2a49a516f3b8b41db46, type: 2}
-  waves:
-  - {fileID: 11400000, guid: a7607fed6d8bd18458260716b056d7b1, type: 2}
-  - {fileID: 11400000, guid: f18ab071e3fa1474fa6e78c7566d0393, type: 2}
-  - {fileID: 11400000, guid: 84f773f4615c77d429dec1031d56755c, type: 2}
-  - {fileID: 11400000, guid: 0a75686664de054439115c99fb009261, type: 2}
-  - {fileID: 11400000, guid: 1b111a8340349e6428e616ff2f29a808, type: 2}
-  - {fileID: 11400000, guid: d20a45650bdad6941970aceda0240bd2, type: 2}
-  - {fileID: 11400000, guid: ec47bd969c0d86f4dac6f8fd59e223ca, type: 2}
-  - {fileID: 11400000, guid: 61cc772e02f4a77448b7be3328878e60, type: 2}
-  - {fileID: 11400000, guid: 8e65b517b4321984e862f597bf71a6fe, type: 2}
+  waves: []
   BossWaveIncrement: 5
   maxDemonsToSpawn: 0
   currentDemons: 0
   canSpawn: 1
-  maxDemonsAtOnce: 150
+  maxDemonsAtOnce: 1
   maxSpawningDistance: 500
-  timeBetweenSpawns: 5
-  timeBetweenRounds: 5
-  demonsToSpawnEachTick: 4
+  timeBetweenSpawns: 2
+  timeBetweenRounds: 2
+  demonsToSpawnEachTick: 1
   minMax: {x: 25, y: 75}
   endRound: 0
   startRound: 0
@@ -483,8 +474,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0.012722015
-      value: 4.0119667
+      time: 1.0615387
+      value: 1.2106361
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -604,6 +595,10 @@ PrefabInstance:
     - target: {fileID: 5799364791294578890, guid: 9f23ce66e174b6640a4a39c3e15e821b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5799364791294578891, guid: 9f23ce66e174b6640a4a39c3e15e821b, type: 3}
+      propertyPath: stash
+      value: 500000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f23ce66e174b6640a4a39c3e15e821b, type: 3}
@@ -1072,8 +1067,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df5b4a59829e3604b874842283b3d83f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabToPool: {fileID: 945232076521600294, guid: f2e4019130e3af840b32496fb0b1e9ba, type: 3}
-  poolSize: 50
+  prefabToPool: {fileID: 5968651826990037895, guid: 98f06aaeabc011d479f5f6120bac5ae5, type: 3}
+  poolSize: 1
   autoRefillPool: 1
   poolContainer: {fileID: 1763640106}
 --- !u!1001 &1781136061

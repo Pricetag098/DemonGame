@@ -40,6 +40,8 @@ public class DemonBase : MonoBehaviour, IDemon
     protected Health _health;
     protected PooledObject _pooledObject;
 
+    private int currentUpdatedRound = -1;
+
     private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
@@ -98,11 +100,16 @@ public class DemonBase : MonoBehaviour, IDemon
     }
     public void CalculateStats(int round)
     {
-        _damage = _damageCurve.Evaluate(round) + _baseDamage;
-        _maxHealth = _maxHealthCurve.Evaluate(round) + _baseHealth;
-        //_moveSpeed = _moveSpeedCurve.Evaluate(round) + _baseMoveSpeed;
+        if(round != currentUpdatedRound)
+        {
+            _damage = _damageCurve.Evaluate(round) + _baseDamage;
+            _maxHealth = _maxHealthCurve.Evaluate(round) + _baseHealth;
+            //_moveSpeed = _moveSpeedCurve.Evaluate(round) + _baseMoveSpeed;
 
-        _agent.speed = _moveSpeed;
+            _agent.speed = _moveSpeed;
+
+            currentUpdatedRound = round;
+        }
     }
     public void StopPathing()
     {

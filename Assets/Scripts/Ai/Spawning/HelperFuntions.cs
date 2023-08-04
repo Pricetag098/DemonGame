@@ -18,4 +18,25 @@ public static class HelperFuntions
 
         return newShuffledList;
     }
+    public static List<T> AddToList<T>(List<T> originlist, List<T> itemsToAdd)
+    {
+        List<T> list = new List<T>(originlist);
+
+        foreach(T item in itemsToAdd)
+        {
+            list.Add(item);
+        }
+
+        return list;
+    }
+
+    public static bool TimerGreaterThan(float timer, float tick)
+    {
+        return timer > tick;
+    }
+
+    public static bool IntGreaterThanOrEqual(int int1, int int2)
+    {
+        return int1 >= int2;
+    }
 }

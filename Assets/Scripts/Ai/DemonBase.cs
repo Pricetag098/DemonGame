@@ -8,6 +8,12 @@ public class DemonBase : MonoBehaviour, IDemon
     [Header("Target")]
     [SerializeField] protected Transform _target;
 
+    [Header("Spawner")]
+    [SerializeField] protected DemonSpawner _spawner;
+
+    [Header("Demon Type")]
+    [SerializeField] protected DemonType _type;
+
     [Header("BaseStats")]
     [SerializeField] protected float _baseDamage;
     [SerializeField] protected float _baseHealth;
@@ -32,18 +38,21 @@ public class DemonBase : MonoBehaviour, IDemon
     protected NavMeshPath _currentPath;
 
     protected Health _health;
-    protected ObjectPooler _pooler;
+    protected PooledObject _pooledObject;
+
+    private int currentUpdatedRound = -1;
 
     private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
         _health = GetComponent<Health>();
-        _pooler = GetComponentInParent<ObjectPooler>();
+        _spawner = FindObjectOfType<DemonSpawner>();
     }
 
     private void Start()
     {
         Setup();
+        _pooledObject = GetComponent<PooledObject>();
     }
     private void Update()
     {
@@ -86,14 +95,21 @@ public class DemonBase : MonoBehaviour, IDemon
         _agent.CalculatePath(targetPos.position, path);
 
         _agent.SetPath(path);
+
+        _target = targetPos;
     }
     public void CalculateStats(int round)
     {
-        _damage = _damageCurve.Evaluate(round) + _baseDamage;
-        _maxHealth = _maxHealthCurve.Evaluate(round) + _baseHealth;
-        _moveSpeed = _moveSpeedCurve.Evaluate(round) + _baseMoveSpeed;
+        if(round != currentUpdatedRound)
+        {
+            _damage = _damageCurve.Evaluate(round) + _baseDamage;
+            _maxHealth = _maxHealthCurve.Evaluate(round) + _baseHealth;
+            //_moveSpeed = _moveSpeedCurve.Evaluate(round) + _baseMoveSpeed;
 
-        _agent.speed = _moveSpeed;
+            _agent.speed = _moveSpeed;
+
+            currentUpdatedRound = round;
+        }
     }
     public void StopPathing()
     {
@@ -156,10 +172,6 @@ public class DemonBase : MonoBehaviour, IDemon
     public void SetDamage(float amount)
     {
         _damage = amount;
-    }
-    public void TakeDamage(float amount)
-    {
-        _health.health -= amount;
     }
     #endregion
 }

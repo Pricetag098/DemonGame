@@ -6,13 +6,11 @@ using UnityEngine.AI;
 
 public class BasicDemon : DemonBase
 {
-    [Header("Demon")]
-    [SerializeField] int wave;
 
     public override void Setup()
     {
-        CalculateStats(wave);
-        CalculateAndSetPath(_target);
+        _health.OnDeath += OnDeath;
+        _health.OnHit += OnHit;
         _agent.stoppingDistance = _stoppingDistance;
     }
     public override void Tick()
@@ -25,23 +23,15 @@ public class BasicDemon : DemonBase
     }
     public override void OnSpawn(Transform target)
     {
-        CalculateStats(wave);
+        CalculateStats(_spawner.currentRound);
         CalculateAndSetPath(target);
 
-        _target = target;
         _health.health = _maxHealth;
-        _calculatePath = true;
-
-        _health.OnDeath += OnDeath;
-        _health.OnHit += OnHit;
-
-        Debug.Log("this has been spawned");
     }
     public override void OnDeath() // add back to pool of demon type
     {
-        _health.OnDeath -= OnDeath;
-        _health.OnHit -= OnHit;
-        _pooler.Despawn(GetComponent<PooledObject>());
+        _pooledObject.Despawn();
+        _spawner.DemonKilled();
     }
     public override void OnBuff()
     {
@@ -49,7 +39,7 @@ public class BasicDemon : DemonBase
     }
     public override void OnHit()
     {
-        
+        // do hit stuff
     }
 
     public override void PathFinding()

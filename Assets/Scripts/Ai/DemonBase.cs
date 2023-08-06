@@ -22,7 +22,7 @@ public class DemonBase : MonoBehaviour, IDemon
     [Header("Stats")]
     [SerializeField] protected float _damage;
     [SerializeField] protected float _moveSpeed;
-    [SerializeField] protected float _maxHealth;
+    //[SerializeField] protected float _maxHealth;
     [SerializeField] protected float _attackSpeed;
     [SerializeField] protected float _attackRange;
     [SerializeField] protected float _stoppingDistance;
@@ -40,7 +40,7 @@ public class DemonBase : MonoBehaviour, IDemon
     protected Health _health;
     protected PooledObject _pooledObject;
 
-    private int currentUpdatedRound = -1;
+    protected int _currentUpdatedRound = 1;
 
     private void Awake()
     {
@@ -62,11 +62,22 @@ public class DemonBase : MonoBehaviour, IDemon
     public virtual void Setup() { }
     public virtual void Tick() { }
     public virtual void OnAttack() { }
-    public virtual void OnHit() { }
+    public virtual void OnHit() { } 
     public virtual void PathFinding() { }
     public virtual void OnDeath() { }
     public virtual void OnSpawn(Transform target) { }
     public virtual void OnBuff() { }
+    public virtual void OnRespawn() { }
+    public virtual void CalculateStats(int round) { }
+
+    protected void LookAt()
+    {
+        transform.LookAt(_target, Vector3.up);
+    }
+    protected void OnFinishedSpawnAnimation() 
+    {
+        _agent.speed = _moveSpeed;
+    }
 
     #region Properties
     protected float DistanceToTarget // gets path distance remaining to target
@@ -98,19 +109,7 @@ public class DemonBase : MonoBehaviour, IDemon
 
         _target = targetPos;
     }
-    public void CalculateStats(int round)
-    {
-        if(round != currentUpdatedRound)
-        {
-            _damage = _damageCurve.Evaluate(round) + _baseDamage;
-            _maxHealth = _maxHealthCurve.Evaluate(round) + _baseHealth;
-            //_moveSpeed = _moveSpeedCurve.Evaluate(round) + _baseMoveSpeed;
-
-            _agent.speed = _moveSpeed;
-
-            currentUpdatedRound = round;
-        }
-    }
+    
     public void StopPathing()
     {
         _agent.isStopped = true;
@@ -139,15 +138,15 @@ public class DemonBase : MonoBehaviour, IDemon
     public void SetHealth(float amount)
     {
         _health.health = amount;
-        if (_health.health > _maxHealth) _health.health = _maxHealth;
+        if (_health.health > _health.maxHealth) _health.health = _health.maxHealth;
     }
     public void UpdateMaxHealth(float amount)
     {
-        _maxHealth += amount;
+        _health.maxHealth += amount;
     }
     public void SetMaxHealth(float amount)
     {
-        _maxHealth = amount;
+        _health.maxHealth = amount;
     }
     public void UpdateAttackRange(float amount)
     {

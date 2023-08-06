@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using DemonCum;
 using System.Reflection;
+using Unity.Jobs;
+using UnityEngine.AI;
 
 public class DemonSpawner : MonoBehaviour
 {
     [SerializeField] Transform player;
+    [SerializeField] NavMeshAgent playerAgent;
 
     [Header("Wave")]
     public int currentRound;
@@ -80,8 +83,8 @@ public class DemonSpawner : MonoBehaviour
 
     private void Start()
     {
-        AddChildrenToList(baseSpawner, baseSpawners);
-        AddChildrenToList(SpecialSpawner, specialSpawners);
+        baseSpawners = HelperFuntions.GetAllChildrenTransformsFromParent(baseSpawner);
+        specialSpawners = HelperFuntions.GetAllChildrenTransformsFromParent(SpecialSpawner);
 
         SetWaves(waves);
 
@@ -117,9 +120,8 @@ public class DemonSpawner : MonoBehaviour
             {
                 spawnTimer = 0;
 
-                if (maxDemonsToSpawn <= 0)
+                if (DemonQueue.Count <= 0)
                 {
-                    canSpawn = false;
                     return;
                 }
 
@@ -129,31 +131,103 @@ public class DemonSpawner : MonoBehaviour
 
                 if(maxDemonsToSpawn < toSpawn) { toSpawn = maxDemonsToSpawn; }
 
-                ActiveSpawners(player, baseSpawners, specialSpawners);
+
+                ///////////////////////////////////////////////////////////////////////
+                ActiveSpawners(player, baseSpawners, specialSpawners); // use jobs to get the distance passing in the navmesh data
+                ///////////////////////////////////////////////////////////////////////
 
                 for (int i = 0; i < toSpawn; i++)
                 {
-                    DemonType dt = DemonQueue.Dequeue();
+                    DemonType demon = DemonQueue.Dequeue();
                     Vector3 pos = Vector3.zero;
 
-                    if (dt.SpawnType == SpawnType.Basic)
+                    if (demon.SpawnType == SpawnType.Basic)
                     {
                         int temp = Random.Range(0, baseActiveSpawners.Count);
                         pos = baseActiveSpawners[temp].position;
                     }
-                    else if(dt.SpawnType == SpawnType.Special)
+                    else if(demon.SpawnType == SpawnType.Special)
                     {
                         int temp = Random.Range(0, specialActiveSpawners.Count);
                         pos = specialActiveSpawners[temp].position;
                     }
 
                     // spawn using object poolers
-                    SpawnDemon(dt.Id, pos);
+                    SpawnDemon(demon.Id, pos);
                 }
             }
         }
     }
 
+    #region SpawningFunctions
+    void SpawnDemon(DemonID demon, Vector3 pos) // spawns demon at location
+    {
+        GameObject demonTemp = demonPoolers[demon].Spawn();
+
+        DemonBase demonBase = demonTemp.GetComponent<DemonBase>();
+
+        demonBase.OnSpawn(player);
+
+        demonTemp.transform.position = pos;
+
+        currentDemons++;
+        maxDemonsToSpawn--;
+    }
+    #endregion
+
+    #region SpawnerFunctions
+    void ActiveSpawners(Transform player, List<Transform> baseSpawns, List<Transform> specialSpawns)
+    {
+        Transform p = player;
+        Vector2 playerPos = new Vector2(p.position.x, p.position.z);
+
+        foreach (Transform bt in baseSpawns)
+        {
+            Vector2 spawnerPos = new Vector2(bt.position.x, bt.position.z);
+
+            float dist = Vector2.Distance(playerPos, spawnerPos);
+
+            if (dist < maxSpawningDistance)
+            {
+                if (!baseActiveSpawners.Contains(bt))
+                {
+                    baseActiveSpawners.Add(bt);
+                }
+            }
+            else
+            {
+                if (baseActiveSpawners.Contains(bt))
+                {
+                    baseActiveSpawners.Remove(bt);
+                }
+            }
+        }
+
+        foreach (Transform st in specialSpawns)
+        {
+            Vector2 spawnerPos = new Vector2(st.position.x, st.position.z);
+
+            float dist = Vector2.Distance(playerPos, spawnerPos);
+
+            if (dist < maxSpawningDistance)
+            {
+                if (!specialActiveSpawners.Contains(st))
+                {
+                    specialActiveSpawners.Add(st);
+                }
+            }
+            else
+            {
+                if (specialActiveSpawners.Contains(st))
+                {
+                    specialActiveSpawners.Remove(st);
+                }
+            }
+        }
+    }
+    #endregion
+
+    #region WaveFunctions
     void OnWaveStart()
     {
         wave = GetWave(currentRound);
@@ -161,10 +235,10 @@ public class DemonSpawner : MonoBehaviour
         maxDemonsToSpawn = (int)demonsToSpawn.Evaluate(currentRound);
         demonsToSpawnEachTick = (int)spawnsEachTick.Evaluate(currentRound);
 
-        _base = Mathf.RoundToInt(GetDemonSpawnChance(wave.Base.Percentage, maxDemonsToSpawn));
-        _Summoner = Mathf.RoundToInt(GetDemonSpawnChance(wave.Summoner.Percentage, maxDemonsToSpawn));
-        _stalker = Mathf.RoundToInt(GetDemonSpawnChance(wave.Stalker.Percentage, maxDemonsToSpawn));
-        _choas = Mathf.RoundToInt(GetDemonSpawnChance(wave.Choas.Percentage, maxDemonsToSpawn));
+        _base = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.BasePercentage, maxDemonsToSpawn));
+        _Summoner = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.SummonerPercentage, maxDemonsToSpawn));
+        _stalker = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.StalkerPercentage, maxDemonsToSpawn));
+        _choas = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.ChoasPercentage, maxDemonsToSpawn));
 
         int temp = maxDemonsToSpawn;
 
@@ -204,7 +278,7 @@ public class DemonSpawner : MonoBehaviour
 
         int listSize = specialDemonTypes.Count;
 
-        ClearLog();
+        HelperFuntions.ClearLog();
 
         for (int i = 0; i < listSize; i++)
         {
@@ -216,7 +290,7 @@ public class DemonSpawner : MonoBehaviour
             DemonsToSpawn.Insert(index, specialDemonTypes[i]);
         }
 
-        if(wave.BossWave == true) // add boss at 10% way through
+        if (wave.BossWave == true) // add boss at 10% way through
         {
             // calculate at what position to add demon
             int index = GetSpawnIndex(40, maxDemonsToSpawn);
@@ -226,25 +300,11 @@ public class DemonSpawner : MonoBehaviour
             maxDemonsToSpawn++;
         }
 
-        DemonQueue = AddListToQueue(DemonQueue, DemonsToSpawn);
-
-        //foreach(DemonType d in DemonQueue)
-        //{
-        //    Debug.Log(d.Id);
-        //}
+        DemonQueue = HelperFuntions.AddListToQueue(DemonsToSpawn);
 
         startRound = false;
         canSpawn = true;
     }
-
-    public void ClearLog()
-    {
-        var assembly = Assembly.GetAssembly(typeof(UnityEditor.Editor));
-        var type = assembly.GetType("UnityEditor.LogEntries");
-        var method = type.GetMethod("Clear");
-        method.Invoke(new object(), null);
-    }
-
     void OnWaveEnd()
     {
         DemonQueue.Clear();
@@ -253,22 +313,11 @@ public class DemonSpawner : MonoBehaviour
         startRound = true;
         endRound = false;
     }
-
-    void Timers()
-    {
-        spawnTimer += Time.deltaTime;
-    }
-
-    void Bools()
-    {
-        if (maxDemonsToSpawn <= 0 && currentDemons <= 0 && startRound == false) endRound = true;
-    }
-
     void SetWaves(List<Wave> list)
     {
-        foreach(Wave w in list)
+        foreach (Wave w in list)
         {
-            if(w.Round != 0)
+            if (w.Round != 0)
             {
                 WavesContainer[w.Round] = w;
             }
@@ -278,12 +327,11 @@ public class DemonSpawner : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
-            if(i % BossWaveIncrement == 0 && i != 5)
+            if (i % BossWaveIncrement == 0 && i != 5)
             {
                 WavesContainer[i] = BossWave;
             }
         }
-
 
         for (int i = 0; i < count; i++) // set all left over rounds as base rounds
         {
@@ -293,51 +341,41 @@ public class DemonSpawner : MonoBehaviour
             }
         }
     }
-
     Wave GetWave(int currentRound)
     {
-       if (currentRound > WavesContainer.Length) return wave = BaseWave;
-       return wave = WavesContainer[currentRound];
+        if (currentRound > WavesContainer.Length) return wave = BaseWave;
+        return wave = WavesContainer[currentRound];
     }
-
-    #region Propterties
-
-    bool EndRound
-    {
-        get { return maxDemonsToSpawn <= 0 && currentDemons <= 0; }
-    }
-
     #endregion
 
+    #region Timers
+    void Timers()
+    {
+        spawnTimer += Time.deltaTime;
+    }
+    #endregion
+
+    #region Bools
+    void Bools()
+    {
+        if (maxDemonsToSpawn <= 0 && currentDemons <= 0 && startRound == false) endRound = true;
+    }
+    #endregion
+
+    #region SpawnerAccessorFunctions
     public void DemonKilled()
     {
         currentDemons--;
     }
-
-    public void DemonRespawn()
+    public void DemonRespawn(DemonType demon)
     {
         currentDemons--;
         maxDemonsToSpawn++;
+
+        DemonQueue.Enqueue(demon);
     }
+    #endregion
 
-    void SpawnDemon(DemonID demon, Vector3 pos) // spawns demon at location
-    {
-        GameObject demonTemp = demonPoolers[demon].Spawn();
-
-        DemonBase demonBase = demonTemp.GetComponent<DemonBase>();
-
-        demonBase.OnSpawn(player);
-
-        demonTemp.transform.position = pos;
-
-        currentDemons++;
-        maxDemonsToSpawn--;
-    }
-
-    float GetDemonSpawnChance(float percentage, int maxDemons)
-    {
-        return (percentage / 100) * maxDemons;
-    }
 
     int GetSpawnIndex(float percentage, int total)
     {
@@ -352,79 +390,9 @@ public class DemonSpawner : MonoBehaviour
         return Random.Range(min, max);
     }
 
-    Queue<DemonType> AddListToQueue(Queue<DemonType> q, List<DemonType> list)
+    private void OnGUI()
     {
-        foreach(DemonType item in list) 
-        {
-            q.Enqueue(item);
-        }
-
-        return q;
-    }
-
-    void AddChildrenToList(Transform parent, List<Transform> list)
-    {
-        foreach(Transform child in parent)
-        {
-            list.Add(child);
-        }
-    }
-
-    void AddSpawnersToActiveSpawners(Transform parent, List<Transform> spawnPoints)
-    {
-        foreach(Transform t in parent)
-        {
-            spawnPoints.Add(t);
-        }
-    }
-
-    void ActiveSpawners(Transform player, List<Transform> baseSpawns, List<Transform> specialSpawns)
-    {
-        Transform p = player;
-        Vector2 playerPos = new Vector2(p.position.x, p.position.z);
-
-        foreach(Transform bt in baseSpawns)
-        {
-            Vector2 spawnerPos = new Vector2(bt.position.x, bt.position.z);
-
-            float dist = Vector2.Distance(playerPos, spawnerPos);
-
-            if(dist < maxSpawningDistance)
-            {
-                if(!baseActiveSpawners.Contains(bt))
-                {
-                    baseActiveSpawners.Add(bt);
-                }
-            }
-            else
-            {
-                if(baseActiveSpawners.Contains(bt))
-                {
-                    baseActiveSpawners.Remove(bt);
-                }
-            }
-        }
-
-        foreach(Transform st in specialSpawns)
-        {
-            Vector2 spawnerPos = new Vector2(st.position.x, st.position.z);
-
-            float dist = Vector2.Distance(playerPos, spawnerPos);
-
-            if (dist < maxSpawningDistance)
-            {
-                if (!specialActiveSpawners.Contains(st))
-                {
-                    specialActiveSpawners.Add(st);
-                }
-            }
-            else
-            {
-                if (specialActiveSpawners.Contains(st))
-                {
-                    specialActiveSpawners.Remove(st);
-                }
-            }
-        }
+        string content = currentRound.ToString();
+        GUILayout.Label($"<color='black'><size=150>{content}</size></color>");
     }
 }

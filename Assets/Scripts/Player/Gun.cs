@@ -69,6 +69,13 @@ public class Gun : MonoBehaviour
     public Optional<ObjectPooler> visualiserPool;
     public float bulletVisualiserSpeed;
 
+    [Header("Animation")]
+    public Optional<Animator> animator;
+    public string shootKey = "shoot";
+    public string reloadKey = "reload";
+    public string meleeKey = "melee";
+    public string sprintKey = "sprinting";
+
     // Start is called before the first frame update
     void Start()
     {
@@ -225,6 +232,8 @@ public class Gun : MonoBehaviour
 
         for (int i = 0; i < shotsPerFiring; i++)
         {
+            if (animator.Enabled)
+                animator.Value.SetTrigger(shootKey);
             Vector3 randVal = Random.insideUnitSphere * bulletSpreadDegrees;
             Vector3 dir = Quaternion.Euler(randVal) * Camera.main.transform.forward;
             Debug.DrawRay(Camera.main.transform.position, dir * 10, Color.green);
@@ -330,7 +339,8 @@ public class Gun : MonoBehaviour
     public void StartReload(InputAction.CallbackContext context)
     {
         StartReload();
-        
+        if (animator.Enabled)
+            animator.Value.SetTrigger(reloadKey);
     }
 
     public void StartReload()

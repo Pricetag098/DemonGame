@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using DemonCum;
 using System.Reflection;
+using Unity.Jobs;
+using UnityEngine.AI;
 
 public class DemonSpawner : MonoBehaviour
 {
     [SerializeField] Transform player;
+    [SerializeField] NavMeshAgent playerAgent;
 
     [Header("Wave")]
     public int currentRound;
@@ -128,7 +131,10 @@ public class DemonSpawner : MonoBehaviour
 
                 if(maxDemonsToSpawn < toSpawn) { toSpawn = maxDemonsToSpawn; }
 
-                ActiveSpawners(player, baseSpawners, specialSpawners);
+
+                ///////////////////////////////////////////////////////////////////////
+                ActiveSpawners(player, baseSpawners, specialSpawners); // use jobs to get the distance passing in the navmesh data
+                ///////////////////////////////////////////////////////////////////////
 
                 for (int i = 0; i < toSpawn; i++)
                 {

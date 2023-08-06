@@ -8,7 +8,7 @@ public class AbilityBuy : ShopInteractable
 	[Tooltip("Pool of Abilitys to draw from, add nulls to add the disappering feature, try adding multiples of abilitys to change the odds")]
     [SerializeField] List<Ability> abilities = new List<Ability>();
 	List<Ability> availablePool = new List<Ability>();
-
+	[SerializeField] bool singleUse;
 	protected override bool CanBuy()
 	{
 		
@@ -40,11 +40,18 @@ public class AbilityBuy : ShopInteractable
 			Respawn();
 			return;
 		}
-		caster.caster.SetAbility(caster.activeIndex, Instantiate(ability));
 		
+		caster.caster.SetAbility(caster.activeIndex, Instantiate(ability));
+		if (singleUse)
+			Disable();
 	}
 
 	void Respawn()
+	{
+		transform.parent.gameObject.SetActive(false);
+	}
+
+	void Disable()
 	{
 		transform.parent.gameObject.SetActive(false);
 	}

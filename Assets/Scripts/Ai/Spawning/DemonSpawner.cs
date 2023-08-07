@@ -131,10 +131,7 @@ public class DemonSpawner : MonoBehaviour
 
                 if(maxDemonsToSpawn < toSpawn) { toSpawn = maxDemonsToSpawn; }
 
-
-                ///////////////////////////////////////////////////////////////////////
-                ActiveSpawners(player, baseSpawners, specialSpawners); // use jobs to get the distance passing in the navmesh data
-                ///////////////////////////////////////////////////////////////////////
+                if(toSpawn > 0) ActiveSpawners(player, baseSpawners, specialSpawners);
 
                 for (int i = 0; i < toSpawn; i++)
                 {
@@ -146,7 +143,7 @@ public class DemonSpawner : MonoBehaviour
                         int temp = Random.Range(0, baseActiveSpawners.Count);
                         pos = baseActiveSpawners[temp].position;
                     }
-                    else if(demon.SpawnType == SpawnType.Special)
+                    else if (demon.SpawnType == SpawnType.Special)
                     {
                         int temp = Random.Range(0, specialActiveSpawners.Count);
                         pos = specialActiveSpawners[temp].position;
@@ -178,14 +175,15 @@ public class DemonSpawner : MonoBehaviour
     #region SpawnerFunctions
     void ActiveSpawners(Transform player, List<Transform> baseSpawns, List<Transform> specialSpawns)
     {
-        Transform p = player;
-        Vector2 playerPos = new Vector2(p.position.x, p.position.z);
-
-        foreach (Transform bt in baseSpawns)
+        foreach(Transform bt in baseSpawns)
         {
-            Vector2 spawnerPos = new Vector2(bt.position.x, bt.position.z);
+            NavMeshPath path = new NavMeshPath();
 
-            float dist = Vector2.Distance(playerPos, spawnerPos);
+            playerAgent.CalculatePath(bt.position, path);
+
+            playerAgent.SetPath(path);
+
+            float dist = playerAgent.remainingDistance;
 
             if (dist < maxSpawningDistance)
             {
@@ -205,9 +203,13 @@ public class DemonSpawner : MonoBehaviour
 
         foreach (Transform st in specialSpawns)
         {
-            Vector2 spawnerPos = new Vector2(st.position.x, st.position.z);
+            NavMeshPath path = new NavMeshPath();
 
-            float dist = Vector2.Distance(playerPos, spawnerPos);
+            playerAgent.CalculatePath(st.position, path);
+
+            playerAgent.SetPath(path);
+
+            float dist = playerAgent.remainingDistance;
 
             if (dist < maxSpawningDistance)
             {

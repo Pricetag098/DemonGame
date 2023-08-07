@@ -10,7 +10,11 @@ public class ShopInteractable : Interactable
 	public override void Interact()
 	{
 		if (!CanBuy())
-			return;
+		{
+            Debug.Log("cant buy");
+            return;
+        }
+			
 		if(playerStats.points >= Cost )
 		{
 			playerStats.points -= Cost;

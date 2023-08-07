@@ -1,65 +1,76 @@
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.ProBuilder;
 using UnityEngine;
-using UnityEngine.InputSystem;
-//[CreateAssetMenu(menuName = "Abilitys/BloodBolt")]
+
+[CreateAssetMenu(menuName = "Abilities/Ranged")]
 public class ObjectSpawnAbility : Ability
 {
-	
-	public GameObject prefabToSpawn;
+    [SerializeField] protected GameObject prefab;
+    protected ObjectPooler projectileSpawner;
 
-	public float castsPerMin = 100;
-	public float projectileSpeed = 300;
-	public float damage = 10;
-	
-	public float spawnOffset = 1; // will look into a raycast for this later
+    protected float chargeTime;
+    [SerializeField] protected float maxChargeTime;
+    [SerializeField] protected float minChargeTime;
+    bool held;
+
+    [SerializeField] AnimationCurve chargeDamageCurve = AnimationCurve.Linear(0, 0, 1, 100);
+    [SerializeField] AnimationCurve chargeVelocityCurve = AnimationCurve.Linear(0, 0, 1, 50);
+    [SerializeField] AnimationCurve chargePenetrationCurve = AnimationCurve.Linear(0, 0, 1, 3);
+    [SerializeField] float speedModifier = .6f;
+
+    
+
+    protected Vector3 lastAimDir, lastOrigin;
+
+    bool startedCasting;
+    protected override void OnEquip()
+    {
+        projectileSpawner = new GameObject().AddComponent<ObjectPooler>();
+        projectileSpawner.CreatePool(prefab, 10);
+    }
+
+    protected override void OnDeEquip()
+    {
+        Destroy(projectileSpawner.gameObject);
+    }
+    public override void Cast(Vector3 origin, Vector3 direction)
+    {
+        if (!startedCasting)
+        {
+            
+            startedCasting = true;
+        }
+        chargeTime = Mathf.Clamp(chargeTime + Time.deltaTime, 0, maxChargeTime);
+        lastAimDir = direction;
+        lastOrigin = origin;
+
+        held = true;
+    }
+
+    public override void Tick()
+    {
+        if (!held && chargeTime > 0)
+        {
+
+            if (chargeTime > minChargeTime)
+                Launch();
+
+            
+            startedCasting = false;
+            chargeTime = 0;
+        }
 
 
+        held = false;
+    }
 
-	[Min(1)]
-	public int poolSize = 10;
-	float timer;
-	ObjectPooler pool;
+    protected virtual void Launch()
+    {
+        float chargePercent = chargeTime / maxChargeTime;
+        float damage = chargeDamageCurve.Evaluate(chargePercent);
+        float speed = chargeVelocityCurve.Evaluate(chargePercent);
+        Vector3 velocity = speed * lastAimDir;
+        projectileSpawner.Spawn().GetComponent<DamageProjectiles>().Shoot(lastOrigin, velocity, damage,caster.castOrigin,Mathf.RoundToInt(chargePenetrationCurve.Evaluate(chargePercent)));
+    }
 
-	
-	
-	// Start is called before the first frame update
-	public override void Tick()
-	{
-		
-		timer -= Time.deltaTime;
-	}
-
-
-
-	
-
-	protected override void OnEquip()
-	{
-		pool = new GameObject(abilityName + "Pool").AddComponent<ObjectPooler>();
-		pool.CreatePool(prefabToSpawn, poolSize);
-	}
-	private void OnDestroy()
-	{
-		Destroy(pool);
-	}
-
-	public override void Cast(Vector3 origin, Vector3 direction)
-	{
-		if (timer < 0 && caster.blood >= bloodCost)
-		{
-			Fire(origin,direction);
-			timer = 1 / (castsPerMin / 60);
-			caster.blood -= bloodCost;
-		}
-	}
-
-	protected virtual void Fire(Vector3 origin, Vector3 direction)
-	{
-		
-			GameObject projectile = pool.Spawn();
-			//Debug.Log(projectile != null);
-			projectile.GetComponent<DamageProjectiles>().Shoot(origin, direction * projectileSpeed, damage, caster.castOrigin);
-		
-	}
+   
 }

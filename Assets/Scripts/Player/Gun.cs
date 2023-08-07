@@ -26,13 +26,22 @@ public class Gun : MonoBehaviour
     public string gunName;
     public FireTypes fireSelect;
     public float damage = 10;
-    public float bulletRange = float.PositiveInfinity, bulletSpreadDegrees = 0;
+    public float bulletRange = float.PositiveInfinity;
     [Min(1)]
     public int shotsPerFiring = 1;
     public int ammoLeft, maxAmmo = 10;
     public float roundsPerMin = 1, reloadDuration = 1;
     float fireTimer = 0, reloadTimer;
     public float bloodGainMulti = 1;
+
+    [Header("SpreadSettings")]
+    public float bulletSpreadDegrees = 0;
+    [Tooltip("Recoil Increments By 1 for each shot and decays with recoilResetSpeed")]
+    public AnimationCurve recoilSpreadCurve;
+    public AnimationCurve velocitySpredCurve;
+    public float maxRecoilVal;
+    public float recoilResetSpeed = 1;
+    float recoil;
 
     [Header("Burst Settings")]
     [Min(1)]
@@ -105,6 +114,7 @@ public class Gun : MonoBehaviour
     {
         fireTimer -= Time.deltaTime;
 
+        recoil = Mathf.Clamp(recoil - Time.deltaTime * recoilResetSpeed, 0, maxRecoilVal);
 		switch (gunState)
 		{
             case GunStates.awaiting:
@@ -234,7 +244,7 @@ public class Gun : MonoBehaviour
         {
             if (animator.Enabled)
                 animator.Value.SetTrigger(shootKey);
-            Vector3 randVal = Random.insideUnitSphere * bulletSpreadDegrees;
+            Vector3 randVal = Random.insideUnitSphere * GetSpread();
             Vector3 dir = Quaternion.Euler(randVal) * Camera.main.transform.forward;
             Debug.DrawRay(Camera.main.transform.position, dir * 10, Color.green);
 
@@ -318,7 +328,7 @@ public class Gun : MonoBehaviour
                 if (visualiserPool.Enabled)
                     visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin, Camera.main.transform.forward * 1000, 1000 / bulletVisualiserSpeed,dir);
             }
-
+            recoil++;
         }
                 
         ammoLeft--;
@@ -335,7 +345,13 @@ public class Gun : MonoBehaviour
 
     
     
-
+    float GetSpread()
+    {
+        float spread = bulletSpreadDegrees;
+        spread += recoilSpreadCurve.Evaluate(recoil);
+        spread += velocitySpredCurve.Evaluate(holster.rb.velocity.magnitude);
+        return spread;
+    }
     public void StartReload(InputAction.CallbackContext context)
     {
         StartReload();

@@ -39,10 +39,11 @@ public class Gun : MonoBehaviour
     [Tooltip("Recoil Increments By 1 for each shot and decays with recoilResetSpeed")]
     public AnimationCurve recoilSpreadCurve;
     public AnimationCurve velocitySpredCurve;
-    public float maxRecoilVal;
+    public float maxRecoilVal = 30;
     public float recoilResetSpeed = 1;
-    float recoil;
-
+    public float recoilResetDelay;
+    public float recoil;
+    float timeSinceLastShot;
     [Header("Burst Settings")]
     [Min(1)]
     public int burstRounds;
@@ -113,8 +114,10 @@ public class Gun : MonoBehaviour
 	private void Update()
     {
         fireTimer -= Time.deltaTime;
-
-        recoil = Mathf.Clamp(recoil - Time.deltaTime * recoilResetSpeed, 0, maxRecoilVal);
+        
+        timeSinceLastShot+= Time.deltaTime;
+        if (timeSinceLastShot > recoilResetDelay)
+            recoil = Mathf.Clamp(recoil - Time.deltaTime * recoilResetSpeed, 0, maxRecoilVal);
 		switch (gunState)
 		{
             case GunStates.awaiting:
@@ -328,12 +331,15 @@ public class Gun : MonoBehaviour
                 if (visualiserPool.Enabled)
                     visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin, Camera.main.transform.forward * 1000, 1000 / bulletVisualiserSpeed,dir);
             }
-            recoil++;
+            
         }
                 
         ammoLeft--;
         fireTimer = 1/(roundsPerMin/60);
-                
+        recoil++;
+        if(recoil > maxRecoilVal)
+            recoil = maxRecoilVal;
+        timeSinceLastShot = 0;
         shootSound.Play();
         if (gunfire.Enabled)
         {

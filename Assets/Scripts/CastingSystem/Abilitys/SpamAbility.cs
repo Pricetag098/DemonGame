@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName ="old blood knife")]
+[CreateAssetMenu(menuName = "abilities/old blood knife")]
 public class SpamAbility : Ability
 {
     [SerializeField] float damage;

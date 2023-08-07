@@ -1,23 +1,21 @@
-using UnityEngine.ProBuilder;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "abilities/Ranged")]
-public class BloodKnifeAbility : Ability
+[CreateAssetMenu(menuName ="abilities/fireball")]
+public class BloodFireball : Ability
 {
     [SerializeField] protected GameObject prefab;
     protected ObjectPooler projectileSpawner;
 
-    protected float chargeTime;
+    [SerializeField]protected float chargeTime;
     [SerializeField] protected float maxChargeTime;
     [SerializeField] protected float minChargeTime;
     bool held;
 
     [SerializeField] AnimationCurve chargeDamageCurve = AnimationCurve.Linear(0, 0, 1, 100);
     [SerializeField] AnimationCurve chargeVelocityCurve = AnimationCurve.Linear(0, 0, 1, 50);
-    [SerializeField] AnimationCurve chargePenetrationCurve = AnimationCurve.Linear(0, 0, 1, 3);
-    [SerializeField] float speedModifier = .6f;
-
-    
+    [SerializeField] AnimationCurve chargeRadiusCurve = AnimationCurve.Linear(0, 5, 1, 10);
 
     protected Vector3 lastAimDir, lastOrigin;
 
@@ -41,7 +39,6 @@ public class BloodKnifeAbility : Ability
         chargeTime = Mathf.Clamp(chargeTime + Time.deltaTime, 0, maxChargeTime);
         lastAimDir = direction;
         lastOrigin = origin;
-
         held = true;
     }
 
@@ -53,7 +50,7 @@ public class BloodKnifeAbility : Ability
             if (chargeTime > minChargeTime)
                 Launch();
 
-            
+
             startedCasting = false;
             chargeTime = 0;
         }
@@ -67,9 +64,9 @@ public class BloodKnifeAbility : Ability
         float chargePercent = chargeTime / maxChargeTime;
         float damage = chargeDamageCurve.Evaluate(chargePercent);
         float speed = chargeVelocityCurve.Evaluate(chargePercent);
+        float radius = chargeRadiusCurve.Evaluate(chargePercent);
         Vector3 velocity = speed * lastAimDir;
-        projectileSpawner.Spawn().GetComponent<DamageProjectiles>().Shoot(lastOrigin, velocity, damage,caster.castOrigin,Mathf.RoundToInt(chargePenetrationCurve.Evaluate(chargePercent)));
+        projectileSpawner.Spawn().GetComponent<Fireball>().Shoot(lastOrigin, velocity, damage, caster.transform,radius);
     }
 
-   
 }

@@ -2,7 +2,7 @@ using UnityEngine.ProBuilder;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Abilities/Ranged")]
-public class ObjectSpawnAbility : Ability
+public class BloodKnifeAbility : Ability
 {
     [SerializeField] protected GameObject prefab;
     protected ObjectPooler projectileSpawner;
@@ -36,7 +36,6 @@ public class ObjectSpawnAbility : Ability
     {
         if (!startedCasting)
         {
-            
             startedCasting = true;
         }
         chargeTime = Mathf.Clamp(chargeTime + Time.deltaTime, 0, maxChargeTime);

@@ -67,11 +67,11 @@ public class DamageProjectiles : MonoBehaviour
         HitSettings hs;
         if (collision.gameObject.TryGetComponent(out hs))
         {
-            hs.PlayVfx(collision.GetContact(0).point, collision.GetContact(0).normal);
+            hs.PlayVfx(collision.collider.ClosestPoint(transform.position), -transform.forward);
         }
         else
         {
-            VfxSpawner.SpawnVfx(0, collision.GetContact(0).point, collision.GetContact(0).normal);
+            VfxSpawner.SpawnVfx(0, collision.collider.ClosestPoint(transform.position), -transform.forward);
         }
         body.isKinematic = true;
         GetComponent<PooledObject>().Despawn();

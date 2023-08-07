@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class PlayerAbilityCaster : MonoBehaviour
 {
-    AbilityCaster caster;
+    [HideInInspector]public AbilityCaster caster;
     public int activeIndex;
     public InputActionProperty useAction;
     // Start is called before the first frame update

@@ -56,4 +56,22 @@ public class AbilityCaster : MonoBehaviour
 	{
         blood = Mathf.Clamp(blood + amount, 0, maxBlood);
 	}
+
+    public bool HasAbility(Ability ability)
+	{
+        foreach(Ability item in abilities)
+		{
+            if(item.abilityName == ability.abilityName)
+                return true;
+		}
+        return false;
+	}
+
+    public void SetAbility(int index,Ability ability)
+	{
+        if (abilities[index] != null)
+            abilities[index].DeEquip();
+        abilities[index] = ability;
+        ability.Equip(this);
+	}
 }

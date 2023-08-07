@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using Movement;
 public class Holster : MonoBehaviour
 {
     public PlayerStats stats;
@@ -19,6 +19,10 @@ public class Holster : MonoBehaviour
     const int MaxGuns = 2;
     Gun[] guns = new Gun[MaxGuns];
 
+    public delegate void OnDealDamageAction(float amount);
+    public OnDealDamageAction OnDealDamage;
+
+    [SerializeField] Movement.PlayerInput playerInput;
 	private void Start()
 	{
         input.action.performed += SwapGun;
@@ -63,9 +67,12 @@ public class Holster : MonoBehaviour
 		}
 	}
     
+    
     public void OnHit(float damage)
 	{
         abilityCaster.AddBlood(damage * HeldGun.bloodGainMulti * stats.bloodGainMulti);
+        if(OnDealDamage != null)
+        OnDealDamage(damage);
 	}
 
 	private void OnEnable()
@@ -108,4 +115,9 @@ public class Holster : MonoBehaviour
         returnedGun = null;
         return false;
     }
+
+    public bool CanShoot()
+	{
+        return playerInput.Running();
+	}
 }

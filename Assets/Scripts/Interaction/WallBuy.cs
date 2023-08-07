@@ -4,13 +4,10 @@ using UnityEngine;
 
 public class WallBuy : ShopInteractable
 {
-    Holster holster;
+    [SerializeField] Holster holster;
 	[SerializeField] GameObject prefab;
 	
-	private void Start()
-	{
-		holster = FindObjectOfType<Holster>();
-	}
+	
 
 	protected override bool CanBuy()
 	{

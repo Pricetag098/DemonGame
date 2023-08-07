@@ -2,10 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DemonCum;
 
 [Serializable]
 public class DemonType
 {
-    public DemonId Id;
-    public int Amount;
+    public DemonID Id;
+    public SpawnType SpawnType;
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-[CreateAssetMenu(menuName = "Ability/Empty")]
+[CreateAssetMenu(menuName = "abilities/Empty")]
 public class Ability : ScriptableObject
 {
 	public string abilityName;

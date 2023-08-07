@@ -279,7 +279,7 @@ public class Gun : MonoBehaviour
 						{
                             healths.Add(hitBox.health);
                             hitBox.OnHit(currentDamage * holster.stats.damageMulti);
-                            holster.OnHit(damage * holster.stats.damageMulti * hitBox.multi);
+                            holster.OnHit((damage * holster.stats.damageMulti * hitBox.multi)/hitBox.health.maxHealth);
                         }
                         
 

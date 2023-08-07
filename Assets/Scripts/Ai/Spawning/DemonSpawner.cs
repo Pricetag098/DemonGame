@@ -29,6 +29,7 @@ public class DemonSpawner : MonoBehaviour
     [Header("Spawning Stats")]
     [SerializeField] bool canSpawn;
     [SerializeField] int maxDemonsAtOnce;
+    [SerializeField] float maxPathingDistance;
     [SerializeField] float maxSpawningDistance;
     [SerializeField] float timeBetweenSpawns;
     [SerializeField] float timeBetweenRounds;
@@ -175,7 +176,36 @@ public class DemonSpawner : MonoBehaviour
     #region SpawnerFunctions
     void ActiveSpawners(Transform player, List<Transform> baseSpawns, List<Transform> specialSpawns)
     {
-        foreach(Transform bt in baseSpawns)
+        Vector2 pos = new Vector2(player.position.x, player.position.z);
+
+        List<Transform> tempListBase = new List<Transform>();
+        List<Transform> tempListspecial = new List<Transform>();
+
+        foreach (Transform bt in baseSpawns)
+        {
+            Vector2 spawnerPos = new Vector2(bt.position.x, bt.position.z);
+
+            float dist = Vector2.Distance(pos, spawnerPos);
+
+            if (dist < maxSpawningDistance)
+            {
+                tempListBase.Add(bt);
+            }
+        }
+
+        foreach (Transform st in specialSpawns)
+        {
+            Vector2 spawnerPos = new Vector2(st.position.x, st.position.z);
+
+            float dist = Vector2.Distance(pos, spawnerPos);
+
+            if (dist < maxSpawningDistance)
+            {
+                tempListspecial.Add(st);
+            }
+        }
+
+        foreach (Transform bt in tempListBase)
         {
             NavMeshPath path = new NavMeshPath();
 
@@ -185,7 +215,7 @@ public class DemonSpawner : MonoBehaviour
 
             float dist = playerAgent.remainingDistance;
 
-            if (dist < maxSpawningDistance)
+            if (dist < maxPathingDistance)
             {
                 if (!baseActiveSpawners.Contains(bt))
                 {
@@ -201,7 +231,7 @@ public class DemonSpawner : MonoBehaviour
             }
         }
 
-        foreach (Transform st in specialSpawns)
+        foreach (Transform st in tempListspecial)
         {
             NavMeshPath path = new NavMeshPath();
 
@@ -211,7 +241,7 @@ public class DemonSpawner : MonoBehaviour
 
             float dist = playerAgent.remainingDistance;
 
-            if (dist < maxSpawningDistance)
+            if (dist < maxPathingDistance)
             {
                 if (!specialActiveSpawners.Contains(st))
                 {

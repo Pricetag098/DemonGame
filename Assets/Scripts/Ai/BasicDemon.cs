@@ -32,8 +32,10 @@ public class BasicDemon : DemonBase
     public override void OnSpawn(Transform target)
     {
         CalculateStats(_spawner.currentRound);
-        //CalculateAndSetPath(target);
+        CalculateAndSetPath(target);
         SetHealth(_health.maxHealth);
+
+
         transform.rotation = Quaternion.identity;
     }
 
@@ -59,7 +61,7 @@ public class BasicDemon : DemonBase
 
     public override void PathFinding()
     {
-        //CalculateAndSetPath(_target);
+        CalculateAndSetPath(_target);
     }
 
     public override void CalculateStats(int round)
@@ -74,5 +76,11 @@ public class BasicDemon : DemonBase
 
             _currentUpdatedRound = round;
         }
+    }
+
+    private void OnDestroy()
+    {
+        _health.OnDeath -= OnDeath;
+        _health.OnHit -= OnHit;
     }
 }

@@ -22,7 +22,6 @@ public class DemonBase : MonoBehaviour, IDemon
     [Header("Stats")]
     [SerializeField] protected float _damage;
     [SerializeField] protected float _moveSpeed;
-    //[SerializeField] protected float _maxHealth;
     [SerializeField] protected float _attackSpeed;
     [SerializeField] protected float _attackRange;
     [SerializeField] protected float _stoppingDistance;
@@ -69,6 +68,7 @@ public class DemonBase : MonoBehaviour, IDemon
     public virtual void OnBuff() { }
     public virtual void OnRespawn() { }
     public virtual void CalculateStats(int round) { }
+    public virtual void UpdateHealthToCurrentRound(int currentRound) { }
 
     protected void LookAt()
     {
@@ -138,7 +138,7 @@ public class DemonBase : MonoBehaviour, IDemon
     public void SetHealth(float amount)
     {
         _health.health = amount;
-        if (_health.health > _health.maxHealth) _health.health = _health.maxHealth;
+        //if (_health.health > _health.maxHealth) _health.health = _health.maxHealth;
     }
     public void UpdateMaxHealth(float amount)
     {

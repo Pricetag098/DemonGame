@@ -25,11 +25,11 @@ public class CalculatePath : MonoBehaviour
     {
         if(useJobs == true)
         {
-
+            Execute();
         }
         else
         {
-
+            Execute();
         }
     }
 

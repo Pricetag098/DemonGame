@@ -38,9 +38,12 @@ public class Ability : ScriptableObject
 
 	public void DeEquip()
 	{
-
+		OnDeEquip();	
 	}
+    protected virtual void OnDeEquip()
+    {
 
-	
+    }
+
 
 }

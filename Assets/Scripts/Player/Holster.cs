@@ -8,6 +8,7 @@ public class Holster : MonoBehaviour
     public PlayerStats stats;
     public ObjectPooler bulletVisualierPool;
     public AbilityCaster abilityCaster;
+    public Rigidbody rb;
 
     [SerializeField] InputActionProperty input;
 

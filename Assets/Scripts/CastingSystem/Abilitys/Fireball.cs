@@ -10,9 +10,10 @@ public class Fireball : MonoBehaviour
     [SerializeField] LayerMask validLayers;
     ProjectileVisualiser visualiser;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         body = GetComponent<Rigidbody>();
+        visualiser = GetComponentInChildren<ProjectileVisualiser>();
     }
 
 	private void OnCollisionEnter(Collision collision)
@@ -37,7 +38,7 @@ public class Fireball : MonoBehaviour
 
     public void Shoot(Vector3 origin, Vector3 dir, float dmg, Transform visOrigin,float rad)
     {
-        Debug.Log("Test");
+        
         body.isKinematic = false;
         damage = dmg;
         transform.position = origin;
@@ -46,4 +47,9 @@ public class Fireball : MonoBehaviour
         visualiser.Start(visOrigin, transform);
         radius = rad;
     }
+	private void OnDrawGizmos()
+	{
+        Gizmos.color = Color.red;
+		Gizmos.DrawWireSphere(transform.position, radius);
+	}
 }

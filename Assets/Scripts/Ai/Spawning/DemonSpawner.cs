@@ -29,6 +29,7 @@ public class DemonSpawner : MonoBehaviour
     [Header("Spawning Stats")]
     [SerializeField] bool canSpawn;
     [SerializeField] int maxDemonsAtOnce;
+    [SerializeField] float maxPathingDistance;
     [SerializeField] float maxSpawningDistance;
     [SerializeField] float timeBetweenSpawns;
     [SerializeField] float timeBetweenRounds;
@@ -44,12 +45,12 @@ public class DemonSpawner : MonoBehaviour
 
     [Header("Spawn Location")]
     [SerializeField] Transform baseSpawner;
-    [SerializeField] List<Transform> baseActiveSpawners = new List<Transform>();
-    [SerializeField] private List<Transform> baseSpawners = new List<Transform>();
+    private List<Transform> baseActiveSpawners = new List<Transform>();
+    [HideInInspector] public List<Transform> baseSpawners = new List<Transform>();
 
     [SerializeField] Transform SpecialSpawner;
-    [SerializeField] List<Transform> specialActiveSpawners = new List<Transform>();
-    [SerializeField] private List<Transform> specialSpawners = new List<Transform>();
+    [HideInInspector] List<Transform> specialActiveSpawners = new List<Transform>();
+    [HideInInspector] public List<Transform> specialSpawners = new List<Transform>();
 
     [Header("Object Poolers")]
     [SerializeField] ObjectPooler baseDemonPooler;
@@ -120,7 +121,7 @@ public class DemonSpawner : MonoBehaviour
             {
                 spawnTimer = 0;
 
-                if (DemonQueue.Count <= 0)
+                if (DemonQueue.Count <= 0) // if no demons to spawn return
                 {
                     return;
                 }
@@ -131,29 +132,26 @@ public class DemonSpawner : MonoBehaviour
 
                 if(maxDemonsToSpawn < toSpawn) { toSpawn = maxDemonsToSpawn; }
 
-
-                ///////////////////////////////////////////////////////////////////////
-                ActiveSpawners(player, baseSpawners, specialSpawners); // use jobs to get the distance passing in the navmesh data
-                ///////////////////////////////////////////////////////////////////////
+                if(toSpawn > 0) ActiveSpawners(player, baseSpawners, specialSpawners); // if demoms to spawn check spawners
 
                 for (int i = 0; i < toSpawn; i++)
                 {
                     DemonType demon = DemonQueue.Dequeue();
                     Vector3 pos = Vector3.zero;
+                    int temp = -2;
 
                     if (demon.SpawnType == SpawnType.Basic)
                     {
-                        int temp = Random.Range(0, baseActiveSpawners.Count);
+                        temp = Random.Range(0, baseActiveSpawners.Count);
                         pos = baseActiveSpawners[temp].position;
                     }
-                    else if(demon.SpawnType == SpawnType.Special)
+                    else if (demon.SpawnType == SpawnType.Special)
                     {
-                        int temp = Random.Range(0, specialActiveSpawners.Count);
+                        temp = Random.Range(0, specialActiveSpawners.Count);
                         pos = specialActiveSpawners[temp].position;
                     }
 
-                    // spawn using object poolers
-                    SpawnDemon(demon.Id, pos);
+                    if(temp > -1) SpawnDemon(demon.Id, pos); // spawn using object poolers
                 }
             }
         }
@@ -178,16 +176,46 @@ public class DemonSpawner : MonoBehaviour
     #region SpawnerFunctions
     void ActiveSpawners(Transform player, List<Transform> baseSpawns, List<Transform> specialSpawns)
     {
-        Transform p = player;
-        Vector2 playerPos = new Vector2(p.position.x, p.position.z);
+        Vector2 pos = new Vector2(player.position.x, player.position.z);
+
+        List<Transform> tempListBase = new List<Transform>();
+        List<Transform> tempListspecial = new List<Transform>();
 
         foreach (Transform bt in baseSpawns)
         {
             Vector2 spawnerPos = new Vector2(bt.position.x, bt.position.z);
 
-            float dist = Vector2.Distance(playerPos, spawnerPos);
+            float dist = Vector2.Distance(pos, spawnerPos);
 
             if (dist < maxSpawningDistance)
+            {
+                tempListBase.Add(bt);
+            }
+        }
+
+        foreach (Transform st in specialSpawns)
+        {
+            Vector2 spawnerPos = new Vector2(st.position.x, st.position.z);
+
+            float dist = Vector2.Distance(pos, spawnerPos);
+
+            if (dist < maxSpawningDistance)
+            {
+                tempListspecial.Add(st);
+            }
+        }
+
+        foreach (Transform bt in tempListBase)
+        {
+            NavMeshPath path = new NavMeshPath();
+
+            playerAgent.CalculatePath(bt.position, path);
+
+            playerAgent.SetPath(path);
+
+            float dist = playerAgent.remainingDistance;
+
+            if (dist < maxPathingDistance)
             {
                 if (!baseActiveSpawners.Contains(bt))
                 {
@@ -203,13 +231,17 @@ public class DemonSpawner : MonoBehaviour
             }
         }
 
-        foreach (Transform st in specialSpawns)
+        foreach (Transform st in tempListspecial)
         {
-            Vector2 spawnerPos = new Vector2(st.position.x, st.position.z);
+            NavMeshPath path = new NavMeshPath();
 
-            float dist = Vector2.Distance(playerPos, spawnerPos);
+            playerAgent.CalculatePath(st.position, path);
 
-            if (dist < maxSpawningDistance)
+            playerAgent.SetPath(path);
+
+            float dist = playerAgent.remainingDistance;
+
+            if (dist < maxPathingDistance)
             {
                 if (!specialActiveSpawners.Contains(st))
                 {
@@ -346,6 +378,11 @@ public class DemonSpawner : MonoBehaviour
         if (currentRound > WavesContainer.Length) return wave = BaseWave;
         return wave = WavesContainer[currentRound];
     }
+
+    void UpdateAllDemonHealth()
+    {
+
+    }
     #endregion
 
     #region Timers
@@ -379,7 +416,7 @@ public class DemonSpawner : MonoBehaviour
 
     int GetSpawnIndex(float percentage, int total)
     {
-        return Mathf.RoundToInt((percentage / 100) * total);
+        return Mathf.RoundToInt(percentage / 100 * total);
     }
 
     float GetRandomIndexBetweenMinMax(float minPercent, float maxPercent, float total)
@@ -393,6 +430,6 @@ public class DemonSpawner : MonoBehaviour
     private void OnGUI()
     {
         string content = currentRound.ToString();
-        GUILayout.Label($"<color='black'><size=150>{content}</size></color>");
+        GUILayout.Label($"<color='white'><size=150>{content}</size></color>");
     }
 }

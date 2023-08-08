@@ -19,6 +19,7 @@ public static class HelperFuntions
 
         return newShuffledList;
     }
+
     public static List<T> AddToList<T>(List<T> originlist, List<T> itemsToAdd)
     {
         List<T> list = new List<T>(originlist);

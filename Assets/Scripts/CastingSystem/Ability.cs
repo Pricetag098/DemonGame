@@ -45,5 +45,22 @@ public class Ability : ScriptableObject
 
     }
 
+	public void Select()
+	{
+
+	}
+	protected virtual void OnSelect()
+	{
+
+	}
+
+    public void DeSelect()
+    {
+
+    }
+    protected virtual void DeOnSelect()
+    {
+
+    }
 
 }

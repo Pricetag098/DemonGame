@@ -14,23 +14,23 @@ public class CultistDemon : DemonBase
     }
     public override void Tick()
     {
-        PathFinding();
+        //PathFinding();
     }
     public override void OnAttack()
     {
 
     }
-    public override void PathFinding()
-    {
-        if (_calculatePath == true)
-        {
-            Transform pathingTarget = _target.transform;
+    //public override void PathFinding()
+    //{
+    //    if (_calculatePath == true)
+    //    {
+    //        Transform pathingTarget = _target.transform;
 
-            _currentPath = CalculatePath(pathingTarget);
+    //        _currentPath = CalculatePath(pathingTarget);
 
-            _agent.SetPath(_currentPath);
+    //        _agent.SetPath(_currentPath);
 
-            _calculatePath = false;
-        }
-    }
+    //        _calculatePath = false;
+    //    }
+    //}
 }

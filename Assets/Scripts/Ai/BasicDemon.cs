@@ -14,17 +14,14 @@ public class BasicDemon : DemonBase
     public override void Setup()
     {
         UpdateHealthToCurrentRound(_spawner.currentRound);
-
-        _health.OnDeath += OnDeath;
-        _health.OnHit += OnHit;
-        _health.health = _health.maxHealth;
-
-        _agent.stoppingDistance = _stoppingDistance;
+        base.Setup();
     }
     public override void Tick()
     {
-        PathFinding();
-        LookAt();
+        PathFinding(_agent.enabled);
+        DetectPlayer();
+
+        _animator.SetFloat("Speed", _agent.velocity.magnitude);
     }
     public override void OnAttack()
     {
@@ -32,12 +29,10 @@ public class BasicDemon : DemonBase
     }
     public override void OnSpawn(Transform target)
     {
+        base.OnSpawn(target);
         UpdateHealthToCurrentRound(_spawner.currentRound);
-
         CalculateAndSetPath(target);
         SetHealth(_health.maxHealth);
-
-        transform.rotation = Quaternion.identity;
     }
     public override void OnRespawn()
     {
@@ -45,9 +40,11 @@ public class BasicDemon : DemonBase
     }
     public override void OnDeath() // add back to pool of demon type
     {
-        _pooledObject.Despawn();
-        _spawner.DemonKilled();
         _agent.speed = 0;
+        _agent.enabled = false;
+        _collider.enabled = false;
+        
+        _animator.SetTrigger("Death");
     }
     public override void OnBuff()
     {
@@ -58,9 +55,17 @@ public class BasicDemon : DemonBase
         // do hit stuff
     }
 
-    public override void PathFinding()
+    public override void PathFinding(bool active)
     {
-        CalculateAndSetPath(_target);
+        if(active == true)
+        {
+            CalculateAndSetPath(_target);
+        }
+    }
+
+    public override void DetectPlayer()
+    {
+        // if within range trigger animation
     }
 
     public override void CalculateStats(int round)

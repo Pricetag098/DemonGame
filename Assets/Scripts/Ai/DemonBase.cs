@@ -31,6 +31,15 @@ public class DemonBase : MonoBehaviour, IDemon
     [SerializeField] protected AnimationCurve _maxHealthCurve;
     [SerializeField] protected AnimationCurve _moveSpeedCurve;
 
+    [Header("Animator")]
+    [SerializeField] protected Animator _animator;
+
+    [Header("Collider")]
+    [SerializeField] protected Collider _collider;
+
+    [Header("Rigidbody")]
+    [SerializeField] protected Rigidbody _rb;
+
     [Header("Ai Pathing")]
     [SerializeField] protected bool _calculatePath = false;
     protected NavMeshAgent _agent;
@@ -45,6 +54,9 @@ public class DemonBase : MonoBehaviour, IDemon
     {
         _agent = GetComponent<NavMeshAgent>();
         _health = GetComponent<Health>();
+        _animator = GetComponent<Animator>();
+        _collider = GetComponent<Collider>();
+        _rb = GetComponent<Rigidbody>();
         _spawner = FindObjectOfType<DemonSpawner>();
     }
 
@@ -56,27 +68,51 @@ public class DemonBase : MonoBehaviour, IDemon
     private void Update()
     {
         Tick();
+        LookAt(_agent.enabled);
     }
 
-    public virtual void Setup() { }
+    public virtual void Setup()
+    {
+        _health.health = _health.maxHealth;
+
+        _health.OnDeath += OnDeath;
+        _health.OnHit += OnHit;
+
+        _agent.stoppingDistance = _stoppingDistance;
+    }
     public virtual void Tick() { }
     public virtual void OnAttack() { }
     public virtual void OnHit() { } 
-    public virtual void PathFinding() { }
+    public virtual void PathFinding(bool canPath) { }
     public virtual void OnDeath() { }
-    public virtual void OnSpawn(Transform target) { }
+    public virtual void OnSpawn(Transform target)
+    {
+        _agent.speed = 0;
+        _agent.enabled = true;
+        _collider.enabled = true;
+        transform.rotation = Quaternion.identity;
+    }
     public virtual void OnBuff() { }
     public virtual void OnRespawn() { }
     public virtual void CalculateStats(int round) { }
+    public virtual void DetectPlayer() { }
     public virtual void UpdateHealthToCurrentRound(int currentRound) { }
 
-    protected void LookAt()
+    protected void LookAt(bool active)
     {
-        transform.LookAt(_target, Vector3.up);
+        if(active == true)
+        {
+            transform.LookAt(new Vector3(_target.position.x, transform.position.y, _target.position.z));
+        }
     }
     protected void OnFinishedSpawnAnimation() 
     {
         _agent.speed = _moveSpeed;
+    }
+    protected void OnFinishedDeathAnimation()
+    {
+        _pooledObject.Despawn();
+        _spawner.DemonKilled();
     }
 
     #region Properties

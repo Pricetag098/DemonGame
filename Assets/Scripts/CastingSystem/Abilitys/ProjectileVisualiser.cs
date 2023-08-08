@@ -19,7 +19,9 @@ public class ProjectileVisualiser : MonoBehaviour
         timer = 0;
         origin = start;
         target = end;
-	}
+        transform.position = origin.position;
+        transform.forward = target.forward;
+    }
 
     // Update is called once per frame
     void Update()

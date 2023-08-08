@@ -45,12 +45,12 @@ public class DemonSpawner : MonoBehaviour
 
     [Header("Spawn Location")]
     [SerializeField] Transform baseSpawner;
-    [SerializeField] List<Transform> baseActiveSpawners = new List<Transform>();
-    public List<Transform> baseSpawners = new List<Transform>();
+    private List<Transform> baseActiveSpawners = new List<Transform>();
+    [HideInInspector] public List<Transform> baseSpawners = new List<Transform>();
 
     [SerializeField] Transform SpecialSpawner;
-    [SerializeField] List<Transform> specialActiveSpawners = new List<Transform>();
-    public List<Transform> specialSpawners = new List<Transform>();
+    [HideInInspector] List<Transform> specialActiveSpawners = new List<Transform>();
+    [HideInInspector] public List<Transform> specialSpawners = new List<Transform>();
 
     [Header("Object Poolers")]
     [SerializeField] ObjectPooler baseDemonPooler;

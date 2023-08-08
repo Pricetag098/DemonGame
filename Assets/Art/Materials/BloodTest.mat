@@ -7,15 +7,16 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Test
-  m_Shader: {fileID: -6465566751694194690, guid: f35276f195f45c34998ffcade9dceb88, type: 3}
+  m_Name: BloodTest
+  m_Shader: {fileID: -6465566751694194690, guid: 10fc58155462d654783afc3abeb882f5, type: 3}
   m_ValidKeywords:
   - _DISABLE_SSR_TRANSPARENT
+  - _DOUBLESIDED_ON
   m_InvalidKeywords:
   - _NORMALMAP_TANGENT_SPACE
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 1
   m_CustomRenderQueue: 2225
   stringTagMap:
     MotionVector: User
@@ -70,10 +71,6 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Mask:
-        m_Texture: {fileID: 10912, guid: 0000000000000000f000000000000000, type: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskMap:
@@ -144,8 +141,8 @@ Material:
     - _BlendMode: 0
     - _CoatMask: 0
     - _ConservativeDepthOffsetEnable: 0
-    - _CullMode: 2
-    - _CullModeForward: 2
+    - _CullMode: 0
+    - _CullModeForward: 0
     - _Cutoff: 0.5
     - _DepthOffsetEnable: 0
     - _DetailAlbedoScale: 1
@@ -156,7 +153,7 @@ Material:
     - _DisplacementLockObjectScale: 1
     - _DisplacementLockTilingScale: 1
     - _DisplacementMode: 0
-    - _DoubleSidedEnable: 0
+    - _DoubleSidedEnable: 1
     - _DoubleSidedGIMode: 0
     - _DoubleSidedNormalMode: 1
     - _DstBlend: 0
@@ -168,6 +165,7 @@ Material:
     - _EnableFogOnTransparent: 1
     - _EnableGeometricSpecularAA: 0
     - _EnergyConservingSpecularColor: 1
+    - _FresnelPower: 1.01
     - _HeightAmplitude: 0.02
     - _HeightCenter: 0.5
     - _HeightMapParametrization: 0
@@ -186,8 +184,11 @@ Material:
     - _Metallic: 0
     - _MetallicRemapMax: 1
     - _MetallicRemapMin: 0
+    - _Metallic_1: 1
+    - _Metallic_2: 0
     - _NormalMapSpace: 0
     - _NormalScale: 1
+    - _Normal_Strength: 0.34
     - _OpaqueCullMode: 2
     - _PPDLodThreshold: 5
     - _PPDMaxSamples: 15
@@ -200,9 +201,7 @@ Material:
     - _RefractionModel: 0
     - _RenderQueueType: 1
     - _RequireSplitLighting: 0
-    - _Scale: 6.66
-    - _Scale2: 4.79
-    - _Smoothness: 0.65
+    - _Smoothness: 0.5
     - _SmoothnessRemapMax: 1
     - _SmoothnessRemapMin: 0
     - _SpecularAAScreenSpaceVariance: 0.1
@@ -224,9 +223,9 @@ Material:
     - _SurfaceType: 0
     - _TexWorldScale: 1
     - _TexWorldScaleEmissive: 1
+    - _Texture_1_Scale: 10
+    - _Texture_2_Scale: 10
     - _Thickness: 1
-    - _Time1: 20
-    - _Time2: 10
     - _TransmissionEnable: 1
     - _TransparentBackfaceEnable: 0
     - _TransparentCullMode: 2
@@ -244,12 +243,18 @@ Material:
     - _ZTestGBuffer: 4
     - _ZTestTransparent: 4
     - _ZWrite: 1
+    - _time: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
-    - _BloodFlowDirection: {r: 0, g: 6, b: 0, a: 0}
-    - _BloodFlowDirection_1: {r: 0.43, g: 2.09, b: 0, a: 0}
-    - _Color: {r: 1, g: 0.031390134, b: 0, a: 1}
+    - _Blood_Colour_1: {r: 1, g: 0, b: 0, a: 0}
+    - _Blood_Colour_2: {r: 0.19811317, g: 0, b: 0, a: 0}
+    - _Blood_Direction_Texture_1: {r: 0, g: 0.075, b: 0, a: 0}
+    - _Blood_Direction_Texture_2: {r: 0, g: 0.075, b: 0, a: 0}
+    - _Blood_Position: {r: 0.28, g: 0.85, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Colour_1: {r: 1, g: 0, b: 0, a: 0}
+    - _Colour_2: {r: 0.4433962, g: 0.039738327, b: 0.039738327, a: 0}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
@@ -257,17 +262,21 @@ Material:
     - _EmissiveColorLDR: {r: 0, g: 0, b: 0, a: 1}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
-    - _MinMax: {r: 0.36, g: 1.03, b: 0, a: 0}
+    - _Second_Material_Colour: {r: 0.5471698, g: 0, b: 0, a: 0}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Texture_1_Min_Max: {r: 0.14, g: 1, b: 0, a: 0}
+    - _Texture_2_Min_Max: {r: 0.22, g: 1, b: 0, a: 0}
     - _ThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
-    - _Tile1: {r: 5.2, g: 1.46, b: 0, a: 0}
-    - _Tile2: {r: 9.29, g: 3.37, b: 0, a: 0}
+    - _Tilling_Texture_1: {r: 1.02, g: 0.54, b: 0, a: 0}
+    - _Tilling_Texture_2: {r: 0.48, g: 0.61, b: 0, a: 0}
     - _TransmittanceColor: {r: 1, g: 1, b: 1, a: 1}
     - _UVDetailsMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMaskEmissive: {r: 1, g: 0, b: 0, a: 0}
+    - _Vector2: {r: 0.6, g: 0.4, b: 0, a: 0}
+    - _Vector2_1: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &8272502607623981845
+--- !u!114 &3538532283378729178
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

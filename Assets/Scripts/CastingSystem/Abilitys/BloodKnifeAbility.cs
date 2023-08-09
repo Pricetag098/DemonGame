@@ -1,4 +1,3 @@
-using UnityEngine.ProBuilder;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "abilities/Ranged")]

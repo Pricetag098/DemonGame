@@ -19,7 +19,6 @@ public class ShopInteractable : Interactable
 		{
 			playerStats.points -= Cost;
 			DoBuy();
-			
 		}
 	}
 

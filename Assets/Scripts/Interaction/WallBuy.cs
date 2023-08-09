@@ -19,7 +19,7 @@ public class WallBuy : ShopInteractable
 		Gun g;
 		if (holster.HasGun(prefab.GetComponent<Gun>(),out g))
 		{
-			g.AddToStash(1);
+			g.AddToStashPercent(1);
 		}
 		else
 		{

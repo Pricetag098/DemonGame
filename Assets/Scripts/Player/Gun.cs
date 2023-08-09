@@ -401,7 +401,7 @@ public class Gun : MonoBehaviour
 		}
 	}
 
-    public void AddToStash(float percent)
+    public void AddToStashPercent(float percent)
 	{
         percent = Mathf.Clamp01(percent);
         int ammoToAdd = Mathf.RoundToInt(percent * (float)maxStash);

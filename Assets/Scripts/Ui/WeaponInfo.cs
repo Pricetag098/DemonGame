@@ -17,5 +17,6 @@ public class WeaponInfo : MonoBehaviour
     {
 		
         ammoText.text = holster.HeldGun.ammoLeft.ToString() + "/" + holster.HeldGun.stash;
+		nameText.text = holster.HeldGun.gunName;
     }
 }

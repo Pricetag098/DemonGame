@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class CasterDisplay : MonoBehaviour
 {
     [SerializeField] Image[] icons;
-    [SerializeField] Image bloodMeter;
+    [SerializeField] Slider bloodMeter;
     [SerializeField] AbilityCaster caster;
     // Start is called before the first frame update
     void Start()
@@ -20,6 +20,6 @@ public class CasterDisplay : MonoBehaviour
 		{
             icons[i].sprite = caster.abilities[i].icon;
 		}
-        bloodMeter.fillAmount = caster.blood / caster.maxBlood;
+        bloodMeter.value = caster.blood / caster.maxBlood;
     }
 }

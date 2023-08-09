@@ -310,7 +310,7 @@ public class DemonSpawner : MonoBehaviour
 
         int listSize = specialDemonTypes.Count;
 
-        HelperFuntions.ClearLog();
+        //HelperFuntions.ClearLog();
 
         for (int i = 0; i < listSize; i++)
         {

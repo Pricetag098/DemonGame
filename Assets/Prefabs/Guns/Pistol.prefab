@@ -24463,6 +24463,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8480636693370060747}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: maxRecoilVal
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: roundsPerMin
       value: 315
       objectReference: {fileID: 0}
@@ -24483,6 +24487,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: recoilResetDelay
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: recoilResetSpeed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: useOwnVisualiser
       value: 0
       objectReference: {fileID: 0}
@@ -24497,6 +24509,94 @@ PrefabInstance:
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: visualiserPool.enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: recoilSpreadCurve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: velocitySpredCurve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: recoilSpreadCurve.m_Curve.Array.data[1].time
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: recoilSpreadCurve.m_Curve.Array.data[1].value
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: velocitySpredCurve.m_Curve.Array.data[1].time
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: velocitySpredCurve.m_Curve.Array.data[1].value
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: recoilSpreadCurve.m_Curve.Array.data[0].inSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: recoilSpreadCurve.m_Curve.Array.data[1].inSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: recoilSpreadCurve.m_Curve.Array.data[0].outSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: recoilSpreadCurve.m_Curve.Array.data[1].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: recoilSpreadCurve.m_Curve.Array.data[1].outSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: velocitySpredCurve.m_Curve.Array.data[0].inSlope
+      value: 0.27272728
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: velocitySpredCurve.m_Curve.Array.data[1].inSlope
+      value: 0.27272728
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: recoilSpreadCurve.m_Curve.Array.data[0].outWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: velocitySpredCurve.m_Curve.Array.data[0].outSlope
+      value: 0.27272728
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: velocitySpredCurve.m_Curve.Array.data[1].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: velocitySpredCurve.m_Curve.Array.data[1].outSlope
+      value: 0.27272728
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: velocitySpredCurve.m_Curve.Array.data[0].outWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: recoilSpreadCurve.m_Curve.Array.data[0].tangentMode
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: recoilSpreadCurve.m_Curve.Array.data[1].tangentMode
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: velocitySpredCurve.m_Curve.Array.data[0].tangentMode
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: velocitySpredCurve.m_Curve.Array.data[1].tangentMode
+      value: 34
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100853, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: m_RootOrder
@@ -24544,7 +24644,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100854, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: m_Name
-      value: Starter Pistol
+      value: Pistol
       objectReference: {fileID: 0}
     - target: {fileID: 3118617947092816437, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: m_LocalPosition.y

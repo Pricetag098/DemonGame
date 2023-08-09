@@ -11,20 +11,32 @@ public class BasicDemon : DemonBase
     [SerializeField] float m_HealthToAdd;
     [SerializeField] float m_HealthMultiplier;
 
+    [Header("ObstacleDetection")]
+    [SerializeField] DestroyObstacle m_obstacle;
+
+    private delegate void DestroyBarrier();
+    private DestroyBarrier m_barrier;
+
+    public override void OnAwakened()
+    {
+        m_obstacle = GetComponent<DestroyObstacle>();
+    }
     public override void Setup()
     {
         UpdateHealthToCurrentRound(_spawner.currentRound);
-
-        _health.OnDeath += OnDeath;
-        _health.OnHit += OnHit;
-        _health.health = _health.maxHealth;
-
-        _agent.stoppingDistance = _stoppingDistance;
+        base.Setup();
     }
+
+    int frames = 0;
     public override void Tick()
     {
-        PathFinding();
-        LookAt();
+        frames++;
+        PathFinding(_agent.enabled);
+        DetectPlayer(_agent.enabled);
+
+        //m_obstacle.Detection(frames);
+
+        _animator.SetFloat("Speed", _agent.velocity.magnitude);
     }
     public override void OnAttack()
     {
@@ -32,12 +44,10 @@ public class BasicDemon : DemonBase
     }
     public override void OnSpawn(Transform target)
     {
+        base.OnSpawn(target);
         UpdateHealthToCurrentRound(_spawner.currentRound);
-
         CalculateAndSetPath(target);
         SetHealth(_health.maxHealth);
-
-        transform.rotation = Quaternion.identity;
     }
     public override void OnRespawn()
     {
@@ -45,9 +55,11 @@ public class BasicDemon : DemonBase
     }
     public override void OnDeath() // add back to pool of demon type
     {
-        _pooledObject.Despawn();
-        _spawner.DemonKilled();
         _agent.speed = 0;
+        _agent.enabled = false;
+        _collider.enabled = false;
+        
+        _animator.SetTrigger("Death");
     }
     public override void OnBuff()
     {
@@ -58,9 +70,27 @@ public class BasicDemon : DemonBase
         // do hit stuff
     }
 
-    public override void PathFinding()
+    public override void PathFinding(bool active)
     {
-        CalculateAndSetPath(_target);
+        if(active == true)
+        {
+            CalculateAndSetPath(_target);
+        }
+    }
+
+    public override void DetectPlayer(bool active)
+    {
+        if(active == true)
+        {
+            if (DistanceToTarget < _attackRange)
+            {
+                PlayAnimation("Attack");
+            }
+        }
+    }
+    public void OnAttackDestructible(int damage)
+    {
+
     }
 
     public override void CalculateStats(int round)

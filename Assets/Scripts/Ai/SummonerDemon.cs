@@ -16,8 +16,4 @@ public class SummonerDemon : DemonBase
     {
 
     }
-    public override void PathFinding()
-    {
-
-    }
 }

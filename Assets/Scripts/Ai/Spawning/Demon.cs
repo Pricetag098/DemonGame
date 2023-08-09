@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DemonCum;
+using System;
 
-[CreateAssetMenu(fileName = "Demon", menuName = "Demon/Create Demon", order = 0)]
-public class Demon : ScriptableObject
+[Serializable]
+public class Demon
 {
-    public DemonId demon;
-    public GameObject demonObject;
+    public DemonID demon;
+    public SpawnType spawnType;
 }

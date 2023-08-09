@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using Movement;
 public class Holster : MonoBehaviour
 {
     public PlayerStats stats;
     public ObjectPooler bulletVisualierPool;
     public AbilityCaster abilityCaster;
+    public Rigidbody rb;
 
     [SerializeField] InputActionProperty input;
 
@@ -22,6 +23,7 @@ public class Holster : MonoBehaviour
     public delegate void OnDealDamageAction(float amount);
     public OnDealDamageAction OnDealDamage;
 
+    [SerializeField] Movement.PlayerInput playerInput;
 	private void Start()
 	{
         input.action.performed += SwapGun;
@@ -114,4 +116,9 @@ public class Holster : MonoBehaviour
         returnedGun = null;
         return false;
     }
+
+    public bool CanShoot()
+	{
+        return playerInput.Running();
+	}
 }

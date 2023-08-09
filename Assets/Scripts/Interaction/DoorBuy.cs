@@ -6,6 +6,7 @@ public class DoorBuy : ShopInteractable
 {
     public bool open;
     [SerializeField] Vector3 openOffset;
+    [SerializeField] Area area;
 
     protected override bool CanBuy()
     {
@@ -16,5 +17,6 @@ public class DoorBuy : ShopInteractable
         open = true;
         //doAnimationStuff
         transform.parent.position += openOffset;
+        area.SpawnLocations();
     }
 }

@@ -8,6 +8,12 @@ public class DemonBase : MonoBehaviour, IDemon
     [Header("Target")]
     [SerializeField] protected Transform _target;
 
+    [Header("Spawner")]
+    [SerializeField] protected DemonSpawner _spawner;
+
+    [Header("Demon Type")]
+    [SerializeField] protected DemonType _type;
+
     [Header("BaseStats")]
     [SerializeField] protected float _baseDamage;
     [SerializeField] protected float _baseHealth;
@@ -16,7 +22,6 @@ public class DemonBase : MonoBehaviour, IDemon
     [Header("Stats")]
     [SerializeField] protected float _damage;
     [SerializeField] protected float _moveSpeed;
-    [SerializeField] protected float _maxHealth;
     [SerializeField] protected float _attackSpeed;
     [SerializeField] protected float _attackRange;
     [SerializeField] protected float _stoppingDistance;
@@ -32,18 +37,21 @@ public class DemonBase : MonoBehaviour, IDemon
     protected NavMeshPath _currentPath;
 
     protected Health _health;
-    protected ObjectPooler _pooler;
+    protected PooledObject _pooledObject;
+
+    protected int _currentUpdatedRound = 1;
 
     private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
         _health = GetComponent<Health>();
-        _pooler = GetComponentInParent<ObjectPooler>();
+        _spawner = FindObjectOfType<DemonSpawner>();
     }
 
     private void Start()
     {
         Setup();
+        _pooledObject = GetComponent<PooledObject>();
     }
     private void Update()
     {
@@ -53,11 +61,23 @@ public class DemonBase : MonoBehaviour, IDemon
     public virtual void Setup() { }
     public virtual void Tick() { }
     public virtual void OnAttack() { }
-    public virtual void OnHit() { }
+    public virtual void OnHit() { } 
     public virtual void PathFinding() { }
     public virtual void OnDeath() { }
     public virtual void OnSpawn(Transform target) { }
     public virtual void OnBuff() { }
+    public virtual void OnRespawn() { }
+    public virtual void CalculateStats(int round) { }
+    public virtual void UpdateHealthToCurrentRound(int currentRound) { }
+
+    protected void LookAt()
+    {
+        transform.LookAt(_target, Vector3.up);
+    }
+    protected void OnFinishedSpawnAnimation() 
+    {
+        _agent.speed = _moveSpeed;
+    }
 
     #region Properties
     protected float DistanceToTarget // gets path distance remaining to target
@@ -86,15 +106,10 @@ public class DemonBase : MonoBehaviour, IDemon
         _agent.CalculatePath(targetPos.position, path);
 
         _agent.SetPath(path);
-    }
-    public void CalculateStats(int round)
-    {
-        _damage = _damageCurve.Evaluate(round) + _baseDamage;
-        _maxHealth = _maxHealthCurve.Evaluate(round) + _baseHealth;
-        _moveSpeed = _moveSpeedCurve.Evaluate(round) + _baseMoveSpeed;
 
-        _agent.speed = _moveSpeed;
+        _target = targetPos;
     }
+    
     public void StopPathing()
     {
         _agent.isStopped = true;
@@ -123,15 +138,15 @@ public class DemonBase : MonoBehaviour, IDemon
     public void SetHealth(float amount)
     {
         _health.health = amount;
-        if (_health.health > _maxHealth) _health.health = _maxHealth;
+        //if (_health.health > _health.maxHealth) _health.health = _health.maxHealth;
     }
     public void UpdateMaxHealth(float amount)
     {
-        _maxHealth += amount;
+        _health.maxHealth += amount;
     }
     public void SetMaxHealth(float amount)
     {
-        _maxHealth = amount;
+        _health.maxHealth = amount;
     }
     public void UpdateAttackRange(float amount)
     {
@@ -156,10 +171,6 @@ public class DemonBase : MonoBehaviour, IDemon
     public void SetDamage(float amount)
     {
         _damage = amount;
-    }
-    public void TakeDamage(float amount)
-    {
-        _health.health -= amount;
     }
     #endregion
 }

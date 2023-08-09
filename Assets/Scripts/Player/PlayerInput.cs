@@ -172,6 +172,12 @@ namespace Movement
 
 		bool slideInput;
 
+
+		public bool Running()
+		{
+			return moveState == MoveStates.run && !canSprintAndShoot;
+		}
+
 		// Update is called once per frame
 		void Update()
 		{

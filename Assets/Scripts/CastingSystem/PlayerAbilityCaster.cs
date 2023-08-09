@@ -8,6 +8,7 @@ public class PlayerAbilityCaster : MonoBehaviour
     public int activeIndex;
     public InputActionProperty useAction;
     public InputActionProperty swapAction;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,11 +19,13 @@ public class PlayerAbilityCaster : MonoBehaviour
 	private void OnEnable()
 	{
 		useAction.action.Enable();
+        swapAction.action.Enable();
 	}
 
 	private void OnDisable()
 	{
 		useAction.action.Disable();
+        swapAction.action.Disable();
 	}
 
 	// Update is called once per frame
@@ -40,7 +43,7 @@ public class PlayerAbilityCaster : MonoBehaviour
     {
         caster.abilities[activeIndex].DeSelect();
         activeIndex++;
-        if(activeIndex > caster.abilities.Length)
+        if(activeIndex > caster.abilities.Length-1)
         {
             activeIndex = 0;
         }

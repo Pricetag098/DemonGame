@@ -58,6 +58,8 @@ public class DemonBase : MonoBehaviour, IDemon
         _collider = GetComponent<Collider>();
         _rb = GetComponent<Rigidbody>();
         _spawner = FindObjectOfType<DemonSpawner>();
+
+        OnAwakened();
     }
 
     private void Start()
@@ -71,6 +73,7 @@ public class DemonBase : MonoBehaviour, IDemon
         LookAt(_agent.enabled);
     }
 
+    public virtual void OnAwakened() { }
     public virtual void Setup()
     {
         _health.health = _health.maxHealth;
@@ -95,7 +98,7 @@ public class DemonBase : MonoBehaviour, IDemon
     public virtual void OnBuff() { }
     public virtual void OnRespawn() { }
     public virtual void CalculateStats(int round) { }
-    public virtual void DetectPlayer() { }
+    public virtual void DetectPlayer(bool active) { }
     public virtual void UpdateHealthToCurrentRound(int currentRound) { }
 
     protected void LookAt(bool active)
@@ -114,6 +117,12 @@ public class DemonBase : MonoBehaviour, IDemon
         _pooledObject.Despawn();
         _spawner.DemonKilled();
     }
+
+    public void PlayAnimation(string trigger)
+    {
+        _animator.SetTrigger(trigger);
+    }
+
 
     #region Properties
     protected float DistanceToTarget // gets path distance remaining to target

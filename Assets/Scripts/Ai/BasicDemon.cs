@@ -11,15 +11,30 @@ public class BasicDemon : DemonBase
     [SerializeField] float m_HealthToAdd;
     [SerializeField] float m_HealthMultiplier;
 
+    [Header("ObstacleDetection")]
+    [SerializeField] DestroyObstacle m_obstacle;
+
+    private delegate void DestroyBarrier();
+    private DestroyBarrier m_barrier;
+
+    public override void OnAwakened()
+    {
+        m_obstacle = GetComponent<DestroyObstacle>();
+    }
     public override void Setup()
     {
         UpdateHealthToCurrentRound(_spawner.currentRound);
         base.Setup();
     }
+
+    int frames = 0;
     public override void Tick()
     {
+        frames++;
         PathFinding(_agent.enabled);
-        DetectPlayer();
+        DetectPlayer(_agent.enabled);
+
+        m_obstacle.Detection(frames);
 
         _animator.SetFloat("Speed", _agent.velocity.magnitude);
     }
@@ -63,9 +78,19 @@ public class BasicDemon : DemonBase
         }
     }
 
-    public override void DetectPlayer()
+    public override void DetectPlayer(bool active)
     {
-        // if within range trigger animation
+        if(active == true)
+        {
+            if (DistanceToTarget < _attackRange)
+            {
+                PlayAnimation("Attack");
+            }
+        }
+    }
+    public void OnAttackDestructible(int damage)
+    {
+
     }
 
     public override void CalculateStats(int round)

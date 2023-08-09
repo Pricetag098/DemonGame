@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class Ability : ScriptableObject
 {
 	public string abilityName;
+	public Sprite icon;
 	protected AbilityCaster caster;
 	public float bloodCost = 10;
 	public enum CastModes

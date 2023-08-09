@@ -16,6 +16,8 @@ public class FovSpeedChanger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        cam.fieldOfView = fovCurve.Evaluate(rb.velocity.magnitude);
+        Vector3 vel = rb.velocity;
+        vel.y = 0;
+        cam.fieldOfView = fovCurve.Evaluate(vel.magnitude);
     }
 }

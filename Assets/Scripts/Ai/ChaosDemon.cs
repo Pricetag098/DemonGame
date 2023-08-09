@@ -16,8 +16,4 @@ public class ChaosDemon : DemonBase
     {
 
     }
-    public override void PathFinding()
-    {
-
-    }
 }

@@ -427,9 +427,4 @@ public class DemonSpawner : MonoBehaviour
         return Random.Range(min, max);
     }
 
-    private void OnGUI()
-    {
-        string content = currentRound.ToString();
-        GUILayout.Label($"<color='white'><size=150>{content}</size></color>");
-    }
 }

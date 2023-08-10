@@ -4,27 +4,26 @@ using UnityEngine;
 
 public class WallBuy : ShopInteractable
 {
-    [SerializeField] Holster holster;
 	[SerializeField] GameObject prefab;
 	
 	
 
-	protected override bool CanBuy()
+	protected override bool CanBuy(Interactor interactor)
 	{
 		return true;
 	}
 
-	protected override void DoBuy()
+	protected override void DoBuy(Interactor interactor)
 	{
 		Gun g;
-		if (holster.HasGun(prefab.GetComponent<Gun>(),out g))
+		if (interactor.holster.HasGun(prefab.GetComponent<Gun>(),out g))
 		{
 			g.AddToStashPercent(1);
 		}
 		else
 		{
-            GameObject gun = Instantiate(prefab, holster.transform);
-            holster.HeldGun = gun.GetComponent<Gun>();
+            GameObject gun = Instantiate(prefab, interactor.holster.transform);
+            interactor.holster.HeldGun = gun.GetComponent<Gun>();
         }
 		
 	}

@@ -4,31 +4,47 @@ using UnityEngine;
 
 public class ShopInteractable : Interactable
 {
-    [SerializeField] protected PlayerStats playerStats;
+    
 	[SerializeField] int Cost;
-	
-	public override void Interact()
+	[SerializeField] string cantBuyMessage = "Cant buy";
+	public override void Interact(Interactor interactor)
 	{
-		if (!CanBuy())
+		if (!CanBuy(interactor))
 		{
             Debug.Log("cant buy");
             return;
         }
 			
-		if(playerStats.points >= Cost )
+		if(interactor.playerStats.points >= Cost )
 		{
-			playerStats.points -= Cost;
-			DoBuy();
+			interactor.playerStats.points -= Cost;
+			DoBuy(interactor);
 		}
 	}
 
-	protected virtual void DoBuy()
+	protected virtual void DoBuy(Interactor interactor)
 	{
 
 	}
 
-	protected virtual bool CanBuy()
+	protected virtual bool CanBuy(Interactor interactor)
 	{
 		return true;
+	}
+
+	public override void EndHover(Interactor interactor)
+	{
+		base.EndHover(interactor);
+		interactor.display.HideText();
+	}
+	public override void StartHover(Interactor interactor)
+	{
+		base.StartHover(interactor);
+		bool canBuy = CanBuy(interactor);
+		interactor.display.DisplayMessage(canBuy,canBuy ? GetBuyMessage() : cantBuyMessage);
+	}
+	protected virtual string GetBuyMessage()
+	{
+		return " to buy " + Cost;
 	}
 }

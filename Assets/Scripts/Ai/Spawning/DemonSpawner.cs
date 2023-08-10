@@ -8,7 +8,7 @@ using UnityEngine.AI;
 
 public class DemonSpawner : MonoBehaviour
 {
-    [SerializeField] Transform player;
+    public Transform player;
     [SerializeField] NavMeshAgent playerAgent;
 
     [Header("Wave")]
@@ -31,7 +31,7 @@ public class DemonSpawner : MonoBehaviour
     [SerializeField] int maxDemonsAtOnce;
     [SerializeField] float maxPathingDistance;
     [SerializeField] float maxSpawningDistance;
-    [SerializeField] float timeBetweenSpawns;
+    public float timeBetweenSpawns;
     [SerializeField] float timeBetweenRounds;
     [SerializeField] int demonsToSpawnEachTick;
     [SerializeField] Vector2Int minMax;
@@ -69,9 +69,9 @@ public class DemonSpawner : MonoBehaviour
     private float spawnTimer;
     private float endRoundTimer;
 
-    private Dictionary<DemonID, ObjectPooler> demonPoolers = new Dictionary<DemonID, ObjectPooler>();
+    public Dictionary<DemonID, ObjectPooler> demonPoolers = new Dictionary<DemonID, ObjectPooler>();
 
-    private Queue<DemonType> DemonQueue = new Queue<DemonType>();
+    [HideInInspector] public Queue<DemonType> DemonQueue = new Queue<DemonType>();
 
     private void Awake()
     {
@@ -132,27 +132,27 @@ public class DemonSpawner : MonoBehaviour
 
                 if(maxDemonsToSpawn < toSpawn) { toSpawn = maxDemonsToSpawn; }
 
-                if(toSpawn > 0) ActiveSpawners(player, baseSpawners, specialSpawners); // if demoms to spawn check spawners
+                //if(toSpawn > 0) ActiveSpawners(player, baseSpawners, specialSpawners); // if demoms to spawn check spawners
 
-                for (int i = 0; i < toSpawn; i++)
-                {
-                    DemonType demon = DemonQueue.Dequeue();
-                    Vector3 pos = Vector3.zero;
-                    int temp = -2;
+                //for (int i = 0; i < toSpawn; i++)
+                //{
+                //    DemonType demon = DemonQueue.Dequeue();
+                //    Vector3 pos = Vector3.zero;
+                //    int temp = -2;
 
-                    if (demon.SpawnType == SpawnType.Basic)
-                    {
-                        temp = Random.Range(0, baseActiveSpawners.Count);
-                        pos = baseActiveSpawners[temp].position;
-                    }
-                    else if (demon.SpawnType == SpawnType.Special)
-                    {
-                        temp = Random.Range(0, specialActiveSpawners.Count);
-                        pos = specialActiveSpawners[temp].position;
-                    }
+                //    if (demon.SpawnType == SpawnType.Basic)
+                //    {
+                //        temp = Random.Range(0, baseActiveSpawners.Count);
+                //        pos = baseActiveSpawners[temp].position;
+                //    }
+                //    else if (demon.SpawnType == SpawnType.Special)
+                //    {
+                //        temp = Random.Range(0, specialActiveSpawners.Count);
+                //        pos = specialActiveSpawners[temp].position;
+                //    }
 
-                    if(temp > -1) SpawnDemon(demon.Id, pos); // spawn using object poolers
-                }
+                //    if(temp > -1) SpawnDemon(demon.Id, pos); // spawn using object poolers
+                //}
             }
         }
     }

@@ -34,7 +34,7 @@ public class BasicDemon : DemonBase
         PathFinding(_agent.enabled);
         DetectPlayer(_agent.enabled);
 
-        //m_obstacle.Detection(frames);
+        m_obstacle.Detection(frames);
 
         _animator.SetFloat("Speed", _agent.velocity.magnitude);
     }

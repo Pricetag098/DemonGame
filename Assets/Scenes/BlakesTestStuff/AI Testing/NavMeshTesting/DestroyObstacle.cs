@@ -58,7 +58,7 @@ public class DestroyObstacle : MonoBehaviour
         int length = Agent.path.GetCornersNonAlloc(corners);
         if(length > 1)
         {
-            if (Physics.Raycast(corners[0], (corners[1] - corners[0]).normalized, out RaycastHit hit, 1, DestructibleLayers))
+            if (Physics.Raycast(corners[0], (corners[1] - corners[0]).normalized, out RaycastHit hit, CheckDistance, DestructibleLayers))
             {
                 if(hit.collider.TryGetComponent<DestrcutibleObject>(out DestrcutibleObject d))
                 {

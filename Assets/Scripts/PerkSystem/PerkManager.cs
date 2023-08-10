@@ -21,7 +21,7 @@ public class PerkManager : MonoBehaviour
 
     public void AddPerk(Perk perk)
 	{
-        if (perkList.Contains(perk) || perkList.Count > maxPerks)
+        if (perkList.Contains(perk) || perkList.Count +1 > maxPerks)
             return;
         Debug.Log(perk.GetType());
         perk.Equip(this);

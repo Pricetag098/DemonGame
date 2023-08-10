@@ -9,12 +9,13 @@ public class Interactor : MonoBehaviour
     [SerializeField] LayerMask layerMask;
     [SerializeField] float interactionRange;
     [SerializeField] InputActionProperty inputAction;
-    bool hasInteractable;
-    Interactable interactable;
+    public bool hasInteractable;
+	public Interactable interactable;
 	public InteractionDisplay display;
 	[HideInInspector] public PlayerStats playerStats;
 	[HideInInspector] public Holster holster;
 	[HideInInspector] public PlayerAbilityCaster caster;
+	[HideInInspector] public PerkManager perkManager;
 
 	private void Start()
 	{
@@ -22,6 +23,7 @@ public class Interactor : MonoBehaviour
 		playerStats = GetComponent<PlayerStats>();
 		caster = GetComponent<PlayerAbilityCaster>();
 		holster = GetComponentInChildren<Holster>();
+		perkManager = GetComponent<PerkManager>();
 	}
 	private void OnEnable()
 	{
@@ -74,7 +76,7 @@ public class Interactor : MonoBehaviour
 	{
 		if(!hasInteractable)
 			return;
-
+		Debug.Log("Interact");
 		interactable.Interact(this);
 	}
 

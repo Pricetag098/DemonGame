@@ -14,7 +14,6 @@ public class BloodKnifeAbility : Ability
     [SerializeField] AnimationCurve chargeDamageCurve = AnimationCurve.Linear(0, 0, 1, 100);
     [SerializeField] AnimationCurve chargeVelocityCurve = AnimationCurve.Linear(0, 0, 1, 50);
     [SerializeField] AnimationCurve chargePenetrationCurve = AnimationCurve.Linear(0, 0, 1, 3);
-    [SerializeField] float speedModifier = .6f;
 
     
 

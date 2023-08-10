@@ -327,6 +327,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1425694932920734083}
+  - component: {fileID: 2004814756}
+  - component: {fileID: 2004814757}
   m_Layer: 0
   m_Name: Interact Display
   m_TagString: Untagged
@@ -355,6 +357,33 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &2004814756
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1273083569880321213}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &2004814757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1273083569880321213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6399998b2424594a9fa0b52e92ba20d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactText: {fileID: 1099706803022857567}
+  icon: {fileID: 1066772238143235536}
+  messageText: {fileID: 4970727286762774259}
 --- !u!1 &1577733127476614672
 GameObject:
   m_ObjectHideFlags: 0
@@ -2445,7 +2474,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 3
+  m_ChildAlignment: 4
   m_Spacing: 3
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
@@ -2778,6 +2807,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7007986485770030773}
   - component: {fileID: 4167509545309579028}
+  - component: {fileID: 2008711155}
   m_Layer: 0
   m_Name: PactsDisplay
   m_TagString: Untagged
@@ -2835,6 +2865,19 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &2008711155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8133591733176726592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95daf928d9420fc4083efa4a91714e7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  perkManager: {fileID: 0}
 --- !u!1 &8172901860974322395
 GameObject:
   m_ObjectHideFlags: 0

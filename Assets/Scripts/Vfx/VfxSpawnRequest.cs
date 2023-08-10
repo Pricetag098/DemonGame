@@ -1,18 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class VfxSpawnRequest : MonoBehaviour
+[CreateAssetMenu(menuName = "Vfx Spawn Request")]
+public class VfxSpawnRequest : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	public GameObject prefab;
+	public int poolSize = 10;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	public void Play(Vector3 point, Vector3 dir)
+	{
+		VfxSpawner.SpawnVfx(this, point, dir);
+	}
 }

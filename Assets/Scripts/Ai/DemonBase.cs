@@ -27,8 +27,6 @@ public class DemonBase : MonoBehaviour, IDemon
     [SerializeField] protected float _stoppingDistance;
 
     [Header("AnimationCurves")]
-    [SerializeField] protected AnimationCurve _damageCurve;
-    [SerializeField] protected AnimationCurve _maxHealthCurve;
     [SerializeField] protected AnimationCurve _moveSpeedCurve;
 
     [Header("Animator")]
@@ -183,7 +181,6 @@ public class DemonBase : MonoBehaviour, IDemon
     public void SetHealth(float amount)
     {
         _health.health = amount;
-        //if (_health.health > _health.maxHealth) _health.health = _health.maxHealth;
     }
     public void UpdateMaxHealth(float amount)
     {

@@ -27,6 +27,7 @@ public class DestroyObstacle : MonoBehaviour
         if(amount % DestructibleCheckRate == 0 && foundObject == false)
         {
             checkForObjects = CheckForDistructibleObjects();
+            amount = 0;
         }
 
         if (checkForObjects == false && foundObject == false) return;
@@ -47,6 +48,7 @@ public class DestroyObstacle : MonoBehaviour
                     obj = null;
                 }
                 timer = 0;
+                amount = 0;
             }
         }
     }

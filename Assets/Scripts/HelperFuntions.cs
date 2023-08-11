@@ -78,4 +78,17 @@ public static class HelperFuntions
 
         return list;
     }
+    public static List<Spawner> GetAllChildrenSpawnersFromParent(Transform parent)
+    {
+        List<Spawner> list = new List<Spawner>();
+
+        foreach (Transform child in parent)
+        {
+            Spawner temp = child.GetComponent<Spawner>();
+
+            list.Add(temp);
+        }
+
+        return list;
+    }
 }

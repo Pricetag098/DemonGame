@@ -27,6 +27,7 @@ public class DestroyObstacle : MonoBehaviour
         if(amount % DestructibleCheckRate == 0 && foundObject == false)
         {
             checkForObjects = CheckForDistructibleObjects();
+            amount = 0;
         }
 
         if (checkForObjects == false && foundObject == false) return;
@@ -47,6 +48,7 @@ public class DestroyObstacle : MonoBehaviour
                     obj = null;
                 }
                 timer = 0;
+                amount = 0;
             }
         }
     }
@@ -58,7 +60,7 @@ public class DestroyObstacle : MonoBehaviour
         int length = Agent.path.GetCornersNonAlloc(corners);
         if(length > 1)
         {
-            if (Physics.Raycast(corners[0], (corners[1] - corners[0]).normalized, out RaycastHit hit, 1, DestructibleLayers))
+            if (Physics.Raycast(corners[0], (corners[1] - corners[0]).normalized, out RaycastHit hit, CheckDistance, DestructibleLayers))
             {
                 if(hit.collider.TryGetComponent<DestrcutibleObject>(out DestrcutibleObject d))
                 {

@@ -8,7 +8,7 @@ using UnityEngine.AI;
 
 public class DemonSpawner : MonoBehaviour
 {
-    [SerializeField] Transform player;
+    public Transform player;
     [SerializeField] NavMeshAgent playerAgent;
 
     [Header("Wave")]
@@ -23,15 +23,15 @@ public class DemonSpawner : MonoBehaviour
     private Wave[] WavesContainer = new Wave[101];
 
     [Header("Display Stats")]
-    [SerializeField] int maxDemonsToSpawn;
-    [SerializeField] int currentDemons;
+    public int maxDemonsToSpawn;
+    public int currentDemons;
 
     [Header("Spawning Stats")]
     [SerializeField] bool canSpawn;
     [SerializeField] int maxDemonsAtOnce;
     [SerializeField] float maxPathingDistance;
     [SerializeField] float maxSpawningDistance;
-    [SerializeField] float timeBetweenSpawns;
+    public float timeBetweenSpawns;
     [SerializeField] float timeBetweenRounds;
     [SerializeField] int demonsToSpawnEachTick;
     [SerializeField] Vector2Int minMax;
@@ -45,12 +45,12 @@ public class DemonSpawner : MonoBehaviour
 
     [Header("Spawn Location")]
     [SerializeField] Transform baseSpawner;
-    private List<Transform> baseActiveSpawners = new List<Transform>();
-    [HideInInspector] public List<Transform> baseSpawners = new List<Transform>();
+    public List<Spawner> baseActiveSpawners = new List<Spawner>();
+    public List<Spawner> baseSpawners = new List<Spawner>();
 
     [SerializeField] Transform SpecialSpawner;
-    [HideInInspector] List<Transform> specialActiveSpawners = new List<Transform>();
-    [HideInInspector] public List<Transform> specialSpawners = new List<Transform>();
+    public List<Spawner> specialActiveSpawners = new List<Spawner>();
+    public List<Spawner> specialSpawners = new List<Spawner>();
 
     [Header("Object Poolers")]
     [SerializeField] ObjectPooler baseDemonPooler;
@@ -69,9 +69,9 @@ public class DemonSpawner : MonoBehaviour
     private float spawnTimer;
     private float endRoundTimer;
 
-    private Dictionary<DemonID, ObjectPooler> demonPoolers = new Dictionary<DemonID, ObjectPooler>();
+    public Dictionary<DemonID, ObjectPooler> demonPoolers = new Dictionary<DemonID, ObjectPooler>();
 
-    private Queue<DemonType> DemonQueue = new Queue<DemonType>();
+    [HideInInspector] public Queue<DemonType> DemonQueue = new Queue<DemonType>();
 
     private void Awake()
     {
@@ -84,8 +84,8 @@ public class DemonSpawner : MonoBehaviour
 
     private void Start()
     {
-        baseSpawners = HelperFuntions.GetAllChildrenTransformsFromParent(baseSpawner);
-        specialSpawners = HelperFuntions.GetAllChildrenTransformsFromParent(SpecialSpawner);
+        baseSpawners = HelperFuntions.GetAllChildrenSpawnersFromParent(baseSpawner);
+        specialSpawners = HelperFuntions.GetAllChildrenSpawnersFromParent(SpecialSpawner);
 
         SetWaves(waves);
 
@@ -132,26 +132,29 @@ public class DemonSpawner : MonoBehaviour
 
                 if(maxDemonsToSpawn < toSpawn) { toSpawn = maxDemonsToSpawn; }
 
-                if(toSpawn > 0) ActiveSpawners(player, baseSpawners, specialSpawners); // if demoms to spawn check spawners
+                if (toSpawn > 0) ActiveSpawners(player, baseSpawners, specialSpawners); // if demoms to spawn check spawners
 
                 for (int i = 0; i < toSpawn; i++)
                 {
-                    DemonType demon = DemonQueue.Dequeue();
-                    Vector3 pos = Vector3.zero;
+                    DemonType demon = null;
+                    if (DemonQueue.Count > 0) { demon = DemonQueue.Dequeue(); }
+                    else { break; }
+
+                    Spawner spawner = null;
                     int temp = -2;
 
                     if (demon.SpawnType == SpawnType.Basic)
                     {
                         temp = Random.Range(0, baseActiveSpawners.Count);
-                        pos = baseActiveSpawners[temp].position;
+                        spawner = baseActiveSpawners[temp];
                     }
                     else if (demon.SpawnType == SpawnType.Special)
                     {
                         temp = Random.Range(0, specialActiveSpawners.Count);
-                        pos = specialActiveSpawners[temp].position;
+                        spawner = specialActiveSpawners[temp];
                     }
 
-                    if(temp > -1) SpawnDemon(demon.Id, pos); // spawn using object poolers
+                    if (temp > -1) spawner.RequestSpawn(demon); // spawn using object poolers
                 }
             }
         }
@@ -174,14 +177,14 @@ public class DemonSpawner : MonoBehaviour
     #endregion
 
     #region SpawnerFunctions
-    void ActiveSpawners(Transform player, List<Transform> baseSpawns, List<Transform> specialSpawns)
+    void ActiveSpawners(Transform player, List<Spawner> baseSpawns, List<Spawner> specialSpawns)
     {
         Vector2 pos = new Vector2(player.position.x, player.position.z);
 
-        List<Transform> tempListBase = new List<Transform>();
-        List<Transform> tempListspecial = new List<Transform>();
+        List<Spawner> tempListBase = new List<Spawner>();
+        List<Spawner> tempListspecial = new List<Spawner>();
 
-        foreach (Transform bt in baseSpawns)
+        foreach (Spawner bt in baseSpawns)
         {
             Vector2 spawnerPos = new Vector2(bt.position.x, bt.position.z);
 
@@ -193,7 +196,7 @@ public class DemonSpawner : MonoBehaviour
             }
         }
 
-        foreach (Transform st in specialSpawns)
+        foreach (Spawner st in specialSpawns)
         {
             Vector2 spawnerPos = new Vector2(st.position.x, st.position.z);
 
@@ -205,7 +208,7 @@ public class DemonSpawner : MonoBehaviour
             }
         }
 
-        foreach (Transform bt in tempListBase)
+        foreach (Spawner bt in tempListBase)
         {
             NavMeshPath path = new NavMeshPath();
 
@@ -231,7 +234,7 @@ public class DemonSpawner : MonoBehaviour
             }
         }
 
-        foreach (Transform st in tempListspecial)
+        foreach (Spawner st in tempListspecial)
         {
             NavMeshPath path = new NavMeshPath();
 
@@ -404,12 +407,15 @@ public class DemonSpawner : MonoBehaviour
     {
         currentDemons--;
     }
-    public void DemonRespawn(DemonType demon)
+    public void DemonRespawn(DemonType demon, bool active)
     {
-        currentDemons--;
-        maxDemonsToSpawn++;
+        if(active == true)
+        {
+            currentDemons--;
+            maxDemonsToSpawn++;
 
-        DemonQueue.Enqueue(demon);
+            DemonQueue.Enqueue(demon);
+        }
     }
     #endregion
 

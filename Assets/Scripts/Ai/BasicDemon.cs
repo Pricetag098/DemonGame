@@ -6,6 +6,9 @@ using UnityEngine.AI;
 
 public class BasicDemon : DemonBase
 {
+    [Header("Demon Pathing")]
+    [SerializeField] float distanceToRespawn;
+
     [Header("Demon Health Algorithm")]
     [SerializeField] int m_xAmountOfRounds;
     [SerializeField] float m_HealthToAdd;
@@ -16,6 +19,8 @@ public class BasicDemon : DemonBase
 
     private delegate void DestroyBarrier();
     private DestroyBarrier m_barrier;
+
+    private bool respawning = false;
 
     public override void OnAwakened()
     {
@@ -48,10 +53,19 @@ public class BasicDemon : DemonBase
         UpdateHealthToCurrentRound(_spawner.currentRound);
         CalculateAndSetPath(target);
         SetHealth(_health.maxHealth);
+
+        respawning = false;
     }
     public override void OnRespawn()
     {
-        _spawner.DemonRespawn(_type);
+        _agent.speed = 0;
+        _agent.enabled = false;
+        _collider.enabled = false;
+
+        _spawner.DemonRespawn(_type, respawning);
+
+        _pooledObject.Despawn();
+        
     }
     public override void OnDeath() // add back to pool of demon type
     {
@@ -82,17 +96,19 @@ public class BasicDemon : DemonBase
     {
         if(active == true)
         {
-            if (DistanceToTarget < _attackRange)
+            float dist = DistanceToTarget;
+
+            if (dist < _attackRange)
             {
                 PlayAnimation("Attack");
             }
+
+            if(dist > distanceToRespawn)
+            {
+                //OnRespawn();
+            }
         }
     }
-    public void OnAttackDestructible(int damage)
-    {
-
-    }
-
     public override void CalculateStats(int round)
     {
         if (round <= m_xAmountOfRounds)
@@ -100,6 +116,8 @@ public class BasicDemon : DemonBase
             _health.maxHealth += m_HealthToAdd;
         }
         else { _health.maxHealth = _health.maxHealth * m_HealthMultiplier; }
+
+        //_moveSpeed = _moveSpeedCurve.Evaluate(round) + _baseMoveSpeed;
     }
 
     public override void UpdateHealthToCurrentRound(int currentRound)

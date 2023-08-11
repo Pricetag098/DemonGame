@@ -8,9 +8,9 @@ public class WeaponInfo : MonoBehaviour
 	[SerializeField] TextMeshProUGUI nameText;
 	[SerializeField] Holster holster;
 
-	private void Start()
+	private void Awake()
 	{
-		
+		holster = FindObjectOfType<Holster>();
 	}
 	// Update is called once per frame
 	void Update()

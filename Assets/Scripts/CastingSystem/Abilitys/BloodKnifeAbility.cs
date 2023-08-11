@@ -14,8 +14,9 @@ public class BloodKnifeAbility : Ability
     [SerializeField] AnimationCurve chargeDamageCurve = AnimationCurve.Linear(0, 0, 1, 100);
     [SerializeField] AnimationCurve chargeVelocityCurve = AnimationCurve.Linear(0, 0, 1, 50);
     [SerializeField] AnimationCurve chargePenetrationCurve = AnimationCurve.Linear(0, 0, 1, 3);
+    [SerializeField] AnimationCurve chargeCostCurve = AnimationCurve.Linear(0, 10, 1, 100);
 
-    
+
 
     protected Vector3 lastAimDir, lastOrigin;
 
@@ -67,6 +68,7 @@ public class BloodKnifeAbility : Ability
         float speed = chargeVelocityCurve.Evaluate(chargePercent);
         Vector3 velocity = speed * lastAimDir;
         projectileSpawner.Spawn().GetComponent<DamageProjectiles>().Shoot(lastOrigin, velocity, damage,caster.castOrigin,Mathf.RoundToInt(chargePenetrationCurve.Evaluate(chargePercent)));
+        caster.blood -= chargeCostCurve.Evaluate(chargePercent);
     }
 
    

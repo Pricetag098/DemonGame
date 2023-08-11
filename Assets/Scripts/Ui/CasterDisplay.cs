@@ -8,9 +8,9 @@ public class CasterDisplay : MonoBehaviour
     [SerializeField] Slider bloodMeter;
     [SerializeField] AbilityCaster caster;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        
+        caster = FindObjectOfType<AbilityCaster>();
     }
 
     // Update is called once per frame

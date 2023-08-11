@@ -5,8 +5,8 @@ using UnityEngine;
 public class ShopInteractable : Interactable
 {
     
-	[SerializeField] int Cost;
-	[SerializeField] string cantBuyMessage = "Cant buy";
+	[SerializeField] protected int Cost;
+	[SerializeField] protected string buyMessage = "To buy ";
 	public override void Interact(Interactor interactor)
 	{
 		if (!CanBuy(interactor))
@@ -40,8 +40,7 @@ public class ShopInteractable : Interactable
 	public override void StartHover(Interactor interactor)
 	{
 		base.StartHover(interactor);
-		bool canBuy = CanBuy(interactor);
-		interactor.display.DisplayMessage(canBuy,canBuy ? GetBuyMessage() : cantBuyMessage);
+		interactor.display.DisplayMessage(true,buyMessage + Cost);
 	}
 	protected virtual string GetBuyMessage()
 	{

@@ -6,7 +6,7 @@ public class WallBuy : ShopInteractable
 {
 	[SerializeField] GameObject prefab;
 	[SerializeField] string refillAmmoText;
-	
+	[SerializeField] int refillAmmoCost;
 
 	protected override bool CanBuy(Interactor interactor)
 	{
@@ -30,7 +30,12 @@ public class WallBuy : ShopInteractable
 	public override void StartHover(Interactor interactor)
 	{
 		base.StartHover(interactor);
-		interactor.display.DisplayMessage(true, interactor.holster.HasGun(prefab.GetComponent<Gun>()) ? refillAmmoText + Cost : buyMessage + Cost);
+		interactor.display.DisplayMessage(true, interactor.holster.HasGun(prefab.GetComponent<Gun>()) ? refillAmmoText + GetCost(interactor) : buyMessage + GetCost(interactor));
 		
+	}
+
+	protected override int GetCost(Interactor interactor)
+	{
+		return interactor.holster.HasGun(prefab.GetComponent<Gun>()) ? refillAmmoCost : Cost;
 	}
 }

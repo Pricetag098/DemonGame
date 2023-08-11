@@ -15,9 +15,9 @@ public class ShopInteractable : Interactable
             return;
         }
 			
-		if(interactor.playerStats.points >= Cost )
+		if(interactor.playerStats.points >= GetCost(interactor) )
 		{
-			interactor.playerStats.points -= Cost;
+			interactor.playerStats.points -= GetCost(interactor);
 			DoBuy(interactor);
 		}
 	}
@@ -40,10 +40,14 @@ public class ShopInteractable : Interactable
 	public override void StartHover(Interactor interactor)
 	{
 		base.StartHover(interactor);
-		interactor.display.DisplayMessage(true,buyMessage + Cost);
+		interactor.display.DisplayMessage(true,buyMessage + GetCost(interactor));
 	}
-	protected virtual string GetBuyMessage()
+	protected virtual string GetBuyMessage(Interactor interactor)
 	{
-		return " to buy " + Cost;
+		return " to buy " + GetCost(interactor);
+	}
+	protected virtual int GetCost(Interactor interactor)
+	{
+		return Cost;
 	}
 }

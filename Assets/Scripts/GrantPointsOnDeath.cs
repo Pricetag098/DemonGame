@@ -8,11 +8,11 @@ public class GrantPointsOnDeath : MonoBehaviour
     public int points;
     public int pointsHit;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        playerStats = FindObjectOfType<PlayerStats>();
         GetComponent<Health>().OnDeath += AddPointsDeath;
         GetComponent<Health>().OnHit += AddPointsHit;
-        playerStats = FindObjectOfType<PlayerStats>();
     }
 
     void AddPointsDeath()

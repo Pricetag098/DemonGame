@@ -41,6 +41,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4014091911336284802}
+  - component: {fileID: 7304300326043008564}
+  - component: {fileID: 4269365180293221496}
+  - component: {fileID: 8464846569513052010}
   m_Layer: 7
   m_Name: mixamorig:Head
   m_TagString: Untagged
@@ -64,6 +67,47 @@ Transform:
   m_Father: {fileID: 4341106578888817656}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &7304300326043008564
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 78137090935678094}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.11
+  m_Center: {x: 0, y: 0.08, z: 0.02}
+--- !u!114 &4269365180293221496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 78137090935678094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cfae3d7b0cc17348a37b7dabd50da9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  multi: 2
+  health: {fileID: 5968651826990037947}
+--- !u!114 &8464846569513052010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 78137090935678094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fe7436d2688f664a8d1255e78218ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vfx: {fileID: 11400000, guid: 283d52e566bfa704f9a82e79fd0bb605, type: 2}
+  Penetrable: 1
 --- !u!1 &379289779987260254
 GameObject:
   m_ObjectHideFlags: 0

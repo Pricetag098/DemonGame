@@ -6,7 +6,7 @@ using static UnityEditor.PlayerSettings;
 public class Spawner : MonoBehaviour
 {
     private DemonSpawner demonSpawner;
-    [HideInInspector] public Vector3 position;
+    public Vector3 position;
 
     private float timeBetweenSpawns;
     private float spawnTimer;
@@ -61,6 +61,8 @@ public class Spawner : MonoBehaviour
         demonBase.OnSpawn(ds.player);
 
         demonTemp.transform.position = position;
+
+        Debug.Log(position);
 
         ds.currentDemons++;
         ds.maxDemonsToSpawn--;

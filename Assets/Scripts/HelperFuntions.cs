@@ -84,9 +84,10 @@ public static class HelperFuntions
 
         foreach (Transform child in parent)
         {
-            Spawner temp = child.GetComponent<Spawner>();
-
-            list.Add(temp);
+            if(child.TryGetComponent<Spawner>(out Spawner s))
+            {
+                list.Add(s);
+            }        
         }
 
         return list;

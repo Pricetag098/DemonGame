@@ -143,6 +143,8 @@ public class DemonSpawner : MonoBehaviour
                     Spawner spawner = null;
                     int temp = -2;
 
+                    // go through all avalible spawners once all been used refil spawner list
+
                     if (demon.SpawnType == SpawnType.Basic)
                     {
                         temp = Random.Range(0, baseActiveSpawners.Count);
@@ -161,18 +163,23 @@ public class DemonSpawner : MonoBehaviour
     }
 
     #region SpawningFunctions
-    void SpawnDemon(DemonID demon, Vector3 pos) // spawns demon at location
+    //void SpawnDemon(DemonID demon, Vector3 pos) // spawns demon at location
+    //{
+    //    GameObject demonTemp = demonPoolers[demon].Spawn();
+
+    //    DemonBase demonBase = demonTemp.GetComponent<DemonBase>();
+
+    //    demonBase.OnSpawn(player);
+
+    //    demonTemp.transform.position = pos;
+
+    //    currentDemons++;
+    //    maxDemonsToSpawn--;
+    //}
+
+    void SelectSpawner()
     {
-        GameObject demonTemp = demonPoolers[demon].Spawn();
 
-        DemonBase demonBase = demonTemp.GetComponent<DemonBase>();
-
-        demonBase.OnSpawn(player);
-
-        demonTemp.transform.position = pos;
-
-        currentDemons++;
-        maxDemonsToSpawn--;
     }
     #endregion
 
@@ -313,7 +320,9 @@ public class DemonSpawner : MonoBehaviour
 
         int listSize = specialDemonTypes.Count;
 
+#if UNITY_EDITOR
         HelperFuntions.ClearLog();
+#endif
 
         for (int i = 0; i < listSize; i++)
         {
@@ -407,15 +416,12 @@ public class DemonSpawner : MonoBehaviour
     {
         currentDemons--;
     }
-    public void DemonRespawn(DemonType demon, bool active)
+    public void DemonRespawn(DemonType demon)
     {
-        if(active == true)
-        {
-            currentDemons--;
-            maxDemonsToSpawn++;
+        currentDemons--;
+        maxDemonsToSpawn++;
 
-            DemonQueue.Enqueue(demon);
-        }
+        DemonQueue.Enqueue(demon);
     }
     #endregion
 

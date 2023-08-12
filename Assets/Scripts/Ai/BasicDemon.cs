@@ -17,10 +17,6 @@ public class BasicDemon : DemonBase
     [Header("ObstacleDetection")]
     [SerializeField] DestroyObstacle m_obstacle;
 
-    private delegate void DestroyBarrier();
-    private DestroyBarrier m_barrier;
-
-    private bool respawning = false;
 
     public override void OnAwakened()
     {
@@ -32,14 +28,12 @@ public class BasicDemon : DemonBase
         base.Setup();
     }
 
-    int frames = 0;
     public override void Tick()
     {
-        frames++;
         PathFinding(_agent.enabled);
         DetectPlayer(_agent.enabled);
 
-        //m_obstacle.Detection(frames);
+        m_obstacle.Detection();
 
         _animator.SetFloat("Speed", _agent.velocity.magnitude);
     }
@@ -54,7 +48,6 @@ public class BasicDemon : DemonBase
         CalculateAndSetPath(target);
         SetHealth(_health.maxHealth);
 
-        respawning = false;
     }
     public override void OnRespawn()
     {
@@ -62,10 +55,8 @@ public class BasicDemon : DemonBase
         _agent.enabled = false;
         _collider.enabled = false;
 
-        _spawner.DemonRespawn(_type, respawning);
-
+        _spawner.DemonRespawn(_type);
         _pooledObject.Despawn();
-        
     }
     public override void OnDeath() // add back to pool of demon type
     {
@@ -96,7 +87,7 @@ public class BasicDemon : DemonBase
     {
         if(active == true)
         {
-            float dist = DistanceToTarget;
+            float dist = DistanceToTargetUnits;
 
             if (dist < _attackRange)
             {

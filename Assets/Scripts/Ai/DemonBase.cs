@@ -30,16 +30,16 @@ public class DemonBase : MonoBehaviour, IDemon
     [SerializeField] protected AnimationCurve _moveSpeedCurve;
 
     [Header("Animator")]
-    [SerializeField] protected Animator _animator;
+    protected Animator _animator;
 
     [Header("Collider")]
-    [SerializeField] protected Collider _collider;
+    protected Collider _collider;
 
     [Header("Rigidbody")]
-    [SerializeField] protected Rigidbody _rb;
+    protected Rigidbody _rb;
 
     [Header("Ai Pathing")]
-    [SerializeField] protected bool _calculatePath = false;
+    protected bool _calculatePath = false;
     protected NavMeshAgent _agent;
     protected NavMeshPath _currentPath;
 
@@ -123,11 +123,19 @@ public class DemonBase : MonoBehaviour, IDemon
 
 
     #region Properties
-    protected float DistanceToTarget // gets path distance remaining to target
+    protected float DistanceToTargetNavmesh // gets path distance remaining to target
     {
         get
         {
             return _agent.remainingDistance;
+        }
+    }
+
+    protected float DistanceToTargetUnits
+    {
+        get
+        {
+            return Vector3.Distance(_target.position, transform.position);
         }
     }
     #endregion

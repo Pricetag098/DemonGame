@@ -92,6 +92,7 @@ public class DemonBase : MonoBehaviour, IDemon
         _agent.enabled = true;
         _collider.enabled = true;
         transform.rotation = Quaternion.identity;
+        _health.dead = false;
     }
     public virtual void OnBuff() { }
     public virtual void OnRespawn() { }

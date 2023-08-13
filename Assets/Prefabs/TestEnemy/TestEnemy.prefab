@@ -1607,9 +1607,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.35
-  m_Height: 2
+  m_Height: 1.721553
   m_Direction: 1
-  m_Center: {x: 0, y: 0.9, z: 0}
+  m_Center: {x: 0, y: 0.7607766, z: 0}
 --- !u!54 &473443071229699586
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1660,6 +1660,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   maxHealth: 150
+  dead: 0
 --- !u!114 &5968651826990037946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1735,54 +1736,6 @@ MonoBehaviour:
   _attackSpeed: 1
   _attackRange: 1
   _stoppingDistance: 2.3
-  _damageCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 100
-      value: 100
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  _maxHealthCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 100
-      value: 100
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   _moveSpeedCurve:
     serializedVersion: 2
     m_Curve:
@@ -1811,6 +1764,7 @@ MonoBehaviour:
   _collider: {fileID: 0}
   _rb: {fileID: 0}
   _calculatePath: 0
+  distanceToRespawn: 0
   m_xAmountOfRounds: 9
   m_HealthToAdd: 100
   m_HealthMultiplier: 1.1

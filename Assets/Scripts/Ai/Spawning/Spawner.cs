@@ -66,11 +66,3 @@ public class Spawner : MonoBehaviour
         ds.maxDemonsToSpawn--;
     }
 }
-
-namespace DemonCum
-{
-    public void Flynn()
-    {
-        Debug.Log("Made me Cum");
-    }
-}

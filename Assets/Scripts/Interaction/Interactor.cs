@@ -2,17 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
+using UnityEngine.UI;
 public class Interactor : MonoBehaviour
 {
     [SerializeField] LayerMask layerMask;
     [SerializeField] float interactionRange;
     [SerializeField] InputActionProperty inputAction;
-    bool hasInteractor;
-    Interactable lastInteractor;
+    public bool hasInteractable;
+	public Interactable interactable;
+	public InteractionDisplay display;
+	[HideInInspector] public PlayerStats playerStats;
+	[HideInInspector] public Holster holster;
+	[HideInInspector] public PlayerAbilityCaster caster;
+	[HideInInspector] public PerkManager perkManager;
 
 	private void Start()
 	{
         inputAction.action.performed += Interact;
+		playerStats = GetComponent<PlayerStats>();
+		caster = GetComponent<PlayerAbilityCaster>();
+		holster = GetComponentInChildren<Holster>();
+		perkManager = GetComponent<PerkManager>();
 	}
 	private void OnEnable()
 	{
@@ -26,38 +37,48 @@ public class Interactor : MonoBehaviour
 	void Update()
     {
         RaycastHit hit;
-        if(Physics.Raycast(Camera.main.transform.position,Camera.main.transform.forward,out hit, interactionRange, layerMask))
+		if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, interactionRange, layerMask))
 		{
-            Interactable interactable;
-            if(hit.collider.TryGetComponent(out interactable))
+			Interactable tempInteractable;
+			if (hit.collider.TryGetComponent(out tempInteractable))
 			{
-                if(lastInteractor != interactable)
+				if (interactable != tempInteractable)
 				{
-                    hasInteractor = true;
-                    lastInteractor = interactable;
-                    interactable.StartHover();
+					if (hasInteractable)
+						interactable.EndHover(this);
+					interactable = tempInteractable;
 				}
+				interactable.StartHover(this);
+				hasInteractable = true;
 			}
 			else
 			{
-                if(hasInteractor)
-                    lastInteractor.EndHover();
-                hasInteractor=false;
+
+				if (hasInteractable)
+				{
+					hasInteractable = false;
+					interactable.EndHover(this);
+				}
 			}
 		}
 		else
 		{
-            if (hasInteractor)
-                lastInteractor.EndHover();
-            hasInteractor=false;
-        }
-    }
+
+			if (hasInteractable)
+			{
+				hasInteractable = false;
+				interactable.EndHover(this);
+			}
+		}
+	}
 
     void Interact(InputAction.CallbackContext context)
 	{
-		if(!hasInteractor)
+		if(!hasInteractable)
 			return;
-
-		lastInteractor.Interact();
+		Debug.Log("Interact");
+		interactable.Interact(this);
 	}
+
+	
 }

@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class AbilityBuy : ShopInteractable
 {
-	[SerializeField] PlayerAbilityCaster caster;
+	
 	[Tooltip("Pool of Abilitys to draw from, add nulls to add the disappering feature, try adding multiples of abilitys to change the odds")]
     [SerializeField] List<Ability> abilities = new List<Ability>();
 	List<Ability> availablePool = new List<Ability>();
 	[SerializeField] bool singleUse;
-	protected override bool CanBuy()
+	protected override bool CanBuy(Interactor interactor)
 	{
 		
 		availablePool.Clear();
@@ -19,7 +19,7 @@ public class AbilityBuy : ShopInteractable
 
 			if(ability != null)
 			{
-				if (!caster.caster.HasAbility(ability))
+				if (!interactor.caster.caster.HasAbility(ability))
 				{
 					availablePool.Add(ability);
 				}
@@ -32,7 +32,7 @@ public class AbilityBuy : ShopInteractable
 		return availablePool.Count > 0;
 	}
 
-	protected override void DoBuy()
+	protected override void DoBuy(Interactor interactor)
 	{
 		Ability ability = availablePool[Random.Range(0, availablePool.Count)];
 		if(ability == null)
@@ -41,7 +41,7 @@ public class AbilityBuy : ShopInteractable
 			return;
 		}
 		
-		caster.caster.SetAbility(caster.activeIndex, Instantiate(ability));
+		interactor.caster.caster.SetAbility(interactor.caster.activeIndex, Instantiate(ability));
 		if (singleUse)
 			Disable();
 	}

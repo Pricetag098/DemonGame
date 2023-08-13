@@ -5,18 +5,20 @@ using UnityEngine;
 public class Interactable : MonoBehaviour
 {
 	public bool hovered;
-    public virtual void Interact()
+    public virtual void Interact(Interactor interactor)
 	{
 
 	}
 
-	public virtual void StartHover()
+	public virtual void StartHover(Interactor interactor)
 	{
-
+		if (hovered) return;
+		hovered = true;
+		
 	}
 
-	public virtual void EndHover()
+	public virtual void EndHover(Interactor interactor)
 	{
-
+		hovered = false;
 	}
 }

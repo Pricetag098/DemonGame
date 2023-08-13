@@ -9,8 +9,8 @@ public class DamageProjectiles : MonoBehaviour
     Rigidbody body;
     PooledObject pooledObject;
     ProjectileVisualiser visualiser;
-
     List<Health> healths = new List<Health>();
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -71,6 +71,7 @@ public class DamageProjectiles : MonoBehaviour
         }
         else
         {
+
             VfxSpawner.SpawnVfx(0, collision.collider.ClosestPoint(transform.position), -transform.forward);
         }
         body.isKinematic = true;

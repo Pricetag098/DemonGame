@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class HitSettings : MonoBehaviour
 {
-    [SerializeField] int vfxIndex;
+    [SerializeField] VfxSpawnRequest vfx;
 	public bool Penetrable = false;
     public void PlayVfx(Vector3 pos, Vector3 dir)
 	{
-		VfxSpawner.SpawnVfx(vfxIndex, pos, dir);
+		VfxSpawner.SpawnVfx(vfx, pos, dir);
 	}
 }

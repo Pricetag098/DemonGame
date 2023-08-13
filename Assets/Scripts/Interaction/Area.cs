@@ -5,10 +5,15 @@ using UnityEngine;
 public class Area : MonoBehaviour
 {
     [SerializeField] bool discovered;
-    [SerializeField] DemonSpawner demonSpawner;
-    [SerializeField] List<Transform> baseSpawns;
-    [SerializeField] List<Transform> specialSpawns;
-    
+    private DemonSpawner demonSpawner;
+    [SerializeField] List<Spawner> baseSpawns;
+    [SerializeField] List<Spawner> specialSpawns;
+
+    private void Awake()
+    {
+        demonSpawner = FindObjectOfType<DemonSpawner>();
+    }
+
     public void SpawnLocations()
     {
         if(discovered == false)
@@ -20,8 +25,6 @@ public class Area : MonoBehaviour
             specialSpawns = null;
 
             discovered = true;
-
-            Debug.Log("wall buys work");
         }
     }
 }

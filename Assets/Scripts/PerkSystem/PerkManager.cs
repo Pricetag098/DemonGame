@@ -8,6 +8,7 @@ public class PerkManager : MonoBehaviour
     public List<Perk> perkList;
     public delegate void TickPerk();
     public TickPerk tickPerk;
+    public int maxPerks;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +21,7 @@ public class PerkManager : MonoBehaviour
 
     public void AddPerk(Perk perk)
 	{
-        if (perkList.Contains(perk))
+        if (perkList.Contains(perk) || perkList.Count +1 > maxPerks)
             return;
         Debug.Log(perk.GetType());
         perk.Equip(this);

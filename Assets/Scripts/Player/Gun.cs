@@ -292,7 +292,8 @@ public class Gun : MonoBehaviour
 						{
                             healths.Add(hitBox.health);
                             hitBox.OnHit(currentDamage * holster.stats.damageMulti);
-                            holster.OnHit((damage * holster.stats.damageMulti * hitBox.multi)/hitBox.health.maxHealth);
+                            
+                            holster.OnHit((damage * holster.stats.damageMulti * hitBox.multi) / hitBox.health.maxHealth);
                         }
                         
 
@@ -401,7 +402,7 @@ public class Gun : MonoBehaviour
 		}
 	}
 
-    public void AddToStash(float percent)
+    public void AddToStashPercent(float percent)
 	{
         percent = Mathf.Clamp01(percent);
         int ammoToAdd = Mathf.RoundToInt(percent * (float)maxStash);

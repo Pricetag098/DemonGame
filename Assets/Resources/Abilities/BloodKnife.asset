@@ -12,20 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9eb5cb5bc4332740942ef340267e31c, type: 3}
   m_Name: BloodKnife
   m_EditorClassIdentifier: 
-  abilityName: BloodKnife
-  bloodCost: 10
+  abilityName: Blood Knife
+  icon: {fileID: 21300000, guid: 9b1946d536f159a4cafa28c9e38ad045, type: 3}
+  bloodCost: 40
   castMode: 1
   prefab: {fileID: 3712052424168563528, guid: 40d33876e7609624e8ec30d81ad92325, type: 3}
   maxChargeTime: 1
-  minChargeTime: 0
+  minChargeTime: 0.1
   chargeDamageCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 20
       inSlope: 0
-      outSlope: 100
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -34,7 +35,7 @@ MonoBehaviour:
       time: 1
       value: 100
       inSlope: 100
-      outSlope: 0
+      outSlope: 100
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -48,20 +49,20 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 30
-      inSlope: 74.49788
-      outSlope: 74.49788
+      inSlope: 45.55002
+      outSlope: 45.55002
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.12916666
+      outWeight: 0.07083333
     - serializedVersion: 3
       time: 1
       value: 50.117924
-      inSlope: 8.176097
-      outSlope: 8.176097
+      inSlope: 0.61793125
+      outSlope: 0.61793125
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.375
+      inWeight: 0.5375
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -90,4 +91,27 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  speedModifier: 0.6
+  chargeCostCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 20
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 100
+      inSlope: 90
+      outSlope: 90
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

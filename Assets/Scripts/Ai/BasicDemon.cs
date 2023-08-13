@@ -6,25 +6,42 @@ using UnityEngine.AI;
 
 public class BasicDemon : DemonBase
 {
+    [Header("Demon Pathing")]
+    [SerializeField] float distanceToRespawn;
+
     [Header("Demon Health Algorithm")]
     [SerializeField] int m_xAmountOfRounds;
     [SerializeField] float m_HealthToAdd;
     [SerializeField] float m_HealthMultiplier;
 
+    [Header("ObstacleDetection")]
+    [SerializeField] DestroyObstacle m_obstacle;
+
+    private delegate void DestroyBarrier();
+    private DestroyBarrier m_barrier;
+
+    private bool respawning = false;
+
+    public override void OnAwakened()
+    {
+        m_obstacle = GetComponent<DestroyObstacle>();
+    }
     public override void Setup()
     {
         UpdateHealthToCurrentRound(_spawner.currentRound);
-
-        _health.OnDeath += OnDeath;
-        _health.OnHit += OnHit;
-        _health.health = _health.maxHealth;
-
-        _agent.stoppingDistance = _stoppingDistance;
+        base.Setup();
     }
+
+    int frames = 0;
     public override void Tick()
     {
-        PathFinding();
-        LookAt();
+        frames++;
+        PathFinding(_agent.enabled);
+        DetectPlayer(_agent.enabled);
+
+        //m_obstacle.Detection(frames);
+
+        _animator.SetFloat("Speed", _agent.velocity.magnitude);
     }
     public override void OnAttack()
     {
@@ -32,22 +49,31 @@ public class BasicDemon : DemonBase
     }
     public override void OnSpawn(Transform target)
     {
+        base.OnSpawn(target);
         UpdateHealthToCurrentRound(_spawner.currentRound);
-
         CalculateAndSetPath(target);
         SetHealth(_health.maxHealth);
 
-        transform.rotation = Quaternion.identity;
+        respawning = false;
     }
     public override void OnRespawn()
     {
-        _spawner.DemonRespawn(_type);
+        _agent.speed = 0;
+        _agent.enabled = false;
+        _collider.enabled = false;
+
+        _spawner.DemonRespawn(_type, respawning);
+
+        _pooledObject.Despawn();
+        
     }
     public override void OnDeath() // add back to pool of demon type
     {
-        _pooledObject.Despawn();
-        _spawner.DemonKilled();
         _agent.speed = 0;
+        _agent.enabled = false;
+        _collider.enabled = false;
+        
+        _animator.SetTrigger("Death");
     }
     public override void OnBuff()
     {
@@ -58,11 +84,31 @@ public class BasicDemon : DemonBase
         // do hit stuff
     }
 
-    public override void PathFinding()
+    public override void PathFinding(bool active)
     {
-        CalculateAndSetPath(_target);
+        if(active == true)
+        {
+            CalculateAndSetPath(_target);
+        }
     }
 
+    public override void DetectPlayer(bool active)
+    {
+        if(active == true)
+        {
+            float dist = DistanceToTarget;
+
+            if (dist < _attackRange)
+            {
+                PlayAnimation("Attack");
+            }
+
+            if(dist > distanceToRespawn)
+            {
+                //OnRespawn();
+            }
+        }
+    }
     public override void CalculateStats(int round)
     {
         if (round <= m_xAmountOfRounds)
@@ -70,6 +116,8 @@ public class BasicDemon : DemonBase
             _health.maxHealth += m_HealthToAdd;
         }
         else { _health.maxHealth = _health.maxHealth * m_HealthMultiplier; }
+
+        //_moveSpeed = _moveSpeedCurve.Evaluate(round) + _baseMoveSpeed;
     }
 
     public override void UpdateHealthToCurrentRound(int currentRound)

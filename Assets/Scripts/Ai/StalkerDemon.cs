@@ -16,8 +16,4 @@ public class StalkerDemon : DemonBase
     {
 
     }
-    public override void PathFinding()
-    {
-
-    }
 }

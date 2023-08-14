@@ -7,6 +7,7 @@ public class DemonBase : MonoBehaviour, IDemon
 {
     [Header("Target")]
     [SerializeField] protected Transform _target;
+    [SerializeField] protected Health _playerHealth;
 
     [Header("Spawner")]
     [SerializeField] protected DemonSpawner _spawner;
@@ -64,6 +65,7 @@ public class DemonBase : MonoBehaviour, IDemon
     {
         Setup();
         _pooledObject = GetComponent<PooledObject>();
+        _playerHealth = _target.GetComponent<Health>();
     }
     private void Update()
     {
@@ -82,6 +84,7 @@ public class DemonBase : MonoBehaviour, IDemon
         _agent.stoppingDistance = _stoppingDistance;
     }
     public virtual void Tick() { }
+    public virtual void DoDamage() { }
     public virtual void OnAttack() { }
     public virtual void OnHit() { } 
     public virtual void PathFinding(bool canPath) { }
@@ -124,11 +127,18 @@ public class DemonBase : MonoBehaviour, IDemon
 
 
     #region Properties
-    protected float DistanceToTarget // gets path distance remaining to target
+    protected float DistanceToTargetNavmesh // gets path distance remaining to target
     {
         get
         {
             return _agent.remainingDistance;
+        }
+    }
+    protected float DistanceToTargetUnits
+    {
+        get
+        {
+            return Vector3.Distance(_target.position, transform.position);
         }
     }
     #endregion

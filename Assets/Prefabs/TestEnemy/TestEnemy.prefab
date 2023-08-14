@@ -1971,6 +1971,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _target: {fileID: 0}
+  _playerHealth: {fileID: 0}
   _spawner: {fileID: 0}
   _type:
     Id: 1
@@ -1978,10 +1979,10 @@ MonoBehaviour:
   _baseDamage: 2
   _baseHealth: 150
   _baseMoveSpeed: 3
-  _damage: 0
+  _damage: 5
   _moveSpeed: 2
   _attackSpeed: 1
-  _attackRange: 1
+  _attackRange: 2.5
   _stoppingDistance: 2.3
   _moveSpeedCurve:
     serializedVersion: 2
@@ -2011,6 +2012,7 @@ MonoBehaviour:
   _collider: {fileID: 0}
   _rb: {fileID: 0}
   _calculatePath: 0
+  attackInterval: 0
   distanceToRespawn: 0
   m_xAmountOfRounds: 9
   m_HealthToAdd: 100

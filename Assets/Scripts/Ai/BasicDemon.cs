@@ -6,6 +6,10 @@ using UnityEngine.AI;
 
 public class BasicDemon : DemonBase
 {
+    [Header("Demon")]
+    private float attackTimer;
+    [SerializeField] private float attackInterval;
+
     [Header("Demon Pathing")]
     [SerializeField] float distanceToRespawn;
 
@@ -31,21 +35,27 @@ public class BasicDemon : DemonBase
         UpdateHealthToCurrentRound(_spawner.currentRound);
         base.Setup();
     }
-
-    int frames = 0;
     public override void Tick()
     {
-        frames++;
+        attackTimer += Time.deltaTime;
+
         PathFinding(_agent.enabled);
         DetectPlayer(_agent.enabled);
 
-        //m_obstacle.Detection(frames);
+        //m_obstacle.Detection();
 
         _animator.SetFloat("Speed", _agent.velocity.magnitude);
     }
+    public override void DoDamage()
+    {
+        _playerHealth.health -= _damage;
+    }
     public override void OnAttack()
     {
-        // deal damage
+        if(HelperFuntions.TimerGreaterThan(attackTimer, attackInterval))
+        {
+            PlayAnimation("Attack");
+        }
     }
     public override void OnSpawn(Transform target)
     {
@@ -96,17 +106,17 @@ public class BasicDemon : DemonBase
     {
         if(active == true)
         {
-            float dist = DistanceToTarget;
+            float dist = DistanceToTargetUnits;
 
             if (dist < _attackRange)
             {
-                PlayAnimation("Attack");
+                OnAttack();
             }
 
-            if(dist > distanceToRespawn)
-            {
-                //OnRespawn();
-            }
+            //if(dist > distanceToRespawn)
+            //{
+            //    OnRespawn();
+            //}
         }
     }
     public override void CalculateStats(int round)

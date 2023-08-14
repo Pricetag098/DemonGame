@@ -14,7 +14,7 @@ Material:
   - _DOUBLESIDED_ON
   m_InvalidKeywords:
   - _NORMALMAP_TANGENT_SPACE
-  m_LightmapFlags: 4
+  m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
   m_CustomRenderQueue: 2225
@@ -51,7 +51,7 @@ Material:
     - _AlphaToMaskInspectorValue: 0
     - _BlendMode: 0
     - _Blood_Metallic: 0
-    - _Blood_Smoothness: 0
+    - _Blood_Smoothness: 0.5
     - _ConservativeDepthOffsetEnable: 0
     - _CullMode: 0
     - _CullModeForward: 0
@@ -60,12 +60,14 @@ Material:
     - _DoubleSidedGIMode: 0
     - _DoubleSidedNormalMode: 2
     - _DstBlend: 0
+    - _Emission_Intensity: 0.18
     - _EnableBlendModePreserveSpecularLighting: 1
     - _EnableFogOnTransparent: 1
     - _FresnelPower: 1
-    - _Material_2_Metalic: 0.07
+    - _Material_2_Emission_Intensity: 1
+    - _Material_2_Metalic: 1
     - _Material_2_Smoothness: 0
-    - _Normal_Strength: 0.3
+    - _Normal_Strength: 0.4
     - _OpaqueCullMode: 2
     - _RayTracing: 0
     - _ReceivesSSR: 1
@@ -87,7 +89,7 @@ Material:
     - _SupportDecals: 1
     - _SurfaceType: 0
     - _Texture_1_Scale: 10
-    - _Texture_2_Scale: 4.16
+    - _Texture_2_Scale: 10
     - _TransparentBackfaceEnable: 0
     - _TransparentCullMode: 2
     - _TransparentDepthPostpassEnable: 0
@@ -102,18 +104,20 @@ Material:
     - _ZWrite: 1
     - _time: 1
     m_Colors:
-    - _Blood_Colour_1: {r: 1, g: 0, b: 0, a: 0}
-    - _Blood_Colour_2: {r: 0.19811317, g: 0, b: 0, a: 0}
-    - _Blood_Direction_Texture_1: {r: -0.03, g: 0.08, b: 0, a: 0}
-    - _Blood_Direction_Texture_2: {r: 0.01, g: 0.06, b: 0, a: 0}
-    - _Blood_Position: {r: 0.57, g: 1.08, b: 0, a: 0}
+    - _Blood_Colour_1: {r: 0.6603774, g: 0, b: 0, a: 0}
+    - _Blood_Colour_2: {r: 0.2264151, g: 0, b: 0, a: 0}
+    - _Blood_Direction_Texture_1: {r: 0, g: 0.02, b: 0, a: 0}
+    - _Blood_Direction_Texture_2: {r: 0, g: 0.02, b: 0, a: 0}
+    - _Blood_Position: {r: 1.03, g: 0.33, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Material_2_Colour: {r: 0.23584908, g: 0.02336241, b: 0.02336241, a: 0}
-    - _Texture_1_Min_Max: {r: 0.5, g: 1, b: 0, a: 0}
+    - _Emission_Colour: {r: 0.1792453, g: 0, b: 0, a: 0}
+    - _Material_2_Colour: {r: 0.735849, g: 0, b: 0, a: 0}
+    - _Material_2_Emission: {r: 0.41509432, g: 0.03328587, b: 0.03328587, a: 0}
+    - _Texture_1_Min_Max: {r: 0.53, g: 1.04, b: 0, a: 0}
     - _Texture_2_Min_Max: {r: 0.59, g: 1, b: 0, a: 0}
-    - _Tilling_Texture_1: {r: 1.71, g: 1.22, b: 0, a: 0}
-    - _Tilling_Texture_2: {r: 5.33, g: 4.41, b: 0, a: 0}
+    - _Tilling_Texture_1: {r: 0.9, g: 1.91, b: 0, a: 0}
+    - _Tilling_Texture_2: {r: 2.13, g: 1.15, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &3538532283378729178
 MonoBehaviour:

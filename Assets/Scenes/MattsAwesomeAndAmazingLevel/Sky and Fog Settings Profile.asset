@@ -31,6 +31,40 @@ MonoBehaviour:
   fogType:
     m_OverrideState: 1
     m_Value: 0
+--- !u!114 &-1946480874732466158
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b24b200358312b4fa1004e2431c2f1f, type: 3}
+  m_Name: ShadowsMidtonesHighlights
+  m_EditorClassIdentifier: 
+  active: 1
+  shadows:
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 0.6518222, z: 0.67744935, w: 0.5389222}
+  midtones:
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 1, z: 1, w: 0}
+  highlights:
+    m_OverrideState: 1
+    m_Value: {x: 0.74946207, y: 0.7730117, z: 1, w: 0.11120614}
+  shadowsStart:
+    m_OverrideState: 1
+    m_Value: 0
+  shadowsEnd:
+    m_OverrideState: 0
+    m_Value: 0.3
+  highlightsStart:
+    m_OverrideState: 0
+    m_Value: 0.55
+  highlightsEnd:
+    m_OverrideState: 0
+    m_Value: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48,6 +82,7 @@ MonoBehaviour:
   - {fileID: 5094433493319793942}
   - {fileID: 3173682159390399417}
   - {fileID: 8057936332890009403}
+  - {fileID: -1946480874732466158}
 --- !u!114 &3173682159390399417
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -65,17 +100,17 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 1
   enabled:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 1
   colorMode:
-    m_OverrideState: 0
-    m_Value: 1
+    m_OverrideState: 1
+    m_Value: 0
   color:
-    m_OverrideState: 0
-    m_Value: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    m_OverrideState: 1
+    m_Value: {r: 0.18022428, g: 0.46580374, b: 0.509434, a: 1}
   tint:
     m_OverrideState: 0
-    m_Value: {r: 1, g: 1, b: 1, a: 1}
+    m_Value: {r: 1, g: 0.5330188, b: 0.5330188, a: 1}
   maxFogDistance:
     m_OverrideState: 0
     m_Value: 5000
@@ -90,15 +125,15 @@ MonoBehaviour:
     m_Value: 1000
   baseHeight:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: -12342.9
   maximumHeight:
-    m_OverrideState: 0
-    m_Value: 50
+    m_OverrideState: 1
+    m_Value: 3280.7
   meanFreePath:
     m_OverrideState: 1
-    m_Value: 400
+    m_Value: 467.66
   enableVolumetricFog:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 1
   albedo:
     m_OverrideState: 0
@@ -195,8 +230,8 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: {x: 0, y: -6378100, z: 0}
   airDensityR:
-    m_OverrideState: 0
-    m_Value: 0.04534
+    m_OverrideState: 1
+    m_Value: 0.203
   airDensityG:
     m_OverrideState: 0
     m_Value: 0.10237241
@@ -205,28 +240,28 @@ MonoBehaviour:
     m_Value: 0.23264056
   airTint:
     m_OverrideState: 1
-    m_Value: {r: 0.4056604, g: 0.4056604, b: 0.4056604, a: 1}
+    m_Value: {r: 0.9245283, g: 0.004360993, b: 0.004360993, a: 1}
   airMaximumAltitude:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 55261.973
   aerosolDensity:
     m_OverrideState: 1
-    m_Value: 0.01192826
+    m_Value: 0.212
   aerosolTint:
     m_OverrideState: 1
-    m_Value: {r: 0.1792453, g: 0.1792453, b: 0.1792453, a: 1}
+    m_Value: {r: 1, g: 0, b: 0, a: 1}
   aerosolMaximumAltitude:
-    m_OverrideState: 0
-    m_Value: 8289.296
+    m_OverrideState: 1
+    m_Value: 8394.29
   aerosolAnisotropy:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0
   numberOfBounces:
     m_OverrideState: 0
     m_Value: 3
   groundTint:
     m_OverrideState: 1
-    m_Value: {r: 0.14901963, g: 0.16556685, b: 0.4, a: 1}
+    m_Value: {r: 0, g: 0, b: 0, a: 1}
   groundColorTexture:
     m_OverrideState: 0
     m_Value: {fileID: 0}
@@ -294,7 +329,7 @@ MonoBehaviour:
     m_Value: 1
   fixedExposure:
     m_OverrideState: 1
-    m_Value: -2.5826912
+    m_Value: 0.23788038
   compensation:
     m_OverrideState: 0
     m_Value: 0

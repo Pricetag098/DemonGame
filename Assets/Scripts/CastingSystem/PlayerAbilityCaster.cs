@@ -2,18 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-public class PlayerAbilityCaster : MonoBehaviour
+public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>
 {
     [HideInInspector]public AbilityCaster caster;
     public int activeIndex;
     public InputActionProperty useAction;
     public InputActionProperty swapAction;
 
+    public float bloodSpent = 0;
+    public float bloodGained = 0;
     // Start is called before the first frame update
     void Start()
     {
         caster = GetComponent<AbilityCaster>();
         swapAction.action.performed += Swap;
+        caster.OnAddBlood += OnAddBlood;
+        caster.OnRemoveBlood += OnRemoveBlood;
     }
 
 	private void OnEnable()
@@ -38,6 +42,28 @@ public class PlayerAbilityCaster : MonoBehaviour
             caster.Cast(activeIndex, Camera.main.transform.position, Camera.main.transform.forward);
         }
     }
+
+    void OnAddBlood(float amount)
+	{
+        bloodGained += amount;
+	}
+
+    void OnRemoveBlood(float amount)
+	{
+        bloodSpent += amount;
+	}
+
+    void IDataPersistance<GameData>.LoadData(GameData data)
+	{
+        bloodGained = data.bloodGained;
+        bloodSpent = data.bloodSpent;
+	}
+
+    void IDataPersistance<GameData>.SaveData(ref GameData data)
+	{
+        data.bloodGained = bloodGained;
+        data.bloodSpent = bloodSpent;
+	}
 
     void Swap(InputAction.CallbackContext context)
     {

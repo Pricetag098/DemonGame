@@ -68,7 +68,7 @@ public class BloodKnifeAbility : Ability
         float speed = chargeVelocityCurve.Evaluate(chargePercent);
         Vector3 velocity = speed * lastAimDir;
         projectileSpawner.Spawn().GetComponent<DamageProjectiles>().Shoot(lastOrigin, velocity, damage,caster.castOrigin,Mathf.RoundToInt(chargePenetrationCurve.Evaluate(chargePercent)));
-        caster.blood -= chargeCostCurve.Evaluate(chargePercent);
+        caster.RemoveBlood(chargeCostCurve.Evaluate(chargePercent));
     }
 
    

@@ -5,13 +5,13 @@ using UnityEngine.InputSystem;
 
 namespace Movement
 {
-	public class PlayerInput : MonoBehaviour
+	public class PlayerInput : MonoBehaviour, IDataPersistance<PlayerSettings>
 	{
 		[Header("Set this stuff pls")]
 		public Transform orientation;
 		public Transform cam;
 		public Vector3 gravityDir;
-		public float sense;
+		public float sensitivity =1;
 		public MoveStates moveState;
 		Rigidbody rb;
 		[SerializeField] CapsuleCollider standingCollider, crouchedCollider;
@@ -80,6 +80,7 @@ namespace Movement
 		float camMovementTimer;
 		Vector3 lastCamPos;
 		Vector3 targetCamPos;
+		
 
 		float camRotX = 0;
 		Vector2 inputDir;
@@ -378,8 +379,8 @@ namespace Movement
 		void DoCamRot()
 		{
 			Vector2 camDir = mouseAction.action.ReadValue<Vector2>();
-			camRotX = Mathf.Clamp(-camDir.y * sense * Time.deltaTime + camRotX, -90, 90);
-			cam.rotation = Quaternion.Euler(camRotX, cam.rotation.eulerAngles.y + camDir.x * sense * Time.deltaTime, cam.rotation.eulerAngles.z);
+			camRotX = Mathf.Clamp(-camDir.y * sensitivity * Time.deltaTime + camRotX, -90, 90);
+			cam.rotation = Quaternion.Euler(camRotX, cam.rotation.eulerAngles.y + camDir.x * sensitivity * Time.deltaTime, cam.rotation.eulerAngles.z);
 		}
 
 		
@@ -463,6 +464,18 @@ namespace Movement
 		{
 			Gizmos.color = Color.green;
 			Gizmos.DrawWireSphere(groundingPoint.position, groundingRadius);
+		}
+
+		void IDataPersistance<PlayerSettings>.LoadData(PlayerSettings data)
+		{
+			sensitivity = data.sensitivity;
+			holdToSlide = data.holdToSlide;
+		}
+
+		void IDataPersistance<PlayerSettings>.SaveData(ref PlayerSettings data)
+		{
+			data.sensitivity = sensitivity;
+			data.holdToSlide = holdToSlide;
 		}
 	}
 }

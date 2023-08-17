@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStats : MonoBehaviour,IDataPersistance
+public class PlayerStats : MonoBehaviour,IDataPersistance<GameData>
 {
     public float damageMulti = 1;
     public float reloadTimeMulti = 1;
@@ -26,13 +26,13 @@ public class PlayerStats : MonoBehaviour,IDataPersistance
         points -= amount;
         pointsSpent += amount;
 	}
-    void IDataPersistance.SaveData(ref GameData data)
+    void IDataPersistance<GameData>.SaveData(ref GameData data)
 	{
         data.pointsSpent = pointsSpent;
         data.pointsGained = pointsGained;
 	}
 
-    void IDataPersistance.LoadData(GameData data)
+    void IDataPersistance<GameData>.LoadData(GameData data)
     {
         pointsSpent = data.pointsSpent;
         pointsGained = data.pointsGained;

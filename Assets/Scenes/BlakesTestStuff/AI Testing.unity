@@ -1111,6 +1111,7 @@ GameObject:
   m_Component:
   - component: {fileID: 808618217}
   - component: {fileID: 808618218}
+  - component: {fileID: 808618219}
   m_Layer: 0
   m_Name: Spawner
   m_TagString: Untagged
@@ -1145,24 +1146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3744ca0343aa3af48995031f77e2139a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1628965437}
-  playerAgent: {fileID: 1378939868}
-  currentRound: 1
-  wave: {fileID: 0}
-  BaseWave: {fileID: 11400000, guid: 015fc906b1610234d983b5748dc5f6f0, type: 2}
-  BossWave: {fileID: 11400000, guid: 015fc906b1610234d983b5748dc5f6f0, type: 2}
-  waves: []
-  BossWaveIncrement: 5
-  maxDemonsToSpawn: 0
-  currentDemons: 0
-  canSpawn: 1
-  maxDemonsAtOnce: 1
-  maxPathingDistance: 65
-  maxSpawningDistance: 50
-  timeBetweenSpawns: 2
-  timeBetweenRounds: 2
-  demonsToSpawnEachTick: 1
-  minMax: {x: 25, y: 75}
+  waveManager: {fileID: 0}
   endRound: 0
   startRound: 0
   demonsToSpawn:
@@ -1213,17 +1197,24 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  baseSpawner: {fileID: 377850116}
-  baseActiveSpawners: []
-  baseSpawners: []
-  SpecialSpawner: {fileID: 1509644664}
-  specialActiveSpawners: []
-  specialSpawners: []
-  baseDemonPooler: {fileID: 1763640107}
-  summonerDemonPooler: {fileID: 1276463408}
-  stalkerDemonPooler: {fileID: 797823054}
-  choasDemonPooler: {fileID: 359785375}
-  cultistDemonPooler: {fileID: 680613036}
+--- !u!114 &808618219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808618215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab4cad32c7470eb46bc946bd79520a3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentRound: 1
+  wave: {fileID: 11400000, guid: 015fc906b1610234d983b5748dc5f6f0, type: 2}
+  BaseWave: {fileID: 11400000, guid: 015fc906b1610234d983b5748dc5f6f0, type: 2}
+  BossWave: {fileID: 11400000, guid: 015fc906b1610234d983b5748dc5f6f0, type: 2}
+  BossWaveIncrement: 5
+  waves: []
 --- !u!1 &885192338
 GameObject:
   m_ObjectHideFlags: 0
@@ -1346,7 +1337,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 885192338}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.1733894, y: 26.200663, z: -119.41403}
+  m_LocalPosition: {x: 7.1733894, y: 26.27, z: -119.41403}
   m_LocalScale: {x: 2.5549, y: 1, z: 5.762912}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2188,11 +2179,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1575914664}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &1628965437 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3899720132604462369, guid: 605e7777b6e363040b68f76a7e212120, type: 3}
-  m_PrefabInstance: {fileID: 1781136061}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1628965438
 MonoBehaviour:
   m_ObjectHideFlags: 0

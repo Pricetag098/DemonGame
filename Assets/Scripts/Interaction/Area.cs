@@ -18,8 +18,8 @@ public class Area : MonoBehaviour
     {
         if(discovered == false)
         {
-            demonSpawner.baseSpawners = HelperFuntions.AddToList(demonSpawner.baseSpawners, baseSpawns);
-            demonSpawner.specialSpawners = HelperFuntions.AddToList(demonSpawner.specialSpawners, specialSpawns);
+            //demonSpawner.baseSpawners = HelperFuntions.AddToList(demonSpawner.baseSpawners, baseSpawns);
+            //demonSpawner.specialSpawners = HelperFuntions.AddToList(demonSpawner.specialSpawners, specialSpawns);
 
             baseSpawns = null;
             specialSpawns = null;

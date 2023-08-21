@@ -21,7 +21,7 @@ public class Spawner : MonoBehaviour
 
     private void Start()
     {
-        timeBetweenSpawns = demonSpawner.timeBetweenSpawns;
+        //timeBetweenSpawns = demonSpawner.timeBetweenSpawns;
     }
 
     private void Update()
@@ -54,17 +54,17 @@ public class Spawner : MonoBehaviour
 
     private void SpawnDemon(DemonType demon, DemonSpawner ds)
     {
-        GameObject demonTemp = ds.demonPoolers[demon.Id].Spawn();
+        //GameObject demonTemp = ds.demonPoolers[demon.Id].Spawn();
 
-        DemonBase demonBase = demonTemp.GetComponent<DemonBase>();
+        //DemonBase demonBase = demonTemp.GetComponent<DemonBase>();
 
-        demonBase.OnSpawn(ds.player);
+        //demonBase.OnSpawn(ds.player);
 
-        demonTemp.transform.position = position;
+        //demonTemp.transform.position = position;
 
         Debug.Log(position);
 
-        ds.currentDemons++;
-        ds.maxDemonsToSpawn--;
+        //ds.currentDemons++;
+        //ds.maxDemonsToSpawn--;
     }
 }

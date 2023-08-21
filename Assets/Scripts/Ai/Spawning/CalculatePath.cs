@@ -10,66 +10,87 @@ using Unity.Collections;
 
 public class CalculatePathNavMeshJobs : MonoBehaviour
 {
-    [SerializeField] NavMeshAgent agent;
-    [SerializeField] bool useJobs;
-
     private NavMeshQuery query;
-    private float3 extents;
-    private Dictionary<int, float3[]> allPaths;
-    private List<NativeArray<int>> statusOutput;
-    private List<NativeArray<float3>> results;
-    private List<NavMeshQuery> queries;
-    private NavMeshWorld navmeshWorld;
-    private List<JobHandle> jobHandles;
+    private NativeArray<int> statusOutput;
+    private NativeArray<float3> result;
+    private JobHandle jobHandle;
 
-
-    private void Awake()
+    public void InitialiseJob(NavMeshWorld world,float3 extents, int maxIterations, NavMeshAgent agent, float3 fromLocation, float3 toLocation)
     {
-        extents = new float3 (10, 10, 10);
-        allPaths = new Dictionary<int, float3[]>();
-        statusOutput = new List<NativeArray<int>>();
-        results = new List<NativeArray<float3>>();
-        queries = new List<NavMeshQuery>();
-        jobHandles = new List<JobHandle>();
-    }
+        statusOutput = new NativeArray<int>(1024, Allocator.Temp);
+        result = new NativeArray<float3>(1024, Allocator.Temp);
+        query = new NavMeshQuery(world, Allocator.Temp);
+        jobHandle = new JobHandle();
 
-    private void Start()
-    {
-        
-    }
-
-    private void Update()
-    {
-        if(useJobs == true)
+        CalculatePathsJob job = new CalculatePathsJob()
         {
-            Execute();
-        }
-        else
-        {
-            Execute();
-        }
-    }
+            query = this.query,
+            fromLocation = fromLocation,
+            ToLocation = toLocation,
+            extents = extents,
+            maxIteration = maxIterations,
+            result = this.result,
+            statusOutput = this.statusOutput,
+            maxPathSize = 50
+        };
 
-    public void Execute()
-    {
+        jobHandle = job.Schedule();
+        jobHandle.Complete();
 
+        // do stuff here i think
+
+        statusOutput.Dispose();
+        result.Dispose();
+        query.Dispose();
     }
 }
 
 [BurstCompile]
 public struct CalculatePathsJob : IJob
 {
+    /// <summary>
+    /// Query status
+    /// </summary>
     PathQueryStatus status;
-    PathQueryStatus returningStatus;
+    PathQueryStatus returningStatus; 
+
+    /// <summary>
+    /// Query
+    /// </summary>
     public NavMeshQuery query;
+
+    /// <summary>
+    /// Finds the closest point and PolygonId on the NavMesh for a given world position.
+    /// </summary>
     public NavMeshLocation nm_fromLocation;
     public NavMeshLocation nm_ToLocation;
+
+    /// <summary>
+    /// World position for which the closest point on the NavMesh needs to be found.
+    /// </summary>
     public float3 fromLocation;
     public float3 ToLocation;
+
+    /// <summary>
+    /// Maximum distance, from the specified position, expanding along all three axes, within which NavMesh surfaces are searched.
+    /// </summary>
     public float3 extents;
+
+    /// <summary>
+    /// Maximum number of nodes to be traversed by the search algorithm during this call.
+    /// </summary>
     public int maxIteration;
+
+    /// <summary>
+    /// Array for storing vector3
+    /// </summary>
     public NativeArray<float3> result;
+
+    /// <summary>
+    /// Data array to be filled with the sequence of NavMesh nodes that comprises the found path.
+    /// </summary>
     public NativeArray<int> statusOutput;
+
     public int maxPathSize;
 
     public void Execute()
@@ -77,22 +98,25 @@ public struct CalculatePathsJob : IJob
         nm_fromLocation = query.MapLocation(fromLocation, extents, 1);
         nm_ToLocation = query.MapLocation(ToLocation, extents, 1);
 
-        if(query.IsValid(nm_fromLocation) && query.IsValid(nm_ToLocation))
+        if (query.IsValid(nm_fromLocation) && query.IsValid(nm_ToLocation))
         {
             status = query.BeginFindPath(nm_fromLocation, nm_ToLocation, -1);
-            if(status == PathQueryStatus.InProgress)
+            if (status == PathQueryStatus.InProgress)
             {
                 query.UpdateFindPath(maxIteration, out int interationPerformed);
             }
-            if(status == PathQueryStatus.Success)
+            if (status == PathQueryStatus.Success)
             {
                 status = query.EndFindPath(out int polygonSize);
+
                 NativeArray<NavMeshLocation> res = new NativeArray<NavMeshLocation>(polygonSize, Allocator.Temp);
                 NativeArray<StraightPathFlags> straightPathFlag = new NativeArray<StraightPathFlags>(maxPathSize, Allocator.Temp);
                 NativeArray<float> vertexSide = new NativeArray<float>(maxPathSize, Allocator.Temp);
                 NativeArray<PolygonId> polys = new NativeArray<PolygonId>(polygonSize, Allocator.Temp);
                 int straightPathCount = 0;
+
                 query.GetPathResult(polys);
+
                 returningStatus = PathUtils.FindStraightPath(
                     query,
                     fromLocation,
@@ -106,7 +130,7 @@ public struct CalculatePathsJob : IJob
                     maxPathSize
                     );
 
-                if(returningStatus == PathQueryStatus.Success)
+                if (returningStatus == PathQueryStatus.Success)
                 {
                     int fromKey = ((int)fromLocation.x + (int)fromLocation.y + (int)fromLocation.z) * maxPathSize;
                     int toKey = ((int)ToLocation.x + (int)ToLocation.y + (int)ToLocation.z) * maxPathSize;

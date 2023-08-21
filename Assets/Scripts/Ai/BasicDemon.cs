@@ -24,7 +24,7 @@ public class BasicDemon : DemonBase
     }
     public override void Setup()
     {
-        UpdateHealthToCurrentRound(_spawner.currentRound);
+        //UpdateHealthToCurrentRound(_spawner.currentRound);
         base.Setup();
     }
 
@@ -44,7 +44,7 @@ public class BasicDemon : DemonBase
     public override void OnSpawn(Transform target)
     {
         base.OnSpawn(target);
-        UpdateHealthToCurrentRound(_spawner.currentRound);
+        //UpdateHealthToCurrentRound(_spawner.currentRound);
         CalculateAndSetPath(target);
         SetHealth(_health.maxHealth);
 
@@ -55,7 +55,7 @@ public class BasicDemon : DemonBase
         _agent.enabled = false;
         _collider.enabled = false;
 
-        _spawner.DemonRespawn(_type);
+        //_spawner.DemonRespawn(_type);
         _pooledObject.Despawn();
     }
     public override void OnDeath() // add back to pool of demon type

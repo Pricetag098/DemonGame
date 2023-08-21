@@ -92,4 +92,11 @@ public static class HelperFuntions
 
         return list;
     }
+    public static float GetRandomIndexBetweenMinMax(float minPercent, float maxPercent, float total)
+    {
+        float min = (minPercent / 100) * total;
+        float max = (maxPercent / 100) * total;
+
+        return Random.Range(min, max);
+    }
 }

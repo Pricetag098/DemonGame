@@ -113,7 +113,7 @@ public class DemonBase : MonoBehaviour, IDemon
     protected void OnFinishedDeathAnimation()
     {
         _pooledObject.Despawn();
-        _spawner.DemonKilled();
+        //_spawner.DemonKilled();
     }
 
     public void PlayAnimation(string trigger)

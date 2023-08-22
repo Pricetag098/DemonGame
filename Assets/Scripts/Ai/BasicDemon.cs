@@ -44,7 +44,7 @@ public class BasicDemon : DemonBase
     public override void OnSpawn(Transform target)
     {
         base.OnSpawn(target);
-        //UpdateHealthToCurrentRound(_spawner.currentRound);
+        UpdateHealthToCurrentRound(_spawnerManager.currentRound);
         CalculateAndSetPath(target);
         SetHealth(_health.maxHealth);
 

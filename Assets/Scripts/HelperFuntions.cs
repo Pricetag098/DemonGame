@@ -99,4 +99,9 @@ public static class HelperFuntions
 
         return Random.Range(min, max);
     }
+
+    public static int EvaluateAnimationCuveInt(AnimationCurve curve, float num)
+    {
+        return (int)curve.Evaluate(num);
+    }
 }

@@ -5,143 +5,77 @@ using DemonInfo;
 using System.Reflection;
 using Unity.Jobs;
 using UnityEngine.AI;
+using static UnityEditor.PlayerSettings;
 
 public class DemonSpawner : MonoBehaviour
 {
-    [Header("Waves")]
-    [SerializeField] WaveManager waveManager; 
-    public delegate void Action();
-    public Action OnWaveEnd;
-    public Action OnWaveStart;
-
-    public bool endRound;
-    public bool startRound;
-
-    [Header("Animation Curves")]
-    public AnimationCurve demonsToSpawn;
-    public AnimationCurve spawnsEachTick;
-
-    [Header("Timers")]
-    private float spawnTimer;
-    private float endRoundTimer;
-
     [HideInInspector] public Queue<DemonType> DemonQueue = new Queue<DemonType>();
+
+    private Spawners _spawners;
+
+    private int baseSpawnerCount = 0;
+    private int specialSpawnerCount = 0;
 
     private void Awake()
     {
-        waveManager = GetComponent<WaveManager>();
+        _spawners = GetComponent<Spawners>();
     }
 
-    private void Start()
+    public void AddDemonBackToPool(DemonType demon)
     {
-        OnWaveEnd += WaveEnd;
-        OnWaveStart.Invoke();
-    }
-    //private void Update()
-    //{
-    //    Timers();
-    //    Bools();
+        // minus from current demon count
+        // add to max demons to spawn
 
-    //    if (endRound == true)
-    //    {
-    //        OnWaveEnd.Invoke();
-    //    }
-
-    //    if (startRound == true)
-    //    {
-    //        endRoundTimer += Time.deltaTime;
-    //        if (HelperFuntions.TimerGreaterThan(endRoundTimer, timeBetweenRounds))
-    //        {
-    //            OnWaveStart.Invoke();
-    //            endRoundTimer = 0f;
-    //            startRound = false;
-    //        }
-    //    }
-
-    //    if (HelperFuntions.TimerGreaterThan(spawnTimer, timeBetweenSpawns) && canSpawn == true)
-    //    {
-    //        if (HelperFuntions.IntGreaterThanOrEqual(maxDemonsAtOnce, currentDemons))
-    //        {
-    //            spawnTimer = 0;
-
-    //            if (DemonQueue.Count <= 0) // if no demons to spawn return
-    //            {
-    //                return;
-    //            }
-
-    //            int toSpawn = maxDemonsAtOnce - currentDemons;
-    //            if (toSpawn <= demonsToSpawnEachTick) { }
-    //            else { toSpawn = demonsToSpawnEachTick; }
-
-    //            if (maxDemonsToSpawn < toSpawn) { toSpawn = maxDemonsToSpawn; }
-
-    //            //if (toSpawn > 0) ActiveSpawners(player, baseSpawners, specialSpawners); // if demoms to spawn check spawners
-
-    //            for (int i = 0; i < toSpawn; i++)
-    //            {
-    //                DemonType demon = null;
-    //                if (DemonQueue.Count > 0) { demon = DemonQueue.Dequeue(); }
-    //                else { break; }
-
-    //                Spawner spawner = null;
-    //                int temp = -2;
-
-    //                // go through all avalible spawners once all been used refil spawner list
-
-    //                if (demon.SpawnType == SpawnType.Basic)
-    //                {
-    //                    temp = Random.Range(0, baseActiveSpawners.Count);
-    //                    spawner = baseActiveSpawners[temp];
-    //                }
-    //                else if (demon.SpawnType == SpawnType.Special)
-    //                {
-    //                    temp = Random.Range(0, specialActiveSpawners.Count);
-    //                    spawner = specialActiveSpawners[temp];
-    //                }
-
-    //                if (temp > -1) spawner.RequestSpawn(demon); // spawn using object poolers
-    //            }
-    //        }
-    //    }
-    //}
-
-    void Timers()
-    {
-        spawnTimer += Time.deltaTime;
+        //DemonQueue.Enqueue(demon); add back to the pool to spawn from
     }
 
-    //void Bools()
-    //{
-    //    if (maxDemonsToSpawn <= 0 && currentDemons <= 0 && startRound == false) endRound = true;
-    //}
-    public void WaveEnd()
+    public void ActiveSpawners(Transform player, NavMeshAgent playerAgent)
     {
-        DemonQueue.Clear();
-        startRound = true;
-        endRound = false;
+        baseSpawnerCount = _spawners.CheckBaseSpawners(player, playerAgent);
+        specialSpawnerCount = _spawners.CheckSpecialSpawners(player, playerAgent);
     }
 
-    #region SpawnerAccessorFunctions
-    //public void DemonKilled()
-    //{
-    //    currentDemons--;
-    //}
-
-    //public void DemonRespawn(DemonType demon)
-    //{
-    //    currentDemons--;
-    //    maxDemonsToSpawn++;
-
-    //    DemonQueue.Enqueue(demon);
-    //}
-    #endregion
-
-
-    
-
-    private void OnGUI()
+    public void SpawnDemon()
     {
-        //string content = currentRound.ToString();
-        //GUILayout.Label($"<color='white'><size=150>{content}</size></color>");
+        DemonType demon = null;
+
+        if(DemonCount > 0) { demon = GetFirstDemon(); }
+
+        if(demon != null)
+        {
+            switch (demon.SpawnType)
+            {
+                case SpawnType.Basic:
+                    if (baseSpawnerCount > 0)
+                    {
+                        int temp = Random.Range(0, baseSpawnerCount);
+                        Spawner spawner = _spawners.GetBaseSpawner(temp);
+                        spawner.RequestSpawn(demon);
+                    }
+                    else { Debug.Log("BASE SPAWNER COUNT 0"); }
+                    break;
+                case SpawnType.Special:
+                    if (specialSpawnerCount > 0)
+                    {
+                        int temp = Random.Range(0, specialSpawnerCount);
+                        Spawner spawner = _spawners.GetSpecialSpawner(temp);
+                        spawner.RequestSpawn(demon);
+                    }
+                    else { Debug.Log("SPECIAL SPAWNER COUNT 0"); }
+                    break;
+                case SpawnType.Boss:
+
+                    break;
+            }
+        }
+    }
+
+    public DemonType GetFirstDemon()
+    {
+        return DemonQueue.Dequeue();
+    }
+    public int DemonCount
+    {
+        get { return DemonQueue.Count; }
     }
 }

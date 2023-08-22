@@ -11,6 +11,8 @@ public class DemonBase : MonoBehaviour, IDemon
     [Header("Spawner")]
     [SerializeField] protected DemonSpawner _spawner;
 
+    protected SpawnerManager _spawnerManager;
+
     [Header("Demon Type")]
     [SerializeField] protected DemonType _type;
 
@@ -56,6 +58,7 @@ public class DemonBase : MonoBehaviour, IDemon
         _collider = GetComponent<Collider>();
         _rb = GetComponent<Rigidbody>();
         _spawner = FindObjectOfType<DemonSpawner>();
+        _spawnerManager = FindObjectOfType<SpawnerManager>();
 
         OnAwakened();
     }
@@ -113,7 +116,7 @@ public class DemonBase : MonoBehaviour, IDemon
     protected void OnFinishedDeathAnimation()
     {
         _pooledObject.Despawn();
-        //_spawner.DemonKilled();
+        _spawnerManager.DemonKilled();
     }
 
     public void PlayAnimation(string trigger)

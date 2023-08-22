@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class WaveManager : MonoBehaviour
 {
-    public int currentRound;
+    private SpawnerManager Manager;
 
     [SerializeField] Wave wave;
     [SerializeField] Wave BaseWave;
@@ -16,8 +16,6 @@ public class WaveManager : MonoBehaviour
     [SerializeField] List<Wave> waves = new List<Wave>();
     private Wave[] WavesContainer = new Wave[101];
 
-    private DemonSpawner spawner;
-
     [Header("Demons")]
     private int _base;
     private int _Summoner;
@@ -26,43 +24,22 @@ public class WaveManager : MonoBehaviour
 
     private void Awake()
     {
-        spawner = GetComponent<DemonSpawner>();
-    }
-
-    private void Start()
-    {
+        Manager = GetComponent<SpawnerManager>();
         SetWaves(waves);
-        spawner.OnWaveStart += WaveStart;
-        spawner.OnWaveEnd += WaveEnd;
     }
 
-    public void NextWave()
-    {
-
-    }
-
-    public void WaveStart()
+    public void NextWave(int currentRound)
     {
         wave = GetWave(currentRound);
-
-        GetDemonSpawnCount();
     }
-    public void WaveEnd()
+    public Queue<DemonType> GetDemonToSpawn(int MaxToSpawn)
     {
-        currentRound++;
-    }
+        
 
-    public void GetDemonSpawnCount()
-    {
-        //spawner.maxDemonsToSpawn = (int)spawner.demonsToSpawn.Evaluate(currentRound);
-        //spawner.demonsToSpawnEachTick = (int)spawner.spawnsEachTick.Evaluate(currentRound);
-
-        //_base = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.BasePercentage, spawner.maxDemonsToSpawn));
-        //_Summoner = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.SummonerPercentage, spawner.maxDemonsToSpawn));
-        //_stalker = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.StalkerPercentage, spawner.maxDemonsToSpawn));
-        //_choas = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.ChoasPercentage, spawner.maxDemonsToSpawn));
-
-        //int temp = spawner.maxDemonsToSpawn;
+        _base = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.BasePercentage, MaxToSpawn));
+        _Summoner = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.SummonerPercentage, MaxToSpawn));
+        _stalker = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.StalkerPercentage, MaxToSpawn));
+        _choas = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.ChoasPercentage, MaxToSpawn));
 
         List<DemonType> DemonsToSpawn = new List<DemonType>();
         List<DemonType> specialDemonTypes = new List<DemonType>();
@@ -72,29 +49,29 @@ public class WaveManager : MonoBehaviour
             DemonsToSpawn.Add(wave.Base);
         }
 
-        //temp -= _base;
+        MaxToSpawn -= _base;
 
         for (int i = 0; i < _Summoner; i++)
         {
             specialDemonTypes.Add(wave.Summoner);
         }
 
-        //temp -= _Summoner;
+        MaxToSpawn -= _Summoner;
 
         for (int i = 0; i < _stalker; i++)
         {
             specialDemonTypes.Add(wave.Stalker);
         }
 
-        //temp -= _stalker;
+        MaxToSpawn -= _stalker;
 
         for (int i = 0; i < _choas; i++)
         {
             specialDemonTypes.Add(wave.Summoner);
         }
 
-        //temp -= _choas;
-        //spawner.maxDemonsToSpawn -= temp;
+        MaxToSpawn -= _choas;
+        Manager.maxDemonsToSpawn -= MaxToSpawn;
         
         specialDemonTypes = HelperFuntions.ShuffleList(specialDemonTypes); // shuffles the special demon list
 
@@ -104,30 +81,30 @@ public class WaveManager : MonoBehaviour
         HelperFuntions.ClearLog();
 #endif
 
-        //for (int i = 0; i < listSize; i++)
-        //{
-        //    // calculate at what position to add demon
-        //    int index = Mathf.RoundToInt(HelperFuntions.GetRandomIndexBetweenMinMax(spawner.minMax.x, spawner.minMax.y, DemonsToSpawn.Count));
+        for (int i = 0; i < listSize; i++)
+        {
+            // calculate at what position to add demon
+            int index = Mathf.RoundToInt(HelperFuntions.GetRandomIndexBetweenMinMax(Manager.minMax.x, Manager.minMax.y, DemonsToSpawn.Count));
 
-        //    Debug.Log("Index to add: " + index + " Max Size is: " + DemonsToSpawn.Count);
+            //Debug.Log("Index to add: " + index + " Max Size is: " + DemonsToSpawn.Count);
 
-        //    DemonsToSpawn.Insert(index, specialDemonTypes[i]);
-        //}
+            DemonsToSpawn.Insert(index, specialDemonTypes[i]);
+        }
 
-        //if (wave.BossWave == true) // add boss at 10% way through
-        //{
-        //    // calculate at what position to add demon
-        //    int index = GetSpawnIndex(40, spawner.maxDemonsToSpawn);
+        if (wave.BossWave == true) // add boss at 10% way through
+        {
+            // calculate at what position to add demon
+            int index = GetSpawnIndex(40, Manager.maxDemonsToSpawn);
 
-        //    DemonsToSpawn.Insert(index, wave.Cultist);
+            DemonsToSpawn.Insert(index, wave.Cultist);
 
-        //    spawner.maxDemonsToSpawn++;
-        //}
+            Manager.maxDemonsToSpawn++;
+        }
 
-        spawner.DemonQueue = HelperFuntions.AddListToQueue(DemonsToSpawn);
+        Manager.StartOfRound = false;
+        Manager.canSpawn = true;
 
-        spawner.startRound = false;
-        //spawner.canSpawn = true;
+        return HelperFuntions.AddListToQueue(DemonsToSpawn);
     }
     private void SetWaves(List<Wave> list)
     {

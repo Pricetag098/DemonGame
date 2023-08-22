@@ -40,7 +40,7 @@ public class Holster : MonoBehaviour
 
 	public void SetGun(int slot,Gun gun)
 	{
-        Debug.Log(slot);
+        //Debug.Log(slot);
         if (slot > MaxGuns)
             return;
         if(guns[slot] != null)

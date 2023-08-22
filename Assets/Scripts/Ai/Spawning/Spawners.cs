@@ -5,10 +5,6 @@ using UnityEngine.AI;
 
 public class Spawners : MonoBehaviour
 {
-    [Header("Player")]
-    public Transform player;
-    [SerializeField] NavMeshAgent playerAgent;
-
     [Header("Distance Checks")]
     [SerializeField] float maxPathingDistance;
     [SerializeField] float maxSpawningDistance;
@@ -28,14 +24,21 @@ public class Spawners : MonoBehaviour
         specialSpawners = HelperFuntions.GetAllChildrenSpawnersFromParent(SpecialSpawner);
     }
 
-    public void ActiveSpawners(Transform player, List<Spawner> baseSpawns, List<Spawner> specialSpawns)
+    public Spawner GetBaseSpawner(int num)
+    {
+        return baseActiveSpawners[num];
+    }
+    public Spawner GetSpecialSpawner(int num)
+    {
+        return specialActiveSpawners[num];
+    }
+    public int CheckBaseSpawners(Transform player, NavMeshAgent playerAgent)
     {
         Vector2 pos = new Vector2(player.position.x, player.position.z);
 
-        List<Spawner> tempListBase = new List<Spawner>();
-        List<Spawner> tempListspecial = new List<Spawner>();
+        List<Spawner> list = new List<Spawner>();
 
-        foreach (Spawner bt in baseSpawns)
+        foreach (Spawner bt in baseSpawners)
         {
             Vector2 spawnerPos = new Vector2(bt.position.x, bt.position.z);
 
@@ -43,23 +46,11 @@ public class Spawners : MonoBehaviour
 
             if (dist < maxSpawningDistance)
             {
-                tempListBase.Add(bt);
+                list.Add(bt);
             }
         }
 
-        foreach (Spawner st in specialSpawns)
-        {
-            Vector2 spawnerPos = new Vector2(st.position.x, st.position.z);
-
-            float dist = Vector2.Distance(pos, spawnerPos);
-
-            if (dist < maxSpawningDistance)
-            {
-                tempListspecial.Add(st);
-            }
-        }
-
-        foreach (Spawner bt in tempListBase)
+        foreach (Spawner bt in list)
         {
             NavMeshPath path = new NavMeshPath();
 
@@ -85,7 +76,27 @@ public class Spawners : MonoBehaviour
             }
         }
 
-        foreach (Spawner st in tempListspecial)
+        return baseActiveSpawners.Count;
+    }
+    public int CheckSpecialSpawners(Transform player, NavMeshAgent playerAgent)
+    {
+        Vector2 pos = new Vector2(player.position.x, player.position.z);
+
+        List<Spawner> list = new List<Spawner>();
+
+        foreach (Spawner st in specialSpawners)
+        {
+            Vector2 spawnerPos = new Vector2(st.position.x, st.position.z);
+
+            float dist = Vector2.Distance(pos, spawnerPos);
+
+            if (dist < maxSpawningDistance)
+            {
+                list.Add(st);
+            }
+        }
+
+        foreach (Spawner st in list)
         {
             NavMeshPath path = new NavMeshPath();
 
@@ -110,5 +121,7 @@ public class Spawners : MonoBehaviour
                 }
             }
         }
+
+        return specialActiveSpawners.Count;
     }
 }

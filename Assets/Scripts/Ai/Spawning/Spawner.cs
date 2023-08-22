@@ -6,6 +6,8 @@ using static UnityEditor.PlayerSettings;
 public class Spawner : MonoBehaviour
 {
     private DemonSpawner demonSpawner;
+    private SpawnerManager Manager;
+
     public Vector3 position;
 
     private float timeBetweenSpawns;
@@ -16,24 +18,23 @@ public class Spawner : MonoBehaviour
     private void Awake()
     {
         demonSpawner = FindObjectOfType<DemonSpawner>();
+        Manager = FindObjectOfType<SpawnerManager>();
         position = transform.position;
     }
-
     private void Start()
     {
-        //timeBetweenSpawns = demonSpawner.timeBetweenSpawns;
+        timeBetweenSpawns = Manager.timeBetweenSpawns;
     }
 
     private void Update()
     {
         spawnTimer += Time.deltaTime;
 
-
         if(HelperFuntions.GreaterThanOrEqual(spawnTimer, timeBetweenSpawns))
         {
             if(demonsToSpawn.Count > 0)
             {
-                SpawnDemon(demonsToSpawn.Dequeue(), demonSpawner);
+                SpawnDemon(demonsToSpawn.Dequeue());
 
                 spawnTimer = 0;
             }
@@ -49,22 +50,21 @@ public class Spawner : MonoBehaviour
         }
 
         demonSpawner.DemonQueue.Enqueue(demon);
+
         return false;
     }
 
-    private void SpawnDemon(DemonType demon, DemonSpawner ds)
+    private void SpawnDemon(DemonType demon)
     {
-        //GameObject demonTemp = ds.demonPoolers[demon.Id].Spawn();
+        GameObject demonTemp = Manager.DemonPoolers.demonPoolers[demon.Id].Spawn();
 
-        //DemonBase demonBase = demonTemp.GetComponent<DemonBase>();
+        DemonBase demonBase = demonTemp.GetComponent<DemonBase>();
 
-        //demonBase.OnSpawn(ds.player);
+        demonBase.OnSpawn(Manager.player);
 
-        //demonTemp.transform.position = position;
+        demonTemp.transform.position = position;
 
-        Debug.Log(position);
-
-        //ds.currentDemons++;
-        //ds.maxDemonsToSpawn--;
+        Manager.currentDemons++;
+        Manager.maxDemonsToSpawn--;
     }
 }

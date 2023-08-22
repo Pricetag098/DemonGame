@@ -45,11 +45,11 @@ public class Spawner : MonoBehaviour
     {
         if(demonsToSpawn.Count < 10)
         {
-            demonsToSpawn.Enqueue(demon);
+            demonsToSpawn.Enqueue(demon); // spawns demon
             return true;
         }
 
-        demonSpawner.DemonQueue.Enqueue(demon);
+        demonSpawner.DemonQueue.Enqueue(demon); // returns demon to queue
 
         return false;
     }
@@ -64,7 +64,7 @@ public class Spawner : MonoBehaviour
 
         demonTemp.transform.position = position;
 
-        Manager.currentDemons++;
-        Manager.maxDemonsToSpawn--;
+        //Manager.currentDemons++;
+        //Manager.maxDemonsToSpawn--;
     }
 }

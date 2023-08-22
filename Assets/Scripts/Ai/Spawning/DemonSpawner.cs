@@ -35,11 +35,11 @@ public class DemonSpawner : MonoBehaviour
         specialSpawnerCount = _spawners.CheckSpecialSpawners(player, playerAgent);
     }
 
-    public void SpawnDemon()
+    public bool SpawnDemon()
     {
         DemonType demon = null;
 
-        if(DemonCount > 0) { demon = GetFirstDemon(); }
+        if(DemonCount > 0) { demon = DemonQueue.Dequeue(); }
 
         if(demon != null)
         {
@@ -50,7 +50,7 @@ public class DemonSpawner : MonoBehaviour
                     {
                         int temp = Random.Range(0, baseSpawnerCount);
                         Spawner spawner = _spawners.GetBaseSpawner(temp);
-                        spawner.RequestSpawn(demon);
+                        return spawner.RequestSpawn(demon);
                     }
                     else { Debug.Log("BASE SPAWNER COUNT 0"); }
                     break;
@@ -59,7 +59,7 @@ public class DemonSpawner : MonoBehaviour
                     {
                         int temp = Random.Range(0, specialSpawnerCount);
                         Spawner spawner = _spawners.GetSpecialSpawner(temp);
-                        spawner.RequestSpawn(demon);
+                        return spawner.RequestSpawn(demon);
                     }
                     else { Debug.Log("SPECIAL SPAWNER COUNT 0"); }
                     break;
@@ -68,12 +68,10 @@ public class DemonSpawner : MonoBehaviour
                     break;
             }
         }
+
+        return false;
     }
 
-    public DemonType GetFirstDemon()
-    {
-        return DemonQueue.Dequeue();
-    }
     public int DemonCount
     {
         get { return DemonQueue.Count; }

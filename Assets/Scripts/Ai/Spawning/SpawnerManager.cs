@@ -1,9 +1,14 @@
 using DemonInfo;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(WaveManager))]
+[RequireComponent(typeof(DemonSpawner))]
+[RequireComponent(typeof(DemonPoolers))]
+[RequireComponent(typeof(Spawners))]
 public class SpawnerManager : MonoBehaviour
 {
     [HideInInspector] public WaveManager WaveManager;
@@ -27,7 +32,7 @@ public class SpawnerManager : MonoBehaviour
     public AnimationCurve spawnsEachTick;
 
     [Header("Display Stats")]
-    public int currentRound;
+    [Range(1, 10000)] public int currentRound;
     public int maxDemonsToSpawn;
     public int currentDemons;
     public bool EndOfRound;
@@ -36,7 +41,6 @@ public class SpawnerManager : MonoBehaviour
     [Header("Timers")]
     private float spawnTimer;
     private float endRoundTimer;
-
 
     private void Awake()
     {
@@ -86,6 +90,7 @@ public class SpawnerManager : MonoBehaviour
                 }
 
                 int toSpawn = maxDemonsAtOnce - currentDemons;
+
                 if (toSpawn <= demonsToSpawnEachTick) { }
                 else { toSpawn = demonsToSpawnEachTick; }
 
@@ -95,7 +100,11 @@ public class SpawnerManager : MonoBehaviour
 
                 for (int i = 0; i < toSpawn; i++)
                 {
-                    DemonSpawner.SpawnDemon();
+                    if (DemonSpawner.SpawnDemon()) // if a demon can be spawned, if requested spawner can spawn return true 
+                    {
+                        currentDemons++;
+                        maxDemonsToSpawn--;
+                    }
                 }
             }
         }
@@ -109,12 +118,13 @@ public class SpawnerManager : MonoBehaviour
         demonsToSpawnEachTick = DemonSpawnsEachTick;
 
         DemonSpawner.DemonQueue = WaveManager.GetDemonToSpawn(maxDemonsToSpawn);
+
+        currentRound++;
     }
 
     void WaveEnd()
     {
         DemonSpawner.DemonQueue.Clear();
-        currentRound++;
     }
 
     public void DemonKilled()

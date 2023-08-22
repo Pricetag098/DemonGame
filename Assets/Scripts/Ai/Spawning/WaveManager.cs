@@ -32,10 +32,9 @@ public class WaveManager : MonoBehaviour
     {
         wave = GetWave(currentRound);
     }
+
     public Queue<DemonType> GetDemonToSpawn(int MaxToSpawn)
     {
-        
-
         _base = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.BasePercentage, MaxToSpawn));
         _Summoner = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.SummonerPercentage, MaxToSpawn));
         _stalker = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.StalkerPercentage, MaxToSpawn));

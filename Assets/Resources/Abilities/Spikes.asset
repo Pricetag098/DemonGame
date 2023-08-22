@@ -12,30 +12,67 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 726cf3e2307dbee43bdbcf4ea2515aa7, type: 3}
   m_Name: Spikes
   m_EditorClassIdentifier: 
-  abilityName: 
+  abilityName: Spikes
   icon: {fileID: 0}
   bloodCost: 10
   castMode: 0
-  prefab: {fileID: 0}
+  prefab: {fileID: 919132149155446097, guid: 6771aeee59f05e4428b5162b46ee70de, type: 3}
   poolSize: 100
   targetLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   groundLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
   distanceScale:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.25
+      inSlope: 1.9103771
+      outSlope: 1.9103771
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.20833333
+    - serializedVersion: 3
+      time: 1
+      value: 1.5
+      inSlope: 0.11039755
+      outSlope: 0.11039755
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.5875
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   distanceDamage:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  angle: 0
-  range: 0
-  spikeCount: 0
+  angle: 45
+  range: 10
+  spikeCount: 50
+  coolDown: 0

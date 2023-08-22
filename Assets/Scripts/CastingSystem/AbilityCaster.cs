@@ -54,10 +54,26 @@ public class AbilityCaster : MonoBehaviour
         abilities[index].Cast(origin, direction);
     }
 
+    public delegate void Action(float amount);
+    public Action OnAddBlood;
+    public Action OnRemoveBlood;
     public void AddBlood(float amount)
 	{
+        if(amount + blood > maxBlood)
+		{
+            amount = maxBlood - blood;
+		}
         blood = Mathf.Clamp(blood + amount, 0, maxBlood);
+        if(OnAddBlood != null)
+            OnAddBlood(amount);
 	}
+
+    public void RemoveBlood(float amount)
+	{
+        blood = Mathf.Clamp(blood - amount, 0, maxBlood);
+        if(OnRemoveBlood != null)
+            OnRemoveBlood(amount);
+    }
 
     public bool HasAbility(Ability ability)
 	{

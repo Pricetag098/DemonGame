@@ -17,7 +17,7 @@ public class ShopInteractable : Interactable
 			
 		if(interactor.playerStats.points >= GetCost(interactor) )
 		{
-			interactor.playerStats.points -= GetCost(interactor);
+			interactor.playerStats.SpendPoints(GetCost(interactor));
 			DoBuy(interactor);
 		}
 	}

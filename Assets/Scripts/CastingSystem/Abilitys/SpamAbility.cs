@@ -26,7 +26,7 @@ public class SpamAbility : Ability
 			{
 				pool.Spawn().GetComponent<DamageProjectiles>().Shoot(origin + Random.insideUnitSphere * spreadUnits, direction * speed, damage, caster.castOrigin, 1);
 				timer = 0;
-				caster.blood -= bloodCost;
+				caster.RemoveBlood(bloodCost);
 			}
 			
 		}

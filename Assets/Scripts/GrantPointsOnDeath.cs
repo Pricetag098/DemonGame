@@ -17,10 +17,10 @@ public class GrantPointsOnDeath : MonoBehaviour
 
     void AddPointsDeath()
 	{
-        playerStats.points += points;
+        playerStats.GainPoints(points);
 	}
     void AddPointsHit()
     {
-        playerStats.points += points;
+        playerStats.GainPoints(pointsHit);
     }
 }

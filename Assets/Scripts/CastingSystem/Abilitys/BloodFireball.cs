@@ -66,7 +66,7 @@ public class BloodFireball : Ability
         float speed = chargeVelocityCurve.Evaluate(chargePercent);
         float radius = chargeRadiusCurve.Evaluate(chargePercent);
         Vector3 velocity = speed * lastAimDir;
-        caster.blood -= bloodCost;
+        caster.RemoveBlood(bloodCost);
         projectileSpawner.Spawn().GetComponent<Fireball>().Shoot(lastOrigin, velocity, damage, caster.castOrigin,radius);
     }
 

@@ -15,15 +15,21 @@ public class BloodSpikeAbility : Ability
     [SerializeField] float angle;
 	[SerializeField] float range;
 	[SerializeField] int spikeCount;
+	[SerializeField] float coolDown;
+	float timer;
 	
 	protected override void OnEquip()
 	{
 		pooler = new GameObject().AddComponent<ObjectPooler>();
 		pooler.CreatePool(prefab, 100);
+		timer = coolDown;
 	}
 
 	public override void Cast(Vector3 origin, Vector3 direction)
 	{
+		if (timer < coolDown)
+			return;
+		timer = 0;
 		List<Health> healths = new List<Health>();
 		caster.RemoveBlood(bloodCost);
 
@@ -44,7 +50,10 @@ public class BloodSpikeAbility : Ability
 			}
         }
 	}
-
+	public override void Tick()
+	{
+		timer += Time.deltaTime;
+	}
 	void SpawnSpike(Vector3 pos,Vector3 normal, float distance, ref List<Health> healths)
 	{
 		float scale = distanceScale.Evaluate(distance/range);

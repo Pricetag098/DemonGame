@@ -5,25 +5,23 @@ using static UnityEditor.PlayerSettings;
 
 public class Spawner : MonoBehaviour
 {
-    private DemonSpawner demonSpawner;
-    private SpawnerManager Manager;
-
     public Vector3 position;
 
+    private DemonSpawner demonSpawner;
+    private Transform player;
     private float timeBetweenSpawns;
     private float spawnTimer;
 
-    private Queue<DemonType> demonsToSpawn = new Queue<DemonType>();
+    public Queue<DemonType> demonsToSpawn = new Queue<DemonType>();
 
     private void Awake()
     {
         demonSpawner = FindObjectOfType<DemonSpawner>();
-        Manager = FindObjectOfType<SpawnerManager>();
+        SpawnerManager sm = FindObjectOfType<SpawnerManager>();
+        player = sm.player;
+        timeBetweenSpawns = sm.timeBetweenSpawns;
+
         position = transform.position;
-    }
-    private void Start()
-    {
-        timeBetweenSpawns = Manager.timeBetweenSpawns;
     }
 
     private void Update()
@@ -34,14 +32,14 @@ public class Spawner : MonoBehaviour
         {
             if(demonsToSpawn.Count > 0)
             {
-                SpawnDemon(demonsToSpawn.Dequeue());
+                SpawnDemon(demonsToSpawn.Dequeue(), demonSpawner.demonPool, player);
 
                 spawnTimer = 0;
             }
         }
     }
 
-    public bool RequestSpawn(DemonType demon)
+    public bool RequestSpawn(DemonType demon, DemonSpawner spawner)
     {
         if(demonsToSpawn.Count < 10)
         {
@@ -49,22 +47,19 @@ public class Spawner : MonoBehaviour
             return true;
         }
 
-        demonSpawner.DemonQueue.Enqueue(demon); // returns demon to queue
+        spawner.DemonQueue.Enqueue(demon); // returns demon to queue
 
         return false;
     }
 
-    private void SpawnDemon(DemonType demon)
+    private void SpawnDemon(DemonType demon, DemonPoolers pool, Transform target)
     {
-        GameObject demonTemp = Manager.DemonPoolers.demonPoolers[demon.Id].Spawn();
+        GameObject demonTemp = pool.demonPoolers[demon.Id].Spawn();
 
         DemonBase demonBase = demonTemp.GetComponent<DemonBase>();
 
-        demonBase.OnSpawn(Manager.player);
+        demonBase.OnSpawn(target);
 
         demonTemp.transform.position = position;
-
-        //Manager.currentDemons++;
-        //Manager.maxDemonsToSpawn--;
     }
 }

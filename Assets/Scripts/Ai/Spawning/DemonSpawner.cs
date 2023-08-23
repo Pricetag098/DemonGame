@@ -12,6 +12,7 @@ public class DemonSpawner : MonoBehaviour
     [HideInInspector] public Queue<DemonType> DemonQueue = new Queue<DemonType>();
 
     private Spawners _spawners;
+    [HideInInspector] public DemonPoolers demonPool;
 
     private int baseSpawnerCount = 0;
     private int specialSpawnerCount = 0;
@@ -19,6 +20,7 @@ public class DemonSpawner : MonoBehaviour
     private void Awake()
     {
         _spawners = GetComponent<Spawners>();
+        demonPool = GetComponent<DemonPoolers>();
     }
 
     public void AddDemonBackToPool(DemonType demon)
@@ -31,8 +33,8 @@ public class DemonSpawner : MonoBehaviour
 
     public void ActiveSpawners(Transform player, NavMeshAgent playerAgent)
     {
-        baseSpawnerCount = _spawners.CheckBaseSpawners(player, playerAgent);
-        specialSpawnerCount = _spawners.CheckSpecialSpawners(player, playerAgent);
+        baseSpawnerCount = _spawners.CheckBaseSpawners(player, playerAgent, this);
+        specialSpawnerCount = _spawners.CheckSpecialSpawners(player, playerAgent, this);
     }
 
     public bool SpawnDemon()
@@ -50,18 +52,26 @@ public class DemonSpawner : MonoBehaviour
                     {
                         int temp = Random.Range(0, baseSpawnerCount);
                         Spawner spawner = _spawners.GetBaseSpawner(temp);
-                        return spawner.RequestSpawn(demon);
+                        return spawner.RequestSpawn(demon, this);
                     }
-                    else { Debug.Log("BASE SPAWNER COUNT 0"); }
+                    else 
+                    { 
+                        Debug.Log("BASE SPAWNER COUNT 0");
+                        DemonQueue.Enqueue(demon);
+                    }
                     break;
                 case SpawnType.Special:
                     if (specialSpawnerCount > 0)
                     {
                         int temp = Random.Range(0, specialSpawnerCount);
                         Spawner spawner = _spawners.GetSpecialSpawner(temp);
-                        return spawner.RequestSpawn(demon);
+                        return spawner.RequestSpawn(demon, this);
                     }
-                    else { Debug.Log("SPECIAL SPAWNER COUNT 0"); }
+                    else 
+                    { 
+                        Debug.Log("SPECIAL SPAWNER COUNT 0");
+                        DemonQueue.Enqueue(demon);
+                    }
                     break;
                 case SpawnType.Boss:
 

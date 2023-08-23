@@ -1113,8 +1113,8 @@ GameObject:
   m_Component:
   - component: {fileID: 808618217}
   - component: {fileID: 808618222}
-  - component: {fileID: 808618219}
   - component: {fileID: 808618221}
+  - component: {fileID: 808618219}
   - component: {fileID: 808618220}
   - component: {fileID: 808618218}
   m_Layer: 0
@@ -1151,6 +1151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3744ca0343aa3af48995031f77e2139a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  demonPool: {fileID: 0}
 --- !u!114 &808618219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1197,8 +1198,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dd800527fbe49a4480d8397929ae27f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxPathingDistance: 80
-  maxSpawningDistance: 40
+  maxPathingDistance: 40
+  maxSpawningDistance: 20
   baseSpawner: {fileID: 377850116}
   baseActiveSpawners: []
   baseSpawners: []
@@ -1219,7 +1220,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaveManager: {fileID: 0}
   DemonSpawner: {fileID: 0}
-  DemonPoolers: {fileID: 0}
   player: {fileID: 1628965441}
   playerAgent: {fileID: 1378939868}
   canSpawn: 0
@@ -1227,7 +1227,7 @@ MonoBehaviour:
   timeBetweenSpawns: 5
   timeBetweenRounds: 8
   demonsToSpawnEachTick: 0
-  minMax: {x: 25, y: 75}
+  minMax: {x: 25, y: 90}
   demonsToSpawn:
     serializedVersion: 2
     m_Curve:
@@ -1276,7 +1276,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  currentRound: 1
+  currentRound: 0
   maxDemonsToSpawn: 0
   currentDemons: 0
   EndOfRound: 0

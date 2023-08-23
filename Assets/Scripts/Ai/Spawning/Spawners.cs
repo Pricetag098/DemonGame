@@ -32,7 +32,7 @@ public class Spawners : MonoBehaviour
     {
         return specialActiveSpawners[num];
     }
-    public int CheckBaseSpawners(Transform player, NavMeshAgent playerAgent)
+    public int CheckBaseSpawners(Transform player, NavMeshAgent playerAgent, DemonSpawner spawner)
     {
         Vector2 pos = new Vector2(player.position.x, player.position.z);
 
@@ -47,6 +47,15 @@ public class Spawners : MonoBehaviour
             if (dist < maxSpawningDistance)
             {
                 list.Add(bt);
+            }
+            else if(baseActiveSpawners.Contains(bt))
+            {
+                foreach (DemonType d in bt.demonsToSpawn)
+                {
+                    spawner.DemonQueue.Enqueue(bt.demonsToSpawn.Dequeue());
+                }
+
+                baseActiveSpawners.Remove(bt);
             }
         }
 
@@ -71,6 +80,11 @@ public class Spawners : MonoBehaviour
             {
                 if (baseActiveSpawners.Contains(bt))
                 {
+                    foreach(DemonType d in bt.demonsToSpawn)
+                    {
+                        spawner.DemonQueue.Enqueue(bt.demonsToSpawn.Dequeue());
+                    }
+
                     baseActiveSpawners.Remove(bt);
                 }
             }
@@ -78,7 +92,7 @@ public class Spawners : MonoBehaviour
 
         return baseActiveSpawners.Count;
     }
-    public int CheckSpecialSpawners(Transform player, NavMeshAgent playerAgent)
+    public int CheckSpecialSpawners(Transform player, NavMeshAgent playerAgent, DemonSpawner spawner)
     {
         Vector2 pos = new Vector2(player.position.x, player.position.z);
 
@@ -93,6 +107,15 @@ public class Spawners : MonoBehaviour
             if (dist < maxSpawningDistance)
             {
                 list.Add(st);
+            }
+            else if (specialActiveSpawners.Contains(st))
+            {
+                foreach (DemonType d in st.demonsToSpawn)
+                {
+                    spawner.DemonQueue.Enqueue(st.demonsToSpawn.Dequeue());
+                }
+
+                specialActiveSpawners.Remove(st);
             }
         }
 
@@ -117,6 +140,10 @@ public class Spawners : MonoBehaviour
             {
                 if (specialActiveSpawners.Contains(st))
                 {
+                    foreach(DemonType d in st.demonsToSpawn)
+                    {
+                        spawner.DemonQueue.Enqueue(st.demonsToSpawn.Dequeue());
+                    }
                     specialActiveSpawners.Remove(st);
                 }
             }

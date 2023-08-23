@@ -13,7 +13,6 @@ public class SpawnerManager : MonoBehaviour
 {
     [HideInInspector] public WaveManager WaveManager;
     [HideInInspector] public DemonSpawner DemonSpawner;
-    [HideInInspector] public DemonPoolers DemonPoolers;
 
     [Header("Player")]
     public Transform player;
@@ -32,7 +31,7 @@ public class SpawnerManager : MonoBehaviour
     public AnimationCurve spawnsEachTick;
 
     [Header("Display Stats")]
-    [Range(1, 10000)] public int currentRound;
+    [Range(0, 10000)] public int currentRound;
     public int maxDemonsToSpawn;
     public int currentDemons;
     public bool EndOfRound;
@@ -46,7 +45,6 @@ public class SpawnerManager : MonoBehaviour
     {
         WaveManager = GetComponent<WaveManager>();
         DemonSpawner = GetComponent<DemonSpawner>();
-        DemonPoolers = GetComponent<DemonPoolers>();
     }
     private void Start()
     {
@@ -96,7 +94,7 @@ public class SpawnerManager : MonoBehaviour
 
                 if (maxDemonsToSpawn < toSpawn) { toSpawn = maxDemonsToSpawn; }
 
-                if (toSpawn > 0) DemonSpawner.ActiveSpawners(player, playerAgent); // if demoms to spawn check spawners
+                if (toSpawn > 0) DemonSpawner.ActiveSpawners(player, playerAgent); Debug.Log("checking");// if demoms to spawn check spawners
 
                 for (int i = 0; i < toSpawn; i++)
                 {

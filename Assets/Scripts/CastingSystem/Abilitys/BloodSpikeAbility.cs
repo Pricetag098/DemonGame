@@ -17,7 +17,7 @@ public class BloodSpikeAbility : Ability
 	[SerializeField] int spikeCount;
 	[SerializeField] float coolDown;
 	float timer;
-	
+	[SerializeField, Range(0f, 1f)] float directionWeight;
 	protected override void OnEquip()
 	{
 		pooler = new GameObject().AddComponent<ObjectPooler>();
@@ -46,7 +46,7 @@ public class BloodSpikeAbility : Ability
 			RaycastHit hit;
 			if(Physics.Raycast(point,Vector3.down,out hit, 10, groundLayers))
 			{
-				SpawnSpike(hit.point, hit.normal, range * randCircle.y, ref healths);
+				SpawnSpike(hit.point, hit.normal,dir, range * randCircle.y, ref healths);
 			}
         }
 	}
@@ -54,14 +54,14 @@ public class BloodSpikeAbility : Ability
 	{
 		timer += Time.deltaTime;
 	}
-	void SpawnSpike(Vector3 pos,Vector3 normal, float distance, ref List<Health> healths)
+	void SpawnSpike(Vector3 pos,Vector3 normal,Vector3 aimDir, float distance, ref List<Health> healths)
 	{
 		float scale = distanceScale.Evaluate(distance/range);
 		GameObject spike = pooler.Spawn();
 		spike.transform.position = pos;
-		spike.transform.up = normal;
+		spike.transform.up = Vector3.Slerp(normal,aimDir,directionWeight);
 		spike.transform.localScale = Vector3.one * scale;
-		Collider[] colliders = Physics.OverlapCapsule(pos, pos + normal * scale, .1f * scale,targetLayers);
+		Collider[] colliders = Physics.OverlapCapsule(pos, pos + normal * scale, 1,targetLayers);
 		foreach(Collider collider in colliders)
 		{
 			HitBox hb;

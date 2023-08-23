@@ -12,6 +12,7 @@ namespace Movement
 		public Transform cam;
 		public Vector3 gravityDir;
 		public float sensitivity =1;
+		public float minSurface = .5f;
 		public MoveStates moveState;
 		Rigidbody rb;
 		[SerializeField] CapsuleCollider standingCollider, crouchedCollider;
@@ -89,6 +90,7 @@ namespace Movement
 		bool grounded;
 
 		Vector3 slideEntryVel;
+		Vector3 surfaceNormal;
 		public enum MoveStates
 		{
 			walk,
@@ -432,15 +434,11 @@ namespace Movement
 			{
 				rb.AddForce(gravityDir);
 			}
-			
 
-			
+
+
 			//project the forward velocity onto the floor for walking on slopes
-			RaycastHit hit;
-			if (Physics.Raycast(orientation.position, -orientation.up, out hit, 5, groundingLayer))
-			{
-				force = Vector3.ProjectOnPlane(force, hit.normal);
-			}
+			force = Vector3.ProjectOnPlane(force, surfaceNormal);
 
 			rb.AddForce(force);
 			if(rb.velocity.magnitude > maxSpeed)
@@ -457,7 +455,12 @@ namespace Movement
 
 		bool IsGrounded()
 		{
-			return Physics.CheckSphere(groundingPoint.position, groundingRadius, groundingLayer);
+			RaycastHit hit;
+			if (Physics.Raycast(orientation.position, -orientation.up, out hit, 5, groundingLayer))
+			{
+				surfaceNormal = hit.normal;
+			}
+			return Physics.CheckSphere(groundingPoint.position, groundingRadius, groundingLayer) && Vector3.Dot(surfaceNormal,orientation.up) > minSurface;
 		}
 
 		private void OnDrawGizmosSelected()

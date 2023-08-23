@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DestrcutibleObject : MonoBehaviour
+public class DestrcutibleObject : Interactable
 {
     public int Health;
     public int maxHealth;
@@ -24,5 +24,10 @@ public class DestrcutibleObject : MonoBehaviour
     public void RestoreHealthToMax()
     {
         Health = maxHealth;
+    }
+
+    public override void Interact()
+    {
+        RestoreHealth(1); // add timer for this
     }
 }

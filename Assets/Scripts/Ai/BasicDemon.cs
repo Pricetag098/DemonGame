@@ -48,7 +48,7 @@ public class BasicDemon : DemonBase
     }
     public override void DoDamage()
     {
-        _playerHealth.health -= _damage;
+        _playerHealth.TakeDmg(_damage);
     }
     public override void OnAttack()
     {

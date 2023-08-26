@@ -23,13 +23,13 @@ public class VfxSpawner : MonoBehaviour
 		}
 	}
 
-	public static void SpawnVfx(VfxSpawnRequest request, Vector3 position, Vector3 direction)
+	public static VfxObject SpawnVfx(VfxSpawnRequest request, Vector3 position, Vector3 direction)
 	{
-		instance.DoSpawnVfx(request, position, direction);
+		return instance.DoSpawnVfx(request, position, direction);
 	}
-	public static void SpawnVfx(int index, Vector3 position, Vector3 direction)
+	public static VfxObject SpawnVfx(int index, Vector3 position, Vector3 direction)
 	{
-		instance.DoSpawnVfx(instance.vfxlist[index], position, direction);
+		return instance.DoSpawnVfx(instance.vfxlist[index], position, direction);
 	}
 
 	void AddPool(VfxSpawnRequest request)
@@ -41,7 +41,7 @@ public class VfxSpawner : MonoBehaviour
 		poolDict.Add(request, pooler);
 	}
 
-	void DoSpawnVfx(VfxSpawnRequest request, Vector3 position, Vector3 direction)
+	VfxObject DoSpawnVfx(VfxSpawnRequest request, Vector3 position, Vector3 direction)
 	{
 		if (!vfxlist.Contains(request))
 		{
@@ -51,7 +51,9 @@ public class VfxSpawner : MonoBehaviour
 		GameObject go = poolDict[request].Spawn();
 		go.transform.position = position;
 		go.transform.up = direction;
-		go.GetComponent<VfxObject>().Play();
+		VfxObject vfx = go.GetComponent<VfxObject>();
+		vfx.Play();
+		return vfx;
 	}
 
 

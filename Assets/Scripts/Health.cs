@@ -10,6 +10,7 @@ public class Health : MonoBehaviour
     public delegate void Action();
     public Action OnDeath;
     public Action OnHit;
+    public Optional<Transform> effectTarget;
     // Start is called before the first frame update
 
     public void TakeDmg(float dmg)

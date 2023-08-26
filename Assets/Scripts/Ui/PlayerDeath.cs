@@ -1,0 +1,56 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+public class PlayerDeath : MonoBehaviour
+{
+    [SerializeField] CanvasGroup canvasGroup;
+    float timer;
+    public float fadeTime;
+    Health health;
+    [SerializeField] Transform respawnPoint;
+    PerkManager perkManager;
+    public int respawnsLeft;
+    // Start is called before the first frame update
+    void Awake()
+    {
+        perkManager = GetComponent<PerkManager>();
+        health = GetComponent<Health>();
+        health.OnDeath += Die;
+    }
+
+
+    void Die()
+	{
+        if(respawnsLeft > 0)
+		{
+            StartCoroutine(DoDie());
+            respawnsLeft--;
+        }
+        
+	}
+
+    IEnumerator DoDie()
+	{
+        Time.timeScale = 0;
+        while (timer < fadeTime)
+		{
+            timer += Time.unscaledDeltaTime;
+            canvasGroup.alpha = timer / fadeTime;
+            yield return null;
+		}
+        Time.timeScale = 1;
+        transform.position = respawnPoint.position;
+        transform.forward = respawnPoint.forward;
+        while (timer >=0)
+        {
+            timer -= Time.unscaledDeltaTime;
+            canvasGroup.alpha = timer / fadeTime;
+            yield return null;
+        }
+        health.health = health.maxHealth;
+        health.dead = false;
+        perkManager.ClearPerks();
+
+    }
+}

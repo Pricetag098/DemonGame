@@ -94,7 +94,7 @@ public class SpawnerManager : MonoBehaviour
 
                 if (maxDemonsToSpawn < toSpawn) { toSpawn = maxDemonsToSpawn; }
 
-                if (toSpawn > 0) DemonSpawner.ActiveSpawners(player, playerAgent); Debug.Log("checking");// if demoms to spawn check spawners
+                if (toSpawn > 0) DemonSpawner.ActiveSpawners(player, playerAgent); //Debug.Log("checking");// if demoms to spawn check spawners
 
                 for (int i = 0; i < toSpawn; i++)
                 {

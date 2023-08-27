@@ -28,11 +28,20 @@ public class WaveManager : MonoBehaviour
         SetWaves(waves);
     }
 
+    /// <summary>
+    /// Sets the Current wave To the Next wave
+    /// </summary>
+    /// <param name="currentRound"></param>
     public void NextWave(int currentRound)
     {
         wave = GetWave(currentRound);
     }
 
+    /// <summary>
+    /// Returns Demons To Add to Queue<DemonType> from Current Wave 
+    /// </summary>
+    /// <param name="MaxToSpawn"></param>
+    /// <returns></returns>
     public Queue<DemonType> GetDemonToSpawn(int MaxToSpawn)
     {
         _base = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.BasePercentage, MaxToSpawn));
@@ -105,6 +114,11 @@ public class WaveManager : MonoBehaviour
 
         return HelperFuntions.AddListToQueue(DemonsToSpawn);
     }
+
+    /// <summary>
+    /// Initalises All Waves
+    /// </summary>
+    /// <param name="list"></param>
     private void SetWaves(List<Wave> list)
     {
         foreach (Wave w in list)
@@ -137,6 +151,12 @@ public class WaveManager : MonoBehaviour
     {
         return Mathf.RoundToInt(percentage / 100 * total);
     }
+
+    /// <summary>
+    /// Returns a Wave from the Array of Waves
+    /// </summary>
+    /// <param name="currentRound"></param>
+    /// <returns></returns>
     public Wave GetWave(int currentRound)
     {
         if (currentRound >= WavesContainer.Length) return wave = BaseWave;

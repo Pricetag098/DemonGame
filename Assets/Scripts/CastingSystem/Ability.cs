@@ -9,6 +9,8 @@ public class Ability : ScriptableObject
 	public Sprite icon;
 	protected AbilityCaster caster;
 	public float bloodCost = 10;
+	public Optional<AbilityUpgradePath> upgradePath;
+	public int tier = 0;
 	public enum CastModes
 	{
 		press,

@@ -34,6 +34,8 @@ public class Gun : MonoBehaviour
     float fireTimer = 0, reloadTimer;
     public float bloodGainMulti = 1;
 
+
+
     [Header("SpreadSettings")]
     public float bulletSpreadDegrees = 0;
     [Tooltip("Recoil Increments By 1 for each shot and decays with recoilResetSpeed")]
@@ -85,6 +87,10 @@ public class Gun : MonoBehaviour
     public string reloadKey = "reload";
     public string meleeKey = "melee";
     public string sprintKey = "sprinting";
+
+    [Header("Upgrading")]
+    public Optional<GunUpgradePath> path;
+    public int tier = 0;
 
     // Start is called before the first frame update
     void Start()

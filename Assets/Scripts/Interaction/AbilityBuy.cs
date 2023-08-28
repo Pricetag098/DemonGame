@@ -41,7 +41,7 @@ public class AbilityBuy : ShopInteractable
 			return;
 		}
 		
-		interactor.caster.caster.SetAbility(interactor.caster.activeIndex, Instantiate(ability));
+		interactor.caster.SetAbility(Instantiate(ability));
 		if (singleUse)
 			Disable();
 	}

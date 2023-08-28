@@ -52,13 +52,6 @@ public class Spawners : MonoBehaviour
             }
             else if(baseActiveSpawners.Contains(bt))
             {
-                int count = bt.demonsToSpawn.Count;
-
-                for (int i = 0; i < count; i++)
-                {
-                    spawner.DemonQueue.Enqueue(bt.demonsToSpawn.Dequeue());
-                }
-
                 bt.CanSpawn = false;
                 baseActiveSpawners.Remove(bt);
             }
@@ -86,13 +79,6 @@ public class Spawners : MonoBehaviour
             {
                 if (baseActiveSpawners.Contains(bt))
                 {
-                    int count = bt.demonsToSpawn.Count;
-
-                    for (int i = 0; i < count; i++)
-                    {
-                        spawner.DemonQueue.Enqueue(bt.demonsToSpawn.Dequeue());
-                    }
-
                     bt.CanSpawn = false;
                     baseActiveSpawners.Remove(bt);
                 }
@@ -123,13 +109,6 @@ public class Spawners : MonoBehaviour
             }
             else if (specialActiveSpawners.Contains(st))
             {
-                int count = st.demonsToSpawn.Count;
-
-                for (int i = 0; i < count; i++)
-                {
-                    spawner.DemonQueue.Enqueue(st.demonsToSpawn.Dequeue());
-                }
-
                 st.CanSpawn = false;
                 specialActiveSpawners.Remove(st);
             }
@@ -157,13 +136,6 @@ public class Spawners : MonoBehaviour
             {
                 if (specialActiveSpawners.Contains(st))
                 {
-                    int count = st.demonsToSpawn.Count;
-
-                    for (int i = 0; i < count; i++)
-                    {
-                        spawner.DemonQueue.Enqueue(st.demonsToSpawn.Dequeue());
-                    }
-
                     st.CanSpawn = false;
                     specialActiveSpawners.Remove(st);
                 }

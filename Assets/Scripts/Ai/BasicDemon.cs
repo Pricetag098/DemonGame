@@ -17,14 +17,13 @@ public class BasicDemon : DemonBase
     [Header("ObstacleDetection")]
     [SerializeField] DestroyObstacle m_obstacle;
 
-
     public override void OnAwakened()
     {
         m_obstacle = GetComponent<DestroyObstacle>();
     }
     public override void Setup()
     {
-        //UpdateHealthToCurrentRound(_spawner.currentRound);
+        UpdateHealthToCurrentRound(_spawnerManager.currentRound);
         base.Setup();
     }
 
@@ -47,7 +46,6 @@ public class BasicDemon : DemonBase
         UpdateHealthToCurrentRound(_spawnerManager.currentRound);
         CalculateAndSetPath(target);
         SetHealth(_health.maxHealth);
-
     }
     public override void OnRespawn()
     {
@@ -55,7 +53,7 @@ public class BasicDemon : DemonBase
         _agent.enabled = false;
         _collider.enabled = false;
 
-        //_spawner.DemonRespawn(_type);
+        _spawner.AddDemonBackToPool(_type, _spawnerManager);
         _pooledObject.Despawn();
     }
     public override void OnDeath() // add back to pool of demon type
@@ -94,9 +92,11 @@ public class BasicDemon : DemonBase
                 PlayAnimation("Attack");
             }
 
+            dist = DistanceToTargetNavmesh;
+
             if(dist > distanceToRespawn)
             {
-                //OnRespawn();
+                OnRespawn();
             }
         }
     }

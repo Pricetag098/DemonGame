@@ -24,15 +24,15 @@ public class DemonSpawner : MonoBehaviour
     }
 
     /// <summary>
-    /// Adds Demon back into Queue
+    /// Adds Demon back into Main Queue
     /// </summary>
     /// <param name="demon"></param>
-    public void AddDemonBackToPool(DemonType demon)
+    public void AddDemonBackToPool(DemonType demon, SpawnerManager sm)
     {
-        // minus from current demon count
-        // add to max demons to spawn
+        sm.currentDemons--;
+        sm.maxDemonsToSpawn++;
 
-        //DemonQueue.Enqueue(demon); add back to the pool to spawn from
+        DemonQueue.Enqueue(demon);
     }
 
     /// <summary>
@@ -81,7 +81,7 @@ public class DemonSpawner : MonoBehaviour
                 }
                 else 
                 { 
-                    //Debug.Log("BASE SPAWNER COUNT 0");
+                    Debug.Log("BASE SPAWNER COUNT 0");
                     DemonQueue.Enqueue(demon);
                 }
                 break;
@@ -107,7 +107,7 @@ public class DemonSpawner : MonoBehaviour
                 }
                 else 
                 { 
-                    //Debug.Log("SPECIAL SPAWNER COUNT 0");
+                    Debug.Log("SPECIAL SPAWNER COUNT 0");
                     DemonQueue.Enqueue(demon);
                 }
                 break;

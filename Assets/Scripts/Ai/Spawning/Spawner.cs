@@ -5,47 +5,22 @@ using static UnityEditor.PlayerSettings;
 
 public class Spawner : MonoBehaviour
 {
-    public Vector3 position;
-
-    private SpawnerManager sm;
-    private DemonSpawner demonSpawner;
-    private Transform player;
-    private float timeBetweenSpawns;
-    private float spawnTimer;
-
+    [HideInInspector] public Vector3 position;
     [HideInInspector] public bool CanSpawn;
     [HideInInspector] public bool Visited;
 
-    public Queue<DemonType> demonsToSpawn = new Queue<DemonType>();
-
     private void Awake()
     {
-        demonSpawner = FindObjectOfType<DemonSpawner>();
-        sm = FindObjectOfType<SpawnerManager>();
-        //player = sm.player;
-        //timeBetweenSpawns = sm.timeBetweenSpawns;
-
         position = transform.position;
     }
 
-    //private void Update()
-    //{
-    //    spawnTimer += Time.deltaTime;
-
-    //    if(HelperFuntions.GreaterThanOrEqual(spawnTimer, timeBetweenSpawns))
-    //    {
-    //        if(demonsToSpawn.Count > 0 && CanSpawn == true)
-    //        {
-    //            SpawnDemon(demonsToSpawn.Dequeue(), demonSpawner.demonPool, player);
-
-    //            sm.currentDemons++;
-    //            sm.maxDemonsToSpawn--;
-
-    //            spawnTimer = 0;
-    //        }
-    //    }
-    //}
-
+    /// <summary>
+    /// Return if a Spawner is able to spawn.
+    /// </summary>
+    /// <param name="demon"></param>
+    /// <param name="spawner"></param>
+    /// <param name="sm"></param>
+    /// <returns></returns>
     public bool RequestSpawn(DemonType demon, DemonSpawner spawner, SpawnerManager sm)
     {
         if(CanSpawn == true)
@@ -60,18 +35,12 @@ public class Spawner : MonoBehaviour
         return false;
     }
 
-    //public bool RequestSpawn(DemonType demon, DemonSpawner spawner)
-    //{
-    //    if (demonsToSpawn.Count < 5)
-    //    {
-    //        demonsToSpawn.Enqueue(demon); // spawns demon
-    //        return true;
-    //    }
-
-    //    spawner.DemonQueue.Enqueue(demon); // returns demon to queue
-    //    return false;
-    //}
-
+    /// <summary>
+    /// Spawns a Demon
+    /// </summary>
+    /// <param name="demon"></param>
+    /// <param name="pool"></param>
+    /// <param name="target"></param>
     private void SpawnDemon(DemonType demon, DemonPoolers pool, Transform target)
     {
         GameObject demonTemp = pool.demonPoolers[demon.Id].Spawn();

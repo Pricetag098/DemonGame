@@ -42,6 +42,7 @@ public class DemonBase : MonoBehaviour, IDemon
 
     [Header("Ai Pathing")]
     protected bool _calculatePath = false;
+    protected Vector3 lastPos;
     protected NavMeshAgent _agent;
     protected NavMeshPath _currentPath;
 
@@ -106,7 +107,7 @@ public class DemonBase : MonoBehaviour, IDemon
     {
         if(active == true)
         {
-            transform.LookAt(new Vector3(_target.position.x, transform.position.y, _target.position.z));
+            transform.rotation = Quaternion.LookRotation(new Vector3(_agent.velocity.x, 0f, _agent.velocity.z));
         }
     }
     protected void OnFinishedSpawnAnimation() 
@@ -157,9 +158,14 @@ public class DemonBase : MonoBehaviour, IDemon
     {
         NavMeshPath path = new NavMeshPath();
 
-        _agent.CalculatePath(targetPos.position, path);
+        lastPos = targetPos.position;
 
-        _agent.SetPath(path);
+        _agent.CalculatePath(lastPos, path);
+
+        if(path.status == NavMeshPathStatus.PathComplete)
+        {
+            _agent.SetPath(path);
+        }
 
         _target = targetPos;
     }

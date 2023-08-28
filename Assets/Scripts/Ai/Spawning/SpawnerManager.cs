@@ -100,10 +100,7 @@ public class SpawnerManager : MonoBehaviour
 
                     for (int i = 0; i < toSpawn; i++)
                     {
-                        if (DemonSpawner.SpawnDemon(this)) // if a demon can be spawned, if requested spawner can spawn return true 
-                        {
-                            
-                        }
+                        DemonSpawner.SpawnDemon(this); 
                     }
                 }
             }

@@ -32,7 +32,7 @@ public class Spawners : MonoBehaviour
     {
         return specialActiveSpawners[num];
     }
-    public int CheckBaseSpawners(Transform player, NavMeshAgent playerAgent, DemonSpawner spawner)
+    public int CheckBaseSpawners(Transform player, NavMeshAgent playerAgent, DemonSpawner spawner, SpawnerManager sm)
     {
         Vector2 pos = new Vector2(player.position.x, player.position.z);
 
@@ -44,17 +44,22 @@ public class Spawners : MonoBehaviour
 
             float dist = Vector2.Distance(pos, spawnerPos);
 
+            bt.Visited = false;
+
             if (dist < maxSpawningDistance)
             {
                 list.Add(bt);
             }
             else if(baseActiveSpawners.Contains(bt))
             {
-                foreach (DemonType d in bt.demonsToSpawn)
+                int count = bt.demonsToSpawn.Count;
+
+                for (int i = 0; i < count; i++)
                 {
                     spawner.DemonQueue.Enqueue(bt.demonsToSpawn.Dequeue());
                 }
 
+                bt.CanSpawn = false;
                 baseActiveSpawners.Remove(bt);
             }
         }
@@ -73,6 +78,7 @@ public class Spawners : MonoBehaviour
             {
                 if (!baseActiveSpawners.Contains(bt))
                 {
+                    bt.CanSpawn = true;
                     baseActiveSpawners.Add(bt);
                 }
             }
@@ -80,19 +86,24 @@ public class Spawners : MonoBehaviour
             {
                 if (baseActiveSpawners.Contains(bt))
                 {
-                    foreach(DemonType d in bt.demonsToSpawn)
+                    int count = bt.demonsToSpawn.Count;
+
+                    for (int i = 0; i < count; i++)
                     {
                         spawner.DemonQueue.Enqueue(bt.demonsToSpawn.Dequeue());
                     }
 
+                    bt.CanSpawn = false;
                     baseActiveSpawners.Remove(bt);
                 }
             }
         }
 
+        baseActiveSpawners = HelperFuntions.ShuffleList(baseActiveSpawners);
+
         return baseActiveSpawners.Count;
     }
-    public int CheckSpecialSpawners(Transform player, NavMeshAgent playerAgent, DemonSpawner spawner)
+    public int CheckSpecialSpawners(Transform player, NavMeshAgent playerAgent, DemonSpawner spawner, SpawnerManager sm)
     {
         Vector2 pos = new Vector2(player.position.x, player.position.z);
 
@@ -104,17 +115,22 @@ public class Spawners : MonoBehaviour
 
             float dist = Vector2.Distance(pos, spawnerPos);
 
+            st.Visited = false;
+
             if (dist < maxSpawningDistance)
             {
                 list.Add(st);
             }
             else if (specialActiveSpawners.Contains(st))
             {
-                foreach (DemonType d in st.demonsToSpawn)
+                int count = st.demonsToSpawn.Count;
+
+                for (int i = 0; i < count; i++)
                 {
                     spawner.DemonQueue.Enqueue(st.demonsToSpawn.Dequeue());
                 }
 
+                st.CanSpawn = false;
                 specialActiveSpawners.Remove(st);
             }
         }
@@ -133,6 +149,7 @@ public class Spawners : MonoBehaviour
             {
                 if (!specialActiveSpawners.Contains(st))
                 {
+                    st.CanSpawn = true;
                     specialActiveSpawners.Add(st);
                 }
             }
@@ -140,14 +157,20 @@ public class Spawners : MonoBehaviour
             {
                 if (specialActiveSpawners.Contains(st))
                 {
-                    foreach(DemonType d in st.demonsToSpawn)
+                    int count = st.demonsToSpawn.Count;
+
+                    for (int i = 0; i < count; i++)
                     {
                         spawner.DemonQueue.Enqueue(st.demonsToSpawn.Dequeue());
                     }
+
+                    st.CanSpawn = false;
                     specialActiveSpawners.Remove(st);
                 }
             }
         }
+
+        specialActiveSpawners = HelperFuntions.ShuffleList(specialActiveSpawners);
 
         return specialActiveSpawners.Count;
     }

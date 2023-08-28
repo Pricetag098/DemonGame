@@ -40,10 +40,10 @@ public class DemonSpawner : MonoBehaviour
     /// </summary>
     /// <param name="player"></param>
     /// <param name="playerAgent"></param>
-    public void ActiveSpawners(Transform player, NavMeshAgent playerAgent)
+    public void ActiveSpawners(Transform player, NavMeshAgent playerAgent, SpawnerManager sm)
     {
-        baseSpawnerCount = _spawners.CheckBaseSpawners(player, playerAgent, this);
-        specialSpawnerCount = _spawners.CheckSpecialSpawners(player, playerAgent, this);
+        baseSpawnerCount = _spawners.CheckBaseSpawners(player, playerAgent, this, sm);
+        specialSpawnerCount = _spawners.CheckSpecialSpawners(player, playerAgent, this, sm);
     }
 
 
@@ -51,7 +51,7 @@ public class DemonSpawner : MonoBehaviour
     /// Request a spawner to spawn a Demon returns True if successful
     /// </summary>
     /// <returns></returns>
-    public bool SpawnDemon()
+    public bool SpawnDemon(SpawnerManager sm)
     {
         DemonType demon = null;
 
@@ -62,26 +62,52 @@ public class DemonSpawner : MonoBehaviour
             case SpawnType.Basic:
                 if (baseSpawnerCount > 0)
                 {
-                    int temp = Random.Range(0, baseSpawnerCount);
-                    Spawner spawner = _spawners.GetBaseSpawner(temp);
-                    return spawner.RequestSpawn(demon, this);
+                    Spawner spawner = null;
+
+                    foreach (Spawner s in _spawners.baseActiveSpawners)
+                    {
+                        if(s.Visited == false)
+                        {
+                            s.Visited = true;
+                            spawner = s;
+
+                            break;
+                        }
+                    }
+
+                    if(spawner is null) { DemonQueue.Enqueue(demon); return false; }
+
+                    return spawner.RequestSpawn(demon, this, sm);
                 }
                 else 
                 { 
-                    Debug.Log("BASE SPAWNER COUNT 0");
+                    //Debug.Log("BASE SPAWNER COUNT 0");
                     DemonQueue.Enqueue(demon);
                 }
                 break;
             case SpawnType.Special:
                 if (specialSpawnerCount > 0)
                 {
-                    int temp = Random.Range(0, specialSpawnerCount);
-                    Spawner spawner = _spawners.GetSpecialSpawner(temp);
-                    return spawner.RequestSpawn(demon, this);
+                    Spawner spawner = null;
+
+                    foreach (Spawner s in _spawners.specialActiveSpawners)
+                    {
+                        if (s.Visited == false)
+                        {
+                            s.Visited = true;
+                            spawner = s;
+
+                            break;
+                        }
+                    }
+
+                    if (spawner is null) { DemonQueue.Enqueue(demon); return false; }
+
+                    return spawner.RequestSpawn(demon, this, sm);
                 }
                 else 
                 { 
-                    Debug.Log("SPECIAL SPAWNER COUNT 0");
+                    //Debug.Log("SPECIAL SPAWNER COUNT 0");
                     DemonQueue.Enqueue(demon);
                 }
                 break;

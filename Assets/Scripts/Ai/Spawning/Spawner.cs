@@ -7,50 +7,70 @@ public class Spawner : MonoBehaviour
 {
     public Vector3 position;
 
+    private SpawnerManager sm;
     private DemonSpawner demonSpawner;
     private Transform player;
     private float timeBetweenSpawns;
     private float spawnTimer;
+
+    [HideInInspector] public bool CanSpawn;
+    [HideInInspector] public bool Visited;
 
     public Queue<DemonType> demonsToSpawn = new Queue<DemonType>();
 
     private void Awake()
     {
         demonSpawner = FindObjectOfType<DemonSpawner>();
-        SpawnerManager sm = FindObjectOfType<SpawnerManager>();
-        player = sm.player;
-        timeBetweenSpawns = sm.timeBetweenSpawns;
+        sm = FindObjectOfType<SpawnerManager>();
+        //player = sm.player;
+        //timeBetweenSpawns = sm.timeBetweenSpawns;
 
         position = transform.position;
     }
 
-    private void Update()
+    //private void Update()
+    //{
+    //    spawnTimer += Time.deltaTime;
+
+    //    if(HelperFuntions.GreaterThanOrEqual(spawnTimer, timeBetweenSpawns))
+    //    {
+    //        if(demonsToSpawn.Count > 0 && CanSpawn == true)
+    //        {
+    //            SpawnDemon(demonsToSpawn.Dequeue(), demonSpawner.demonPool, player);
+
+    //            sm.currentDemons++;
+    //            sm.maxDemonsToSpawn--;
+
+    //            spawnTimer = 0;
+    //        }
+    //    }
+    //}
+
+    public bool RequestSpawn(DemonType demon, DemonSpawner spawner, SpawnerManager sm)
     {
-        spawnTimer += Time.deltaTime;
-
-        if(HelperFuntions.GreaterThanOrEqual(spawnTimer, timeBetweenSpawns))
+        if(CanSpawn == true)
         {
-            if(demonsToSpawn.Count > 0)
-            {
-                SpawnDemon(demonsToSpawn.Dequeue(), demonSpawner.demonPool, player);
+            SpawnDemon(demon, spawner.demonPool, sm.player);
+            sm.currentDemons++;
+            sm.maxDemonsToSpawn--;
 
-                spawnTimer = 0;
-            }
-        }
-    }
-
-    public bool RequestSpawn(DemonType demon, DemonSpawner spawner)
-    {
-        if(demonsToSpawn.Count < 10)
-        {
-            demonsToSpawn.Enqueue(demon); // spawns demon
             return true;
         }
 
-        spawner.DemonQueue.Enqueue(demon); // returns demon to queue
-
         return false;
     }
+
+    //public bool RequestSpawn(DemonType demon, DemonSpawner spawner)
+    //{
+    //    if (demonsToSpawn.Count < 5)
+    //    {
+    //        demonsToSpawn.Enqueue(demon); // spawns demon
+    //        return true;
+    //    }
+
+    //    spawner.DemonQueue.Enqueue(demon); // returns demon to queue
+    //    return false;
+    //}
 
     private void SpawnDemon(DemonType demon, DemonPoolers pool, Transform target)
     {

@@ -50,7 +50,7 @@ public class SpawnerManager : MonoBehaviour
     {
         WaveStart();
 
-        DemonSpawner.ActiveSpawners(player, playerAgent);
+        DemonSpawner.ActiveSpawners(player, playerAgent, this);
     }
 
     private void Update()
@@ -94,14 +94,16 @@ public class SpawnerManager : MonoBehaviour
 
                 if (maxDemonsToSpawn < toSpawn) { toSpawn = maxDemonsToSpawn; }
 
-                if (toSpawn > 0) DemonSpawner.ActiveSpawners(player, playerAgent); //Debug.Log("checking");// if demoms to spawn check spawners
-
-                for (int i = 0; i < toSpawn; i++)
+                if (toSpawn > 0)
                 {
-                    if (DemonSpawner.SpawnDemon()) // if a demon can be spawned, if requested spawner can spawn return true 
+                    DemonSpawner.ActiveSpawners(player, playerAgent, this); // if demoms to spawn check spawners
+
+                    for (int i = 0; i < toSpawn; i++)
                     {
-                        currentDemons++;
-                        maxDemonsToSpawn--;
+                        if (DemonSpawner.SpawnDemon(this)) // if a demon can be spawned, if requested spawner can spawn return true 
+                        {
+                            
+                        }
                     }
                 }
             }

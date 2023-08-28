@@ -12,6 +12,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] Wave BossWave;
 
     [SerializeField] int BossWaveIncrement;
+    [SerializeField] int IgnoreFirstIncrement;
 
     [SerializeField] List<Wave> waves = new List<Wave>();
     private Wave[] WavesContainer = new Wave[101];
@@ -133,7 +134,7 @@ public class WaveManager : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
-            if (i % BossWaveIncrement == 0 && i != 5)
+            if (i % BossWaveIncrement == 0 && i != IgnoreFirstIncrement)
             {
                 WavesContainer[i] = BossWave;
             }

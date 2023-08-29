@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-[CreateAssetMenu(menuName = "Ability/Empty")]
+[CreateAssetMenu(menuName = "abilities/Empty")]
 public class Ability : ScriptableObject
 {
 	public string abilityName;
+	public Sprite icon;
 	protected AbilityCaster caster;
 	public float bloodCost = 10;
+	public Optional<AbilityUpgradePath> upgradePath;
+	public int tier = 0;
 	public enum CastModes
 	{
 		press,
@@ -38,9 +41,29 @@ public class Ability : ScriptableObject
 
 	public void DeEquip()
 	{
+		OnDeEquip();	
+	}
+    protected virtual void OnDeEquip()
+    {
+
+    }
+
+	public void Select()
+	{
+
+	}
+	protected virtual void OnSelect()
+	{
 
 	}
 
-	
+    public void DeSelect()
+    {
+
+    }
+    protected virtual void DeOnSelect()
+    {
+
+    }
 
 }

@@ -38,8 +38,6 @@ public class GunCreator : EditorWindow
 
     GameObject bulletVisualiser;
 
-    String gunName;
-
     Gun gun;
 
     Vector3 oldVFXScale;
@@ -88,7 +86,7 @@ public class GunCreator : EditorWindow
 
             GUILayout.Space(5);
 
-            gunName = EditorGUILayout.TextField("Gun Name", gunName, GUILayout.Width(455));
+            gun.name = EditorGUILayout.TextField("Gun Name", gun.name, GUILayout.Width(455));
             EditorGUILayout.LabelField("Name of the Gun.", EditorStyles.miniLabel);
 
             gun.fireSelect = (Gun.FireTypes)EditorGUILayout.EnumPopup("Fire Type", gun.fireSelect, GUILayout.Width(455));
@@ -344,7 +342,7 @@ public class GunCreator : EditorWindow
                         vis.AddComponent<BulletVisualiser>();
                         vis.AddComponent<PooledObject>();
 
-                        string newWeaponPath2 = "Assets/Prefabs/Guns/" + gunName + "Bullet" + ".prefab";
+                        string newWeaponPath2 = "Assets/Prefabs/Guns/" + gun.gunName + "Bullet" + ".prefab";
                         GameObject bulletVisPreFab = PrefabUtility.SaveAsPrefabAsset(vis, newWeaponPath2) as GameObject;
 
                         gun.visualiserPool.Value = bulletVisPreFab.GetComponent<ObjectPooler>();
@@ -352,7 +350,7 @@ public class GunCreator : EditorWindow
                         DestroyImmediate(bulletVisPreFab);
                     }
 
-                    string newWeaponPath = "Assets/Prefabs/Guns/" + gunName + ".prefab";
+                    string newWeaponPath = "Assets/Prefabs/Guns/" + gun.name + ".prefab";
                     savedPrefab = PrefabUtility.SaveAsPrefabAsset(currentGun, newWeaponPath) as GameObject;
 
                     hasGeneratedGun = true;
@@ -463,7 +461,7 @@ public class GunCreator : EditorWindow
         }
         else
         {
-            EditorGUILayout.LabelField("Your gun is saved at Prefabs > Guns > " + gunName + ".", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Your gun is saved at Prefabs > Guns > " + gun.name + ".", EditorStyles.boldLabel);
 
             GUILayout.Space(5);
 

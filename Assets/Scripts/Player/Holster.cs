@@ -8,6 +8,7 @@ public class Holster : MonoBehaviour
     public PlayerStats stats;
     public ObjectPooler bulletVisualierPool;
     public AbilityCaster abilityCaster;
+    public Rigidbody rb;
 
     [SerializeField] InputActionProperty input;
 
@@ -23,6 +24,8 @@ public class Holster : MonoBehaviour
     public OnDealDamageAction OnDealDamage;
 
     [SerializeField] Movement.PlayerInput playerInput;
+
+    float damageDealt;
 	private void Start()
 	{
         input.action.performed += SwapGun;
@@ -40,9 +43,16 @@ public class Holster : MonoBehaviour
 
 	public void SetGun(int slot,Gun gun)
 	{
-        //Debug.Log(slot);
         if (slot > MaxGuns)
             return;
+        for(int i=0; i < MaxGuns; i++)
+		{
+            if (guns[i] == null)
+			{
+                slot = i;
+            }
+                
+		}
         if(guns[slot] != null)
 		{
             Destroy(guns[slot].gameObject);
@@ -57,6 +67,11 @@ public class Holster : MonoBehaviour
 
     public void SetGunIndex(int index)
 	{
+        if (guns[index] == null)
+		{
+            return;
+        }
+            
         heldGunIndex = index;
         for(int i = 0; i < guns.Length; i++)
 		{
@@ -68,9 +83,10 @@ public class Holster : MonoBehaviour
 	}
     
     
-    public void OnHit(float damage)
+    public void OnHit(float damage,float targetMaxHealth)
 	{
-        abilityCaster.AddBlood(damage * HeldGun.bloodGainMulti * stats.bloodGainMulti);
+        
+        abilityCaster.AddBlood((damage * 100 * HeldGun.bloodGainMulti * stats.bloodGainMulti)/targetMaxHealth);
         if(OnDealDamage != null)
         OnDealDamage(damage);
 	}
@@ -87,12 +103,12 @@ public class Holster : MonoBehaviour
 
     void SwapGun(InputAction.CallbackContext callback)
 	{
-        heldGunIndex++;
-        if(heldGunIndex >= guns.Length)
+        int i = heldGunIndex + 1;
+        if(i >= guns.Length)
 		{
-            heldGunIndex = 0;
+            i = 0;
 		}
-        SetGunIndex(heldGunIndex);
+        SetGunIndex(i);
 	}
 
     public bool HasGun(Gun g)
@@ -105,6 +121,8 @@ public class Holster : MonoBehaviour
     {
         foreach (Gun gun in guns)
         {
+            if (gun == null)
+                continue;
             if (g.gunName == gun.gunName)
             {
                 returnedGun = gun;

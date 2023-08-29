@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class AbilityCaster : MonoBehaviour
 {
-    [SerializeField] Ability emptyAbility;
+    Ability emptyAbility;
     public float blood;
     public float maxBlood;
     public Ability[] abilities;
@@ -12,16 +12,18 @@ public class AbilityCaster : MonoBehaviour
     const string BaseAbilityPath = "Abilities/Empty";
     [Tooltip("For visualiser")]
     public Transform castOrigin;
+
     // Start is called before the first frame update
     void Awake()
     {
         if (abilities.Length == 0)
             return;
+        emptyAbility = Resources.Load<Ability>(BaseAbilityPath);
         for (int i = 0; i < abilities.Length; i++)
         {
             if(abilities[i] == null)
 			{
-                abilities[i] = Instantiate(Resources.Load<Ability>(BaseAbilityPath));
+                abilities[i] = Instantiate(emptyAbility);
 			}
 			else
 			{
@@ -52,10 +54,26 @@ public class AbilityCaster : MonoBehaviour
         abilities[index].Cast(origin, direction);
     }
 
+    public delegate void Action(float amount);
+    public Action OnAddBlood;
+    public Action OnRemoveBlood;
     public void AddBlood(float amount)
 	{
+        if(amount + blood > maxBlood)
+		{
+            amount = maxBlood - blood;
+		}
         blood = Mathf.Clamp(blood + amount, 0, maxBlood);
+        if(OnAddBlood != null)
+            OnAddBlood(amount);
 	}
+
+    public void RemoveBlood(float amount)
+	{
+        blood = Mathf.Clamp(blood - amount, 0, maxBlood);
+        if(OnRemoveBlood != null)
+            OnRemoveBlood(amount);
+    }
 
     public bool HasAbility(Ability ability)
 	{
@@ -69,6 +87,13 @@ public class AbilityCaster : MonoBehaviour
 
     public void SetAbility(int index,Ability ability)
 	{
+        for(int i = 0; i < abilities.Length; i++)
+		{
+            if(abilities[i] == emptyAbility)
+			{
+                index = i;
+			}
+		}
         if (abilities[index] != null)
             abilities[index].DeEquip();
         abilities[index] = ability;

@@ -6,17 +6,19 @@ public class DoorBuy : ShopInteractable
 {
     public bool open;
     [SerializeField] Vector3 openOffset;
-    [SerializeField] Area area;
+    [SerializeField] Optional<Area> area;
 
-    protected override bool CanBuy()
+    protected override bool CanBuy(Interactor interactor)
     {
         return !open;
     }
-    protected override void DoBuy()
+    protected override void DoBuy(Interactor interactor)
     {
         open = true;
         //doAnimationStuff
         transform.parent.position += openOffset;
-        area.SpawnLocations();
+        if(area.Enabled)
+        area.Value.SpawnLocations();
     }
+
 }

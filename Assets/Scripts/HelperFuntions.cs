@@ -44,13 +44,13 @@ public static class HelperFuntions
     {
         return num1 >= num2;
     }
-    public static void ClearLog()
-    {
-        var assembly = Assembly.GetAssembly(typeof(UnityEditor.Editor));
-        var type = assembly.GetType("UnityEditor.LogEntries");
-        var method = type.GetMethod("Clear");
-        method.Invoke(new object(), null);
-    }
+    //public static void ClearLog()
+    //{
+    //    var assembly = Assembly.GetAssembly(typeof(UnityEditor.Editor));
+    //    var type = assembly.GetType("UnityEditor.LogEntries");
+    //    var method = type.GetMethod("Clear");
+    //    method.Invoke(new object(), null);
+    //}
     public static float GetPercentageOf(float percentage, int total)
     {
         return (percentage / 100) * total;

@@ -40,8 +40,11 @@ public class BasicDemon : DemonBase
     {
         // deal damage
     }
-    public override void OnSpawn(Transform target)
+    public override void OnSpawn(Transform target, bool defaultSpawn = true)
     {
+        if(defaultSpawn == true) { ritualSpawn = false; }
+        else { ritualSpawn = true; }
+
         base.OnSpawn(target);
         UpdateHealthToCurrentRound(_spawnerManager.currentRound);
         CalculateAndSetPath(target);

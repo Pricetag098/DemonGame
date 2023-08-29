@@ -13,6 +13,7 @@ public class SpawnerManager : MonoBehaviour
 {
     [HideInInspector] public WaveManager WaveManager;
     [HideInInspector] public DemonSpawner DemonSpawner;
+    [HideInInspector] public Ritual currentRitual;
 
     [Header("Player")]
     public Transform player;
@@ -36,6 +37,8 @@ public class SpawnerManager : MonoBehaviour
     public int currentDemons;
     public bool EndOfRound;
     public bool StartOfRound;
+    public bool RunDefaultSpawning;
+    public bool RitualSpawning;
 
     [Header("Timers")]
     private float spawnTimer;
@@ -48,6 +51,8 @@ public class SpawnerManager : MonoBehaviour
     }
     private void Start()
     {
+        RunDefaultSpawning = true;
+
         WaveStart();
 
         DemonSpawner.ActiveSpawners(player, playerAgent, this);
@@ -55,55 +60,67 @@ public class SpawnerManager : MonoBehaviour
 
     private void Update()
     {
-        Timers();
-        Bools();
-
-        if(EndOfRound == true)
+        if(RunDefaultSpawning == true)
         {
-            WaveEnd();
-            EndOfRound = false;
-            StartOfRound = true;
-        }
+            Timers();
+            Bools();
 
-        if(StartOfRound == true)
-        {
-            endRoundTimer += Time.deltaTime;
-            if (HelperFuntions.TimerGreaterThan(endRoundTimer, timeBetweenRounds))
+            if (EndOfRound == true)
             {
-                WaveStart();
-                endRoundTimer = 0f;
-                StartOfRound = false;
+                WaveEnd();
+                EndOfRound = false;
+                StartOfRound = true;
             }
-        }
 
-        if (HelperFuntions.TimerGreaterThan(spawnTimer, timeBetweenSpawns) && canSpawn == true)
-        {
-            if (HelperFuntions.IntGreaterThanOrEqual(maxDemonsAtOnce, currentDemons))
+            if (StartOfRound == true)
             {
-                spawnTimer = 0;
-
-                if (DemonSpawner.DemonCount <= 0) // if no demons to spawn return
+                endRoundTimer += Time.deltaTime;
+                if (HelperFuntions.TimerGreaterThan(endRoundTimer, timeBetweenRounds))
                 {
-                    return;
+                    WaveStart();
+                    endRoundTimer = 0f;
+                    StartOfRound = false;
                 }
+            }
 
-                int toSpawn = maxDemonsAtOnce - currentDemons;
-
-                if (toSpawn <= demonsToSpawnEachTick) { }
-                else { toSpawn = demonsToSpawnEachTick; }
-
-                if (maxDemonsToSpawn < toSpawn) { toSpawn = maxDemonsToSpawn; }
-
-                if (toSpawn > 0)
+            if (HelperFuntions.TimerGreaterThan(spawnTimer, timeBetweenSpawns) && canSpawn == true)
+            {
+                if (HelperFuntions.IntGreaterThanOrEqual(maxDemonsAtOnce, currentDemons))
                 {
-                    DemonSpawner.ActiveSpawners(player, playerAgent, this); // if demoms to spawn check spawners
+                    spawnTimer = 0;
 
-                    for (int i = 0; i < toSpawn; i++)
+                    if (DemonSpawner.DemonCount <= 0) // if no demons to spawn return
                     {
-                        DemonSpawner.SpawnDemon(this); 
+                        return;
+                    }
+
+                    int toSpawn = maxDemonsAtOnce - currentDemons;
+
+                    if (toSpawn <= demonsToSpawnEachTick) { }
+                    else { toSpawn = demonsToSpawnEachTick; }
+
+                    if (maxDemonsToSpawn < toSpawn) { toSpawn = maxDemonsToSpawn; }
+
+                    if (toSpawn > 0)
+                    {
+                        DemonSpawner.ActiveSpawners(player, playerAgent, this); // if demoms to spawn check spawners
+
+                        for (int i = 0; i < toSpawn; i++)
+                        {
+                            if(DemonSpawner.SpawnDemon(this))
+                            {
+                                currentDemons++;
+                                maxDemonsToSpawn--;
+                            }
+                        }
                     }
                 }
             }
+        }
+        else if (RitualSpawning == true)
+        {
+            currentRitual.InitaliseRitual();
+            currentRitual.Spawning(DemonSpawner, this);
         }
     }
 

@@ -1445,6 +1445,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaveManager: {fileID: 0}
   DemonSpawner: {fileID: 0}
+  currentRitual: {fileID: 0}
   player: {fileID: 1628965441}
   playerAgent: {fileID: 1378939868}
   canSpawn: 0
@@ -1506,6 +1507,8 @@ MonoBehaviour:
   currentDemons: 0
   EndOfRound: 0
   StartOfRound: 0
+  RunDefaultSpawning: 0
+  RitualSpawning: 0
 --- !u!1 &885192338
 GameObject:
   m_ObjectHideFlags: 0
@@ -2328,6 +2331,61 @@ Transform:
   m_Children: []
   m_Father: {fileID: 38167015}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1474300667
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1474300669}
+  - component: {fileID: 1474300668}
+  m_Layer: 0
+  m_Name: Ritual 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1474300668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1474300667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c46708ccc8b7d3a44b471f5f75886f03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ritualWave: {fileID: 11400000, guid: f6e2fb1eb583a274885da6a1d892ef65, type: 2}
+  demonsToSpawn: 25
+  MaxDemonsAtOnce: 5
+  SpawnsPerTick: 4
+  TimeBetweenSpawns: 3
+  TotalTimeOfRitual: 60
+  RitualActive: 0
+  ritualComplete: 0
+  currentDemons: 0
+  demonsLeft: 0
+  spawnPoints: []
+--- !u!4 &1474300669
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1474300667}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1509644663
 GameObject:

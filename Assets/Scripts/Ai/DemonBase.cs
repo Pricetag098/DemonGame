@@ -12,6 +12,7 @@ public class DemonBase : MonoBehaviour, IDemon
     [SerializeField] protected DemonSpawner _spawner;
 
     protected SpawnerManager _spawnerManager;
+    protected bool ritualSpawn;
 
     [Header("Demon Type")]
     [SerializeField] protected DemonType _type;
@@ -90,7 +91,7 @@ public class DemonBase : MonoBehaviour, IDemon
     public virtual void OnHit() { } 
     public virtual void PathFinding(bool canPath) { }
     public virtual void OnDeath() { }
-    public virtual void OnSpawn(Transform target)
+    public virtual void OnSpawn(Transform target, bool defaultSpawn = true)
     {
         _agent.speed = 0;
         _agent.enabled = true;
@@ -117,7 +118,9 @@ public class DemonBase : MonoBehaviour, IDemon
     protected void OnFinishedDeathAnimation()
     {
         _pooledObject.Despawn();
-        _spawnerManager.DemonKilled();
+
+        if(ritualSpawn == false) { _spawnerManager.DemonKilled(); }
+        else { _spawnerManager.currentRitual.currentDemons--; }
     }
 
     public void PlayAnimation(string trigger)

@@ -101,7 +101,7 @@ public class DemonSpawner : MonoBehaviour
                         }
                     }
 
-                    if (spawner is null) { DemonQueue.Enqueue(demon); return false; }
+                    
 
                     return spawner.RequestSpawn(demon, this, sm);
                 }
@@ -117,6 +117,30 @@ public class DemonSpawner : MonoBehaviour
         }
 
         return false;
+    }
+
+    public bool SpawnDemon(List<Spawner> spawnPoints, Ritual ritual, SpawnerManager sm)
+    {
+        DemonType demon = null;
+
+        if (DemonCount > 0) { demon = ritual.DemonQueue.Dequeue(); }
+
+        Spawner spawner = null;
+
+        foreach(Spawner s in spawnPoints)
+        {
+            if (s.Visited == false)
+            {
+                s.Visited = true;
+                spawner = s;
+
+                break;
+            }
+        }
+
+        if (spawner is null) { ritual.DemonQueue.Enqueue(demon); return false; }
+
+        return spawner.RequestSpawn(demon, this, sm); ;
     }
 
     /// <summary>

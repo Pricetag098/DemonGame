@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class PlayerDeath : MonoBehaviour
+public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>
 {
     [SerializeField] CanvasGroup canvasGroup;
     float timer;
@@ -11,6 +11,8 @@ public class PlayerDeath : MonoBehaviour
     [SerializeField] Transform respawnPoint;
     PerkManager perkManager;
     public int respawnsLeft;
+
+    int deaths;
     // Start is called before the first frame update
     void Awake()
     {
@@ -53,4 +55,13 @@ public class PlayerDeath : MonoBehaviour
         perkManager.ClearPerks();
 
     }
+
+    void IDataPersistance<GameData>.SaveData(ref GameData data)
+	{
+        data.deaths = deaths;
+	}
+    void IDataPersistance<GameData>.LoadData(GameData data)
+	{
+        deaths = data.deaths;
+	}
 }

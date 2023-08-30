@@ -13,6 +13,8 @@ public class AbilityCaster : MonoBehaviour
     [Tooltip("For visualiser")]
     public Transform castOrigin;
 
+    public Optional<PlayerStats> playerStats;
+
     // Start is called before the first frame update
     void Awake()
     {

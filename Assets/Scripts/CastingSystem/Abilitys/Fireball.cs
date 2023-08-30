@@ -9,6 +9,7 @@ public class Fireball : MonoBehaviour
     Rigidbody body;
     [SerializeField] LayerMask validLayers;
     ProjectileVisualiser visualiser;
+    [SerializeField] VfxSpawnRequest explosionVfx;
     // Start is called before the first frame update
     void Awake()
     {
@@ -33,13 +34,13 @@ public class Fireball : MonoBehaviour
 				}
 			}
 		}
-        body.isKinematic = true;
+        GetComponent<PooledObject>().Despawn();
+        explosionVfx.Play(transform.position, transform.forward);
 	}
 
     public void Shoot(Vector3 origin, Vector3 dir, float dmg, Transform visOrigin,float rad)
     {
         
-        body.isKinematic = false;
         damage = dmg;
         transform.position = origin;
         transform.forward = dir;

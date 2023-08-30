@@ -25,7 +25,6 @@ public class Gun : MonoBehaviour
     [Header("Gun Settings")]
     public string gunName;
     public FireTypes fireSelect;
-    public float damage = 10;
     public float bulletRange = float.PositiveInfinity;
     [Min(1)]
     public int shotsPerFiring = 1;
@@ -34,6 +33,17 @@ public class Gun : MonoBehaviour
     float fireTimer = 0, reloadTimer;
     public float bloodGainMulti = 1;
 
+    [Header("DamageSetting")]
+    public float headDamage = 10;
+    public float bodyDamage = 10;
+    public float limbDamage = 10;
+    public float critDamage = 10;
+
+    [Header("PointsSetting")]
+    public int headPoints = 10;
+    public int bodyPoints = 10;
+    public int limbPoints = 10;
+    public int critPoints = 10;
 
 
     [Header("SpreadSettings")]
@@ -260,7 +270,7 @@ public class Gun : MonoBehaviour
             RaycastHit[] hitArray = Physics.RaycastAll(Camera.main.transform.position, dir, bulletRange, hitMask);
             if (hitArray.Length > 0)
             {
-                float currentDamage = damage;
+                float damageMulti = 1;
                 int penIndex = 0;
 
                 //Reorder raycast hits in order of hit
@@ -289,17 +299,21 @@ public class Gun : MonoBehaviour
                     HitBox hitBox;
                     if (hit.collider.TryGetComponent(out hitBox))
                     {
-                        
+                        //check to avoid double hits on penetration
                         if (healths.Contains(hitBox.health))
                         {
                             playFx = false;
                         }
 						else
 						{
+                            //Do all on hit stuff here
+
+                            float damage = GetDamage(hitBox.bodyPart) * damageMulti * holster.stats.damageMulti;
+
                             healths.Add(hitBox.health);
-                            hitBox.OnHit(currentDamage * holster.stats.damageMulti);
-                            
-                            holster.OnHit(damage * holster.stats.damageMulti * hitBox.multi, hitBox.health.maxHealth);
+                            hitBox.OnHit(damage);
+                            holster.stats.GainPoints(GetPoints(hitBox.bodyPart));
+                            holster.OnHit(damage, hitBox.health.maxHealth);
                         }
                         
 
@@ -320,7 +334,7 @@ public class Gun : MonoBehaviour
 
 
 
-                    currentDamage /= damageLossDivisor;
+                    damageMulti /= damageLossDivisor;
                     if (!penetrable)
                     {
                         break;
@@ -419,4 +433,33 @@ public class Gun : MonoBehaviour
 	{
         AddToStash(1);
 	}
+
+    public float GetDamage(HitBox.BodyPart bodyPart)
+	{
+		switch (bodyPart)
+		{
+            case HitBox.BodyPart.Head:
+                return headDamage;
+            case HitBox.BodyPart.Limb:
+                return limbDamage;
+            case HitBox.BodyPart.Crit:
+                return critDamage;
+            default:
+                return bodyDamage;
+		}
+	}
+    public int GetPoints(HitBox.BodyPart bodyPart)
+    {
+        switch (bodyPart)
+        {
+            case HitBox.BodyPart.Head:
+                return headPoints;
+            case HitBox.BodyPart.Limb:
+                return limbPoints ;
+            case HitBox.BodyPart.Crit:
+                return critPoints;
+            default:
+                return bodyPoints;
+        }
+    }
 }

@@ -18,6 +18,7 @@ public class BloodFireball : Ability
     [SerializeField] AnimationCurve chargeRadiusCurve = AnimationCurve.Linear(0, 5, 1, 10);
 
     protected Vector3 lastAimDir, lastOrigin;
+    [SerializeField] VfxSpawnRequest explosionVfx;
 
     bool startedCasting;
     protected override void OnEquip()

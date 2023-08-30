@@ -50,7 +50,7 @@ public class VfxSpawner : MonoBehaviour
 		}
 		GameObject go = poolDict[request].Spawn();
 		go.transform.position = position;
-		go.transform.up = direction;
+		go.transform.forward = direction;
 		VfxObject vfx = go.GetComponent<VfxObject>();
 		vfx.Play();
 		return vfx;

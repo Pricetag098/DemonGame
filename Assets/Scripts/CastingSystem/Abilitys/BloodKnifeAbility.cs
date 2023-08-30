@@ -11,6 +11,8 @@ public class BloodKnifeAbility : Ability
     [SerializeField] protected float minChargeTime;
     bool held;
 
+    [SerializeField] int points;
+
     [SerializeField] AnimationCurve chargeDamageCurve = AnimationCurve.Linear(0, 0, 1, 100);
     [SerializeField] AnimationCurve chargeVelocityCurve = AnimationCurve.Linear(0, 0, 1, 50);
     [SerializeField] AnimationCurve chargePenetrationCurve = AnimationCurve.Linear(0, 0, 1, 3);
@@ -67,9 +69,13 @@ public class BloodKnifeAbility : Ability
         float damage = chargeDamageCurve.Evaluate(chargePercent);
         float speed = chargeVelocityCurve.Evaluate(chargePercent);
         Vector3 velocity = speed * lastAimDir;
-        projectileSpawner.Spawn().GetComponent<DamageProjectiles>().Shoot(lastOrigin, velocity, damage,caster.castOrigin,Mathf.RoundToInt(chargePenetrationCurve.Evaluate(chargePercent)));
+        projectileSpawner.Spawn().GetComponent<DamageProjectiles>().Shoot(lastOrigin, velocity, damage, this, Mathf.RoundToInt(chargePenetrationCurve.Evaluate(chargePercent))) ;
         caster.RemoveBlood(chargeCostCurve.Evaluate(chargePercent));
     }
+    public override void OnHit()
+    {
+        if (caster.playerStats.Enabled)
+            caster.playerStats.Value.GainPoints(points);
+    }
 
-   
 }

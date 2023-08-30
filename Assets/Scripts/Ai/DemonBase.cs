@@ -34,7 +34,7 @@ public class DemonBase : MonoBehaviour, IDemon
     [SerializeField] protected Animator _animator;
 
     [Header("Collider")]
-    [SerializeField] protected Collider _collider;
+    //[SerializeField] protected Collider _collider;
 
     [Header("Rigidbody")]
     [SerializeField] protected Rigidbody _rb;
@@ -54,7 +54,7 @@ public class DemonBase : MonoBehaviour, IDemon
         _agent = GetComponent<NavMeshAgent>();
         _health = GetComponent<Health>();
         _animator = GetComponent<Animator>();
-        _collider = GetComponent<Collider>();
+        //_collider = GetComponent<Collider>();
         _rb = GetComponent<Rigidbody>();
         _spawner = FindObjectOfType<DemonSpawner>();
 
@@ -93,7 +93,7 @@ public class DemonBase : MonoBehaviour, IDemon
     {
         _agent.speed = 0;
         _agent.enabled = true;
-        _collider.enabled = true;
+        //_collider.enabled = true;
         transform.rotation = Quaternion.identity;
         _health.dead = false;
     }

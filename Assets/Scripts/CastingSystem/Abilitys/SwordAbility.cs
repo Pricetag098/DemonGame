@@ -11,6 +11,7 @@ public class SwordAbility : Ability
 	[SerializeField] VfxSpawnRequest vfx;
 	[SerializeField] float swingsPerMin;
 	[SerializeField] float damage;
+	[SerializeField] int points;
 	float cooldown;
 	float timer;
 
@@ -37,6 +38,7 @@ public class SwordAbility : Ability
 				if (healths.Contains(hb.health))
 					continue;
 				healths.Add(hb.health);
+				OnHit();
 				hb.health.TakeDmg(damage);
 				if(hit.point == Vector3.zero)
 				{
@@ -55,5 +57,10 @@ public class SwordAbility : Ability
 	public override void Tick()
 	{
 		timer += Time.deltaTime;
+	}
+	public override void OnHit()
+	{
+		if (caster.playerStats.Enabled)
+			caster.playerStats.Value.GainPoints(points);
 	}
 }

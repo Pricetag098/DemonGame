@@ -70,7 +70,7 @@ public class BasicDemon : DemonBase
     {
         _agent.speed = 0;
         _agent.enabled = false;
-        _collider.enabled = false;
+        //_collider.enabled = false;
 
         _spawner.DemonRespawn(_type, respawning);
 
@@ -81,7 +81,7 @@ public class BasicDemon : DemonBase
     {
         _agent.speed = 0;
         _agent.enabled = false;
-        _collider.enabled = false;
+        //_collider.enabled = false;
         
         _animator.SetTrigger("Death");
     }

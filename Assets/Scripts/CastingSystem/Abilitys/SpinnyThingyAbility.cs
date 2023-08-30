@@ -13,6 +13,7 @@ public class SpinnyThingyAbility : Ability
 	[SerializeField] AnimationCurve damage;
 	[SerializeField] float speed;
 	[SerializeField] VfxSpawnRequest vfx;
+	[SerializeField] int points;
 	GameObject obj;
 	float timer = -1;
 	float maxTimer =1;
@@ -76,9 +77,15 @@ public class SpinnyThingyAbility : Ability
 					hb.OnHit(damage.Evaluate(timer / maxTimer));
 					Vector3 point = hit.ClosestPoint(obj.transform.position);
 					vfx.Play(point, obj.transform.position - point);
+					OnHit();
 				}
 			}
 		}
 
+	}
+	public override void OnHit()
+	{
+		if (caster.playerStats.Enabled)
+			caster.playerStats.Value.GainPoints(points);
 	}
 }

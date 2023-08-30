@@ -12,6 +12,7 @@ public class BloodSpikeAbility : Ability
 	[SerializeField] LayerMask groundLayers;
 	[SerializeField] AnimationCurve distanceScale;
     [SerializeField] AnimationCurve distanceDamage;
+	[SerializeField] int points;
     [SerializeField] float angle;
 	[SerializeField] float range;
 	[SerializeField] int spikeCount;
@@ -71,6 +72,7 @@ public class BloodSpikeAbility : Ability
 				{
 					healths.Add(hb.health);
 					hb.health.TakeDmg(distanceDamage.Evaluate(distance/range));
+					OnHit();
 				}
 			}
 		}
@@ -80,5 +82,9 @@ public class BloodSpikeAbility : Ability
 		Destroy(pooler.gameObject);
 	}
 
-
+	public override void OnHit()
+	{
+		if (caster.playerStats.Enabled)
+			caster.playerStats.Value.GainPoints(points);
+	}
 }

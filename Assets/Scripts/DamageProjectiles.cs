@@ -52,7 +52,7 @@ public class DamageProjectiles : MonoBehaviour
 		}
 		else
 		{
-            VfxSpawner.SpawnVfx(0, other.ClosestPoint(transform.position), -transform.forward);
+            VfxSpawner.SpawnVfx(0, other.ClosestPoint(transform.position), -transform.forward,Vector3.one);
 		}
         
         if(penetrations > maxPenetrations)
@@ -74,7 +74,7 @@ public class DamageProjectiles : MonoBehaviour
         else
         {
 
-            VfxSpawner.SpawnVfx(0, collision.collider.ClosestPoint(transform.position), -transform.forward);
+            VfxSpawner.SpawnVfx(0, collision.collider.ClosestPoint(transform.position), -transform.forward,Vector3.one);
         }
         body.isKinematic = true;
         GetComponent<PooledObject>().Despawn();

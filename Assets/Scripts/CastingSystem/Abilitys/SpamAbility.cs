@@ -9,6 +9,7 @@ public class SpamAbility : Ability
 	[SerializeField] GameObject prefab;
 	ObjectPooler pool;
 	[SerializeField] int poolSize;
+	[SerializeField] int points;
 	[SerializeField] float spreadUnits;
 	[SerializeField] float castsPerMin;
 	[SerializeField] float speed;
@@ -43,5 +44,11 @@ public class SpamAbility : Ability
 	protected override void OnDeEquip()
 	{
 		Destroy(pool.gameObject);
+	}
+
+	public override void OnHit()
+	{
+		if (caster.playerStats.Enabled)
+			caster.playerStats.Value.GainPoints(points);
 	}
 }

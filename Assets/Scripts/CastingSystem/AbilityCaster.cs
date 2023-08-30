@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class AbilityCaster : MonoBehaviour
 {
-    Ability emptyAbility;
+    [HideInInspector]
+    public Ability emptyAbility;
     public float blood;
     public float maxBlood;
     public Ability[] abilities;

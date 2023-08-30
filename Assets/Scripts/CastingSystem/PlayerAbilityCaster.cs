@@ -69,12 +69,23 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>
 
     void Swap(InputAction.CallbackContext context)
     {
-        caster.abilities[activeIndex].DeSelect();
+        int lastActiveIndex = activeIndex;
+
         activeIndex++;
-        if(activeIndex > caster.abilities.Length-1)
+        if (activeIndex > caster.abilities.Length - 1)
         {
             activeIndex = 0;
         }
+        if (caster.abilities[activeIndex].abilityName == caster.emptyAbility.abilityName)
+		{
+            activeIndex = lastActiveIndex;
+            Debug.Log("AAAAA");
+            return;
+		}
+
+        caster.abilities[lastActiveIndex].DeSelect();
+        
+        caster.abilities[activeIndex].Select();
     }
 
     public void SetAbility(Ability ability)

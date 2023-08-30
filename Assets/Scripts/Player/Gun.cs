@@ -329,7 +329,7 @@ public class Gun : MonoBehaviour
                     else
                     {
                         if(playFx)
-                        VfxSpawner.SpawnVfx(0, hit.point, Vector3.Lerp(-dir, hit.normal, .5f));
+                        VfxSpawner.SpawnVfx(0, hit.point, Vector3.Lerp(-dir, hit.normal, .5f),Vector3.one);
                     }
 
 

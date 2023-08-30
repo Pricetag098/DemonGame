@@ -5,7 +5,7 @@ using UnityEngine;
 public class DoorBuy : ShopInteractable
 {
     public bool open;
-    [SerializeField] Vector3 openOffset;
+
     [SerializeField] Optional<Area> area;
 
     protected override bool CanBuy(Interactor interactor)
@@ -16,9 +16,7 @@ public class DoorBuy : ShopInteractable
     {
         open = true;
         //doAnimationStuff
-        transform.parent.position += openOffset;
-        if(area.Enabled)
-        area.Value.SpawnLocations();
+        transform.parent.gameObject.SetActive(false);
     }
 
 }

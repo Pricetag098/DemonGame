@@ -11,6 +11,7 @@ public class Fireball : MonoBehaviour
     ProjectileVisualiser visualiser;
     [SerializeField] VfxSpawnRequest explosionVfx;
     BloodFireball ability;
+    [SerializeField] float maxRadius = 10;
     // Start is called before the first frame update
     void Awake()
     {
@@ -37,7 +38,7 @@ public class Fireball : MonoBehaviour
 			}
 		}
         GetComponent<PooledObject>().Despawn();
-        explosionVfx.Play(transform.position, transform.forward);
+        explosionVfx.Play(transform.position, transform.forward,Vector3.one * radius / maxRadius);
 	}
 
     public void Shoot(Vector3 origin, Vector3 dir, float dmg, BloodFireball ability,float rad)

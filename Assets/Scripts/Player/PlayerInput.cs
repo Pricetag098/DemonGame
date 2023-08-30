@@ -109,7 +109,7 @@ namespace Movement
 			Cursor.lockState = CursorLockMode.Locked;
 			rb = GetComponent<Rigidbody>();
 			playerStats = GetComponent<PlayerStats>();
-
+			camRotX = 0;
 		}
 
 		//manage all the input actions
@@ -382,6 +382,7 @@ namespace Movement
 		{
 			Vector2 camDir = mouseAction.action.ReadValue<Vector2>();
 			camRotX = Mathf.Clamp(-camDir.y * sensitivity * Time.deltaTime + camRotX, -90, 90);
+			Debug.Log(camRotX);
 			cam.rotation = Quaternion.Euler(camRotX, cam.rotation.eulerAngles.y + camDir.x * sensitivity * Time.deltaTime, cam.rotation.eulerAngles.z);
 		}
 

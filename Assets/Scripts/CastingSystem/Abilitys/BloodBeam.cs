@@ -41,21 +41,30 @@ public class BloodBeam : Ability
 			range = Vector3.Distance(origin, wallHit.point);
 			end = wallHit.point;
 		}
-
+		List<Health> healths = new List<Health>();
 		RaycastHit[] hits = Physics.SphereCastAll(origin, radius, direction, range, enemyLayers);
-		foreach(RaycastHit hit in hits)
+		bool getPoints = false;
+		if (pointTimer > pointFrequency)
+		{
+			getPoints = true;
+			pointTimer = 0;
+		}
+		foreach (RaycastHit hit in hits)
 		{
 			HitBox hb;
-			if(hit.transform.TryGetComponent(out hb))
+			if(hit.collider.TryGetComponent(out hb))
 			{
-				hb.OnHit(damage * Time.deltaTime);
-				if(pointTimer > pointFrequency)
+				if (healths.Contains(hb.health))
 				{
-					if (caster.playerStats.Enabled)
-						caster.playerStats.Value.GainPoints(points);
-					pointTimer = 0;
+					if (getPoints)
+					{
+						if (caster.playerStats.Enabled)
+							caster.playerStats.Value.GainPoints(points);
+					}
+					hb.OnHit(damage * Time.deltaTime);
+					healths.Add(hb.health);
 				}
-				
+
 			}
 		}
 		lineRenderer.transform.position = caster.castOrigin.position;

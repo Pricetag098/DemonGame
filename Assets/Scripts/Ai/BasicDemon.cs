@@ -50,6 +50,7 @@ public class BasicDemon : DemonBase
         UpdateHealthToCurrentRound(_spawnerManager.currentRound);
         CalculateAndSetPath(target);
         SetHealth(_health.maxHealth);
+        _health.dead = false;
     }
     public override void OnRespawn()
     {

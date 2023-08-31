@@ -10,6 +10,7 @@ public class AbilityBuy : ShopInteractable
     [SerializeField] List<Ability> abilities = new List<Ability>();
 	List<Ability> availablePool = new List<Ability>();
 	[SerializeField] bool singleUse;
+	[SerializeField] AbilityGiveInteractable giveInteractable;
 	protected override bool CanBuy(Interactor interactor)
 	{
 		
@@ -41,8 +42,8 @@ public class AbilityBuy : ShopInteractable
 			Respawn();
 			return;
 		}
+		giveInteractable.Open(ability);
 		
-		interactor.caster.SetAbility(Instantiate(ability));
 		if (singleUse)
 			Disable();
 	}

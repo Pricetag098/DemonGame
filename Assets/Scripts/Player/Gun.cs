@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,6 +25,7 @@ public class Gun : MonoBehaviour
     }
     [Header("Gun Settings")]
     public string gunName;
+    public string guid;
     public FireTypes fireSelect;
     public float bulletRange = float.PositiveInfinity;
     [Min(1)]
@@ -116,7 +118,11 @@ public class Gun : MonoBehaviour
         if(visualiserPool.Enabled && visualiserPool.Value != null)
             visualiserPool.Value.DespawnAll();
     }
-
+    [ContextMenu("Gen Guid")]
+    void GenGuid()
+	{
+        guid = Guid.NewGuid().ToString();
+	}
 	private void OnEnable()
 	{
 		shootAction.action.Enable();
@@ -263,7 +269,7 @@ public class Gun : MonoBehaviour
         {
             if (animator.Enabled)
                 animator.Value.SetTrigger(shootKey);
-            Vector3 randVal = Random.insideUnitSphere * GetSpread();
+            Vector3 randVal = UnityEngine.Random.insideUnitSphere * GetSpread();
             Vector3 dir = Quaternion.Euler(randVal) * Camera.main.transform.forward;
             Debug.DrawRay(Camera.main.transform.position, dir * 10, Color.green);
 

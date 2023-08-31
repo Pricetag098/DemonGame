@@ -108,7 +108,8 @@ public class DemonBase : MonoBehaviour, IDemon
     {
         if(active == true)
         {
-            transform.rotation = Quaternion.LookRotation(new Vector3(_agent.velocity.x, 0f, _agent.velocity.z));
+            //if (_agent.velocity != Vector3.zero) 
+            //transform.rotation = Quaternion.LookRotation(new Vector3(_agent.velocity.x, 0f, _agent.velocity.z));
         }
     }
     protected void OnFinishedSpawnAnimation() 

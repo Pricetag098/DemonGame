@@ -31,7 +31,11 @@ public class GameDataSystem : MonoBehaviour
 	{
 		gameData = new GameData();
 	}
-
+	[ContextMenu("Open Thing")]
+	void OpenThing()
+	{
+		Application.OpenURL(Application.persistentDataPath);
+	}
 	public void SaveGame()
 	{
 		foreach (IDataPersistance<GameData> persistanceObject in persistanceObjects)

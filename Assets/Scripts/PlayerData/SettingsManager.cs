@@ -27,6 +27,12 @@ public class SettingsManager : MonoBehaviour
 		LoadGame();
 	}
 
+	[ContextMenu("Open Thing")]
+	void OpenThing()
+	{
+		Application.OpenURL(Application.persistentDataPath);
+	}
+
 	public void NewGame()
 	{
 		playerSettings = new PlayerSettings();

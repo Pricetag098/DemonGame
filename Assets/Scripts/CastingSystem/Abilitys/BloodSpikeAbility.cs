@@ -61,7 +61,7 @@ public class BloodSpikeAbility : Ability
 		GameObject spike = pooler.Spawn();
 		spike.transform.position = pos;
 		spike.transform.up = Vector3.Slerp(normal,aimDir,directionWeight);
-		spike.transform.localScale = Vector3.one * scale;
+		spike.GetComponent<Spike>().Spawn(scale * Vector3.one);
 		Collider[] colliders = Physics.OverlapCapsule(pos, pos + normal * scale, 1,targetLayers);
 		foreach(Collider collider in colliders)
 		{

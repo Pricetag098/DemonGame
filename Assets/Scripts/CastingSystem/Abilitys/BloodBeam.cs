@@ -54,7 +54,7 @@ public class BloodBeam : Ability
 			HitBox hb;
 			if(hit.collider.TryGetComponent(out hb))
 			{
-				if (healths.Contains(hb.health))
+				if (!healths.Contains(hb.health))
 				{
 					if (getPoints)
 					{

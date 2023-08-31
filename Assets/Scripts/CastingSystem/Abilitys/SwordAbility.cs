@@ -12,6 +12,7 @@ public class SwordAbility : Ability
 	[SerializeField] float swingsPerMin;
 	[SerializeField] float damage;
 	[SerializeField] int points;
+	[SerializeField] VfxSpawnRequest slashVfx;
 	float cooldown;
 	float timer;
 
@@ -27,7 +28,7 @@ public class SwordAbility : Ability
 			return;
 		timer = 0;
 		List<Health> healths = new List<Health>();
-
+		slashVfx.Play(origin, direction);
 		caster.RemoveBlood(bloodCost);
 		RaycastHit[] hits = Physics.SphereCastAll(origin,rad, direction, range, layers);
 		foreach(RaycastHit hit in hits)

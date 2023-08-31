@@ -47,6 +47,8 @@ public class Spawner : MonoBehaviour
 
         demonBase.OnSpawn(target);
 
+        Debug.Log("Spawned");
+
         demonTemp.transform.position = position;
     }
 }

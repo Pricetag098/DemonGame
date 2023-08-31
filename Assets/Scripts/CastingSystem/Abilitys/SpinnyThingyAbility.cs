@@ -13,6 +13,7 @@ public class SpinnyThingyAbility : Ability
 	[SerializeField] AnimationCurve damage;
 	[SerializeField] float speed;
 	[SerializeField] VfxSpawnRequest vfx;
+	[SerializeField] VfxSpawnRequest vfxSpawn;
 	[SerializeField] int points;
 	GameObject obj;
 	float timer = -1;
@@ -25,6 +26,7 @@ public class SpinnyThingyAbility : Ability
 	{
 		if (timer > 0)
 			return;
+		vfxSpawn.Play(caster.castOrigin.position, direction);
 		RaycastHit hit;
 		if(Physics.Raycast(origin, direction, out hit, maxRange, wallLayers))
 		{

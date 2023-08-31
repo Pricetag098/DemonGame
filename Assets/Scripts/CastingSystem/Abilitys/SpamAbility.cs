@@ -13,6 +13,7 @@ public class SpamAbility : Ability
 	[SerializeField] float spreadUnits;
 	[SerializeField] float castsPerMin;
 	[SerializeField] float speed;
+	[SerializeField] VfxSpawnRequest spawnFx;
 	float cooldown;
 	float timer;
 	public override void Tick()
@@ -28,6 +29,7 @@ public class SpamAbility : Ability
 				pool.Spawn().GetComponent<DamageProjectiles>().Shoot(origin + Random.insideUnitSphere * spreadUnits, direction * speed, damage, this, 1);
 				timer = 0;
 				caster.RemoveBlood(bloodCost);
+				spawnFx.Play(caster.castOrigin.position,direction);
 			}
 			
 		}

@@ -18,7 +18,7 @@ public class BloodKnifeAbility : Ability
     [SerializeField] AnimationCurve chargePenetrationCurve = AnimationCurve.Linear(0, 0, 1, 3);
     [SerializeField] AnimationCurve chargeCostCurve = AnimationCurve.Linear(0, 10, 1, 100);
 
-
+    [SerializeField] VfxSpawnRequest spawnVfx;
 
     protected Vector3 lastAimDir, lastOrigin;
 
@@ -71,6 +71,7 @@ public class BloodKnifeAbility : Ability
         Vector3 velocity = speed * lastAimDir;
         projectileSpawner.Spawn().GetComponent<DamageProjectiles>().Shoot(lastOrigin, velocity, damage, this, Mathf.RoundToInt(chargePenetrationCurve.Evaluate(chargePercent))) ;
         caster.RemoveBlood(chargeCostCurve.Evaluate(chargePercent));
+        spawnVfx.Play(caster.castOrigin.position, lastAimDir);
     }
     public override void OnHit()
     {

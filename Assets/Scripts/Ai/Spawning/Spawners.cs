@@ -146,4 +146,13 @@ public class Spawners : MonoBehaviour
 
         return specialActiveSpawners.Count;
     }
+
+    private void OnDrawGizmos()
+    {
+        foreach (var spawner in baseActiveSpawners)
+        {
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawCube(spawner.position, new Vector3(2, 2, 2));
+        }
+    }
 }

@@ -27,4 +27,19 @@ public class Area : MonoBehaviour
             discovered = true;
         }
     }
+
+    //private void OnDrawGizmosSelected()
+    //{
+    //    Gizmos.color = Color.magenta;
+    //    foreach (var spawner in baseSpawns)
+    //    {
+    //        Gizmos.DrawCube(spawner.position, new Vector3(2, 2, 2));
+    //    }
+
+    //    Gizmos.color = Color.red;
+    //    foreach(var spawner in specialSpawns)
+    //    {
+    //        Gizmos.DrawCube(spawner.position, new Vector3(2, 2, 2));
+    //    }
+    //}
 }

@@ -79,7 +79,7 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>
         if (caster.abilities[activeIndex].abilityName == caster.emptyAbility.abilityName)
 		{
             activeIndex = lastActiveIndex;
-            Debug.Log("AAAAA");
+
             return;
 		}
 

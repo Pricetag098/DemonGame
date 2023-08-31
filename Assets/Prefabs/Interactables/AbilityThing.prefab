@@ -47,10 +47,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hovered: 0
+  lifeTime: 5
   ability: {fileID: 0}
   abilityBuy: {fileID: 0}
   icon: {fileID: 1883576294502111960}
   grabText: 'To take '
+  alphaOverLifetime:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 7.1155534
+      outSlope: 7.1155534
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.29168293
+    - serializedVersion: 3
+      time: 0.1
+      value: 1
+      inSlope: 0.13250321
+      outSlope: 0.13250321
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.6428309
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1.1111112
+      outSlope: -1.1111112
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!135 &5394527972352439487
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -75,6 +109,7 @@ GameObject:
   - component: {fileID: 711876391798291390}
   - component: {fileID: 5126584924060395697}
   - component: {fileID: 1883576294502111960}
+  - component: {fileID: 1931120167832948072}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -140,6 +175,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &1931120167832948072
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3444662755371984315}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &7609748101920557862
 GameObject:
   m_ObjectHideFlags: 0
@@ -152,6 +199,7 @@ GameObject:
   - component: {fileID: 6127334421662343629}
   - component: {fileID: 6168016259133494850}
   - component: {fileID: 4086723642893520594}
+  - component: {fileID: 941921223907729648}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -241,3 +289,15 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &941921223907729648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7609748101920557862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 988da66524423a443a725a1352876c00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -12,12 +12,14 @@ public class AbilityGiveInteractable : Interactable
 	public override void Interact(Interactor interactor)
 	{
 		interactor.caster.SetAbility(Instantiate(ability));
+		Close();
 	}
 
 	public override void StartHover(Interactor interactor)
 	{
 		base.StartHover(interactor);
 		interactor.display.DisplayMessage(true, grabText + ability.abilityName);
+
 	}
 
 	public override void EndHover(Interactor interactor)

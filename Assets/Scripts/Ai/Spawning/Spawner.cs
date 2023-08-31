@@ -42,13 +42,12 @@ public class Spawner : MonoBehaviour
     private void SpawnDemon(DemonType demon, DemonPoolers pool, Transform target)
     {
         GameObject demonTemp = pool.demonPoolers[demon.Id].Spawn();
-
+        demonTemp.transform.position = position;
         DemonBase demonBase = demonTemp.GetComponent<DemonBase>();
-
         demonBase.OnSpawn(target);
-
+        
         Debug.Log("Spawned");
 
-        demonTemp.transform.position = position;
+        
     }
 }

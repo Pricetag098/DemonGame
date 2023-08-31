@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-namespace DemonCum 
+namespace DemonInfo 
 
 {
     public class RoundDisplay : MonoBehaviour
@@ -20,8 +20,9 @@ namespace DemonCum
         private void Update()
         {
             roundText.text = manager.currentRound.ToString();
+            
         }
-
+        
 
     }
 }

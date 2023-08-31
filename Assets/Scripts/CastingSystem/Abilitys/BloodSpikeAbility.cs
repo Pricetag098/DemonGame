@@ -19,6 +19,7 @@ public class BloodSpikeAbility : Ability
 	[SerializeField] float coolDown;
 	float timer;
 	[SerializeField, Range(0f, 1f)] float directionWeight;
+	[SerializeField] VfxSpawnRequest spawnVfx;
 	protected override void OnEquip()
 	{
 		pooler = new GameObject().AddComponent<ObjectPooler>();
@@ -33,7 +34,7 @@ public class BloodSpikeAbility : Ability
 		timer = 0;
 		List<Health> healths = new List<Health>();
 		caster.RemoveBlood(bloodCost);
-
+		spawnVfx.Play(caster.castOrigin.position,direction);
 		for(int i = 0; i < spikeCount; i++)
 		{
 			Vector3 aimdir = direction;

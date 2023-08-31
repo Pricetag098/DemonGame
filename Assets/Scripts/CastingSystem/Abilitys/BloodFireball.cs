@@ -16,6 +16,7 @@ public class BloodFireball : Ability
     [SerializeField] AnimationCurve chargeDamageCurve = AnimationCurve.Linear(0, 0, 1, 100);
     [SerializeField] AnimationCurve chargeVelocityCurve = AnimationCurve.Linear(0, 0, 1, 50);
     [SerializeField] AnimationCurve chargeRadiusCurve = AnimationCurve.Linear(0, 5, 1, 10);
+    [SerializeField] VfxSpawnRequest shootFx;
 
     protected Vector3 lastAimDir, lastOrigin;
     
@@ -69,6 +70,7 @@ public class BloodFireball : Ability
         Vector3 velocity = speed * lastAimDir;
         caster.RemoveBlood(bloodCost);
         projectileSpawner.Spawn().GetComponent<Fireball>().Shoot(lastOrigin, velocity, damage, this, radius);
+        shootFx.Play(caster.castOrigin.position, lastAimDir);
     }
 
     public override void OnHit()

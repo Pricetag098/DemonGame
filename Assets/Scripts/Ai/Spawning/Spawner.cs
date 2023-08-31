@@ -26,8 +26,6 @@ public class Spawner : MonoBehaviour
         if(CanSpawn == true)
         {
             SpawnDemon(demon, spawner.demonPool, sm.player);
-            //sm.currentDemons++;
-            //sm.maxDemonsToSpawn--;
 
             return true;
         }

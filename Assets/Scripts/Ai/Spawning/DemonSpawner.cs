@@ -119,7 +119,7 @@ public class DemonSpawner : MonoBehaviour
         return false;
     }
 
-    public bool SpawnDemon(List<Spawner> spawnPoints, Ritual ritual, SpawnerManager sm)
+    public bool SpawnDemon(List<Spawner> spawnPoints, RitualSpawner ritual, SpawnerManager sm)
     {
         DemonType demon = null;
 

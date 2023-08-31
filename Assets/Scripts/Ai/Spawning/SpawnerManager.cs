@@ -13,7 +13,7 @@ public class SpawnerManager : MonoBehaviour
 {
     [HideInInspector] public WaveManager WaveManager;
     [HideInInspector] public DemonSpawner DemonSpawner;
-    [HideInInspector] public Ritual currentRitual;
+    [HideInInspector] public RitualSpawner currentRitual;
 
     [Header("Player")]
     public Transform player;
@@ -43,6 +43,9 @@ public class SpawnerManager : MonoBehaviour
     [Header("Timers")]
     private float spawnTimer;
     private float endRoundTimer;
+
+    [Header("Rituals")]
+    public List<Ritual> Rituals = new List<Ritual>();
 
     private void Awake()
     {
@@ -100,6 +103,8 @@ public class SpawnerManager : MonoBehaviour
                     else { toSpawn = demonsToSpawnEachTick; }
 
                     if (maxDemonsToSpawn < toSpawn) { toSpawn = maxDemonsToSpawn; }
+
+                    Debug.Log(toSpawn);
 
                     if (toSpawn > 0)
                     {

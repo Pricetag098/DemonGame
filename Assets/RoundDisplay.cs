@@ -8,19 +8,18 @@ namespace DemonCum
 {
     public class RoundDisplay : MonoBehaviour
     {
-        DemonSpawner spawner;
+        SpawnerManager manager;
         public TextMeshProUGUI roundText;
-
 
         private void Awake()
         {
             roundText = GetComponentInChildren<TextMeshProUGUI>();
-            spawner = FindObjectOfType<DemonSpawner>();
+            manager = FindObjectOfType<SpawnerManager>();
         }
 
         private void Update()
         {
-            roundText.text = spawner.currentRound.ToString();
+            roundText.text = manager.currentRound.ToString();
         }
 
 

@@ -26,7 +26,7 @@ public class DestrcutibleObject : Interactable
         Health = maxHealth;
     }
 
-    public override void Interact()
+    public override void Interact(Interactor interactor)
     {
         RestoreHealth(1); // add timer for this
     }

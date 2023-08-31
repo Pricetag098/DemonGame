@@ -82,7 +82,7 @@ public class AbilityCaster : MonoBehaviour
 	{
         foreach(Ability item in abilities)
 		{
-            if(item.abilityName == ability.abilityName)
+            if(item.guid == ability.guid)
                 return true;
 		}
         return false;

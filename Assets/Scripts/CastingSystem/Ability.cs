@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class Ability : ScriptableObject
 {
 	public string abilityName;
+	public string guid;
 	public Sprite icon;
 	[HideInInspector]
 	public AbilityCaster caster;
@@ -72,6 +73,11 @@ public class Ability : ScriptableObject
 	public virtual void OnHit()
 	{
 
+	}
+	[ContextMenu("Gen Guid")]
+	void GenGuid()
+	{
+		guid = System.Guid.NewGuid().ToString();
 	}
 
 }

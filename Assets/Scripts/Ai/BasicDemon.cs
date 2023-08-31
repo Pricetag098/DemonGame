@@ -99,6 +99,8 @@ public class BasicDemon : DemonBase
 
             dist = DistanceToTargetNavmesh;
 
+            if (dist > 100000) dist = 0;
+
             if(dist > distanceToRespawn)
             {
                 OnRespawn();

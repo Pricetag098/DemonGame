@@ -86,6 +86,9 @@ public class SpawnerManager : MonoBehaviour
                 }
             }
 
+            //
+            DemonSpawner.ActiveSpawners(player, playerAgent, this); // if demoms to spawn check spawners
+
             if (HelperFuntions.TimerGreaterThan(spawnTimer, timeBetweenSpawns) && canSpawn == true)
             {
                 if (HelperFuntions.IntGreaterThanOrEqual(maxDemonsAtOnce, currentDemons))
@@ -104,11 +107,9 @@ public class SpawnerManager : MonoBehaviour
 
                     if (maxDemonsToSpawn < toSpawn) { toSpawn = maxDemonsToSpawn; }
 
-                    Debug.Log(toSpawn);
-
                     if (toSpawn > 0)
                     {
-                        DemonSpawner.ActiveSpawners(player, playerAgent, this); // if demoms to spawn check spawners
+                        
 
                         for (int i = 0; i < toSpawn; i++)
                         {

@@ -32,7 +32,7 @@ public class Spawners : MonoBehaviour
     {
         return specialActiveSpawners[num];
     }
-    public int CheckBaseSpawners(Transform player, NavMeshAgent playerAgent, DemonSpawner spawner, SpawnerManager sm)
+    public int CheckBaseSpawners(Transform player, NavMeshAgent playerAgent)
     {
         Vector2 pos = new Vector2(player.position.x, player.position.z);
 
@@ -89,7 +89,7 @@ public class Spawners : MonoBehaviour
 
         return baseActiveSpawners.Count;
     }
-    public int CheckSpecialSpawners(Transform player, NavMeshAgent playerAgent, DemonSpawner spawner, SpawnerManager sm)
+    public int CheckSpecialSpawners(Transform player, NavMeshAgent playerAgent)
     {
         Vector2 pos = new Vector2(player.position.x, player.position.z);
 

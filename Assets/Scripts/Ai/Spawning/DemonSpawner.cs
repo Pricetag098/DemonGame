@@ -42,8 +42,9 @@ public class DemonSpawner : MonoBehaviour
     /// <param name="playerAgent"></param>
     public void ActiveSpawners(Transform player, NavMeshAgent playerAgent, SpawnerManager sm)
     {
-        baseSpawnerCount = _spawners.CheckBaseSpawners(player, playerAgent, this, sm);
-        specialSpawnerCount = _spawners.CheckSpecialSpawners(player, playerAgent, this, sm);
+        baseSpawnerCount = _spawners.CheckBaseSpawners(player, playerAgent);
+        //specialSpawnerCount = _spawners.CheckSpecialSpawners(player, playerAgent);
+        specialSpawnerCount = 0;
     }
 
 
@@ -101,7 +102,7 @@ public class DemonSpawner : MonoBehaviour
                         }
                     }
 
-                    
+                    if (spawner is null) { DemonQueue.Enqueue(demon); return false; }
 
                     return spawner.RequestSpawn(demon, this, sm);
                 }

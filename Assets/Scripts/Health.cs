@@ -12,6 +12,7 @@ public class Health : MonoBehaviour
     public Action OnHit;
     public Optional<Transform> effectTarget;
     // Start is called before the first frame update
+    public float regenPerSecond = 0;
 
     public void TakeDmg(float dmg)
     {
@@ -24,7 +25,12 @@ public class Health : MonoBehaviour
 		}
     }
 
-    void Die()
+	private void Update()
+	{
+        health = Mathf.Clamp(health + regenPerSecond * Time.deltaTime, 0, maxHealth);
+    }
+
+	void Die()
 	{
         if (dead)
             return;

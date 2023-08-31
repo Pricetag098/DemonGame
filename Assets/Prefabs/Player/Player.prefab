@@ -632,6 +632,7 @@ GameObject:
   - component: {fileID: 5858707596002619737}
   - component: {fileID: 8339324333281444828}
   - component: {fileID: 3899720132604462813}
+  - component: {fileID: 512953488590266121}
   - component: {fileID: 3899720132604462812}
   - component: {fileID: 4828313314159770983}
   - component: {fileID: 2329530179129597818}
@@ -779,6 +780,7 @@ MonoBehaviour:
   effectTarget:
     enabled: 0
     val: {fileID: 0}
+  regenPerSecond: 0
 --- !u!114 &3899720132604462813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -934,6 +936,21 @@ MonoBehaviour:
   camMovementTime: 0.3
   headCheckDistance: 0.5
   holdToSlide: 0
+--- !u!114 &512953488590266121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3899720132604462811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1871049a988a37e498bf91afd0cc69d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: 70e643e9fefd24541bfb9a4565a20589, type: 2}
+  maxVinette: 0.3
+  health: {fileID: 8339324333281444828}
 --- !u!54 &3899720132604462812
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1206,6 +1223,7 @@ GameObject:
   - component: {fileID: 3899720133498506835}
   - component: {fileID: 779474888}
   - component: {fileID: 1728692306876458663}
+  - component: {fileID: 8934278044561421630}
   m_Layer: 6
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1435,6 +1453,23 @@ MonoBehaviour:
     m_RotationOrder: 4
   rb: {fileID: 3899720132604462812}
   cam: {fileID: 3899720133498506835}
+--- !u!114 &8934278044561421630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3899720133498506833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: 70e643e9fefd24541bfb9a4565a20589, type: 2}
 --- !u!1 &3899720133823062388
 GameObject:
   m_ObjectHideFlags: 0

@@ -2308,7 +2308,7 @@ NavMeshAgent:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5968651826990037895}
   m_Enabled: 1
-  m_AgentTypeID: 0
+  m_AgentTypeID: -334000983
   m_Radius: 0.25
   m_Speed: 3.5
   m_Acceleration: 8
@@ -2335,7 +2335,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _target: {fileID: 0}
-  _playerHealth: {fileID: 0}
   _spawner: {fileID: 0}
   _type:
     Id: 1
@@ -2372,12 +2371,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _animator: {fileID: 0}
-  _collider: {fileID: 0}
-  _rb: {fileID: 0}
-  _calculatePath: 0
-  attackInterval: 0
-  distanceToRespawn: 0
+  distanceToRespawn: 120
   m_xAmountOfRounds: 9
   m_HealthToAdd: 100
   m_HealthMultiplier: 1.1
@@ -2396,8 +2390,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DestructibleCheckRate: 10
   CheckDistance: 1
-  Agent: {fileID: 5730971475470106458}
-  demon: {fileID: 1572183836794767162}
   AttackDelay: 2
   DestructibleAttackDamage: 1
   DestructibleLayers:

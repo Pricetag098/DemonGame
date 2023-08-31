@@ -5,21 +5,21 @@ using UnityEngine;
 public class Area : MonoBehaviour
 {
     [SerializeField] bool discovered;
-    private DemonSpawner demonSpawner;
+    private Spawners spawner;
     [SerializeField] List<Spawner> baseSpawns;
     [SerializeField] List<Spawner> specialSpawns;
 
     private void Awake()
     {
-        demonSpawner = FindObjectOfType<DemonSpawner>();
+        spawner = FindObjectOfType<Spawners>();
     }
 
     public void SpawnLocations()
     {
         if(discovered == false)
         {
-            demonSpawner.baseSpawners = HelperFuntions.AddToList(demonSpawner.baseSpawners, baseSpawns);
-            demonSpawner.specialSpawners = HelperFuntions.AddToList(demonSpawner.specialSpawners, specialSpawns);
+            spawner.baseSpawners = HelperFuntions.AddToList(spawner.baseSpawners, baseSpawns);
+            spawner.specialSpawners = HelperFuntions.AddToList(spawner.specialSpawners, specialSpawns);
 
             baseSpawns = null;
             specialSpawns = null;

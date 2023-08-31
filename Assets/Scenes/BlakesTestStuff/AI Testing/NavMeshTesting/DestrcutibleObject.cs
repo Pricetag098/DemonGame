@@ -2,12 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DestrcutibleObject : MonoBehaviour
+public class DestrcutibleObject : Interactable
 {
     public int Health;
-
-    public delegate void TakeDamageEvent(float damage, float health);
-    public TakeDamageEvent onTakeDamage;
+    public int maxHealth;
 
     public void TakeDamage(int Damage)
     {
@@ -15,12 +13,21 @@ public class DestrcutibleObject : MonoBehaviour
         if(Health <= 0)
         {
             Health = 0;
-            onTakeDamage?.Invoke(Damage, Health);
-            gameObject.SetActive(false);
         }
-        else
-        {
-            onTakeDamage?.Invoke(Damage, Health);
-        }
+    }
+
+    public void RestoreHealth(int amount)
+    {
+        Health += amount;
+        if (Health > maxHealth) { Health = maxHealth; }
+    }
+    public void RestoreHealthToMax()
+    {
+        Health = maxHealth;
+    }
+
+    public override void Interact(Interactor interactor)
+    {
+        RestoreHealth(1); // add timer for this
     }
 }

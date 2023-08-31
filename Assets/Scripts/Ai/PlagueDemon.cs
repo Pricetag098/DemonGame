@@ -4,26 +4,26 @@ using UnityEngine;
 
 public class PlagueDemon : DemonBase
 {
-    public override void Setup()
-    {
+    //public override void Setup()
+    //{
         
-    }
-    public override void Tick()
-    {
+    //}
+    //public override void Tick()
+    //{
         
-    }
-    public override void OnAttack()
-    {
+    //}
+    //public override void OnAttack()
+    //{
         
-    }
-    public override void OnSpawn(Transform target)
-    {
+    //}
+    //public override void OnSpawn(Transform target)
+    //{
 
-    }
-    public override void OnDeath()
-    {
+    //}
+    //public override void OnDeath()
+    //{
 
-    }
+    //}
     //public override void PathFinding()
     //{
     //    if (_calculatePath == true)

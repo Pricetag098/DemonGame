@@ -5,64 +5,48 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    private DemonSpawner demonSpawner;
     [HideInInspector] public Vector3 position;
-
-    private float timeBetweenSpawns;
-    private float spawnTimer;
-
-    private Queue<DemonType> demonsToSpawn = new Queue<DemonType>();
+    [HideInInspector] public bool CanSpawn;
+    [HideInInspector] public bool Visited;
 
     private void Awake()
     {
-        demonSpawner = FindObjectOfType<DemonSpawner>();
         position = transform.position;
     }
 
-    private void Start()
+    /// <summary>
+    /// Return if a Spawner is able to spawn.
+    /// </summary>
+    /// <param name="demon"></param>
+    /// <param name="spawner"></param>
+    /// <param name="sm"></param>
+    /// <returns></returns>
+    public bool RequestSpawn(DemonType demon, DemonSpawner spawner, SpawnerManager sm)
     {
-        timeBetweenSpawns = demonSpawner.timeBetweenSpawns;
-    }
-
-    private void Update()
-    {
-        spawnTimer += Time.deltaTime;
-
-
-        if(HelperFuntions.GreaterThanOrEqual(spawnTimer, timeBetweenSpawns))
+        if(CanSpawn == true)
         {
-            if(demonsToSpawn.Count > 0)
-            {
-                SpawnDemon(demonsToSpawn.Dequeue(), demonSpawner);
+            SpawnDemon(demon, spawner.demonPool, sm.player);
 
-                spawnTimer = 0;
-            }
-        }
-    }
-
-    public bool RequestSpawn(DemonType demon)
-    {
-        if(demonsToSpawn.Count < 10)
-        {
-            demonsToSpawn.Enqueue(demon);
             return true;
         }
 
-        demonSpawner.DemonQueue.Enqueue(demon);
         return false;
     }
 
-    private void SpawnDemon(DemonType demon, DemonSpawner ds)
+    /// <summary>
+    /// Spawns a Demon
+    /// </summary>
+    /// <param name="demon"></param>
+    /// <param name="pool"></param>
+    /// <param name="target"></param>
+    private void SpawnDemon(DemonType demon, DemonPoolers pool, Transform target)
     {
-        GameObject demonTemp = ds.demonPoolers[demon.Id].Spawn();
+        GameObject demonTemp = pool.demonPoolers[demon.Id].Spawn();
 
         DemonBase demonBase = demonTemp.GetComponent<DemonBase>();
 
-        demonBase.OnSpawn(ds.player);
+        demonBase.OnSpawn(target);
 
         demonTemp.transform.position = position;
-
-        ds.currentDemons++;
-        ds.maxDemonsToSpawn--;
     }
 }

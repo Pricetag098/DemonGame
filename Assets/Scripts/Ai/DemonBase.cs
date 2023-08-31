@@ -7,10 +7,12 @@ public class DemonBase : MonoBehaviour, IDemon
 {
     [Header("Target")]
     [SerializeField] protected Transform _target;
-    [SerializeField] protected Health _playerHealth;
 
     [Header("Spawner")]
     [SerializeField] protected DemonSpawner _spawner;
+
+    protected SpawnerManager _spawnerManager;
+    protected bool ritualSpawn;
 
     [Header("Demon Type")]
     [SerializeField] protected DemonType _type;
@@ -31,16 +33,17 @@ public class DemonBase : MonoBehaviour, IDemon
     [SerializeField] protected AnimationCurve _moveSpeedCurve;
 
     [Header("Animator")]
-    [SerializeField] protected Animator _animator;
+    protected Animator _animator;
 
     [Header("Collider")]
-    //[SerializeField] protected Collider _collider;
+    protected Collider _collider;
 
     [Header("Rigidbody")]
-    [SerializeField] protected Rigidbody _rb;
+    protected Rigidbody _rb;
 
     [Header("Ai Pathing")]
-    [SerializeField] protected bool _calculatePath = false;
+    protected bool _calculatePath = false;
+    protected Vector3 lastPos;
     protected NavMeshAgent _agent;
     protected NavMeshPath _currentPath;
 
@@ -54,9 +57,10 @@ public class DemonBase : MonoBehaviour, IDemon
         _agent = GetComponent<NavMeshAgent>();
         _health = GetComponent<Health>();
         _animator = GetComponent<Animator>();
-        //_collider = GetComponent<Collider>();
+        _collider = GetComponent<Collider>();
         _rb = GetComponent<Rigidbody>();
         _spawner = FindObjectOfType<DemonSpawner>();
+        _spawnerManager = FindObjectOfType<SpawnerManager>();
 
         OnAwakened();
     }
@@ -65,7 +69,6 @@ public class DemonBase : MonoBehaviour, IDemon
     {
         Setup();
         _pooledObject = GetComponent<PooledObject>();
-        _playerHealth = _target.GetComponent<Health>();
     }
     private void Update()
     {
@@ -84,18 +87,16 @@ public class DemonBase : MonoBehaviour, IDemon
         _agent.stoppingDistance = _stoppingDistance;
     }
     public virtual void Tick() { }
-    public virtual void DoDamage() { }
     public virtual void OnAttack() { }
     public virtual void OnHit() { } 
     public virtual void PathFinding(bool canPath) { }
     public virtual void OnDeath() { }
-    public virtual void OnSpawn(Transform target)
+    public virtual void OnSpawn(Transform target, bool defaultSpawn = true)
     {
         _agent.speed = 0;
         _agent.enabled = true;
-        //_collider.enabled = true;
+        _collider.enabled = true;
         transform.rotation = Quaternion.identity;
-        _health.dead = false;
     }
     public virtual void OnBuff() { }
     public virtual void OnRespawn() { }
@@ -107,7 +108,7 @@ public class DemonBase : MonoBehaviour, IDemon
     {
         if(active == true)
         {
-            transform.LookAt(new Vector3(_target.position.x, transform.position.y, _target.position.z));
+            transform.rotation = Quaternion.LookRotation(new Vector3(_agent.velocity.x, 0f, _agent.velocity.z));
         }
     }
     protected void OnFinishedSpawnAnimation() 
@@ -117,7 +118,9 @@ public class DemonBase : MonoBehaviour, IDemon
     protected void OnFinishedDeathAnimation()
     {
         _pooledObject.Despawn();
-        _spawner.DemonKilled();
+
+        if(ritualSpawn == false) { _spawnerManager.DemonKilled(); }
+        else { _spawnerManager.currentRitual.currentDemons--; }
     }
 
     public void PlayAnimation(string trigger)
@@ -134,6 +137,7 @@ public class DemonBase : MonoBehaviour, IDemon
             return _agent.remainingDistance;
         }
     }
+
     protected float DistanceToTargetUnits
     {
         get
@@ -157,9 +161,14 @@ public class DemonBase : MonoBehaviour, IDemon
     {
         NavMeshPath path = new NavMeshPath();
 
-        _agent.CalculatePath(targetPos.position, path);
+        lastPos = targetPos.position;
 
-        _agent.SetPath(path);
+        _agent.CalculatePath(lastPos, path);
+
+        if(path.status == NavMeshPathStatus.PathComplete)
+        {
+            _agent.SetPath(path);
+        }
 
         _target = targetPos;
     }

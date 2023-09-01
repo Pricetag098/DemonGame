@@ -5,6 +5,7 @@ using System.Linq;
 public class PositionRecorder : MonoBehaviour,IDataPersistance<PositionData>
 {
     public List<Vector3> positions = new List<Vector3>();
+    public List<float> speeds = new List<float>();
     public List<Vector3> deaths = new List<Vector3>();
     [SerializeField] float positionRecordFreq = .1f;
     float timer;
@@ -25,6 +26,7 @@ public class PositionRecorder : MonoBehaviour,IDataPersistance<PositionData>
 		{
             timer = 0;
             positions.Add(transform.position);
+            speeds.Add(GetComponent<Rigidbody>().velocity.magnitude);
 		}
     }
 
@@ -34,7 +36,7 @@ public class PositionRecorder : MonoBehaviour,IDataPersistance<PositionData>
 
     void IDataPersistance<PositionData>.SaveData(ref PositionData data)
 	{
-
+        data.velocity = data.velocity.Concat(speeds.ToArray()).ToArray();
         data.Positions = data.Positions.Concat(positions.ToArray()).ToArray();
         data.Deaths = data.Deaths.Concat(deaths.ToArray()).ToArray();
 	}

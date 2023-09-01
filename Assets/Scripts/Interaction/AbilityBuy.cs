@@ -11,6 +11,11 @@ public class AbilityBuy : ShopInteractable
 	List<Ability> availablePool = new List<Ability>();
 	[SerializeField] bool singleUse;
 	[SerializeField] AbilityGiveInteractable giveInteractable;
+	[SerializeField] GameObject body;
+
+	GameObject lastPos;
+	[SerializeField] List<GameObject> validPositions;
+	[SerializeField] Optional<VfxSpawnRequest> vanshFx;
 	protected override bool CanBuy(Interactor interactor)
 	{
 		
@@ -39,6 +44,8 @@ public class AbilityBuy : ShopInteractable
 		Ability ability = availablePool[Random.Range(0, availablePool.Count)];
 		if(ability == null)
 		{
+			if(vanshFx.Enabled)
+				vanshFx.Value.Play(body.transform.position,body.transform.forward);
 			Respawn();
 			return;
 		}
@@ -50,12 +57,26 @@ public class AbilityBuy : ShopInteractable
 
 	void Respawn()
 	{
-		transform.parent.gameObject.SetActive(false);
+		GameObject target = validPositions[Random.Range(0, validPositions.Count)];
+
+		if(lastPos is null)
+		{
+
+		}
+		else
+		{
+			lastPos.SetActive(true);
+		}
+		body.transform.position = target.transform.position;
+		body.transform.rotation = target.transform.rotation;
+		target.SetActive(false);
+		lastPos = target;
+
 	}
 
 	void Disable()
 	{
-		transform.parent.gameObject.SetActive(false);
+		body.SetActive(false);
 	}
 
 }

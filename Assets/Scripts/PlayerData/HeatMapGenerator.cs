@@ -36,7 +36,7 @@ public class HeatMapGenerator : MonoBehaviour,IDataPersistance<PositionData>
 		List<Matrix4x4> points = new List<Matrix4x4>();
 		foreach(Vector3 pos in data.Positions)
 		{
-			Debug.Log(pos);
+			//Debug.Log(pos);
 			points.Add(Matrix4x4.TRS(pos + Vector3.up, Quaternion.LookRotation(-Vector3.up,Vector3.forward), Vector3.one * scale));
 			if(points.Count  == 1000)
 			{
@@ -48,7 +48,7 @@ public class HeatMapGenerator : MonoBehaviour,IDataPersistance<PositionData>
 		points = new List<Matrix4x4>();
 		foreach (Vector3 pos in data.Deaths)
 		{
-			Debug.Log(pos);
+
 			points.Add(Matrix4x4.TRS(pos + Vector3.up, Quaternion.LookRotation(-Vector3.up, Vector3.forward), Vector3.one * scaleDeath));
 			if (points.Count == 1000)
 			{

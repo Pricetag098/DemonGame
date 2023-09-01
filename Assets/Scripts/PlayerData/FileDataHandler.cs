@@ -82,7 +82,12 @@ public class FileDataHandler<T>
 	}
 
 	
-
+	public FileInfo[] Test(string path)
+	{
+		DirectoryInfo info = Directory.CreateDirectory(Path.GetDirectoryName(path));
+		Debug.Log(info.FullName);
+		return info.GetFiles();
+	}
 	string EncryptDecrypt(string data)
 	{
 		string modifiedData = "";

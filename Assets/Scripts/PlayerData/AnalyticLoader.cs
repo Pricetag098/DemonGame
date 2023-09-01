@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+
+
 public class AnalyticLoader : MonoBehaviour
 {
 	public static AnalyticLoader instance { get; private set; }
@@ -34,6 +36,12 @@ public class AnalyticLoader : MonoBehaviour
 	void OpenThing()
 	{
 		Application.OpenURL(Application.persistentDataPath);
+		
+	}
+	[ContextMenu("Test")]
+	public void OpenFile()
+	{
+		System.Diagnostics.Process.Start("explorer.exe", "-p");
 	}
 
 	public void SaveGame()

@@ -44,6 +44,7 @@ public static class HelperFuntions
     {
         return num1 >= num2;
     }
+#if UNITY_EDITOR
     public static void ClearLog()
     {
         var assembly = Assembly.GetAssembly(typeof(UnityEditor.Editor));
@@ -51,6 +52,7 @@ public static class HelperFuntions
         var method = type.GetMethod("Clear");
         method.Invoke(new object(), null);
     }
+#endif
     public static float GetPercentageOf(float percentage, int total)
     {
         return (percentage / 100) * total;

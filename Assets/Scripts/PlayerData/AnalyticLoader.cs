@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System.IO;
 
 
 public class AnalyticLoader : MonoBehaviour
@@ -19,7 +20,7 @@ public class AnalyticLoader : MonoBehaviour
 
 		if (instance != null)
 		{
-			Debug.LogError("cannot have two eventsystems at once");
+			UnityEngine.Debug.LogError("cannot have two eventsystems at once");
 		}
 		instance = this;
 		persistanceObjects = FindAllDataPersistance();
@@ -41,7 +42,19 @@ public class AnalyticLoader : MonoBehaviour
 	[ContextMenu("Test")]
 	public void OpenFile()
 	{
-		System.Diagnostics.Process.Start("explorer.exe", "-p");
+		//string p = @"C:\tmp\this path contains spaces, and,commas\target.txt";
+		//string args = string.Format("/e, /select, \"{0}\"", p);
+
+		//System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo();
+		//info.FileName = "explorer";
+		//info.Arguments = args;
+		//System.Diagnostics.Process.Start(info);
+
+		foreach(FileInfo info in fileHandler.Test(Application.persistentDataPath))
+		{
+			Debug.Log(info.FullName);
+		}
+
 	}
 
 	public void SaveGame()
@@ -53,6 +66,10 @@ public class AnalyticLoader : MonoBehaviour
 
 		fileHandler.Save(playerSettings);
 	}
+
+	
+
+	
 
 	public void LoadGame()
 	{

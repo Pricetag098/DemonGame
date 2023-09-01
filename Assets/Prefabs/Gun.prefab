@@ -145,6 +145,8 @@ MonoBehaviour:
   clips: []
   pitchRange: 0
   basePitch: 1
+  looping: 0
+  isPlaying: 0
   soundLoc: 1
 --- !u!1 &3118617946565348953
 GameObject:
@@ -291,6 +293,8 @@ MonoBehaviour:
   clips: []
   pitchRange: 0
   basePitch: 1
+  looping: 0
+  isPlaying: 0
   soundLoc: 0
 --- !u!1 &3118617946729100854
 GameObject:
@@ -340,16 +344,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32f2d4d87bd59bc41ac713724e5efb7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gunName: 
+  guid: 
   fireSelect: 0
-  damage: 10
   bulletRange: Infinity
-  bulletSpreadDegrees: 1
   shotsPerFiring: 1
   ammoLeft: 0
   maxAmmo: 30
   roundsPerMin: 1
   reloadDuration: 1
   bloodGainMulti: 1
+  headDamage: 10
+  bodyDamage: 10
+  limbDamage: 10
+  critDamage: 10
+  headPoints: 10
+  bodyPoints: 10
+  limbPoints: 10
+  critPoints: 10
+  bulletSpreadDegrees: 1
+  recoilSpreadCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  velocitySpredCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  maxRecoilVal: 30
+  recoilResetSpeed: 1
+  recoilResetDelay: 0
+  recoil: 0
   burstRounds: 0
   burstRpm: 0.1
   maxPenetrations: 3
@@ -365,7 +394,7 @@ MonoBehaviour:
     val: {fileID: 0}
   hitMask:
     serializedVersion: 2
-    m_Bits: 179
+    m_Bits: 16563
   shootAction:
     m_UseReference: 1
     m_Action:
@@ -396,6 +425,17 @@ MonoBehaviour:
     enabled: 1
     val: {fileID: 0}
   bulletVisualiserSpeed: 300
+  animator:
+    enabled: 0
+    val: {fileID: 0}
+  shootKey: shoot
+  reloadKey: reload
+  meleeKey: melee
+  sprintKey: sprinting
+  path:
+    enabled: 0
+    val: {fileID: 0}
+  tier: 0
 --- !u!1 &3118617946848949298
 GameObject:
   m_ObjectHideFlags: 0
@@ -541,6 +581,8 @@ MonoBehaviour:
   clips: []
   pitchRange: 0
   basePitch: 1
+  looping: 0
+  isPlaying: 0
   soundLoc: 2
 --- !u!1 &3118617947092816438
 GameObject:

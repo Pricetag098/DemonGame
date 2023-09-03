@@ -53,22 +53,21 @@ public class BasicDemon : DemonBase
         SetHealth(_health.maxHealth);
         _health.dead = false;
     }
-    public override void OnRespawn()
+    public override void OnRespawn(bool defaultDespawn = true)
     {
-        _agent.speed = 0;
-        _agent.enabled = false;
-        //_collider.enabled = false;
+        base.OnRespawn(defaultDespawn);
 
-        _spawner.AddDemonBackToPool(_type, _spawnerManager);
-        _pooledObject.Despawn();
+        
     }
     public override void OnDeath() // add back to pool of demon type
     {
-        _agent.speed = 0;
-        _agent.enabled = false;
-        //_collider.enabled = false;
+        base.OnDeath();
         
-        _animator.SetTrigger("Death");
+        if(ritualSpawn == true)
+        {
+            _spawnerManager.currentRitual.currentDemons--;
+            _spawnerManager.currentRitual.demonsLeft--;
+        }
     }
     public override void OnBuff()
     {

@@ -10,6 +10,7 @@ using UnityEngine.AI;
 public class DemonSpawner : MonoBehaviour
 {
     [HideInInspector] public Queue<DemonType> DemonQueue = new Queue<DemonType>();
+    [HideInInspector] public List<DemonBase> ActiveDemons = new List<DemonBase>();
 
     private Spawners _spawners;
     [HideInInspector] public DemonPoolers demonPool;
@@ -45,6 +46,21 @@ public class DemonSpawner : MonoBehaviour
         baseSpawnerCount = _spawners.CheckBaseSpawners(player, playerAgent);
         //specialSpawnerCount = _spawners.CheckSpecialSpawners(player, playerAgent);
         specialSpawnerCount = 0;
+    }
+
+    /// <summary>
+    /// Despawns All Active Demons
+    /// </summary>
+    public void DespawnAllActiveDemons()
+    {
+        int count = ActiveDemons.Count;
+
+        for (int i = 0; i < count; i++)
+        {
+            ActiveDemons[i].OnRespawn(false);
+        }
+
+        ActiveDemons.Clear();
     }
 
 
@@ -120,11 +136,11 @@ public class DemonSpawner : MonoBehaviour
         return false;
     }
 
-    public bool SpawnDemon(List<Spawner> spawnPoints, RitualSpawner ritual, SpawnerManager sm)
+    public bool SpawnDemonRitual(List<Spawner> spawnPoints, RitualSpawner ritual, SpawnerManager sm)
     {
         DemonType demon = null;
 
-        if (DemonCount > 0) { demon = ritual.DemonQueue.Dequeue(); }
+        if (ritual.DemonCount > 0) { demon = ritual.DemonQueue.Dequeue(); }
 
         Spawner spawner = null;
 
@@ -141,7 +157,7 @@ public class DemonSpawner : MonoBehaviour
 
         if (spawner is null) { ritual.DemonQueue.Enqueue(demon); return false; }
 
-        return spawner.RequestSpawn(demon, this, sm); ;
+        return spawner.RequestSpawn(demon, this, sm, false); ;
     }
 
     /// <summary>

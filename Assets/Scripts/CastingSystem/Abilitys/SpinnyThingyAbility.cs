@@ -51,6 +51,10 @@ public class SpinnyThingyAbility : Ability
 		obj = Instantiate(prefab);
 
 	}
+	protected override void OnDeEquip()
+	{
+		Destroy(obj);
+	}
 	List<Health> healths = new List<Health>();
 	public override void Tick()
 	{

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class VfxTargets : MonoBehaviour
 {
-    public Optional<Transform> head;
-    public Optional<Transform> core;
-    public Optional<Transform> origin;
+    public Transform head;
+    public Transform core;
+    public Transform origin;
 }

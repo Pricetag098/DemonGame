@@ -13,6 +13,7 @@ namespace Movement
 		public Vector3 gravityDir;
 		public float sensitivity =1;
 		public float minSurface = .5f;
+		
 		public MoveStates moveState;
 		Rigidbody rb;
 		[SerializeField] CapsuleCollider standingCollider, crouchedCollider;
@@ -88,6 +89,8 @@ namespace Movement
 		PlayerStats playerStats;
 
 		bool grounded;
+		bool touchingSurface;
+		[SerializeField] float surfaceCheckRange;
 
 		Vector3 slideEntryVel;
 		Vector3 surfaceNormal;
@@ -319,7 +322,8 @@ namespace Movement
 				OnHitGround();
 			grounded = groundCheck;
 
-
+			Debug.Log("Grounded " + grounded);
+			Debug.Log("onSurface" + touchingSurface);
 			if (!grounded)
 			{
 				Move(airMaxSpeed, airAcceleration, airSlowForce, airControlForce,airOppositeVelMulti);
@@ -430,7 +434,7 @@ namespace Movement
 				force += slowForce * Vector3.Dot(playerVel, orientation.forward) * -orientation.forward;
 			if (inputDir.x == 0)
 				force += slowForce * Vector3.Dot(playerVel, orientation.right) * -orientation.right;
-			if (!IsGrounded())
+			if (!touchingSurface)
 			{
 				rb.AddForce(gravityDir);
 			}
@@ -456,17 +460,26 @@ namespace Movement
 		bool IsGrounded()
 		{
 			RaycastHit hit;
-			if (Physics.Raycast(orientation.position, -orientation.up, out hit, 5, groundingLayer))
+			bool isGrounded = Physics.CheckSphere(groundingPoint.position, groundingRadius, groundingLayer) && Vector3.Dot(surfaceNormal, orientation.up) > minSurface;
+			
+			if (Physics.SphereCast(orientation.position,groundingRadius, -orientation.up, out hit, surfaceCheckRange * 5, groundingLayer))
 			{
 				surfaceNormal = hit.normal;
+				touchingSurface = hit.distance <= surfaceCheckRange;
 			}
-			return Physics.CheckSphere(groundingPoint.position, groundingRadius, groundingLayer) && Vector3.Dot(surfaceNormal,orientation.up) > minSurface;
+			else
+			{
+				touchingSurface = false;
+			}
+			return isGrounded;
 		}
 
 		private void OnDrawGizmosSelected()
 		{
 			Gizmos.color = Color.green;
 			Gizmos.DrawWireSphere(groundingPoint.position, groundingRadius);
+			Gizmos.color = Color.magenta;
+			Gizmos.DrawLine(orientation.position,orientation.position + -orientation.up * surfaceCheckRange);
 		}
 
 		void IDataPersistance<PlayerSettings>.LoadData(PlayerSettings data)

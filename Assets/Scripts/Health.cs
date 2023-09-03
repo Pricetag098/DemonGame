@@ -10,11 +10,17 @@ public class Health : MonoBehaviour
     public delegate void Action();
     public Action OnDeath;
     public Action OnHit;
-    public Optional<Transform> effectTarget;
+    
     // Start is called before the first frame update
     public float regenPerSecond = 0;
+    public Optional<VfxTargets> vfxTarget;
 
-    public void TakeDmg(float dmg)
+	private void Awake()
+	{
+        vfxTarget.Value = GetComponent<VfxTargets>();
+        vfxTarget.Enabled = !(vfxTarget.Value is null);
+	}
+	public void TakeDmg(float dmg)
     {
         health = Mathf.Clamp(health -dmg, 0, maxHealth);
         if(OnHit != null)

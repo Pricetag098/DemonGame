@@ -39,7 +39,8 @@ public class BasicDemon : DemonBase
     public override void OnAttack()
     {
         // deal damage
-        _target.GetComponent<Health>().TakeDmg(_damage);
+        if(Vector3.Distance(_target.position,transform.position) < _attackRange)
+            _target.GetComponent<Health>().TakeDmg(_damage);
     }
     public override void OnSpawn(Transform target, bool defaultSpawn = true)
     {

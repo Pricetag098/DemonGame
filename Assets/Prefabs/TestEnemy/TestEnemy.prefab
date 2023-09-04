@@ -475,9 +475,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 0.1
-  MaxDistance: 5
+  MaxDistance: 10
   Pan2D: 0
-  rolloffMode: 1
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -489,6 +489,15 @@ AudioSource:
       value: 1
       inSlope: 0
       outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.26627538
+      value: 0.47115707
+      inSlope: -1.3888874
+      outSlope: -1.3888874
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
@@ -569,7 +578,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 0dd38940166c0314dbe1ca9f3515fce7, type: 3}
   pitchRange: 0
   basePitch: 1
-  looping: 0
+  looping: 1
   isPlaying: 0
 --- !u!1 &1281007403550074913
 GameObject:
@@ -3725,10 +3734,10 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 100
+  MinDistance: 0.1
+  MaxDistance: 10
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -3740,6 +3749,15 @@ AudioSource:
       value: 1
       inSlope: 0
       outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.26627538
+      value: 0.47115707
+      inSlope: -1.3888874
+      outSlope: -1.3888874
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
@@ -3814,10 +3832,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playOnAwake: 0
-  clips: []
+  clips:
+  - {fileID: 8300000, guid: 3d315d210100c2a49a9be6001c415a7d, type: 3}
+  - {fileID: 8300000, guid: e7d22774ee8f29c409120814f0eafc9f, type: 3}
+  - {fileID: 8300000, guid: 2d88a307e96eb07408631d00535ac6b2, type: 3}
+  - {fileID: 8300000, guid: 2a329cb3fef06ab4696accf4503a790a, type: 3}
+  - {fileID: 8300000, guid: 51a8462333a22de44aa5751c89bb922f, type: 3}
+  - {fileID: 8300000, guid: aae1078952a62b94f86493e5ebf6b0a2, type: 3}
+  - {fileID: 8300000, guid: 511763a8844c00445aea32d8aff53c92, type: 3}
+  - {fileID: 8300000, guid: c38b73c46b29af3428239173ca432a64, type: 3}
+  - {fileID: 8300000, guid: aa48e75258ee6384aa3a9cd270061c68, type: 3}
+  - {fileID: 8300000, guid: 6795c9c584e8a034990c58b5c108cc32, type: 3}
   pitchRange: 0
   basePitch: 1
-  looping: 0
+  looping: 1
   isPlaying: 0
 --- !u!1 &7528230258322877698
 GameObject:

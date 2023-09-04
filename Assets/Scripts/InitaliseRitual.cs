@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class InitaliseRitual : Interactable
 {
-    SpawnerManager manager;
-    [SerializeField] RitualSpawner spawner;
+    [SerializeField] protected string activateMessage = "To Activate ";
+
+    private SpawnerManager manager;
+    private RitualSpawner spawner;
 
     private void Awake()
     {
-        manager = FindObjectOfType<SpawnerManager>();    
+        manager = FindObjectOfType<SpawnerManager>();
+        spawner = GetComponent<RitualSpawner>();
     }
 
     public override void Interact(Interactor interactor)
@@ -26,5 +29,16 @@ public class InitaliseRitual : Interactable
 
             manager.currentRitual = spawner;
         }
+    }
+
+    public override void EndHover(Interactor interactor)
+    {
+        base.EndHover(interactor);
+        interactor.display.HideText();
+    }
+    public override void StartHover(Interactor interactor)
+    {
+        base.StartHover(interactor);
+        interactor.display.DisplayMessage(true, activateMessage);
     }
 }

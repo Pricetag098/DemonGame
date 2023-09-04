@@ -18,7 +18,19 @@ public class RitualSpawner : MonoBehaviour
 
     [Header("Demons")]
     public Queue<DemonType> DemonQueue = new Queue<DemonType>();
-    [HideInInspector] public List<DemonBase> ActiveDemons = new List<DemonBase>();
+    private List<DemonBase> ActiveDemons = new List<DemonBase>();
+
+    [Header("Blockers")]
+    [SerializeField] Transform BlockerObjects;
+    private List<Transform> blockers = new List<Transform>();
+
+    [Header("Audio")]
+    [SerializeField] SoundPlayer soundPlayerStart;
+    [SerializeField] SoundPlayer soundPlayerFail;
+    [SerializeField] SoundPlayer soundPlayerComplete;
+
+    [Header("Ritual Completion")]
+    [SerializeField] GameObject completion;
 
     private SpawnerManager manager;
     private DemonSpawner demonSpawner;
@@ -30,6 +42,7 @@ public class RitualSpawner : MonoBehaviour
     {
         manager = FindObjectOfType<SpawnerManager>();
         spawnPoints = HelperFuntions.GetAllChildrenSpawnersFromParent(SpawnPoint);
+        blockers = HelperFuntions.GetAllChildrenTransformsFromParent(BlockerObjects);
     }
 
     private void Start()
@@ -56,13 +69,18 @@ public class RitualSpawner : MonoBehaviour
         if(RitualActive == false && ritualComplete == false)
         {
             RitualActive = true;
+            ActiveDemons.Clear();
 
             SetDemonQueue(ritual.ritualWave);
 
             demonsLeft = ritual.demonsToSpawn;
             demonsToSpawn = ritual.demonsToSpawn;
 
-            playerHealth = manager.player.GetComponent<Health>();
+            if(playerHealth is null) playerHealth = manager.player.GetComponent<Health>();
+
+            SetObjects(true);
+
+            soundPlayerStart.Play();
         }
     }
 
@@ -103,7 +121,6 @@ public class RitualSpawner : MonoBehaviour
                         {
                             currentDemons++;
                             demonsToSpawn--;
-                            Debug.Log(ActiveDemons.Count);
                         }
                     }
                 }
@@ -129,13 +146,29 @@ public class RitualSpawner : MonoBehaviour
         RitualActive = false;
         sm.RunDefaultSpawning = true;
         sm.currentRitual = null;
+        sm.RitualIndex++;
+
+        SetObjects(false);
+
+        soundPlayerComplete.Play();
+
+        completion.SetActive(false);
     }
 
     public void OnFailed(SpawnerManager sm)
     {
-        RitualActive = false;
         sm.RunDefaultSpawning = true;
         sm.currentRitual = null;
+
+        RitualActive = false;
+        ritual = null;
+        currentDemons = 0;
+        demonsLeft = 0;
+        demonsToSpawn = 0;
+
+        SetObjects(false);
+
+        soundPlayerFail.Play();
 
         DespawnAllActiveDemons();
     }
@@ -179,6 +212,14 @@ public class RitualSpawner : MonoBehaviour
         for (int i = 0; i < amount; i++)
         {
             list.Add(type);
+        }
+    }
+
+    void SetObjects(bool active)
+    {
+        foreach(Transform ob in blockers)
+        {
+            ob.gameObject.SetActive(active);
         }
     }
 

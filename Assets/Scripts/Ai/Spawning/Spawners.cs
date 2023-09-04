@@ -83,7 +83,10 @@ public class Spawners : MonoBehaviour
 
                         clostSpawners.Sort((p1, p2) => p1.distToArea.CompareTo(p2.distToArea));
 
-                        for (int i = 0; i < a.baseDepth; i++)
+                        int num = clostSpawners.Count;
+                        if (num > a.baseDepth) { num = a.baseDepth; }
+
+                        for (int i = 0; i < num; i++)
                         {
                             baseActiveSpawners.Add(clostSpawners[i]);
                         }
@@ -99,7 +102,10 @@ public class Spawners : MonoBehaviour
 
                         clostSpawners.Sort((p1, p2) => p1.distToArea.CompareTo(p2.distToArea));
 
-                        for (int i = 0; i < a.baseDepth; i++)
+                        int num = clostSpawners.Count;
+                        if (num > a.specialDepth) { num = a.specialDepth; }
+
+                        for (int i = 0; i < num; i++)
                         {
                             specialActiveSpawners.Add(clostSpawners[i]);
                         }

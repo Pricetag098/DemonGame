@@ -12,12 +12,14 @@ public class BloodFireball : Ability
     [SerializeField] protected float maxChargeTime;
     [SerializeField] protected float minChargeTime;
     bool held;
-
+    [SerializeField] int points;
     [SerializeField] AnimationCurve chargeDamageCurve = AnimationCurve.Linear(0, 0, 1, 100);
     [SerializeField] AnimationCurve chargeVelocityCurve = AnimationCurve.Linear(0, 0, 1, 50);
     [SerializeField] AnimationCurve chargeRadiusCurve = AnimationCurve.Linear(0, 5, 1, 10);
+    [SerializeField] VfxSpawnRequest shootFx;
 
     protected Vector3 lastAimDir, lastOrigin;
+    
 
     bool startedCasting;
     protected override void OnEquip()
@@ -67,7 +69,15 @@ public class BloodFireball : Ability
         float radius = chargeRadiusCurve.Evaluate(chargePercent);
         Vector3 velocity = speed * lastAimDir;
         caster.RemoveBlood(bloodCost);
-        projectileSpawner.Spawn().GetComponent<Fireball>().Shoot(lastOrigin, velocity, damage, caster.castOrigin,radius);
+        projectileSpawner.Spawn().GetComponent<Fireball>().Shoot(lastOrigin, velocity, damage, this, radius);
+        shootFx.Play(caster.castOrigin.position, lastAimDir);
     }
 
+    public override void OnHit()
+	{
+        if (caster.playerStats.Enabled)
+            caster.playerStats.Value.GainPoints(points);
+	}
+
+    
 }

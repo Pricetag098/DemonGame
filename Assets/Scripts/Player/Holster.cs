@@ -123,7 +123,7 @@ public class Holster : MonoBehaviour
         {
             if (gun == null)
                 continue;
-            if (g.gunName == gun.gunName)
+            if (g.guid == gun.guid)
             {
                 returnedGun = gun;
                 return true;

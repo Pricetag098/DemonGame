@@ -12,12 +12,14 @@ public class BloodSpikeAbility : Ability
 	[SerializeField] LayerMask groundLayers;
 	[SerializeField] AnimationCurve distanceScale;
     [SerializeField] AnimationCurve distanceDamage;
+	[SerializeField] int points;
     [SerializeField] float angle;
 	[SerializeField] float range;
 	[SerializeField] int spikeCount;
 	[SerializeField] float coolDown;
 	float timer;
-	
+	[SerializeField, Range(0f, 1f)] float directionWeight;
+	[SerializeField] VfxSpawnRequest spawnVfx;
 	protected override void OnEquip()
 	{
 		pooler = new GameObject().AddComponent<ObjectPooler>();
@@ -32,7 +34,7 @@ public class BloodSpikeAbility : Ability
 		timer = 0;
 		List<Health> healths = new List<Health>();
 		caster.RemoveBlood(bloodCost);
-
+		spawnVfx.Play(caster.castOrigin.position,direction);
 		for(int i = 0; i < spikeCount; i++)
 		{
 			Vector3 aimdir = direction;
@@ -46,7 +48,7 @@ public class BloodSpikeAbility : Ability
 			RaycastHit hit;
 			if(Physics.Raycast(point,Vector3.down,out hit, 10, groundLayers))
 			{
-				SpawnSpike(hit.point, hit.normal, range * randCircle.y, ref healths);
+				SpawnSpike(hit.point, hit.normal,dir, range * randCircle.y, ref healths);
 			}
         }
 	}
@@ -54,14 +56,14 @@ public class BloodSpikeAbility : Ability
 	{
 		timer += Time.deltaTime;
 	}
-	void SpawnSpike(Vector3 pos,Vector3 normal, float distance, ref List<Health> healths)
+	void SpawnSpike(Vector3 pos,Vector3 normal,Vector3 aimDir, float distance, ref List<Health> healths)
 	{
 		float scale = distanceScale.Evaluate(distance/range);
 		GameObject spike = pooler.Spawn();
 		spike.transform.position = pos;
-		spike.transform.up = normal;
-		spike.transform.localScale = Vector3.one * scale;
-		Collider[] colliders = Physics.OverlapCapsule(pos, pos + normal * scale, .1f * scale,targetLayers);
+		spike.transform.up = Vector3.Slerp(normal,aimDir,directionWeight);
+		spike.GetComponent<Spike>().Spawn(scale * Vector3.one);
+		Collider[] colliders = Physics.OverlapCapsule(pos, pos + normal * scale, 1,targetLayers);
 		foreach(Collider collider in colliders)
 		{
 			HitBox hb;
@@ -71,6 +73,7 @@ public class BloodSpikeAbility : Ability
 				{
 					healths.Add(hb.health);
 					hb.health.TakeDmg(distanceDamage.Evaluate(distance/range));
+					OnHit();
 				}
 			}
 		}
@@ -80,5 +83,9 @@ public class BloodSpikeAbility : Ability
 		Destroy(pooler.gameObject);
 	}
 
-
+	public override void OnHit()
+	{
+		if (caster.playerStats.Enabled)
+			caster.playerStats.Value.GainPoints(points);
+	}
 }

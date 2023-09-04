@@ -8,6 +8,6 @@ public class HitSettings : MonoBehaviour
 	public bool Penetrable = false;
     public void PlayVfx(Vector3 pos, Vector3 dir)
 	{
-		VfxSpawner.SpawnVfx(vfx, pos, dir);
+		VfxSpawner.SpawnVfx(vfx, pos, dir,Vector3.one);
 	}
 }

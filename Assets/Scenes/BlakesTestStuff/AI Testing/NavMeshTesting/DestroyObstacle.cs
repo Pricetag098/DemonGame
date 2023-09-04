@@ -7,27 +7,32 @@ public class DestroyObstacle : MonoBehaviour
 {
     [SerializeField] private int DestructibleCheckRate = 10;
     [SerializeField] private float CheckDistance = 1f;
-    [SerializeField] private NavMeshAgent Agent;
-    [SerializeField] private DemonBase demon;
     [SerializeField] private float AttackDelay = 1f;
     [SerializeField] private int DestructibleAttackDamage = 1;
     [SerializeField] private LayerMask DestructibleLayers;
 
+    private NavMeshAgent Agent;
+    private DemonBase demon;
     private NavMeshPath OrigianlPath;
+
+    private void Awake()
+    {
+        Agent = GetComponent<NavMeshAgent>();
+        demon = GetComponent<DemonBase>();
+    }
 
     private bool checkForObjects;
     private bool foundObject;
     private DestrcutibleObject obj;
     private float timer;
 
-    public void Detection(int amount)
+    public void Detection()
     {
         timer += Time.deltaTime;
 
-        if(amount % DestructibleCheckRate == 0 && foundObject == false)
+        if(foundObject == false)
         {
             checkForObjects = CheckForDistructibleObjects();
-            amount = 0;
         }
 
         if (checkForObjects == false && foundObject == false) return;
@@ -47,8 +52,8 @@ public class DestroyObstacle : MonoBehaviour
                     Agent.path = OrigianlPath;
                     obj = null;
                 }
+
                 timer = 0;
-                amount = 0;
             }
         }
     }
@@ -64,10 +69,13 @@ public class DestroyObstacle : MonoBehaviour
             {
                 if(hit.collider.TryGetComponent<DestrcutibleObject>(out DestrcutibleObject d))
                 {
-                    OrigianlPath = Agent.path;
-                    Agent.enabled = false;
-                    obj = d;
-                    return true;
+                    if(d.Health > 0)
+                    {
+                        OrigianlPath = Agent.path;
+                        Agent.enabled = false;
+                        obj = d;
+                        return true;
+                    }
                 }
             }
         }

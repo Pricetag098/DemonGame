@@ -10,7 +10,7 @@ public class DamageProjectiles : MonoBehaviour
     PooledObject pooledObject;
     ProjectileVisualiser visualiser;
     List<Health> healths = new List<Health>();
-
+    Ability ability;
     // Start is called before the first frame update
     void Awake()
     {
@@ -19,14 +19,15 @@ public class DamageProjectiles : MonoBehaviour
         visualiser = GetComponentInChildren<ProjectileVisualiser>();
     }
 
-    public void Shoot(Vector3 origin,Vector3 dir,float dmg,Transform visOrigin,int penetrations)
+    public void Shoot(Vector3 origin,Vector3 dir,float dmg,Ability ability,int penetrations)
 	{
         body.isKinematic = false;
         damage = dmg;
         transform.position = origin;
         transform.forward = dir;
         body.velocity = dir;
-        visualiser.Start(visOrigin, transform);
+        this.ability = ability;
+        visualiser.Start(ability.caster.castOrigin, transform);
         maxPenetrations = penetrations;
 	}
     int penetrations;
@@ -40,6 +41,7 @@ public class DamageProjectiles : MonoBehaviour
             {
                 hb.OnHit(damage);
                 healths.Add(hb.health);
+                ability.OnHit();
             }
         }
             
@@ -50,7 +52,7 @@ public class DamageProjectiles : MonoBehaviour
 		}
 		else
 		{
-            VfxSpawner.SpawnVfx(0, other.ClosestPoint(transform.position), -transform.forward);
+            VfxSpawner.SpawnVfx(0, other.ClosestPoint(transform.position), -transform.forward,Vector3.one);
 		}
         
         if(penetrations > maxPenetrations)
@@ -72,7 +74,7 @@ public class DamageProjectiles : MonoBehaviour
         else
         {
 
-            VfxSpawner.SpawnVfx(0, collision.collider.ClosestPoint(transform.position), -transform.forward);
+            VfxSpawner.SpawnVfx(0, collision.collider.ClosestPoint(transform.position), -transform.forward,Vector3.one);
         }
         body.isKinematic = true;
         GetComponent<PooledObject>().Despawn();

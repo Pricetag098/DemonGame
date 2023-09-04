@@ -6,10 +6,6 @@ using UnityEngine.AI;
 
 public class BasicDemon : DemonBase
 {
-    [Header("Demon")]
-    private float attackTimer;
-    [SerializeField] private float attackInterval;
-
     [Header("Demon Pathing")]
     [SerializeField] float distanceToRespawn;
 
@@ -21,69 +17,57 @@ public class BasicDemon : DemonBase
     [Header("ObstacleDetection")]
     [SerializeField] DestroyObstacle m_obstacle;
 
-    private delegate void DestroyBarrier();
-    private DestroyBarrier m_barrier;
-
-    private bool respawning = false;
-
     public override void OnAwakened()
     {
         m_obstacle = GetComponent<DestroyObstacle>();
     }
     public override void Setup()
     {
-        UpdateHealthToCurrentRound(_spawner.currentRound);
+        UpdateHealthToCurrentRound(_spawnerManager.currentRound);
         base.Setup();
     }
+
     public override void Tick()
     {
-        attackTimer += Time.deltaTime;
-
         PathFinding(_agent.enabled);
         DetectPlayer(_agent.enabled);
 
-        //m_obstacle.Detection();
+        m_obstacle.Detection();
 
         _animator.SetFloat("Speed", _agent.velocity.magnitude);
     }
-    public override void DoDamage()
-    {
-        _playerHealth.health -= _damage;
-    }
     public override void OnAttack()
     {
-        if(HelperFuntions.TimerGreaterThan(attackTimer, attackInterval))
-        {
-            PlayAnimation("Attack");
-        }
+        // deal damage
+        if(Vector3.Distance(_target.position,transform.position) < _attackRange)
+            _target.GetComponent<Health>().TakeDmg(_damage);
     }
-    public override void OnSpawn(Transform target)
+    public override void OnSpawn(Transform target, bool defaultSpawn = true)
     {
+        if(defaultSpawn == true) { ritualSpawn = false; }
+        else { ritualSpawn = true; }
+
         base.OnSpawn(target);
-        UpdateHealthToCurrentRound(_spawner.currentRound);
+        UpdateHealthToCurrentRound(_spawnerManager.currentRound);
         CalculateAndSetPath(target);
         SetHealth(_health.maxHealth);
-
-        respawning = false;
+        _health.dead = false;
     }
-    public override void OnRespawn()
+    public override void OnRespawn(bool defaultDespawn = true)
     {
-        _agent.speed = 0;
-        _agent.enabled = false;
-        _collider.enabled = false;
+        base.OnRespawn(defaultDespawn);
 
-        _spawner.DemonRespawn(_type, respawning);
-
-        _pooledObject.Despawn();
         
     }
     public override void OnDeath() // add back to pool of demon type
     {
-        _agent.speed = 0;
-        _agent.enabled = false;
-        _collider.enabled = false;
+        base.OnDeath();
         
-        _animator.SetTrigger("Death");
+        if(ritualSpawn == true)
+        {
+            _spawnerManager.currentRitual.currentDemons--;
+            _spawnerManager.currentRitual.demonsLeft--;
+        }
     }
     public override void OnBuff()
     {
@@ -110,13 +94,17 @@ public class BasicDemon : DemonBase
 
             if (dist < _attackRange)
             {
-                OnAttack();
+                PlayAnimation("Attack");
             }
 
-            //if(dist > distanceToRespawn)
-            //{
-            //    OnRespawn();
-            //}
+            dist = DistanceToTargetNavmesh;
+
+            if (dist > 100000) dist = 0;
+
+            if(dist > distanceToRespawn)
+            {
+                OnRespawn();
+            }
         }
     }
     public override void CalculateStats(int round)
@@ -127,7 +115,7 @@ public class BasicDemon : DemonBase
         }
         else { _health.maxHealth = _health.maxHealth * m_HealthMultiplier; }
 
-        //_moveSpeed = _moveSpeedCurve.Evaluate(round) + _baseMoveSpeed;
+        _moveSpeed = _moveSpeedCurve.Evaluate(round);
     }
 
     public override void UpdateHealthToCurrentRound(int currentRound)

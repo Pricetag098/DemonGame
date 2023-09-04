@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class HitBox : MonoBehaviour
 {
-    public float multi = 1;
-
+    public enum BodyPart
+	{
+        Head,
+        Body,
+        Limb,
+        Crit
+	}
+    public BodyPart bodyPart;
     
     public Health health;
     // Start is called before the first frame update
@@ -16,6 +22,6 @@ public class HitBox : MonoBehaviour
     }
     public void OnHit(float dmg)
     {
-        health.TakeDmg(dmg * multi);
+        health.TakeDmg(dmg);
     }
 }

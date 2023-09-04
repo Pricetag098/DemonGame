@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 5982.9785, g: 3826.3594, b: 2825.1602, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4477,7 +4477,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cfae3d7b0cc17348a37b7dabd50da9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multi: 1
+  bodyPart: 0
   health: {fileID: 0}
 --- !u!114 &591784266
 MonoBehaviour:
@@ -4494,6 +4494,10 @@ MonoBehaviour:
   health: 100
   maxHealth: 100
   dead: 0
+  regenPerSecond: 0
+  vfxTarget:
+    enabled: 0
+    val: {fileID: 0}
 --- !u!136 &591784267
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5615,7 +5619,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cfae3d7b0cc17348a37b7dabd50da9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multi: 1
+  bodyPart: 0
   health: {fileID: 0}
 --- !u!114 &736116597
 MonoBehaviour:
@@ -5632,6 +5636,10 @@ MonoBehaviour:
   health: 0
   maxHealth: 100
   dead: 0
+  regenPerSecond: 0
+  vfxTarget:
+    enabled: 0
+    val: {fileID: 0}
 --- !u!136 &736116598
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -7878,7 +7886,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cfae3d7b0cc17348a37b7dabd50da9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multi: 1
+  bodyPart: 0
   health: {fileID: 0}
 --- !u!136 &993078463
 CapsuleCollider:
@@ -7974,6 +7982,10 @@ MonoBehaviour:
   health: 0
   maxHealth: 100
   dead: 0
+  regenPerSecond: 0
+  vfxTarget:
+    enabled: 0
+    val: {fileID: 0}
 --- !u!1 &1008151302
 GameObject:
   m_ObjectHideFlags: 0
@@ -9028,7 +9040,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cfae3d7b0cc17348a37b7dabd50da9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multi: 1
+  bodyPart: 0
   health: {fileID: 0}
 --- !u!114 &1171573028
 MonoBehaviour:
@@ -9045,6 +9057,10 @@ MonoBehaviour:
   health: 0
   maxHealth: 100
   dead: 0
+  regenPerSecond: 0
+  vfxTarget:
+    enabled: 0
+    val: {fileID: 0}
 --- !u!136 &1171573029
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -11490,17 +11506,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fc48f5f2ce27fe47b0fbe4c8e5c6aa6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1490840957 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7993373105473173447, guid: 605e7777b6e363040b68f76a7e212120, type: 3}
-  m_PrefabInstance: {fileID: 977577198}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d654545eff43754099865e3a7c52c99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1494409263
 GameObject:
   m_ObjectHideFlags: 0
@@ -11556,7 +11561,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7222455559994827876, guid: 308c7f5b9d212fb448b63db434405e36, type: 3}
       propertyPath: m_RootOrder
-      value: 29
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 7222455559994827876, guid: 308c7f5b9d212fb448b63db434405e36, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11652,7 +11657,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cfae3d7b0cc17348a37b7dabd50da9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multi: 1
+  bodyPart: 0
   health: {fileID: 0}
 --- !u!114 &1527609239
 MonoBehaviour:
@@ -11669,6 +11674,10 @@ MonoBehaviour:
   health: 0
   maxHealth: 100
   dead: 0
+  regenPerSecond: 0
+  vfxTarget:
+    enabled: 0
+    val: {fileID: 0}
 --- !u!136 &1527609240
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -12147,7 +12156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cfae3d7b0cc17348a37b7dabd50da9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multi: 1
+  bodyPart: 0
   health: {fileID: 0}
 --- !u!114 &1564357048
 MonoBehaviour:
@@ -12164,6 +12173,10 @@ MonoBehaviour:
   health: 0
   maxHealth: 100
   dead: 0
+  regenPerSecond: 0
+  vfxTarget:
+    enabled: 0
+    val: {fileID: 0}
 --- !u!136 &1564357049
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -12851,7 +12864,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cfae3d7b0cc17348a37b7dabd50da9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multi: 1
+  bodyPart: 0
   health: {fileID: 0}
 --- !u!114 &1636054403
 MonoBehaviour:
@@ -12868,6 +12881,10 @@ MonoBehaviour:
   health: 0
   maxHealth: 100
   dead: 0
+  regenPerSecond: 0
+  vfxTarget:
+    enabled: 0
+    val: {fileID: 0}
 --- !u!136 &1636054404
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -14414,7 +14431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cfae3d7b0cc17348a37b7dabd50da9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multi: 1
+  bodyPart: 0
   health: {fileID: 0}
 --- !u!114 &1834733590
 MonoBehaviour:
@@ -14431,6 +14448,10 @@ MonoBehaviour:
   health: 0
   maxHealth: 100
   dead: 0
+  regenPerSecond: 0
+  vfxTarget:
+    enabled: 0
+    val: {fileID: 0}
 --- !u!136 &1834733591
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -14950,7 +14971,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cfae3d7b0cc17348a37b7dabd50da9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multi: 1
+  bodyPart: 0
   health: {fileID: 0}
 --- !u!114 &1877304649
 MonoBehaviour:
@@ -14967,6 +14988,10 @@ MonoBehaviour:
   health: 0
   maxHealth: 100
   dead: 0
+  regenPerSecond: 0
+  vfxTarget:
+    enabled: 0
+    val: {fileID: 0}
 --- !u!136 &1877304650
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -15177,7 +15202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cfae3d7b0cc17348a37b7dabd50da9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multi: 1
+  bodyPart: 0
   health: {fileID: 0}
 --- !u!114 &1890080818
 MonoBehaviour:
@@ -15194,6 +15219,10 @@ MonoBehaviour:
   health: 0
   maxHealth: 100
   dead: 0
+  regenPerSecond: 0
+  vfxTarget:
+    enabled: 0
+    val: {fileID: 0}
 --- !u!136 &1890080819
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -16472,7 +16501,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cfae3d7b0cc17348a37b7dabd50da9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multi: 1
+  bodyPart: 0
   health: {fileID: 0}
 --- !u!114 &1994802697
 MonoBehaviour:
@@ -16489,6 +16518,10 @@ MonoBehaviour:
   health: 0
   maxHealth: 100
   dead: 0
+  regenPerSecond: 0
+  vfxTarget:
+    enabled: 0
+    val: {fileID: 0}
 --- !u!136 &1994802698
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -17231,6 +17264,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2547821529077535737, guid: 3db770f86d6aad1428aee0b1d0a7c6a9, type: 3}
+      propertyPath: m_Alpha
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3250118583696522504, guid: 3db770f86d6aad1428aee0b1d0a7c6a9, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -17350,7 +17387,7 @@ PrefabInstance:
     - target: {fileID: 8070240937635876493, guid: 3db770f86d6aad1428aee0b1d0a7c6a9, type: 3}
       propertyPath: caster
       value: 
-      objectReference: {fileID: 1490840957}
+      objectReference: {fileID: 0}
     - target: {fileID: 8097521236020458331, guid: 3db770f86d6aad1428aee0b1d0a7c6a9, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -17369,7 +17406,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8099514479005013466, guid: 3db770f86d6aad1428aee0b1d0a7c6a9, type: 3}
       propertyPath: m_RootOrder
-      value: 28
+      value: 29
       objectReference: {fileID: 0}
     - target: {fileID: 8099514479005013466, guid: 3db770f86d6aad1428aee0b1d0a7c6a9, type: 3}
       propertyPath: m_LocalPosition.x

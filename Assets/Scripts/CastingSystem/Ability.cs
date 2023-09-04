@@ -6,9 +6,13 @@ using UnityEngine.InputSystem;
 public class Ability : ScriptableObject
 {
 	public string abilityName;
+	public string guid;
 	public Sprite icon;
-	protected AbilityCaster caster;
+	[HideInInspector]
+	public AbilityCaster caster;
 	public float bloodCost = 10;
+	public Optional<AbilityUpgradePath> upgradePath;
+	public int tier = 0;
 	public enum CastModes
 	{
 		press,
@@ -31,6 +35,8 @@ public class Ability : ScriptableObject
 	{
 
 	}
+
+	
 
 	protected virtual void OnEquip()
 	{
@@ -63,5 +69,15 @@ public class Ability : ScriptableObject
     {
 
     }
+
+	public virtual void OnHit()
+	{
+
+	}
+	[ContextMenu("Gen Guid")]
+	void GenGuid()
+	{
+		guid = System.Guid.NewGuid().ToString();
+	}
 
 }

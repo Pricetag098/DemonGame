@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,8 +25,8 @@ public class Gun : MonoBehaviour
     }
     [Header("Gun Settings")]
     public string gunName;
+    public string guid;
     public FireTypes fireSelect;
-    public float damage = 10;
     public float bulletRange = float.PositiveInfinity;
     [Min(1)]
     public int shotsPerFiring = 1;
@@ -33,6 +34,19 @@ public class Gun : MonoBehaviour
     public float roundsPerMin = 1, reloadDuration = 1;
     float fireTimer = 0, reloadTimer;
     public float bloodGainMulti = 1;
+
+    [Header("DamageSetting")]
+    public float headDamage = 10;
+    public float bodyDamage = 10;
+    public float limbDamage = 10;
+    public float critDamage = 10;
+
+    [Header("PointsSetting")]
+    public int headPoints = 10;
+    public int bodyPoints = 10;
+    public int limbPoints = 10;
+    public int critPoints = 10;
+
 
     [Header("SpreadSettings")]
     public float bulletSpreadDegrees = 0;
@@ -86,6 +100,10 @@ public class Gun : MonoBehaviour
     public string meleeKey = "melee";
     public string sprintKey = "sprinting";
 
+    [Header("Upgrading")]
+    public Optional<GunUpgradePath> path;
+    public int tier = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -100,7 +118,11 @@ public class Gun : MonoBehaviour
         if(visualiserPool.Enabled && visualiserPool.Value != null)
             visualiserPool.Value.DespawnAll();
     }
-
+    [ContextMenu("Gen Guid")]
+    void GenGuid()
+	{
+        guid = Guid.NewGuid().ToString();
+	}
 	private void OnEnable()
 	{
 		shootAction.action.Enable();
@@ -247,14 +269,14 @@ public class Gun : MonoBehaviour
         {
             if (animator.Enabled)
                 animator.Value.SetTrigger(shootKey);
-            Vector3 randVal = Random.insideUnitSphere * GetSpread();
+            Vector3 randVal = UnityEngine.Random.insideUnitSphere * GetSpread();
             Vector3 dir = Quaternion.Euler(randVal) * Camera.main.transform.forward;
             Debug.DrawRay(Camera.main.transform.position, dir * 10, Color.green);
 
             RaycastHit[] hitArray = Physics.RaycastAll(Camera.main.transform.position, dir, bulletRange, hitMask);
             if (hitArray.Length > 0)
             {
-                float currentDamage = damage;
+                float damageMulti = 1;
                 int penIndex = 0;
 
                 //Reorder raycast hits in order of hit
@@ -283,17 +305,21 @@ public class Gun : MonoBehaviour
                     HitBox hitBox;
                     if (hit.collider.TryGetComponent(out hitBox))
                     {
-                        
+                        //check to avoid double hits on penetration
                         if (healths.Contains(hitBox.health))
                         {
                             playFx = false;
                         }
 						else
 						{
+                            //Do all on hit stuff here
+
+                            float damage = GetDamage(hitBox.bodyPart) * damageMulti * holster.stats.damageMulti;
+
                             healths.Add(hitBox.health);
-                            hitBox.OnHit(currentDamage * holster.stats.damageMulti);
-                            
-                            holster.OnHit(damage * holster.stats.damageMulti * hitBox.multi, hitBox.health.maxHealth);
+                            hitBox.OnHit(damage);
+                            holster.stats.GainPoints(GetPoints(hitBox.bodyPart));
+                            holster.OnHit(damage, hitBox.health.maxHealth);
                         }
                         
 
@@ -309,12 +335,12 @@ public class Gun : MonoBehaviour
                     else
                     {
                         if(playFx)
-                        VfxSpawner.SpawnVfx(0, hit.point, Vector3.Lerp(-dir, hit.normal, .5f));
+                        VfxSpawner.SpawnVfx(0, hit.point, Vector3.Lerp(-dir, hit.normal, .5f),Vector3.one);
                     }
 
 
 
-                    currentDamage /= damageLossDivisor;
+                    damageMulti /= damageLossDivisor;
                     if (!penetrable)
                     {
                         break;
@@ -347,7 +373,7 @@ public class Gun : MonoBehaviour
             gunfire.Value.Play();
         }
             
-            
+
     }
 
     
@@ -413,4 +439,33 @@ public class Gun : MonoBehaviour
 	{
         AddToStash(1);
 	}
+
+    public float GetDamage(HitBox.BodyPart bodyPart)
+	{
+		switch (bodyPart)
+		{
+            case HitBox.BodyPart.Head:
+                return headDamage;
+            case HitBox.BodyPart.Limb:
+                return limbDamage;
+            case HitBox.BodyPart.Crit:
+                return critDamage;
+            default:
+                return bodyDamage;
+		}
+	}
+    public int GetPoints(HitBox.BodyPart bodyPart)
+    {
+        switch (bodyPart)
+        {
+            case HitBox.BodyPart.Head:
+                return headPoints;
+            case HitBox.BodyPart.Limb:
+                return limbPoints ;
+            case HitBox.BodyPart.Crit:
+                return critPoints;
+            default:
+                return bodyPoints;
+        }
+    }
 }

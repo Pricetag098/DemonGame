@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class AbilityCaster : MonoBehaviour
 {
-    Ability emptyAbility;
+    [HideInInspector]
+    public Ability emptyAbility;
     public float blood;
     public float maxBlood;
     public Ability[] abilities;
@@ -12,6 +13,8 @@ public class AbilityCaster : MonoBehaviour
     const string BaseAbilityPath = "Abilities/Empty";
     [Tooltip("For visualiser")]
     public Transform castOrigin;
+
+    public Optional<PlayerStats> playerStats;
 
     // Start is called before the first frame update
     void Awake()
@@ -79,7 +82,7 @@ public class AbilityCaster : MonoBehaviour
 	{
         foreach(Ability item in abilities)
 		{
-            if(item.abilityName == ability.abilityName)
+            if(item.guid == ability.guid)
                 return true;
 		}
         return false;

@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Bson;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,10 +8,12 @@ public class DemonBase : MonoBehaviour, IDemon
 {
     [Header("Target")]
     [SerializeField] protected Transform _target;
-    [SerializeField] protected Health _playerHealth;
 
     [Header("Spawner")]
     [SerializeField] protected DemonSpawner _spawner;
+
+    protected SpawnerManager _spawnerManager;
+    protected bool ritualSpawn;
 
     [Header("Demon Type")]
     [SerializeField] protected DemonType _type;
@@ -27,20 +30,28 @@ public class DemonBase : MonoBehaviour, IDemon
     [SerializeField] protected float _attackRange;
     [SerializeField] protected float _stoppingDistance;
 
+    [Header("Demon Sounds")]
+    [SerializeField] SoundPlayer _soundPlayerIdle;
+    [SerializeField] SoundPlayer _soundPlayerAttack;
+    [SerializeField] SoundPlayer _soundPlayerHit;
+    [SerializeField] SoundPlayer _soundPlayerDeath;
+    [SerializeField] SoundPlayer _soundPlayerFootsteps;
+
     [Header("AnimationCurves")]
     [SerializeField] protected AnimationCurve _moveSpeedCurve;
 
     [Header("Animator")]
-    [SerializeField] protected Animator _animator;
+    protected Animator _animator;
 
     [Header("Collider")]
-    [SerializeField] protected Collider _collider;
+    protected Collider[] _colliders;
 
     [Header("Rigidbody")]
-    [SerializeField] protected Rigidbody _rb;
+    protected Rigidbody _rb;
 
     [Header("Ai Pathing")]
-    [SerializeField] protected bool _calculatePath = false;
+    protected bool _calculatePath = false;
+    protected Vector3 lastPos;
     protected NavMeshAgent _agent;
     protected NavMeshPath _currentPath;
 
@@ -54,9 +65,10 @@ public class DemonBase : MonoBehaviour, IDemon
         _agent = GetComponent<NavMeshAgent>();
         _health = GetComponent<Health>();
         _animator = GetComponent<Animator>();
-        _collider = GetComponent<Collider>();
+        _colliders = GetAllColliders();
         _rb = GetComponent<Rigidbody>();
         _spawner = FindObjectOfType<DemonSpawner>();
+        _spawnerManager = FindObjectOfType<SpawnerManager>();
 
         OnAwakened();
     }
@@ -65,12 +77,10 @@ public class DemonBase : MonoBehaviour, IDemon
     {
         Setup();
         _pooledObject = GetComponent<PooledObject>();
-        _playerHealth = _target.GetComponent<Health>();
     }
     private void Update()
     {
         Tick();
-        LookAt(_agent.enabled);
     }
 
     public virtual void OnAwakened() { }
@@ -84,32 +94,71 @@ public class DemonBase : MonoBehaviour, IDemon
         _agent.stoppingDistance = _stoppingDistance;
     }
     public virtual void Tick() { }
-    public virtual void DoDamage() { }
-    public virtual void OnAttack() { }
-    public virtual void OnHit() { } 
+    public virtual void OnAttack()
+    {
+        PlaySoundAttack();
+    }
+    public virtual void OnHit()
+    {
+        PlaySoundHit();
+    } 
     public virtual void PathFinding(bool canPath) { }
-    public virtual void OnDeath() { }
-    public virtual void OnSpawn(Transform target)
+    public virtual void OnDeath()
+    {
+        _agent.speed = 0;
+        _agent.enabled = false;
+
+        SetAllColliders(false);
+
+        _spawner.ActiveDemons.Remove(this);
+
+        _animator.SetTrigger("Death");
+
+        PlaySoundDeath();
+    }
+    public virtual void OnSpawn(Transform target, bool defaultSpawn = true)
     {
         _agent.speed = 0;
         _agent.enabled = true;
-        _collider.enabled = true;
-        transform.rotation = Quaternion.identity;
-        _health.dead = false;
+        SetAllColliders(true);
+
+        _spawner.ActiveDemons.Add(this);
+
+        //transform.rotation = Quaternion.identity;
+
+        PlaySoundIdle();
     }
     public virtual void OnBuff() { }
-    public virtual void OnRespawn() { }
+    public virtual void OnRespawn(bool defaultDespawn = true)
+    {
+        _agent.speed = 0;
+        _agent.enabled = false;
+
+        SetAllColliders(false);
+
+        _spawner.AddDemonBackToPool(_type, _spawnerManager);
+
+        if(defaultDespawn == true) _spawner.ActiveDemons.Remove(this);
+
+        _pooledObject.Despawn();
+    }
     public virtual void CalculateStats(int round) { }
     public virtual void DetectPlayer(bool active) { }
     public virtual void UpdateHealthToCurrentRound(int currentRound) { }
 
-    protected void LookAt(bool active)
+    protected Collider[] GetAllColliders()
     {
-        if(active == true)
+        return HelperFuntions.AllChildren<Collider>(transform).ToArray();
+    }
+
+    protected void SetAllColliders(bool active)
+    {
+        foreach(Collider c in _colliders)
         {
-            transform.LookAt(new Vector3(_target.position.x, transform.position.y, _target.position.z));
+            c.enabled = active;
         }
     }
+
     protected void OnFinishedSpawnAnimation() 
     {
         _agent.speed = _moveSpeed;
@@ -117,7 +166,8 @@ public class DemonBase : MonoBehaviour, IDemon
     protected void OnFinishedDeathAnimation()
     {
         _pooledObject.Despawn();
-        _spawner.DemonKilled();
+
+        if(ritualSpawn == false) { _spawnerManager.DemonKilled(); }
     }
 
     public void PlayAnimation(string trigger)
@@ -125,6 +175,30 @@ public class DemonBase : MonoBehaviour, IDemon
         _animator.SetTrigger(trigger);
     }
 
+    protected void PlaySoundIdle()
+    {
+        _soundPlayerIdle.Play();
+    }
+
+    protected void PlaySoundAttack()
+    {
+        _soundPlayerAttack.Play();
+    }
+
+    protected void PlaySoundHit()
+    {
+        _soundPlayerHit.Play();
+    }
+
+    protected void PlaySoundDeath()
+    {
+        _soundPlayerDeath.Play();
+    }
+
+    protected void PlaySoundFootStep()
+    {
+        _soundPlayerFootsteps.Play();
+    }
 
     #region Properties
     protected float DistanceToTargetNavmesh // gets path distance remaining to target
@@ -134,6 +208,7 @@ public class DemonBase : MonoBehaviour, IDemon
             return _agent.remainingDistance;
         }
     }
+
     protected float DistanceToTargetUnits
     {
         get
@@ -157,9 +232,14 @@ public class DemonBase : MonoBehaviour, IDemon
     {
         NavMeshPath path = new NavMeshPath();
 
-        _agent.CalculatePath(targetPos.position, path);
+        lastPos = targetPos.position;
 
-        _agent.SetPath(path);
+        _agent.CalculatePath(lastPos, path);
+
+        if(path.status == NavMeshPathStatus.PathComplete)
+        {
+            _agent.SetPath(path);
+        }
 
         _target = targetPos;
     }

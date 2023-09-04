@@ -11,6 +11,8 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>
 
     public float bloodSpent = 0;
     public float bloodGained = 0;
+
+    public Ability ActiveAbility { get { return caster.abilities[activeIndex]; } set { SetAbility(value); } } 
     // Start is called before the first frame update
     void Start()
     {
@@ -67,11 +69,34 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>
 
     void Swap(InputAction.CallbackContext context)
     {
-        caster.abilities[activeIndex].DeSelect();
-        activeIndex++;
-        if(activeIndex > caster.abilities.Length-1)
-        {
-            activeIndex = 0;
+        int lastActiveIndex = activeIndex;
+
+        bool done = false;
+        while(caster.abilities[activeIndex].guid == caster.emptyAbility.guid || ! done)
+		{
+            done = true;
+            activeIndex++;
+            if (activeIndex > caster.abilities.Length - 1)
+            {
+                activeIndex = 0;
+            }
         }
+
+        caster.abilities[lastActiveIndex].DeSelect();
+        
+        caster.abilities[activeIndex].Select();
+    }
+
+    public void SetAbility(Ability ability)
+    {
+        for(int i = 0; i < caster.abilities.Length; i++)
+        {
+            if(caster.abilities[i].GetType() == typeof(Ability))
+            {
+                caster.SetAbility(i, ability);
+                return;
+            }
+        }
+        caster.SetAbility(activeIndex, ability);
     }
 }

@@ -94,7 +94,7 @@ public class GunCreator : EditorWindow
 
             GUILayout.Space(5);
 
-            gun.damage = EditorGUILayout.FloatField("Damage", gun.damage, GUILayout.Width(455));
+            //gun.damage = EditorGUILayout.FloatField("Damage", gun.damage, GUILayout.Width(455));
             EditorGUILayout.LabelField("The base a damage a shot deals.", EditorStyles.miniLabel);
 
             GUILayout.Space(5);

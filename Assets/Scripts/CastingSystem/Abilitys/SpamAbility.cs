@@ -9,9 +9,11 @@ public class SpamAbility : Ability
 	[SerializeField] GameObject prefab;
 	ObjectPooler pool;
 	[SerializeField] int poolSize;
+	[SerializeField] int points;
 	[SerializeField] float spreadUnits;
 	[SerializeField] float castsPerMin;
 	[SerializeField] float speed;
+	[SerializeField] VfxSpawnRequest spawnFx;
 	float cooldown;
 	float timer;
 	public override void Tick()
@@ -24,9 +26,10 @@ public class SpamAbility : Ability
 		{
 			if(caster.blood > bloodCost)
 			{
-				pool.Spawn().GetComponent<DamageProjectiles>().Shoot(origin + Random.insideUnitSphere * spreadUnits, direction * speed, damage, caster.castOrigin, 1);
+				pool.Spawn().GetComponent<DamageProjectiles>().Shoot(origin + Random.insideUnitSphere * spreadUnits, direction * speed, damage, this, 1);
 				timer = 0;
 				caster.RemoveBlood(bloodCost);
+				spawnFx.Play(caster.castOrigin.position,direction);
 			}
 			
 		}
@@ -43,5 +46,11 @@ public class SpamAbility : Ability
 	protected override void OnDeEquip()
 	{
 		Destroy(pool.gameObject);
+	}
+
+	public override void OnHit()
+	{
+		if (caster.playerStats.Enabled)
+			caster.playerStats.Value.GainPoints(points);
 	}
 }

@@ -6,11 +6,11 @@ public class CasterDisplay : MonoBehaviour
 {
     [SerializeField] Image[] icons;
     [SerializeField] Slider bloodMeter;
-    [SerializeField] AbilityCaster caster;
+    [SerializeField] PlayerAbilityCaster caster;
     // Start is called before the first frame update
     void Awake()
     {
-        caster = FindObjectOfType<AbilityCaster>();
+        caster = FindObjectOfType<PlayerAbilityCaster>();
     }
 
     // Update is called once per frame
@@ -18,8 +18,9 @@ public class CasterDisplay : MonoBehaviour
     {
         for(int i = 0; i < icons.Length; i++)
 		{
-            icons[i].sprite = caster.abilities[i].icon;
+            icons[i].sprite = caster.caster.abilities[i].icon;
+            icons[i].GetComponent<Outline>().enabled = i == caster.activeIndex;
 		}
-        bloodMeter.value = caster.blood / caster.maxBlood;
+        bloodMeter.value = caster.caster.blood / caster.caster.maxBlood;
     }
 }

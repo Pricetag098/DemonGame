@@ -9,6 +9,9 @@ public class Fireball : MonoBehaviour
     Rigidbody body;
     [SerializeField] LayerMask validLayers;
     ProjectileVisualiser visualiser;
+    [SerializeField] VfxSpawnRequest explosionVfx;
+    BloodFireball ability;
+    [SerializeField] float maxRadius = 10;
     // Start is called before the first frame update
     void Awake()
     {
@@ -30,21 +33,23 @@ public class Fireball : MonoBehaviour
 				{
                     healths.Add(hb.health);
                     hb.health.TakeDmg(damage);
+                    ability.OnHit();
 				}
 			}
 		}
-        body.isKinematic = true;
+        GetComponent<PooledObject>().Despawn();
+        explosionVfx.Play(transform.position, transform.forward,Vector3.one * radius / maxRadius);
 	}
 
-    public void Shoot(Vector3 origin, Vector3 dir, float dmg, Transform visOrigin,float rad)
+    public void Shoot(Vector3 origin, Vector3 dir, float dmg, BloodFireball ability,float rad)
     {
         
-        body.isKinematic = false;
         damage = dmg;
         transform.position = origin;
         transform.forward = dir;
         body.velocity = dir;
-        visualiser.Start(visOrigin, transform);
+        this.ability = ability;
+        visualiser.Start(ability.caster.castOrigin, transform);
         radius = rad;
     }
 	private void OnDrawGizmos()

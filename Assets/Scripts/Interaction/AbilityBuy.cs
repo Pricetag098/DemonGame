@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class AbilityBuy : ShopInteractable
 {
 	
@@ -9,6 +10,19 @@ public class AbilityBuy : ShopInteractable
     [SerializeField] List<Ability> abilities = new List<Ability>();
 	List<Ability> availablePool = new List<Ability>();
 	[SerializeField] bool singleUse;
+	[SerializeField] bool respawnOnAwake;
+	[SerializeField] AbilityGiveInteractable giveInteractable;
+	[SerializeField] GameObject body;
+
+	GameObject lastPos;
+	[SerializeField] List<GameObject> validPositions;
+	[SerializeField] Optional<VfxSpawnRequest> vanshFx;
+
+	private void Awake()
+	{
+		if(respawnOnAwake)
+			Respawn();
+	}
 	protected override bool CanBuy(Interactor interactor)
 	{
 		
@@ -37,23 +51,39 @@ public class AbilityBuy : ShopInteractable
 		Ability ability = availablePool[Random.Range(0, availablePool.Count)];
 		if(ability == null)
 		{
+			if(vanshFx.Enabled)
+				vanshFx.Value.Play(body.transform.position,body.transform.forward);
 			Respawn();
 			return;
 		}
+		giveInteractable.Open(ability);
 		
-		interactor.caster.caster.SetAbility(interactor.caster.activeIndex, Instantiate(ability));
 		if (singleUse)
 			Disable();
 	}
 
 	void Respawn()
 	{
-		transform.parent.gameObject.SetActive(false);
+		GameObject target = validPositions[Random.Range(0, validPositions.Count)];
+
+		if(lastPos is null)
+		{
+
+		}
+		else
+		{
+			lastPos.SetActive(true);
+		}
+		body.transform.position = target.transform.position;
+		body.transform.rotation = target.transform.rotation;
+		target.SetActive(false);
+		lastPos = target;
+
 	}
 
 	void Disable()
 	{
-		transform.parent.gameObject.SetActive(false);
+		body.SetActive(false);
 	}
 
 }

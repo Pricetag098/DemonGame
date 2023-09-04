@@ -16,11 +16,14 @@ public class DoorBuy : ShopInteractable
     protected override void DoBuy(Interactor interactor)
     {
         open = true;
+
+        if (area1.Enabled) area1.Value.discovered = true;
+        if (area2.Enabled) area2.Value.discovered = true;
+
         //doAnimationStuff
         transform.parent.gameObject.SetActive(false);
 
-        if(area1.Enabled) area1.Value.discovered = true;
-        if(area2.Enabled) area2.Value.discovered = true;
+        
     }
 
 }

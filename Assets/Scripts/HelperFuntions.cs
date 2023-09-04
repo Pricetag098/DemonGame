@@ -106,4 +106,36 @@ public static class HelperFuntions
     {
         return (int)curve.Evaluate(num);
     }
+
+    public static List<T> AllChildren<T>(Transform root)
+    {
+        List<T> result = new List<T>();
+        if (root.childCount > 0)
+        {
+            foreach (Transform item in root)
+            {
+                Searcher(result, item);
+            }
+        }
+
+        return result;
+    }
+
+    public static void Searcher<T>(List<T> list, Transform root)
+    {
+        if (root.TryGetComponent(out T item)) list.Add(item);
+
+        if (root.childCount > 0)
+        {
+            foreach (Transform t in root)
+            {
+                Searcher(list, t);
+            }
+        }
+    }
+
+    public static int SortByDistance(float dist1, float dist2)
+    {
+        return dist1.CompareTo(dist2);
+    }
 }

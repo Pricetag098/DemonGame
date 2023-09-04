@@ -8,6 +8,7 @@ public class Spawner : MonoBehaviour
     [HideInInspector] public Vector3 position;
     [HideInInspector] public bool CanSpawn;
     [HideInInspector] public bool Visited;
+    [HideInInspector] public float distToArea;
 
     private void Awake()
     {
@@ -33,6 +34,17 @@ public class Spawner : MonoBehaviour
 
         return false;
     }
+    public bool RequestSpawn(DemonType demon, DemonSpawner spawner, SpawnerManager sm, List<DemonBase> list, bool defaultSpawn = true)
+    {
+        if (CanSpawn == true)
+        {
+            SpawnDemon(demon, spawner.demonPool, sm.player, list, defaultSpawn);
+
+            return true;
+        }
+
+        return false;
+    }
 
     /// <summary>
     /// Spawns a Demon
@@ -46,5 +58,14 @@ public class Spawner : MonoBehaviour
         demonTemp.transform.position = position;
         DemonBase demonBase = demonTemp.GetComponent<DemonBase>();
         demonBase.OnSpawn(target, defaultSpawn);
+    }
+
+    private void SpawnDemon(DemonType demon, DemonPoolers pool, Transform target, List<DemonBase> list, bool defaultSpawn = true)
+    {
+        GameObject demonTemp = pool.demonPoolers[demon.Id].Spawn();
+        demonTemp.transform.position = position;
+        DemonBase demonBase = demonTemp.GetComponent<DemonBase>();
+        demonBase.OnSpawn(target, defaultSpawn);
+        list.Add(demonBase);
     }
 }

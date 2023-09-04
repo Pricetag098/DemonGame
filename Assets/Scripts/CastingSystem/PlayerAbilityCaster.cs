@@ -71,17 +71,16 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>
     {
         int lastActiveIndex = activeIndex;
 
-        activeIndex++;
-        if (activeIndex > caster.abilities.Length - 1)
-        {
-            activeIndex = 0;
-        }
-        if (caster.abilities[activeIndex].abilityName == caster.emptyAbility.abilityName)
+        bool done = false;
+        while(caster.abilities[activeIndex].guid == caster.emptyAbility.guid || ! done)
 		{
-            activeIndex = lastActiveIndex;
-
-            return;
-		}
+            done = true;
+            activeIndex++;
+            if (activeIndex > caster.abilities.Length - 1)
+            {
+                activeIndex = 0;
+            }
+        }
 
         caster.abilities[lastActiveIndex].DeSelect();
         

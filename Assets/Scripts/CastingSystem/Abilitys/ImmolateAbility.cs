@@ -63,7 +63,7 @@ public class ImmolateAbility : Ability
 				}
 				particles.Clear();
 
-				bool lastHits = curentDepth == maxDepth;
+				bool lastHits = curentDepth >= maxDepth;
 				Debug.Log(lastHits);
 				List<Health> newTargets = new List<Health>();
 				foreach(Health health in targets)
@@ -90,6 +90,7 @@ public class ImmolateAbility : Ability
 			return;
 		healths.Clear();
 		targets.Clear();
+		curentDepth = 0;
 		foreach(Particle particle in particles)
 		{
 			particle.obj.GetComponent<ParticleSystem>().Stop();

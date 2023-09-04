@@ -29,6 +29,13 @@ public class DemonBase : MonoBehaviour, IDemon
     [SerializeField] protected float _attackRange;
     [SerializeField] protected float _stoppingDistance;
 
+    [Header("Demon Sounds")]
+    [SerializeField] SoundPlayer _soundPlayerIdle;
+    [SerializeField] SoundPlayer _soundPlayerAttack;
+    [SerializeField] SoundPlayer _soundPlayerHit;
+    [SerializeField] SoundPlayer _soundPlayerDeath;
+    [SerializeField] SoundPlayer _soundPlayerFootsteps;
+
     [Header("AnimationCurves")]
     [SerializeField] protected AnimationCurve _moveSpeedCurve;
 

@@ -18,9 +18,11 @@ public class RitualSpawner : MonoBehaviour
 
     [Header("Demons")]
     public Queue<DemonType> DemonQueue = new Queue<DemonType>();
+    [HideInInspector] public List<DemonBase> ActiveDemons = new List<DemonBase>();
 
     private SpawnerManager manager;
     private DemonSpawner demonSpawner;
+    private Health playerHealth;
 
     private float timer;
 
@@ -39,6 +41,12 @@ public class RitualSpawner : MonoBehaviour
     {
         if(RitualActive)
         {
+            if(playerHealth.dead == true)
+            {
+                OnFailed(manager);
+            }
+
+
             Spawning(demonSpawner, manager);
         }
     }
@@ -54,7 +62,7 @@ public class RitualSpawner : MonoBehaviour
             demonsLeft = ritual.demonsToSpawn;
             demonsToSpawn = ritual.demonsToSpawn;
 
-            Debug.Log("Demon Queue count: " + DemonQueue.Count);
+            playerHealth = manager.player.GetComponent<Health>();
         }
     }
 
@@ -69,9 +77,10 @@ public class RitualSpawner : MonoBehaviour
                 timer = 0;
 
                 if (demonsLeft <= 0 && currentDemons <= 0 && demonsToSpawn <= 0)
-                {   ritualComplete = true; RitualActive = false;
-                    sm.RunDefaultSpawning = true; 
-                    sm.currentRitual = null; return; 
+                {
+                    OnComplete(sm);
+                    
+                    return; 
                 }
 
                 if (DemonQueue.Count <= 0) { return; }
@@ -90,10 +99,11 @@ public class RitualSpawner : MonoBehaviour
                 {
                     for (int i = 0; i < toSpawn; i++)
                     {
-                        if (spawner.SpawnDemonRitual(spawnPoints, this, sm))
+                        if (spawner.SpawnDemonRitual(spawnPoints, this, sm, ActiveDemons))
                         {
                             currentDemons++;
                             demonsToSpawn--;
+                            Debug.Log(ActiveDemons.Count);
                         }
                     }
                 }
@@ -101,9 +111,33 @@ public class RitualSpawner : MonoBehaviour
         }
     }
 
-    public void OnComplete()
+    public void DespawnAllActiveDemons()
     {
+        int count = ActiveDemons.Count;
 
+        for (int i = 0; i < count; i++)
+        {
+            ActiveDemons[i].OnRespawn(false);
+        }
+
+        ActiveDemons.Clear();
+    }
+
+    public void OnComplete(SpawnerManager sm)
+    {
+        ritualComplete = true;
+        RitualActive = false;
+        sm.RunDefaultSpawning = true;
+        sm.currentRitual = null;
+    }
+
+    public void OnFailed(SpawnerManager sm)
+    {
+        RitualActive = false;
+        sm.RunDefaultSpawning = true;
+        sm.currentRitual = null;
+
+        DespawnAllActiveDemons();
     }
 
     void SetDemonQueue(Wave wave)

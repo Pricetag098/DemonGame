@@ -41,11 +41,16 @@ public class DemonSpawner : MonoBehaviour
     /// </summary>
     /// <param name="player"></param>
     /// <param name="playerAgent"></param>
-    public void ActiveSpawners(Transform player, NavMeshAgent playerAgent, SpawnerManager sm)
+    //public void ActiveSpawners(Transform player, NavMeshAgent playerAgent, SpawnerManager sm)
+    //{
+    //    baseSpawnerCount = _spawners.CheckBaseSpawners(player, playerAgent);
+    //    //specialSpawnerCount = _spawners.CheckSpecialSpawners(player, playerAgent);
+    //    specialSpawnerCount = 0;
+    //}
+
+    public void ActiveSpawners(Areas Id)
     {
-        baseSpawnerCount = _spawners.CheckBaseSpawners(player, playerAgent);
-        //specialSpawnerCount = _spawners.CheckSpecialSpawners(player, playerAgent);
-        specialSpawnerCount = 0;
+        _spawners.UpdateActiveSpawners(Id);
     }
 
     /// <summary>
@@ -77,7 +82,7 @@ public class DemonSpawner : MonoBehaviour
         switch (demon.SpawnType)
         {
             case SpawnType.Basic:
-                if (baseSpawnerCount > 0)
+                if (_spawners.baseActiveSpawners.Count > 0)
                 {
                     Spawner spawner = null;
 
@@ -103,7 +108,7 @@ public class DemonSpawner : MonoBehaviour
                 }
                 break;
             case SpawnType.Special:
-                if (specialSpawnerCount > 0)
+                if (_spawners.specialActiveSpawners.Count > 0)
                 {
                     Spawner spawner = null;
 
@@ -136,7 +141,7 @@ public class DemonSpawner : MonoBehaviour
         return false;
     }
 
-    public bool SpawnDemonRitual(List<Spawner> spawnPoints, RitualSpawner ritual, SpawnerManager sm)
+    public bool SpawnDemonRitual(List<Spawner> spawnPoints, RitualSpawner ritual, SpawnerManager sm, List<DemonBase> list)
     {
         DemonType demon = null;
 
@@ -157,7 +162,7 @@ public class DemonSpawner : MonoBehaviour
 
         if (spawner is null) { ritual.DemonQueue.Enqueue(demon); return false; }
 
-        return spawner.RequestSpawn(demon, this, sm, false); ;
+        return spawner.RequestSpawn(demon, this, sm, list, false); ;
     }
 
     /// <summary>
@@ -166,5 +171,10 @@ public class DemonSpawner : MonoBehaviour
     public int DemonCount
     {
         get { return DemonQueue.Count; }
+    }
+
+    public void ResetSpawners()
+    {
+        _spawners.ResetSpawners();
     }
 }

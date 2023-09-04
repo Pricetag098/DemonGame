@@ -7,7 +7,7 @@ public class ImmolateAbility : Ability
 {
 
 	[SerializeField] int maxDepth;
-	int curentDepth;
+	int curentDepth = 0;
 	[SerializeField] float checkRad;
 	[SerializeField] float range;
 	[SerializeField] float damage;
@@ -64,6 +64,7 @@ public class ImmolateAbility : Ability
 				particles.Clear();
 
 				bool lastHits = curentDepth == maxDepth;
+				Debug.Log(lastHits);
 				List<Health> newTargets = new List<Health>();
 				foreach(Health health in targets)
 				{

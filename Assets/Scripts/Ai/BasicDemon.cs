@@ -115,7 +115,7 @@ public class BasicDemon : DemonBase
         }
         else { _health.maxHealth = _health.maxHealth * m_HealthMultiplier; }
 
-        //_moveSpeed = _moveSpeedCurve.Evaluate(round) + _baseMoveSpeed;
+        _moveSpeed = _moveSpeedCurve.Evaluate(round);
     }
 
     public override void UpdateHealthToCurrentRound(int currentRound)

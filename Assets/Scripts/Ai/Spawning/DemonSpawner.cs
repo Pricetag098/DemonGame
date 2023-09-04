@@ -82,7 +82,7 @@ public class DemonSpawner : MonoBehaviour
         switch (demon.SpawnType)
         {
             case SpawnType.Basic:
-                if (baseSpawnerCount > 0)
+                if (_spawners.baseActiveSpawners.Count > 0)
                 {
                     Spawner spawner = null;
 
@@ -108,7 +108,7 @@ public class DemonSpawner : MonoBehaviour
                 }
                 break;
             case SpawnType.Special:
-                if (specialSpawnerCount > 0)
+                if (_spawners.specialActiveSpawners.Count > 0)
                 {
                     Spawner spawner = null;
 
@@ -171,5 +171,10 @@ public class DemonSpawner : MonoBehaviour
     public int DemonCount
     {
         get { return DemonQueue.Count; }
+    }
+
+    public void ResetSpawners()
+    {
+        _spawners.ResetSpawners();
     }
 }

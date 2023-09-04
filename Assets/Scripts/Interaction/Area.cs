@@ -5,7 +5,7 @@ using UnityEngine;
 public class Area : MonoBehaviour
 {
     public Areas AreaId;
-    [SerializeField] bool discovered;
+    public bool discovered;
     public int baseDepth;
     public int specialDepth;
     [HideInInspector] public Vector3 position;

@@ -19,8 +19,8 @@ public class DoorBuy : ShopInteractable
         //doAnimationStuff
         transform.parent.gameObject.SetActive(false);
 
-        //if(area1.Enabled) area1.Value.SpawnLocations();
-        //if(area2.Enabled) area2.Value.SpawnLocations();
+        if(area1.Enabled) area1.Value.discovered = true;
+        if(area2.Enabled) area2.Value.discovered = true;
     }
 
 }

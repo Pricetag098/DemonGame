@@ -58,8 +58,6 @@ public class SpawnerManager : MonoBehaviour
         RunDefaultSpawning = true;
 
         WaveStart();
-
-        //DemonSpawner.ActiveSpawners(player, playerAgent, this);
     }
 
     private void Update()
@@ -109,7 +107,7 @@ public class SpawnerManager : MonoBehaviour
 
                     if (toSpawn > 0)
                     {
-                        //DemonSpawner.ActiveSpawners(player, playerAgent, this); // if demoms to spawn check spawners
+                        DemonSpawner.ResetSpawners();
 
                         for (int i = 0; i < toSpawn; i++)
                         {

@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Bson;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -80,7 +81,6 @@ public class DemonBase : MonoBehaviour, IDemon
     private void Update()
     {
         Tick();
-        LookAt(_agent.enabled);
     }
 
     public virtual void OnAwakened() { }
@@ -94,8 +94,14 @@ public class DemonBase : MonoBehaviour, IDemon
         _agent.stoppingDistance = _stoppingDistance;
     }
     public virtual void Tick() { }
-    public virtual void OnAttack() { }
-    public virtual void OnHit() { } 
+    public virtual void OnAttack()
+    {
+        PlaySoundAttack();
+    }
+    public virtual void OnHit()
+    {
+        PlaySoundHit();
+    } 
     public virtual void PathFinding(bool canPath) { }
     public virtual void OnDeath()
     {
@@ -107,6 +113,8 @@ public class DemonBase : MonoBehaviour, IDemon
         _spawner.ActiveDemons.Remove(this);
 
         _animator.SetTrigger("Death");
+
+        PlaySoundDeath();
     }
     public virtual void OnSpawn(Transform target, bool defaultSpawn = true)
     {
@@ -116,7 +124,9 @@ public class DemonBase : MonoBehaviour, IDemon
 
         _spawner.ActiveDemons.Add(this);
 
-        transform.rotation = Quaternion.identity;
+        //transform.rotation = Quaternion.identity;
+
+        PlaySoundIdle();
     }
     public virtual void OnBuff() { }
     public virtual void OnRespawn(bool defaultDespawn = true)
@@ -136,36 +146,9 @@ public class DemonBase : MonoBehaviour, IDemon
     public virtual void DetectPlayer(bool active) { }
     public virtual void UpdateHealthToCurrentRound(int currentRound) { }
 
-    private List<Collider> AllChildren(Transform root)
-    {
-        List<Collider> result = new List<Collider>();
-        if(transform.childCount > 0)
-        {
-            foreach(Transform item in root)
-            {
-                Searcher(result, item);
-            }
-        }
-
-        return result;
-    }
-
-    private void Searcher(List<Collider> list, Transform root)
-    {
-        if(root.TryGetComponent(out Collider col)) list.Add(col);
-
-        if(root.childCount > 0)
-        {
-            foreach(Transform item in root)
-            {
-                Searcher(list, item);
-            }
-        }
-    }
-
     protected Collider[] GetAllColliders()
     {
-        return AllChildren(transform).ToArray();
+        return HelperFuntions.AllChildren<Collider>(transform).ToArray();
     }
 
     protected void SetAllColliders(bool active)
@@ -176,13 +159,6 @@ public class DemonBase : MonoBehaviour, IDemon
         }
     }
 
-    protected void LookAt(bool active)
-    {
-        if(active == true)
-        {
-            
-        }
-    }
     protected void OnFinishedSpawnAnimation() 
     {
         _agent.speed = _moveSpeed;
@@ -199,6 +175,30 @@ public class DemonBase : MonoBehaviour, IDemon
         _animator.SetTrigger(trigger);
     }
 
+    protected void PlaySoundIdle()
+    {
+        _soundPlayerIdle.Play();
+    }
+
+    protected void PlaySoundAttack()
+    {
+        _soundPlayerAttack.Play();
+    }
+
+    protected void PlaySoundHit()
+    {
+        _soundPlayerHit.Play();
+    }
+
+    protected void PlaySoundDeath()
+    {
+        _soundPlayerDeath.Play();
+    }
+
+    protected void PlaySoundFootStep()
+    {
+        _soundPlayerFootsteps.Play();
+    }
 
     #region Properties
     protected float DistanceToTargetNavmesh // gets path distance remaining to target

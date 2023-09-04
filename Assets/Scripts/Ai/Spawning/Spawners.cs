@@ -6,18 +6,9 @@ using UnityEngine.AI;
 
 public class Spawners : MonoBehaviour
 {
-    [Header("Distance Checks")]
-    [SerializeField] float maxPathingDistance;
-    [SerializeField] float maxSpawningDistance;
-
     [Header("Spawn Location")]
-    [SerializeField] Transform baseSpawner;
-    public List<Spawner> baseActiveSpawners = new List<Spawner>();
-    public List<Spawner> baseSpawners = new List<Spawner>();
-
-    [SerializeField] Transform SpecialSpawner;
-    public List<Spawner> specialActiveSpawners = new List<Spawner>();
-    public List<Spawner> specialSpawners = new List<Spawner>();
+    [HideInInspector] public List<Spawner> baseSpawners = new List<Spawner>();
+    [HideInInspector] public List<Spawner> specialSpawners = new List<Spawner>();
 
     private DetectArea areaInfo;
     private Areas currentArea;
@@ -55,17 +46,17 @@ public class Spawners : MonoBehaviour
 
             Area area = AreaDictionary[Id];
 
-            baseActiveSpawners.Clear();
-            specialActiveSpawners.Clear();
+            baseSpawners.Clear();
+            specialSpawners.Clear();
 
             foreach(Spawner s in area.baseSpawns)
             {
-                baseActiveSpawners.Add(s);
+                baseSpawners.Add(s);
             }
 
             foreach (Spawner s in area.specialSpawns)
             {
-                specialActiveSpawners.Add(s);
+                specialSpawners.Add(s);
             }
 
             foreach (Area a in area.AdjacentAreas)
@@ -83,9 +74,12 @@ public class Spawners : MonoBehaviour
 
                         clostSpawners.Sort((p1, p2) => p1.distToArea.CompareTo(p2.distToArea));
 
-                        for (int i = 0; i < a.baseDepth; i++)
+                        int num = clostSpawners.Count;
+                        if (num > a.baseDepth) { num = a.baseDepth; }
+
+                        for (int i = 0; i < num; i++)
                         {
-                            baseActiveSpawners.Add(clostSpawners[i]);
+                            baseSpawners.Add(clostSpawners[i]);
                         }
                     }
                     if (area.specialDepth > 0)
@@ -99,26 +93,29 @@ public class Spawners : MonoBehaviour
 
                         clostSpawners.Sort((p1, p2) => p1.distToArea.CompareTo(p2.distToArea));
 
-                        for (int i = 0; i < a.baseDepth; i++)
+                        int num = clostSpawners.Count;
+                        if (num > a.specialDepth) { num = a.specialDepth; }
+
+                        for (int i = 0; i < num; i++)
                         {
-                            specialActiveSpawners.Add(clostSpawners[i]);
+                            specialSpawners.Add(clostSpawners[i]);
                         }
                     }
                 }
             }
 
-            baseActiveSpawners = HelperFuntions.ShuffleList(baseActiveSpawners);
-            specialActiveSpawners = HelperFuntions.ShuffleList(specialActiveSpawners);
+            baseSpawners = HelperFuntions.ShuffleList(baseSpawners);
+            specialSpawners = HelperFuntions.ShuffleList(specialSpawners);
         }
     }
 
     public void ResetSpawners()
     {
-        foreach(Spawner s in baseActiveSpawners)
+        foreach(Spawner s in baseSpawners)
         {
             s.Visited = false;
         }
-        foreach (Spawner s in specialActiveSpawners)
+        foreach (Spawner s in specialSpawners)
         {
             s.Visited = false;
         }
@@ -127,14 +124,14 @@ public class Spawners : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.magenta;
-        foreach (var spawner in baseActiveSpawners)
+        foreach (var spawner in baseSpawners)
         {
             
             Gizmos.DrawCube(spawner.position, new Vector3(2, 2, 2));
         }
 
         Gizmos.color = Color.blue;
-        foreach (var spawner in specialActiveSpawners)
+        foreach (var spawner in specialSpawners)
         {
             
             Gizmos.DrawCube(spawner.position, new Vector3(2, 2, 2));

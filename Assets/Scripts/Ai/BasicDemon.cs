@@ -38,6 +38,8 @@ public class BasicDemon : DemonBase
     }
     public override void OnAttack()
     {
+        base.OnAttack();
+
         // deal damage
         if(Vector3.Distance(_target.position,transform.position) < _attackRange)
             _target.GetComponent<Health>().TakeDmg(_damage);
@@ -75,6 +77,7 @@ public class BasicDemon : DemonBase
     }
     public override void OnHit()
     {
+        base.OnHit();
         // do hit stuff
     }
 

@@ -1,5 +1,21 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-825973827249294523
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da692e001514ec24dbc4cca1949ff7e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 12
+  hdPluginSubTargetMaterialVersions:
+    m_Keys: []
+    m_Values: 
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -7,18 +23,20 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BloodTest
+  m_Name: bloodwalls
   m_Shader: {fileID: -6465566751694194690, guid: 10fc58155462d654783afc3abeb882f5, type: 3}
   m_ValidKeywords:
+  - _ALPHATEST_ON
   - _DISABLE_SSR_TRANSPARENT
-  m_InvalidKeywords:
-  - _NORMALMAP_TANGENT_SPACE
+  - _DOUBLESIDED_ON
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 1
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2225
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 1
+  m_CustomRenderQueue: 2475
   stringTagMap:
     MotionVector: User
+    RenderType: TransparentCutout
   disabledShaderPasses:
   - TransparentDepthPrepass
   - TransparentDepthPostpass
@@ -43,30 +61,30 @@ Material:
     m_Ints: []
     m_Floats:
     - _AddPrecomputedVelocity: 0
-    - _AlphaCutoffEnable: 0
+    - _AlphaCutoffEnable: 1
     - _AlphaDstBlend: 0
     - _AlphaSrcBlend: 1
     - _AlphaToMask: 0
     - _AlphaToMaskInspectorValue: 0
     - _BlendMode: 0
     - _Blood_Metallic: 0
-    - _Blood_Smoothness: 0.72
+    - _Blood_Smoothness: 0
     - _ConservativeDepthOffsetEnable: 0
-    - _CullMode: 2
-    - _CullModeForward: 2
+    - _CullMode: 0
+    - _CullModeForward: 0
     - _DepthOffsetEnable: 0
-    - _DoubleSidedEnable: 0
+    - _DoubleSidedEnable: 1
     - _DoubleSidedGIMode: 0
     - _DoubleSidedNormalMode: 2
     - _DstBlend: 0
-    - _Emission_Intensity: 0.95
+    - _Emission_Intensity: 1
     - _EnableBlendModePreserveSpecularLighting: 1
     - _EnableFogOnTransparent: 1
     - _FresnelPower: 1
     - _Material_2_Emission_Intensity: 1
-    - _Material_2_Metalic: 0.62
-    - _Material_2_Smoothness: 0.54
-    - _Normal_Strength: 0.03
+    - _Material_2_Metalic: 0
+    - _Material_2_Smoothness: 0
+    - _Normal_Strength: 0.05
     - _OpaqueCullMode: 2
     - _RayTracing: 0
     - _ReceivesSSR: 1
@@ -87,8 +105,8 @@ Material:
     - _StencilWriteMaskMV: 40
     - _SupportDecals: 1
     - _SurfaceType: 0
-    - _Texture_1_Scale: 2.11
-    - _Texture_2_Scale: 4.17
+    - _Texture_1_Scale: 10
+    - _Texture_2_Scale: 10
     - _TransparentBackfaceEnable: 0
     - _TransparentCullMode: 2
     - _TransparentDepthPostpassEnable: 0
@@ -98,39 +116,23 @@ Material:
     - _TransparentZWrite: 0
     - _UseShadowThreshold: 0
     - _ZTestDepthEqualForOpaque: 3
-    - _ZTestGBuffer: 4
+    - _ZTestGBuffer: 3
     - _ZTestTransparent: 4
     - _ZWrite: 1
     - _time: 1
     m_Colors:
     - _Blood_Colour_1: {r: 1, g: 0, b: 0, a: 0}
     - _Blood_Colour_2: {r: 0.19811317, g: 0, b: 0, a: 0}
-    - _Blood_Direction_Texture_1: {r: -0.4, g: -0.96, b: 0, a: 0}
-    - _Blood_Direction_Texture_2: {r: 0.08, g: -0.44, b: 0, a: 0}
-    - _Blood_Position: {r: 0.32, g: 0.76, b: 0, a: 0}
-    - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
+    - _Blood_Direction_Texture_1: {r: 0, g: 0, b: 0, a: 0}
+    - _Blood_Direction_Texture_2: {r: 0, g: 0, b: 0, a: 0}
+    - _Blood_Position: {r: 1.58, g: -1.76, b: 0, a: 0}
+    - _DoubleSidedConstants: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Emission_Colour: {r: 0.2924528, g: 0, b: 0, a: 0}
-    - _Material_2_Colour: {r: 0.14150941, g: 0, b: 0, a: 0}
+    - _Emission_Colour: {r: 0, g: 0, b: 0, a: 0}
+    - _Material_2_Colour: {r: 0, g: 0, b: 0, a: 0}
     - _Material_2_Emission: {r: 0, g: 0, b: 0, a: 0}
-    - _Texture_1_Min_Max: {r: 0.11, g: 0.77, b: 0, a: 0}
-    - _Texture_2_Min_Max: {r: -0.08, g: 1, b: 0, a: 0}
-    - _Tilling_Texture_1: {r: 2.38, g: 1.21, b: 0, a: 0}
-    - _Tilling_Texture_2: {r: 5.63, g: 2.71, b: 0, a: 0}
+    - _Texture_1_Min_Max: {r: 0, g: 1, b: 0, a: 0}
+    - _Texture_2_Min_Max: {r: 0, g: 1, b: 0, a: 0}
+    - _Tilling_Texture_1: {r: 1, g: 0.5, b: 0, a: 0}
+    - _Tilling_Texture_2: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &3538532283378729178
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da692e001514ec24dbc4cca1949ff7e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 12
-  hdPluginSubTargetMaterialVersions:
-    m_Keys: []
-    m_Values: 

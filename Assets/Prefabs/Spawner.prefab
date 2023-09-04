@@ -46,7 +46,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1708a0678b08a7248b02e1770941d1b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AreaId: 0
   discovered: 0
+  baseDepth: 0
+  specialDepth: 0
+  position: {x: 0, y: 0, z: 0}
   baseSpawns:
   - {fileID: 5594620702747641291}
   - {fileID: 8817067210071064214}
@@ -55,6 +59,7 @@ MonoBehaviour:
   - {fileID: 5388075571247011488}
   - {fileID: 0}
   - {fileID: 0}
+  AdjacentAreas: []
 --- !u!1 &260624636215918417
 GameObject:
   m_ObjectHideFlags: 0
@@ -134,6 +139,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &1015713323323799026
 GameObject:
   m_ObjectHideFlags: 0
@@ -181,6 +187,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &1039170686790354784
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,6 +270,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &1618712315857352376
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,6 +352,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &2117226414824271041
 GameObject:
   m_ObjectHideFlags: 0
@@ -423,6 +432,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &3072147336136444166
 GameObject:
   m_ObjectHideFlags: 0
@@ -470,6 +480,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &3128549696793654696
 GameObject:
   m_ObjectHideFlags: 0
@@ -500,7 +511,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3104297221734083458}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3339546803957769097
 MonoBehaviour:
@@ -517,6 +528,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &3354120488848280456
 GameObject:
   m_ObjectHideFlags: 0
@@ -547,7 +559,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3104297221734083458}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8890227360156131137
 MonoBehaviour:
@@ -564,6 +576,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &3556674562167652199
 GameObject:
   m_ObjectHideFlags: 0
@@ -594,7 +607,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3104297221734083458}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8569958755887764776
 MonoBehaviour:
@@ -611,6 +624,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &3841799994245078961
 GameObject:
   m_ObjectHideFlags: 0
@@ -641,7 +655,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3104297221734083458}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7482499192193026243
 MonoBehaviour:
@@ -658,6 +672,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &3875393358749397579
 GameObject:
   m_ObjectHideFlags: 0
@@ -688,7 +703,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3104297221734083458}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2029974467775654625
 MonoBehaviour:
@@ -705,6 +720,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &3933081936609102540
 GameObject:
   m_ObjectHideFlags: 0
@@ -788,6 +804,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &4437795467818544283
 GameObject:
   m_ObjectHideFlags: 0
@@ -835,6 +852,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &4600146473661406631
 GameObject:
   m_ObjectHideFlags: 0
@@ -881,7 +899,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1708a0678b08a7248b02e1770941d1b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AreaId: 0
   discovered: 0
+  baseDepth: 0
+  specialDepth: 0
+  position: {x: 0, y: 0, z: 0}
   baseSpawns:
   - {fileID: 6899571400840790907}
   - {fileID: 3706490708045863022}
@@ -890,6 +912,7 @@ MonoBehaviour:
   - {fileID: 7389989755103047504}
   - {fileID: 2557060718532532502}
   - {fileID: 7423218110557239765}
+  AdjacentAreas: []
 --- !u!1 &4786174539294031245
 GameObject:
   m_ObjectHideFlags: 0
@@ -937,6 +960,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &4980313983662974274
 GameObject:
   m_ObjectHideFlags: 0
@@ -983,9 +1007,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1708a0678b08a7248b02e1770941d1b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AreaId: 0
   discovered: 0
+  baseDepth: 0
+  specialDepth: 0
+  position: {x: 0, y: 0, z: 0}
   baseSpawns:
-  - {fileID: 4502594472340919631}
+  - {fileID: 0}
   - {fileID: 4275212818213158829}
   - {fileID: 0}
   - {fileID: 8890227360156131137}
@@ -1003,6 +1031,7 @@ MonoBehaviour:
   - {fileID: 7031046448074326924}
   - {fileID: 0}
   - {fileID: 0}
+  AdjacentAreas: []
 --- !u!1 &5170099028004217134
 GameObject:
   m_ObjectHideFlags: 0
@@ -1049,7 +1078,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1708a0678b08a7248b02e1770941d1b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AreaId: 0
   discovered: 0
+  baseDepth: 0
+  specialDepth: 0
+  position: {x: 0, y: 0, z: 0}
   baseSpawns:
   - {fileID: 8270830905087400279}
   - {fileID: 4282764457497112841}
@@ -1060,6 +1093,7 @@ MonoBehaviour:
   - {fileID: 3182016419988849870}
   - {fileID: 0}
   - {fileID: 0}
+  AdjacentAreas: []
 --- !u!1 &5233914692698565747
 GameObject:
   m_ObjectHideFlags: 0
@@ -1107,6 +1141,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &5340828379408271866
 GameObject:
   m_ObjectHideFlags: 0
@@ -1188,6 +1223,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &5684961630111720009
 GameObject:
   m_ObjectHideFlags: 0
@@ -1218,7 +1254,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3104297221734083458}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8678195093033589659
 MonoBehaviour:
@@ -1235,6 +1271,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &5983711119095549004
 GameObject:
   m_ObjectHideFlags: 0
@@ -1282,6 +1319,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6045778181005160217
 GameObject:
   m_ObjectHideFlags: 0
@@ -1361,6 +1399,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6417567310675581579
 GameObject:
   m_ObjectHideFlags: 0
@@ -1445,6 +1484,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374608436432300
 GameObject:
   m_ObjectHideFlags: 0
@@ -1492,6 +1532,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374608459639139
 GameObject:
   m_ObjectHideFlags: 0
@@ -1539,6 +1580,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374608459680380
 GameObject:
   m_ObjectHideFlags: 0
@@ -1585,7 +1627,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1708a0678b08a7248b02e1770941d1b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AreaId: 0
   discovered: 0
+  baseDepth: 0
+  specialDepth: 0
+  position: {x: 0, y: 0, z: 0}
   baseSpawns:
   - {fileID: 3099475253699539981}
   - {fileID: 4611197868674051090}
@@ -1595,6 +1641,7 @@ MonoBehaviour:
   - {fileID: 7158446146039787323}
   - {fileID: 1657030038256491924}
   - {fileID: 45976759596400198}
+  AdjacentAreas: []
 --- !u!1 &6430374608661339565
 GameObject:
   m_ObjectHideFlags: 0
@@ -1641,7 +1688,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1708a0678b08a7248b02e1770941d1b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AreaId: 0
   discovered: 0
+  baseDepth: 0
+  specialDepth: 0
+  position: {x: 0, y: 0, z: 0}
   baseSpawns:
   - {fileID: 7355878051164153846}
   - {fileID: 5782294919959026263}
@@ -1658,6 +1709,7 @@ MonoBehaviour:
   - {fileID: 544898808183972674}
   - {fileID: 5362604072069817732}
   - {fileID: 4272500114583273711}
+  AdjacentAreas: []
 --- !u!1 &6430374608662022513
 GameObject:
   m_ObjectHideFlags: 0
@@ -1705,6 +1757,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374608664867654
 GameObject:
   m_ObjectHideFlags: 0
@@ -1752,6 +1805,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374608669338234
 GameObject:
   m_ObjectHideFlags: 0
@@ -1799,6 +1853,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374608777354124
 GameObject:
   m_ObjectHideFlags: 0
@@ -1886,6 +1941,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374608826152949
 GameObject:
   m_ObjectHideFlags: 0
@@ -1933,6 +1989,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374608856042749
 GameObject:
   m_ObjectHideFlags: 0
@@ -1980,6 +2037,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374608865283596
 GameObject:
   m_ObjectHideFlags: 0
@@ -2101,6 +2159,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374609017169179
 GameObject:
   m_ObjectHideFlags: 0
@@ -2148,6 +2207,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374609041375084
 GameObject:
   m_ObjectHideFlags: 0
@@ -2195,6 +2255,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374609176218775
 GameObject:
   m_ObjectHideFlags: 0
@@ -2242,6 +2303,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374609181448419
 GameObject:
   m_ObjectHideFlags: 0
@@ -2289,6 +2351,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374609241609125
 GameObject:
   m_ObjectHideFlags: 0
@@ -2336,6 +2399,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374609327335974
 GameObject:
   m_ObjectHideFlags: 0
@@ -2383,6 +2447,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374609356207486
 GameObject:
   m_ObjectHideFlags: 0
@@ -2430,6 +2495,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374609377466529
 GameObject:
   m_ObjectHideFlags: 0
@@ -2477,6 +2543,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374609381074771
 GameObject:
   m_ObjectHideFlags: 0
@@ -2524,6 +2591,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374609415487055
 GameObject:
   m_ObjectHideFlags: 0
@@ -2609,6 +2677,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374609508936488
 GameObject:
   m_ObjectHideFlags: 0
@@ -2667,7 +2736,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaveManager: {fileID: 0}
   DemonSpawner: {fileID: 0}
-  currentRitual: {fileID: 0}
   player: {fileID: 0}
   playerAgent: {fileID: 0}
   canSpawn: 0
@@ -2690,27 +2758,27 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 10
-      value: 32
-      inSlope: 2.4736843
-      outSlope: 2.4736843
+      value: 40
+      inSlope: 3.5263157
+      outSlope: 3.5263157
       tangentMode: 0
       weightedMode: 0
       inWeight: 1
       outWeight: 1
     - serializedVersion: 3
       time: 20
-      value: 55
-      inSlope: 3.9
-      outSlope: 3.9
+      value: 75
+      inSlope: 4
+      outSlope: 4
       tangentMode: 0
       weightedMode: 0
       inWeight: 1
       outWeight: 1
     - serializedVersion: 3
       time: 30
-      value: 110
-      inSlope: 6.75
-      outSlope: 6.75
+      value: 120
+      inSlope: 5.75
+      outSlope: 5.75
       tangentMode: 0
       weightedMode: 0
       inWeight: 1
@@ -2718,8 +2786,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 40
       value: 190
-      inSlope: 7.5
-      outSlope: 7.5
+      inSlope: 7
+      outSlope: 7
       tangentMode: 0
       weightedMode: 0
       inWeight: 1
@@ -2784,8 +2852,9 @@ MonoBehaviour:
   EndOfRound: 0
   StartOfRound: 0
   RunDefaultSpawning: 0
-  RitualSpawning: 0
   Rituals: []
+  RitualIndex: 0
+  currentRitual: {fileID: 0}
 --- !u!114 &4703380939243015096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2853,6 +2922,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3744ca0343aa3af48995031f77e2139a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ActiveDemons: []
   demonPool: {fileID: 0}
 --- !u!1 &6430374609531960352
 GameObject:
@@ -2901,6 +2971,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374609564317025
 GameObject:
   m_ObjectHideFlags: 0
@@ -2947,7 +3018,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1708a0678b08a7248b02e1770941d1b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AreaId: 0
   discovered: 0
+  baseDepth: 0
+  specialDepth: 0
+  position: {x: 0, y: 0, z: 0}
   baseSpawns:
   - {fileID: 2642840162598155508}
   - {fileID: 5560744574998741192}
@@ -2963,6 +3038,7 @@ MonoBehaviour:
   - {fileID: 8081204047005721358}
   - {fileID: 3183164637272511211}
   - {fileID: 2014008168024948833}
+  AdjacentAreas: []
 --- !u!1 &6430374609578963070
 GameObject:
   m_ObjectHideFlags: 0
@@ -3010,6 +3086,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374609634462312
 GameObject:
   m_ObjectHideFlags: 0
@@ -3057,6 +3134,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374609717427520
 GameObject:
   m_ObjectHideFlags: 0
@@ -3104,6 +3182,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374609770153302
 GameObject:
   m_ObjectHideFlags: 0
@@ -3151,6 +3230,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374609796788987
 GameObject:
   m_ObjectHideFlags: 0
@@ -3198,6 +3278,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374609851852962
 GameObject:
   m_ObjectHideFlags: 0
@@ -3245,6 +3326,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374609855478265
 GameObject:
   m_ObjectHideFlags: 0
@@ -3292,6 +3374,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374609872866563
 GameObject:
   m_ObjectHideFlags: 0
@@ -3339,6 +3422,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374610053617303
 GameObject:
   m_ObjectHideFlags: 0
@@ -3386,6 +3470,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374610058811798
 GameObject:
   m_ObjectHideFlags: 0
@@ -3433,6 +3518,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374610067618227
 GameObject:
   m_ObjectHideFlags: 0
@@ -3480,6 +3566,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374610153691407
 GameObject:
   m_ObjectHideFlags: 0
@@ -3527,6 +3614,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374610184087311
 GameObject:
   m_ObjectHideFlags: 0
@@ -3574,6 +3662,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374610204834672
 GameObject:
   m_ObjectHideFlags: 0
@@ -3621,6 +3710,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374610257710453
 GameObject:
   m_ObjectHideFlags: 0
@@ -3668,6 +3758,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374610270969634
 GameObject:
   m_ObjectHideFlags: 0
@@ -3785,6 +3876,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374610430305718
 GameObject:
   m_ObjectHideFlags: 0
@@ -3832,6 +3924,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6430374610443500894
 GameObject:
   m_ObjectHideFlags: 0
@@ -3879,6 +3972,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6507665882987937547
 GameObject:
   m_ObjectHideFlags: 0
@@ -3926,6 +4020,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &6815188556185408811
 GameObject:
   m_ObjectHideFlags: 0
@@ -3973,6 +4068,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &7003887603378656123
 GameObject:
   m_ObjectHideFlags: 0
@@ -4019,7 +4115,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1708a0678b08a7248b02e1770941d1b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AreaId: 0
   discovered: 0
+  baseDepth: 0
+  specialDepth: 0
+  position: {x: 0, y: 0, z: 0}
   baseSpawns:
   - {fileID: 8499481209446125209}
   - {fileID: 1435430490266202195}
@@ -4031,6 +4131,7 @@ MonoBehaviour:
   - {fileID: 8007996929296236338}
   - {fileID: 0}
   - {fileID: 0}
+  AdjacentAreas: []
 --- !u!1 &7025297569704461632
 GameObject:
   m_ObjectHideFlags: 0
@@ -4078,6 +4179,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &7310922899027223558
 GameObject:
   m_ObjectHideFlags: 0
@@ -4106,7 +4208,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 9115112675874024409}
   - {fileID: 7595385523480161}
   - {fileID: 762449374880307290}
   - {fileID: 1769748139095476812}
@@ -4151,7 +4252,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3104297221734083458}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4275212818213158829
 MonoBehaviour:
@@ -4168,6 +4269,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &7621722252600522442
 GameObject:
   m_ObjectHideFlags: 0
@@ -4198,7 +4300,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3104297221734083458}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6154257925649005435
 MonoBehaviour:
@@ -4215,6 +4317,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &7734396353288915598
 GameObject:
   m_ObjectHideFlags: 0
@@ -4262,6 +4365,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &7802688721648215330
 GameObject:
   m_ObjectHideFlags: 0
@@ -4309,53 +4413,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
---- !u!1 &8349684489245076195
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 9115112675874024409}
-  - component: {fileID: 4502594472340919631}
-  m_Layer: 0
-  m_Name: SpawnPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &9115112675874024409
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8349684489245076195}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.75, y: 0, z: 7.34}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3104297221734083458}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4502594472340919631
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8349684489245076195}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15d887201bb72ec4da41a616e4c3d576, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  position: {x: 0, y: 0, z: 0}
-  CanSpawn: 0
-  Visited: 0
+  distToArea: 0
 --- !u!1 &8611165753205721210
 GameObject:
   m_ObjectHideFlags: 0
@@ -4418,7 +4476,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3104297221734083458}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7402867493188884870
 MonoBehaviour:
@@ -4435,6 +4493,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &8633011265453176862
 GameObject:
   m_ObjectHideFlags: 0
@@ -4465,7 +4524,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3104297221734083458}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &353349273870735616
 MonoBehaviour:
@@ -4482,6 +4541,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &8697008032464157797
 GameObject:
   m_ObjectHideFlags: 0
@@ -4529,6 +4589,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &8709543671294611672
 GameObject:
   m_ObjectHideFlags: 0
@@ -4559,7 +4620,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3104297221734083458}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9221962208319217779
 MonoBehaviour:
@@ -4576,6 +4637,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &8833656882603493896
 GameObject:
   m_ObjectHideFlags: 0
@@ -4623,6 +4685,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &8898033399908085946
 GameObject:
   m_ObjectHideFlags: 0
@@ -4670,6 +4733,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0
 --- !u!1 &9026725127290446606
 GameObject:
   m_ObjectHideFlags: 0
@@ -4717,3 +4781,4 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   CanSpawn: 0
   Visited: 0
+  distToArea: 0

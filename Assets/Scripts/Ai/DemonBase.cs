@@ -29,6 +29,13 @@ public class DemonBase : MonoBehaviour, IDemon
     [SerializeField] protected float _attackRange;
     [SerializeField] protected float _stoppingDistance;
 
+    [Header("Demon Sounds")]
+    [SerializeField] SoundPlayer _soundPlayerIdle;
+    [SerializeField] SoundPlayer _soundPlayerAttack;
+    [SerializeField] SoundPlayer _soundPlayerHit;
+    [SerializeField] SoundPlayer _soundPlayerDeath;
+    [SerializeField] SoundPlayer _soundPlayerFootsteps;
+
     [Header("AnimationCurves")]
     [SerializeField] protected AnimationCurve _moveSpeedCurve;
 
@@ -36,7 +43,7 @@ public class DemonBase : MonoBehaviour, IDemon
     protected Animator _animator;
 
     [Header("Collider")]
-    //protected Collider _collider;
+    protected Collider[] _colliders;
 
     [Header("Rigidbody")]
     protected Rigidbody _rb;
@@ -57,7 +64,7 @@ public class DemonBase : MonoBehaviour, IDemon
         _agent = GetComponent<NavMeshAgent>();
         _health = GetComponent<Health>();
         _animator = GetComponent<Animator>();
-        //_collider = GetComponent<Collider>();
+        _colliders = GetAllColliders();
         _rb = GetComponent<Rigidbody>();
         _spawner = FindObjectOfType<DemonSpawner>();
         _spawnerManager = FindObjectOfType<SpawnerManager>();
@@ -90,26 +97,90 @@ public class DemonBase : MonoBehaviour, IDemon
     public virtual void OnAttack() { }
     public virtual void OnHit() { } 
     public virtual void PathFinding(bool canPath) { }
-    public virtual void OnDeath() { }
+    public virtual void OnDeath()
+    {
+        _agent.speed = 0;
+        _agent.enabled = false;
+
+        SetAllColliders(false);
+
+        _spawner.ActiveDemons.Remove(this);
+
+        _animator.SetTrigger("Death");
+    }
     public virtual void OnSpawn(Transform target, bool defaultSpawn = true)
     {
         _agent.speed = 0;
         _agent.enabled = true;
-        //_collider.enabled = true;
+        SetAllColliders(true);
+
+        _spawner.ActiveDemons.Add(this);
+
         transform.rotation = Quaternion.identity;
     }
     public virtual void OnBuff() { }
-    public virtual void OnRespawn() { }
+    public virtual void OnRespawn(bool defaultDespawn = true)
+    {
+        _agent.speed = 0;
+        _agent.enabled = false;
+
+        SetAllColliders(false);
+
+        _spawner.AddDemonBackToPool(_type, _spawnerManager);
+
+        if(defaultDespawn == true) _spawner.ActiveDemons.Remove(this);
+
+        _pooledObject.Despawn();
+    }
     public virtual void CalculateStats(int round) { }
     public virtual void DetectPlayer(bool active) { }
     public virtual void UpdateHealthToCurrentRound(int currentRound) { }
+
+    private List<Collider> AllChildren(Transform root)
+    {
+        List<Collider> result = new List<Collider>();
+        if(transform.childCount > 0)
+        {
+            foreach(Transform item in root)
+            {
+                Searcher(result, item);
+            }
+        }
+
+        return result;
+    }
+
+    private void Searcher(List<Collider> list, Transform root)
+    {
+        if(root.TryGetComponent(out Collider col)) list.Add(col);
+
+        if(root.childCount > 0)
+        {
+            foreach(Transform item in root)
+            {
+                Searcher(list, item);
+            }
+        }
+    }
+
+    protected Collider[] GetAllColliders()
+    {
+        return AllChildren(transform).ToArray();
+    }
+
+    protected void SetAllColliders(bool active)
+    {
+        foreach(Collider c in _colliders)
+        {
+            c.enabled = active;
+        }
+    }
 
     protected void LookAt(bool active)
     {
         if(active == true)
         {
-            //if (_agent.velocity != Vector3.zero) 
-            //transform.rotation = Quaternion.LookRotation(new Vector3(_agent.velocity.x, 0f, _agent.velocity.z));
+            
         }
     }
     protected void OnFinishedSpawnAnimation() 
@@ -121,7 +192,6 @@ public class DemonBase : MonoBehaviour, IDemon
         _pooledObject.Despawn();
 
         if(ritualSpawn == false) { _spawnerManager.DemonKilled(); }
-        else { _spawnerManager.currentRitual.currentDemons--; }
     }
 
     public void PlayAnimation(string trigger)

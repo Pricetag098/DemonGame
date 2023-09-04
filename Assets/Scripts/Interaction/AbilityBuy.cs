@@ -10,12 +10,19 @@ public class AbilityBuy : ShopInteractable
     [SerializeField] List<Ability> abilities = new List<Ability>();
 	List<Ability> availablePool = new List<Ability>();
 	[SerializeField] bool singleUse;
+	[SerializeField] bool respawnOnAwake;
 	[SerializeField] AbilityGiveInteractable giveInteractable;
 	[SerializeField] GameObject body;
 
 	GameObject lastPos;
 	[SerializeField] List<GameObject> validPositions;
 	[SerializeField] Optional<VfxSpawnRequest> vanshFx;
+
+	private void Awake()
+	{
+		if(respawnOnAwake)
+		Respawn();
+	}
 	protected override bool CanBuy(Interactor interactor)
 	{
 		

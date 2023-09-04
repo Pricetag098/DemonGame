@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>
 {
     [SerializeField] CanvasGroup canvasGroup;
@@ -29,6 +30,10 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>
             StartCoroutine(DoDie());
             respawnsLeft--;
         }
+		else
+		{
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+		}
         
 	}
 

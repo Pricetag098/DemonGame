@@ -79,4 +79,5 @@ public class BloodFireball : Ability
             caster.playerStats.Value.GainPoints(points);
 	}
 
+    
 }

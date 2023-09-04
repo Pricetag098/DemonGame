@@ -13,7 +13,7 @@ public class SpawnerManager : MonoBehaviour
 {
     [HideInInspector] public WaveManager WaveManager;
     [HideInInspector] public DemonSpawner DemonSpawner;
-    [HideInInspector] public RitualSpawner currentRitual;
+    
 
     [Header("Player")]
     public Transform player;
@@ -38,7 +38,6 @@ public class SpawnerManager : MonoBehaviour
     public bool EndOfRound;
     public bool StartOfRound;
     public bool RunDefaultSpawning;
-    public bool RitualSpawning;
 
     [Header("Timers")]
     private float spawnTimer;
@@ -46,6 +45,8 @@ public class SpawnerManager : MonoBehaviour
 
     [Header("Rituals")]
     public List<Ritual> Rituals = new List<Ritual>();
+    [HideInInspector] public int RitualIndex = 0;
+    [HideInInspector] public RitualSpawner currentRitual;
 
     private void Awake()
     {
@@ -57,8 +58,6 @@ public class SpawnerManager : MonoBehaviour
         RunDefaultSpawning = true;
 
         WaveStart();
-
-        DemonSpawner.ActiveSpawners(player, playerAgent, this);
     }
 
     private void Update()
@@ -86,8 +85,7 @@ public class SpawnerManager : MonoBehaviour
                 }
             }
 
-            //
-            DemonSpawner.ActiveSpawners(player, playerAgent, this); // if demoms to spawn check spawners
+            
 
             if (HelperFuntions.TimerGreaterThan(spawnTimer, timeBetweenSpawns) && canSpawn == true)
             {
@@ -102,14 +100,14 @@ public class SpawnerManager : MonoBehaviour
 
                     int toSpawn = maxDemonsAtOnce - currentDemons;
 
-                    if (toSpawn <= demonsToSpawnEachTick) { }
-                    else { toSpawn = demonsToSpawnEachTick; }
+                    if (toSpawn >= demonsToSpawnEachTick) { toSpawn = demonsToSpawnEachTick; }
+                    else {  }
 
                     if (maxDemonsToSpawn < toSpawn) { toSpawn = maxDemonsToSpawn; }
 
                     if (toSpawn > 0)
                     {
-                        
+                        DemonSpawner.ResetSpawners();
 
                         for (int i = 0; i < toSpawn; i++)
                         {
@@ -123,11 +121,11 @@ public class SpawnerManager : MonoBehaviour
                 }
             }
         }
-        else if (RitualSpawning == true)
-        {
-            currentRitual.InitaliseRitual();
-            currentRitual.Spawning(DemonSpawner, this);
-        }
+    }
+
+    public void UpdateSpawners(Areas Id)
+    {
+        DemonSpawner.ActiveSpawners(Id);
     }
 
     void WaveStart()
@@ -150,6 +148,11 @@ public class SpawnerManager : MonoBehaviour
     public void DemonKilled()
     {
         currentDemons--;
+    }
+
+    public void DespawnAllActiveDemons()
+    {
+        DemonSpawner.DespawnAllActiveDemons();
     }
 
     void Timers()

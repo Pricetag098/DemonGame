@@ -509,7 +509,7 @@ MonoBehaviour:
   clearDepth: 1
   volumeLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 65
   volumeAnchorOverride: {fileID: 0}
   antialiasing: 0
   SMAAQuality: 2
@@ -656,6 +656,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 3899720133307866394}
   - {fileID: 3899720133027113966}
   - {fileID: 3899720134046173352}
   - {fileID: 3899720132956419847}
@@ -775,13 +776,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92e3e2a29ca31b74292024e792c15860, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
-  maxHealth: 100
+  health: 150
+  maxHealth: 150
   dead: 0
-  effectTarget:
+  regenPerSecond: 25
+  vfxTarget:
     enabled: 0
     val: {fileID: 0}
-  regenPerSecond: 0
 --- !u!114 &3899720132604462813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -936,6 +937,7 @@ MonoBehaviour:
   camCrouchingPos: {x: 0, y: 1, z: 0}
   camMovementTime: 0.3
   headCheckDistance: 0.5
+  surfaceCheckRange: 0
   holdToSlide: 0
 --- !u!114 &512953488590266121
 MonoBehaviour:
@@ -950,7 +952,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   profile: {fileID: 11400000, guid: 70e643e9fefd24541bfb9a4565a20589, type: 2}
-  maxVinette: 0.3
+  maxVinette: 0.55
   health: {fileID: 8339324333281444828}
 --- !u!54 &3899720132604462812
 Rigidbody:
@@ -1064,7 +1066,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3899720132604462369}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3899720133021509130
 GameObject:
@@ -1096,7 +1098,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3899720132604462369}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &3899720133021509131
 CapsuleCollider:
@@ -1139,10 +1141,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 3899720133307866394}
+  m_Children: []
   m_Father: {fileID: 3899720132604462369}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3899720133307866393
 GameObject:
@@ -1169,13 +1170,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3899720133307866393}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1415422890}
-  m_Father: {fileID: 3899720133027113966}
+  m_Father: {fileID: 3899720132604462369}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3899720133307866396
@@ -1324,7 +1325,7 @@ MonoBehaviour:
   clearDepth: 1
   volumeLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 65
   volumeAnchorOverride: {fileID: 0}
   antialiasing: 0
   SMAAQuality: 2
@@ -1517,7 +1518,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3899720132604462369}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &3899720133823062389
 CapsuleCollider:
@@ -1564,7 +1565,7 @@ Transform:
   - {fileID: 3899720133498506836}
   - {fileID: 1954936625}
   m_Father: {fileID: 3899720132604462369}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &4131841465140035211
 PrefabInstance:

@@ -2667,7 +2667,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaveManager: {fileID: 0}
   DemonSpawner: {fileID: 0}
-  currentRitual: {fileID: 0}
   player: {fileID: 0}
   playerAgent: {fileID: 0}
   canSpawn: 0
@@ -2690,27 +2689,27 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 10
-      value: 32
-      inSlope: 2.4736843
-      outSlope: 2.4736843
+      value: 40
+      inSlope: 3.5263157
+      outSlope: 3.5263157
       tangentMode: 0
       weightedMode: 0
       inWeight: 1
       outWeight: 1
     - serializedVersion: 3
       time: 20
-      value: 55
-      inSlope: 3.9
-      outSlope: 3.9
+      value: 75
+      inSlope: 4
+      outSlope: 4
       tangentMode: 0
       weightedMode: 0
       inWeight: 1
       outWeight: 1
     - serializedVersion: 3
       time: 30
-      value: 110
-      inSlope: 6.75
-      outSlope: 6.75
+      value: 120
+      inSlope: 5.75
+      outSlope: 5.75
       tangentMode: 0
       weightedMode: 0
       inWeight: 1
@@ -2718,8 +2717,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 40
       value: 190
-      inSlope: 7.5
-      outSlope: 7.5
+      inSlope: 7
+      outSlope: 7
       tangentMode: 0
       weightedMode: 0
       inWeight: 1
@@ -2784,8 +2783,9 @@ MonoBehaviour:
   EndOfRound: 0
   StartOfRound: 0
   RunDefaultSpawning: 0
-  RitualSpawning: 0
   Rituals: []
+  RitualIndex: 0
+  currentRitual: {fileID: 0}
 --- !u!114 &4703380939243015096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2853,6 +2853,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3744ca0343aa3af48995031f77e2139a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ActiveDemons: []
   demonPool: {fileID: 0}
 --- !u!1 &6430374609531960352
 GameObject:

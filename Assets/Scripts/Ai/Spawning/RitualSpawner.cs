@@ -47,6 +47,7 @@ public class RitualSpawner : MonoBehaviour
 
     private void Start()
     {
+        BlockerObjects.gameObject.SetActive(false);
         demonSpawner = manager.DemonSpawner;
     }
 
@@ -78,7 +79,7 @@ public class RitualSpawner : MonoBehaviour
 
             if(playerHealth is null) playerHealth = manager.player.GetComponent<Health>();
 
-            SetObjects(true);
+            BlockerObjects.gameObject.SetActive(true);
 
             soundPlayerStart.Play();
         }
@@ -148,7 +149,7 @@ public class RitualSpawner : MonoBehaviour
         sm.currentRitual = null;
         sm.RitualIndex++;
 
-        SetObjects(false);
+        BlockerObjects.gameObject.SetActive(false);
 
         soundPlayerComplete.Play();
 
@@ -166,7 +167,7 @@ public class RitualSpawner : MonoBehaviour
         demonsLeft = 0;
         demonsToSpawn = 0;
 
-        SetObjects(false);
+        BlockerObjects.gameObject.SetActive(false);
 
         soundPlayerFail.Play();
 

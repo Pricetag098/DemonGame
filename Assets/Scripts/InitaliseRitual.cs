@@ -20,9 +20,9 @@ public class InitaliseRitual : Interactable
 
             spawner.ritual = manager.Rituals[manager.RitualIndex]; // get the next ritual
 
-            manager.DespawnAllActiveDemons();
+            manager.DespawnAllActiveDemons(); // despawn all active demons
 
-            spawner.InitaliseRitual();
+            spawner.InitaliseRitual(); // set ritual varibles
 
             manager.currentRitual = spawner;
         }

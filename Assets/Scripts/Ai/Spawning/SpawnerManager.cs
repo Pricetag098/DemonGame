@@ -59,7 +59,7 @@ public class SpawnerManager : MonoBehaviour
 
         WaveStart();
 
-        DemonSpawner.ActiveSpawners(player, playerAgent, this);
+        //DemonSpawner.ActiveSpawners(player, playerAgent, this);
     }
 
     private void Update()
@@ -87,7 +87,7 @@ public class SpawnerManager : MonoBehaviour
                 }
             }
 
-            DemonSpawner.ActiveSpawners(player, playerAgent, this); // if demoms to spawn check spawners
+            
 
             if (HelperFuntions.TimerGreaterThan(spawnTimer, timeBetweenSpawns) && canSpawn == true)
             {
@@ -109,6 +109,8 @@ public class SpawnerManager : MonoBehaviour
 
                     if (toSpawn > 0)
                     {
+                        //DemonSpawner.ActiveSpawners(player, playerAgent, this); // if demoms to spawn check spawners
+
                         for (int i = 0; i < toSpawn; i++)
                         {
                             if(DemonSpawner.SpawnDemon(this))
@@ -121,6 +123,11 @@ public class SpawnerManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void UpdateSpawners(Areas Id)
+    {
+        DemonSpawner.ActiveSpawners(Id);
     }
 
     void WaveStart()

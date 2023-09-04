@@ -21,7 +21,7 @@ public class AbilityBuy : ShopInteractable
 	private void Awake()
 	{
 		if(respawnOnAwake)
-		Respawn();
+			Respawn();
 	}
 	protected override bool CanBuy(Interactor interactor)
 	{

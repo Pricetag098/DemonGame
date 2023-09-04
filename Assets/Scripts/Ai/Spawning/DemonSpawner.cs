@@ -82,11 +82,11 @@ public class DemonSpawner : MonoBehaviour
         switch (demon.SpawnType)
         {
             case SpawnType.Basic:
-                if (_spawners.baseActiveSpawners.Count > 0)
+                if (_spawners.baseSpawners.Count > 0)
                 {
                     Spawner spawner = null;
 
-                    foreach (Spawner s in _spawners.baseActiveSpawners)
+                    foreach (Spawner s in _spawners.baseSpawners)
                     {
                         if(s.Visited == false)
                         {
@@ -108,11 +108,11 @@ public class DemonSpawner : MonoBehaviour
                 }
                 break;
             case SpawnType.Special:
-                if (_spawners.specialActiveSpawners.Count > 0)
+                if (_spawners.specialSpawners.Count > 0)
                 {
                     Spawner spawner = null;
 
-                    foreach (Spawner s in _spawners.specialActiveSpawners)
+                    foreach (Spawner s in _spawners.specialSpawners)
                     {
                         if (s.Visited == false)
                         {

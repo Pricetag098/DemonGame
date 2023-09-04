@@ -53,13 +53,13 @@ public class RitualSpawner : MonoBehaviour
 
     private void Update()
     {
-        if(RitualActive)
+        if(RitualActive && ritual)
         {
             if(playerHealth.dead == true)
             {
                 OnFailed(manager);
+                return;
             }
-
 
             Spawning(demonSpawner, manager);
         }

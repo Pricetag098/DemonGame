@@ -12,6 +12,8 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>
     [SerializeField] Transform respawnPoint;
     PerkManager perkManager;
     public int respawnsLeft;
+    public float deathStateTimeSeconds;
+    DeathStateToggler[] togglers;
 
     int deaths;
     // Start is called before the first frame update
@@ -20,7 +22,15 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>
         perkManager = GetComponent<PerkManager>();
         health = GetComponent<Health>();
         health.OnDeath += Die;
+        
     }
+
+    private void Start()
+    {
+        togglers = FindObjectsOfType<DeathStateToggler>(true);
+    }
+
+
 
 
     void Die()
@@ -48,6 +58,7 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>
 		}
         Time.timeScale = 1;
         transform.position = respawnPoint.position;
+        SetWorldState(false);
         transform.forward = respawnPoint.forward;
         while (timer >=0)
         {
@@ -55,10 +66,18 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>
             canvasGroup.alpha = timer / fadeTime;
             yield return null;
         }
-        health.health = health.maxHealth;
-        health.dead = false;
+        health.Respawn();
         perkManager.ClearPerks();
 
+    }
+
+
+    public void SetWorldState(bool alive)
+    {
+        foreach(DeathStateToggler toggler in togglers)
+        {
+            toggler.Toggle(alive);
+        }
     }
 
     void IDataPersistance<GameData>.SaveData(ref GameData data)

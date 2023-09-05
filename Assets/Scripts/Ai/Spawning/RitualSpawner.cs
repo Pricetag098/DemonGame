@@ -31,6 +31,7 @@ public class RitualSpawner : MonoBehaviour
 
     [Header("Ritual Completion")]
     [SerializeField] GameObject completion;
+    [SerializeField] Optional<GameObject> FinalCompletion;
 
     private SpawnerManager manager;
     private DemonSpawner demonSpawner;
@@ -48,6 +49,7 @@ public class RitualSpawner : MonoBehaviour
     private void Start()
     {
         BlockerObjects.gameObject.SetActive(false);
+        if (FinalCompletion.Enabled) FinalCompletion.Value.SetActive(false);
         demonSpawner = manager.DemonSpawner;
     }
 
@@ -154,6 +156,11 @@ public class RitualSpawner : MonoBehaviour
         soundPlayerComplete.Play();
 
         completion.SetActive(false);
+
+        if(FinalCompletion.Enabled)
+        {
+            FinalCompletion.Value.SetActive(true);
+        }
     }
 
     public void OnFailed(SpawnerManager sm)

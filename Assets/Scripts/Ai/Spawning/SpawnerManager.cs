@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(WaveManager))]
 [RequireComponent(typeof(DemonSpawner))]
@@ -123,9 +124,9 @@ public class SpawnerManager : MonoBehaviour
         }
     }
 
-    public void UpdateSpawners(Areas Id)
+    public void UpdateSpawners(Areas Id, Areas CurrentArea)
     {
-        DemonSpawner.ActiveSpawners(Id);
+        DemonSpawner.ActiveSpawners(Id, CurrentArea);
     }
 
     void WaveStart()
@@ -175,3 +176,40 @@ public class SpawnerManager : MonoBehaviour
         get { return HelperFuntions.EvaluateAnimationCuveInt(spawnsEachTick, currentRound); }
     }
 }
+//protected override void DoBuy(Interactor interactor)
+//{
+//    open = true;
+
+//    foreach (Optional<Area> area in AreaConnections)
+//    {
+//        if (area.Enabled)
+//        {
+//            area.Value.discovered = true;
+
+//            Spawners.GetDictionaryArea(DetectArea.CurrentArea, out Area currentArea);
+
+//            foreach (Optional<AreaConnect> areasInConnections in area.Value.AdjacentAreas)
+//            {
+//                if (areasInConnections.Enabled)
+//                {
+//                    if (areasInConnections.Value.Area == currentArea)
+//                    {
+//                        areasInConnections.Value.Open = true;
+
+//                        foreach (Optional<AreaConnect> AreasTouchingCurrentArea in areasInConnections.Value.Area.AdjacentAreas)
+//                        {
+//                            if (AreasTouchingCurrentArea.Value.Area == AreaConnection1.Value)
+//                            {
+//                                AreasTouchingCurrentArea.Value.Open = true;
+//                                break;
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+
+//    doAnimationStuff
+//    transform.parent.gameObject.SetActive(false);
+//}

@@ -19,7 +19,7 @@ public class DetectArea : MonoBehaviour
 
     private void Start()
     {
-        manager.UpdateSpawners(Areas.Courtyard);
+        manager.UpdateSpawners(Areas.Courtyard, Areas.Null);
         GetArea();
     }
 
@@ -43,18 +43,10 @@ public class DetectArea : MonoBehaviour
             {
                 if(CurrentArea != area.AreaId)
                 {
-                    manager.UpdateSpawners(area.AreaId);
+                    manager.UpdateSpawners(area.AreaId, CurrentArea);
                     CurrentArea = area.AreaId;
-                    Debug.Log("new area");
                 }
             }
         }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-
-        Gizmos.DrawLine(orientation.position, orientation.position + (Vector3.down * 5));
     }
 }

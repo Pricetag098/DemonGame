@@ -133,9 +133,4 @@ public static class HelperFuntions
             }
         }
     }
-
-    public static int SortByDistance(float dist1, float dist2)
-    {
-        return dist1.CompareTo(dist2);
-    }
 }

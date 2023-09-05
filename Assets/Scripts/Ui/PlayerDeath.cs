@@ -6,12 +6,16 @@ using UnityEngine.SceneManagement;
 public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>
 {
     [SerializeField] CanvasGroup canvasGroup;
-    float timer;
+    float respawnTimer;
+    float deathStateTimer;
     public float fadeTime;
     Health health;
     [SerializeField] Transform respawnPoint;
     PerkManager perkManager;
     public int respawnsLeft;
+    public float deathStateTimeSeconds;
+    DeathStateToggler[] togglers;
+    bool dead;
 
     int deaths;
     // Start is called before the first frame update
@@ -20,6 +24,28 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>
         perkManager = GetComponent<PerkManager>();
         health = GetComponent<Health>();
         health.OnDeath += Die;
+        body = FindObjectOfType<PlayerBodyInteract>();
+        
+    }
+
+    PlayerBodyInteract body;
+
+    private void Start()
+    {
+        togglers = FindObjectsOfType<DeathStateToggler>(true);
+        SetWorldState(true);
+    }
+
+    private void Update()
+    {
+        if (dead)
+        {
+            deathStateTimer += Time.deltaTime;
+            if(deathStateTimer > deathStateTimeSeconds)
+            {
+                ReturnToBody();
+            }
+        }
     }
 
 
@@ -37,28 +63,73 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>
         
 	}
 
+    public void ReturnToBody()
+    {
+        dead = false;
+        body.Hide();
+        StartCoroutine(DoReturnToBody());
+
+    }
+
+    IEnumerator DoReturnToBody()
+    {
+        Time.timeScale = 0;
+        while (respawnTimer < fadeTime)
+        {
+            respawnTimer += Time.unscaledDeltaTime;
+            canvasGroup.alpha = respawnTimer / fadeTime;
+            yield return null;
+        }
+        Time.timeScale = 1;
+        
+        transform.position = body.body.transform.position;
+        SetWorldState(true);
+        
+        transform.rotation = body.body.transform.rotation;
+        while (respawnTimer >= 0)
+        {
+            respawnTimer -= Time.unscaledDeltaTime;
+            canvasGroup.alpha = respawnTimer / fadeTime;
+            yield return null;
+        }
+        
+    }
+
     IEnumerator DoDie()
 	{
         Time.timeScale = 0;
-        while (timer < fadeTime)
+        while (respawnTimer < fadeTime)
 		{
-            timer += Time.unscaledDeltaTime;
-            canvasGroup.alpha = timer / fadeTime;
+            respawnTimer += Time.unscaledDeltaTime;
+            canvasGroup.alpha = respawnTimer / fadeTime;
             yield return null;
 		}
         Time.timeScale = 1;
+        body.body.transform.position = transform.position;
+        body.body.transform.rotation = transform.rotation;
+        body.Show();
         transform.position = respawnPoint.position;
-        transform.forward = respawnPoint.forward;
-        while (timer >=0)
+        SetWorldState(false);
+        transform.rotation = respawnPoint.rotation;
+        while (respawnTimer >=0)
         {
-            timer -= Time.unscaledDeltaTime;
-            canvasGroup.alpha = timer / fadeTime;
+            respawnTimer -= Time.unscaledDeltaTime;
+            canvasGroup.alpha = respawnTimer / fadeTime;
             yield return null;
         }
-        health.health = health.maxHealth;
-        health.dead = false;
+        health.Respawn();
         perkManager.ClearPerks();
+        dead = true;
+        deathStateTimer = 0;
+    }
 
+
+    public void SetWorldState(bool alive)
+    {
+        foreach(DeathStateToggler toggler in togglers)
+        {
+            toggler.Toggle(alive);
+        }
     }
 
     void IDataPersistance<GameData>.SaveData(ref GameData data)

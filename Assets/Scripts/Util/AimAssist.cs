@@ -30,9 +30,11 @@ public class AimAssist
         float bestVal = float.NegativeInfinity;
         for (int i = 0; i < colliders.Length; i++)
         {
+            
             HitBox hb;
             if (colliders[i].TryGetComponent(out hb))
             {
+                
                 if(hb.health.TryGetComponent(out VfxTargets target))
 				{
                     foundTarget = true;

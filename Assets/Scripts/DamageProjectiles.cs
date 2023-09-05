@@ -16,6 +16,9 @@ public class DamageProjectiles : MonoBehaviour
     Vector3 start,mid, end,offset;
     Transform target;
     bool useTarget;
+
+    public delegate void Action();
+    public Action onPenetrate;
     // Start is called before the first frame update
     void Awake()
     {
@@ -26,7 +29,6 @@ public class DamageProjectiles : MonoBehaviour
 
     public void Shoot(Vector3 origin,Vector3 mid,Vector3 end,float time,float dmg,Ability ability,int penetrations)
 	{
-        body.isKinematic = false;
         damage = dmg;
         transform.position = origin;
         useTarget = false;
@@ -42,7 +44,7 @@ public class DamageProjectiles : MonoBehaviour
 
     public void Shoot(Vector3 origin, Vector3 mid, Transform end,Vector3 offset, float time, float dmg, Ability ability, int penetrations)
     {
-        body.isKinematic = false;
+        Debug.Log("AAA");
         damage = dmg;
         transform.position = origin;
         this.offset = offset;
@@ -81,7 +83,8 @@ public class DamageProjectiles : MonoBehaviour
 		{
             VfxSpawner.SpawnVfx(0, other.ClosestPoint(transform.position), -transform.forward,Vector3.one);
 		}
-        
+        if(onPenetrate != null)
+            onPenetrate();
         if(penetrations > maxPenetrations)
         {
             body.isKinematic = true;

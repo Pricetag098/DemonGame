@@ -326,8 +326,8 @@ namespace Movement
 				OnHitGround();
 			grounded = groundCheck;
 
-			Debug.Log("Grounded " + grounded);
-			Debug.Log("onSurface" + touchingSurface);
+			//Debug.Log("Grounded " + grounded);
+			//Debug.Log("onSurface" + touchingSurface);
 			if (!grounded)
 			{
 				Move(airMaxSpeed, airAcceleration, airSlowForce, airControlForce,airOppositeVelMulti);

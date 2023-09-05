@@ -15,12 +15,11 @@ public class DetectArea : MonoBehaviour
     private void Awake()
     {
         manager = FindObjectOfType<SpawnerManager>();
-        CurrentArea = Areas.Courtyard;
     }
 
     private void Start()
     {
-        manager.UpdateSpawners(CurrentArea);
+        manager.UpdateSpawners(Areas.Courtyard);
         GetArea();
     }
 
@@ -39,12 +38,14 @@ public class DetectArea : MonoBehaviour
     {
         if(Physics.Raycast(orientation.position, Vector3.down, out RaycastHit hit, 20, areaLayer))
         {
+            Debug.Log(hit.collider.name);
             if (hit.collider.TryGetComponent<Area>(out Area area))
             {
                 if(CurrentArea != area.AreaId)
                 {
-                    manager.UpdateSpawners(CurrentArea);
+                    manager.UpdateSpawners(area.AreaId);
                     CurrentArea = area.AreaId;
+                    Debug.Log("new area");
                 }
             }
         }

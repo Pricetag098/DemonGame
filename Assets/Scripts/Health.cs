@@ -10,7 +10,8 @@ public class Health : MonoBehaviour
     public delegate void Action();
     public Action OnDeath;
     public Action OnHit;
-    
+    public Action OnRespawn;
+
     // Start is called before the first frame update
     public float regenPerSecond = 0;
     public Optional<VfxTargets> vfxTarget;
@@ -29,6 +30,14 @@ public class Health : MonoBehaviour
 		{
             Die();
 		}
+    }
+
+    public void Respawn()
+    {
+        health = maxHealth;
+        dead = false;
+        if (OnRespawn != null)
+            OnRespawn();
     }
 
 	private void Update()

@@ -7,8 +7,8 @@ using UnityEngine.AI;
 public class Spawners : MonoBehaviour
 {
     [Header("Spawn Location")]
-    [HideInInspector] public List<Spawner> baseSpawners = new List<Spawner>();
-    [HideInInspector] public List<Spawner> specialSpawners = new List<Spawner>();
+    public List<Spawner> baseSpawners = new List<Spawner>();
+    public List<Spawner> specialSpawners = new List<Spawner>();
 
     private DetectArea areaInfo;
     private Areas currentArea;

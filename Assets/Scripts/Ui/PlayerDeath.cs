@@ -24,10 +24,11 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>
         perkManager = GetComponent<PerkManager>();
         health = GetComponent<Health>();
         health.OnDeath += Die;
+        body = FindObjectOfType<PlayerBodyInteract>();
         
     }
 
-    public Transform body;
+    PlayerBodyInteract body;
 
     private void Start()
     {
@@ -64,6 +65,7 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>
 
     public void ReturnToBody()
     {
+        dead = false;
         StartCoroutine(DoReturnToBody());
 
     }
@@ -79,10 +81,10 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>
         }
         Time.timeScale = 1;
         
-        transform.position = body.position;
+        transform.position = body.body.transform.position;
         SetWorldState(true);
-        dead = false;
-        transform.rotation = body.rotation;
+        
+        transform.rotation = body.body.transform.rotation;
         while (respawnTimer >= 0)
         {
             respawnTimer -= Time.unscaledDeltaTime;
@@ -102,8 +104,9 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>
             yield return null;
 		}
         Time.timeScale = 1;
-        body.position = transform.position;
-        body.rotation = transform.rotation;
+        body.body.transform.position = transform.position;
+        body.body.transform.rotation = transform.rotation;
+        body.Show();
         transform.position = respawnPoint.position;
         SetWorldState(false);
         transform.rotation = respawnPoint.rotation;

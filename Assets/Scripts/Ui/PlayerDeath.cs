@@ -66,6 +66,7 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>
     public void ReturnToBody()
     {
         dead = false;
+        body.Hide();
         StartCoroutine(DoReturnToBody());
 
     }

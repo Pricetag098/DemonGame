@@ -12,6 +12,11 @@ public class PlayerBodyInteract : Interactable
     {
         body.SetActive(true);
     }
+
+    public void Hide()
+    {
+        body.SetActive(false);
+    }
     PlayerDeath death;
     private void Awake()
     {
@@ -26,7 +31,7 @@ public class PlayerBodyInteract : Interactable
     public override void Interact(Interactor interactor)
     {
         death.ReturnToBody();
-        body.SetActive(false);
+        
     }
 
     public override void StartHover(Interactor interactor)

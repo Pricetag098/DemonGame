@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>
 {
     [SerializeField] CanvasGroup canvasGroup;
-    float timer;
+    float respawnTimer;
+    float deathStateTimer;
     public float fadeTime;
     Health health;
     [SerializeField] Transform respawnPoint;
@@ -14,6 +15,7 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>
     public int respawnsLeft;
     public float deathStateTimeSeconds;
     DeathStateToggler[] togglers;
+    bool dead;
 
     int deaths;
     // Start is called before the first frame update
@@ -25,12 +27,25 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>
         
     }
 
+    public Transform body;
+
     private void Start()
     {
         togglers = FindObjectsOfType<DeathStateToggler>(true);
+        SetWorldState(true);
     }
 
-
+    private void Update()
+    {
+        if (dead)
+        {
+            deathStateTimer += Time.deltaTime;
+            if(deathStateTimer > deathStateTimeSeconds)
+            {
+                ReturnToBody();
+            }
+        }
+    }
 
 
     void Die()
@@ -47,28 +62,61 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>
         
 	}
 
+    public void ReturnToBody()
+    {
+        StartCoroutine(DoReturnToBody());
+
+    }
+
+    IEnumerator DoReturnToBody()
+    {
+        Time.timeScale = 0;
+        while (respawnTimer < fadeTime)
+        {
+            respawnTimer += Time.unscaledDeltaTime;
+            canvasGroup.alpha = respawnTimer / fadeTime;
+            yield return null;
+        }
+        Time.timeScale = 1;
+        
+        transform.position = body.position;
+        SetWorldState(true);
+        dead = false;
+        transform.rotation = body.rotation;
+        while (respawnTimer >= 0)
+        {
+            respawnTimer -= Time.unscaledDeltaTime;
+            canvasGroup.alpha = respawnTimer / fadeTime;
+            yield return null;
+        }
+        
+    }
+
     IEnumerator DoDie()
 	{
         Time.timeScale = 0;
-        while (timer < fadeTime)
+        while (respawnTimer < fadeTime)
 		{
-            timer += Time.unscaledDeltaTime;
-            canvasGroup.alpha = timer / fadeTime;
+            respawnTimer += Time.unscaledDeltaTime;
+            canvasGroup.alpha = respawnTimer / fadeTime;
             yield return null;
 		}
         Time.timeScale = 1;
+        body.position = transform.position;
+        body.rotation = transform.rotation;
         transform.position = respawnPoint.position;
         SetWorldState(false);
-        transform.forward = respawnPoint.forward;
-        while (timer >=0)
+        transform.rotation = respawnPoint.rotation;
+        while (respawnTimer >=0)
         {
-            timer -= Time.unscaledDeltaTime;
-            canvasGroup.alpha = timer / fadeTime;
+            respawnTimer -= Time.unscaledDeltaTime;
+            canvasGroup.alpha = respawnTimer / fadeTime;
             yield return null;
         }
         health.Respawn();
         perkManager.ClearPerks();
-
+        dead = true;
+        deathStateTimer = 0;
     }
 
 

@@ -114,6 +114,10 @@ namespace Movement
 			playerStats = GetComponent<PlayerStats>();
 			camRotX = 0;
 		}
+		private void OnDestroy()
+		{
+            jumpAction.action.performed -= Jump;
+        }
 
 		//manage all the input actions
 		private void OnEnable()

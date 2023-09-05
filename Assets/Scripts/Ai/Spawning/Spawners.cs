@@ -7,14 +7,13 @@ using UnityEngine.AI;
 public class Spawners : MonoBehaviour
 {
     [Header("Spawn Location")]
-    [HideInInspector] public List<Spawner> baseSpawners = new List<Spawner>();
-    [HideInInspector] public List<Spawner> specialSpawners = new List<Spawner>();
+    public List<Spawner> baseSpawners = new List<Spawner>();
+    public List<Spawner> specialSpawners = new List<Spawner>();
 
     private DetectArea areaInfo;
-    private Areas currentArea;
 
     private Area[] areas;
-    private Dictionary<Areas, Area> AreaDictionary = new Dictionary<Areas, Area>();
+    public static Dictionary<Areas, Area> AreaDictionary = new Dictionary<Areas, Area>();
 
     private void Awake()
     {
@@ -35,14 +34,11 @@ public class Spawners : MonoBehaviour
         }
     }
 
-    public void UpdateActiveSpawners(Areas Id)
+    public void UpdateActiveSpawners(Areas Id , Areas CurrentArea)
     {
-        if(Id != areaInfo.CurrentArea)
+        if(Id != CurrentArea)
         {
-            Debug.Log("Updating Spawners");
             ResetSpawners();
-            
-            currentArea = Id;
 
             Area area = AreaDictionary[Id];
 
@@ -59,46 +55,46 @@ public class Spawners : MonoBehaviour
                 specialSpawners.Add(s);
             }
 
-            foreach (Area a in area.AdjacentAreas)
+            foreach (Optional<AreaConnect> a in area.OptionalAreas)
             {
-                if(a.discovered == true)
+                if(a.Value.Area.discovered == true && a.Value.Open == true)
                 {
                     if (area.baseDepth > 0)
                     {
-                        List<Spawner> clostSpawners = new List<Spawner>(a.baseSpawns);
+                        List<Spawner> closestSpawners = new List<Spawner>(a.Value.Area.baseSpawns);
 
-                        foreach (Spawner s in clostSpawners)
+                        foreach (Spawner s in closestSpawners)
                         {
-                            s.distToArea = Vector2.Distance(s.position, a.position);
+                            s.distToArea = Vector2.Distance(s.position, a.Value.Area.position);
                         }
 
-                        clostSpawners.Sort((p1, p2) => p1.distToArea.CompareTo(p2.distToArea));
+                        closestSpawners.Sort((p1, p2) => p1.distToArea.CompareTo(p2.distToArea));
 
-                        int num = clostSpawners.Count;
-                        if (num > a.baseDepth) { num = a.baseDepth; }
+                        int num = closestSpawners.Count;
+                        if (num > area.baseDepth) { num = area.baseDepth; }
 
                         for (int i = 0; i < num; i++)
                         {
-                            baseSpawners.Add(clostSpawners[i]);
+                            baseSpawners.Add(closestSpawners[i]);
                         }
                     }
                     if (area.specialDepth > 0)
                     {
-                        List<Spawner> clostSpawners = new List<Spawner>(a.specialSpawns);
+                        List<Spawner> closestSpawners = new List<Spawner>(a.Value.Area.specialSpawns);
 
-                        foreach (Spawner s in clostSpawners)
+                        foreach (Spawner s in closestSpawners)
                         {
-                            s.distToArea = Vector2.Distance(s.position, a.position);
+                            s.distToArea = Vector2.Distance(s.position, a.Value.Area.position);
                         }
 
-                        clostSpawners.Sort((p1, p2) => p1.distToArea.CompareTo(p2.distToArea));
+                        closestSpawners.Sort((p1, p2) => p1.distToArea.CompareTo(p2.distToArea));
 
-                        int num = clostSpawners.Count;
-                        if (num > a.specialDepth) { num = a.specialDepth; }
+                        int num = closestSpawners.Count;
+                        if (num > area.specialDepth) { num = area.specialDepth; }
 
                         for (int i = 0; i < num; i++)
                         {
-                            specialSpawners.Add(clostSpawners[i]);
+                            specialSpawners.Add(closestSpawners[i]);
                         }
                     }
                 }
@@ -126,7 +122,6 @@ public class Spawners : MonoBehaviour
         Gizmos.color = Color.magenta;
         foreach (var spawner in baseSpawners)
         {
-            
             Gizmos.DrawCube(spawner.position, new Vector3(2, 2, 2));
         }
 
@@ -136,6 +131,14 @@ public class Spawners : MonoBehaviour
             
             Gizmos.DrawCube(spawner.position, new Vector3(2, 2, 2));
         }
+    }
+
+    public static bool GetDictionaryArea(Areas Id, out Area a)
+    {
+        a = AreaDictionary[Id];
+        if(a is null) return false;
+
+        return true;
     }
 }
 

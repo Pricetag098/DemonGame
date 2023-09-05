@@ -6,8 +6,17 @@ public class DoorBuy : ShopInteractable
 {
     public bool open;
 
-    [SerializeField] Optional<Area> area1;
-    [SerializeField] Optional<Area> area2;
+    [SerializeField] Optional<Area> AreaConnection1;
+    [SerializeField] Optional<Area> AreaConnection2;
+    [SerializeField] List<Optional<Area>> AreaConnections = new List<Optional<Area>>();
+
+    private DetectArea DetectArea;
+    private Spawners spawners;
+
+    private void Awake()
+    {
+        DetectArea = FindObjectOfType<DetectArea>();
+    }
 
     protected override bool CanBuy(Interactor interactor)
     {
@@ -17,13 +26,38 @@ public class DoorBuy : ShopInteractable
     {
         open = true;
 
-        if (area1.Enabled) area1.Value.discovered = true;
-        if (area2.Enabled) area2.Value.discovered = true;
+        foreach(Optional<Area> area in AreaConnections)
+        {
+            if(area.Enabled)
+            {
+                area.Value.discovered = true;
+
+                Spawners.GetDictionaryArea(DetectArea.CurrentArea, out Area currentArea);
+
+                foreach (Optional<AreaConnect> areasInConnections in area.Value.OptionalAreas)
+                {
+                    if (areasInConnections.Enabled)
+                    {
+                        if (areasInConnections.Value.Area == currentArea)
+                        {
+                            areasInConnections.Value.Open = true;
+
+                            foreach (Optional<AreaConnect> AreasTouchingCurrentArea in areasInConnections.Value.Area.OptionalAreas) // all adjacent areas in main gate
+                            {
+                                if (AreasTouchingCurrentArea.Value.Area == AreaConnection1.Value) // if main gate contains courtyard
+                                {
+                                    AreasTouchingCurrentArea.Value.Open = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         //doAnimationStuff
         transform.parent.gameObject.SetActive(false);
-
-        
     }
 
 }

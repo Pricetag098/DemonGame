@@ -11,6 +11,11 @@ public class DamageProjectiles : MonoBehaviour
     ProjectileVisualiser visualiser;
     List<Health> healths = new List<Health>();
     Ability ability;
+    float timer;
+    float maxTimer;
+    Vector3 start,mid, end,offset;
+    Transform target;
+    bool useTarget;
     // Start is called before the first frame update
     void Awake()
     {
@@ -19,17 +24,39 @@ public class DamageProjectiles : MonoBehaviour
         visualiser = GetComponentInChildren<ProjectileVisualiser>();
     }
 
-    public void Shoot(Vector3 origin,Vector3 dir,float dmg,Ability ability,int penetrations)
+    public void Shoot(Vector3 origin,Vector3 mid,Vector3 end,float time,float dmg,Ability ability,int penetrations)
 	{
         body.isKinematic = false;
         damage = dmg;
         transform.position = origin;
-        transform.forward = dir;
-        body.velocity = dir;
+        useTarget = false;
+        timer = 0;
+        start = origin;
+        this.mid = mid;
+        this.end = end;
+        maxTimer = time;
         this.ability = ability;
         visualiser.Start(ability.caster.castOrigin, transform);
         maxPenetrations = penetrations;
 	}
+
+    public void Shoot(Vector3 origin, Vector3 mid, Transform end,Vector3 offset, float time, float dmg, Ability ability, int penetrations)
+    {
+        body.isKinematic = false;
+        damage = dmg;
+        transform.position = origin;
+        this.offset = offset;
+        timer = 0;
+        start = origin;
+        this.mid = mid;
+        target = end;
+        useTarget = true;
+        maxTimer = time;
+        this.ability = ability;
+        visualiser.Start(ability.caster.castOrigin, transform);
+        maxPenetrations = penetrations;
+    }
+
     int penetrations;
 	private void OnTriggerEnter(Collider other)
 	{
@@ -79,4 +106,24 @@ public class DamageProjectiles : MonoBehaviour
         body.isKinematic = true;
         GetComponent<PooledObject>().Despawn();
     }
+
+	private void Update()
+	{
+        if (useTarget)
+            end = target.position + offset;
+        timer+=Time.deltaTime;
+        if(timer > maxTimer)
+            GetComponent<PooledObject>().Despawn();
+        float t = timer / maxTimer;
+        transform.position = QaudraticLerp(start,mid,end,t);
+        transform.forward = Vector3.Lerp(mid - start, end - mid,t);
+	}
+
+    Vector3 QaudraticLerp(Vector3 a, Vector3 b, Vector3 c, float t)
+    {
+        Vector3 ab = Vector3.Lerp(a, b, t);
+        Vector3 bc = Vector3.Lerp(b, c, t);
+        return Vector3.Lerp(ab, bc, t);
+    }
+
 }

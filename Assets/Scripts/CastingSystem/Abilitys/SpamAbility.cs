@@ -16,6 +16,8 @@ public class SpamAbility : Ability
 	[SerializeField] VfxSpawnRequest spawnFx;
 	float cooldown;
 	float timer;
+	[SerializeField] AimAssist aimAssist;
+	
 	public override void Tick()
 	{
 		timer += Time.deltaTime;
@@ -24,13 +26,27 @@ public class SpamAbility : Ability
 	{
 		if(timer > cooldown)
 		{
-			if(caster.blood > bloodCost)
+			Vector3 rand = Random.insideUnitSphere * spreadUnits;
+			if (aimAssist.GetAssistedAimDir(direction,origin,1,out Transform target))
 			{
-				pool.Spawn().GetComponent<DamageProjectiles>().Shoot(origin + Random.insideUnitSphere * spreadUnits, direction * speed, damage, this, 1);
-				timer = 0;
-				caster.RemoveBlood(bloodCost);
-				spawnFx.Play(caster.castOrigin.position,direction);
+				float d = Vector3.Distance(origin, target.position);
+				Vector3 mid = origin + (direction * d / 2) ;
+
+				pool.Spawn().GetComponent<DamageProjectiles>().Shoot(origin + rand, mid + rand,target,rand, d/speed, damage, this, 1);
 			}
+			else
+			{
+				Vector3 end = origin + direction * 100;
+				Vector3 mid = Vector3.Lerp(origin, end, .5f);
+				pool.Spawn().GetComponent<DamageProjectiles>().Shoot(origin + rand, mid + rand,end + rand,100/speed, damage, this, 1);
+			}
+
+
+			
+			timer = 0;
+			caster.RemoveBlood(bloodCost);
+			spawnFx.Play(caster.castOrigin.position,direction);
+			
 			
 		}
 		

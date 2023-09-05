@@ -5,15 +5,15 @@ using UnityEngine;
 public class NarrativeInventory : MonoBehaviour
 {
     [Header("Kitchen Puzzle")]
-    bool hasArm;
+    [SerializeField] bool hasArm;
 
     [Header("Kine Puzzle")]
-    bool hasKnife;
-    bool hasFalseKnife;
-    bool hasShovel;
+    [SerializeField] bool hasKnife;
+    [SerializeField] bool hasFalseKnife;
+    [SerializeField] bool hasShovel;
 
     [Header("Painting Puzzle")]
-    bool hasSalt;
+    [SerializeField] bool hasSalt;
     public List<Painting> paintings;
     int placeInList = 0;
 
@@ -45,7 +45,14 @@ public class NarrativeInventory : MonoBehaviour
     {
         if(hasKnife)
         {
-            hasKnife = false;
+            if (hasFalseKnife)
+            {
+                hasFalseKnife = false;
+            }
+            else
+            {
+                hasKnife = false;
+            }
         }
         else
         {

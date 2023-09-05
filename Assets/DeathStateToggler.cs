@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class DeathStateToggler : MonoBehaviour
 {
-    [SerializeField] bool deathState;
+    [SerializeField] bool activeOnAlive;
 
     public void Toggle(bool alive)
     {
-        gameObject.SetActive(alive && deathState);
+        gameObject.SetActive(alive == activeOnAlive);
     }
 }

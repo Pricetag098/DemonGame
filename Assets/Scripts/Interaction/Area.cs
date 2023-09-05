@@ -13,10 +13,18 @@ public class Area : MonoBehaviour
     public List<Spawner> baseSpawns;
     public List<Spawner> specialSpawns;
     
-    public List<Area> AdjacentAreas = new List<Area>();
+    // swap out adjacent areas to optionals 
+    public List<Optional<AreaConnect>> OptionalAreas = new List<Optional<AreaConnect>>();
 
     private void Awake()
     {
         position = transform.position;
     }
+}
+
+[System.Serializable]
+public class AreaConnect
+{
+    public Area Area;
+    public bool Open;
 }

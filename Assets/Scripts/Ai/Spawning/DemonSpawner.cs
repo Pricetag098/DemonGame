@@ -48,9 +48,9 @@ public class DemonSpawner : MonoBehaviour
     //    specialSpawnerCount = 0;
     //}
 
-    public void ActiveSpawners(Areas Id)
+    public void ActiveSpawners(Areas Id, Areas CurrentArea)
     {
-        _spawners.UpdateActiveSpawners(Id);
+        _spawners.UpdateActiveSpawners(Id, CurrentArea);
     }
 
     /// <summary>

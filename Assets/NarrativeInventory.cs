@@ -14,11 +14,12 @@ public class NarrativeInventory : MonoBehaviour
 
     [Header("Painting Puzzle")]
     bool hasSalt;
-    List<GameObject> Paintings;
+    public List<GameObject> paintings;
+    int placeInList = 0;
 
     private void Start()
     {
-        
+        RandomizeList(paintings);
     }
 
     public void PickupArm()
@@ -35,7 +36,14 @@ public class NarrativeInventory : MonoBehaviour
 
     public void PickupKnife()
     {
-        hasKnife = true;
+        if(hasKnife)
+        {
+            hasKnife = false;
+        }
+        else
+        {
+            hasKnife = true;
+        }
         //Anything else
     }
 
@@ -49,5 +57,30 @@ public class NarrativeInventory : MonoBehaviour
     {
         hasShovel = true;
         //Anything else
+    }
+
+    public void CheckPainting(GameObject painting)
+    {
+        if(painting == paintings[placeInList])
+        {
+            placeInList++;
+            //painting.GetComponent<Painting>()
+        }
+    }
+
+    public static void RandomizeList<T>(List<T> list)
+    {
+        int n = list.Count;
+        System.Random random = new System.Random();
+
+        for (int i = n - 1; i > 0; i--)
+        {
+            int j = random.Next(0, i + 1);
+
+            // Swap list[i] and list[j]
+            T temp = list[i];
+            list[i] = list[j];
+            list[j] = temp;
+        }
     }
 }

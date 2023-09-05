@@ -14,8 +14,11 @@ public class NarrativeInventory : MonoBehaviour
 
     [Header("Painting Puzzle")]
     bool hasSalt;
-    public List<GameObject> paintings;
+    public List<Painting> paintings;
     int placeInList = 0;
+
+    [Header("Final Ritual")]
+    public GameObject finalRitual;
 
     private void Start()
     {
@@ -26,12 +29,16 @@ public class NarrativeInventory : MonoBehaviour
     {
         hasArm = true;
         //Anything else
+
+        CheckForFinish();
     }
 
     public void PickupSalt()
     {
         hasSalt = true;
         //Anything else
+
+        CheckForFinish();
     }
 
     public void PickupKnife()
@@ -45,6 +52,8 @@ public class NarrativeInventory : MonoBehaviour
             hasKnife = true;
         }
         //Anything else
+
+        CheckForFinish();
     }
 
     public void PickupFalseKnife()
@@ -55,16 +64,52 @@ public class NarrativeInventory : MonoBehaviour
 
     public void PickupShovel()
     {
-        hasShovel = true;
-        //Anything else
+        if (hasShovel)
+        {
+            hasShovel = false;
+        }
+        else
+        {
+            hasShovel = true;
+        }        //Anything else
     }
 
-    public void CheckPainting(GameObject painting)
+    public void CheckForFinish()
+    {
+        if(hasKnife && hasSalt && hasArm)
+        {
+            finalRitual.SetActive(true);
+        }
+    }
+
+    public void CheckPainting(Painting painting)
     {
         if(painting == paintings[placeInList])
         {
-            placeInList++;
-            //painting.GetComponent<Painting>()
+            painting.CorrectPainting();
+            if(placeInList >= paintings.Count - 1)
+            {
+                painting.FinishedPuzzle();
+
+                foreach (Painting obj in paintings)
+                {
+                    obj.SetDisabled();
+                }
+            }
+            else
+            {
+                placeInList++;
+            }
+        }
+        else
+        {
+            painting.failSound.Play();
+
+            foreach (Painting obj in paintings)
+            {
+                obj.FailedPainting();
+            }
+            placeInList = 0;
         }
     }
 

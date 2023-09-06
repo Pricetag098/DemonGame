@@ -28,6 +28,8 @@ public class InitaliseRitual : Interactable
             spawner.InitaliseRitual(); // set ritual varibles
 
             manager.SetCurrentRitual(spawner);
+
+            manager.TpPlayerOnStart();
         }
     }
 

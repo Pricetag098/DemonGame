@@ -155,6 +155,7 @@ public class RitualSpawner : MonoBehaviour
         completion.SetActive(false);
 
         sm.FinalRitual();
+        sm.TpPlayerOnEnd();
 
         sm.RunDefaultSpawning = true;
         sm.SetCurrentRitual(null);
@@ -164,7 +165,7 @@ public class RitualSpawner : MonoBehaviour
     public void OnFailed(SpawnerManager sm)
     {
         sm.RunDefaultSpawning = true;
-        sm.SetCurrentRitual(null);
+        sm.TpPlayerOnEnd();
 
         RitualActive = false;
         ritual = null;
@@ -177,6 +178,8 @@ public class RitualSpawner : MonoBehaviour
         soundPlayerFail.Play();
 
         DespawnAllActiveDemons();
+
+        sm.SetCurrentRitual(null);
     }
 
     void SetDemonQueue(Wave wave)

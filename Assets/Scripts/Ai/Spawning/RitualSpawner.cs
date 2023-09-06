@@ -225,6 +225,11 @@ public class RitualSpawner : MonoBehaviour
         }
     }
 
+    public void AddDemonBackToQueue(DemonType type)
+    {
+        DemonQueue.Enqueue(type);
+    }
+
     public int DemonCount
     {
         get { return DemonQueue.Count; }

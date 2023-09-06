@@ -139,6 +139,7 @@ public class DemonBase : MonoBehaviour, IDemon
         _spawner.AddDemonBackToPool(_type, _spawnerManager);
 
         if(defaultDespawn == true) _spawner.ActiveDemons.Remove(this);
+        else { _spawnerManager.AddDemonBackToRitual(_type); }
 
         _pooledObject.Despawn();
     }

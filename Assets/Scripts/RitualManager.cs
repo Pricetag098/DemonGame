@@ -43,8 +43,9 @@ public class RitualManager : MonoBehaviour
 
     public void FinalRitual()
     {
-        if(currentRitual is null) { }
-        else if (currentRitual.FinalRitual == true)
+        if(currentRitual is null) { return; }
+        
+        if (currentRitual.FinalRitual == true)
         {
             foreach (GameObject g in FinalCompletionObjects)
             {
@@ -72,5 +73,12 @@ public class RitualManager : MonoBehaviour
         {
             player.position = playerTpLocationEnd.Value.position;
         }
+    }
+
+    public void AddDemonBackToRitual(DemonType type)
+    {
+        if (currentRitual is null) { return; }
+
+        currentRitualSpawner.AddDemonBackToQueue(type);
     }
 }

@@ -10,6 +10,9 @@ public class RitualManager : MonoBehaviour
     [HideInInspector] public Ritual currentRitual;
 
     [SerializeField] List<GameObject> FinalCompletionObjects = new List<GameObject>();
+    [SerializeField] Transform playerTpLocation;
+
+    private Transform player;
 
     private void Awake()
     {
@@ -17,6 +20,8 @@ public class RitualManager : MonoBehaviour
         {
             g.SetActive(false);
         }
+
+        player = GetComponent<SpawnerManager>().player;
     }
 
     public Ritual GetCurrentRitual()
@@ -42,6 +47,8 @@ public class RitualManager : MonoBehaviour
             {
                 g.SetActive(true);
             }
+
+            player.transform.position = playerTpLocation.position;
         }
     }
 

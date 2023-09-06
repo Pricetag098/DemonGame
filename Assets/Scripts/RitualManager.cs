@@ -10,7 +10,9 @@ public class RitualManager : MonoBehaviour
     [HideInInspector] public Ritual currentRitual;
 
     [SerializeField] List<GameObject> FinalCompletionObjects = new List<GameObject>();
-    [SerializeField] Transform playerTpLocation;
+    [SerializeField] Optional<Transform> playerTpLocationStart;
+    [SerializeField] Optional<Transform> playerTpLocationEnd;
+    
 
     private Transform player;
 
@@ -47,8 +49,6 @@ public class RitualManager : MonoBehaviour
             {
                 g.SetActive(true);
             }
-
-            player.transform.position = playerTpLocation.position;
         }
     }
 
@@ -56,5 +56,20 @@ public class RitualManager : MonoBehaviour
     {
         currentRitualSpawner.currentDemons--;
         currentRitualSpawner.demonsLeft--;
+    }
+
+    public void TpPlayerOnStart()
+    {
+        if(playerTpLocationStart.Enabled && currentRitual.TpPlayer == true)
+        {
+            player.position = playerTpLocationStart.Value.position;
+        }
+    }
+    public void TpPlayerOnEnd()
+    {
+        if (playerTpLocationEnd.Enabled && currentRitual.TpPlayer == true)
+        {
+            player.position = playerTpLocationEnd.Value.position;
+        }
     }
 }

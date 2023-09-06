@@ -67,8 +67,7 @@ public class BasicDemon : DemonBase
         
         if(ritualSpawn == true)
         {
-            _spawnerManager.currentRitual.currentDemons--;
-            _spawnerManager.currentRitual.demonsLeft--;
+            _spawnerManager.CurrentRitualOnDemonDeath();
         }
     }
     public override void OnBuff()

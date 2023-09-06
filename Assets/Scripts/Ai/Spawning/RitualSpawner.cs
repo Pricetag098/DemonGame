@@ -31,7 +31,7 @@ public class RitualSpawner : MonoBehaviour
 
     [Header("Ritual Completion")]
     [SerializeField] GameObject completion;
-    [SerializeField] Optional<GameObject> FinalCompletion;
+    
 
     private SpawnerManager manager;
     private DemonSpawner demonSpawner;
@@ -49,7 +49,6 @@ public class RitualSpawner : MonoBehaviour
     private void Start()
     {
         BlockerObjects.gameObject.SetActive(false);
-        if (FinalCompletion.Enabled) FinalCompletion.Value.SetActive(false);
         demonSpawner = manager.DemonSpawner;
     }
 
@@ -147,9 +146,7 @@ public class RitualSpawner : MonoBehaviour
     {
         ritualComplete = true;
         RitualActive = false;
-        sm.RunDefaultSpawning = true;
-        sm.currentRitual = null;
-        sm.RitualIndex++;
+        
 
         BlockerObjects.gameObject.SetActive(false);
 
@@ -157,10 +154,11 @@ public class RitualSpawner : MonoBehaviour
 
         completion.SetActive(false);
 
-        if(FinalCompletion.Enabled)
-        {
-            FinalCompletion.Value.SetActive(true);
-        }
+        sm.FinalRitual();
+
+        sm.RunDefaultSpawning = true;
+        sm.SetCurrentRitual(null);
+        sm.IncrementRitualIndex();
     }
 
     public void OnFailed(SpawnerManager sm)

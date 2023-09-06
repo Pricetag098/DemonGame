@@ -21,13 +21,13 @@ public class InitaliseRitual : Interactable
         {
             manager.RunDefaultSpawning = false; // set default spawn off
 
-            spawner.ritual = manager.Rituals[manager.RitualIndex]; // get the next ritual
+            spawner.ritual = manager.GetCurrentRitual();
 
             manager.DespawnAllActiveDemons(); // despawn all active demons
 
             spawner.InitaliseRitual(); // set ritual varibles
 
-            manager.currentRitual = spawner;
+            manager.SetCurrentRitual(spawner);
         }
     }
 

@@ -10,10 +10,12 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(DemonSpawner))]
 [RequireComponent(typeof(DemonPoolers))]
 [RequireComponent(typeof(Spawners))]
+[RequireComponent(typeof(RitualManager))]
 public class SpawnerManager : MonoBehaviour
 {
     [HideInInspector] public WaveManager WaveManager;
     [HideInInspector] public DemonSpawner DemonSpawner;
+    [HideInInspector] public RitualManager RitualManager;
     
 
     [Header("Player")]
@@ -53,6 +55,7 @@ public class SpawnerManager : MonoBehaviour
     {
         WaveManager = GetComponent<WaveManager>();
         DemonSpawner = GetComponent<DemonSpawner>();
+        RitualManager = GetComponent<RitualManager>();
     }
     private void Start()
     {
@@ -129,6 +132,29 @@ public class SpawnerManager : MonoBehaviour
         DemonSpawner.ActiveSpawners(Id, CurrentArea);
     }
 
+    public Ritual GetCurrentRitual()
+    {
+        return RitualManager.GetCurrentRitual();
+    }
+
+    public void IncrementRitualIndex()
+    {
+        RitualManager.IncrementIndex();
+    }
+    public void SetCurrentRitual(RitualSpawner rs)
+    {
+        RitualManager.SetCurrentRitual(rs);
+    }
+
+    public void FinalRitual()
+    {
+        RitualManager.FinalRitual();
+    }
+    public void CurrentRitualOnDemonDeath()
+    {
+        RitualManager.CurrentRitualOnDemonDeath();
+    }
+
     void WaveStart()
     {
         WaveManager.NextWave(currentRound);
@@ -176,40 +202,3 @@ public class SpawnerManager : MonoBehaviour
         get { return HelperFuntions.EvaluateAnimationCuveInt(spawnsEachTick, currentRound); }
     }
 }
-//protected override void DoBuy(Interactor interactor)
-//{
-//    open = true;
-
-//    foreach (Optional<Area> area in AreaConnections)
-//    {
-//        if (area.Enabled)
-//        {
-//            area.Value.discovered = true;
-
-//            Spawners.GetDictionaryArea(DetectArea.CurrentArea, out Area currentArea);
-
-//            foreach (Optional<AreaConnect> areasInConnections in area.Value.AdjacentAreas)
-//            {
-//                if (areasInConnections.Enabled)
-//                {
-//                    if (areasInConnections.Value.Area == currentArea)
-//                    {
-//                        areasInConnections.Value.Open = true;
-
-//                        foreach (Optional<AreaConnect> AreasTouchingCurrentArea in areasInConnections.Value.Area.AdjacentAreas)
-//                        {
-//                            if (AreasTouchingCurrentArea.Value.Area == AreaConnection1.Value)
-//                            {
-//                                AreasTouchingCurrentArea.Value.Open = true;
-//                                break;
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-
-//    doAnimationStuff
-//    transform.parent.gameObject.SetActive(false);
-//}

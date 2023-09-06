@@ -4,20 +4,25 @@ using UnityEngine;
 
 public class DamageProjectiles : MonoBehaviour
 {
+    [HideInInspector]
+    public int penetrations;
     public int maxPenetrations;
-    float damage;
+    [HideInInspector]
+    public float damage;
     Rigidbody body;
     PooledObject pooledObject;
     ProjectileVisualiser visualiser;
     List<Health> healths = new List<Health>();
-    Ability ability;
+    [HideInInspector]
+    public Ability ability;
     float timer;
     float maxTimer;
-    Vector3 start,mid, end,offset;
+    [HideInInspector]
+    public Vector3 start,mid, end,offset;
     Transform target;
     bool useTarget;
 
-    public delegate void Action();
+    public delegate void Action(Health health);
     public Action onPenetrate;
     // Start is called before the first frame update
     void Awake()
@@ -29,6 +34,7 @@ public class DamageProjectiles : MonoBehaviour
 
     public void Shoot(Vector3 origin,Vector3 mid,Vector3 end,float time,float dmg,Ability ability,int penetrations)
 	{
+        Debug.Log(Random.state);
         damage = dmg;
         transform.position = origin;
         useTarget = false;
@@ -40,7 +46,9 @@ public class DamageProjectiles : MonoBehaviour
         this.ability = ability;
         visualiser.Start(ability.caster.castOrigin, transform);
         maxPenetrations = penetrations;
-	}
+        body.isKinematic = false;
+        this.penetrations = 0;
+    }
 
     public void Shoot(Vector3 origin, Vector3 mid, Transform end,Vector3 offset, float time, float dmg, Ability ability, int penetrations)
     {
@@ -49,6 +57,7 @@ public class DamageProjectiles : MonoBehaviour
         transform.position = origin;
         this.offset = offset;
         timer = 0;
+        this.penetrations = 0;
         start = origin;
         this.mid = mid;
         target = end;
@@ -57,9 +66,10 @@ public class DamageProjectiles : MonoBehaviour
         this.ability = ability;
         visualiser.Start(ability.caster.castOrigin, transform);
         maxPenetrations = penetrations;
+        body.isKinematic = false;
     }
 
-    int penetrations;
+    
 	private void OnTriggerEnter(Collider other)
 	{
         
@@ -71,6 +81,9 @@ public class DamageProjectiles : MonoBehaviour
                 hb.OnHit(damage);
                 healths.Add(hb.health);
                 ability.OnHit();
+                penetrations++;
+                if (onPenetrate != null)
+                    onPenetrate(hb.health);
             }
         }
             
@@ -83,8 +96,7 @@ public class DamageProjectiles : MonoBehaviour
 		{
             VfxSpawner.SpawnVfx(0, other.ClosestPoint(transform.position), -transform.forward,Vector3.one);
 		}
-        if(onPenetrate != null)
-            onPenetrate();
+        
         if(penetrations > maxPenetrations)
         {
             body.isKinematic = true;
@@ -107,6 +119,7 @@ public class DamageProjectiles : MonoBehaviour
             VfxSpawner.SpawnVfx(0, collision.collider.ClosestPoint(transform.position), -transform.forward,Vector3.one);
         }
         body.isKinematic = true;
+        Debug.Log("Dead");
         GetComponent<PooledObject>().Despawn();
     }
 
@@ -118,7 +131,7 @@ public class DamageProjectiles : MonoBehaviour
         if(timer > maxTimer)
             GetComponent<PooledObject>().Despawn();
         float t = timer / maxTimer;
-        transform.position = QaudraticLerp(start,mid,end,t);
+        body.position = QaudraticLerp(start,mid,end,t);
         transform.forward = Vector3.Lerp(mid - start, end - mid,t);
 	}
 
@@ -128,5 +141,12 @@ public class DamageProjectiles : MonoBehaviour
         Vector3 bc = Vector3.Lerp(b, c, t);
         return Vector3.Lerp(ab, bc, t);
     }
+	private void OnDrawGizmos()
+	{
+        //Gizmos.color = Color.green;
+        //Gizmos.DrawWireSphere(start, 1);
+        //Gizmos.DrawWireSphere(mid, 1);
+        //Gizmos.DrawWireSphere(end, 1);
+	}
 
 }

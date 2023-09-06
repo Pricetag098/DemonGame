@@ -2508,6 +2508,7 @@ GameObject:
   - component: {fileID: 4867526470490068480}
   - component: {fileID: 5752763157561526357}
   - component: {fileID: 6430374609508936489}
+  - component: {fileID: 9093194969477075321}
   m_Layer: 0
   m_Name: Spawner
   m_TagString: Untagged
@@ -2552,6 +2553,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaveManager: {fileID: 0}
   DemonSpawner: {fileID: 0}
+  RitualManager: {fileID: 0}
   player: {fileID: 0}
   playerAgent: {fileID: 0}
   canSpawn: 0
@@ -2738,6 +2740,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ActiveDemons: []
   demonPool: {fileID: 0}
+--- !u!114 &9093194969477075321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6430374609508936488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1731f59778e577447a79c92b48380b5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Rituals:
+  - {fileID: 11400000, guid: 9e40c78e256f16b4ebe7845554c3aac4, type: 2}
+  - {fileID: 11400000, guid: 550cd2643cf98984fa98033877c608c2, type: 2}
+  - {fileID: 11400000, guid: c479cc0be42657343ae041508a6da32b, type: 2}
+  - {fileID: 11400000, guid: 749e9968747722b4794da37ac3d91f86, type: 2}
+  RitualIndex: 0
+  currentRitualSpawner: {fileID: 0}
+  currentRitual: {fileID: 0}
+  finalCompletion:
+    enabled: 0
+    val: {fileID: 0}
 --- !u!1 &6430374609531960352
 GameObject:
   m_ObjectHideFlags: 0

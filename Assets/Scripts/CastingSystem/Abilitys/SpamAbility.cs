@@ -27,7 +27,7 @@ public class SpamAbility : Ability
 		if(timer > cooldown)
 		{
 			Vector3 rand = Random.insideUnitSphere * spreadUnits;
-			if (aimAssist.GetAssistedAimDir(direction,origin,1,out Transform target))
+			if (aimAssist.GetAssistedAimDir(direction,origin,1,0,out Transform target))
 			{
 				float d = Vector3.Distance(origin, target.position);
 				Vector3 mid = origin + (direction * d / 2) ;

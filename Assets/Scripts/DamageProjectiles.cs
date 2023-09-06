@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DamageProjectiles : MonoBehaviour
 {
+    [HideInInspector]
+    public int penetrations;
     public int maxPenetrations;
     float damage;
     Rigidbody body;
@@ -60,7 +62,7 @@ public class DamageProjectiles : MonoBehaviour
         maxPenetrations = penetrations;
     }
 
-    int penetrations;
+    
 	private void OnTriggerEnter(Collider other)
 	{
         

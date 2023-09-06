@@ -10,11 +10,12 @@ public class AimAssist
     [SerializeField] float directionWeight = 1;
     [SerializeField] float distanceWeight = 1;
     //[SerializeField] float priorityWeight = 1;
+    [SerializeField] float minDistance = 0;
     [Range(-1, 1)]
     [SerializeField] float minDirectionValue = -1;
     [Range(0f, 1f)]
     [SerializeField] float assistWeight = 1;
-    public bool GetAssistedAimDir(Vector3 aimDir,Vector3 origin, float projectileSpeed,float minDist,out Transform bestTarget)
+    public bool GetAssistedAimDir(Vector3 aimDir,Vector3 origin, float projectileSpeed,out Transform bestTarget)
     {
         bestTarget = null;
         if (assistWeight == 0)
@@ -37,7 +38,7 @@ public class AimAssist
                     continue;
                 if(hb.health.TryGetComponent(out VfxTargets target))
 				{
-                    foundTarget = true;
+                    
                     healths.Add(hb.health);
                     Vector3 casterToTarget = target.core.position - origin;
                     casterToTarget.y = 0;
@@ -50,7 +51,7 @@ public class AimAssist
                     Vector3 casterToTargetNorm = casterToTarget.normalized;
                     float directionValue = Vector3.Dot(aimDir, casterToTargetNorm);
                     float distance = casterToTarget.magnitude;
-                    if (directionValue < minDirectionValue || distance < minDist)
+                    if (directionValue < minDirectionValue || distance < minDistance)
                         continue;
                     directionValue *= directionWeight;
                     float val = directionValue + (1 / distance) * distanceWeight;
@@ -58,6 +59,7 @@ public class AimAssist
                     {
                         bestVal = val;
                         bestTarget = target.core;
+                        foundTarget = true;
                     }
                 }
                 

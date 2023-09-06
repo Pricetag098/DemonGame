@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class BloodKnifeBounce : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	DamageProjectiles damageProjectiles;
+	[SerializeField] AimAssist aimAssist;
+	private void Awake()
+	{
+		damageProjectiles = GetComponent<DamageProjectiles>();
+		damageProjectiles.onPenetrate += Bounce;
+	}
+	void Bounce()
+	{
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	}
 }

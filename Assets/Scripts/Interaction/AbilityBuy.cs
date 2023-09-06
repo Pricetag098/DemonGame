@@ -22,6 +22,7 @@ public class AbilityBuy : ShopInteractable
 	{
 		if(respawnOnAwake)
 			Respawn();
+		
 	}
 	protected override bool CanBuy(Interactor interactor)
 	{
@@ -64,7 +65,10 @@ public class AbilityBuy : ShopInteractable
 
 	void Respawn()
 	{
-		GameObject target = validPositions[Random.Range(0, validPositions.Count)];
+		
+		int r = Random.Range(0, validPositions.Count);
+		//Debug.Log(r);
+		GameObject target = validPositions[r];
 
 		if(lastPos is null)
 		{

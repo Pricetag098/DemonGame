@@ -46,11 +46,6 @@ public class SpawnerManager : MonoBehaviour
     private float spawnTimer;
     private float endRoundTimer;
 
-    [Header("Rituals")]
-    public List<Ritual> Rituals = new List<Ritual>();
-    [HideInInspector] public int RitualIndex = 0;
-    [HideInInspector] public RitualSpawner currentRitual;
-
     private void Awake()
     {
         WaveManager = GetComponent<WaveManager>();

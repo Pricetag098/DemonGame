@@ -9,13 +9,13 @@ public class RitualManager : MonoBehaviour
     [HideInInspector] public RitualSpawner currentRitualSpawner;
     [HideInInspector] public Ritual currentRitual;
 
-    [SerializeField] Optional<Transform> finalCompletion;
+    [SerializeField] List<GameObject> FinalCompletionObjects = new List<GameObject>();
 
     private void Awake()
     {
-        if (finalCompletion.Enabled)
+        foreach(GameObject g in FinalCompletionObjects)
         {
-            finalCompletion.Value.gameObject.SetActive(false);
+            g.SetActive(false);
         }
     }
 
@@ -36,9 +36,12 @@ public class RitualManager : MonoBehaviour
 
     public void FinalRitual()
     {
-        if (finalCompletion.Enabled && currentRitual.FinalRitual == true)
+        if (currentRitual.FinalRitual == true)
         {
-            finalCompletion.Value.gameObject.SetActive(true);
+            foreach (GameObject g in FinalCompletionObjects)
+            {
+                g.SetActive(false);
+            }
         }
     }
 

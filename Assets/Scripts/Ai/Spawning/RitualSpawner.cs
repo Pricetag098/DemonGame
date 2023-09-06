@@ -164,7 +164,7 @@ public class RitualSpawner : MonoBehaviour
     public void OnFailed(SpawnerManager sm)
     {
         sm.RunDefaultSpawning = true;
-        sm.currentRitual = null;
+        sm.SetCurrentRitual(null);
 
         RitualActive = false;
         ritual = null;
@@ -218,14 +218,6 @@ public class RitualSpawner : MonoBehaviour
         for (int i = 0; i < amount; i++)
         {
             list.Add(type);
-        }
-    }
-
-    void SetObjects(bool active)
-    {
-        foreach(Transform ob in blockers)
-        {
-            ob.gameObject.SetActive(active);
         }
     }
 

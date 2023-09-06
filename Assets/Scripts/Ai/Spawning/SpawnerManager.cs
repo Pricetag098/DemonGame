@@ -150,6 +150,21 @@ public class SpawnerManager : MonoBehaviour
         RitualManager.CurrentRitualOnDemonDeath();
     }
 
+    public void TpPlayerOnStart()
+    {
+        RitualManager.TpPlayerOnStart();
+    }
+
+    public void TpPlayerOnEnd()
+    {
+        RitualManager.TpPlayerOnEnd();
+    }
+
+    public void AddDemonBackToRitual(DemonType type)
+    {
+        RitualManager.AddDemonBackToRitual(type);
+    }
+
     void WaveStart()
     {
         WaveManager.NextWave(currentRound);

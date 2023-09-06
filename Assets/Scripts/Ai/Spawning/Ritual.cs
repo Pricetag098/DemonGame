@@ -14,4 +14,5 @@ public class Ritual : ScriptableObject
     public int TimeBetweenSpawns;
 
     public bool FinalRitual;
+    public bool TpPlayer;
 }

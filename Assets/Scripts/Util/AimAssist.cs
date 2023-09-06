@@ -15,7 +15,7 @@ public class AimAssist
     [SerializeField] float minDirectionValue = -1;
     [Range(0f, 1f)]
     [SerializeField] float assistWeight = 1;
-    public bool GetAssistedAimDir(Vector3 aimDir,Vector3 origin, float projectileSpeed,out Transform bestTarget)
+    public bool GetAssistedAimDir(Vector3 aimDir,Vector3 origin, float projectileSpeed,out Transform bestTarget, List<Health> ignoreList)
     {
         bestTarget = null;
         if (assistWeight == 0)
@@ -26,6 +26,7 @@ public class AimAssist
 
         Collider[] colliders = Physics.OverlapSphere(origin, maxRange, aimAssistLayer);
         List<Health> healths = new List<Health>();
+        
         bool foundTarget = false;
         float bestVal = float.NegativeInfinity;
         for (int i = 0; i < colliders.Length; i++)
@@ -34,7 +35,7 @@ public class AimAssist
             HitBox hb;
             if (colliders[i].TryGetComponent(out hb))
             {
-                if (healths.Contains(hb.health))
+                if (healths.Contains(hb.health) || ignoreList.Contains(hb.health))
                     continue;
                 if(hb.health.TryGetComponent(out VfxTargets target))
 				{

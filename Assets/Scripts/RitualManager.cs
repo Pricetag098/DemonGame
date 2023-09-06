@@ -43,7 +43,8 @@ public class RitualManager : MonoBehaviour
 
     public void FinalRitual()
     {
-        if (currentRitual.FinalRitual == true)
+        if(currentRitual is null) { }
+        else if (currentRitual.FinalRitual == true)
         {
             foreach (GameObject g in FinalCompletionObjects)
             {

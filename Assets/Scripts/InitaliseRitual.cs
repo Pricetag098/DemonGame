@@ -21,7 +21,11 @@ public class InitaliseRitual : Interactable
         {
             manager.RunDefaultSpawning = false; // set default spawn off
 
-            spawner.ritual = manager.GetCurrentRitual();
+            if(spawner.ritual is null)
+            { 
+                spawner.ritual = manager.GetCurrentRitual();
+                spawner.IncrementRitual = true;
+            }
 
             manager.DespawnAllActiveDemons(); // despawn all active demons
 

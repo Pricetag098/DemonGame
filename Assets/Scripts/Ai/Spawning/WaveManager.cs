@@ -86,10 +86,6 @@ public class WaveManager : MonoBehaviour
 
         int listSize = specialDemonTypes.Count;
 
-#if UNITY_EDITOR
-        HelperFuntions.ClearLog();
-#endif
-
         for (int i = 0; i < listSize; i++)
         {
             // calculate at what position to add demon

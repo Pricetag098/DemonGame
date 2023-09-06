@@ -31,6 +31,7 @@ public class RitualSpawner : MonoBehaviour
 
     [Header("Ritual Completion")]
     [SerializeField] GameObject completion;
+    [HideInInspector] public bool IncrementRitual;
     
 
     private SpawnerManager manager;
@@ -147,7 +148,6 @@ public class RitualSpawner : MonoBehaviour
         ritualComplete = true;
         RitualActive = false;
         
-
         BlockerObjects.gameObject.SetActive(false);
 
         soundPlayerComplete.Play();
@@ -159,7 +159,8 @@ public class RitualSpawner : MonoBehaviour
 
         sm.RunDefaultSpawning = true;
         sm.SetCurrentRitual(null);
-        sm.IncrementRitualIndex();
+
+        if(IncrementRitual == true) sm.IncrementRitualIndex();
     }
 
     public void OnFailed(SpawnerManager sm)
@@ -179,7 +180,7 @@ public class RitualSpawner : MonoBehaviour
 
         DespawnAllActiveDemons();
 
-        sm.SetCurrentRitual(null);
+        if (IncrementRitual == true) sm.SetCurrentRitual(null);
     }
 
     void SetDemonQueue(Wave wave)

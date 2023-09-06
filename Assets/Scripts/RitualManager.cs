@@ -40,7 +40,7 @@ public class RitualManager : MonoBehaviour
         {
             foreach (GameObject g in FinalCompletionObjects)
             {
-                g.SetActive(false);
+                g.SetActive(true);
             }
         }
     }

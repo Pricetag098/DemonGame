@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class Dagger : MonoBehaviour
 {
-    public List<Transform> gates;
-    public List<Transform> mounds;
-    public List<Transform> graveInteractables;
-    public Transform falseDaggerInteractable;
-    public List<Transform> daggerModels;
-    public Transform interactable;
+    [SerializeField] private List<Transform> gates;
+    [SerializeField] private List<Transform> mounds;
+    [SerializeField] private List<Transform> graveInteractables;
+    [SerializeField] private Transform falseDaggerInteractable;
+    [SerializeField] private List<Transform> daggerModels;
+    [SerializeField] private Transform interactable;
     private bool playerHasDagger = false;
     private bool playerHasFalseDagger = false;
     private bool playerHasShovel = false;
+    [SerializeField] private List<AudioSource> audioSources;
+    private Animator animator;
+    private void Start() 
+    {
+    animator = GetComponent<Animator>();    
+    }
 
     public void PickupDagger()
     {
@@ -24,6 +30,7 @@ public class Dagger : MonoBehaviour
                 {
                     t.gameObject.SetActive(false);
                 }
+                            animator.SetTrigger("PillarDown");
                 daggerModels[1].gameObject.SetActive(true);
                 interactable.gameObject.SetActive(false);
             }
@@ -34,6 +41,7 @@ public class Dagger : MonoBehaviour
                 {
                     t.gameObject.SetActive(false);
                 }
+                            animator.SetTrigger("PillarDown");
                 daggerModels[0].gameObject.SetActive(true);
             }
         }
@@ -44,6 +52,8 @@ public class Dagger : MonoBehaviour
             {
                 t.gameObject.SetActive(true);
             }
+            audioSources[0].Play();
+            animator.SetTrigger("PillarUp");
             daggerModels[0].gameObject.SetActive(false);
         }
     }

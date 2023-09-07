@@ -6,7 +6,7 @@ public class VfxSpawnRequest : ScriptableObject
 {
 	public GameObject prefab;
 	public int poolSize = 10;
-	public List<AudioClip> clips = new List<AudioClip>();
+
 
 	public void Play(Vector3 point, Vector3 dir)
 	{
@@ -16,15 +16,4 @@ public class VfxSpawnRequest : ScriptableObject
 	{
 		VfxSpawner.SpawnVfx(this, point, dir,scale);
 	}
-
-	private void OnValidate()
-	{
-		if (prefab != null)
-		{
-			SoundPlayer s = prefab.GetComponentInChildren<SoundPlayer>();
-			s.vfxData.Value = this;
-			s.enabled = true;
-		}
-	}
-	
 }

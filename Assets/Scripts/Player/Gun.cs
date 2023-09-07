@@ -324,13 +324,13 @@ public class Gun : MonoBehaviour
                         
 
                     }
-                    Surface hitSettings;
+                    HitSettings hitSettings;
                     if (hit.collider.TryGetComponent(out hitSettings))
                     {
                         if (hitSettings.Penetrable)
                             penetrable = true;
                         if(playFx)
-                        hitSettings.PlayHitVfx(hit.point, Vector3.Lerp(-dir, hit.normal, .5f));
+                        hitSettings.PlayVfx(hit.point, Vector3.Lerp(-dir, hit.normal, .5f));
                     }
                     else
                     {

@@ -7,7 +7,7 @@ public class SurfaceData : ScriptableObject
 {
 	public Optional<VfxSpawnRequest> hitFx;
 	public Optional<VfxSpawnRequest> stepFx;
-
+	public Optional<VfxSpawnRequest> slideFx;
 	public void PlayHitVfx(Vector3 pos, Vector3 dir)
 	{
 		if (hitFx.Enabled)
@@ -18,5 +18,10 @@ public class SurfaceData : ScriptableObject
 	{
 		if (stepFx.Enabled)
 			stepFx.Value.Play(pos, dir);
+	}
+	public void PlaySlideVfx(Vector3 pos, Vector3 dir)
+	{
+		if (slideFx.Enabled)
+			slideFx.Value.Play(pos, dir);
 	}
 }

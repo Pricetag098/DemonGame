@@ -87,10 +87,10 @@ public class DamageProjectiles : MonoBehaviour
             }
         }
             
-        HitSettings hs;
+        Surface hs;
         if(other.gameObject.TryGetComponent(out hs))
 		{
-            hs.PlayVfx(other.ClosestPoint(transform.position), -transform.forward);
+            hs.PlayHitVfx(other.ClosestPoint(transform.position), -transform.forward);
 		}
 		else
 		{
@@ -108,10 +108,10 @@ public class DamageProjectiles : MonoBehaviour
 	}
     private void OnCollisionEnter(Collision collision)
     {
-        HitSettings hs;
+        Surface hs;
         if (collision.gameObject.TryGetComponent(out hs))
         {
-            hs.PlayVfx(collision.collider.ClosestPoint(transform.position), -transform.forward);
+            hs.PlayHitVfx(collision.collider.ClosestPoint(transform.position), -transform.forward);
         }
         else
         {

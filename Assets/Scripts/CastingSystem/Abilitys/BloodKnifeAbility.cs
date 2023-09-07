@@ -76,7 +76,7 @@ public class BloodKnifeAbility : Ability
         caster.RemoveBlood(chargeCostCurve.Evaluate(chargePercent));
         spawnVfx.Play(caster.castOrigin.position, lastAimDir);
     }
-    public override void OnHit()
+    public override void OnHit(Health health)
     {
         if (caster.playerStats.Enabled)
             caster.playerStats.Value.GainPoints(points);

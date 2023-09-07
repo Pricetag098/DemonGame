@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "abilities/old blood knife")]
-public class SpamAbility : Ability
+[CreateAssetMenu(menuName = "abilities/FingerGun")]
+public class FingerGun : Ability
 {
-    [SerializeField] float damage;
+	[SerializeField] float damage;
 	[SerializeField] GameObject prefab;
 	ObjectPooler pool;
 	[SerializeField] int poolSize;
@@ -13,45 +13,35 @@ public class SpamAbility : Ability
 	[SerializeField] float spreadUnits;
 	[SerializeField] float castsPerMin;
 	[SerializeField] float speed;
-	[SerializeField] VfxSpawnRequest spawnFx;
+	[SerializeField] VfxSpawnRequest spawnFx,executeFx;
+	[Range(0f, 1f)]
+	[SerializeField] float executePercent;
 	float cooldown;
 	float timer;
 	[SerializeField] AimAssist aimAssist;
-	
+
 	public override void Tick()
 	{
 		timer += Time.deltaTime;
 	}
 	public override void Cast(Vector3 origin, Vector3 direction)
 	{
-		if(timer > cooldown)
+		if (timer > cooldown)
 		{
 			Vector3 rand = Random.insideUnitSphere * spreadUnits;
-			if (aimAssist.GetAssistedAimDir(direction,origin,1,out Transform target,new List<Health>()))
-			{
-				float d = Vector3.Distance(origin, target.position);
-				Vector3 mid = origin + (direction * d / 2) ;
+			Vector3 end = origin + direction * 100;
+			Vector3 mid = Vector3.Lerp(origin, end, .5f);
+			pool.Spawn().GetComponent<DamageProjectiles>().Shoot(origin + rand, mid + rand, end + rand, 100 / speed, damage, this, 1);
 
-				pool.Spawn().GetComponent<DamageProjectiles>().Shoot(origin + rand, mid + rand,target,rand, d/speed, damage, this, 1);
-			}
-			else
-			{
-				Vector3 end = origin + direction * 100;
-				Vector3 mid = Vector3.Lerp(origin, end, .5f);
-				pool.Spawn().GetComponent<DamageProjectiles>().Shoot(origin + rand, mid + rand,end + rand,100/speed, damage, this, 1);
-			}
-
-
-			
 			timer = 0;
 			caster.RemoveBlood(bloodCost);
-			spawnFx.Play(caster.castOrigin.position,direction);
-			
-			
+			spawnFx.Play(caster.castOrigin.position, direction);
+
+
 		}
-		
+
 	}
-	
+
 	protected override void OnEquip()
 	{
 		pool = new GameObject().AddComponent<ObjectPooler>();
@@ -68,5 +58,14 @@ public class SpamAbility : Ability
 	{
 		if (caster.playerStats.Enabled)
 			caster.playerStats.Value.GainPoints(points);
+
+		if(health.health / health.maxHealth < executePercent)
+		{
+			health.TakeDmg(float.PositiveInfinity);
+			if(health.TryGetComponent(out VfxTargets target))
+			{
+				executeFx.Play(target.origin.position, target.origin.forward);
+			}
+		}
 	}
 }

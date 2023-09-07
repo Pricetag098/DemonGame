@@ -80,7 +80,7 @@ public class DamageProjectiles : MonoBehaviour
             {
                 hb.OnHit(damage);
                 healths.Add(hb.health);
-                ability.OnHit();
+                ability.OnHit(hb.health);
                 penetrations++;
                 if (onPenetrate != null)
                     onPenetrate(hb.health);

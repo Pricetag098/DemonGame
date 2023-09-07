@@ -73,7 +73,7 @@ public class BloodSpikeAbility : Ability
 				{
 					healths.Add(hb.health);
 					hb.health.TakeDmg(distanceDamage.Evaluate(distance/range));
-					OnHit();
+					OnHit(hb.health);
 				}
 			}
 		}
@@ -83,7 +83,7 @@ public class BloodSpikeAbility : Ability
 		Destroy(pooler.gameObject);
 	}
 
-	public override void OnHit()
+	public override void OnHit(Health health)
 	{
 		if (caster.playerStats.Enabled)
 			caster.playerStats.Value.GainPoints(points);

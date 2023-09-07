@@ -12,9 +12,9 @@ public class VFXGen : EditorWindow
 
     GameObject VFXObject;
 
-    GameObject VFXToSpawn;
+    List<GameObject> VFXToSpawn;
 
-    GameObject SpawnedVFX;
+    List<GameObject> SpawnedVFX;
 
     GameObject SavedVFX;
 
@@ -48,6 +48,9 @@ public class VFXGen : EditorWindow
         VFXObject = PrefabUtility.InstantiatePrefab(VFXBase) as GameObject;
 
         SoundPlayer = VFXObject.GetComponentInChildren<SoundPlayer>();
+
+
+        VFXToSpawn = new List<GameObject>();
     }
 
     private void OnGUI()
@@ -63,7 +66,22 @@ public class VFXGen : EditorWindow
 
             GUILayout.Space(5);
 
-            VFXToSpawn = (GameObject)EditorGUILayout.ObjectField("VFX", VFXToSpawn, typeof(GameObject), allowSceneObjects: false, GUILayout.Width(305));
+            for (int i = 0; i < VFXToSpawn.Count; i++)
+            {
+                VFXToSpawn[i] = (GameObject)EditorGUILayout.ObjectField("VFX", VFXToSpawn[i], typeof(GameObject), allowSceneObjects: false, GUILayout.Width(305));
+            }
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(355);
+            if (GUILayout.Button("+", GUILayout.Width(50), GUILayout.Height(15)))
+            {
+                VFXToSpawn.Add(null);
+            }
+            if (GUILayout.Button("-", GUILayout.Width(50), GUILayout.Height(15)))
+            {
+                VFXToSpawn.Remove(VFXToSpawn[VFXToSpawn.Count - 1]);
+            }
+            GUILayout.EndHorizontal();
+            GUILayout.Space(2f);
             EditorGUILayout.LabelField("VFX for the spawner to use.", EditorStyles.miniLabel);
 
             GUILayout.Space(5);
@@ -106,9 +124,12 @@ public class VFXGen : EditorWindow
 
             if (GUILayout.Button("Generate VFX", GUILayout.Width(150), GUILayout.Height(20)))
             {
-                if(VFXToSpawn != null)
+                if(VFXToSpawn.Count > 0)
                 {
-                    SpawnedVFX = Instantiate(VFXToSpawn, VFXObject.transform);
+                    for (int i = 0; i < VFXToSpawn.Count; i++)
+                    {
+                        SpawnedVFX.Add(Instantiate(VFXToSpawn[i], VFXObject.transform));
+                    }
                 }
 
                 generatedVFX = true;
@@ -116,11 +137,14 @@ public class VFXGen : EditorWindow
         }
         else if (generatedVFX && !finished)
         {
-            if(VFXToSpawn != null)
+            if(VFXToSpawn.Count > 0)
             {
-                if (GUILayout.Button("Flip VFX Up", GUILayout.Width(150), GUILayout.Height(20)))
+                for (int i = 0; i < SpawnedVFX.Count; i++)
                 {
-                    SpawnedVFX.transform.forward = SpawnedVFX.transform.up;
+                    if (GUILayout.Button("Flip " + SpawnedVFX[i].name + " Up", GUILayout.Width(150), GUILayout.Height(20)))
+                    {
+                        SpawnedVFX[i].transform.forward = SpawnedVFX[i].transform.up;
+                    }
                 }
                 EditorGUILayout.LabelField("Flips the forward Vector of the VFX to face up.", EditorStyles.miniLabel);
 

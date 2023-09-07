@@ -88,8 +88,8 @@ namespace Movement
 		Vector2 inputDir;
 		PlayerStats playerStats;
 
-		bool grounded;
-		bool touchingSurface;
+		[HideInInspector] public bool grounded;
+		[HideInInspector] public bool touchingSurface;
 		[SerializeField] float surfaceCheckRange;
 
 		Vector3 slideEntryVel;

@@ -86,18 +86,19 @@ public class DamageProjectiles : MonoBehaviour
                     onPenetrate(hb.health);
             }
         }
-            
+        SurfaceData data;
         Surface hs;
         if(other.gameObject.TryGetComponent(out hs))
 		{
-            hs.PlayHitVfx(other.ClosestPoint(transform.position), -transform.forward);
+            data = hs.data;
 		}
 		else
 		{
-            VfxSpawner.SpawnVfx(0, other.ClosestPoint(transform.position), -transform.forward,Vector3.one);
+            data = VfxSpawner.DefaultSurfaceData;
 		}
-        
-        if(penetrations > maxPenetrations)
+        data.PlayHitVfx(other.ClosestPoint(transform.position), -transform.forward); 
+
+        if (penetrations > maxPenetrations)
         {
             body.isKinematic = true;
             GetComponent<PooledObject>().Despawn();
@@ -108,16 +109,17 @@ public class DamageProjectiles : MonoBehaviour
 	}
     private void OnCollisionEnter(Collision collision)
     {
+        SurfaceData data;
         Surface hs;
         if (collision.gameObject.TryGetComponent(out hs))
         {
-            hs.PlayHitVfx(collision.collider.ClosestPoint(transform.position), -transform.forward);
+            data = hs.data;
         }
         else
         {
-
-            VfxSpawner.SpawnVfx(0, collision.collider.ClosestPoint(transform.position), -transform.forward,Vector3.one);
+            data = VfxSpawner.DefaultSurfaceData;
         }
+        data.PlayHitVfx(collision.collider.ClosestPoint(transform.position), -transform.forward);
         body.isKinematic = true;
         Debug.Log("Dead");
         GetComponent<PooledObject>().Despawn();

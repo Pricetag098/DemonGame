@@ -90,6 +90,7 @@ namespace Movement
 
 		[HideInInspector] public bool grounded;
 		[HideInInspector] public bool touchingSurface;
+		[HideInInspector] public RaycastHit lastSurface;
 		[SerializeField] float surfaceCheckRange;
 
 		Vector3 slideEntryVel;
@@ -470,6 +471,7 @@ namespace Movement
 			{
 				surfaceNormal = hit.normal;
 				touchingSurface = hit.distance <= surfaceCheckRange;
+				lastSurface = hit;
 			}
 			else
 			{

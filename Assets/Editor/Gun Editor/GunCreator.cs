@@ -409,7 +409,7 @@ public class GunCreator : EditorWindow
 
                 GUILayout.Space(5);
 
-                if (GUILayout.Button("Finished With Gun Placement", GUILayout.Width(150), GUILayout.Height(20)))
+                if (GUILayout.Button("Finished With Gun Placement", GUILayout.Width(250), GUILayout.Height(20)))
                 {
                     if (hasVFX)
                     {

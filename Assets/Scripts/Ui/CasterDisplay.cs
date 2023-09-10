@@ -32,6 +32,6 @@ public class CasterDisplay : MonoBehaviour
             icons[i].sprite = caster.caster.abilities[i].icon;
             icons[i].GetComponent<Outline>().enabled = i == caster.activeIndex;
 		}
-        bloodMeter.value = dynamics.Update(Time.deltaTime,caster.caster.blood / caster.caster.maxBlood);
+        bloodMeter.value = dynamics.Update(Time.unscaledDeltaTime,caster.caster.blood / caster.caster.maxBlood);
     }
 }

@@ -9,6 +9,9 @@ public class VfxSpawner : MonoBehaviour
 	List<VfxSpawnRequest> vfxlist = new List<VfxSpawnRequest>();
 
 	Dictionary<VfxSpawnRequest, ObjectPooler> poolDict = new Dictionary<VfxSpawnRequest, ObjectPooler>();
+
+	public static SurfaceData DefaultSurfaceData { get { return instance.defaultSurfaceData; } }
+	[SerializeField] SurfaceData defaultSurfaceData;
 	private void Awake()
 	{
 		if (instance != null)

@@ -129,17 +129,27 @@ public class DemonBase : MonoBehaviour, IDemon
         PlaySoundIdle();
     }
     public virtual void OnBuff() { }
-    public virtual void OnRespawn(bool defaultDespawn = true)
+    public virtual void OnRespawn(bool defaultDespawn = true, bool forcedDespawn = false, bool ritualDespawn = false)
     {
         _agent.speed = 0;
         _agent.enabled = false;
 
         SetAllColliders(false);
 
-        _spawner.AddDemonBackToPool(_type, _spawnerManager);
+        if (defaultDespawn == true)
+        {
+            _spawner.ActiveDemons.Remove(this);
+            _spawner.AddDemonBackToPool(_type, _spawnerManager);
+        }
+        else if (forcedDespawn == true)
+        {
+            _spawner.AddDemonBackToPool(_type, _spawnerManager);
+        }
 
-        if(defaultDespawn == true) _spawner.ActiveDemons.Remove(this);
-        else { _spawnerManager.AddDemonBackToRitual(_type); }
+        if (ritualDespawn == true) 
+        {
+            _spawnerManager.AddDemonBackToRitual(_type);
+        }
 
         _pooledObject.Despawn();
     }

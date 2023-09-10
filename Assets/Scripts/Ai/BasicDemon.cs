@@ -55,9 +55,9 @@ public class BasicDemon : DemonBase
         SetHealth(_health.maxHealth);
         _health.dead = false;
     }
-    public override void OnRespawn(bool defaultDespawn = true)
+    public override void OnRespawn(bool defaultDespawn = true, bool forcedDespawn = false, bool ritualDespawn = false)
     {
-        base.OnRespawn(defaultDespawn);
+        base.OnRespawn(defaultDespawn, forcedDespawn, ritualDespawn);
 
         
     }

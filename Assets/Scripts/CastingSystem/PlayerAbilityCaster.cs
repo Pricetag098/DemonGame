@@ -12,12 +12,18 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>
     public float bloodSpent = 0;
     public float bloodGained = 0;
 
-    public Ability ActiveAbility { get { return caster.abilities[activeIndex]; } set { SetAbility(value); } } 
-    // Start is called before the first frame update
-    void Start()
-    {
+    public Ability ActiveAbility { get { return caster.abilities[activeIndex]; } set { SetAbility(value); } }
+	// Start is called before the first frame update
+
+	private void Awake()
+	{
         caster = GetComponent<AbilityCaster>();
         swapAction.action.performed += Swap;
+    }
+	void Start()
+    {
+        
+        
         caster.OnAddBlood += OnAddBlood;
         caster.OnRemoveBlood += OnRemoveBlood;
     }

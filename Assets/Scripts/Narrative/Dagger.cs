@@ -15,6 +15,7 @@ public class Dagger : MonoBehaviour
     private bool playerHasShovel = false;
     [SerializeField] private List<AudioSource> audioSources;
     private Animator animator;
+
     private void Start() 
     {
     animator = GetComponent<Animator>();    
@@ -65,17 +66,20 @@ public class Dagger : MonoBehaviour
     {
         mounds[0].gameObject.SetActive(true);
         graveInteractables.RemoveAt(0);
+        audioSources[1].Play();
     }
     public void DigMoundTwo()
     {
         mounds[1].gameObject.SetActive(true);
         graveInteractables.RemoveAt(1);
+        audioSources[1].Play();
         falseDaggerInteractable.gameObject.SetActive(true);
     }
     public void DigMoundThree()
     {
         mounds[2].gameObject.SetActive(true);
         graveInteractables.RemoveAt(2);
+        audioSources[1].Play();
     }
     public void PickupShovel()
     {

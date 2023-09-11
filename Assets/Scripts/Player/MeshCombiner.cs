@@ -13,8 +13,7 @@ public class MeshCombiner : MonoBehaviour
 
     [Range(0.0f, 1.0f)]
     [SerializeField] float spreadMin = 0;
-    [Range(0.0f, 1.0f)]
-    [SerializeField] float spreadMax = 0;
+
 
     Vector3[]m1v, m2v, m3v;
     Color[] cols,newcols;
@@ -47,7 +46,7 @@ public class MeshCombiner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //interp = (Mathf.Sin(Time.time) + 1)/2;
+        progress = (Mathf.Sin(Time.time) + 1)/2;
 
         for(int i = 0; i < m1v.Length; i++)
 		{
@@ -63,7 +62,7 @@ public class MeshCombiner : MonoBehaviour
 	{
         float val = (t+1)*progress;
 
-        val = (val - spreadMin) / (spreadMax - spreadMin);
+        val = (val - spreadMin) / (1.0f - spreadMin);
 
         return Mathf.Clamp01(val);
 	}

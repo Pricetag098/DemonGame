@@ -9,13 +9,13 @@ public class MeshCombiner : MonoBehaviour
     
     SkinnedMeshRenderer mRenderer;
     [Range(0.0f, 1.0f)]
-    [SerializeField] float interp = 1;
+    [SerializeField] float progress = 1;
 
     [Range(0.0f, 1.0f)]
-    [SerializeField] float a = 1;
-
+    [SerializeField] float spreadMin = 0;
     [Range(0.0f, 1.0f)]
-    [SerializeField] float b = 1;
+    [SerializeField] float spreadMax = 0;
+
     Vector3[]m1v, m2v, m3v;
     Color[] cols,newcols;
     // Start is called before the first frame update
@@ -61,14 +61,10 @@ public class MeshCombiner : MonoBehaviour
 
     float GetValue(float t)
 	{
-        float val = ((t*t) + 1) * interp;
-        if (val < a)
-            val = 0;
-        if(val > b)
-            val = 1;
+        float val = (t+1)*progress;
 
+        val = (val - spreadMin) / (spreadMax - spreadMin);
 
-        val = Mathf.Clamp01(val);
-        return val;
+        return Mathf.Clamp01(val);
 	}
 }

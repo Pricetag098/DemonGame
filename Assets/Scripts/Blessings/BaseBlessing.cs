@@ -6,6 +6,13 @@ using UnityEngine;
 
 public class BaseBlessing : MonoBehaviour
 {
+    PooledObject PooledObject;
+
+    private void Awake()
+    {
+        PooledObject = transform.parent.GetComponent<PooledObject>();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.layer == 6)
@@ -22,6 +29,6 @@ public class BaseBlessing : MonoBehaviour
 
     private void Delete()
     {
-        Destroy(transform.parent.gameObject);
+        PooledObject.Despawn();
     }
 }

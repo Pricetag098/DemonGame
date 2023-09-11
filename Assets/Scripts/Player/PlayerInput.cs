@@ -244,7 +244,17 @@ namespace Movement
 						lastCamPos = cam.localPosition;
 						targetCamPos = camStandingPos;
 						camMovementTimer = 0;
-						return;
+                        if (Vector3.Dot(rb.velocity, orientation.forward) < maxSlideSpeed && grounded)
+                        {
+                            RaycastHit hit;
+                            Vector3 force = slideLaunchVel * orientation.forward;
+                            if (Physics.Raycast(orientation.position, -orientation.up, out hit, 5, groundingLayer))
+                            {
+                                force = Vector3.ProjectOnPlane(force, hit.normal);
+                            }
+                            rb.AddForce(force, ForceMode.VelocityChange);
+                        }
+                        return;
 					}
 					if (slideInput)
 					{

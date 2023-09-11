@@ -34,7 +34,7 @@ public class DamageProjectiles : MonoBehaviour
 
     public void Shoot(Vector3 origin,Vector3 mid,Vector3 end,float time,float dmg,Ability ability,int penetrations)
 	{
-        Debug.Log(Random.state);
+
         damage = dmg;
         transform.position = origin;
         useTarget = false;

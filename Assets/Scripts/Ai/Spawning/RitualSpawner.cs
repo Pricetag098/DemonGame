@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class RitualSpawner : MonoBehaviour
 {
-    public Ritual ritual;
+    public Ritual ritual = null;
 
     [Header("Display Variables")]
     public bool RitualActive;

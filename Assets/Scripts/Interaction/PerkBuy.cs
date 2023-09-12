@@ -5,7 +5,7 @@ using UnityEngine;
 public class PerkBuy : ShopInteractable
 {
 
-	[SerializeField] Perk perk;
+	[SerializeField] public Perk perk;
 	
 	protected override void DoBuy(Interactor interactor)
 	{

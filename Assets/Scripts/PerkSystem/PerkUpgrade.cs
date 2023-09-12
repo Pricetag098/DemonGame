@@ -20,7 +20,10 @@ public class PerkUpgrade : Interactable
         if (perkManager.HasPerk(perk))
         {
             Perk playerPerk = perkManager.GetPerk(perk);
-            playerPerk.upgraded = true;
+            if(playerPerk != null)
+            {
+                playerPerk.upgraded = true;
+            }
         }
     }
 

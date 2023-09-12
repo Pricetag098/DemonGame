@@ -63,7 +63,7 @@ public class PerkManager : MonoBehaviour
     {
         for (int i = 0; i < perkList.Count; i++)
         {
-            if (perkList[i] == perk)
+            if (perkList[i].GetType() == perk.GetType())
             {
                 return perkList[i];
             }

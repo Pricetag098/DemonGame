@@ -7,6 +7,7 @@ public class Dagger : MonoBehaviour
     [SerializeField] private List<Transform> gates;
     [SerializeField] private List<Transform> mounds;
     [SerializeField] private List<Transform> graveInteractables;
+    [SerializeField] private List<Transform> graveInteractablesToEnable;
     [SerializeField] private Transform falseDaggerInteractable;
     [SerializeField] private List<Transform> daggerModels;
     [SerializeField] private Transform interactable;
@@ -64,30 +65,21 @@ public class Dagger : MonoBehaviour
     {
         playerHasFalseDagger = true;
     }
-    public void DigMoundOne()
+    public void DigMound(GameObject mound)
     {
-        mounds[0].gameObject.SetActive(true);
+        graveInteractablesToEnable.RemoveAt(graveInteractables.IndexOf(mound.transform));
         audioSources[1].PlayDelayed(1);
-    }
-    public void DigMoundTwo()
-    {
-        mounds[1].gameObject.SetActive(true);
-        graveInteractables.RemoveAt(1);
-        audioSources[1].PlayDelayed(1);
-        falseDaggerInteractable.gameObject.SetActive(true);
-    }
-    public void DigMoundThree()
-    {
-        mounds[2].gameObject.SetActive(true);
-        graveInteractables.RemoveAt(2);
-        audioSources[1].PlayDelayed(1);
+        if(graveInteractables.IndexOf(mound.transform) == 1)
+        {
+            falseDaggerInteractable.gameObject.SetActive(true);
+        }
     }
     public void PickupShovel()
     {
         if (!playerHasShovel)
         {
             playerHasShovel = true;
-            foreach (Transform t in graveInteractables)
+            foreach (Transform t in graveInteractablesToEnable)
             {
                 t.gameObject.SetActive(true);
             }
@@ -96,7 +88,7 @@ public class Dagger : MonoBehaviour
     public void DropShovel()
     {
         playerHasShovel = false;
-        foreach (Transform t in graveInteractables)
+        foreach (Transform t in graveInteractablesToEnable)
         {
             t.gameObject.SetActive(false);
         }

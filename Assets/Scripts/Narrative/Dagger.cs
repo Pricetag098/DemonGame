@@ -32,6 +32,7 @@ public class Dagger : MonoBehaviour
                     t.gameObject.SetActive(false);
                 }
                             animator.SetTrigger("PillarDown");
+                audioSources[2].Play();
                 daggerModels[1].gameObject.SetActive(true);
                 interactable.gameObject.SetActive(false);
             }
@@ -43,6 +44,7 @@ public class Dagger : MonoBehaviour
                     t.gameObject.SetActive(false);
                 }
                             animator.SetTrigger("PillarDown");
+                audioSources[2].Play();
                 daggerModels[0].gameObject.SetActive(true);
             }
         }
@@ -65,21 +67,20 @@ public class Dagger : MonoBehaviour
     public void DigMoundOne()
     {
         mounds[0].gameObject.SetActive(true);
-        graveInteractables.RemoveAt(0);
-        audioSources[1].Play();
+        audioSources[1].PlayDelayed(1);
     }
     public void DigMoundTwo()
     {
         mounds[1].gameObject.SetActive(true);
         graveInteractables.RemoveAt(1);
-        audioSources[1].Play();
+        audioSources[1].PlayDelayed(1);
         falseDaggerInteractable.gameObject.SetActive(true);
     }
     public void DigMoundThree()
     {
         mounds[2].gameObject.SetActive(true);
         graveInteractables.RemoveAt(2);
-        audioSources[1].Play();
+        audioSources[1].PlayDelayed(1);
     }
     public void PickupShovel()
     {

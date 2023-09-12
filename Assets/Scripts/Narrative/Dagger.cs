@@ -31,7 +31,7 @@ public class Dagger : MonoBehaviour
                 {
                     t.gameObject.SetActive(false);
                 }
-                            animator.SetTrigger("PillarDown");
+                            animator.SetTrigger("PillarStop");
                 audioSources[2].Play();
                 daggerModels[1].gameObject.SetActive(true);
                 interactable.gameObject.SetActive(false);

@@ -51,7 +51,8 @@ public class Gun : MonoBehaviour
     [Header("SpreadSettings")]
     public float bulletSpreadDegrees = 0;
     [Tooltip("Recoil Increments By 1 for each shot and decays with recoilResetSpeed")]
-    public AnimationCurve recoilSpreadCurve;
+    public AnimationCurve verticalRecoilSpreadCurve;
+    public AnimationCurve horizontalRecoilSpreadCurve;
     public AnimationCurve velocitySpredCurve;
     public float maxRecoilVal = 30;
     public float recoilResetSpeed = 1;
@@ -104,6 +105,7 @@ public class Gun : MonoBehaviour
     public Optional<GunUpgradePath> path;
     public int tier = 0;
 
+    public Vector3 test;
     // Start is called before the first frame update
     void Start()
     {
@@ -269,8 +271,10 @@ public class Gun : MonoBehaviour
         {
             if (animator.Enabled)
                 animator.Value.SetTrigger(shootKey);
-            Vector3 randVal = UnityEngine.Random.insideUnitSphere * GetSpread();
-            Vector3 dir = Quaternion.Euler(randVal) * Camera.main.transform.forward;
+            Vector3 randVal = GetSpread();
+            
+            
+            Vector3 dir = Camera.main.transform.rotation * (Quaternion.Euler(randVal) * Vector3.forward);
             Debug.DrawRay(Camera.main.transform.position, dir * 10, Color.green);
 
             RaycastHit[] hitArray = Physics.RaycastAll(Camera.main.transform.position, dir, bulletRange, hitMask);
@@ -378,11 +382,12 @@ public class Gun : MonoBehaviour
 
     
     
-    float GetSpread()
+    Vector3 GetSpread()
     {
-        float spread = bulletSpreadDegrees;
-        spread += recoilSpreadCurve.Evaluate(recoil);
-        spread += velocitySpredCurve.Evaluate(holster.rb.velocity.magnitude);
+        Vector3 rand = UnityEngine.Random.insideUnitCircle;
+        Vector3 spread = new Vector3(verticalRecoilSpreadCurve.Evaluate(recoil * -Mathf.Abs( rand.x)),horizontalRecoilSpreadCurve.Evaluate(recoil * rand.y),0);
+        spread += rand * verticalRecoilSpreadCurve.Evaluate(recoil);
+        spread += rand * bulletSpreadDegrees;
         return spread;
     }
     public void StartReload(InputAction.CallbackContext context)

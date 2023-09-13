@@ -25,6 +25,8 @@ public class PerkUpgrade : Interactable
                 playerPerk.upgraded = true;
             }
         }
+
+        perk.upgraded = true;
     }
 
     public override void StartHover(Interactor interactor)

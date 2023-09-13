@@ -7,6 +7,7 @@ public class InteractableUnityEvent : Interactable
 {
 	public UnityEvent unityEvent;
 	public string interactMessage;
+	[SerializeField] private bool hasInteractMessage;
 	public override void Interact(Interactor interactor)
 	{
 		unityEvent.Invoke();
@@ -15,11 +16,17 @@ public class InteractableUnityEvent : Interactable
 	public override void StartHover(Interactor interactor)
 	{
 		base.StartHover(interactor);
-		interactor.display.DisplayMessage(false,interactMessage);
+		if (hasInteractMessage)
+		{
+			interactor.display.DisplayMessage(false, interactMessage);
+		}
 	}
 	public override void EndHover(Interactor interactor)
 	{
 		base.EndHover(interactor);
-		interactor.display.HideText();
+		if (hasInteractMessage)
+		{
+			interactor.display.HideText();
+		}
 	}
 }

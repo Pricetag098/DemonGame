@@ -60,6 +60,7 @@ public class Gun : MonoBehaviour
     public float recoil;
     float timeSinceLastShot;
     public bool smoothRecoil = true;
+    public float recoilEffectDuration = .1f;
     [Header("Burst Settings")]
     [Min(1)]
     public int burstRounds;
@@ -267,12 +268,26 @@ public class Gun : MonoBehaviour
         if (timeSinceLastShot > 1 / (roundsPerMin / 60))
         {
             recoil = Mathf.Clamp(recoil - Time.deltaTime * maxAmmo, 0, maxAmmo);
-            holster.playerInput.SetRecoil(Vector3.zero);
+            
         }
+
+        if(timeSinceLastShot > recoilEffectDuration)
+		{
+            holster.playerInput.SetRecoil(
+                new Vector3(
+                    holster.verticalRecoilDynamics.Update(Time.deltaTime,0),
+                    holster.horizontalRecoilDynamics.Update(Time.deltaTime,0)
+                    ,0));
+        }
+
         else
         {
-            if(smoothRecoil)
-                holster.playerInput.SetRecoil(new Vector3(-verticalRecoilSpreadCurve.Evaluate(recoil), horizontalRecoilSpreadCurve.Evaluate(recoil), 0) * Time.deltaTime);
+
+            holster.playerInput.SetRecoil(
+            new Vector3(
+                    holster.verticalRecoilDynamics.Update(Time.deltaTime, -verticalRecoilSpreadCurve.Evaluate(recoil)),
+                    holster.horizontalRecoilDynamics.Update(Time.deltaTime, horizontalRecoilSpreadCurve.Evaluate(recoil))
+                    , 0)) ;
         }
     }
 

@@ -19,9 +19,9 @@ public class ObjectPooler : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        if (prefabToPool is null)
+        if (prefabToPool == null)
             return;
-        if(poolContainer is null)
+        if(poolContainer == null)
 		{
             poolContainer = new GameObject().transform;
             poolContainer.name = gameObject.name + ": Pool";

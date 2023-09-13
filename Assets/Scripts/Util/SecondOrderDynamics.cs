@@ -34,6 +34,8 @@ public class SecondOrderDynamics
 
     public float Update(float T , float x)
 	{
+        if (Time.timeScale == 0)
+            return xp;
         float xd = (x - xp) /T;
         xp = x;
 

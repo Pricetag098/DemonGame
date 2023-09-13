@@ -363,7 +363,13 @@ MonoBehaviour:
   limbPoints: 10
   critPoints: 10
   bulletSpreadDegrees: 1
-  recoilSpreadCurve:
+  verticalRecoilSpreadCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  horizontalRecoilSpreadCurve:
     serializedVersion: 2
     m_Curve: []
     m_PreInfinity: 2
@@ -375,10 +381,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  maxRecoilVal: 30
-  recoilResetSpeed: 1
-  recoilResetDelay: 0
   recoil: 0
+  smoothRecoil: 1
+  recoilEffectDuration: 0.01
   burstRounds: 0
   burstRpm: 0.1
   maxPenetrations: 3
@@ -436,6 +441,7 @@ MonoBehaviour:
     enabled: 0
     val: {fileID: 0}
   tier: 0
+  test: {x: 0, y: 0, z: 0}
 --- !u!1 &3118617946848949298
 GameObject:
   m_ObjectHideFlags: 0

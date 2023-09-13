@@ -83,7 +83,7 @@ namespace Movement
 		Vector3 lastCamPos;
 		Vector3 targetCamPos;
 
-		public float recoilVal;
+		public Vector2 recoilVal;
 		float camRotX = 0;
 		Vector2 inputDir;
 		PlayerStats playerStats;
@@ -103,6 +103,13 @@ namespace Movement
 			slide
 		}
 
+
+		public void SetRecoil(Vector3 recoil)
+		{
+			recoilVal.x = recoil.x;
+			recoilVal.y = recoil.y;
+
+		}
 		public bool holdToSlide;
 		// Start is called before the first frame update
 		void Start()
@@ -400,8 +407,8 @@ namespace Movement
 		void DoCamRot()
 		{
 			Vector2 camDir = mouseAction.action.ReadValue<Vector2>();
-			camRotX = Mathf.Clamp(-camDir.y * sensitivity * Time.deltaTime + camRotX + recoilVal, -90, 90);
-			cam.rotation = Quaternion.Euler(camRotX, cam.rotation.eulerAngles.y + camDir.x * sensitivity * Time.deltaTime, cam.rotation.eulerAngles.z);
+			camRotX = Mathf.Clamp(-camDir.y * sensitivity * Time.deltaTime + camRotX + recoilVal.x, -90, 90);
+			cam.rotation = Quaternion.Euler(camRotX, cam.rotation.eulerAngles.y + camDir.x * sensitivity * Time.deltaTime + recoilVal.y, cam.rotation.eulerAngles.z);
 		}
 
 		

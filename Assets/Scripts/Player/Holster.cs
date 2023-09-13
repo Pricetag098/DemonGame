@@ -9,7 +9,7 @@ public class Holster : MonoBehaviour
     public ObjectPooler bulletVisualierPool;
     public AbilityCaster abilityCaster;
     public Rigidbody rb;
-
+    
     [SerializeField] InputActionProperty input;
 
     public int heldGunIndex = 0;
@@ -23,7 +23,7 @@ public class Holster : MonoBehaviour
     public delegate void OnDealDamageAction(float amount);
     public OnDealDamageAction OnDealDamage;
 
-    [SerializeField] Movement.PlayerInput playerInput;
+    public Movement.PlayerInput playerInput;
 
     float damageDealt;
 	private void Start()

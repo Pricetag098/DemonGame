@@ -54,11 +54,12 @@ public class Gun : MonoBehaviour
     public AnimationCurve verticalRecoilSpreadCurve;
     public AnimationCurve horizontalRecoilSpreadCurve;
     public AnimationCurve velocitySpredCurve;
-    public float maxRecoilVal = 30;
-    public float recoilResetSpeed = 1;
-    public float recoilResetDelay;
+    //public float maxRecoilVal = 30;
+    //public float recoilResetSpeed = 1;
+    //public float recoilResetDelay;
     public float recoil;
     float timeSinceLastShot;
+    public bool smoothRecoil = true;
     [Header("Burst Settings")]
     [Min(1)]
     public int burstRounds;
@@ -140,9 +141,11 @@ public class Gun : MonoBehaviour
         fireTimer -= Time.deltaTime;
         
         timeSinceLastShot+= Time.deltaTime;
-        if (timeSinceLastShot > recoilResetDelay)
-            recoil = Mathf.Clamp(recoil - Time.deltaTime * recoilResetSpeed, 0, maxRecoilVal);
-		switch (gunState)
+        
+        if(!smoothRecoil)
+            holster.playerInput.SetRecoil(Vector3.zero);
+
+        switch (gunState)
 		{
             case GunStates.awaiting:
                 if (fireTimer <= 0)
@@ -261,6 +264,16 @@ public class Gun : MonoBehaviour
                 break;
 		}
 
+        if (timeSinceLastShot > 1 / (roundsPerMin / 60))
+        {
+            recoil = Mathf.Clamp(recoil - Time.deltaTime * maxAmmo, 0, maxAmmo);
+            holster.playerInput.SetRecoil(Vector3.zero);
+        }
+        else
+        {
+            if(smoothRecoil)
+                holster.playerInput.SetRecoil(new Vector3(-verticalRecoilSpreadCurve.Evaluate(recoil), horizontalRecoilSpreadCurve.Evaluate(recoil), 0) * Time.deltaTime);
+        }
     }
 
     protected virtual void Shoot()
@@ -368,15 +381,16 @@ public class Gun : MonoBehaviour
         ammoLeft--;
         fireTimer = 1/(roundsPerMin/60);
         recoil++;
-        if(recoil > maxRecoilVal)
-            recoil = maxRecoilVal;
+        if(recoil > maxAmmo)
+            recoil = maxAmmo;
         timeSinceLastShot = 0;
         shootSound.Play();
         if (gunfire.Enabled)
         {
             gunfire.Value.Play();
         }
-            
+        if(!smoothRecoil)
+            holster.playerInput.SetRecoil(new Vector3(-verticalRecoilSpreadCurve.Evaluate(recoil), horizontalRecoilSpreadCurve.Evaluate(recoil), 0));
 
     }
 
@@ -385,9 +399,13 @@ public class Gun : MonoBehaviour
     Vector3 GetSpread()
     {
         Vector3 rand = UnityEngine.Random.insideUnitCircle;
-        Vector3 spread = new Vector3(verticalRecoilSpreadCurve.Evaluate(recoil * -Mathf.Abs( rand.x)),horizontalRecoilSpreadCurve.Evaluate(recoil * rand.y),0);
-        spread += rand * verticalRecoilSpreadCurve.Evaluate(recoil);
+        rand.z = 0;
+
+        
+        Vector3 spread = Vector3.zero;
+        //spread += rand * verticalRecoilSpreadCurve.Evaluate(recoil);
         spread += rand * bulletSpreadDegrees;
+        //spread.y = 0;
         return spread;
     }
     public void StartReload(InputAction.CallbackContext context)

@@ -181,6 +181,11 @@ public class DemonBase : MonoBehaviour, IDemon
         if(ritualSpawn == false) { _spawnerManager.DemonKilled(); }
     }
 
+    public void ApplyForce(Vector3 force)
+    {
+        _rb.AddForce(force, ForceMode.Impulse);
+    }
+
     public void PlayAnimation(string trigger)
     {
         _animator.SetTrigger(trigger);
@@ -220,7 +225,7 @@ public class DemonBase : MonoBehaviour, IDemon
         }
     }
 
-    protected float DistanceToTargetUnits
+    protected float DistanceToTargetUnits // gets world space distance remaining to target
     {
         get
         {

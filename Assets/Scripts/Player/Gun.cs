@@ -53,6 +53,7 @@ public class Gun : MonoBehaviour
     [Tooltip("Recoil Increments By 1 for each shot and decays with recoilResetSpeed")]
     public AnimationCurve verticalRecoilSpreadCurve;
     public AnimationCurve horizontalRecoilSpreadCurve;
+    public AnimationCurve bloomRecoilSpreadCurve;
     public AnimationCurve velocitySpredCurve;
     //public float maxRecoilVal = 30;
     //public float recoilResetSpeed = 1;
@@ -283,12 +284,12 @@ public class Gun : MonoBehaviour
         else
         {
 
-            holster.playerInput.SetRecoil(
-            new Vector3(
-                    holster.verticalRecoilDynamics.Update(Time.deltaTime, -verticalRecoilSpreadCurve.Evaluate(recoil)),
-                    holster.horizontalRecoilDynamics.Update(Time.deltaTime, horizontalRecoilSpreadCurve.Evaluate(recoil))
-                    , 0)) ;
-        }
+			holster.playerInput.SetRecoil(
+			new Vector3(
+					holster.verticalRecoilDynamics.Update(Time.deltaTime, -verticalRecoilSpreadCurve.Evaluate(recoil)),
+					holster.horizontalRecoilDynamics.Update(Time.deltaTime, horizontalRecoilSpreadCurve.Evaluate(recoil))
+					, 0));
+		}
     }
 
     protected virtual void Shoot()
@@ -418,8 +419,9 @@ public class Gun : MonoBehaviour
 
         
         Vector3 spread = Vector3.zero;
-        //spread += rand * verticalRecoilSpreadCurve.Evaluate(recoil);
+        spread += rand * velocitySpredCurve.Evaluate(holster.rb.velocity.magnitude);
         spread += rand * bulletSpreadDegrees;
+        spread += rand * bloomRecoilSpreadCurve.Evaluate(recoil);
         //spread.y = 0;
         return spread;
     }

@@ -8,8 +8,11 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>
     public int activeIndex;
     public InputActionProperty useAction;
     public InputActionProperty swapAction;
+	public InputActionProperty setAbility1Action;
+	public InputActionProperty setAbility2Action;
+	public InputActionProperty setAbility3Action;
 
-    public float bloodSpent = 0;
+	public float bloodSpent = 0;
     public float bloodGained = 0;
 
     public Ability ActiveAbility { get { return caster.abilities[activeIndex]; } set { SetAbility(value); } }
@@ -19,25 +22,35 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>
 	{
         caster = GetComponent<AbilityCaster>();
         swapAction.action.performed += Swap;
-    }
+        setAbility1Action.action.performed += SelectAbility1;
+		setAbility2Action.action.performed += SelectAbility2;
+		setAbility3Action.action.performed += SelectAbility3;
+	}
 	void Start()
     {
         
         
         caster.OnAddBlood += OnAddBlood;
         caster.OnRemoveBlood += OnRemoveBlood;
+        
     }
 
 	private void OnEnable()
 	{
 		useAction.action.Enable();
         swapAction.action.Enable();
+        setAbility1Action.action.Enable();
+        setAbility2Action.action.Enable();
+        setAbility3Action.action.Enable();
 	}
 
 	private void OnDisable()
 	{
 		useAction.action.Disable();
         swapAction.action.Disable();
+        setAbility1Action.action.Disable();
+        setAbility2Action.action.Disable();
+        setAbility3Action.action.Disable();
 	}
 
 	// Update is called once per frame
@@ -92,6 +105,33 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>
         
         caster.abilities[activeIndex].Select();
     }
+
+    void SelectAbility1(InputAction.CallbackContext context)
+    {
+        SelectAbility(0);
+    }
+	void SelectAbility2(InputAction.CallbackContext context)
+	{
+		SelectAbility(1);
+	}
+	void SelectAbility3(InputAction.CallbackContext context)
+	{
+		SelectAbility(2);
+	}
+
+
+	void SelectAbility(int index)
+    {
+        if (index == activeIndex)
+            return;
+        if(caster.abilities[index].guid != caster.emptyAbility.guid)
+        {
+			caster.abilities[activeIndex].DeSelect();
+            activeIndex = index;
+			caster.abilities[activeIndex].Select();
+		}
+    }
+
 
     public void SetAbility(Ability ability)
     {

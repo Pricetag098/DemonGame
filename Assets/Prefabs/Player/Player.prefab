@@ -6031,6 +6031,7 @@ GameObject:
   - component: {fileID: 1103269352}
   - component: {fileID: 2926755773238881301}
   - component: {fileID: 2544734031600949377}
+  - component: {fileID: 7933145787309644705}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -6489,6 +6490,89 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   footStepDist: 1.5
+--- !u!114 &7933145787309644705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3899720132604462811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f3e12e03674b3f4c9d171d207597a8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  charge: 0
+  maxCharge: 60
+  minCharge: 0.25
+  rayRange: 200
+  damageCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 100
+      outSlope: 100
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 100
+      inSlope: 100
+      outSlope: 100
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  radiusCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 19
+      outSlope: 19
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 20
+      inSlope: 19
+      outSlope: 19
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  vfx: {fileID: 11400000, guid: 2725f5ea31a3e4e4ea0e8b2e83dca745, type: 2}
+  input:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Input
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 669f2015-e4b1-4029-b97b-2172e8b54534
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 3908106169007958076, guid: b5b5fd5d1836ae549b2c0e6bb6d5cf61, type: 3}
+  rayLayers:
+    serializedVersion: 2
+    m_Bits: 1
+  damageLayers:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &3899720132956419846
 GameObject:
   m_ObjectHideFlags: 0

@@ -65,10 +65,10 @@ public class DemonBase : MonoBehaviour, IDemon
         _agent = GetComponent<NavMeshAgent>();
         _health = GetComponent<Health>();
         _animator = GetComponent<Animator>();
-        _colliders = GetAllColliders();
         _rb = GetComponent<Rigidbody>();
         _spawner = FindObjectOfType<DemonSpawner>();
         _spawnerManager = FindObjectOfType<SpawnerManager>();
+        _colliders = GetAllColliders();
 
         OnAwakened();
     }
@@ -123,8 +123,6 @@ public class DemonBase : MonoBehaviour, IDemon
         SetAllColliders(true);
 
         _spawner.ActiveDemons.Add(this);
-
-        //transform.rotation = Quaternion.identity;
 
         PlaySoundIdle();
     }
@@ -181,9 +179,9 @@ public class DemonBase : MonoBehaviour, IDemon
         if(ritualSpawn == false) { _spawnerManager.DemonKilled(); }
     }
 
-    public void ApplyForce(Vector3 force)
+    public void ApplyForce(Vector3 force, ForceMode mode = ForceMode.Impulse)
     {
-        _rb.AddForce(force, ForceMode.Impulse);
+        _rb.AddForce(force, mode);
     }
 
     public void PlayAnimation(string trigger)

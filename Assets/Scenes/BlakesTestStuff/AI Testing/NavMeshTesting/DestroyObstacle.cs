@@ -41,7 +41,7 @@ public class DestroyObstacle : MonoBehaviour
 
         if (HelperFuntions.TimerGreaterThan(timer, AttackDelay))
         {
-            if(obj != null)
+            if(obj is not null)
             {
                 obj.TakeDamage(DestructibleAttackDamage);
                 demon.PlayAnimation("Attack");

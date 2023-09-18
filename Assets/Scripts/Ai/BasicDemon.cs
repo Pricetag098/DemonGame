@@ -135,6 +135,11 @@ public class BasicDemon : DemonBase
         }
     }
 
+    private void SetMoveSpeed()
+    {
+
+    }
+
     
 
     private void OnDestroy()

@@ -8,6 +8,7 @@ public class Painting : MonoBehaviour
     public GameObject painting;
     public GameObject salt;
     public GameObject interactable;
+    public string text;
 
     public SoundPlayer failSound;
     public SoundPlayer successSound;

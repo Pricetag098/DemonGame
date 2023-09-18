@@ -39,7 +39,7 @@ public class SwordAbility : Ability
 				if (healths.Contains(hb.health))
 					continue;
 				healths.Add(hb.health);
-				OnHit();
+				OnHit(hb.health);
 				hb.health.TakeDmg(damage);
 				if(hit.point == Vector3.zero)
 				{
@@ -59,7 +59,7 @@ public class SwordAbility : Ability
 	{
 		timer += Time.deltaTime;
 	}
-	public override void OnHit()
+	public override void OnHit(Health health)
 	{
 		if (caster.playerStats.Enabled)
 			caster.playerStats.Value.GainPoints(points);

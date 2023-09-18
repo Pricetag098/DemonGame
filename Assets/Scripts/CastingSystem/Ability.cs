@@ -70,7 +70,7 @@ public class Ability : ScriptableObject
 
     }
 
-	public virtual void OnHit()
+	public virtual void OnHit(Health health)
 	{
 
 	}

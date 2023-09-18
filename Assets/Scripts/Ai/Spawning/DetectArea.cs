@@ -38,7 +38,6 @@ public class DetectArea : MonoBehaviour
     {
         if(Physics.Raycast(orientation.position, Vector3.down, out RaycastHit hit, 20, areaLayer))
         {
-            Debug.Log(hit.collider.name);
             if (hit.collider.TryGetComponent<Area>(out Area area))
             {
                 if(CurrentArea != area.AreaId)

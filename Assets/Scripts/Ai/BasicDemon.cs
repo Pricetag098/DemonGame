@@ -55,9 +55,9 @@ public class BasicDemon : DemonBase
         SetHealth(_health.maxHealth);
         _health.dead = false;
     }
-    public override void OnRespawn(bool defaultDespawn = true)
+    public override void OnRespawn(bool defaultDespawn = true, bool forcedDespawn = false, bool ritualDespawn = false)
     {
-        base.OnRespawn(defaultDespawn);
+        base.OnRespawn(defaultDespawn, forcedDespawn, ritualDespawn);
 
         
     }
@@ -67,8 +67,7 @@ public class BasicDemon : DemonBase
         
         if(ritualSpawn == true)
         {
-            _spawnerManager.currentRitual.currentDemons--;
-            _spawnerManager.currentRitual.demonsLeft--;
+            _spawnerManager.CurrentRitualOnDemonDeath();
         }
     }
     public override void OnBuff()
@@ -135,6 +134,8 @@ public class BasicDemon : DemonBase
             _currentUpdatedRound = currentRound;
         }
     }
+
+    
 
     private void OnDestroy()
     {

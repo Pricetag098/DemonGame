@@ -129,16 +129,27 @@ public class DemonBase : MonoBehaviour, IDemon
         PlaySoundIdle();
     }
     public virtual void OnBuff() { }
-    public virtual void OnRespawn(bool defaultDespawn = true)
+    public virtual void OnRespawn(bool defaultDespawn = true, bool forcedDespawn = false, bool ritualDespawn = false)
     {
         _agent.speed = 0;
         _agent.enabled = false;
 
         SetAllColliders(false);
 
-        _spawner.AddDemonBackToPool(_type, _spawnerManager);
+        if (defaultDespawn == true)
+        {
+            _spawner.ActiveDemons.Remove(this);
+            _spawner.AddDemonBackToPool(_type, _spawnerManager);
+        }
+        else if (forcedDespawn == true)
+        {
+            _spawner.AddDemonBackToPool(_type, _spawnerManager);
+        }
 
-        if(defaultDespawn == true) _spawner.ActiveDemons.Remove(this);
+        if (ritualDespawn == true) 
+        {
+            _spawnerManager.AddDemonBackToRitual(_type);
+        }
 
         _pooledObject.Despawn();
     }
@@ -168,6 +179,11 @@ public class DemonBase : MonoBehaviour, IDemon
         _pooledObject.Despawn();
 
         if(ritualSpawn == false) { _spawnerManager.DemonKilled(); }
+    }
+
+    public void ApplyForce(Vector3 force)
+    {
+        _rb.AddForce(force, ForceMode.Impulse);
     }
 
     public void PlayAnimation(string trigger)
@@ -209,7 +225,7 @@ public class DemonBase : MonoBehaviour, IDemon
         }
     }
 
-    protected float DistanceToTargetUnits
+    protected float DistanceToTargetUnits // gets world space distance remaining to target
     {
         get
         {

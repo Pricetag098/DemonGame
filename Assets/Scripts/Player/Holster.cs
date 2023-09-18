@@ -9,7 +9,7 @@ public class Holster : MonoBehaviour
     public ObjectPooler bulletVisualierPool;
     public AbilityCaster abilityCaster;
     public Rigidbody rb;
-
+    
     [SerializeField] InputActionProperty input;
 
     public int heldGunIndex = 0;
@@ -23,11 +23,20 @@ public class Holster : MonoBehaviour
     public delegate void OnDealDamageAction(float amount);
     public OnDealDamageAction OnDealDamage;
 
-    [SerializeField] Movement.PlayerInput playerInput;
+    public Movement.PlayerInput playerInput;
 
+
+    [SerializeField] float frequncey =1;
+    [SerializeField] float damping=1;
+    [SerializeField] float reaction=1;
+    public SecondOrderDynamics verticalRecoilDynamics;
+    public SecondOrderDynamics horizontalRecoilDynamics;
+    public bool updateKVals;
     float damageDealt;
 	private void Start()
 	{
+        verticalRecoilDynamics = new SecondOrderDynamics(frequncey, damping, reaction, 0);
+        horizontalRecoilDynamics = new SecondOrderDynamics(frequncey, damping, reaction, 0);
         input.action.performed += SwapGun;
         int j = 0;
         for(int i = 0; i < transform.childCount; i++)
@@ -40,7 +49,15 @@ public class Holster : MonoBehaviour
 			}
 		}
 	}
-
+	private void Update()
+	{
+		if (updateKVals)
+		{
+            verticalRecoilDynamics.UpdateKVals(frequncey, damping, reaction);
+            horizontalRecoilDynamics.UpdateKVals(frequncey, damping, reaction);
+        }
+        
+	}
 	public void SetGun(int slot,Gun gun)
 	{
         if (slot > MaxGuns)

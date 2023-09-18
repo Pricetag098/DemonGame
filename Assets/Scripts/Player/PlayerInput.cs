@@ -82,14 +82,15 @@ namespace Movement
 		float camMovementTimer;
 		Vector3 lastCamPos;
 		Vector3 targetCamPos;
-		
 
+		public Vector2 recoilVal;
 		float camRotX = 0;
 		Vector2 inputDir;
 		PlayerStats playerStats;
 
-		bool grounded;
-		bool touchingSurface;
+		[HideInInspector] public bool grounded;
+		[HideInInspector] public bool touchingSurface;
+		[HideInInspector] public RaycastHit lastSurface;
 		[SerializeField] float surfaceCheckRange;
 
 		Vector3 slideEntryVel;
@@ -102,6 +103,13 @@ namespace Movement
 			slide
 		}
 
+
+		public void SetRecoil(Vector3 recoil)
+		{
+			recoilVal.x = recoil.x;
+			recoilVal.y = recoil.y;
+
+		}
 		public bool holdToSlide;
 		// Start is called before the first frame update
 		void Start()
@@ -243,7 +251,17 @@ namespace Movement
 						lastCamPos = cam.localPosition;
 						targetCamPos = camStandingPos;
 						camMovementTimer = 0;
-						return;
+                        if (Vector3.Dot(rb.velocity, orientation.forward) < maxSlideSpeed && grounded)
+                        {
+                            RaycastHit hit;
+                            Vector3 force = slideLaunchVel * orientation.forward;
+                            if (Physics.Raycast(orientation.position, -orientation.up, out hit, 5, groundingLayer))
+                            {
+                                force = Vector3.ProjectOnPlane(force, hit.normal);
+                            }
+                            rb.AddForce(force, ForceMode.VelocityChange);
+                        }
+                        return;
 					}
 					if (slideInput)
 					{
@@ -326,8 +344,8 @@ namespace Movement
 				OnHitGround();
 			grounded = groundCheck;
 
-			Debug.Log("Grounded " + grounded);
-			Debug.Log("onSurface" + touchingSurface);
+			//Debug.Log("Grounded " + grounded);
+			//Debug.Log("onSurface" + touchingSurface);
 			if (!grounded)
 			{
 				Move(airMaxSpeed, airAcceleration, airSlowForce, airControlForce,airOppositeVelMulti);
@@ -389,8 +407,8 @@ namespace Movement
 		void DoCamRot()
 		{
 			Vector2 camDir = mouseAction.action.ReadValue<Vector2>();
-			camRotX = Mathf.Clamp(-camDir.y * sensitivity * Time.deltaTime + camRotX, -90, 90);
-			cam.rotation = Quaternion.Euler(camRotX, cam.rotation.eulerAngles.y + camDir.x * sensitivity * Time.deltaTime, cam.rotation.eulerAngles.z);
+			camRotX = Mathf.Clamp(-camDir.y * sensitivity * Time.deltaTime + camRotX + recoilVal.x, -90, 90);
+			cam.rotation = Quaternion.Euler(camRotX, cam.rotation.eulerAngles.y + camDir.x * sensitivity * Time.deltaTime + recoilVal.y, cam.rotation.eulerAngles.z);
 		}
 
 		
@@ -470,6 +488,7 @@ namespace Movement
 			{
 				surfaceNormal = hit.normal;
 				touchingSurface = hit.distance <= surfaceCheckRange;
+				lastSurface = hit;
 			}
 			else
 			{

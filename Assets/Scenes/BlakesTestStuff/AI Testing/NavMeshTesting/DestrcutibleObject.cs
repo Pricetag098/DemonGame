@@ -6,6 +6,7 @@ public class DestrcutibleObject : Interactable
 {
     public int Health;
     public int maxHealth;
+    public List<>
 
     public void TakeDamage(int Damage)
     {

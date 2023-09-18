@@ -1,3 +1,4 @@
+using DemonInfo;
 using Newtonsoft.Json.Bson;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ public class DemonBase : MonoBehaviour, IDemon
     [SerializeField] protected float _baseDamage;
     [SerializeField] protected float _baseHealth;
     [SerializeField] protected float _baseMoveSpeed;
+    [SerializeField] protected DemonSpeedProfile _speedProfile;
 
     [Header("Stats")]
     [SerializeField] protected float _damage;
@@ -116,7 +118,7 @@ public class DemonBase : MonoBehaviour, IDemon
 
         PlaySoundDeath();
     }
-    public virtual void OnSpawn(Transform target, bool defaultSpawn = true)
+    public virtual void OnSpawn(DemonType demon, Transform target, bool defaultSpawn = true)
     {
         _agent.speed = 0;
         _agent.enabled = true;

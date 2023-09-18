@@ -23,7 +23,12 @@ public class DestrcutibleObject : Interactable
 
     public void TakeDamage(int Damage)
     {
-        activeSymbols[Health - 1].SetActive(false);
+        int num = Health - 1;
+        if(num >= 0)
+        {
+            activeSymbols[num].SetActive(false);
+        }
+
         Health -= Damage;
         if(Health <= 0)
         {

@@ -17,10 +17,8 @@ public class SpawnerManager : MonoBehaviour
     [HideInInspector] public DemonSpawner DemonSpawner;
     [HideInInspector] public RitualManager RitualManager;
     
-
     [Header("Player")]
     public Transform player;
-    [SerializeField] NavMeshAgent playerAgent;
 
     [Header("Spawning Stats")]
     public bool canSpawn;
@@ -100,7 +98,6 @@ public class SpawnerManager : MonoBehaviour
                     int toSpawn = maxDemonsAtOnce - currentDemons;
 
                     if (toSpawn >= demonsToSpawnEachTick) { toSpawn = demonsToSpawnEachTick; }
-                    else {  }
 
                     if (maxDemonsToSpawn < toSpawn) { toSpawn = maxDemonsToSpawn; }
 
@@ -190,6 +187,11 @@ public class SpawnerManager : MonoBehaviour
     public void DespawnAllActiveDemons()
     {
         DemonSpawner.DespawnAllActiveDemons();
+    }
+
+    public void KillAllActiveDemons()
+    {
+        DemonSpawner.KillAllActiveDemons();
     }
 
     void Timers()

@@ -57,7 +57,7 @@ public class Spawner : MonoBehaviour
         GameObject demonTemp = pool.demonPoolers[demon.Id].Spawn();
         demonTemp.transform.position = position;
         DemonBase demonBase = demonTemp.GetComponent<DemonBase>();
-        demonBase.OnSpawn(target, defaultSpawn);
+        demonBase.OnSpawn(demon, target, defaultSpawn);
     }
 
     private void SpawnDemon(DemonType demon, DemonPoolers pool, Transform target, List<DemonBase> list, bool defaultSpawn = true)
@@ -65,7 +65,7 @@ public class Spawner : MonoBehaviour
         GameObject demonTemp = pool.demonPoolers[demon.Id].Spawn();
         demonTemp.transform.position = position;
         DemonBase demonBase = demonTemp.GetComponent<DemonBase>();
-        demonBase.OnSpawn(target, defaultSpawn);
+        demonBase.OnSpawn(demon, target, defaultSpawn);
         list.Add(demonBase);
     }
 }

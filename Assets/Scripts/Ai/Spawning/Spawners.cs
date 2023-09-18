@@ -117,21 +117,6 @@ public class Spawners : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.magenta;
-        foreach (var spawner in baseSpawners)
-        {
-            Gizmos.DrawCube(spawner.position, new Vector3(2, 2, 2));
-        }
-
-        Gizmos.color = Color.blue;
-        foreach (var spawner in specialSpawners)
-        {
-            
-            Gizmos.DrawCube(spawner.position, new Vector3(2, 2, 2));
-        }
-    }
 
     public static bool GetDictionaryArea(Areas Id, out Area a)
     {

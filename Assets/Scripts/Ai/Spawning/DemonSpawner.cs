@@ -68,6 +68,18 @@ public class DemonSpawner : MonoBehaviour
         ActiveDemons.Clear();
     }
 
+    public void KillAllActiveDemons()
+    {
+        int count = ActiveDemons.Count;
+
+        for (int i = 0; i < count; i++)
+        {
+            ActiveDemons[i].ForcedDeath();
+        }
+
+        ActiveDemons.Clear();
+    }
+
 
     /// <summary>
     /// Request a spawner to spawn a Demon returns True if successful

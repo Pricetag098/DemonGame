@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class Dagger : MonoBehaviour
 {
-    public List<Transform> gates;
-    public List<Transform> mounds;
-    public List<Transform> graveInteractables;
-    public Transform falseDaggerInteractable;
-    public List<Transform> daggerModels;
-    public Transform interactable;
+    [SerializeField] private List<GameObject> gates;
+    [SerializeField] private List<GameObject> graveInteractables;
+    [SerializeField] private List<GameObject> graveInteractablesToEnable;
+    [SerializeField] private GameObject falseDaggerInteractable;
+    [SerializeField] private List<GameObject> daggerModels;
+    [SerializeField] private GameObject interactable;
     private bool playerHasDagger = false;
     private bool playerHasFalseDagger = false;
     private bool playerHasShovel = false;
+    [SerializeField] private List<AudioSource> audioSources;
+    private Animator animator;
+
+    private void Awake() 
+    {
+    animator = GetComponent<Animator>();
+    foreach (GameObject g in graveInteractables) 
+        {
+            graveInteractablesToEnable.Add(g);
+        }
+    }
 
     public void PickupDagger()
     {
@@ -20,30 +31,36 @@ public class Dagger : MonoBehaviour
         {
             if (playerHasFalseDagger)
             {
-                foreach (Transform t in gates)
+                foreach (GameObject g in gates)
                 {
-                    t.gameObject.SetActive(false);
+                    g.SetActive(false);
                 }
+                            animator.SetTrigger("PillarStop");
+                audioSources[2].Play();
                 daggerModels[1].gameObject.SetActive(true);
-                interactable.gameObject.SetActive(false);
+                interactable.SetActive(false);
             }
             else
             {
                 playerHasDagger = false;
-                foreach (Transform t in gates)
+                foreach (GameObject g in gates)
                 {
-                    t.gameObject.SetActive(false);
+                    g.SetActive(false);
                 }
+                            animator.SetTrigger("PillarDown");
+                audioSources[2].Play();
                 daggerModels[0].gameObject.SetActive(true);
             }
         }
         else
         {
             playerHasDagger = true;
-            foreach (Transform t in gates)
+            foreach (GameObject g in gates)
             {
-                t.gameObject.SetActive(true);
+                g.SetActive(true);
             }
+            audioSources[0].Play();
+            animator.SetTrigger("PillarUp");
             daggerModels[0].gameObject.SetActive(false);
         }
     }
@@ -51,39 +68,32 @@ public class Dagger : MonoBehaviour
     {
         playerHasFalseDagger = true;
     }
-    public void DigMoundOne()
+    public void DigMound(GameObject mound)
     {
-        mounds[0].gameObject.SetActive(true);
-        graveInteractables.RemoveAt(0);
-    }
-    public void DigMoundTwo()
-    {
-        mounds[1].gameObject.SetActive(true);
-        graveInteractables.RemoveAt(1);
-        falseDaggerInteractable.gameObject.SetActive(true);
-    }
-    public void DigMoundThree()
-    {
-        mounds[2].gameObject.SetActive(true);
-        graveInteractables.RemoveAt(2);
+        graveInteractablesToEnable.RemoveAt(graveInteractables.IndexOf(mound));
+        audioSources[1].PlayDelayed(1);
+        if(graveInteractables.IndexOf(mound) == 1)
+        {
+            falseDaggerInteractable.SetActive(true);
+        }
     }
     public void PickupShovel()
     {
         if (!playerHasShovel)
         {
             playerHasShovel = true;
-            foreach (Transform t in graveInteractables)
+            foreach (GameObject g in graveInteractablesToEnable)
             {
-                t.gameObject.SetActive(true);
+                g.SetActive(true);
             }
         }
     }
     public void DropShovel()
     {
         playerHasShovel = false;
-        foreach (Transform t in graveInteractables)
+        foreach (GameObject g in graveInteractablesToEnable)
         {
-            t.gameObject.SetActive(false);
+            g.SetActive(false);
         }
     }
 }

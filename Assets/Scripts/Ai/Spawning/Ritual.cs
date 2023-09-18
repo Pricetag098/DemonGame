@@ -12,4 +12,7 @@ public class Ritual : ScriptableObject
     public int MaxDemonsAtOnce;
     public int SpawnsPerTick;
     public int TimeBetweenSpawns;
+
+    public bool FinalRitual;
+    public bool TpPlayer;
 }

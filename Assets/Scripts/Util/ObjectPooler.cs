@@ -120,6 +120,7 @@ public class ObjectPooler : MonoBehaviour
 	}
 	private void OnDestroy()
 	{
+        if(poolContainer != null)
         Destroy(poolContainer.gameObject);
 	}
 

@@ -7,20 +7,31 @@ public class CasterDisplay : MonoBehaviour
     [SerializeField] Image[] icons;
     [SerializeField] Slider bloodMeter;
     [SerializeField] PlayerAbilityCaster caster;
+
+    [SerializeField] float frequncey;
+    [SerializeField] float damping;
+    [SerializeField] float theOtherOne;
+    SecondOrderDynamics dynamics;
     // Start is called before the first frame update
     void Awake()
     {
         caster = FindObjectOfType<PlayerAbilityCaster>();
+        
     }
 
-    // Update is called once per frame
-    void Update()
+	private void Start()
+	{
+        dynamics = new SecondOrderDynamics(frequncey, damping, theOtherOne, caster.caster.blood / caster.caster.maxBlood);
+    }
+
+	// Update is called once per frame
+	void Update()
     {
         for(int i = 0; i < icons.Length; i++)
 		{
             icons[i].sprite = caster.caster.abilities[i].icon;
             icons[i].GetComponent<Outline>().enabled = i == caster.activeIndex;
 		}
-        bloodMeter.value = caster.caster.blood / caster.caster.maxBlood;
+        bloodMeter.value = dynamics.Update(Time.unscaledDeltaTime,caster.caster.blood / caster.caster.maxBlood);
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class RitualSpawner : MonoBehaviour
 {
-    public Ritual ritual;
+    public Ritual ritual = null;
 
     [Header("Display Variables")]
     public bool RitualActive;
@@ -31,7 +31,8 @@ public class RitualSpawner : MonoBehaviour
 
     [Header("Ritual Completion")]
     [SerializeField] GameObject completion;
-    [SerializeField] Optional<GameObject> FinalCompletion;
+    [HideInInspector] public bool IncrementRitual;
+    
 
     private SpawnerManager manager;
     private DemonSpawner demonSpawner;
@@ -49,7 +50,6 @@ public class RitualSpawner : MonoBehaviour
     private void Start()
     {
         BlockerObjects.gameObject.SetActive(false);
-        if (FinalCompletion.Enabled) FinalCompletion.Value.SetActive(false);
         demonSpawner = manager.DemonSpawner;
     }
 
@@ -137,7 +137,7 @@ public class RitualSpawner : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
-            ActiveDemons[i].OnRespawn(false);
+            ActiveDemons[i].OnRespawn(false, false, true);
         }
 
         ActiveDemons.Clear();
@@ -147,26 +147,26 @@ public class RitualSpawner : MonoBehaviour
     {
         ritualComplete = true;
         RitualActive = false;
-        sm.RunDefaultSpawning = true;
-        sm.currentRitual = null;
-        sm.RitualIndex++;
-
+        
         BlockerObjects.gameObject.SetActive(false);
 
         soundPlayerComplete.Play();
 
         completion.SetActive(false);
 
-        if(FinalCompletion.Enabled)
-        {
-            FinalCompletion.Value.SetActive(true);
-        }
+        sm.FinalRitual();
+        sm.TpPlayerOnEnd();
+
+        sm.RunDefaultSpawning = true;
+        sm.SetCurrentRitual(null);
+
+        if(IncrementRitual == true) sm.IncrementRitualIndex();
     }
 
     public void OnFailed(SpawnerManager sm)
     {
         sm.RunDefaultSpawning = true;
-        sm.currentRitual = null;
+        sm.TpPlayerOnEnd();
 
         RitualActive = false;
         ritual = null;
@@ -179,6 +179,8 @@ public class RitualSpawner : MonoBehaviour
         soundPlayerFail.Play();
 
         DespawnAllActiveDemons();
+
+        if (IncrementRitual == true) sm.SetCurrentRitual(null);
     }
 
     void SetDemonQueue(Wave wave)
@@ -223,12 +225,9 @@ public class RitualSpawner : MonoBehaviour
         }
     }
 
-    void SetObjects(bool active)
+    public void AddDemonBackToQueue(DemonType type)
     {
-        foreach(Transform ob in blockers)
-        {
-            ob.gameObject.SetActive(active);
-        }
+        DemonQueue.Enqueue(type);
     }
 
     public int DemonCount

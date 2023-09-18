@@ -15,12 +15,14 @@ public class SpinnyThingyAbility : Ability
 	[SerializeField] VfxSpawnRequest vfx;
 	[SerializeField] VfxSpawnRequest vfxSpawn;
 	[SerializeField] int points;
-	GameObject obj;
+	[SerializeField] int count;
+	[SerializeField] float spread,frequncey;
+	GameObject[] obj;
 	float timer = -1;
 	float maxTimer =1;
 	float stepDirection = 1;
 	Vector3 target;
-
+	Vector3 dir;
 	
 	public override void Cast(Vector3 origin, Vector3 direction)
 	{
@@ -39,8 +41,13 @@ public class SpinnyThingyAbility : Ability
 		timer = 0;
 		maxTimer = Vector3.Distance(origin, target) / speed;
 		stepDirection = 1f;
-		obj.SetActive(true);
-		obj.transform.forward = direction;
+		dir = direction;
+		for (int i = 0; i < count; i++)
+		{
+			obj[i].SetActive(true);
+			obj[i].transform.forward = direction;
+		}
+		
 		healths.Clear();
 		caster.RemoveBlood(bloodCost);
 
@@ -48,19 +55,30 @@ public class SpinnyThingyAbility : Ability
 
 	protected override void OnEquip()
 	{
-		obj = Instantiate(prefab);
+		obj = new GameObject[count];
+		for(int i = 0; i < count; i++)
+		{
+			obj[i] = Instantiate(prefab);
+		}
+		
 
 	}
 	protected override void OnDeEquip()
 	{
-		Destroy(obj);
+		for (int i = 0; i < count; i++)
+		{
+			Destroy(obj[i]);
+		}
 	}
 	List<Health> healths = new List<Health>();
 	public override void Tick()
 	{
 		if (timer < 0)
 		{
-			obj.SetActive(false);
+			for (int i = 0; i < count; i++)
+			{
+				obj[i].SetActive(false);
+			}
 			return;
 		}
 		timer += Time.deltaTime * stepDirection;
@@ -69,27 +87,35 @@ public class SpinnyThingyAbility : Ability
 			stepDirection = -1;
 			healths.Clear();
 		}
-		obj.transform.position = Vector3.Lerp(caster.castOrigin.position, target, timer/maxTimer);
-
-		Collider[] hits = Physics.OverlapSphere(obj.transform.position, checkRad, enemyLayers);
-		foreach (Collider hit in hits)
+		float t = timer / maxTimer;
+		for (int i = 0; i < count; i++)
 		{
-			HitBox hb;
-			if (hit.TryGetComponent(out hb))
+			float val = (spread * Mathf.Sin((t*Mathf.PI)*frequncey) * (i * 2 - 1));
+			Debug.Log(val);
+			obj[i].transform.position = Vector3.Lerp(caster.castOrigin.position, target, t) + Vector3.Cross(Vector3.up, dir) * val;
+		}
+
+		for (int i = 0; i < count; i++)
+		{
+			Collider[] hits = Physics.OverlapSphere(obj[i].transform.position, checkRad, enemyLayers);
+			foreach (Collider hit in hits)
 			{
-				if (!healths.Contains(hb.health))
+				HitBox hb;
+				if (hit.TryGetComponent(out hb))
 				{
-					healths.Add(hb.health);
-					hb.OnHit(damage.Evaluate(timer / maxTimer));
-					Vector3 point = hit.ClosestPoint(obj.transform.position);
-					vfx.Play(point, obj.transform.position - point);
-					OnHit();
+					if (!healths.Contains(hb.health))
+					{
+						healths.Add(hb.health);
+						hb.OnHit(damage.Evaluate(timer / maxTimer));
+						Vector3 point = hit.ClosestPoint(obj[i].transform.position);
+						vfx.Play(point, obj[i].transform.position - point);
+						OnHit(hb.health);
+					}
 				}
 			}
 		}
-
 	}
-	public override void OnHit()
+	public override void OnHit(Health health)
 	{
 		if (caster.playerStats.Enabled)
 			caster.playerStats.Value.GainPoints(points);

@@ -59,6 +59,19 @@ public class PerkManager : MonoBehaviour
         return false;
 	}
 
+    public Perk GetPerk(Perk perk)
+    {
+        for (int i = 0; i < perkList.Count; i++)
+        {
+            if (perkList[i].GetType() == perk.GetType())
+            {
+                return perkList[i];
+            }
+        }
+
+        return null;
+    }
+
 	private void OnDestroy()
 	{
         if(GetComponent<Health>()!=null)

@@ -50,12 +50,24 @@ public class WaveManager : MonoBehaviour
         _stalker = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.StalkerPercentage, MaxToSpawn));
         _choas = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.ChoasPercentage, MaxToSpawn));
 
+        //int walker = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.WalkerPercent, _base));
+        int jogger = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.JoggerPercent, _base));
+        int runner = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.RunnerPercent, _base));
+
+        jogger += runner;
+
         List<DemonType> DemonsToSpawn = new List<DemonType>();
         List<DemonType> specialDemonTypes = new List<DemonType>();
 
         for (int i = 0; i < _base; i++)
         {
-            DemonsToSpawn.Add(wave.Base);
+            DemonType tempBase = wave.Base;
+
+            if(i < runner) { tempBase.SpeedType = DemonInfo.SpeedType.Runner; }
+            else if(i < jogger) { tempBase.SpeedType = DemonInfo.SpeedType.Jogger; }
+            else { tempBase.SpeedType = DemonInfo.SpeedType.Walker; }
+
+            DemonsToSpawn.Add(tempBase);
         }
 
         MaxToSpawn -= _base;

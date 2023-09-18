@@ -1,6 +1,8 @@
+using DemonInfo;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,6 +10,12 @@ public class BasicDemon : DemonBase
 {
     [Header("Demon Pathing")]
     [SerializeField] float distanceToRespawn;
+
+    [Header("Speed Profiles")]
+    [HideInInspector] public SpeedType speedType;
+    [SerializeField] DemonSpeedProfile walker;
+    [SerializeField] DemonSpeedProfile jogger;
+    [SerializeField] DemonSpeedProfile runner;
 
     [Header("Demon Health Algorithm")]
     [SerializeField] int m_xAmountOfRounds;
@@ -44,15 +52,16 @@ public class BasicDemon : DemonBase
         if(Vector3.Distance(_target.position,transform.position) < _attackRange)
             _target.GetComponent<Health>().TakeDmg(_damage);
     }
-    public override void OnSpawn(Transform target, bool defaultSpawn = true)
+    public override void OnSpawn(DemonType demon,Transform target, bool defaultSpawn = true)
     {
         if(defaultSpawn == true) { ritualSpawn = false; }
         else { ritualSpawn = true; }
 
-        base.OnSpawn(target);
+        base.OnSpawn(demon, target);
         UpdateHealthToCurrentRound(_spawnerManager.currentRound);
         CalculateAndSetPath(target);
         SetHealth(_health.maxHealth);
+        SetMoveSpeed(demon.SpeedType);
         _health.dead = false;
     }
     public override void OnRespawn(bool defaultDespawn = true, bool forcedDespawn = false, bool ritualDespawn = false)
@@ -116,8 +125,6 @@ public class BasicDemon : DemonBase
             _health.maxHealth += m_HealthToAdd;
         }
         else { _health.maxHealth = _health.maxHealth * m_HealthMultiplier; }
-
-        _moveSpeed = _moveSpeedCurve.Evaluate(round);
     }
 
     public override void UpdateHealthToCurrentRound(int currentRound)
@@ -135,9 +142,34 @@ public class BasicDemon : DemonBase
         }
     }
 
-    private void SetMoveSpeed()
+    private void SetMoveSpeed(SpeedType speedType)
     {
+        float maxspeed = 0;
 
+        switch(speedType)
+        {
+            case SpeedType.Walker:
+                _moveSpeed = walker.GetSpeed();
+                maxspeed = walker.maxSpeed;
+                break;
+            case SpeedType.Jogger:
+                _moveSpeed = jogger.GetSpeed();
+                maxspeed = jogger.maxSpeed;
+                break;
+            case SpeedType.Runner:
+                _moveSpeed = runner.GetSpeed();
+                maxspeed = runner.maxSpeed;
+                break;
+        }
+
+        float evalSpeed = GetRange(_moveSpeed, walker.minSpeed, runner.maxSpeed);
+
+        _animator.SetFloat("Speed", evalSpeed);
+    }
+
+    private float GetRange(float value, float min, float max, float destMin = 0, float destMax = 1)
+    {
+        return destMin + ((value - min) / (max - min)) * (destMax - destMin);
     }
 
     

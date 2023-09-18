@@ -170,6 +170,18 @@ public class DemonBase : MonoBehaviour, IDemon
         }
     }
 
+    public void ForcedDeath()
+    {
+        _agent.speed = 0;
+        _agent.enabled = false;
+
+        SetAllColliders(false);
+
+        _animator.SetTrigger("Death");
+
+        PlaySoundDeath();
+    }
+
     protected void OnFinishedSpawnAnimation() 
     {
         _agent.speed = _moveSpeed;

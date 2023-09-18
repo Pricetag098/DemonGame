@@ -10,6 +10,9 @@ public class Spawners : MonoBehaviour
     public List<Spawner> baseSpawners = new List<Spawner>();
     public List<Spawner> specialSpawners = new List<Spawner>();
 
+    [Header("Barriers")]
+    public DestrcutibleObject[] barriers;
+
     private DetectArea areaInfo;
 
     private Area[] areas;
@@ -32,6 +35,8 @@ public class Spawners : MonoBehaviour
             else if (a.AreaId == Areas.CathedralHallUpper) { AreaDictionary.Add(a.AreaId, a);  }
             else if (a.AreaId == Areas.CathedralHallLower) { AreaDictionary.Add(a.AreaId, a);  }
         }
+
+        barriers = FindObjectsOfType<DestrcutibleObject>();
     }
 
     public void UpdateActiveSpawners(Areas Id , Areas CurrentArea)

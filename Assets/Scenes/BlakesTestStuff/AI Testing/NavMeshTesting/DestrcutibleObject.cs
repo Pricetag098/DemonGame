@@ -9,6 +9,9 @@ public class DestrcutibleObject : Interactable
     public int maxHealth;
     public List<GameObject> symbolsList;
     public GameObject pentagramSymbol;
+
+    public string interactMessage;
+
     private List<GameObject> activeSymbols = new List<GameObject>();
 
     private float rebuildTimer;
@@ -77,5 +80,17 @@ public class DestrcutibleObject : Interactable
 
             rebuildTimer += Time.deltaTime;   
         }
+    }
+
+    public override void StartHover(Interactor interactor)
+    {
+        base.StartHover(interactor);
+        interactor.display.DisplayMessage(false, interactMessage);
+    }
+
+    public override void EndHover(Interactor interactor)
+    {
+        base.EndHover(interactor);
+        interactor.display.HideText();
     }
 }

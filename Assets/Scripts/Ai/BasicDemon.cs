@@ -59,7 +59,7 @@ public class BasicDemon : DemonBase
 
         base.OnSpawn(demon, target);
         UpdateHealthToCurrentRound(_spawnerManager.currentRound);
-        CalculateAndSetPath(target);
+        //CalculateAndSetPath(target);
         SetHealth(_health.maxHealth);
         SetMoveSpeed(demon.SpeedType);
         _health.dead = false;
@@ -88,6 +88,18 @@ public class BasicDemon : DemonBase
         base.OnHit();
         // do hit stuff
     }
+    public override void OnFinishedSpawnAnimation()
+    {
+        base.OnFinishedSpawnAnimation();
+
+        SetNavmeshPosition(spawpos);
+
+
+        _agent.enabled = true;
+        CalculateAndSetPath(_target);
+
+        Debug.Log("Finished Spawn Override");
+    }
 
     public override void PathFinding(bool active)
     {
@@ -112,10 +124,7 @@ public class BasicDemon : DemonBase
 
             if (dist > 100000) dist = 0;
 
-            if(dist > distanceToRespawn)
-            {
-                OnRespawn();
-            }
+            if(dist > distanceToRespawn) OnRespawn();
         }
     }
     public override void CalculateStats(int round)

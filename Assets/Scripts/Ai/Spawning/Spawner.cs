@@ -55,17 +55,19 @@ public class Spawner : MonoBehaviour
     private void SpawnDemon(DemonType demon, DemonPoolers pool, Transform target, bool defaultSpawn = true)
     {
         GameObject demonTemp = pool.demonPoolers[demon.Id].Spawn();
-        demonTemp.transform.position = position;
         DemonBase demonBase = demonTemp.GetComponent<DemonBase>();
+        demonBase.setSpawnPosition(position);
         demonBase.OnSpawn(demon, target, defaultSpawn);
+        demonTemp.transform.position = position;
     }
 
     private void SpawnDemon(DemonType demon, DemonPoolers pool, Transform target, List<DemonBase> list, bool defaultSpawn = true)
     {
         GameObject demonTemp = pool.demonPoolers[demon.Id].Spawn();
-        demonTemp.transform.position = position;
         DemonBase demonBase = demonTemp.GetComponent<DemonBase>();
+        demonBase.setSpawnPosition(position);
         demonBase.OnSpawn(demon, target, defaultSpawn);
+        demonTemp.transform.position = position;
         list.Add(demonBase);
     }
 }

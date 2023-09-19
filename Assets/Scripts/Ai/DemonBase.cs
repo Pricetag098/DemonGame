@@ -62,6 +62,8 @@ public class DemonBase : MonoBehaviour, IDemon
 
     protected int _currentUpdatedRound = 1;
 
+    [SerializeField] protected Vector3 spawpos = Vector3.zero;
+
     private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
@@ -73,6 +75,8 @@ public class DemonBase : MonoBehaviour, IDemon
         _colliders = GetAllColliders();
 
         OnAwakened();
+
+        _agent.enabled = false;
     }
 
     private void Start()
@@ -84,7 +88,7 @@ public class DemonBase : MonoBehaviour, IDemon
     {
         Tick();
     }
-
+    
     public virtual void OnAwakened() { }
     public virtual void Setup()
     {
@@ -121,7 +125,8 @@ public class DemonBase : MonoBehaviour, IDemon
     public virtual void OnSpawn(DemonType demon, Transform target, bool defaultSpawn = true)
     {
         _agent.speed = 0;
-        _agent.enabled = true;
+        //_agent.enabled = true;
+        _target = target;
         SetAllColliders(true);
 
         _spawner.ActiveDemons.Add(this);
@@ -182,7 +187,7 @@ public class DemonBase : MonoBehaviour, IDemon
         PlaySoundDeath();
     }
 
-    protected void OnFinishedSpawnAnimation() 
+    public virtual void OnFinishedSpawnAnimation() 
     {
         _agent.speed = _moveSpeed;
     }
@@ -196,6 +201,12 @@ public class DemonBase : MonoBehaviour, IDemon
     public void ApplyForce(Vector3 force, ForceMode mode = ForceMode.Impulse)
     {
         _rb.AddForce(force, mode);
+    }
+
+    public void SetNavmeshPosition(Vector3 pos)
+    {
+        transform.position = pos;
+        _agent.nextPosition = pos;
     }
 
     public void PlayAnimation(string trigger)
@@ -226,6 +237,17 @@ public class DemonBase : MonoBehaviour, IDemon
     protected void PlaySoundFootStep()
     {
         _soundPlayerFootsteps.Play();
+    }
+
+    public void setSpawnPosition(Vector3 pos)
+    {
+        spawpos = pos;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(spawpos, spawpos + new Vector3(0, 5, 0));
     }
 
     #region Properties

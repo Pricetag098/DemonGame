@@ -299,6 +299,7 @@ public class Gun : MonoBehaviour
 
         for (int i = 0; i < shotsPerFiring; i++)
         {
+            holster.animator.SetTrigger(shootKey);
             if (animator.Enabled)
                 animator.Value.SetTrigger(shootKey);
             Vector3 randVal = GetSpread();
@@ -383,14 +384,14 @@ public class Gun : MonoBehaviour
                 }
                 if (visualiserPool.Enabled)
                 {
-                    visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin, hits[penIndex].point, Vector3.Distance(origin.position, hits[penIndex].point) / bulletVisualiserSpeed,dir);
+                    visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin.position, hits[penIndex].point, Vector3.Distance(origin.position, hits[penIndex].point) / bulletVisualiserSpeed,dir);
                 }
             }
 
             else
             {
                 if (visualiserPool.Enabled)
-                    visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin, Camera.main.transform.forward * 1000, 1000 / bulletVisualiserSpeed,dir);
+                    visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin.position, Camera.main.transform.forward * 1000, 1000 / bulletVisualiserSpeed,dir);
             }
             
         }
@@ -431,6 +432,7 @@ public class Gun : MonoBehaviour
             return;
         if (animator.Enabled)
             animator.Value.SetTrigger(reloadKey);
+        holster.animator.SetTrigger(reloadKey);
         gunState = GunStates.reloading;
         reloadTimer = 0;
         reloadSound.Play();

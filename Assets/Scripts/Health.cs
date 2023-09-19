@@ -14,6 +14,8 @@ public class Health : MonoBehaviour
 
     // Start is called before the first frame update
     public float regenPerSecond = 0;
+    public float regenDelay = 0;
+    float timeSinceLastHit;
     public Optional<VfxTargets> vfxTarget;
 
 	private void Awake()
@@ -30,6 +32,7 @@ public class Health : MonoBehaviour
 		{
             Die();
 		}
+        timeSinceLastHit = 0;
     }
 
     public void Respawn()
@@ -42,6 +45,8 @@ public class Health : MonoBehaviour
 
 	private void Update()
 	{
+        timeSinceLastHit += Time.deltaTime;
+        if(timeSinceLastHit > regenDelay)
         health = Mathf.Clamp(health + regenPerSecond * Time.deltaTime, 0, maxHealth);
     }
 

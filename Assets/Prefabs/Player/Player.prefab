@@ -162,11 +162,18 @@ MonoBehaviour:
       m_Flags: 0
     m_Reference: {fileID: -6534050188531691962, guid: b5b5fd5d1836ae549b2c0e6bb6d5cf61, type: 3}
   heldGunIndex: 0
+  lastGunIndex: 0
+  guns:
+  - {fileID: 0}
+  - {fileID: 0}
   playerInput: {fileID: 3899720132604462813}
   frequncey: 2
   damping: 0.5
   reaction: 1
   updateKVals: 0
+  animator: {fileID: 8810530477264855289}
+  drawTrigger: Equip
+  holsterTigger: Unequip
 --- !u!1 &49079355132627392
 GameObject:
   m_ObjectHideFlags: 0
@@ -6578,6 +6585,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3217089785468435075}
   - component: {fileID: 8810530477264855289}
+  - component: {fileID: 7240771922533383113}
   m_Layer: 3
   m_Name: ArmRight
   m_TagString: Untagged
@@ -6622,6 +6630,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &7240771922533383113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2877438087218225209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a333ec25363764f986761dd9b7db13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holster: {fileID: 7681016054825031318}
 --- !u!1 &2889119307953266754
 GameObject:
   m_ObjectHideFlags: 0
@@ -7779,11 +7800,18 @@ MonoBehaviour:
       m_Flags: 0
     m_Reference: {fileID: -6534050188531691962, guid: b5b5fd5d1836ae549b2c0e6bb6d5cf61, type: 3}
   heldGunIndex: 0
+  lastGunIndex: 0
+  guns:
+  - {fileID: 0}
+  - {fileID: 0}
   playerInput: {fileID: 3899720132604462813}
   frequncey: 0
   damping: 0
   reaction: 1
   updateKVals: 0
+  animator: {fileID: 0}
+  drawTrigger: 
+  holsterTigger: 
 --- !u!1 &3463457289638681186
 GameObject:
   m_ObjectHideFlags: 0

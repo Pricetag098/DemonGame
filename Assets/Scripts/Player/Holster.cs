@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Movement;
+using System;
+
 public class Holster : MonoBehaviour
 {
     public PlayerStats stats;
@@ -13,12 +15,14 @@ public class Holster : MonoBehaviour
     [SerializeField] InputActionProperty input;
 
     public int heldGunIndex = 0;
+    public int lastGunIndex = 0;
     public Gun HeldGun { 
         get { return guns[heldGunIndex]; }
         set { SetGun(heldGunIndex, value); }
     }
     const int MaxGuns = 2;
-    Gun[] guns = new Gun[MaxGuns];
+    //[HideInInspector]
+    public Gun[] guns = new Gun[MaxGuns];
 
     public delegate void OnDealDamageAction(float amount);
     public OnDealDamageAction OnDealDamage;
@@ -33,7 +37,12 @@ public class Holster : MonoBehaviour
     public SecondOrderDynamics horizontalRecoilDynamics;
     public bool updateKVals;
     float damageDealt;
-	private void Start()
+    bool drawing = false;
+    [Header("Animation")]
+    public Animator animator;
+    public string drawTrigger;
+    public string holsterTigger;
+    private void Start()
 	{
         verticalRecoilDynamics = new SecondOrderDynamics(frequncey, damping, reaction, 0);
         horizontalRecoilDynamics = new SecondOrderDynamics(frequncey, damping, reaction, 0);
@@ -48,7 +57,9 @@ public class Holster : MonoBehaviour
                 j++;
 			}
 		}
-	}
+        OnDraw();
+        //animator.SetTrigger(drawTrigger);
+    }
 	private void Update()
 	{
 		if (updateKVals)
@@ -67,6 +78,7 @@ public class Holster : MonoBehaviour
             if (guns[i] == null)
 			{
                 slot = i;
+                break;
             }
                 
 		}
@@ -84,20 +96,23 @@ public class Holster : MonoBehaviour
 
     public void SetGunIndex(int index)
 	{
-        if (guns[index] == null)
+        if (guns[index] == null || heldGunIndex == index || drawing)
 		{
             return;
         }
-            
+        drawing = true;
+        lastGunIndex = heldGunIndex;
         heldGunIndex = index;
-        for(int i = 0; i < guns.Length; i++)
-		{
-            if (guns[i] != null)
-			{
-                guns[i].gameObject.SetActive(i==index);
-			}
-		}
-	}
+        animator.SetTrigger(holsterTigger);
+        //      for(int i = 0; i < guns.Length; i++)
+        //{
+        //          if (guns[i] != null)
+        //	{
+        //              guns[i].gameObject.SetActive(i==index);
+        //	}
+        //}
+        
+    }
     
     
     public void OnHit(float damage,float targetMaxHealth)
@@ -151,6 +166,21 @@ public class Holster : MonoBehaviour
         return false;
     }
 
+    public void OnHolster()
+    {
+        Debug.Log("AAAAA");
+        guns[lastGunIndex].gameObject.SetActive(false);
+        guns[heldGunIndex].gameObject.SetActive(true);
+        animator.ResetTrigger(holsterTigger);
+        guns[heldGunIndex].gunState = Gun.GunStates.disabled;
+        animator.runtimeAnimatorController = guns[heldGunIndex].controller;
+        animator.SetTrigger(drawTrigger);
+    }
+    public void OnDraw()
+    {
+        guns[heldGunIndex].gunState = Gun.GunStates.awaiting;
+        drawing = false;
+    }
     public bool CanShoot()
 	{
         return playerInput.Running();

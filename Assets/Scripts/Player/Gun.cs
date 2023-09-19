@@ -477,7 +477,7 @@ public class Gun : MonoBehaviour
 
     public void RefillStash()
 	{
-        AddToStash(1);
+        AddToStashPercent(1);
 	}
 
     public float GetDamage(HitBox.BodyPart bodyPart)

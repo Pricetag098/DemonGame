@@ -17,7 +17,7 @@ public class CrosshairSpread : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float val = recoilSpreadCurve.Evaluate(holster.HeldGun.bloomRecoilSpreadCurve.Evaluate(holster.HeldGun.recoil));
+        float val = recoilSpreadCurve.Evaluate(holster.HeldGun.GetSpread(Vector3.up).magnitude);
         RectTransform.sizeDelta = Vector2.one * val;
     }
 }

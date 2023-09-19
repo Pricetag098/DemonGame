@@ -302,7 +302,7 @@ public class Gun : MonoBehaviour
             holster.animator.SetTrigger(shootKey);
             if (animator.Enabled)
                 animator.Value.SetTrigger(shootKey);
-            Vector3 randVal = GetSpread();
+            Vector3 randVal = GetSpread(UnityEngine.Random.insideUnitSphere);
             
             
             Vector3 dir = Camera.main.transform.rotation * (Quaternion.Euler(randVal) * Vector3.forward);
@@ -478,9 +478,9 @@ public class Gun : MonoBehaviour
 	}
     #endregion
     #region GunData Evaluation
-    Vector3 GetSpread()
+    public Vector3 GetSpread(Vector3 rand)
     {
-        Vector3 rand = UnityEngine.Random.insideUnitCircle;
+        
         rand.z = 0;
 
 

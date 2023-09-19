@@ -16,6 +16,8 @@ public class FadeInTween : MonoBehaviour
     public bool moveIn = false;
     public Ease easeType;
 
+
+
     private void Awake()
     {
         if (single)
@@ -27,7 +29,7 @@ public class FadeInTween : MonoBehaviour
     {
         if (moveIn)
         {
-            rectTransform.transform.localPosition = new Vector3(0f, -1000f, 0f);
+            rectTransform.transform.localPosition = new Vector2(0f, -1000f);
             rectTransform.DOAnchorPos(new Vector2(0f, 0f), duration, false).SetEase(easeType);
         }
 
@@ -42,7 +44,7 @@ public class FadeInTween : MonoBehaviour
         }
     }
 
-    public void TweenOut()
+    /*public void TweenOut()
     {
         if (moveIn)
         {
@@ -59,5 +61,5 @@ public class FadeInTween : MonoBehaviour
             canvasGroup.alpha = 0f;
             canvasGroup.DOFade(0, duration);
         }
-    }
+    }*/
 }

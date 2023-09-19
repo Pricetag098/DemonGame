@@ -34,6 +34,7 @@ public class Spawners : MonoBehaviour
             else if (a.AreaId == Areas.BishopsQuarters) { AreaDictionary.Add(a.AreaId, a);  }
             else if (a.AreaId == Areas.CathedralHallUpper) { AreaDictionary.Add(a.AreaId, a);  }
             else if (a.AreaId == Areas.CathedralHallLower) { AreaDictionary.Add(a.AreaId, a);  }
+            else if (a.AreaId == Areas.Tomb) { AreaDictionary.Add(a.AreaId, a); }
         }
 
         barriers = FindObjectsOfType<DestrcutibleObject>();
@@ -144,4 +145,5 @@ public enum Areas
     BishopsQuarters,
     CathedralHallUpper,
     CathedralHallLower,
+    Tomb,
 }

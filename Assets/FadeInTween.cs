@@ -9,13 +9,16 @@ public class FadeInTween : MonoBehaviour
     DirectionTweens directionTweens;
     private Vector2 startPosition;
     private Vector2 endPosition = new Vector2 (0,0);
+    public float startValue;
 
-    public CanvasGroup canvasGroup;
-    public RectTransform rectTransform;
+    public CanvasGroup canvasGroup = null;
+    public RectTransform rectTransform = null;
+
     public float duration;
 
     private Image image = null;
 
+    public bool annoyingPiece = false;
     public bool single;
     public bool moveIn = false;
     public Ease easeType;
@@ -24,8 +27,14 @@ public class FadeInTween : MonoBehaviour
 
     private void Awake()
     {
+        if (annoyingPiece)
+        {
+            canvasGroup = GetComponent<CanvasGroup>();
+            rectTransform = GetComponent<RectTransform>();
+        }
+
         directionTweens = new DirectionTweens();
-        directionTweens.ChooseTweenDirection(easeDirection);
+        directionTweens.ChooseTweenDirection(easeDirection, startValue);
         startPosition = directionTweens.startPosition;
 
         if (single)

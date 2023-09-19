@@ -6,9 +6,7 @@ public class DirectionTweens
 {
     public Vector2 startPosition;
 
-    private float value = 1000f;
-
-    public void ChooseTweenDirection(TweenDirection direction)
+    public void ChooseTweenDirection(TweenDirection direction, float value)
     {
         switch (direction)
         {

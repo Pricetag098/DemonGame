@@ -57,8 +57,9 @@ public class Holster : MonoBehaviour
                 j++;
 			}
 		}
-        OnDraw();
-        //animator.SetTrigger(drawTrigger);
+        //OnDraw();
+        OnHolster();
+        animator.SetTrigger(drawTrigger);
     }
 	private void Update()
 	{
@@ -168,7 +169,7 @@ public class Holster : MonoBehaviour
 
     public void OnHolster()
     {
-        Debug.Log("AAAAA");
+        Debug.Log("Holster");
         guns[lastGunIndex].gameObject.SetActive(false);
         guns[heldGunIndex].gameObject.SetActive(true);
         animator.ResetTrigger(holsterTigger);
@@ -178,6 +179,7 @@ public class Holster : MonoBehaviour
     }
     public void OnDraw()
     {
+        Debug.Log("Draw");
         guns[heldGunIndex].gunState = Gun.GunStates.awaiting;
         drawing = false;
     }

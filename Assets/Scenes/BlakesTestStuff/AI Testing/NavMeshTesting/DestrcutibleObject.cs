@@ -7,6 +7,7 @@ public class DestrcutibleObject : Interactable
 {
     public int Health;
     public int maxHealth;
+    public int pointsToGain;
     public List<GameObject> symbolsList;
     public GameObject pentagramSymbol;
 
@@ -19,9 +20,13 @@ public class DestrcutibleObject : Interactable
 
     private bool canRebuild;
 
+    private PlayerStats player;
+
     private void Awake()
     {
         activeSymbols.AddRange(symbolsList);
+
+        player = FindObjectOfType<PlayerStats>();
     }
 
     public void TakeDamage(int Damage)
@@ -48,6 +53,8 @@ public class DestrcutibleObject : Interactable
         {
             pentagramSymbol.SetActive(true);
         }
+
+        player.GainPoints(pointsToGain);
 
         if (Health > maxHealth) { Health = maxHealth; }
     }

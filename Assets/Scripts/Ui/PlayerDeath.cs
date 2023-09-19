@@ -53,6 +53,7 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>
 	{
         if(respawnsLeft > 0)
 		{
+            StopAllCoroutines();
             StartCoroutine(DoDie());
             respawnsLeft--;
         }
@@ -67,12 +68,14 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>
     {
         dead = false;
         body.Hide();
+        StopAllCoroutines();
         StartCoroutine(DoReturnToBody());
 
     }
 
     IEnumerator DoReturnToBody()
     {
+        
         Time.timeScale = 0;
         while (respawnTimer < fadeTime)
         {

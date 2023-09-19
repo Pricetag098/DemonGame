@@ -15,7 +15,7 @@ public class Gun : MonoBehaviour
         reloading,
         disabled
 	}
-    GunStates gunState;
+    public GunStates gunState;
     
     public enum FireTypes
     {
@@ -98,11 +98,12 @@ public class Gun : MonoBehaviour
     public float bulletVisualiserSpeed;
 
     [Header("Animation")]
+    
     public Optional<Animator> animator;
+    public RuntimeAnimatorController controller;
     public string shootKey = "shoot";
     public string reloadKey = "reload";
-    public string meleeKey = "melee";
-    public string sprintKey = "sprinting";
+    //public string sprintKey = "sprinting";
 
     [Header("Upgrading")]
     public Optional<GunUpgradePath> path;
@@ -122,6 +123,7 @@ public class Gun : MonoBehaviour
         reloadAction.action.performed -= StartReload;
         if(visualiserPool.Enabled && visualiserPool.Value != null)
             visualiserPool.Value.DespawnAll();
+        
     }
     [ContextMenu("Gen Guid")]
     void GenGuid()
@@ -280,7 +282,6 @@ public class Gun : MonoBehaviour
                     holster.horizontalRecoilDynamics.Update(Time.deltaTime,0)
                     ,0));
         }
-
         else
         {
 
@@ -410,32 +411,26 @@ public class Gun : MonoBehaviour
 
     }
 
-    
-    
-    Vector3 GetSpread()
+    public void StartEquip()
     {
-        Vector3 rand = UnityEngine.Random.insideUnitCircle;
-        rand.z = 0;
 
-        
-        Vector3 spread = Vector3.zero;
-        spread += rand * velocitySpredCurve.Evaluate(holster.rb.velocity.magnitude);
-        spread += rand * bulletSpreadDegrees;
-        spread += rand * bloomRecoilSpreadCurve.Evaluate(recoil);
-        //spread.y = 0;
-        return spread;
     }
+    
+    
+
+    #region Reloading
     public void StartReload(InputAction.CallbackContext context)
     {
         StartReload();
-        if (animator.Enabled)
-            animator.Value.SetTrigger(reloadKey);
+        
     }
 
     public void StartReload()
 	{
         if (gunState != GunStates.awaiting || ammoLeft == maxAmmo || stash <= 0)
             return;
+        if (animator.Enabled)
+            animator.Value.SetTrigger(reloadKey);
         gunState = GunStates.reloading;
         reloadTimer = 0;
         reloadSound.Play();
@@ -479,7 +474,21 @@ public class Gun : MonoBehaviour
 	{
         AddToStashPercent(1);
 	}
+    #endregion
+    #region GunData Evaluation
+    Vector3 GetSpread()
+    {
+        Vector3 rand = UnityEngine.Random.insideUnitCircle;
+        rand.z = 0;
 
+
+        Vector3 spread = Vector3.zero;
+        spread += rand * velocitySpredCurve.Evaluate(holster.rb.velocity.magnitude);
+        spread += rand * bulletSpreadDegrees;
+        spread += rand * bloomRecoilSpreadCurve.Evaluate(recoil);
+        //spread.y = 0;
+        return spread;
+    }
     public float GetDamage(HitBox.BodyPart bodyPart)
 	{
 		switch (bodyPart)
@@ -508,4 +517,5 @@ public class Gun : MonoBehaviour
                 return bodyPoints;
         }
     }
+    #endregion
 }

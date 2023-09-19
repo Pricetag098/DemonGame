@@ -6,6 +6,10 @@ using UnityEngine.UI;
 
 public class FadeInTween : MonoBehaviour
 {
+    DirectionTweens directionTweens;
+    private Vector2 startPosition;
+    private Vector2 endPosition = new Vector2 (0,0);
+
     public CanvasGroup canvasGroup;
     public RectTransform rectTransform;
     public float duration;
@@ -16,10 +20,14 @@ public class FadeInTween : MonoBehaviour
     public bool moveIn = false;
     public Ease easeType;
 
-
+    public TweenDirection easeDirection;
 
     private void Awake()
     {
+        directionTweens = new DirectionTweens();
+        directionTweens.ChooseTweenDirection(easeDirection);
+        startPosition = directionTweens.startPosition;
+
         if (single)
         {
             image = GetComponent<Image>();
@@ -29,8 +37,8 @@ public class FadeInTween : MonoBehaviour
     {
         if (moveIn)
         {
-            rectTransform.transform.localPosition = new Vector2(0f, -1000f);
-            rectTransform.DOAnchorPos(new Vector2(0f, 0f), duration, false).SetEase(easeType);
+            rectTransform.transform.localPosition = startPosition;
+            rectTransform.DOAnchorPos(endPosition, duration, false).SetEase(easeType);
         }
 
         if (single)

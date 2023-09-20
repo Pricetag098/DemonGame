@@ -92,7 +92,7 @@ public class DestrcutibleObject : Interactable
     public override void StartHover(Interactor interactor)
     {
         base.StartHover(interactor);
-        interactor.display.DisplayMessage(false, interactMessage);
+        interactor.display.DisplayMessage(true, interactMessage);
     }
 
     public override void EndHover(Interactor interactor)

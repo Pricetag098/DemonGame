@@ -120,8 +120,8 @@ public class Holster : MonoBehaviour
         gun.holster = this;
         if (gun.visualiserPool.Enabled && !gun.useOwnVisualiser)
             gun.visualiserPool.Value = bulletVisualierPool;
-
-        SetGunIndex(slot);
+		guns[slot].gameObject.SetActive(true);
+		SetGunIndex(slot);
     }
 
     public void SetGunIndex(int index)
@@ -214,7 +214,8 @@ public class Holster : MonoBehaviour
         Debug.Log("Draw");
         guns[heldGunIndex].gunState = Gun.GunStates.awaiting;
         state = HolsterStates.normal;
-    }
+		animator.ResetTrigger(drawTrigger);
+	}
     public bool CanShoot()
 	{
         return playerInput.Running();

@@ -6,6 +6,11 @@ using DG.Tweening;
 
 public class SettingsContainer : MonoBehaviour
 {
+    public bool hasClickedOne = false;
+    public bool hasClickedTwo = false;
+    public bool hasClickedThree = false;
+    public bool hasClickedFour = false;
+
     public Transform gameplayParent;
     public Transform audioParent;
     public Transform videoParent;
@@ -45,40 +50,68 @@ public class SettingsContainer : MonoBehaviour
         {
             case 0:
                 {
-                    foreach (Transform item in gameplaySettings)
+                    if (!hasClickedOne)
                     {
-                        item.GetComponent<CanvasGroup>().alpha = 0f;
-                        sequence.Append(item.GetComponent<CanvasGroup>().DOFade(1, 0.1f));
+                        hasClickedOne = true;
+                        foreach (Transform item in gameplaySettings)
+                        {
+                            item.GetComponent<CanvasGroup>().alpha = 0f;
+                            sequence.Append(item.GetComponent<CanvasGroup>().DOFade(1, 0.1f));
+                        }
+                        break;
                     }
-                    break;
+                    else { break; }
                 }
             case 1:
                 {
-                    foreach (Transform item in audioSettings)
+                    if (!hasClickedTwo)
                     {
-                        item.GetComponent<CanvasGroup>().alpha = 0f;
-                        sequence.Append(item.GetComponent<CanvasGroup>().DOFade(1, 0.1f));
+                        hasClickedTwo = true;
+                        foreach (Transform item in audioSettings)
+                        {
+                            item.GetComponent<CanvasGroup>().alpha = 0f;
+                            sequence.Append(item.GetComponent<CanvasGroup>().DOFade(1, 0.1f));
+                        }
+                        break;
                     }
-                    break;
+                    else { break; }
                 }
             case 2:
                 {
-                    foreach (Transform item in videoSettings)
+                    if (!hasClickedThree)
                     {
-                        item.GetComponent<CanvasGroup>().alpha = 0f;
-                        sequence.Append(item.GetComponent<CanvasGroup>().DOFade(1, 0.1f));
+                        hasClickedThree = true;
+                        foreach (Transform item in videoSettings)
+                        {
+                            item.GetComponent<CanvasGroup>().alpha = 0f;
+                            sequence.Append(item.GetComponent<CanvasGroup>().DOFade(1, 0.1f));
+                        }
+                        break;
                     }
-                    break;
+                    else { break; }
                 }
             case 3:
                 {
-                    foreach (Transform item in controlSettings)
+                    if (!hasClickedFour)
                     {
-                        item.GetComponent<CanvasGroup>().alpha = 0f;
-                        sequence.Append(item.GetComponent<CanvasGroup>().DOFade(1, 0.1f));
+                        hasClickedFour = true;
+                        foreach (Transform item in controlSettings)
+                        {
+                            item.GetComponent<CanvasGroup>().alpha = 0f;
+                            sequence.Append(item.GetComponent<CanvasGroup>().DOFade(1, 0.1f));
+                        }
+                        break;
                     }
-                    break;
+                    else { break; }
                 }
         }
+    }
+
+    public void CloseSettingsMenu()
+    {
+        hasClickedOne = false;
+        hasClickedTwo = false;
+        hasClickedThree = false;
+        hasClickedFour = false;
     }
 }

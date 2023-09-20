@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>
 {
     [SerializeField] CanvasGroup canvasGroup;
+    SpawnerManager spawnerManager;
     float respawnTimer;
     float deathStateTimer;
     public float fadeTime;
@@ -25,7 +26,7 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>
         health = GetComponent<Health>();
         health.OnDeath += Die;
         body = FindObjectOfType<PlayerBodyInteract>();
-        
+        spawnerManager = FindObjectOfType<SpawnerManager>();
     }
 
     PlayerBodyInteract body;
@@ -87,7 +88,7 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>
         
         transform.position = body.body.transform.position;
         SetWorldState(true);
-        
+        spawnerManager.RunDefaultSpawning = true;
         transform.rotation = body.body.transform.rotation;
         while (respawnTimer >= 0)
         {
@@ -113,7 +114,9 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>
         body.Show();
         transform.position = respawnPoint.position;
         SetWorldState(false);
-        transform.rotation = respawnPoint.rotation;
+        spawnerManager.DespawnAllActiveDemons();
+		spawnerManager.RunDefaultSpawning = true;
+		transform.rotation = respawnPoint.rotation;
         while (respawnTimer >=0)
         {
             respawnTimer -= Time.unscaledDeltaTime;

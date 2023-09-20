@@ -8,11 +8,11 @@ public class HolsterAnims : MonoBehaviour
 
     public void OnHolster()
     {
-        holster.OnHolster();
+        //holster.OnHolster();
     }
 
     public void OnDraw()
     {
-        holster.OnDraw();
+        //holster.OnDraw();
     }
 }

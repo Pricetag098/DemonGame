@@ -37,11 +37,14 @@ public class Holster : MonoBehaviour
     public SecondOrderDynamics horizontalRecoilDynamics;
     public bool updateKVals;
     float damageDealt;
+    bool holstering = false;
     bool drawing = false;
     [Header("Animation")]
     public Animator animator;
     public string drawTrigger;
     public string holsterTigger;
+
+    float drawTimer = 0;
     private void Start()
 	{
         verticalRecoilDynamics = new SecondOrderDynamics(frequncey, damping, reaction, 0);
@@ -67,6 +70,15 @@ public class Holster : MonoBehaviour
 		{
             verticalRecoilDynamics.UpdateKVals(frequncey, damping, reaction);
             horizontalRecoilDynamics.UpdateKVals(frequncey, damping, reaction);
+        }
+
+        if (drawing)
+        {
+            drawTimer-=Time.deltaTime;
+            if(drawTimer < 0)
+            {
+                OnDraw();
+            }
         }
         
 	}

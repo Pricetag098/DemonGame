@@ -61,4 +61,10 @@ public class ShopInteractable : Interactable
 	{
 		return Cost;
 	}
+
+	[ContextMenu("Buy")]
+	public void TestBuy()
+	{
+		DoBuy(FindObjectOfType<Interactor>());
+	}
 }

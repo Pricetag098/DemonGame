@@ -34,6 +34,8 @@ public class Gun : MonoBehaviour
     public float roundsPerMin = 1, reloadDuration = 1;
     float fireTimer = 0, reloadTimer;
     public float bloodGainMulti = 1;
+    public float drawTime = 1;
+    public float holsterTime = 1;
 
     [Header("DamageSetting")]
     public float headDamage = 10;

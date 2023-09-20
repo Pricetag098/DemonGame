@@ -37,8 +37,13 @@ public class Holster : MonoBehaviour
     public SecondOrderDynamics horizontalRecoilDynamics;
     public bool updateKVals;
     float damageDealt;
-    bool holstering = false;
-    bool drawing = false;
+    enum HolsterStates 
+    {
+		normal,
+		drawing,
+        holstering
+    }
+    [SerializeField]HolsterStates state;
     [Header("Animation")]
     public Animator animator;
     public string drawTrigger;
@@ -61,7 +66,7 @@ public class Holster : MonoBehaviour
 			}
 		}
         //OnDraw();
-        OnHolster();
+        
         animator.SetTrigger(drawTrigger);
     }
 	private void Update()
@@ -72,13 +77,24 @@ public class Holster : MonoBehaviour
             horizontalRecoilDynamics.UpdateKVals(frequncey, damping, reaction);
         }
 
-        if (drawing)
+        switch (state)
         {
-            drawTimer-=Time.deltaTime;
-            if(drawTimer < 0)
-            {
-                OnDraw();
-            }
+            case HolsterStates.normal:
+                break;
+            case HolsterStates.drawing:
+				drawTimer -= Time.deltaTime;
+				if (drawTimer < 0)
+				{
+					OnDraw();
+				}
+				break;
+            case HolsterStates.holstering: 
+                drawTimer -= Time.deltaTime;
+                if(drawTimer < 0)
+                {
+                    OnHolster();
+                }
+                break;
         }
         
 	}
@@ -109,11 +125,12 @@ public class Holster : MonoBehaviour
 
     public void SetGunIndex(int index)
 	{
-        if (guns[index] == null || heldGunIndex == index || drawing)
+        if (guns[index] == null || heldGunIndex == index || state != HolsterStates.normal)
 		{
             return;
         }
-        drawing = true;
+        state = HolsterStates.holstering;
+        drawTimer = guns[heldGunIndex].holsterTime;
         lastGunIndex = heldGunIndex;
         heldGunIndex = index;
         animator.SetTrigger(holsterTigger);
@@ -187,13 +204,15 @@ public class Holster : MonoBehaviour
         animator.ResetTrigger(holsterTigger);
         guns[heldGunIndex].gunState = Gun.GunStates.disabled;
         animator.runtimeAnimatorController = guns[heldGunIndex].controller;
+        state = HolsterStates.drawing;
+        drawTimer = guns[heldGunIndex].drawTime;
         animator.SetTrigger(drawTrigger);
     }
     public void OnDraw()
     {
         Debug.Log("Draw");
         guns[heldGunIndex].gunState = Gun.GunStates.awaiting;
-        drawing = false;
+        state = HolsterStates.normal;
     }
     public bool CanShoot()
 	{

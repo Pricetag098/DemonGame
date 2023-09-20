@@ -4,79 +4,55 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
 
+
 public class FadeInTween : MonoBehaviour
 {
     DirectionTweens directionTweens;
+
     private Vector2 startPosition;
-    private Vector2 endPosition = new Vector2 (0,0);
+    private Vector2 endPosition = new Vector2 (0f, 0f);
+
     public float startValue;
 
     public CanvasGroup canvasGroup = null;
     public RectTransform rectTransform = null;
 
-    public float duration;
+    [Header("Durations")]
+    public float fadeDuration;
+    public float moveDuration;
 
     private Image image = null;
 
-    public bool annoyingPiece = false;
+    public Ease easeType;
+
+    [Header("Bools")]
     public bool single;
     public bool moveIn = false;
-    public Ease easeType;
 
     public TweenDirection easeDirection;
 
     private void Awake()
     {
-        if (annoyingPiece)
-        {
-            canvasGroup = GetComponent<CanvasGroup>();
-            rectTransform = GetComponent<RectTransform>();
-        }
-
         directionTweens = new DirectionTweens();
+
         directionTweens.ChooseTweenDirection(easeDirection, startValue);
         startPosition = directionTweens.startPosition;
 
-        if (single)
-        {
-            image = GetComponent<Image>();
-        }
+        if (single) { image = GetComponent<Image>(); }
     }
     public void TweenIn()
     {
         if (moveIn)
         {
             rectTransform.transform.localPosition = startPosition;
-            rectTransform.DOAnchorPos(endPosition, duration, false).SetEase(easeType);
+            rectTransform.DOAnchorPos(endPosition, moveDuration, false).SetEase(easeType);
         }
 
-        if (single)
-        {
-            image.DOFade(1, duration);
-        }
+        if (single) { image.DOFade(1, fadeDuration); }
         else
         {
             canvasGroup.alpha = 0f;
-            canvasGroup.DOFade(1, duration);
+            canvasGroup.DOFade(1, fadeDuration);
         }
     }
-
-    /*public void TweenOut()
-    {
-        if (moveIn)
-        {
-            rectTransform.transform.localPosition = new Vector3(0f, 0f, 0f);
-            rectTransform.DOAnchorPos(new Vector2(0f, -1000f), duration, false).SetEase(easeType);
-        }
-
-        if (single)
-        {
-            image.DOFade(0, duration);
-        }
-        else
-        {
-            canvasGroup.alpha = 0f;
-            canvasGroup.DOFade(0, duration);
-        }
-    }*/
 }

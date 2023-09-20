@@ -66,8 +66,9 @@ public class Holster : MonoBehaviour
 			}
 		}
         //OnDraw();
-        
-        animator.SetTrigger(drawTrigger);
+
+        OnHolster();
+		animator.SetTrigger(drawTrigger);
     }
 	private void Update()
 	{

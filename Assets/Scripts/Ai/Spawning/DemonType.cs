@@ -8,6 +8,7 @@ using DemonInfo;
 public class DemonType
 {
     public DemonID Id;
-    public SpawnType SpawnType;
-    public SpeedType SpeedType;
+    public SpawnerType SpawnerType;
+    [HideInInspector] public SpeedType SpeedType;
+    [HideInInspector] public SpawnType SpawnType;
 }

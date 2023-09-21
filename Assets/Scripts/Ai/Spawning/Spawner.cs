@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using DemonInfo;
 
 public class Spawner : MonoBehaviour
 {
@@ -23,22 +24,22 @@ public class Spawner : MonoBehaviour
     /// <param name="spawner"></param>
     /// <param name="sm"></param>
     /// <returns></returns>
-    public bool RequestSpawn(DemonType demon, DemonSpawner spawner, SpawnerManager sm, bool defaultSpawn = true)
+    public bool RequestSpawn(DemonType demon, DemonSpawner spawner, SpawnerManager sm, SpawnType type)
     {
         if(CanSpawn == true)
         {
-            SpawnDemon(demon, spawner.demonPool, sm.player, defaultSpawn);
+            SpawnDemon(demon, spawner.demonPool, sm.player, type);
 
             return true;
         }
 
         return false;
     }
-    public bool RequestSpawn(DemonType demon, DemonSpawner spawner, SpawnerManager sm, List<DemonBase> list, bool defaultSpawn = true)
+    public bool RequestSpawn(DemonType demon, DemonSpawner spawner, SpawnerManager sm, List<DemonBase> list, SpawnType type)
     {
         if (CanSpawn == true)
         {
-            SpawnDemon(demon, spawner.demonPool, sm.player, list, defaultSpawn);
+            SpawnDemon(demon, spawner.demonPool, sm.player, list, type);
 
             return true;
         }
@@ -52,21 +53,21 @@ public class Spawner : MonoBehaviour
     /// <param name="demon"></param>
     /// <param name="pool"></param>
     /// <param name="target"></param>
-    private void SpawnDemon(DemonType demon, DemonPoolers pool, Transform target, bool defaultSpawn = true)
+    private void SpawnDemon(DemonType demon, DemonPoolers pool, Transform target, SpawnType type)
     {
         GameObject demonTemp = pool.demonPoolers[demon.Id].Spawn();
         DemonBase demonBase = demonTemp.GetComponent<DemonBase>();
         demonBase.setSpawnPosition(position);
-        demonBase.OnSpawn(demon, target, defaultSpawn);
+        demonBase.OnSpawn(demon, target, type);
         demonTemp.transform.position = position;
     }
 
-    private void SpawnDemon(DemonType demon, DemonPoolers pool, Transform target, List<DemonBase> list, bool defaultSpawn = true)
+    private void SpawnDemon(DemonType demon, DemonPoolers pool, Transform target, List<DemonBase> list, SpawnType type)
     {
         GameObject demonTemp = pool.demonPoolers[demon.Id].Spawn();
         DemonBase demonBase = demonTemp.GetComponent<DemonBase>();
         demonBase.setSpawnPosition(position);
-        demonBase.OnSpawn(demon, target, defaultSpawn);
+        demonBase.OnSpawn(demon, target, type);
         demonTemp.transform.position = position;
         list.Add(demonBase);
     }

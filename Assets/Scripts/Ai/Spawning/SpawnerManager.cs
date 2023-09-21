@@ -52,7 +52,7 @@ public class SpawnerManager : MonoBehaviour
     }
     private void Start()
     {
-        RunDefaultSpawning = true;
+        //RunDefaultSpawning = true;
 
         WaveStart();
     }

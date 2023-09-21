@@ -8,5 +8,5 @@ using System;
 public class Demon
 {
     public DemonID demon;
-    public SpawnType spawnType;
+    public SpawnerType spawnType;
 }

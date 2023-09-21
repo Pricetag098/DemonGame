@@ -23,7 +23,7 @@ public class DemonBase : MonoBehaviour, IDemon
     [SerializeField] protected float _baseDamage;
     [SerializeField] protected float _baseHealth;
     [SerializeField] protected float _baseMoveSpeed;
-    [SerializeField] protected DemonSpeedProfile _speedProfile;
+    [SerializeField] protected SpawnType _spawnType;
 
     [Header("Stats")]
     [SerializeField] protected float _damage;
@@ -122,11 +122,12 @@ public class DemonBase : MonoBehaviour, IDemon
 
         PlaySoundDeath();
     }
-    public virtual void OnSpawn(DemonType demon, Transform target, bool defaultSpawn = true)
+    public virtual void OnSpawn(DemonType demon, Transform target, SpawnType type)
     {
         _agent.speed = 0;
-        //_agent.enabled = true;
         _target = target;
+        _spawnType = type;
+
         SetAllColliders(true);
 
         _spawner.ActiveDemons.Add(this);
@@ -134,28 +135,28 @@ public class DemonBase : MonoBehaviour, IDemon
         PlaySoundIdle();
     }
     public virtual void OnBuff() { }
-    public virtual void OnRespawn(bool defaultDespawn = true, bool forcedDespawn = false, bool ritualDespawn = false)
+    public virtual void OnDespawn(bool forcedDespawn = false)
     {
         _agent.speed = 0;
         _agent.enabled = false;
 
         SetAllColliders(false);
 
-        if (defaultDespawn == true)
+        if(forcedDespawn == true) _spawner.AddDemonBackToPool(_type, _spawnerManager);
+        else
         {
-            _spawner.ActiveDemons.Remove(this);
-            _spawner.AddDemonBackToPool(_type, _spawnerManager);
+            switch (_spawnType)
+            {
+                case SpawnType.Default:
+                    _spawner.ActiveDemons.Remove(this);
+                    _spawner.AddDemonBackToPool(_type, _spawnerManager);
+                    break;
+                case SpawnType.Ritual:
+                    _spawnerManager.AddDemonBackToRitual(_type);
+                    break;
+            }
         }
-        else if (forcedDespawn == true)
-        {
-            _spawner.AddDemonBackToPool(_type, _spawnerManager);
-        }
-
-        if (ritualDespawn == true) 
-        {
-            _spawnerManager.AddDemonBackToRitual(_type);
-        }
-
+        
         _pooledObject.Despawn();
     }
     public virtual void CalculateStats(int round) { }
@@ -182,7 +183,7 @@ public class DemonBase : MonoBehaviour, IDemon
 
         SetAllColliders(false);
 
-        _animator.SetTrigger("Death");
+        PlayAnimation("Death");
 
         PlaySoundDeath();
     }
@@ -193,9 +194,9 @@ public class DemonBase : MonoBehaviour, IDemon
     }
     protected void OnFinishedDeathAnimation()
     {
-        _pooledObject.Despawn();
+        if (_spawnType == SpawnType.Default) { _spawnerManager.DemonKilled(); }
 
-        if(ritualSpawn == false) { _spawnerManager.DemonKilled(); }
+        _pooledObject.Despawn();
     }
 
     public void ApplyForce(Vector3 force, ForceMode mode = ForceMode.Impulse)
@@ -278,20 +279,23 @@ public class DemonBase : MonoBehaviour, IDemon
 
         return path;
     }
-    public void CalculateAndSetPath(Transform targetPos)
+    public void CalculateAndSetPath(Transform targetPos, bool active)
     {
-        NavMeshPath path = new NavMeshPath();
-
-        lastPos = targetPos.position;
-
-        _agent.CalculatePath(lastPos, path);
-
-        if(path.status == NavMeshPathStatus.PathComplete)
+        if(active)
         {
-            _agent.SetPath(path);
-        }
+            NavMeshPath path = new NavMeshPath();
 
-        _target = targetPos;
+            lastPos = targetPos.position;
+
+            _agent.CalculatePath(lastPos, path);
+
+            if (path.status == NavMeshPathStatus.PathComplete)
+            {
+                _agent.SetPath(path);
+            }
+
+            _target = targetPos;
+        }
     }
     
     public void StopPathing()

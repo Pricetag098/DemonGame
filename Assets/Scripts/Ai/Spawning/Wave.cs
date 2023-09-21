@@ -13,7 +13,8 @@ public class Wave : ScriptableObject
     [Header("Boss Wave")]
     public bool BossWave;
 
-    [Header("Wave id")]
+    [Header("Wave")]
+    public SpawnType spawnType;
     public int Round;
 
     [Header("Demons")]

@@ -12,7 +12,8 @@ public class BasicDemon : DemonBase
     [SerializeField] float distanceToRespawn;
 
     [Header("Speed Profiles")]
-    [HideInInspector] public SpeedType speedType;
+    [SerializeField] DemonSpeedProfile speedProfile;
+    [HideInInspector] public SpeedType SpeedType;
     [SerializeField] DemonSpeedProfile walker;
     [SerializeField] DemonSpeedProfile jogger;
     [SerializeField] DemonSpeedProfile runner;
@@ -37,12 +38,12 @@ public class BasicDemon : DemonBase
 
     public override void Tick()
     {
-        PathFinding(_agent.enabled);
+        //PathFinding(_agent.enabled);
         DetectPlayer(_agent.enabled);
 
         m_obstacle.Detection();
 
-        _animator.SetFloat("Speed", _agent.velocity.magnitude);
+        SetAnimationMoveSpeed();
     }
     public override void OnAttack()
     {
@@ -52,29 +53,26 @@ public class BasicDemon : DemonBase
         if(Vector3.Distance(_target.position,transform.position) < _attackRange)
             _target.GetComponent<Health>().TakeDmg(_damage);
     }
-    public override void OnSpawn(DemonType demon,Transform target, bool defaultSpawn = true)
+    public override void OnSpawn(DemonType demon,Transform target, SpawnType type)
     {
-        if(defaultSpawn == true) { ritualSpawn = false; }
-        else { ritualSpawn = true; }
+        base.OnSpawn(demon, target, type);
 
-        base.OnSpawn(demon, target);
         UpdateHealthToCurrentRound(_spawnerManager.currentRound);
-        //CalculateAndSetPath(target);
-        SetHealth(_health.maxHealth);
-        SetMoveSpeed(demon.SpeedType);
-        _health.dead = false;
-    }
-    public override void OnRespawn(bool defaultDespawn = true, bool forcedDespawn = false, bool ritualDespawn = false)
-    {
-        base.OnRespawn(defaultDespawn, forcedDespawn, ritualDespawn);
 
-        
+        SetHealth(_health.maxHealth);
+        _health.dead = false;
+
+        SetMoveSpeed(demon.SpeedType);
+    }
+    public override void OnDespawn(bool forcedDespawn = false)
+    {
+        base.OnDespawn();
     }
     public override void OnDeath() // add back to pool of demon type
     {
         base.OnDeath();
         
-        if(ritualSpawn == true)
+        if(_spawnType == SpawnType.Ritual)
         {
             _spawnerManager.CurrentRitualOnDemonDeath();
         }
@@ -94,19 +92,15 @@ public class BasicDemon : DemonBase
 
         SetNavmeshPosition(spawpos);
 
-
-        _agent.enabled = true;
-        CalculateAndSetPath(_target);
+        //_agent.enabled = true;
+        CalculateAndSetPath(_target, _agent.enabled);
 
         Debug.Log("Finished Spawn Override");
     }
 
     public override void PathFinding(bool active)
     {
-        if(active == true)
-        {
-            CalculateAndSetPath(_target);
-        }
+        CalculateAndSetPath(_target, _agent.enabled);
     }
 
     public override void DetectPlayer(bool active)
@@ -124,7 +118,7 @@ public class BasicDemon : DemonBase
 
             if (dist > 100000) dist = 0;
 
-            if(dist > distanceToRespawn) OnRespawn();
+            if(dist > distanceToRespawn) OnDespawn();
         }
     }
     public override void CalculateStats(int round)
@@ -151,34 +145,37 @@ public class BasicDemon : DemonBase
         }
     }
 
-    private void SetMoveSpeed(SpeedType speedType)
+    private void SetMoveSpeed(SpeedType type)
     {
-        float maxspeed = 0;
-
-        switch(speedType)
+        switch(type)
         {
             case SpeedType.Walker:
-                _moveSpeed = walker.GetSpeed();
-                maxspeed = walker.maxSpeed;
+                speedProfile = walker;
+                _moveSpeed = speedProfile.GetSpeed();
                 break;
             case SpeedType.Jogger:
-                _moveSpeed = jogger.GetSpeed();
-                maxspeed = jogger.maxSpeed;
+                speedProfile = jogger;
+                _moveSpeed = speedProfile.GetSpeed();
                 break;
             case SpeedType.Runner:
-                _moveSpeed = runner.GetSpeed();
-                maxspeed = runner.maxSpeed;
+                speedProfile = runner;
+                _moveSpeed = speedProfile.GetSpeed();
                 break;
         }
 
-        float evalSpeed = GetRange(_moveSpeed, walker.minSpeed, runner.maxSpeed);
+        SpeedType = type;
+    }
+
+    private void SetAnimationMoveSpeed()
+    {
+        float evalSpeed = GetRange(_agent.velocity.magnitude, 0, speedProfile.maxSpeed);
 
         _animator.SetFloat("Speed", evalSpeed);
     }
 
     private float GetRange(float value, float min, float max, float destMin = 0, float destMax = 1)
     {
-        return destMin + ((value - min) / (max - min)) * (destMax - destMin);
+        return destMin + (value - min) / (max - min) * (destMax - destMin);
     }
 
     

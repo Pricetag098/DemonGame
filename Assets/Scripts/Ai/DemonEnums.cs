@@ -18,17 +18,21 @@ namespace DemonInfo
     {
         Null,
         Base,
-        Summoner,
         Stalker,
-        Chaos,
-        Cultist
+        Chaos
     }
-    public enum SpawnType
+    public enum SpawnerType
     {
         Null,
         Basic,
         Special,
         Boss
+    }
+    public enum SpawnType
+    {
+        Null,
+        Default,
+        Ritual
     }
 }
 

@@ -12,7 +12,7 @@ namespace DemonInfo
         public BaseDemonType()
         {
             Base.Id = DemonID.Base;
-            Base.SpawnType = SpawnType.Basic;
+            Base.SpawnerType = SpawnerType.Basic;
         }
     }
 }

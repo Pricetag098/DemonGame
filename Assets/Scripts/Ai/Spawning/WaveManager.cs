@@ -50,7 +50,6 @@ public class WaveManager : MonoBehaviour
         _stalker = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.StalkerPercentage, MaxToSpawn));
         _choas = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.ChoasPercentage, MaxToSpawn));
 
-        //int walker = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.WalkerPercent, _base));
         int jogger = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.JoggerPercent, _base));
         int runner = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.RunnerPercent, _base));
 

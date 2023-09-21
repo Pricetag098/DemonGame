@@ -137,7 +137,7 @@ public class RitualSpawner : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
-            ActiveDemons[i].OnRespawn(false, false, true);
+            ActiveDemons[i].OnDespawn();
         }
 
         ActiveDemons.Clear();

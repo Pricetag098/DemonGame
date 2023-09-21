@@ -62,7 +62,7 @@ public class DemonSpawner : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
-            ActiveDemons[i].OnRespawn(false, true, false);
+            ActiveDemons[i].OnDespawn(true);
         }
 
         ActiveDemons.Clear();
@@ -91,9 +91,9 @@ public class DemonSpawner : MonoBehaviour
 
         if(DemonCount > 0) { demon = DemonQueue.Dequeue(); }
 
-        switch (demon.SpawnType)
+        switch (demon.SpawnerType)
         {
-            case SpawnType.Basic:
+            case SpawnerType.Basic:
                 if (_spawners.baseSpawners.Count > 0)
                 {
                     Spawner spawner = null;
@@ -111,7 +111,7 @@ public class DemonSpawner : MonoBehaviour
 
                     if(spawner is null) { DemonQueue.Enqueue(demon); return false; }
 
-                    return spawner.RequestSpawn(demon, this, sm);
+                    return spawner.RequestSpawn(demon, this, sm, SpawnType.Default);
                 }
                 else 
                 { 
@@ -119,7 +119,7 @@ public class DemonSpawner : MonoBehaviour
                     DemonQueue.Enqueue(demon);
                 }
                 break;
-            case SpawnType.Special:
+            case SpawnerType.Special:
                 if (_spawners.specialSpawners.Count > 0)
                 {
                     Spawner spawner = null;
@@ -137,7 +137,7 @@ public class DemonSpawner : MonoBehaviour
 
                     if (spawner is null) { DemonQueue.Enqueue(demon); return false; }
 
-                    return spawner.RequestSpawn(demon, this, sm);
+                    return spawner.RequestSpawn(demon, this, sm, SpawnType.Default);
                 }
                 else 
                 { 
@@ -145,7 +145,7 @@ public class DemonSpawner : MonoBehaviour
                     DemonQueue.Enqueue(demon);
                 }
                 break;
-            case SpawnType.Boss:
+            case SpawnerType.Boss:
 
                 break;
         }
@@ -174,7 +174,7 @@ public class DemonSpawner : MonoBehaviour
 
         if (spawner is null) { ritual.DemonQueue.Enqueue(demon); return false; }
 
-        return spawner.RequestSpawn(demon, this, sm, list, false); ;
+        return spawner.RequestSpawn(demon, this, sm, list, SpawnType.Ritual); ;
     }
 
     /// <summary>

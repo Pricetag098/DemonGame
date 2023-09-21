@@ -17,9 +17,7 @@ public class DemonPoolers : MonoBehaviour
     private void Awake()
     {
         demonPoolers.Add(DemonID.Base, baseDemonPooler);
-        demonPoolers.Add(DemonID.Summoner, summonerDemonPooler);
         demonPoolers.Add(DemonID.Stalker, stalkerDemonPooler);
         demonPoolers.Add(DemonID.Chaos, choasDemonPooler);
-        demonPoolers.Add(DemonID.Cultist, cultistDemonPooler);
     }
 }

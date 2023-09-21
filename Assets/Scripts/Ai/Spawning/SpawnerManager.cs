@@ -172,6 +172,7 @@ public class SpawnerManager : MonoBehaviour
         demonsToSpawnEachTick = DemonSpawnsEachTick;
 
         DemonSpawner.DemonQueue = WaveManager.GetDemonToSpawn(maxDemonsToSpawn);
+        int yes = DemonSpawner.DemonQueue.Count;
     }
 
     void WaveEnd()

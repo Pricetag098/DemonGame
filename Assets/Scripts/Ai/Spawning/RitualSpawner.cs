@@ -4,6 +4,7 @@ using UnityEngine;
 public class RitualSpawner : MonoBehaviour
 {
     public Ritual ritual = null;
+    [SerializeField] int completionPoints;
 
     [Header("Display Variables")]
     public bool RitualActive;
@@ -161,6 +162,9 @@ public class RitualSpawner : MonoBehaviour
         sm.SetCurrentRitual(null);
 
         if(IncrementRitual == true) sm.IncrementRitualIndex();
+
+        PlayerStats p = FindObjectOfType<PlayerStats>();
+        p.GainPoints(completionPoints);
     }
 
     public void OnFailed(SpawnerManager sm)

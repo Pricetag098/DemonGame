@@ -82,6 +82,7 @@ public class DemonSpawner : MonoBehaviour
             ActiveDemons[i].OnDespawn(true);
         }
 
+        Debug.Log(DemonCount);
         ActiveDemons.Clear();
     }
 

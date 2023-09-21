@@ -13,6 +13,9 @@ public class DemonBase : MonoBehaviour, IDemon
     [Header("Spawner")]
     [SerializeField] protected DemonSpawner _spawner;
 
+    protected GrantPointsOnDeath _deathPoints;
+    [SerializeField] int pointsOnDeath;
+
     protected SpawnerManager _spawnerManager;
     protected bool ritualSpawn;
 
@@ -70,6 +73,7 @@ public class DemonBase : MonoBehaviour, IDemon
         _health = GetComponent<Health>();
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
+        _deathPoints = GetComponent<GrantPointsOnDeath>();
         _spawner = FindObjectOfType<DemonSpawner>();
         _spawnerManager = FindObjectOfType<SpawnerManager>();
         _colliders = GetAllColliders();
@@ -127,7 +131,18 @@ public class DemonBase : MonoBehaviour, IDemon
         _agent.speed = 0;
         _target = target;
         _spawnType = type;
+        _type = demon;
         _rb.isKinematic = true;
+
+        switch (type)
+        {
+            case SpawnType.Default:
+                _deathPoints.points = pointsOnDeath;
+                break;
+            case SpawnType.Ritual:
+                _deathPoints.points = 0;
+                break;
+        }
 
         SetAllColliders(true);
 

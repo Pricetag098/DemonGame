@@ -60,14 +60,21 @@ public class WaveManager : MonoBehaviour
 
         for (int i = 0; i < _base; i++)
         {
-            DemonType tempBase = wave.Base;
+            DemonType tempBase = new DemonType();
+            tempBase.SpawnType = wave.Base.SpawnType;
+            tempBase.Id = wave.Base.Id;
+            tempBase.SpawnerType = wave.Base.SpawnerType;
+                
+            //tempBase = wave.Base;
 
             if(i < runner) { tempBase.SpeedType = DemonInfo.SpeedType.Runner; }
-            else if(i < jogger) { tempBase.SpeedType = DemonInfo.SpeedType.Jogger; }
-            else { tempBase.SpeedType = DemonInfo.SpeedType.Walker; }
+            else if(i < jogger) { tempBase.SpeedType = DemonInfo.SpeedType.Walker; }
+            else { tempBase.SpeedType = DemonInfo.SpeedType.Jogger; }
 
             DemonsToSpawn.Add(tempBase);
         }
+
+        DemonsToSpawn = HelperFuntions.ShuffleList(DemonsToSpawn);
 
         MaxToSpawn -= _base;
 

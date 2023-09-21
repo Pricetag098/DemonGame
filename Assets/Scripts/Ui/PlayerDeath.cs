@@ -115,7 +115,7 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>
         transform.position = respawnPoint.position;
         SetWorldState(false);
         spawnerManager.DespawnAllActiveDemons();
-		spawnerManager.RunDefaultSpawning = true;
+		spawnerManager.RunDefaultSpawning = false;
 		transform.rotation = respawnPoint.rotation;
         while (respawnTimer >=0)
         {

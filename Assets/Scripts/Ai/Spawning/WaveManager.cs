@@ -147,7 +147,7 @@ public class WaveManager : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < count; i++) // set all left over rounds as base rounds
+        for (int i = 1; i < count; i++) // set all left over rounds as base rounds
         {
             if (WavesContainer[i] == null)
             {

@@ -246,13 +246,7 @@ public class DemonBase : MonoBehaviour, IDemon
 
     public void setSpawnPosition(Vector3 pos)
     {
-        spawpos = pos + new Vector3(0,-1.8f,0);
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(spawpos, spawpos + new Vector3(0, 5, 0));
+        spawpos = pos;
     }
 
     #region Properties

@@ -33,7 +33,7 @@ public class SpawnerManager : MonoBehaviour
     public AnimationCurve spawnsEachTick;
 
     [Header("Display Stats")]
-    [Range(0, 10000)] public int currentRound;
+    [Range(1, 10000)] public int currentRound;
     public int maxDemonsToSpawn;
     public int currentDemons;
     public bool EndOfRound;
@@ -172,13 +172,12 @@ public class SpawnerManager : MonoBehaviour
         demonsToSpawnEachTick = DemonSpawnsEachTick;
 
         DemonSpawner.DemonQueue = WaveManager.GetDemonToSpawn(maxDemonsToSpawn);
-
-        currentRound++;
     }
 
     void WaveEnd()
     {
         DemonSpawner.DemonQueue.Clear();
+        currentRound++;
     }
 
     public void DemonKilled()

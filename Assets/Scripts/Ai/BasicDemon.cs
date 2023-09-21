@@ -13,7 +13,7 @@ public class BasicDemon : DemonBase
 
     [Header("Speed Profiles")]
     [SerializeField] DemonSpeedProfile speedProfile;
-    [HideInInspector] public SpeedType SpeedType;
+    public SpeedType SpeedType;
     [SerializeField] DemonSpeedProfile walker;
     [SerializeField] DemonSpeedProfile jogger;
     [SerializeField] DemonSpeedProfile runner;
@@ -38,7 +38,6 @@ public class BasicDemon : DemonBase
 
     public override void Tick()
     {
-        //PathFinding(_agent.enabled);
         DetectPlayer(_agent.enabled);
 
         m_obstacle.Detection();
@@ -66,7 +65,7 @@ public class BasicDemon : DemonBase
     }
     public override void OnDespawn(bool forcedDespawn = false)
     {
-        base.OnDespawn();
+        base.OnDespawn(forcedDespawn);
     }
     public override void OnDeath() // add back to pool of demon type
     {
@@ -89,8 +88,6 @@ public class BasicDemon : DemonBase
     public override void OnFinishedSpawnAnimation()
     {
         base.OnFinishedSpawnAnimation();
-
-        //SetNavmeshPosition(spawpos);
 
         _agent.enabled = true;
         CalculateAndSetPath(_target, _agent.enabled);
@@ -175,8 +172,6 @@ public class BasicDemon : DemonBase
     {
         return destMin + (value - min) / (max - min) * (destMax - destMin);
     }
-
-    
 
     private void OnDestroy()
     {

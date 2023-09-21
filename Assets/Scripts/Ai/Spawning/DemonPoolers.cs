@@ -12,7 +12,7 @@ public class DemonPoolers : MonoBehaviour
     [SerializeField] ObjectPooler choasDemonPooler;
     [SerializeField] ObjectPooler cultistDemonPooler;
 
-    public Dictionary<DemonID, ObjectPooler> demonPoolers = new Dictionary<DemonID, ObjectPooler>();
+    static public Dictionary<DemonID, ObjectPooler> demonPoolers = new Dictionary<DemonID, ObjectPooler>();
 
     private void Awake()
     {

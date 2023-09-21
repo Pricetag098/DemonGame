@@ -14,7 +14,7 @@ public class DemonBase : MonoBehaviour, IDemon
     [SerializeField] protected DemonSpawner _spawner;
 
     protected GrantPointsOnDeath _deathPoints;
-    [SerializeField] int pointsOnDeath;
+    [SerializeField] protected int pointsOnDeath;
 
     protected SpawnerManager _spawnerManager;
     protected bool ritualSpawn;

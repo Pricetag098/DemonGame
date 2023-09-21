@@ -117,6 +117,8 @@ public class SpawnerManager : MonoBehaviour
                 }
             }
         }
+
+        DemonSpawner.CallDemonUpdatePosition();
     }
 
     public void UpdateSpawners(Areas Id, Areas CurrentArea)

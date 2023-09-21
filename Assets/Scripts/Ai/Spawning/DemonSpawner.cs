@@ -24,6 +24,23 @@ public class DemonSpawner : MonoBehaviour
         demonPool = GetComponent<DemonPoolers>();
     }
 
+    public void CallDemonUpdatePosition()
+    {
+        int num = ActiveDemons.Count;
+
+        if (num > 10) { num = 10; }
+
+        for (int i = 0; i < num; i++)
+        {
+            DemonBase temp = ActiveDemons[0];
+
+            temp.PathFinding();
+
+            ActiveDemons.RemoveAt(0);
+            ActiveDemons.Add(temp);
+        }
+    }
+
     /// <summary>
     /// Adds Demon back into Main Queue
     /// </summary>

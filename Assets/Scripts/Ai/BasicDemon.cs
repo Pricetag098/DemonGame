@@ -98,7 +98,7 @@ public class BasicDemon : DemonBase
         Debug.Log("Finished Spawn Override");
     }
 
-    public override void PathFinding(bool active)
+    public override void PathFinding()
     {
         CalculateAndSetPath(_target, _agent.enabled);
     }

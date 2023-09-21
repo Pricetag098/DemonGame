@@ -108,7 +108,7 @@ public class DemonBase : MonoBehaviour, IDemon
     {
         PlaySoundHit();
     } 
-    public virtual void PathFinding(bool canPath) { }
+    public virtual void PathFinding() { }
     public virtual void OnDeath()
     {
         _agent.speed = 0;
@@ -190,6 +190,7 @@ public class DemonBase : MonoBehaviour, IDemon
 
     public virtual void OnFinishedSpawnAnimation() 
     {
+        _agent.enabled = true;
         _agent.speed = _moveSpeed;
     }
     protected void OnFinishedDeathAnimation()

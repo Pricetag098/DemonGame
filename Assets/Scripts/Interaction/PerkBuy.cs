@@ -6,6 +6,8 @@ public class PerkBuy : ShopInteractable
 {
 	public bool upgraded;
 	[SerializeField] public Perk perk;
+	public Material upgradedMat;
+	[SerializeField] GameObject chalice;
 	
 	protected override void DoBuy(Interactor interactor)
 	{
@@ -27,6 +29,11 @@ public class PerkBuy : ShopInteractable
 		{
 			perkManager.GetPerk(perk).Upgrade();
 			upgraded = true;
+		}
+
+		foreach(Transform child in chalice.transform)
+		{
+			child.GetComponent<Renderer>().material = upgradedMat;
 		}
 	}
 	[ContextMenu("Upgrade")]

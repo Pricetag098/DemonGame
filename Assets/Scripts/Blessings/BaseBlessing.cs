@@ -6,7 +6,7 @@ using UnityEngine;
 public class BaseBlessing : MonoBehaviour
 {
     PooledObject PooledObject;
-
+    [SerializeField] Optional<VfxSpawnRequest> vfx;
     private void Awake()
     {
         PooledObject = transform.parent.GetComponent<PooledObject>();
@@ -16,7 +16,11 @@ public class BaseBlessing : MonoBehaviour
     {
         if(other.gameObject.layer == 6)
         {
-            Activate(other.GetComponentInParent<PlayerInput>().gameObject);
+            GameObject target = other.GetComponentInParent<PlayerInput>().gameObject;
+
+			Activate(target);
+            if(vfx.Enabled)
+            vfx.Value.Play(transform.position, target.transform.position - transform.position);
             Delete();
         }
     }

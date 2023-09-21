@@ -18,9 +18,10 @@ public class AbilityBuy : ShopInteractable
 	[SerializeField] List<GameObject> validPositions;
 	[SerializeField] Optional<VfxSpawnRequest> vanshFx;
 
-	private void Awake()
+	private void Start()
 	{
-		if(respawnOnAwake)
+		Random.seed = (int)System.DateTime.Now.Ticks;
+		if (respawnOnAwake)
 			Respawn();
 		
 	}
@@ -67,7 +68,9 @@ public class AbilityBuy : ShopInteractable
 	{
 		
 		int r = Random.Range(0, validPositions.Count);
-		//Debug.Log(r);
+
+		
+		Debug.Log("Respawning @: " + r.ToString());
 		GameObject target = validPositions[r];
 
 		if(lastPos is null)

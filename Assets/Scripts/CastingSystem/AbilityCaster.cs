@@ -16,6 +16,14 @@ public class AbilityCaster : MonoBehaviour
 
     public Optional<PlayerStats> playerStats;
 
+
+    public float DamageMulti
+    {
+        get { if (playerStats.Enabled)
+                return playerStats.Value.abilityDamageMulti;
+        else return 1f;
+        }
+    }
     // Start is called before the first frame update
     void Awake()
     {

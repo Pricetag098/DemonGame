@@ -72,7 +72,7 @@ public class BloodKnifeAbility : Ability
         Vector3 end = lastOrigin + lastAimDir * maxRange;
         Vector3 mid = Vector3.Lerp(lastOrigin, end, .5f);
 
-        projectileSpawner.Spawn().GetComponent<DamageProjectiles>().Shoot(lastOrigin, mid,end,maxRange/speed, damage, this, Mathf.RoundToInt(chargePenetrationCurve.Evaluate(chargePercent))) ;
+        projectileSpawner.Spawn().GetComponent<DamageProjectiles>().Shoot(lastOrigin, mid,end,maxRange/speed, damage * caster.DamageMulti, this, Mathf.RoundToInt(chargePenetrationCurve.Evaluate(chargePercent))) ;
         caster.RemoveBlood(chargeCostCurve.Evaluate(chargePercent));
         spawnVfx.Play(caster.castOrigin.position, lastAimDir);
     }

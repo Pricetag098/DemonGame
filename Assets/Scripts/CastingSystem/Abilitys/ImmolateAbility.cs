@@ -126,7 +126,7 @@ public class ImmolateAbility : Ability
 
 	public void HitTarget(Health health)
 	{
-		health.TakeDmg(damage);
+		health.TakeDmg(damage * caster.DamageMulti);
 		vfx.Play(health.GetComponent<VfxTargets>().origin.position,Vector3.up);
 	}
 

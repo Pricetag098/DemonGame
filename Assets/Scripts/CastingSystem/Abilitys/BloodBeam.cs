@@ -61,7 +61,7 @@ public class BloodBeam : Ability
 						if (caster.playerStats.Enabled)
 							caster.playerStats.Value.GainPoints(points);
 					}
-					hb.OnHit(damage * Time.deltaTime);
+					hb.OnHit(damage * Time.deltaTime * caster.DamageMulti);
 					healths.Add(hb.health);
 				}
 

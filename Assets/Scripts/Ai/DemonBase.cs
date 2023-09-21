@@ -118,7 +118,7 @@ public class DemonBase : MonoBehaviour, IDemon
 
         _spawner.ActiveDemons.Remove(this);
 
-        _animator.SetTrigger("Death");
+        PlayAnimation("Death");
 
         PlaySoundDeath();
     }
@@ -127,12 +127,15 @@ public class DemonBase : MonoBehaviour, IDemon
         _agent.speed = 0;
         _target = target;
         _spawnType = type;
+        _rb.isKinematic = true;
 
         SetAllColliders(true);
 
         _spawner.ActiveDemons.Add(this);
 
         PlaySoundIdle();
+
+        PlayAnimation("Spawn");
     }
     public virtual void OnBuff() { }
     public virtual void OnDespawn(bool forcedDespawn = false)
@@ -190,8 +193,8 @@ public class DemonBase : MonoBehaviour, IDemon
 
     public virtual void OnFinishedSpawnAnimation() 
     {
-        _agent.enabled = true;
         _agent.speed = _moveSpeed;
+        _rb.isKinematic = false;
     }
     protected void OnFinishedDeathAnimation()
     {
@@ -243,7 +246,7 @@ public class DemonBase : MonoBehaviour, IDemon
 
     public void setSpawnPosition(Vector3 pos)
     {
-        spawpos = pos;
+        spawpos = pos + new Vector3(0,-1.8f,0);
     }
 
     private void OnDrawGizmos()
@@ -282,7 +285,7 @@ public class DemonBase : MonoBehaviour, IDemon
     }
     public void CalculateAndSetPath(Transform targetPos, bool active)
     {
-        if(active)
+        if(active == true)
         {
             NavMeshPath path = new NavMeshPath();
 

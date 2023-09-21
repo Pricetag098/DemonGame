@@ -90,12 +90,10 @@ public class BasicDemon : DemonBase
     {
         base.OnFinishedSpawnAnimation();
 
-        SetNavmeshPosition(spawpos);
+        //SetNavmeshPosition(spawpos);
 
-        //_agent.enabled = true;
+        _agent.enabled = true;
         CalculateAndSetPath(_target, _agent.enabled);
-
-        Debug.Log("Finished Spawn Override");
     }
 
     public override void PathFinding()

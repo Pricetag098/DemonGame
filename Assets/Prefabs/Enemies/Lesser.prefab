@@ -1467,7 +1467,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8257292249745265185, guid: 9ffce472bccea6a4697d2bf06a3a4082, type: 3}
       propertyPath: m_IsKinematic
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8395565690108844706, guid: 9ffce472bccea6a4697d2bf06a3a4082, type: 3}
       propertyPath: MaxDistance
@@ -1612,15 +1612,13 @@ MonoBehaviour:
   _spawner: {fileID: 0}
   _type:
     Id: 1
-    SpawnType: 1
+    SpawnerType: 0
     SpeedType: 0
+    SpawnType: 1
   _baseDamage: 50
   _baseHealth: 150
   _baseMoveSpeed: 2
-  _speedProfile:
-    Speed: 0
-    minSpeed: 0
-    maxSpeed: 0
+  _spawnType: 0
   _damage: 50
   _moveSpeed: 2
   _attackSpeed: 1
@@ -1666,7 +1664,11 @@ MonoBehaviour:
     m_RotationOrder: 4
   spawpos: {x: 0, y: 0, z: 0}
   distanceToRespawn: 60
-  speedType: 0
+  speedProfile:
+    Speed: 0
+    minSpeed: 0
+    maxSpeed: 0
+  SpeedType: 0
   walker:
     Speed: 0
     minSpeed: 2

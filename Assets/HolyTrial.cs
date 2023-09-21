@@ -20,6 +20,5 @@ public class HolyTrial : MonoBehaviour
             ritual.SetActive(true);
         }
 
-        obeliskCounter++;
-    }
+        obeliskCounter++;    }
 }

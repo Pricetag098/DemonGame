@@ -20,7 +20,7 @@ public class AbilityBuy : ShopInteractable
 
 	private void Start()
 	{
-		Random.seed = (int)System.DateTime.Now.Ticks;
+		
 		if (respawnOnAwake)
 			Respawn();
 		

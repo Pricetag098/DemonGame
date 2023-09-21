@@ -11,8 +11,10 @@ public class PlayerStats : MonoBehaviour,IDataPersistance<GameData>
     public float healthMulti = 1;
     public float regenMulti = 1;
     public float bloodGainMulti = 1;
+	public float pointGainMulti = 1;
 
-    public int points = 0;
+
+	public int points = 0;
     public int pointsSpent;
     public int pointsGained;
 
@@ -23,6 +25,7 @@ public class PlayerStats : MonoBehaviour,IDataPersistance<GameData>
 	}
     public void SpendPoints(int amount)
 	{
+        amount = (int)(amount * pointGainMulti);
         points -= amount;
         pointsSpent += amount;
 	}

@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 [CreateAssetMenu(menuName = "Perks/ADamage")]
-public class AbilityDamagePErk : Perk
+public class AbilityDamagePerk : Perk
 {
 	[SerializeField] float damageModToGain;
 	[SerializeField] float killPointModToGain;

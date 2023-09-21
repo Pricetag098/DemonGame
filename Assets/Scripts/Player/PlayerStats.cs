@@ -12,7 +12,7 @@ public class PlayerStats : MonoBehaviour,IDataPersistance<GameData>
     public float regenMulti = 1;
     public float bloodGainMulti = 1;
 	public float pointGainMulti = 1;
-
+    public float abilityDamageMulti = 1;
 
 	public int points = 0;
     public int pointsSpent;

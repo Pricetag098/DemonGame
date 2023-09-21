@@ -8,6 +8,8 @@ public class AoeDamagePerk : Perk
 	[SerializeField] float decayRate;
 	[SerializeField] float damage;
 	[SerializeField] float radius;
+	[Range(0,1)]
+	[SerializeField] float healthPercent;
 	[SerializeField] float upgradedRadius;
 	[SerializeField] float triggerPoint;
 	[SerializeField] float damageCount;
@@ -51,9 +53,10 @@ public class AoeDamagePerk : Perk
 		for(int i = 0; i < healths.Count; i++)
 		{
 			Health health = healths[i];
-			health.TakeDmg(damage);
+			health.TakeDmg(upgraded? health.maxHealth * healthPercent : damage);
 		}
 	}
+	
 
 	protected override void OnUnEquip()
 	{

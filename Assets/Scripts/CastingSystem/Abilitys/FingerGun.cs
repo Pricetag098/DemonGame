@@ -31,7 +31,7 @@ public class FingerGun : Ability
 			Vector3 rand = Random.insideUnitSphere * spreadUnits;
 			Vector3 end = origin + direction * 100;
 			Vector3 mid = Vector3.Lerp(origin, end, .5f);
-			pool.Spawn().GetComponent<DamageProjectiles>().Shoot(origin + rand, mid + rand, end + rand, 100 / speed, damage, this, 1);
+			pool.Spawn().GetComponent<DamageProjectiles>().Shoot(origin + rand, mid + rand, end + rand, 100 / speed, damage * caster.DamageMulti, this, 1);
 
 			timer = 0;
 			caster.RemoveBlood(bloodCost);

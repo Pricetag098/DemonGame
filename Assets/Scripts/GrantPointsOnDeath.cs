@@ -4,23 +4,19 @@ using UnityEngine;
 
 public class GrantPointsOnDeath : MonoBehaviour
 {
+    public static float gainMod = 1;
     PlayerStats playerStats;
     public int points;
-    public int pointsHit;
+
     // Start is called before the first frame update
     void Awake()
     {
         playerStats = FindObjectOfType<PlayerStats>();
         GetComponent<Health>().OnDeath += AddPointsDeath;
-        GetComponent<Health>().OnHit += AddPointsHit;
     }
 
     void AddPointsDeath()
 	{
-        playerStats.points += points;
+        playerStats.GainPoints((int)(points * gainMod));
 	}
-    void AddPointsHit()
-    {
-        playerStats.points += points;
-    }
 }

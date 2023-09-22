@@ -5,13 +5,15 @@ using UnityEngine.InputSystem;
 
 namespace Movement
 {
-	public class PlayerInput : MonoBehaviour
+	public class PlayerInput : MonoBehaviour, IDataPersistance<PlayerSettings>
 	{
 		[Header("Set this stuff pls")]
 		public Transform orientation;
 		public Transform cam;
 		public Vector3 gravityDir;
-		public float sense;
+		public float sensitivity =1;
+		public float minSurface = .5f;
+		
 		public MoveStates moveState;
 		Rigidbody rb;
 		[SerializeField] CapsuleCollider standingCollider, crouchedCollider;
@@ -81,13 +83,18 @@ namespace Movement
 		Vector3 lastCamPos;
 		Vector3 targetCamPos;
 
+		public Vector2 recoilVal;
 		float camRotX = 0;
 		Vector2 inputDir;
 		PlayerStats playerStats;
 
-		bool grounded;
+		[HideInInspector] public bool grounded;
+		[HideInInspector] public bool touchingSurface;
+		[HideInInspector] public RaycastHit lastSurface;
+		[SerializeField] float surfaceCheckRange;
 
 		Vector3 slideEntryVel;
+		Vector3 surfaceNormal;
 		public enum MoveStates
 		{
 			walk,
@@ -96,6 +103,13 @@ namespace Movement
 			slide
 		}
 
+
+		public void SetRecoil(Vector3 recoil)
+		{
+			recoilVal.x = recoil.x;
+			recoilVal.y = recoil.y;
+
+		}
 		public bool holdToSlide;
 		// Start is called before the first frame update
 		void Start()
@@ -106,8 +120,12 @@ namespace Movement
 			Cursor.lockState = CursorLockMode.Locked;
 			rb = GetComponent<Rigidbody>();
 			playerStats = GetComponent<PlayerStats>();
-
+			camRotX = 0;
 		}
+		private void OnDestroy()
+		{
+            jumpAction.action.performed -= Jump;
+        }
 
 		//manage all the input actions
 		private void OnEnable()
@@ -233,7 +251,17 @@ namespace Movement
 						lastCamPos = cam.localPosition;
 						targetCamPos = camStandingPos;
 						camMovementTimer = 0;
-						return;
+                        if (Vector3.Dot(rb.velocity, orientation.forward) < maxSlideSpeed && grounded)
+                        {
+                            RaycastHit hit;
+                            Vector3 force = slideLaunchVel * orientation.forward;
+                            if (Physics.Raycast(orientation.position, -orientation.up, out hit, 5, groundingLayer))
+                            {
+                                force = Vector3.ProjectOnPlane(force, hit.normal);
+                            }
+                            rb.AddForce(force, ForceMode.VelocityChange);
+                        }
+                        return;
 					}
 					if (slideInput)
 					{
@@ -316,7 +344,8 @@ namespace Movement
 				OnHitGround();
 			grounded = groundCheck;
 
-
+			//Debug.Log("Grounded " + grounded);
+			//Debug.Log("onSurface" + touchingSurface);
 			if (!grounded)
 			{
 				Move(airMaxSpeed, airAcceleration, airSlowForce, airControlForce,airOppositeVelMulti);
@@ -378,8 +407,8 @@ namespace Movement
 		void DoCamRot()
 		{
 			Vector2 camDir = mouseAction.action.ReadValue<Vector2>();
-			camRotX = Mathf.Clamp(-camDir.y * sense * Time.deltaTime + camRotX, -90, 90);
-			cam.rotation = Quaternion.Euler(camRotX, cam.rotation.eulerAngles.y + camDir.x * sense * Time.deltaTime, cam.rotation.eulerAngles.z);
+			camRotX = Mathf.Clamp(-camDir.y * sensitivity * Time.deltaTime + camRotX + recoilVal.x, -90, 90);
+			cam.rotation = Quaternion.Euler(camRotX, cam.rotation.eulerAngles.y + camDir.x * sensitivity * Time.deltaTime + recoilVal.y, cam.rotation.eulerAngles.z);
 		}
 
 		
@@ -427,19 +456,15 @@ namespace Movement
 				force += slowForce * Vector3.Dot(playerVel, orientation.forward) * -orientation.forward;
 			if (inputDir.x == 0)
 				force += slowForce * Vector3.Dot(playerVel, orientation.right) * -orientation.right;
-			if (!IsGrounded())
+			if (!touchingSurface)
 			{
 				rb.AddForce(gravityDir);
 			}
-			
 
-			
+
+
 			//project the forward velocity onto the floor for walking on slopes
-			RaycastHit hit;
-			if (Physics.Raycast(orientation.position, -orientation.up, out hit, 5, groundingLayer))
-			{
-				force = Vector3.ProjectOnPlane(force, hit.normal);
-			}
+			force = Vector3.ProjectOnPlane(force, surfaceNormal);
 
 			rb.AddForce(force);
 			if(rb.velocity.magnitude > maxSpeed)
@@ -456,13 +481,40 @@ namespace Movement
 
 		bool IsGrounded()
 		{
-			return Physics.CheckSphere(groundingPoint.position, groundingRadius, groundingLayer);
+			RaycastHit hit;
+			bool isGrounded = Physics.CheckSphere(groundingPoint.position, groundingRadius, groundingLayer) && Vector3.Dot(surfaceNormal, orientation.up) > minSurface;
+			
+			if (Physics.SphereCast(orientation.position,groundingRadius, -orientation.up, out hit, surfaceCheckRange * 5, groundingLayer))
+			{
+				surfaceNormal = hit.normal;
+				touchingSurface = hit.distance <= surfaceCheckRange;
+				lastSurface = hit;
+			}
+			else
+			{
+				touchingSurface = false;
+			}
+			return isGrounded;
 		}
 
 		private void OnDrawGizmosSelected()
 		{
 			Gizmos.color = Color.green;
 			Gizmos.DrawWireSphere(groundingPoint.position, groundingRadius);
+			Gizmos.color = Color.magenta;
+			Gizmos.DrawLine(orientation.position,orientation.position + -orientation.up * surfaceCheckRange);
+		}
+
+		void IDataPersistance<PlayerSettings>.LoadData(PlayerSettings data)
+		{
+			sensitivity = data.sensitivity;
+			holdToSlide = data.holdToSlide;
+		}
+
+		void IDataPersistance<PlayerSettings>.SaveData(ref PlayerSettings data)
+		{
+			data.sensitivity = sensitivity;
+			data.holdToSlide = holdToSlide;
 		}
 	}
 }

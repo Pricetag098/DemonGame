@@ -4,33 +4,36 @@ using UnityEngine;
 
 public class VfxObject : MonoBehaviour
 {
-	Optional<ParticleSystem> particle;
-	Optional<SoundPlayer> soundPlayer;
+	ParticleSystem[] particles;
+	SoundPlayer soundPlayer;
 	PooledObject pooledObject;
 	private void Awake()
 	{
-		particle.Value = GetComponentInChildren<ParticleSystem>();
-		soundPlayer.Value = GetComponentInChildren<SoundPlayer>();
-		particle.Enabled = particle.Value != null;
-		soundPlayer.Enabled = soundPlayer.Value != null;
-
+		List<ParticleSystem> list = new List<ParticleSystem>();
+		for(int i = 0; i < transform.childCount; i++)
+		{
+			ParticleSystem ps;
+			if(transform.GetChild(i).TryGetComponent(out ps))
+				list.Add(ps);
+		}
+		particles = list.ToArray();
+		soundPlayer = GetComponentInChildren<SoundPlayer>();
 		pooledObject = GetComponent<PooledObject>();
 		pooledObject.OnDespawn += OnDespawn;
 	}
 
 	public void Play()
 	{
-		if (particle.Enabled)
-			particle.Value.Play();
-		if (soundPlayer.Enabled)
-			soundPlayer.Value.Play();
+		if(particles.Length > 0)
+			particles[Random.Range(0, particles.Length)].Play();
+		soundPlayer.Play();
 	}
 
 	void OnDespawn()
 	{
-		if (particle.Enabled)
-			particle.Value.Play();
-		if (soundPlayer.Enabled)
-			soundPlayer.Value.Play();
+		foreach(ParticleSystem p in particles)
+		{
+			p.Stop();
+		}
 	}
 }

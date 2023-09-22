@@ -94,7 +94,7 @@ public class GunCreator : EditorWindow
 
             GUILayout.Space(5);
 
-            gun.damage = EditorGUILayout.FloatField("Damage", gun.damage, GUILayout.Width(455));
+            //gun.damage = EditorGUILayout.FloatField("Damage", gun.damage, GUILayout.Width(455));
             EditorGUILayout.LabelField("The base a damage a shot deals.", EditorStyles.miniLabel);
 
             GUILayout.Space(5);
@@ -409,7 +409,7 @@ public class GunCreator : EditorWindow
 
                 GUILayout.Space(5);
 
-                if (GUILayout.Button("Finished With Gun Placement", GUILayout.Width(150), GUILayout.Height(20)))
+                if (GUILayout.Button("Finished With Gun Placement", GUILayout.Width(250), GUILayout.Height(20)))
                 {
                     if (hasVFX)
                     {

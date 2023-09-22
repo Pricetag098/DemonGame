@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DemonCum
+namespace DemonInfo
 {
     [Serializable]
     public enum BuffType
@@ -18,17 +18,21 @@ namespace DemonCum
     {
         Null,
         Base,
-        Summoner,
         Stalker,
-        Chaos,
-        Cultist
+        Chaos
     }
-    public enum SpawnType
+    public enum SpawnerType
     {
         Null,
         Basic,
         Special,
         Boss
+    }
+    public enum SpawnType
+    {
+        Null,
+        Default,
+        Ritual
     }
 }
 

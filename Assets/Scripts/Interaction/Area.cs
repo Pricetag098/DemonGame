@@ -4,27 +4,27 @@ using UnityEngine;
 
 public class Area : MonoBehaviour
 {
-    [SerializeField] bool discovered;
-    private DemonSpawner demonSpawner;
-    [SerializeField] List<Spawner> baseSpawns;
-    [SerializeField] List<Spawner> specialSpawns;
+    public Areas AreaId;
+    public bool discovered;
+    public int baseDepth;
+    public int specialDepth;
+    [HideInInspector] public Vector3 position;
+
+    public List<Spawner> baseSpawns;
+    public List<Spawner> specialSpawns;
+    
+    // swap out adjacent areas to optionals 
+    public List<Optional<AreaConnect>> OptionalAreas = new List<Optional<AreaConnect>>();
 
     private void Awake()
     {
-        demonSpawner = FindObjectOfType<DemonSpawner>();
+        position = transform.position;
     }
+}
 
-    public void SpawnLocations()
-    {
-        if(discovered == false)
-        {
-            demonSpawner.baseSpawners = HelperFuntions.AddToList(demonSpawner.baseSpawners, baseSpawns);
-            demonSpawner.specialSpawners = HelperFuntions.AddToList(demonSpawner.specialSpawners, specialSpawns);
-
-            baseSpawns = null;
-            specialSpawns = null;
-
-            discovered = true;
-        }
-    }
+[System.Serializable]
+public class AreaConnect
+{
+    public Area Area;
+    public bool Open;
 }

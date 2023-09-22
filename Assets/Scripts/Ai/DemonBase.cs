@@ -1,3 +1,5 @@
+using DemonInfo;
+using Newtonsoft.Json.Bson;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +13,12 @@ public class DemonBase : MonoBehaviour, IDemon
     [Header("Spawner")]
     [SerializeField] protected DemonSpawner _spawner;
 
+    protected GrantPointsOnDeath _deathPoints;
+    [SerializeField] protected int pointsOnDeath;
+
+    protected SpawnerManager _spawnerManager;
+    protected bool ritualSpawn;
+
     [Header("Demon Type")]
     [SerializeField] protected DemonType _type;
 
@@ -18,6 +26,7 @@ public class DemonBase : MonoBehaviour, IDemon
     [SerializeField] protected float _baseDamage;
     [SerializeField] protected float _baseHealth;
     [SerializeField] protected float _baseMoveSpeed;
+    [SerializeField] protected SpawnType _spawnType;
 
     [Header("Stats")]
     [SerializeField] protected float _damage;
@@ -26,20 +35,28 @@ public class DemonBase : MonoBehaviour, IDemon
     [SerializeField] protected float _attackRange;
     [SerializeField] protected float _stoppingDistance;
 
+    [Header("Demon Sounds")]
+    [SerializeField] SoundPlayer _soundPlayerIdle;
+    [SerializeField] SoundPlayer _soundPlayerAttack;
+    [SerializeField] SoundPlayer _soundPlayerHit;
+    [SerializeField] SoundPlayer _soundPlayerDeath;
+    [SerializeField] SoundPlayer _soundPlayerFootsteps;
+
     [Header("AnimationCurves")]
     [SerializeField] protected AnimationCurve _moveSpeedCurve;
 
     [Header("Animator")]
-    [SerializeField] protected Animator _animator;
+    protected Animator _animator;
 
     [Header("Collider")]
-    [SerializeField] protected Collider _collider;
+    protected Collider[] _colliders;
 
     [Header("Rigidbody")]
-    [SerializeField] protected Rigidbody _rb;
+    protected Rigidbody _rb;
 
     [Header("Ai Pathing")]
-    [SerializeField] protected bool _calculatePath = false;
+    protected bool _calculatePath = false;
+    protected Vector3 lastPos;
     protected NavMeshAgent _agent;
     protected NavMeshPath _currentPath;
 
@@ -48,16 +65,22 @@ public class DemonBase : MonoBehaviour, IDemon
 
     protected int _currentUpdatedRound = 1;
 
+    [SerializeField] protected Vector3 spawpos = Vector3.zero;
+
     private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
         _health = GetComponent<Health>();
         _animator = GetComponent<Animator>();
-        _collider = GetComponent<Collider>();
         _rb = GetComponent<Rigidbody>();
+        _deathPoints = GetComponent<GrantPointsOnDeath>();
         _spawner = FindObjectOfType<DemonSpawner>();
+        _spawnerManager = FindObjectOfType<SpawnerManager>();
+        _colliders = GetAllColliders();
 
         OnAwakened();
+
+        _agent.enabled = false;
     }
 
     private void Start()
@@ -68,9 +91,8 @@ public class DemonBase : MonoBehaviour, IDemon
     private void Update()
     {
         Tick();
-        LookAt(_agent.enabled);
     }
-
+    
     public virtual void OnAwakened() { }
     public virtual void Setup()
     {
@@ -82,38 +104,129 @@ public class DemonBase : MonoBehaviour, IDemon
         _agent.stoppingDistance = _stoppingDistance;
     }
     public virtual void Tick() { }
-    public virtual void OnAttack() { }
-    public virtual void OnHit() { } 
-    public virtual void PathFinding(bool canPath) { }
-    public virtual void OnDeath() { }
-    public virtual void OnSpawn(Transform target)
+    public virtual void OnAttack()
+    {
+        PlaySoundAttack();
+    }
+    public virtual void OnHit()
+    {
+        PlaySoundHit();
+    } 
+    public virtual void PathFinding() { }
+    public virtual void OnDeath()
     {
         _agent.speed = 0;
-        _agent.enabled = true;
-        _collider.enabled = true;
-        transform.rotation = Quaternion.identity;
+        _agent.enabled = false;
+
+        SetAllColliders(false);
+
+        _spawner.ActiveDemons.Remove(this);
+
+        PlayAnimation("Death");
+
+        PlaySoundDeath();
+    }
+    public virtual void OnSpawn(DemonType demon, Transform target, SpawnType type)
+    {
+        _agent.speed = 0;
+        _target = target;
+        _spawnType = type;
+        _type = demon;
+        _rb.isKinematic = true;
+
+        switch (type)
+        {
+            case SpawnType.Default:
+                _deathPoints.points = pointsOnDeath;
+                break;
+            case SpawnType.Ritual:
+                _deathPoints.points = 0;
+                break;
+        }
+
+        SetAllColliders(true);
+
+        _spawner.ActiveDemons.Add(this);
+
+        PlaySoundIdle();
+
+        PlayAnimation("Spawn");
     }
     public virtual void OnBuff() { }
-    public virtual void OnRespawn() { }
+    public virtual void OnDespawn(bool forcedDespawn = false)
+    {
+        _agent.speed = 0;
+        _agent.enabled = false;
+
+        SetAllColliders(false);
+
+        if(forcedDespawn == true) _spawner.AddDemonBackToPool(_type, _spawnerManager);
+        else
+        {
+            switch (_spawnType)
+            {
+                case SpawnType.Default:
+                    _spawner.ActiveDemons.Remove(this);
+                    _spawner.AddDemonBackToPool(_type, _spawnerManager);
+                    break;
+                case SpawnType.Ritual:
+                    _spawnerManager.AddDemonBackToRitual(_type);
+                    break;
+            }
+        }
+        
+        _pooledObject.Despawn();
+    }
     public virtual void CalculateStats(int round) { }
     public virtual void DetectPlayer(bool active) { }
     public virtual void UpdateHealthToCurrentRound(int currentRound) { }
 
-    protected void LookAt(bool active)
+    protected Collider[] GetAllColliders()
     {
-        if(active == true)
+        return HelperFuntions.AllChildren<Collider>(transform).ToArray();
+    }
+
+    protected void SetAllColliders(bool active)
+    {
+        foreach(Collider c in _colliders)
         {
-            transform.LookAt(new Vector3(_target.position.x, transform.position.y, _target.position.z));
+            c.enabled = active;
         }
     }
-    protected void OnFinishedSpawnAnimation() 
+
+    public void ForcedDeath()
+    {
+        _agent.speed = 0;
+        _agent.enabled = false;
+
+        SetAllColliders(false);
+
+        PlayAnimation("Death");
+
+        PlaySoundDeath();
+    }
+
+    public virtual void OnFinishedSpawnAnimation() 
     {
         _agent.speed = _moveSpeed;
+        _rb.isKinematic = false;
     }
     protected void OnFinishedDeathAnimation()
     {
+        if (_spawnType == SpawnType.Default) { _spawnerManager.DemonKilled(); }
+
         _pooledObject.Despawn();
-        _spawner.DemonKilled();
+    }
+
+    public void ApplyForce(Vector3 force, ForceMode mode = ForceMode.Impulse)
+    {
+        _rb.AddForce(force, mode);
+    }
+
+    public void SetNavmeshPosition(Vector3 pos)
+    {
+        transform.position = pos;
+        _agent.nextPosition = pos;
     }
 
     public void PlayAnimation(string trigger)
@@ -121,13 +234,50 @@ public class DemonBase : MonoBehaviour, IDemon
         _animator.SetTrigger(trigger);
     }
 
+    protected void PlaySoundIdle()
+    {
+        _soundPlayerIdle.Play();
+    }
+
+    protected void PlaySoundAttack()
+    {
+        _soundPlayerAttack.Play();
+    }
+
+    protected void PlaySoundHit()
+    {
+        _soundPlayerHit.Play();
+    }
+
+    protected void PlaySoundDeath()
+    {
+        _soundPlayerDeath.Play();
+    }
+
+    protected void PlaySoundFootStep()
+    {
+        _soundPlayerFootsteps.Play();
+    }
+
+    public void setSpawnPosition(Vector3 pos)
+    {
+        spawpos = pos;
+    }
 
     #region Properties
-    protected float DistanceToTarget // gets path distance remaining to target
+    protected float DistanceToTargetNavmesh // gets path distance remaining to target
     {
         get
         {
             return _agent.remainingDistance;
+        }
+    }
+
+    protected float DistanceToTargetUnits // gets world space distance remaining to target
+    {
+        get
+        {
+            return Vector3.Distance(_target.position, transform.position);
         }
     }
     #endregion
@@ -142,15 +292,23 @@ public class DemonBase : MonoBehaviour, IDemon
 
         return path;
     }
-    public void CalculateAndSetPath(Transform targetPos)
+    public void CalculateAndSetPath(Transform targetPos, bool active)
     {
-        NavMeshPath path = new NavMeshPath();
+        if(active == true)
+        {
+            NavMeshPath path = new NavMeshPath();
 
-        _agent.CalculatePath(targetPos.position, path);
+            lastPos = targetPos.position;
 
-        _agent.SetPath(path);
+            _agent.CalculatePath(lastPos, path);
 
-        _target = targetPos;
+            if (path.status == NavMeshPathStatus.PathComplete)
+            {
+                _agent.SetPath(path);
+            }
+
+            _target = targetPos;
+        }
     }
     
     public void StopPathing()

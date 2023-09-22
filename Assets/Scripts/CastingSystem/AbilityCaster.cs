@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class AbilityCaster : MonoBehaviour
 {
-    Ability emptyAbility;
+    [HideInInspector]
+    public Ability emptyAbility;
     public float blood;
     public float maxBlood;
     public Ability[] abilities;
@@ -13,6 +14,16 @@ public class AbilityCaster : MonoBehaviour
     [Tooltip("For visualiser")]
     public Transform castOrigin;
 
+    public Optional<PlayerStats> playerStats;
+
+
+    public float DamageMulti
+    {
+        get { if (playerStats.Enabled)
+                return playerStats.Value.abilityDamageMulti;
+        else return 1f;
+        }
+    }
     // Start is called before the first frame update
     void Awake()
     {
@@ -54,16 +65,32 @@ public class AbilityCaster : MonoBehaviour
         abilities[index].Cast(origin, direction);
     }
 
+    public delegate void Action(float amount);
+    public Action OnAddBlood;
+    public Action OnRemoveBlood;
     public void AddBlood(float amount)
 	{
+        if(amount + blood > maxBlood)
+		{
+            amount = maxBlood - blood;
+		}
         blood = Mathf.Clamp(blood + amount, 0, maxBlood);
+        if(OnAddBlood != null)
+            OnAddBlood(amount);
 	}
+
+    public void RemoveBlood(float amount)
+	{
+        blood = Mathf.Clamp(blood - amount, 0, maxBlood);
+        if(OnRemoveBlood != null)
+            OnRemoveBlood(amount);
+    }
 
     public bool HasAbility(Ability ability)
 	{
         foreach(Ability item in abilities)
 		{
-            if(item.abilityName == ability.abilityName)
+            if(item.guid == ability.guid)
                 return true;
 		}
         return false;

@@ -21,6 +21,6 @@ public interface IDemon
     void SetDamage(float amount);
     public void CalculateStats(int round);
     NavMeshPath CalculatePath(Transform targetPos);
-    void CalculateAndSetPath(Transform targetPos);
+    void CalculateAndSetPath(Transform targetPos, bool active);
     void StopPathing();
 }

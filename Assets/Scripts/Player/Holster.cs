@@ -3,29 +3,57 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Movement;
+using System;
+
 public class Holster : MonoBehaviour
 {
     public PlayerStats stats;
     public ObjectPooler bulletVisualierPool;
     public AbilityCaster abilityCaster;
     public Rigidbody rb;
-
+    
     [SerializeField] InputActionProperty input;
 
     public int heldGunIndex = 0;
+    public int lastGunIndex = 0;
     public Gun HeldGun { 
         get { return guns[heldGunIndex]; }
         set { SetGun(heldGunIndex, value); }
     }
     const int MaxGuns = 2;
-    Gun[] guns = new Gun[MaxGuns];
+    //[HideInInspector]
+    public Gun[] guns = new Gun[MaxGuns];
 
     public delegate void OnDealDamageAction(float amount);
     public OnDealDamageAction OnDealDamage;
 
-    [SerializeField] Movement.PlayerInput playerInput;
-	private void Start()
+    public Movement.PlayerInput playerInput;
+
+
+    [SerializeField] float frequncey =1;
+    [SerializeField] float damping=1;
+    [SerializeField] float reaction=1;
+    public SecondOrderDynamics verticalRecoilDynamics;
+    public SecondOrderDynamics horizontalRecoilDynamics;
+    public bool updateKVals;
+    float damageDealt;
+    enum HolsterStates 
+    {
+		normal,
+		drawing,
+        holstering
+    }
+    [SerializeField]HolsterStates state;
+    [Header("Animation")]
+    public Animator animator;
+    public string drawTrigger;
+    public string holsterTigger;
+
+    float drawTimer = 0;
+    private void Start()
 	{
+        verticalRecoilDynamics = new SecondOrderDynamics(frequncey, damping, reaction, 0);
+        horizontalRecoilDynamics = new SecondOrderDynamics(frequncey, damping, reaction, 0);
         input.action.performed += SwapGun;
         int j = 0;
         for(int i = 0; i < transform.childCount; i++)
@@ -37,8 +65,40 @@ public class Holster : MonoBehaviour
                 j++;
 			}
 		}
-	}
+        //OnDraw();
 
+        OnHolster();
+		animator.SetTrigger(drawTrigger);
+    }
+	private void Update()
+	{
+		if (updateKVals)
+		{
+            verticalRecoilDynamics.UpdateKVals(frequncey, damping, reaction);
+            horizontalRecoilDynamics.UpdateKVals(frequncey, damping, reaction);
+        }
+
+        switch (state)
+        {
+            case HolsterStates.normal:
+                break;
+            case HolsterStates.drawing:
+				drawTimer -= Time.deltaTime;
+				if (drawTimer < 0)
+				{
+					OnDraw();
+				}
+				break;
+            case HolsterStates.holstering: 
+                drawTimer -= Time.deltaTime;
+                if(drawTimer < 0)
+                {
+                    OnHolster();
+                }
+                break;
+        }
+        
+	}
 	public void SetGun(int slot,Gun gun)
 	{
         if (slot > MaxGuns)
@@ -48,6 +108,7 @@ public class Holster : MonoBehaviour
             if (guns[i] == null)
 			{
                 slot = i;
+                break;
             }
                 
 		}
@@ -59,31 +120,36 @@ public class Holster : MonoBehaviour
         gun.holster = this;
         if (gun.visualiserPool.Enabled && !gun.useOwnVisualiser)
             gun.visualiserPool.Value = bulletVisualierPool;
-
-        SetGunIndex(slot);
+		guns[slot].gameObject.SetActive(true);
+		SetGunIndex(slot);
     }
 
     public void SetGunIndex(int index)
 	{
-        if (guns[index] == null)
+        if (guns[index] == null || heldGunIndex == index || state != HolsterStates.normal)
 		{
             return;
         }
-            
+        state = HolsterStates.holstering;
+        drawTimer = guns[heldGunIndex].holsterTime;
+        lastGunIndex = heldGunIndex;
         heldGunIndex = index;
-        for(int i = 0; i < guns.Length; i++)
-		{
-            if (guns[i] != null)
-			{
-                guns[i].gameObject.SetActive(i==index);
-			}
-		}
-	}
+        animator.SetTrigger(holsterTigger);
+        //      for(int i = 0; i < guns.Length; i++)
+        //{
+        //          if (guns[i] != null)
+        //	{
+        //              guns[i].gameObject.SetActive(i==index);
+        //	}
+        //}
+        
+    }
     
     
-    public void OnHit(float damage)
+    public void OnHit(float damage,float targetMaxHealth)
 	{
-        abilityCaster.AddBlood(damage * 100 * HeldGun.bloodGainMulti * stats.bloodGainMulti);
+        
+        abilityCaster.AddBlood((damage * 100 * HeldGun.bloodGainMulti * stats.bloodGainMulti)/targetMaxHealth);
         if(OnDealDamage != null)
         OnDealDamage(damage);
 	}
@@ -120,7 +186,7 @@ public class Holster : MonoBehaviour
         {
             if (gun == null)
                 continue;
-            if (g.gunName == gun.gunName)
+            if (g.guid == gun.guid)
             {
                 returnedGun = gun;
                 return true;
@@ -131,6 +197,25 @@ public class Holster : MonoBehaviour
         return false;
     }
 
+    public void OnHolster()
+    {
+        Debug.Log("Holster");
+        guns[lastGunIndex].gameObject.SetActive(false);
+        guns[heldGunIndex].gameObject.SetActive(true);
+        animator.ResetTrigger(holsterTigger);
+        guns[heldGunIndex].gunState = Gun.GunStates.disabled;
+        animator.runtimeAnimatorController = guns[heldGunIndex].controller;
+        state = HolsterStates.drawing;
+        drawTimer = guns[heldGunIndex].drawTime;
+        animator.SetTrigger(drawTrigger);
+    }
+    public void OnDraw()
+    {
+        Debug.Log("Draw");
+        guns[heldGunIndex].gunState = Gun.GunStates.awaiting;
+        state = HolsterStates.normal;
+		animator.ResetTrigger(drawTrigger);
+	}
     public bool CanShoot()
 	{
         return playerInput.Running();

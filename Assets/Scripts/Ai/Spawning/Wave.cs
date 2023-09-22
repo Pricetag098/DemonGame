@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DemonCum;
+using DemonInfo;
 
 /// <summary>
 /// percentage based spawning
@@ -13,12 +13,16 @@ public class Wave : ScriptableObject
     [Header("Boss Wave")]
     public bool BossWave;
 
-    [Header("Wave id")]
+    [Header("Wave")]
+    public SpawnType spawnType;
     public int Round;
 
     [Header("Demons")]
     public DemonType Base;
     public float BasePercentage;
+    public float WalkerPercent;
+    public float JoggerPercent;
+    public float RunnerPercent;
     public DemonType Summoner;
     public float SummonerPercentage;
     public DemonType Stalker;

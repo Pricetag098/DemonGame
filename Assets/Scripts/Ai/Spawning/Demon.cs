@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DemonCum;
+using DemonInfo;
 using System;
 
 [Serializable]
 public class Demon
 {
     public DemonID demon;
-    public SpawnType spawnType;
+    public SpawnerType spawnType;
 }

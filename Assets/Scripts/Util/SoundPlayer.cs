@@ -9,6 +9,8 @@ public class SoundPlayer : MonoBehaviour
     public List<AudioClip> clips = new List<AudioClip>();
     public float pitchRange = 0f;
     public float basePitch = 1;
+    public bool looping;
+    public bool isPlaying = false;
     AudioSource source;
     
     private void Awake()
@@ -28,7 +30,15 @@ public class SoundPlayer : MonoBehaviour
 	// Update is called once per frame
 	void Update()
     {
-        
+		if (isPlaying && !source.isPlaying)
+		{
+            isPlaying = false;
+			if (looping)
+			{
+                Play();
+			}
+		}
+		
     }
 
     public void Play()
@@ -40,11 +50,12 @@ public class SoundPlayer : MonoBehaviour
         source.pitch = basePitch + rand;
         source.clip = clip;
         source.Play();
-     
+        isPlaying = true;
     }
 
     public void Stop()
 	{
+        isPlaying = false;
         source.Stop();
 	}
 

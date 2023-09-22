@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +15,7 @@ public class Gun : MonoBehaviour
         reloading,
         disabled
 	}
-    GunStates gunState;
+    public GunStates gunState;
     
     public enum FireTypes
     {
@@ -24,8 +25,8 @@ public class Gun : MonoBehaviour
     }
     [Header("Gun Settings")]
     public string gunName;
+    public string guid;
     public FireTypes fireSelect;
-    public float damage = 10;
     public float bulletRange = float.PositiveInfinity;
     [Min(1)]
     public int shotsPerFiring = 1;
@@ -33,17 +34,36 @@ public class Gun : MonoBehaviour
     public float roundsPerMin = 1, reloadDuration = 1;
     float fireTimer = 0, reloadTimer;
     public float bloodGainMulti = 1;
+    public float drawTime = 1;
+    public float holsterTime = 1;
+
+    [Header("DamageSetting")]
+    public float headDamage = 10;
+    public float bodyDamage = 10;
+    public float limbDamage = 10;
+    public float critDamage = 10;
+
+    [Header("PointsSetting")]
+    public int headPoints = 10;
+    public int bodyPoints = 10;
+    public int limbPoints = 10;
+    public int critPoints = 10;
+
 
     [Header("SpreadSettings")]
     public float bulletSpreadDegrees = 0;
     [Tooltip("Recoil Increments By 1 for each shot and decays with recoilResetSpeed")]
-    public AnimationCurve recoilSpreadCurve;
+    public AnimationCurve verticalRecoilSpreadCurve;
+    public AnimationCurve horizontalRecoilSpreadCurve;
+    public AnimationCurve bloomRecoilSpreadCurve;
     public AnimationCurve velocitySpredCurve;
-    public float maxRecoilVal = 30;
-    public float recoilResetSpeed = 1;
-    public float recoilResetDelay;
+    //public float maxRecoilVal = 30;
+    //public float recoilResetSpeed = 1;
+    //public float recoilResetDelay;
     public float recoil;
     float timeSinceLastShot;
+    public bool smoothRecoil = true;
+    public float recoilEffectDuration = .1f;
     [Header("Burst Settings")]
     [Min(1)]
     public int burstRounds;
@@ -80,12 +100,18 @@ public class Gun : MonoBehaviour
     public float bulletVisualiserSpeed;
 
     [Header("Animation")]
+    
     public Optional<Animator> animator;
+    public RuntimeAnimatorController controller;
     public string shootKey = "shoot";
     public string reloadKey = "reload";
-    public string meleeKey = "melee";
-    public string sprintKey = "sprinting";
+    //public string sprintKey = "sprinting";
 
+    [Header("Upgrading")]
+    public Optional<GunUpgradePath> path;
+    public int tier = 0;
+
+    public Vector3 test;
     // Start is called before the first frame update
     void Start()
     {
@@ -99,8 +125,13 @@ public class Gun : MonoBehaviour
         reloadAction.action.performed -= StartReload;
         if(visualiserPool.Enabled && visualiserPool.Value != null)
             visualiserPool.Value.DespawnAll();
+        
     }
-
+    [ContextMenu("Gen Guid")]
+    void GenGuid()
+	{
+        guid = Guid.NewGuid().ToString();
+	}
 	private void OnEnable()
 	{
 		shootAction.action.Enable();
@@ -116,9 +147,11 @@ public class Gun : MonoBehaviour
         fireTimer -= Time.deltaTime;
         
         timeSinceLastShot+= Time.deltaTime;
-        if (timeSinceLastShot > recoilResetDelay)
-            recoil = Mathf.Clamp(recoil - Time.deltaTime * recoilResetSpeed, 0, maxRecoilVal);
-		switch (gunState)
+        
+        if(!smoothRecoil)
+            holster.playerInput.SetRecoil(Vector3.zero);
+
+        switch (gunState)
 		{
             case GunStates.awaiting:
                 if (fireTimer <= 0)
@@ -237,6 +270,29 @@ public class Gun : MonoBehaviour
                 break;
 		}
 
+        if (timeSinceLastShot > 1 / (roundsPerMin / 60))
+        {
+            recoil = Mathf.Clamp(recoil - Time.deltaTime * maxAmmo, 0, maxAmmo);
+            
+        }
+
+        if(timeSinceLastShot > recoilEffectDuration)
+		{
+            holster.playerInput.SetRecoil(
+                new Vector3(
+                    holster.verticalRecoilDynamics.Update(Time.deltaTime,0),
+                    holster.horizontalRecoilDynamics.Update(Time.deltaTime,0)
+                    ,0));
+        }
+        else
+        {
+
+			holster.playerInput.SetRecoil(
+			new Vector3(
+					holster.verticalRecoilDynamics.Update(Time.deltaTime, -verticalRecoilSpreadCurve.Evaluate(recoil)),
+					holster.horizontalRecoilDynamics.Update(Time.deltaTime, horizontalRecoilSpreadCurve.Evaluate(recoil))
+					, 0));
+		}
     }
 
     protected virtual void Shoot()
@@ -245,16 +301,19 @@ public class Gun : MonoBehaviour
 
         for (int i = 0; i < shotsPerFiring; i++)
         {
+            holster.animator.SetTrigger(shootKey);
             if (animator.Enabled)
                 animator.Value.SetTrigger(shootKey);
-            Vector3 randVal = Random.insideUnitSphere * GetSpread();
-            Vector3 dir = Quaternion.Euler(randVal) * Camera.main.transform.forward;
+            Vector3 randVal = GetSpread(UnityEngine.Random.insideUnitSphere);
+            
+            
+            Vector3 dir = Camera.main.transform.rotation * (Quaternion.Euler(randVal) * Vector3.forward);
             Debug.DrawRay(Camera.main.transform.position, dir * 10, Color.green);
 
             RaycastHit[] hitArray = Physics.RaycastAll(Camera.main.transform.position, dir, bulletRange, hitMask);
             if (hitArray.Length > 0)
             {
-                float currentDamage = damage;
+                float damageMulti = 1;
                 int penIndex = 0;
 
                 //Reorder raycast hits in order of hit
@@ -283,38 +342,42 @@ public class Gun : MonoBehaviour
                     HitBox hitBox;
                     if (hit.collider.TryGetComponent(out hitBox))
                     {
-                        
+                        //check to avoid double hits on penetration
                         if (healths.Contains(hitBox.health))
                         {
                             playFx = false;
                         }
 						else
 						{
+                            //Do all on hit stuff here
+
+                            float damage = GetDamage(hitBox.bodyPart) * damageMulti * holster.stats.damageMulti;
+
                             healths.Add(hitBox.health);
-                            hitBox.OnHit(currentDamage * holster.stats.damageMulti);
-                            
-                            holster.OnHit((damage * holster.stats.damageMulti * hitBox.multi) / hitBox.health.maxHealth);
+                            hitBox.OnHit(damage);
+                            holster.stats.GainPoints(GetPoints(hitBox.bodyPart));
+                            holster.OnHit(damage, hitBox.health.maxHealth);
                         }
                         
 
                     }
-                    HitSettings hitSettings;
-                    if (hit.collider.TryGetComponent(out hitSettings))
+
+                    SurfaceData surfaceData;
+                    Surface surface;
+                    if (hit.collider.TryGetComponent(out surface))
                     {
-                        if (hitSettings.Penetrable)
+                        if (surface.Penetrable)
                             penetrable = true;
-                        if(playFx)
-                        hitSettings.PlayVfx(hit.point, Vector3.Lerp(-dir, hit.normal, .5f));
+
+                        surfaceData = surface.data;
                     }
-                    else
-                    {
-                        if(playFx)
-                        VfxSpawner.SpawnVfx(0, hit.point, Vector3.Lerp(-dir, hit.normal, .5f));
-                    }
+					else
+					{
+                        surfaceData = VfxSpawner.DefaultSurfaceData;
+					}
+                    surfaceData.PlayHitVfx(hit.point, Vector3.Lerp(-dir, hit.normal, .5f));
 
-
-
-                    currentDamage /= damageLossDivisor;
+                    damageMulti /= damageLossDivisor;
                     if (!penetrable)
                     {
                         break;
@@ -323,14 +386,14 @@ public class Gun : MonoBehaviour
                 }
                 if (visualiserPool.Enabled)
                 {
-                    visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin, hits[penIndex].point, Vector3.Distance(origin.position, hits[penIndex].point) / bulletVisualiserSpeed,dir);
+                    visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin.position, hits[penIndex].point, Vector3.Distance(origin.position, hits[penIndex].point) / bulletVisualiserSpeed,dir);
                 }
             }
 
             else
             {
                 if (visualiserPool.Enabled)
-                    visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin, Camera.main.transform.forward * 1000, 1000 / bulletVisualiserSpeed,dir);
+                    visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin.position, Camera.main.transform.forward * 1000, 1000 / bulletVisualiserSpeed,dir);
             }
             
         }
@@ -338,38 +401,40 @@ public class Gun : MonoBehaviour
         ammoLeft--;
         fireTimer = 1/(roundsPerMin/60);
         recoil++;
-        if(recoil > maxRecoilVal)
-            recoil = maxRecoilVal;
+        if(recoil > maxAmmo)
+            recoil = maxAmmo;
         timeSinceLastShot = 0;
         shootSound.Play();
         if (gunfire.Enabled)
         {
             gunfire.Value.Play();
         }
-            
-            
+        if(!smoothRecoil)
+            holster.playerInput.SetRecoil(new Vector3(-verticalRecoilSpreadCurve.Evaluate(recoil), horizontalRecoilSpreadCurve.Evaluate(recoil), 0));
+
     }
 
-    
-    
-    float GetSpread()
+    public void StartEquip()
     {
-        float spread = bulletSpreadDegrees;
-        spread += recoilSpreadCurve.Evaluate(recoil);
-        spread += velocitySpredCurve.Evaluate(holster.rb.velocity.magnitude);
-        return spread;
+
     }
+    
+    
+
+    #region Reloading
     public void StartReload(InputAction.CallbackContext context)
     {
         StartReload();
-        if (animator.Enabled)
-            animator.Value.SetTrigger(reloadKey);
+        
     }
 
     public void StartReload()
 	{
         if (gunState != GunStates.awaiting || ammoLeft == maxAmmo || stash <= 0)
             return;
+        if (animator.Enabled)
+            animator.Value.SetTrigger(reloadKey);
+        holster.animator.SetTrigger(reloadKey);
         gunState = GunStates.reloading;
         reloadTimer = 0;
         reloadSound.Play();
@@ -411,6 +476,50 @@ public class Gun : MonoBehaviour
 
     public void RefillStash()
 	{
-        AddToStash(1);
+        AddToStashPercent(1);
 	}
+    #endregion
+    #region GunData Evaluation
+    public Vector3 GetSpread(Vector3 rand)
+    {
+        
+        rand.z = 0;
+
+
+        Vector3 spread = Vector3.zero;
+        spread += rand * velocitySpredCurve.Evaluate(holster.rb.velocity.magnitude);
+        spread += rand * bulletSpreadDegrees;
+        spread += rand * bloomRecoilSpreadCurve.Evaluate(recoil);
+        //spread.y = 0;
+        return spread;
+    }
+    public float GetDamage(HitBox.BodyPart bodyPart)
+	{
+		switch (bodyPart)
+		{
+            case HitBox.BodyPart.Head:
+                return headDamage;
+            case HitBox.BodyPart.Limb:
+                return limbDamage;
+            case HitBox.BodyPart.Crit:
+                return critDamage;
+            default:
+                return bodyDamage;
+		}
+	}
+    public int GetPoints(HitBox.BodyPart bodyPart)
+    {
+        switch (bodyPart)
+        {
+            case HitBox.BodyPart.Head:
+                return headPoints;
+            case HitBox.BodyPart.Limb:
+                return limbPoints ;
+            case HitBox.BodyPart.Crit:
+                return critPoints;
+            default:
+                return bodyPoints;
+        }
+    }
+    #endregion
 }

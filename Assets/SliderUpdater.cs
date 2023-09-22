@@ -29,6 +29,6 @@ public class SliderUpdater : MonoBehaviour
         if (slider.value <= minValue) { slider.value = minValue; }
         if (slider.value >= maxValue) { slider.value = maxValue;}
 
-        text.text = slider.value.ToString("0.0");
+        text.text = slider.value.ToString("0");
     }
 }

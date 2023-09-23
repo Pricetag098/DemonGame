@@ -8,6 +8,8 @@ public class CountDown : MonoBehaviour
 {
     public FadeInTween fade;
 
+    public LoadingBar loadingBar;
+
     public string textBeforeTimer;
     public float timeToCountFrom;
     public string textAfterTimer;
@@ -16,6 +18,9 @@ public class CountDown : MonoBehaviour
 
     float timer;
     bool timerActive = false;
+
+    public GameObject offPanel;
+    public GameObject oNPanel;
 
     private void Awake()
     {
@@ -41,6 +46,11 @@ public class CountDown : MonoBehaviour
 
     public void OnCompleteCountdown()
     {
+        offPanel.SetActive(false);
+        oNPanel.SetActive(true);
+
+        loadingBar.isLoading = true;
+
         //likely start game scene or trasition to loading screen here
     }
 

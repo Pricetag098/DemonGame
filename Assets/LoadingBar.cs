@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,12 +9,17 @@ public class LoadingBar : MonoBehaviour
     public GameObject onPanel;
     public GameObject offpanel;
 
-    Slider slider;
+    public Slider slider;
+
+    [TextArea(2,5)]
+    public string toolTipText;
+
+    public TextMeshProUGUI textObject;
 
     public bool isLoading = false;
     private void Awake()
     {
-        slider= GetComponent<Slider>();
+        textObject.text = toolTipText;
         slider.value= 0;
         slider.maxValue = 10;
     }

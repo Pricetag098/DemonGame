@@ -5,13 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class Timer
 {
-    [SerializeField] private float _timer;
-    [SerializeField] private float _timeInterval;
-    public Timer()
-    {
-        _timer = 0;
-        _timeInterval = 0;
-    }
+    public float _timer { get; private set; }
+    public float _timeInterval { get; private set; }
 
     public Timer(float timeInterval)
     {
@@ -20,12 +15,7 @@ public class Timer
     }
     public Timer(float timeInterval, bool triggerFristFrame = false)
     {
-        if(triggerFristFrame == false)
-        {
-            _timer = 0;
-            _timeInterval = timeInterval;
-        }
-        else
+        if(triggerFristFrame == true)
         {
             _timer = timeInterval;
             _timeInterval = timeInterval;
@@ -46,9 +36,14 @@ public class Timer
         return false;
     }
 
-    public void ResetTimer(float amount)
+    public void SetTimeInterval(float amount)
     {
         _timeInterval = amount;
+    }
+
+    public void SetTime(float time)
+    {
+        _timer = time;
     }
 
     public bool TimeGreaterThan

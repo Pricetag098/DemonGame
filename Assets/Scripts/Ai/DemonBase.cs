@@ -38,6 +38,7 @@ public class DemonBase : MonoBehaviour, IDemon
     [Header("Demon Sounds")]
     [SerializeField] SoundPlayer _soundPlayerIdle;
     [SerializeField] SoundPlayer _soundPlayerAttack;
+    [SerializeField] SoundPlayer _soundPlayerAttackAmbience;
     [SerializeField] SoundPlayer _soundPlayerHit;
     [SerializeField] SoundPlayer _soundPlayerDeath;
     [SerializeField] SoundPlayer _soundPlayerFootsteps;
@@ -47,6 +48,7 @@ public class DemonBase : MonoBehaviour, IDemon
 
     [Header("Animation Overwrite")]
     [SerializeField] protected List<AnimatorOverrideController> _attackOverrides = new List<AnimatorOverrideController>();
+    [SerializeField] protected List<AnimatorOverrideController> _movementOverrides = new List<AnimatorOverrideController>();
 
     [Header("Animator")]
     protected Animator _animator;
@@ -240,22 +242,28 @@ public class DemonBase : MonoBehaviour, IDemon
         _animator.SetTrigger(trigger);
     }
 
-    protected void PlaySoundIdle()
+    public void PlaySoundIdle()
     {
         _soundPlayerIdle.Play();
     }
 
-    protected void PlaySoundAttack()
+    public void PlaySoundAttack()
     {
         _soundPlayerAttack.Play();
+        
     }
 
-    protected void PlaySoundHit()
+    public void PlaySoundAttackAmbience()
+    {
+        _soundPlayerAttackAmbience.Play();
+    }
+
+    public void PlaySoundHit()
     {
         _soundPlayerHit.Play();
     }
 
-    protected void PlaySoundDeath()
+    public void PlaySoundDeath()
     {
         _soundPlayerDeath.Play();
     }
@@ -266,11 +274,6 @@ public class DemonBase : MonoBehaviour, IDemon
     }
     public void AttackAnimation()
     {
-        //if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") &&
-        //    !_animator.GetCurrentAnimatorStateInfo(1).IsName("Attack") && 
-        //    !_animator.IsInTransition(0) &&
-        //    !_animator.IsInTransition(1)) SetAttackOverride();
-
         if (_animator.GetFloat("Speed") <= 0f)
         {
             if(!_animator.GetCurrentAnimatorStateInfo(1).IsName("Attack"))
@@ -287,27 +290,31 @@ public class DemonBase : MonoBehaviour, IDemon
         }
     }
 
-    protected AnimatorOverrideController RandomController()
+    protected AnimatorOverrideController RandomController(List<AnimatorOverrideController> list)
     {
-        int num = Random.Range(0, _attackOverrides.Count);
+        int num = Random.Range(0, list.Count);
 
         RuntimeAnimatorController temp = _animator.runtimeAnimatorController;
-        RuntimeAnimatorController temp1 = _attackOverrides[num];
+        RuntimeAnimatorController temp1 = list[num];
 
         while(temp == temp1)
         {
-            num = Random.Range(0, _attackOverrides.Count);
-            temp1 = _attackOverrides[num];
+            num = Random.Range(0, list.Count);
+            temp1 = list[num];
         }
 
-
-        return _attackOverrides[num];
+        return list[num];
     }
 
     public void SetAttackOverride()
     {
-        _animator.runtimeAnimatorController = RandomController();
+        _animator.runtimeAnimatorController = RandomController(_attackOverrides);
     }
+    public void SetMovementOverride()
+    {
+        _animator.runtimeAnimatorController = RandomController(_movementOverrides);
+    }
+
     public void setSpawnPosition(Vector3 pos)
     {
         spawpos = pos;

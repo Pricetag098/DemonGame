@@ -93,9 +93,6 @@ public class RitualSpawner : MonoBehaviour
 
     public void Spawning(DemonSpawner spawner, SpawnerManager sm)
     {
-        //timer += Time.deltaTime;
-
-        //if (HelperFuntions.TimerGreaterThan(timer, ritual.TimeBetweenSpawns) && RitualActive == true)
         if(ritualTimer.TimeGreaterThan && RitualActive == true)
         {
             if (HelperFuntions.IntGreaterThanOrEqual(ritual.MaxDemonsAtOnce, currentDemons))

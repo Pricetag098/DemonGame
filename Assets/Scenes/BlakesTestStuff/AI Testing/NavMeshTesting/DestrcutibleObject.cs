@@ -15,7 +15,6 @@ public class DestrcutibleObject : Interactable
 
     private List<GameObject> activeSymbols = new List<GameObject>();
 
-    private float rebuildTimer;
     [SerializeField] private float rebuildInterval;
 
     private bool canRebuild;
@@ -51,6 +50,8 @@ public class DestrcutibleObject : Interactable
     public void RestoreHealth(int amount)
     {
         Health += amount;
+        if (Health > maxHealth) { Health = maxHealth; }
+
         activeSymbols[Health - 1].SetActive(true);
         if(Health == 1)
         {
@@ -59,7 +60,7 @@ public class DestrcutibleObject : Interactable
 
         player.GainPoints(pointsToGain);
 
-        if (Health > maxHealth) { Health = maxHealth; }
+        
     }
     public void RestoreHealthToMax()
     {
@@ -73,26 +74,11 @@ public class DestrcutibleObject : Interactable
 
     public override void Interact(Interactor interactor)
     {
-        //if (canRebuild == true)
-        //{
-        //    RestoreHealth(1);
-
-        //    canRebuild = false;
-        //    rebuildTimer = 0;
-        //}
-
         canRebuild = true;
     }
 
     private void Update()
     {
-        //if(canRebuild == false)
-        //{
-        //    canRebuild = rebuildTimer > rebuildInterval && Health < maxHealth;
-
-        //    rebuildTimer += Time.deltaTime;   
-        //}
-
         if(canRebuild == true)
         {
             if(timer.TimeGreaterThan)
@@ -105,16 +91,15 @@ public class DestrcutibleObject : Interactable
     public override void StartHover(Interactor interactor)
     {
         base.StartHover(interactor);
-        if(Health < maxHealth)
-        {
-            interactor.display.DisplayMessage(true, interactMessage);
-        }
+        if(Health < maxHealth) interactor.display.DisplayMessage(true, interactMessage);
     }
 
     public override void EndHover(Interactor interactor)
     {
         base.EndHover(interactor);
         interactor.display.HideText();
+
         canRebuild = false;
+        timer.SetTime(timer._timeInterval);
     }
 }

@@ -124,7 +124,7 @@ public class DemonBase : MonoBehaviour, IDemon
 
         SetAllColliders(false);
 
-        _spawner.ActiveDemons.Remove(this);
+        DemonSpawner.ActiveDemons.Remove(this);
 
         _animator.SetLayerWeight(_animator.GetLayerIndex("Upper"), 0);
         PlayAnimation("Death");
@@ -152,7 +152,7 @@ public class DemonBase : MonoBehaviour, IDemon
 
         SetAllColliders(true);
 
-        _spawner.ActiveDemons.Add(this);
+        DemonSpawner.ActiveDemons.Add(this);
 
         PlaySoundIdle();
 
@@ -172,7 +172,7 @@ public class DemonBase : MonoBehaviour, IDemon
             switch (_spawnType)
             {
                 case SpawnType.Default:
-                    _spawner.ActiveDemons.Remove(this);
+                    DemonSpawner.ActiveDemons.Remove(this);
                     _spawner.AddDemonBackToPool(_type, _spawnerManager);
                     break;
                 case SpawnType.Ritual:

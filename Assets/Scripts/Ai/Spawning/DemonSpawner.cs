@@ -10,7 +10,7 @@ using UnityEngine.AI;
 public class DemonSpawner : MonoBehaviour
 {
     [HideInInspector] public Queue<DemonType> DemonQueue = new Queue<DemonType>();
-    [HideInInspector] public List<DemonBase> ActiveDemons = new List<DemonBase>();
+    [HideInInspector] public static List<DemonBase> ActiveDemons = new List<DemonBase>();
 
     private Spawners _spawners;
     [HideInInspector] public DemonPoolers demonPool;
@@ -83,6 +83,18 @@ public class DemonSpawner : MonoBehaviour
         }
 
         ActiveDemons.Clear();
+    }
+
+    public static List<GameObject> AllActiveDemons()
+    {
+        List<GameObject> list = new List<GameObject>();
+
+        foreach(var demon in ActiveDemons)
+        {
+            list.Add(demon.gameObject);
+        }
+
+        return list;    
     }
 
 

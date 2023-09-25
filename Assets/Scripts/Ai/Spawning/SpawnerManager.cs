@@ -14,7 +14,7 @@ using UnityEngine.InputSystem;
 public class SpawnerManager : MonoBehaviour
 {
     [HideInInspector] public WaveManager WaveManager;
-    [HideInInspector] public DemonSpawner DemonSpawner;
+    [HideInInspector] public DemonSpawner _DemonSpawner;
     [HideInInspector] public RitualManager RitualManager;
     
     [Header("Player")]
@@ -47,7 +47,7 @@ public class SpawnerManager : MonoBehaviour
     private void Awake()
     {
         WaveManager = GetComponent<WaveManager>();
-        DemonSpawner = GetComponent<DemonSpawner>();
+        _DemonSpawner = GetComponent<DemonSpawner>();
         RitualManager = GetComponent<RitualManager>();
         spawnTimer = new Timer(timeBetweenSpawns);
         endRoundTimer = new Timer(timeBetweenRounds);
@@ -92,7 +92,7 @@ public class SpawnerManager : MonoBehaviour
                 {
                     //spawnTimer = 0;
 
-                    if (DemonSpawner.DemonCount <= 0) // if no demons to spawn return
+                    if (_DemonSpawner.DemonCount <= 0) // if no demons to spawn return
                     {
                         return;
                     }
@@ -105,11 +105,11 @@ public class SpawnerManager : MonoBehaviour
 
                     if (toSpawn > 0)
                     {
-                        DemonSpawner.ResetSpawners();
+                        _DemonSpawner.ResetSpawners();
 
                         for (int i = 0; i < toSpawn; i++)
                         {
-                            if(DemonSpawner.SpawnDemon(this))
+                            if(_DemonSpawner.SpawnDemon(this))
                             {
                                 currentDemons++;
                                 maxDemonsToSpawn--;
@@ -120,12 +120,12 @@ public class SpawnerManager : MonoBehaviour
             }
         }
 
-        DemonSpawner.CallDemonUpdatePosition();
+        _DemonSpawner.CallDemonUpdatePosition();
     }
 
     public void UpdateSpawners(Areas Id, Areas CurrentArea)
     {
-        DemonSpawner.ActiveSpawners(Id, CurrentArea);
+        _DemonSpawner.ActiveSpawners(Id, CurrentArea);
     }
 
     public Ritual GetCurrentRitual()
@@ -173,13 +173,12 @@ public class SpawnerManager : MonoBehaviour
         maxDemonsToSpawn = MaxDemonsToSpawn;
         demonsToSpawnEachTick = DemonSpawnsEachTick;
 
-        DemonSpawner.DemonQueue = WaveManager.GetDemonToSpawn(maxDemonsToSpawn);
-        int yes = DemonSpawner.DemonQueue.Count;
+        _DemonSpawner.DemonQueue = WaveManager.GetDemonToSpawn(maxDemonsToSpawn);
     }
 
     void WaveEnd()
     {
-        DemonSpawner.DemonQueue.Clear();
+        _DemonSpawner.DemonQueue.Clear();
         currentRound++;
     }
 
@@ -190,12 +189,24 @@ public class SpawnerManager : MonoBehaviour
 
     public void DespawnAllActiveDemons()
     {
-        DemonSpawner.DespawnAllActiveDemons();
+        _DemonSpawner.DespawnAllActiveDemons();
     }
 
     public void KillAllActiveDemons()
     {
-        DemonSpawner.KillAllActiveDemons();
+        _DemonSpawner.KillAllActiveDemons();
+    }
+
+    public static List<GameObject> AllActiveDemons()
+    {
+        List<GameObject> list = new List<GameObject>();
+
+        foreach(var demon in DemonSpawner.ActiveDemons)
+        {
+            list.Add(demon.gameObject);
+        }
+
+        return list;
     }
 
     void Timers()

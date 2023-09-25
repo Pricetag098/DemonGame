@@ -52,7 +52,7 @@ public class RitualSpawner : MonoBehaviour
     private void Start()
     {
         BlockerObjects.gameObject.SetActive(false);
-        demonSpawner = manager.DemonSpawner;
+        demonSpawner = manager._DemonSpawner;
     }
 
     private void Update()

@@ -68,8 +68,8 @@ public class WaveManager : MonoBehaviour
             //tempBase = wave.Base;
 
             if(i < runner) { tempBase.SpeedType = DemonInfo.SpeedType.Runner; }
-            else if(i < jogger) { tempBase.SpeedType = DemonInfo.SpeedType.Walker; }
-            else { tempBase.SpeedType = DemonInfo.SpeedType.Jogger; }
+            else if(i < jogger) { tempBase.SpeedType = DemonInfo.SpeedType.Jogger; }
+            else { tempBase.SpeedType = DemonInfo.SpeedType.Walker; }
 
             DemonsToSpawn.Add(tempBase);
         }

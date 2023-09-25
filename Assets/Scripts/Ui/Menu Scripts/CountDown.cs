@@ -19,11 +19,14 @@ public class CountDown : MonoBehaviour
     float timer;
     bool timerActive = false;
 
+    //private Timer timer;
+
     public GameObject[] panels;
     public GameObject[] buttons;
 
     private void Awake()
     {
+        //timer = new Timer()
         timer = timeToCountFrom;
     }
 

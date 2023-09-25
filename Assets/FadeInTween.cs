@@ -38,21 +38,21 @@ public class FadeInTween : MonoBehaviour
         directionTweens.ChooseTweenDirection(easeDirection, startValue);
         startPosition = directionTweens.startPosition;
 
-        if (single) { image = GetComponent<Image>(); }
+        if (single) { image = GetComponent<Image>(); rectTransform = GetComponent<RectTransform>(); }
     }
     public void TweenIn()
     {
         if (moveIn)
         {
             rectTransform.transform.localPosition = startPosition;
-            rectTransform.DOAnchorPos(endPosition, moveDuration, false).SetEase(easeType);
+            rectTransform.DOAnchorPos(endPosition, moveDuration, false).SetEase(easeType).SetAutoKill(false);
         }
 
         if (single) { image.DOFade(1, fadeDuration); }
         else
         {
             canvasGroup.alpha = 0f;
-            canvasGroup.DOFade(1, fadeDuration);
+            canvasGroup.DOFade(1, fadeDuration).SetAutoKill(false);
         }
     }
 }

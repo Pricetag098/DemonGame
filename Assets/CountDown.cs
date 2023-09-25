@@ -19,8 +19,8 @@ public class CountDown : MonoBehaviour
     float timer;
     bool timerActive = false;
 
-    public GameObject offPanel;
-    public GameObject oNPanel;
+    public GameObject[] panels;
+    public GameObject[] buttons;
 
     private void Awake()
     {
@@ -46,16 +46,23 @@ public class CountDown : MonoBehaviour
 
     public void OnCompleteCountdown()
     {
-        offPanel.SetActive(false);
-        oNPanel.SetActive(true);
+        panels[0].SetActive(false);
+        panels[1].SetActive(true);
+
+        buttons[0].SetActive(false);
+        buttons[1].SetActive(true);
 
         loadingBar.isLoading = true;
 
+        timer = timeToCountFrom;
+        fade.canvasGroup.alpha = 0f;
         //likely start game scene or trasition to loading screen here
     }
 
     public void CancelCountdown()
     {
+        buttons[0].SetActive(false);
+        buttons[1].SetActive(true);
         timerActive = false;
         timer = timeToCountFrom;
         fade.canvasGroup.DOKill();
@@ -65,5 +72,8 @@ public class CountDown : MonoBehaviour
     public void ActivateCountdown()
     {
         timerActive = true;
+
+        buttons[0].SetActive(true);
+        buttons[1].SetActive(false);
     }
 }

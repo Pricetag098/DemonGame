@@ -6,8 +6,7 @@ using UnityEngine.UI;
 
 public class LoadingBar : MonoBehaviour
 {
-    public GameObject onPanel;
-    public GameObject offpanel;
+    public GameObject[] panels;
 
     public Slider slider;
 
@@ -36,9 +35,10 @@ public class LoadingBar : MonoBehaviour
     {
         Debug.Log("the game was loaded");
 
-        onPanel.SetActive(true);
-        offpanel.SetActive(false);
+        panels[0].SetActive(false);
+        panels[1].SetActive(true);
 
+        slider.value = 0;
         //will load the next scene
     }
 

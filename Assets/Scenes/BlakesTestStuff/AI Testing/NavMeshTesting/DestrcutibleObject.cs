@@ -21,12 +21,15 @@ public class DestrcutibleObject : Interactable
     private bool canRebuild;
 
     private PlayerStats player;
+    private Timer timer;
 
     private void Awake()
     {
         activeSymbols.AddRange(symbolsList);
 
         player = FindObjectOfType<PlayerStats>();
+
+        timer = new Timer(rebuildInterval);
     }
 
     public void TakeDamage(int Damage)
@@ -70,34 +73,48 @@ public class DestrcutibleObject : Interactable
 
     public override void Interact(Interactor interactor)
     {
-        if (canRebuild == true)
-        {
-            RestoreHealth(1);
+        //if (canRebuild == true)
+        //{
+        //    RestoreHealth(1);
 
-            canRebuild = false;
-            rebuildTimer = 0;
-        }
+        //    canRebuild = false;
+        //    rebuildTimer = 0;
+        //}
+
+        canRebuild = true;
     }
 
     private void Update()
     {
-        if(canRebuild == false)
-        {
-            canRebuild = rebuildTimer > rebuildInterval && Health < maxHealth;
+        //if(canRebuild == false)
+        //{
+        //    canRebuild = rebuildTimer > rebuildInterval && Health < maxHealth;
 
-            rebuildTimer += Time.deltaTime;   
+        //    rebuildTimer += Time.deltaTime;   
+        //}
+
+        if(canRebuild == true)
+        {
+            if(timer.TimeGreaterThan)
+            {
+                RestoreHealth(1);
+            }
         }
     }
 
     public override void StartHover(Interactor interactor)
     {
         base.StartHover(interactor);
-        interactor.display.DisplayMessage(true, interactMessage);
+        if(Health < maxHealth)
+        {
+            interactor.display.DisplayMessage(true, interactMessage);
+        }
     }
 
     public override void EndHover(Interactor interactor)
     {
         base.EndHover(interactor);
         interactor.display.HideText();
+        canRebuild = false;
     }
 }

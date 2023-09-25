@@ -10,7 +10,7 @@ public class DetectArea : MonoBehaviour
     [SerializeField] float TimerBetweenUpdates;
 
     private SpawnerManager manager;
-    private float timer;
+    private Timer timer;
 
     private void Awake()
     {
@@ -19,17 +19,15 @@ public class DetectArea : MonoBehaviour
 
     private void Start()
     {
+        timer = new Timer(TimerBetweenUpdates);
         manager.UpdateSpawners(Areas.Courtyard, Areas.Null);
         GetArea();
     }
 
     private void Update()
     {
-        timer += Time.deltaTime;
-
-        if (HelperFuntions.TimerGreaterThan(timer, TimerBetweenUpdates))
+        if (timer.TimeGreaterThan)
         {
-            timer = 0;
             GetArea();
         }
     }

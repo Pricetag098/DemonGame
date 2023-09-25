@@ -42,7 +42,7 @@ public class BasicDemon : DemonBase
 
         m_obstacle.Detection();
 
-        SetAnimationMoveSpeed();
+        SetAnimationVariables();
     }
     public override void OnAttack()
     {
@@ -106,7 +106,7 @@ public class BasicDemon : DemonBase
 
             if (dist < _attackRange)
             {
-                PlayAnimation("Attack");
+                AttackAnimation();
             }
 
             dist = DistanceToTargetNavmesh;
@@ -116,6 +116,8 @@ public class BasicDemon : DemonBase
             if(dist > distanceToRespawn) OnDespawn();
         }
     }
+
+    
     public override void CalculateStats(int round)
     {
         if (round <= m_xAmountOfRounds)
@@ -161,13 +163,36 @@ public class BasicDemon : DemonBase
         SpeedType = type;
     }
 
-    private void SetAnimationMoveSpeed()
+    private void SetAnimationVariables()
     {
-        float evalSpeed = GetRange(_agent.velocity.magnitude, 0, speedProfile.maxSpeed);
-
+        float evalSpeed = GetRange(_agent.velocity.magnitude, 0, speedProfile.maxSpeed); // returns between 0 - 1
         _animator.SetFloat("Speed", evalSpeed);
+
+        if (evalSpeed <= 0f)
+        {
+            if (!_animator.GetCurrentAnimatorStateInfo(1).IsName("Attack"))
+            {
+                _animator.SetLayerWeight(_animator.GetLayerIndex("Upper"), 0.0f);
+            }
+        }
+        else
+        {
+            if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("StandingAttack"))
+            {
+                _animator.SetLayerWeight(_animator.GetLayerIndex("Upper"), 1.0f);
+            }
+        }
     }
 
+    /// <summary>
+    /// Returns Between 0 - 1 If Value is between Min and Max
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="min"></param>
+    /// <param name="max"></param>
+    /// <param name="destMin"></param>
+    /// <param name="destMax"></param>
+    /// <returns></returns>
     private float GetRange(float value, float min, float max, float destMin = 0, float destMax = 1)
     {
         return destMin + (value - min) / (max - min) * (destMax - destMin);

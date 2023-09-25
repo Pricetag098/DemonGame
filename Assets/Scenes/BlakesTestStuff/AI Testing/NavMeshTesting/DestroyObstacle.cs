@@ -5,7 +5,6 @@ using UnityEngine.AI;
 
 public class DestroyObstacle : MonoBehaviour
 {
-    [SerializeField] private int DestructibleCheckRate = 10;
     [SerializeField] private float CheckDistance = 1f;
     [SerializeField] private float AttackDelay = 1f;
     [SerializeField] private int DestructibleAttackDamage = 1;
@@ -14,22 +13,22 @@ public class DestroyObstacle : MonoBehaviour
     private NavMeshAgent Agent;
     private DemonBase demon;
     private NavMeshPath OrigianlPath;
+    private Timer timer;
 
     private void Awake()
     {
         Agent = GetComponent<NavMeshAgent>();
         demon = GetComponent<DemonBase>();
+        timer = new Timer(AttackDelay, true);
     }
 
     private bool checkForObjects;
     private bool foundObject;
     private DestrcutibleObject obj;
-    private float timer;
+    
 
     public void Detection()
     {
-        timer += Time.deltaTime;
-
         if(foundObject == false)
         {
             checkForObjects = CheckForDistructibleObjects();
@@ -39,21 +38,26 @@ public class DestroyObstacle : MonoBehaviour
 
         foundObject = true;
 
-        if (HelperFuntions.TimerGreaterThan(timer, AttackDelay))
+        if (timer.TimeGreaterThan)
         {
             if(obj is not null)
             {
-                obj.TakeDamage(DestructibleAttackDamage);
-                demon.PlayAnimation("Attack");
+                demon.AttackAnimation();
+            }
+        }
+    }
 
-                if (obj.Health <= 0)
-                {
-                    Agent.enabled = true;
-                    Agent.path = OrigianlPath;
-                    obj = null;
-                }
+    public void BarrierTakeDmg()
+    {
+        if (obj is not null)
+        {
+            obj.TakeDamage(DestructibleAttackDamage);
 
-                timer = 0;
+            if (obj.Health <= 0)
+            {
+                Agent.enabled = true;
+                Agent.path = OrigianlPath;
+                obj = null;
             }
         }
     }

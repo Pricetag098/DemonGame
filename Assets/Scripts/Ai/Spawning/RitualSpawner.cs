@@ -38,6 +38,7 @@ public class RitualSpawner : MonoBehaviour
     private SpawnerManager manager;
     private DemonSpawner demonSpawner;
     private Health playerHealth;
+    private Timer ritualTimer;
 
     private float timer;
 
@@ -85,14 +86,17 @@ public class RitualSpawner : MonoBehaviour
             BlockerObjects.gameObject.SetActive(true);
 
             soundPlayerStart.Play();
+
+            ritualTimer = new Timer(ritual.TimeBetweenSpawns);
         }
     }
 
     public void Spawning(DemonSpawner spawner, SpawnerManager sm)
     {
-        timer += Time.deltaTime;
+        //timer += Time.deltaTime;
 
-        if (HelperFuntions.TimerGreaterThan(timer, ritual.TimeBetweenSpawns) && RitualActive == true)
+        //if (HelperFuntions.TimerGreaterThan(timer, ritual.TimeBetweenSpawns) && RitualActive == true)
+        if(ritualTimer.TimeGreaterThan && RitualActive == true)
         {
             if (HelperFuntions.IntGreaterThanOrEqual(ritual.MaxDemonsAtOnce, currentDemons))
             {

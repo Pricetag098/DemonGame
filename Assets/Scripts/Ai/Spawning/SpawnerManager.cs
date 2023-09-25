@@ -41,14 +41,16 @@ public class SpawnerManager : MonoBehaviour
     public bool RunDefaultSpawning;
 
     [Header("Timers")]
-    private float spawnTimer;
-    private float endRoundTimer;
+    private Timer spawnTimer;
+    private Timer endRoundTimer;
 
     private void Awake()
     {
         WaveManager = GetComponent<WaveManager>();
         DemonSpawner = GetComponent<DemonSpawner>();
         RitualManager = GetComponent<RitualManager>();
+        spawnTimer = new Timer(timeBetweenSpawns);
+        endRoundTimer = new Timer(timeBetweenRounds);
     }
     private void Start()
     {
@@ -73,22 +75,22 @@ public class SpawnerManager : MonoBehaviour
 
             if (StartOfRound == true)
             {
-                endRoundTimer += Time.deltaTime;
-                if (HelperFuntions.TimerGreaterThan(endRoundTimer, timeBetweenRounds))
+                //endRoundTimer += Time.deltaTime;
+                if (endRoundTimer.TimeGreaterThan)
                 {
                     WaveStart();
-                    endRoundTimer = 0f;
+                    //endRoundTimer = 0f;
                     StartOfRound = false;
                 }
             }
 
             
 
-            if (HelperFuntions.TimerGreaterThan(spawnTimer, timeBetweenSpawns) && canSpawn == true)
+            if (spawnTimer.TimeGreaterThan && canSpawn == true)
             {
                 if (HelperFuntions.IntGreaterThanOrEqual(maxDemonsAtOnce, currentDemons))
                 {
-                    spawnTimer = 0;
+                    //spawnTimer = 0;
 
                     if (DemonSpawner.DemonCount <= 0) // if no demons to spawn return
                     {
@@ -198,7 +200,7 @@ public class SpawnerManager : MonoBehaviour
 
     void Timers()
     {
-        spawnTimer += Time.deltaTime;
+        //spawnTimer += Time.deltaTime;
     }
 
     void Bools()

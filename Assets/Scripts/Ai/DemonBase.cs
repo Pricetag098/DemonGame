@@ -45,6 +45,9 @@ public class DemonBase : MonoBehaviour, IDemon
     [Header("AnimationCurves")]
     [SerializeField] protected AnimationCurve _moveSpeedCurve;
 
+    [Header("Animation Overwrite")]
+    [SerializeField] protected List<AnimatorOverrideController> _attackOverrides = new List<AnimatorOverrideController>();
+
     [Header("Animator")]
     protected Animator _animator;
 
@@ -117,12 +120,15 @@ public class DemonBase : MonoBehaviour, IDemon
     {
         _agent.speed = 0;
         _agent.enabled = false;
+        
 
         SetAllColliders(false);
 
         _spawner.ActiveDemons.Remove(this);
 
+        _animator.SetLayerWeight(_animator.GetLayerIndex("Upper"), 0);
         PlayAnimation("Death");
+
 
         PlaySoundDeath();
     }
@@ -258,7 +264,50 @@ public class DemonBase : MonoBehaviour, IDemon
     {
         _soundPlayerFootsteps.Play();
     }
+    public void AttackAnimation()
+    {
+        //if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") &&
+        //    !_animator.GetCurrentAnimatorStateInfo(1).IsName("Attack") && 
+        //    !_animator.IsInTransition(0) &&
+        //    !_animator.IsInTransition(1)) SetAttackOverride();
 
+        if (_animator.GetFloat("Speed") <= 0f)
+        {
+            if(!_animator.GetCurrentAnimatorStateInfo(1).IsName("Attack"))
+            {
+                PlayAnimation("StandingAttack");
+            }
+        }
+        else
+        {
+            if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("StandingAttack"))
+            {
+                PlayAnimation("Attack");
+            }
+        }
+    }
+
+    protected AnimatorOverrideController RandomController()
+    {
+        int num = Random.Range(0, _attackOverrides.Count);
+
+        RuntimeAnimatorController temp = _animator.runtimeAnimatorController;
+        RuntimeAnimatorController temp1 = _attackOverrides[num];
+
+        while(temp == temp1)
+        {
+            num = Random.Range(0, _attackOverrides.Count);
+            temp1 = _attackOverrides[num];
+        }
+
+
+        return _attackOverrides[num];
+    }
+
+    public void SetAttackOverride()
+    {
+        _animator.runtimeAnimatorController = RandomController();
+    }
     public void setSpawnPosition(Vector3 pos)
     {
         spawpos = pos;

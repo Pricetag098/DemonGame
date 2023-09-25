@@ -53,18 +53,6 @@ public class DemonSpawner : MonoBehaviour
         DemonQueue.Enqueue(demon);
     }
 
-    /// <summary>
-    /// Gets the ActiveSpawners in Range of the Player
-    /// </summary>
-    /// <param name="player"></param>
-    /// <param name="playerAgent"></param>
-    //public void ActiveSpawners(Transform player, NavMeshAgent playerAgent, SpawnerManager sm)
-    //{
-    //    baseSpawnerCount = _spawners.CheckBaseSpawners(player, playerAgent);
-    //    //specialSpawnerCount = _spawners.CheckSpecialSpawners(player, playerAgent);
-    //    specialSpawnerCount = 0;
-    //}
-
     public void ActiveSpawners(Areas Id, Areas CurrentArea)
     {
         _spawners.UpdateActiveSpawners(Id, CurrentArea);
@@ -82,7 +70,6 @@ public class DemonSpawner : MonoBehaviour
             ActiveDemons[i].OnDespawn(true);
         }
 
-        Debug.Log(DemonCount);
         ActiveDemons.Clear();
     }
 

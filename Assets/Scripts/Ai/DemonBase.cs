@@ -279,6 +279,7 @@ public class DemonBase : MonoBehaviour, IDemon
             if(!_animator.GetCurrentAnimatorStateInfo(1).IsName("Attack"))
             {
                 PlayAnimation("StandingAttack");
+                
             }
         }
         else
@@ -286,6 +287,7 @@ public class DemonBase : MonoBehaviour, IDemon
             if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("StandingAttack"))
             {
                 PlayAnimation("Attack");
+             
             }
         }
     }

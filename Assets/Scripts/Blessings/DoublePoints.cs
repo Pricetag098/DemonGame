@@ -19,7 +19,10 @@ public class DoublePoints : Blessing
 		if (timer > duration)
 			Remove();
 	}
-
+	public override void ReEquip()
+	{
+		timer = 0;
+	}
 	protected override void OnRemove()
 	{
 		handler.playerStats.pointGainMulti += modifier;

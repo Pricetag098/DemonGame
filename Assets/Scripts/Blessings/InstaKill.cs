@@ -20,7 +20,10 @@ public class InstaKill : Blessing
 		if (timer > duration)
 			Remove();
 	}
-
+	public override void ReEquip()
+	{
+		timer = 0;
+	}
 	protected override void OnRemove()
 	{
 		handler.playerStats.damageMulti -= modifier;

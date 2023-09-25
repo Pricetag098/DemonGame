@@ -21,7 +21,7 @@ public class BlessingObject : MonoBehaviour
         {
             GameObject target = other.GetComponentInParent<PlayerInput>().gameObject;
 
-			Activate(target);
+		 Activate(target);
             if(vfx.Enabled)
             vfx.Value.Play(transform.position, target.transform.position - transform.position);
             Delete();
@@ -30,7 +30,7 @@ public class BlessingObject : MonoBehaviour
 
     protected virtual void Activate(GameObject player)
     {
-        blessing.Equip(statusHandler);
+        Instantiate(blessing).Equip(statusHandler);
     }
 
     private void Delete()

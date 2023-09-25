@@ -17,6 +17,14 @@ public class Blessing : ScriptableObject
         OnEquip();
         if (!instantEffect)
         {
+            foreach(Blessing b in handler.activeBlessings)
+            {
+                if(b.GetType() == GetType())
+                {
+                    b.ReEquip();
+                    return;
+                }
+            }
             handler.activeBlessings.Add(this);
         }
         else
@@ -29,7 +37,10 @@ public class Blessing : ScriptableObject
     {
 
     }
+    public virtual void ReEquip()
+    {
 
+    }
     public virtual void Tick()
     {
 

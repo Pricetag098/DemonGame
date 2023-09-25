@@ -19,7 +19,10 @@ public class BulletHell : Blessing
 		if (timer > duration)
 			Remove();
 	}
-
+	public override void ReEquip()
+	{
+		timer = 0;
+	}
 	protected override void OnRemove()
 	{
 		handler.holster.consumeAmmo = true;

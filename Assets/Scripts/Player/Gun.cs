@@ -397,7 +397,7 @@ public class Gun : MonoBehaviour
             }
             
         }
-                
+        if(holster.consumeAmmo)
         ammoLeft--;
         fireTimer = 1/(roundsPerMin/60);
         recoil++;

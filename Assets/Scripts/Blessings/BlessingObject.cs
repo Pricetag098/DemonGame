@@ -3,13 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseBlessing : MonoBehaviour
+public class BlessingObject : MonoBehaviour
 {
     PooledObject PooledObject;
     [SerializeField] Optional<VfxSpawnRequest> vfx;
+    BlessingStatusHandler statusHandler;
+    [SerializeField] Blessing blessing;
     private void Awake()
     {
         PooledObject = transform.parent.GetComponent<PooledObject>();
+        statusHandler = FindObjectOfType<BlessingStatusHandler>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -27,7 +30,7 @@ public class BaseBlessing : MonoBehaviour
 
     protected virtual void Activate(GameObject player)
     {
-
+        blessing.Equip(statusHandler);
     }
 
     private void Delete()

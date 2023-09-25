@@ -35,5 +35,6 @@ public class VfxObject : MonoBehaviour
 		{
 			p.Stop();
 		}
+		soundPlayer.Stop();
 	}
 }

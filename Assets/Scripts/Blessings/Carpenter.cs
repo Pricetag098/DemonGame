@@ -1,17 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 
-public class Carpenter : BaseBlessing
+[CreateAssetMenu(menuName = "Blessings/Carpenter")]
+public class Carpenter : Blessing
 {
-    protected override void Activate(GameObject player)
-    {
-        Spawners spawners = FindObjectOfType<Spawners>();
-
-        foreach (DestrcutibleObject item in spawners.barriers)
-        {
-            item.RestoreHealthToMax();
-        }
-    }
+	protected override void OnEquip()
+	{
+		foreach(DestrcutibleObject destrcutibleObject in handler.destrcutibleObjects)
+		{
+			destrcutibleObject.RestoreHealthToMax();
+		}
+	}
 }

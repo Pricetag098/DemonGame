@@ -48,7 +48,7 @@ public class Holster : MonoBehaviour
     public Animator animator;
     public string drawTrigger;
     public string holsterTigger;
-
+    public bool consumeAmmo = true;
     float drawTimer = 0;
     private void Start()
 	{

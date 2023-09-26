@@ -6,15 +6,10 @@ using DG.Tweening;
 
 public class SettingsContainer : MonoBehaviour
 {
-    public bool hasClickedOne = false;
-    public bool hasClickedTwo = false;
-    public bool hasClickedThree = false;
-    public bool hasClickedFour = false;
+    public bool[] clickBools = new bool[] {false, false, false, false};
 
-    public Transform gameplayParent;
-    public Transform audioParent;
-    public Transform videoParent;
-    public Transform controlsParent;
+    public GameObject[] pages;
+    public Transform[] parents;
 
     [Header("Lists")]
     public List<Transform> gameplaySettings = new List<Transform>();
@@ -24,19 +19,19 @@ public class SettingsContainer : MonoBehaviour
 
     private void Awake()
     {
-        foreach(Transform child in gameplayParent)
+        foreach(Transform child in parents[0])
         {
             gameplaySettings.Add(child);
         }
-        foreach (Transform child in audioParent)
+        foreach (Transform child in parents[1])
         {
             audioSettings.Add(child);
         }
-        foreach (Transform child in videoParent)
+        foreach (Transform child in parents[2])
         {
             videoSettings.Add(child);
         }
-        foreach (Transform child in controlsParent)
+        foreach (Transform child in parents[3])
         {
             controlSettings.Add(child);
         }
@@ -44,74 +39,65 @@ public class SettingsContainer : MonoBehaviour
 
     public void ActiveList(int value)
     {
-        var sequence = DOTween.Sequence();
-
         switch (value)
         {
             case 0:
                 {
-                    if (!hasClickedOne)
-                    {
-                        hasClickedOne = true;
-                        foreach (Transform item in gameplaySettings)
-                        {
-                            item.GetComponent<CanvasGroup>().alpha = 0f;
-                            sequence.Append(item.GetComponent<CanvasGroup>().DOFade(1, 0.1f));
-                        }
-                        break;
-                    }
-                    else { break; }
+                    ActivePage(value);
+                    PlayList(gameplaySettings, value);
+                    break;
                 }
             case 1:
                 {
-                    if (!hasClickedTwo)
-                    {
-                        hasClickedTwo = true;
-                        foreach (Transform item in audioSettings)
-                        {
-                            item.GetComponent<CanvasGroup>().alpha = 0f;
-                            sequence.Append(item.GetComponent<CanvasGroup>().DOFade(1, 0.1f));
-                        }
-                        break;
-                    }
-                    else { break; }
+                    ActivePage(value);
+                    PlayList(audioSettings, value);
+                    break;
                 }
             case 2:
                 {
-                    if (!hasClickedThree)
-                    {
-                        hasClickedThree = true;
-                        foreach (Transform item in videoSettings)
-                        {
-                            item.GetComponent<CanvasGroup>().alpha = 0f;
-                            sequence.Append(item.GetComponent<CanvasGroup>().DOFade(1, 0.1f));
-                        }
-                        break;
-                    }
-                    else { break; }
+                    ActivePage(value);
+                    PlayList(videoSettings, value);
+                    break;
                 }
             case 3:
                 {
-                    if (!hasClickedFour)
-                    {
-                        hasClickedFour = true;
-                        foreach (Transform item in controlSettings)
-                        {
-                            item.GetComponent<CanvasGroup>().alpha = 0f;
-                            sequence.Append(item.GetComponent<CanvasGroup>().DOFade(1, 0.1f));
-                        }
-                        break;
-                    }
-                    else { break; }
+                    ActivePage(value);
+                    PlayList(controlSettings, value);
+                    break;
                 }
         }
     }
 
     public void CloseSettingsMenu()
     {
-        hasClickedOne = false;
-        hasClickedTwo = false;
-        hasClickedThree = false;
-        hasClickedFour = false;
+        for (int i = 0; i < clickBools.Length; i++)
+        {
+            clickBools[i] = false;
+        }
+    }
+
+    public void PlayList(List<Transform> list, int pageBool)
+    {
+        var sequence = DOTween.Sequence();
+
+        if (!clickBools[pageBool])
+        {
+            clickBools[pageBool] = true;
+            foreach (Transform item in list)
+            {
+                item.GetComponent<CanvasGroup>().alpha = 0f;
+                sequence.Append(item.GetComponent<CanvasGroup>().DOFade(1, 0.1f));
+            }
+        }
+
+    }
+
+    public void ActivePage(int activePage)
+    {
+        for (int i = 0; i < pages.Length; i++)
+        {
+            pages[i].SetActive(false);
+        }
+        pages[activePage].SetActive(true);
     }
 }

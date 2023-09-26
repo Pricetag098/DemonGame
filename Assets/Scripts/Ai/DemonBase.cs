@@ -17,7 +17,7 @@ public class DemonBase : MonoBehaviour, IDemon
     [SerializeField] protected int pointsOnDeath;
 
     protected SpawnerManager _spawnerManager;
-    protected bool ritualSpawn;
+    protected bool DemonInMap;
 
     [Header("Demon Type")]
     [SerializeField] protected DemonType _type;
@@ -123,8 +123,19 @@ public class DemonBase : MonoBehaviour, IDemon
         _agent.speed = 0;
         _agent.enabled = false;
         
-
         SetAllColliders(false);
+
+        switch(_spawnType)
+        {
+            case SpawnType.Default:
+                Transform t = transform;
+                t.position += new Vector3(0, 1, 0);
+                _spawnerManager.GetBlessingChance(t);
+                break;
+            case SpawnType.Ritual:
+                
+                break;
+        }
 
         DemonSpawner.ActiveDemons.Remove(this);
 

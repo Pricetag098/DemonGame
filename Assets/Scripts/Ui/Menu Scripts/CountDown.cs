@@ -55,8 +55,8 @@ public class CountDown : MonoBehaviour
         buttons[0].SetActive(false);
         buttons[1].SetActive(true);
 
-        loadingBar.isLoading = true;
-
+        //loadingBar.isLoading = true;
+        loadingBar.StartLoading();
         timer = timeToCountFrom;
         fade.canvasGroup.alpha = 0f;
         //likely start game scene or trasition to loading screen here

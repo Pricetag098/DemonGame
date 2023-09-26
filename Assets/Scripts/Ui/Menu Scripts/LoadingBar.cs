@@ -3,47 +3,75 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 public class LoadingBar : MonoBehaviour
 {
     public GameObject[] panels;
 
     public Slider slider;
-
+    public float loadTime;
+    float timer;
     [TextArea(2,5)]
     public string toolTipText;
 
     public TextMeshProUGUI textObject;
 
+    AsyncOperation operation;
+    [SerializeField] InputActionProperty inputAction;
     public bool isLoading = false;
     private void Awake()
     {
         textObject.text = toolTipText;
         slider.value= 0;
-        slider.maxValue = 10;
+        slider.maxValue = 1;
+        inputAction.action.performed += DoLoad;
+        inputAction.action.Disable();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isLoading) { Loading(); }
-
-        if (slider.value >= slider.maxValue) { isLoading = false; LoadScene(); }
+        if (isLoading) 
+        { 
+            Loading();
+            if (slider.value >= slider.maxValue) 
+            { 
+                isLoading = false;
+                EndLoading();
+            }
+        }
+        
+        
     }
 
-    void LoadScene()
+    void DoLoad(InputAction.CallbackContext context)
     {
-        Debug.Log("the game was loaded");
+        operation.allowSceneActivation = true;
+    }
 
-        panels[0].SetActive(false);
-        panels[1].SetActive(true);
+    void EndLoading()
+    {
+        //Draw load press indicator
 
-        slider.value = 0;
-        //will load the next scene
+        inputAction.action.Enable();
+
+    }
+
+    public void StartLoading()
+    {
+        operation = SceneManager.LoadSceneAsync(1);
+        operation.allowSceneActivation = false;
+        isLoading = true;
     }
 
     public void Loading()
     {
-        slider.value += Time.deltaTime;
+        
+        if (timer/loadTime <= operation.progress +.1f)
+        {
+            timer += Time.deltaTime;
+        }
+        slider.value = timer/loadTime;
     }
 }

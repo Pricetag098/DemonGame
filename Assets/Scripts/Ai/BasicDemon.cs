@@ -40,7 +40,7 @@ public class BasicDemon : DemonBase
     {
         DetectPlayer(_agent.enabled);
 
-        m_obstacle.Detection();
+        if(DemonInMap == false) m_obstacle.Detection();
 
         SetAnimationVariables();
     }
@@ -62,6 +62,8 @@ public class BasicDemon : DemonBase
         _health.dead = false;
 
         SetMoveSpeed(demon.SpeedType);
+
+        DemonInMap = false;
     }
     public override void OnDespawn(bool forcedDespawn = false)
     {

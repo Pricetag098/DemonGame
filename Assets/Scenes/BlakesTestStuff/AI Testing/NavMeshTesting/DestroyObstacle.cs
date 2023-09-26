@@ -25,7 +25,6 @@ public class DestroyObstacle : MonoBehaviour
     private bool checkForObjects;
     private bool foundObject;
     private DestrcutibleObject obj;
-    
 
     public void Detection()
     {
@@ -58,6 +57,7 @@ public class DestroyObstacle : MonoBehaviour
                 Agent.enabled = true;
                 Agent.path = OrigianlPath;
                 obj = null;
+                demon.DemonInMap = true;
             }
         }
     }
@@ -79,6 +79,10 @@ public class DestroyObstacle : MonoBehaviour
                         Agent.enabled = false;
                         obj = d;
                         return true;
+                    }
+                    else
+                    {
+                        demon.DemonInMap = true;
                     }
                 }
             }

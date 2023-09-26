@@ -5,15 +5,20 @@ using UnityEngine;
 
 public class BlessingManager : MonoBehaviour
 {
-    [SerializeField] private Vector2Int MinMax;
     private int Counter;
     private int SpawnNum;
     private BlessingSpawner blessingSpawner;
 
+    [SerializeField] private AnimationCurve minRound;
+    [SerializeField] private AnimationCurve maxRound;
+
+    private float min;
+    private float max;
+
     private void Awake()
     {
         blessingSpawner = FindObjectOfType<BlessingSpawner>();
-        SpawnNum = Random.Range(MinMax.x, MinMax.y);
+        MinAndMax(1);
     }
 
     public void SpawnBlessingOfType(Transform pos, BlessingType type = BlessingType.Null)
@@ -21,16 +26,26 @@ public class BlessingManager : MonoBehaviour
         blessingSpawner.SpawnBlessing(pos, type);
     }
 
-    public void GetBlessingChance(Transform pos)
+    public void MinAndMax(float currentRound)
+    {
+        min = minRound.Evaluate(currentRound);
+        max = maxRound.Evaluate(currentRound);
+        SpawnNum = (int)Random.Range(min, max);
+    }
+
+    public void GetBlessingChance(Transform pos, int currentRound, bool spawnDrop = false)
     {   
-        if (Counter != SpawnNum)
+        if(Counter >= SpawnNum)
         {
-            Counter++;
-            return;
+            if(spawnDrop == true)
+            {
+                MinAndMax(currentRound);
+                Counter = 0;
+                blessingSpawner.SpawnBlessing(pos);
+                return;
+            }
         }
 
-        SpawnNum = Random.Range(MinMax.x, MinMax.y);
-        Counter = 0;
-        blessingSpawner.SpawnBlessing(pos);
+        Counter++;
     }
 }

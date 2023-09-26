@@ -120,9 +120,9 @@ public class SpawnerManager : MonoBehaviour
         _DemonSpawner.CallDemonUpdatePosition();
     }
 
-    public void GetBlessingChance(Transform pos)
+    public void GetBlessingChance(Transform pos, bool spawnDrop = false)
     {
-        BlessingManager.GetBlessingChance(pos);
+        BlessingManager.GetBlessingChance(pos, currentRound, spawnDrop);
     }
 
     public void UpdateSpawners(Areas Id, Areas CurrentArea)

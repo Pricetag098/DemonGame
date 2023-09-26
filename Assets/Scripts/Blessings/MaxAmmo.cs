@@ -9,7 +9,10 @@ public class MaxAmmo : Blessing
 	{
 		foreach(Gun gun in handler.holster.guns)
 		{
-			gun.RefillStash();
+			if(gun is not null)
+			{
+                gun.RefillStash();
+            }
 		}
 	}
 }

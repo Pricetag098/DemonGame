@@ -2,36 +2,51 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum BlessingType
+{
+    Null,
+    BulletHell,
+    DivineSmite,
+    MaxBlood,
+    Carpenter,
+    DoublePoints,
+    InstaKill,
+    MaxAmmo
+}
+
 public class BlessingSpawner : MonoBehaviour
 {
-    public List<ObjectPooler> poolers;
-    private List<ObjectPooler> activePoolers;
+    [SerializeField] ObjectPooler bulletHell;
+    [SerializeField] ObjectPooler carpenter;
+    [SerializeField] ObjectPooler divineSmite;
+    [SerializeField] ObjectPooler doublePoints;
+    [SerializeField] ObjectPooler fillBlood;
+    [SerializeField] ObjectPooler instaKill;
+    [SerializeField] ObjectPooler maxAmmo;
 
-    private ObjectPooler lastPooler;
+    private Dictionary<BlessingType, ObjectPooler> blessingPooler = new Dictionary<BlessingType, ObjectPooler>();
 
     private void Awake()
     {
-        foreach(Transform t in transform)
-        {
-            if(t.TryGetComponent<ObjectPooler>(out ObjectPooler pool))
-            {
-                poolers.Add(pool);
-            }
-        }
+        blessingPooler.Add(BlessingType.BulletHell, bulletHell);
+        blessingPooler.Add(BlessingType.Carpenter, carpenter);
+        blessingPooler.Add(BlessingType.DivineSmite, divineSmite);
+        blessingPooler.Add(BlessingType.DoublePoints, doublePoints);
+        blessingPooler.Add(BlessingType.MaxBlood, fillBlood);
+        blessingPooler.Add(BlessingType.InstaKill, instaKill);
+        blessingPooler.Add(BlessingType.MaxAmmo, maxAmmo);
     }
 
-    public void SpawnBlessing(Transform spawnPos)
+    private BlessingType GetRandomEnum()
     {
-        int ran = Random.Range(0, activePoolers.Count - 1);
-        lastPooler = poolers[ran];
-        GameObject blessing = lastPooler.Spawn();
-        blessing.transform.position = spawnPos.position;
-
-        activePoolers.Clear();
-        activePoolers.AddRange(poolers);
-
-        activePoolers.Remove(lastPooler);
+        return (BlessingType)Random.Range(1, System.Enum.GetValues(typeof(BlessingType)).Length);
     }
 
+    public void SpawnBlessing(Transform spawnPos, BlessingType type = BlessingType.Null)
+    {
+        if (type == BlessingType.Null) { type = GetRandomEnum(); }
 
+        GameObject blessing = blessingPooler[type].Spawn();
+        blessing.transform.position = spawnPos.position;
+    }
 }

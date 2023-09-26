@@ -100,6 +100,6 @@ public class DestrcutibleObject : Interactable
         interactor.display.HideText();
 
         canRebuild = false;
-        timer.SetTime(timer._timeInterval);
+        timer.SetTime(timer.TimeInterval);
     }
 }

@@ -13,6 +13,4 @@ public class AttackAnimationBehaviour : StateMachineBehaviour
         if(m_Base is null) m_Base = animator.gameObject.GetComponent<DemonBase>();
         m_Base.SetAttackOverride();
     }
-
-
 }

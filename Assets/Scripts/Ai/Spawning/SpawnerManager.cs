@@ -16,6 +16,7 @@ public class SpawnerManager : MonoBehaviour
     [HideInInspector] public WaveManager WaveManager;
     [HideInInspector] public DemonSpawner _DemonSpawner;
     [HideInInspector] public RitualManager RitualManager;
+    [HideInInspector] public BlessingManager BlessingManager;
     
     [Header("Player")]
     public Transform player;
@@ -49,13 +50,13 @@ public class SpawnerManager : MonoBehaviour
         WaveManager = GetComponent<WaveManager>();
         _DemonSpawner = GetComponent<DemonSpawner>();
         RitualManager = GetComponent<RitualManager>();
+        BlessingManager = GetComponent<BlessingManager>();
+
         spawnTimer = new Timer(timeBetweenSpawns);
         endRoundTimer = new Timer(timeBetweenRounds);
     }
     private void Start()
     {
-        //RunDefaultSpawning = true;
-
         WaveStart();
     }
 
@@ -75,11 +76,9 @@ public class SpawnerManager : MonoBehaviour
 
             if (StartOfRound == true)
             {
-                //endRoundTimer += Time.deltaTime;
                 if (endRoundTimer.TimeGreaterThan)
                 {
                     WaveStart();
-                    //endRoundTimer = 0f;
                     StartOfRound = false;
                 }
             }
@@ -90,8 +89,6 @@ public class SpawnerManager : MonoBehaviour
             {
                 if (HelperFuntions.IntGreaterThanOrEqual(maxDemonsAtOnce, currentDemons))
                 {
-                    //spawnTimer = 0;
-
                     if (_DemonSpawner.DemonCount <= 0) // if no demons to spawn return
                     {
                         return;
@@ -121,6 +118,11 @@ public class SpawnerManager : MonoBehaviour
         }
 
         _DemonSpawner.CallDemonUpdatePosition();
+    }
+
+    public void GetBlessingChance(Transform pos)
+    {
+        BlessingManager.GetBlessingChance(pos);
     }
 
     public void UpdateSpawners(Areas Id, Areas CurrentArea)

@@ -7,7 +7,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 public class LoadingBar : MonoBehaviour
 {
-    public GameObject[] panels;
+    public GameObject loadingImage;
+    public GameObject inputAwaiterImage;
 
     public Slider slider;
     public float loadTime;
@@ -41,8 +42,6 @@ public class LoadingBar : MonoBehaviour
                 EndLoading();
             }
         }
-        
-        
     }
 
     void DoLoad(InputAction.CallbackContext context)
@@ -52,10 +51,10 @@ public class LoadingBar : MonoBehaviour
 
     void EndLoading()
     {
-        //Draw load press indicator
-
         inputAction.action.Enable();
 
+        loadingImage.SetActive(false);
+        inputAwaiterImage.SetActive(true);
     }
 
     public void StartLoading()

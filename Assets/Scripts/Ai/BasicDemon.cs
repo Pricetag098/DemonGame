@@ -12,11 +12,11 @@ public class BasicDemon : DemonBase
     [SerializeField] float distanceToRespawn;
 
     [Header("Speed Profiles")]
-    [SerializeField] DemonSpeedProfile speedProfile;
-    public SpeedType SpeedType;
     [SerializeField] DemonSpeedProfile walker;
     [SerializeField] DemonSpeedProfile jogger;
     [SerializeField] DemonSpeedProfile runner;
+    DemonSpeedProfile speedProfile;
+    [HideInInspector] public SpeedType SpeedType;
 
     [Header("Demon Health Algorithm")]
     [SerializeField] int m_xAmountOfRounds;
@@ -24,7 +24,7 @@ public class BasicDemon : DemonBase
     [SerializeField] float m_HealthMultiplier;
 
     [Header("ObstacleDetection")]
-    [SerializeField] DestroyObstacle m_obstacle;
+    private DestroyObstacle m_obstacle;
 
     public override void OnAwakened()
     {

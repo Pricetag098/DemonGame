@@ -2,31 +2,56 @@ using DemonInfo;
 using Newtonsoft.Json.Bson;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Mail;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class DemonBase : MonoBehaviour, IDemon
 {
     [Header("Target")]
-    [SerializeField] protected Transform _target;
+    protected Transform _target;
 
     [Header("Spawner")]
-    [SerializeField] protected DemonSpawner _spawner;
+    protected DemonSpawner _spawner;
 
-    protected GrantPointsOnDeath _deathPoints;
+    [Header("Attachments")]
+    protected DemonAttachments _attachments;
+
+    [Header("Animator")]
+    protected Animator _animator;
+
+    [Header("Animation Overwrite")]
+    protected DemonAnimationOverrides _animationOverrides;
+    //[SerializeField] protected List<AnimatorOverrideController> _attackOverrides = new List<AnimatorOverrideController>();
+    //[SerializeField] protected List<AnimatorOverrideController> _movementOverrides = new List<AnimatorOverrideController>();
+
+    [Header("Collider")]
+    protected Collider[] _colliders;
+
+    [Header("Rigidbody")]
+    protected Rigidbody _rb;
+
+    [Header("Health")]
+    protected Health _health;
+
+    [Header("Pooled Object")]
+    protected PooledObject _pooledObject;
+
+    [Header("Points")]
     [SerializeField] protected int pointsOnDeath;
+    protected GrantPointsOnDeath _deathPoints;
 
     protected SpawnerManager _spawnerManager;
-    public bool DemonInMap;
+    [HideInInspector] public bool DemonInMap;
 
     [Header("Demon Type")]
-    [SerializeField] protected DemonType _type;
+    protected DemonType _type;
+    protected SpawnType _spawnType;
 
     [Header("BaseStats")]
     [SerializeField] protected float _baseDamage;
     [SerializeField] protected float _baseHealth;
     [SerializeField] protected float _baseMoveSpeed;
-    [SerializeField] protected SpawnType _spawnType;
 
     [Header("Stats")]
     [SerializeField] protected float _damage;
@@ -43,34 +68,14 @@ public class DemonBase : MonoBehaviour, IDemon
     [SerializeField] SoundPlayer _soundPlayerDeath;
     [SerializeField] SoundPlayer _soundPlayerFootsteps;
 
-    [Header("AnimationCurves")]
-    [SerializeField] protected AnimationCurve _moveSpeedCurve;
-
-    [Header("Animation Overwrite")]
-    [SerializeField] protected List<AnimatorOverrideController> _attackOverrides = new List<AnimatorOverrideController>();
-    [SerializeField] protected List<AnimatorOverrideController> _movementOverrides = new List<AnimatorOverrideController>();
-
-    [Header("Animator")]
-    protected Animator _animator;
-
-    [Header("Collider")]
-    protected Collider[] _colliders;
-
-    [Header("Rigidbody")]
-    protected Rigidbody _rb;
-
     [Header("Ai Pathing")]
     protected bool _calculatePath = false;
     protected Vector3 lastPos;
     protected NavMeshAgent _agent;
     protected NavMeshPath _currentPath;
 
-    protected Health _health;
-    protected PooledObject _pooledObject;
-
     protected int _currentUpdatedRound = 1;
-
-    [SerializeField] protected Vector3 spawpos = Vector3.zero;
+    protected Vector3 spawpos = Vector3.zero;
 
     private void Awake()
     {
@@ -79,6 +84,8 @@ public class DemonBase : MonoBehaviour, IDemon
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
         _deathPoints = GetComponent<GrantPointsOnDeath>();
+        _attachments = GetComponent<DemonAttachments>();
+        _animationOverrides = GetComponent<DemonAnimationOverrides>();
         _spawner = FindObjectOfType<DemonSpawner>();
         _spawnerManager = FindObjectOfType<SpawnerManager>();
         _colliders = GetAllColliders();
@@ -168,6 +175,8 @@ public class DemonBase : MonoBehaviour, IDemon
         }
 
         SetAllColliders(true);
+        //_attachments.ResetAllAttachments();
+        //_attachments.RandomAttachments();
 
         DemonSpawner.ActiveDemons.Add(this);
 
@@ -307,29 +316,13 @@ public class DemonBase : MonoBehaviour, IDemon
         }
     }
 
-    protected AnimatorOverrideController RandomController(List<AnimatorOverrideController> list)
-    {
-        int num = Random.Range(0, list.Count);
-
-        RuntimeAnimatorController temp = _animator.runtimeAnimatorController;
-        RuntimeAnimatorController temp1 = list[num];
-
-        while(temp == temp1)
-        {
-            num = Random.Range(0, list.Count);
-            temp1 = list[num];
-        }
-
-        return list[num];
-    }
-
     public void SetAttackOverride()
     {
-        _animator.runtimeAnimatorController = RandomController(_attackOverrides);
+        _animator.runtimeAnimatorController = _animationOverrides.SetOverrideController(_animator, AnimationOverrideType.Attack);
     }
     public void SetMovementOverride()
     {
-        _animator.runtimeAnimatorController = RandomController(_movementOverrides);
+        _animator.runtimeAnimatorController = _animationOverrides.SetOverrideController(_animator, AnimationOverrideType.Movement);
     }
 
     public void setSpawnPosition(Vector3 pos)

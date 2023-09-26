@@ -45,6 +45,9 @@ public class InitaliseRitual : Interactable
     public override void StartHover(Interactor interactor)
     {
         base.StartHover(interactor);
-        interactor.display.DisplayMessage(true, activateMessage);
+        if(spawner.ritualComplete == false && spawner.RitualActive == false)
+        {
+            interactor.display.DisplayMessage(true, activateMessage);
+        }
     }
 }

@@ -20,12 +20,12 @@ public class PlayerStats : MonoBehaviour,IDataPersistance<GameData>
 
     public void GainPoints(int amount)
 	{
+        amount = (int)(amount * pointGainMulti);
         points += amount;
         pointsGained += amount;
 	}
     public void SpendPoints(int amount)
 	{
-        amount = (int)(amount * pointGainMulti);
         points -= amount;
         pointsSpent += amount;
 	}

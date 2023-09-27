@@ -55,5 +55,7 @@ public class DemonAttachments : MonoBehaviour
         {
             g.SetActive(false);
         }
+
+        activeAttachments.Clear();
     }
 }

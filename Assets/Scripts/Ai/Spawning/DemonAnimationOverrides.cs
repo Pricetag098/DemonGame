@@ -1,53 +1,51 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
-
-public enum AnimationOverrideType
-{
-    Null,
-    Attack,
-    Movement
-}
 
 public class DemonAnimationOverrides : MonoBehaviour
 {
     [Header("Animation Overwrite")]
-    [SerializeField] private List<AnimatorOverrideController> _attackOverrides = new List<AnimatorOverrideController>();
-    [SerializeField] private List<AnimatorOverrideController> _movementOverrides = new List<AnimatorOverrideController>();
+    [SerializeField] private List<AnimatorControllerOverrides> animatorControllers = new List<AnimatorControllerOverrides>();
+    private AnimatorControllerOverrides currentControllerOverride;
 
-    private AnimatorOverrideController RandomController(Animator animator, AnimationOverrideType type)
+    private AnimatorOverrideController RandomController(Animator animator)
     {
-        List<AnimatorOverrideController> list = new List<AnimatorOverrideController>();
+        int num = Random.Range(0, animatorControllers.Count);
 
-        switch (type)
+        AnimatorControllerOverrides contoller = animatorControllers[num];
+
+        while(contoller == currentControllerOverride)
         {
-            case AnimationOverrideType.Attack:
-                list = _attackOverrides;
-                break;
-            case AnimationOverrideType.Movement:
-                list = _movementOverrides;
-                break;
-            case AnimationOverrideType.Null:
-
-                break; 
+            num = Random.Range(0, animatorControllers.Count);
+            contoller = animatorControllers[num];
         }
 
-        int num = Random.Range(0, list.Count);
+        num = Random.Range(0, contoller.Overrides.Count);
 
         RuntimeAnimatorController temp = animator.runtimeAnimatorController;
-        RuntimeAnimatorController temp1 = list[num];
+        RuntimeAnimatorController temp1 = contoller.Overrides[num];
 
         while (temp == temp1)
         {
-            num = Random.Range(0, list.Count);
-            temp1 = list[num];
+            num = Random.Range(0, animatorControllers.Count);
+            temp1 = contoller.Overrides[num];
         }
 
-        return list[num];
+        currentControllerOverride = contoller;
+
+        return contoller.Overrides[num];
     }
 
-    public AnimatorOverrideController SetOverrideController(Animator animator, AnimationOverrideType type)
+    public AnimatorOverrideController SetOverrideController(Animator animator)
     {
-         return RandomController(animator, type);
+         return RandomController(animator);
     }
+}
+
+[System.Serializable]
+public class AnimatorControllerOverrides
+{
+    public AnimatorController controller;
+    public List<AnimatorOverrideController> Overrides = new List<AnimatorOverrideController>();
 }

@@ -22,8 +22,6 @@ public class DemonBase : MonoBehaviour, IDemon
 
     [Header("Animation Overwrite")]
     protected DemonAnimationOverrides _animationOverrides;
-    //[SerializeField] protected List<AnimatorOverrideController> _attackOverrides = new List<AnimatorOverrideController>();
-    //[SerializeField] protected List<AnimatorOverrideController> _movementOverrides = new List<AnimatorOverrideController>();
 
     [Header("Collider")]
     protected Collider[] _colliders;
@@ -175,8 +173,9 @@ public class DemonBase : MonoBehaviour, IDemon
         }
 
         SetAllColliders(true);
-        //_attachments.ResetAllAttachments();
-        //_attachments.RandomAttachments();
+
+        _attachments.ResetAllAttachments();
+        _attachments.RandomAttachments();
 
         DemonSpawner.ActiveDemons.Add(this);
 
@@ -318,11 +317,7 @@ public class DemonBase : MonoBehaviour, IDemon
 
     public void SetAttackOverride()
     {
-        _animator.runtimeAnimatorController = _animationOverrides.SetOverrideController(_animator, AnimationOverrideType.Attack);
-    }
-    public void SetMovementOverride()
-    {
-        _animator.runtimeAnimatorController = _animationOverrides.SetOverrideController(_animator, AnimationOverrideType.Movement);
+        _animator.runtimeAnimatorController = _animationOverrides.SetOverrideController(_animator);
     }
 
     public void setSpawnPosition(Vector3 pos)

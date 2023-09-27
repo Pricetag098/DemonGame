@@ -174,8 +174,8 @@ public class DemonBase : MonoBehaviour, IDemon
 
         SetAllColliders(true);
 
-        _attachments.ResetAllAttachments();
-        _attachments.RandomAttachments();
+        //_attachments.ResetAllAttachments();
+        //_attachments.RandomAttachments();
 
         DemonSpawner.ActiveDemons.Add(this);
 

@@ -25,6 +25,16 @@ public class DemonAttachments : MonoBehaviour
     private void Awake()
     {
         activeAttachments = new List<GameObject>();
+        SetAllFalse(Horns);
+        SetAllFalse(Choker);
+        SetAllFalse(ForearmLeft);
+        SetAllFalse(ForearmRight);
+        SetAllFalse(WristLeft);
+        SetAllFalse(WristRight);
+        SetAllFalse(LowerLeftLeg);
+        SetAllFalse(LowerRightLeg);
+        SetAllFalse(AnklesLeft);
+        SetAllFalse(AnklesRight);
     }
 
     public void RandomAttachments()
@@ -47,6 +57,14 @@ public class DemonAttachments : MonoBehaviour
         GameObject go = list[ran];
         go.SetActive(true);
         return go;
+    }
+
+    private void SetAllFalse(List<GameObject> list)
+    {
+        foreach(GameObject g in list)
+        {
+            g.SetActive(false);
+        }
     }
 
     public void ResetAllAttachments()

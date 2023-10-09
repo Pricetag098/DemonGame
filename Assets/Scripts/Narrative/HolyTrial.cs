@@ -5,8 +5,6 @@ using UnityEngine;
 public class HolyTrial : MonoBehaviour
 {
     [SerializeField] List<GameObject> holyTrialPieces;
-    [SerializeField] GameObject finalPiece;
-    [SerializeField] GameObject ritual;
 
     int obeliskCounter = 0;
 
@@ -16,9 +14,9 @@ public class HolyTrial : MonoBehaviour
 
         if(obeliskCounter == 3)
         {
-            finalPiece.SetActive(true);
-            ritual.SetActive(true);
+            FindObjectOfType<NarrativeInventory>().AllObelisks();
         }
 
-        obeliskCounter++;    }
+        obeliskCounter++;    
+    }
 }

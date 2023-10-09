@@ -23,6 +23,9 @@ public class BasicDemon : DemonBase
     [SerializeField] float m_HealthToAdd;
     [SerializeField] float m_HealthMultiplier;
 
+    [Header("SoulBox")]
+    public SoulBox SoulBox;
+
     [Header("ObstacleDetection")]
     private DestroyObstacle m_obstacle;
 
@@ -76,6 +79,11 @@ public class BasicDemon : DemonBase
         if(_spawnType == SpawnType.Ritual)
         {
             _spawnerManager.CurrentRitualOnDemonDeath();
+        }
+
+        if(SoulBox != null)
+        {
+            SoulBox.AddSoul();
         }
     }
     public override void OnBuff()

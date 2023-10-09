@@ -270,9 +270,18 @@ namespace Movement
 						targetCamPos = camCrouchingPos;
 						camMovementTimer = 0;
 						slideEntryVel = rb.velocity;
-						
-						
-						return;
+                        if (Vector3.Dot(rb.velocity, orientation.forward) < maxSlideSpeed && grounded)
+                        {
+                            RaycastHit hit;
+                            Vector3 force = slideLaunchVel * orientation.forward;
+                            if (Physics.Raycast(orientation.position, -orientation.up, out hit, 5, groundingLayer))
+                            {
+                                force = Vector3.ProjectOnPlane(force, hit.normal);
+                            }
+                            rb.AddForce(force, ForceMode.VelocityChange);
+                        }
+
+                        return;
 					}
 					break;
 				case MoveStates.crouch:

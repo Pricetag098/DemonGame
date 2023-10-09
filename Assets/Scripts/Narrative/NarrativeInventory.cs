@@ -17,18 +17,27 @@ public class NarrativeInventory : MonoBehaviour
     public List<Painting> paintings;
     int placeInList = 0;
 
+    [Header("Obelisk Puzzle")]
+    [SerializeField] bool finishedObelisks;
+
     [Header("Final Ritual")]
-    public GameObject finalRitual;
+    public GameObject divineSmite;
 
     private void Start()
     {
         RandomizeList(paintings);
     }
 
+    public void AllObelisks()
+    {
+        finishedObelisks = true;
+
+        CheckForFinish();
+    }
+
     public void PickupArm()
     {
         hasArm = true;
-        //Anything else
 
         CheckForFinish();
     }
@@ -36,7 +45,6 @@ public class NarrativeInventory : MonoBehaviour
     public void PickupSalt()
     {
         hasSalt = true;
-        //Anything else
 
         CheckForFinish();
     }
@@ -58,7 +66,6 @@ public class NarrativeInventory : MonoBehaviour
         {
             hasKnife = true;
         }
-        //Anything else
 
         CheckForFinish();
     }
@@ -66,7 +73,6 @@ public class NarrativeInventory : MonoBehaviour
     public void PickupFalseKnife()
     {
         hasFalseKnife = true;
-        //Anything else
     }
 
     public void PickupShovel()
@@ -78,14 +84,14 @@ public class NarrativeInventory : MonoBehaviour
         else
         {
             hasShovel = true;
-        }        //Anything else
+        }        
     }
 
     public void CheckForFinish()
     {
-        if(hasKnife && hasSalt && hasArm)
+        if(hasKnife && hasSalt && hasArm && finishedObelisks)
         {
-            finalRitual.SetActive(true);
+            divineSmite.SetActive(true);
         }
     }
 

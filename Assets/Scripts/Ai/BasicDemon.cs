@@ -23,6 +23,9 @@ public class BasicDemon : DemonBase
     [SerializeField] float m_HealthToAdd;
     [SerializeField] float m_HealthMultiplier;
 
+    [Header("SoulBox")]
+    public SoulBox SoulBox;
+
     [Header("ObstacleDetection")]
     private DestroyObstacle m_obstacle;
 
@@ -49,8 +52,14 @@ public class BasicDemon : DemonBase
         base.OnAttack();
 
         // deal damage
-        if(Vector3.Distance(_target.position,transform.position) < _attackRange)
+        if (Vector3.Distance(_target.position, transform.position) < _attackRange)
+        {
             _target.GetComponent<Health>().TakeDmg(_damage);
+            if (_target.TryGetComponent<DamageIndicator>(out DamageIndicator damageIndicator))
+            {
+                damageIndicator.Indicate(this.transform);
+            }
+        }
     }
     public override void OnSpawn(DemonType demon,Transform target, SpawnType type)
     {
@@ -76,6 +85,11 @@ public class BasicDemon : DemonBase
         if(_spawnType == SpawnType.Ritual)
         {
             _spawnerManager.CurrentRitualOnDemonDeath();
+        }
+
+        if(SoulBox != null)
+        {
+            SoulBox.AddSoul();
         }
     }
     public override void OnBuff()

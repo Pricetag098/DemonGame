@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BodySimulator : MonoBehaviour
 {
+    [System.Serializable]
     public struct TransformData
     {
         public Vector3 Position;
@@ -39,8 +40,12 @@ public class BodySimulator : MonoBehaviour
         Transform target = transform;
         foreach (TransformData transformData in transformDatas)
         {
+            Destroy(target.GetComponent<Rigidbody>());
+            Destroy(target.GetComponent<Collider>());
+            Destroy(target.GetComponent<CharacterJoint>());
             transformData.Load(target);
             target = target.GetChild(0);
         }
+        Destroy(this);
     }
 }

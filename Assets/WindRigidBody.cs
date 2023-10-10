@@ -13,9 +13,9 @@ public class WindRigidBody : MonoBehaviour
     RaycastHit hit;
     Collider[] hitColliders;
     Rigidbody rb;
-
     void Update()
     {
+
         windStrength = Random.Range(WindStrengthMin, WindStrengthMax);
 
         hitColliders = Physics.OverlapSphere(transform.position, radius);
@@ -25,7 +25,7 @@ public class WindRigidBody : MonoBehaviour
             if (rb = hitColliders[i].GetComponent<Rigidbody>())
                 if (Physics.Raycast(transform.position, rb.position - transform.position, out hit))
                     if (hit.transform.GetComponent<Rigidbody>())
-                        rb.AddForce(transform.forward * windStrength, ForceMode.Acceleration);
+                        rb.AddForce(transform.forward * windStrength, ForceMode.Force);
         }
     }
 }

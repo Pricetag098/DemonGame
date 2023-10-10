@@ -10,7 +10,6 @@ public class DamageIndicator : MonoBehaviour
     [SerializeField] private Transform orientation;
     [SerializeField] private List<RectTransform> indicators;
     [SerializeField] private List<float> startTimes;
-    [SerializeField] private List<Image> images;
     [SerializeField] private float delay;
     private int value;
     private Quaternion tRotation;
@@ -22,7 +21,6 @@ public class DamageIndicator : MonoBehaviour
         foreach (RectTransform rectTransform in indicators)
         {
             startTimes.Add(-delay);
-            images.Add(rectTransform.GetComponentInChildren<Image>());
         }
     }
 
@@ -30,7 +28,7 @@ public class DamageIndicator : MonoBehaviour
     {
         foreach (float time in startTimes)
         {
-            images[startTimes.IndexOf(time)].color = new Color ( 1, 1, 1, (delay - (Time.time - time)) / delay);
+            indicators[startTimes.IndexOf(time)].GetComponent<Image>().color = new Color ( 1, 1, 1, (delay - (Time.time - time)) / delay);
             //indicators[startTimes.IndexOf(time)].GetComponentInChildren<Image>().color = new Color(1, 1, 1, (delay - (Time.time - time)) / delay);
 
         }

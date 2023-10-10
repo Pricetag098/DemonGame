@@ -32,6 +32,7 @@ public class RitualSpawner : MonoBehaviour
 
     [Header("Ritual Completion")]
     [SerializeField] GameObject completion;
+    [SerializeField] GameObject orbHolder;
     [HideInInspector] public bool IncrementRitual;
     
 
@@ -155,6 +156,10 @@ public class RitualSpawner : MonoBehaviour
         soundPlayerComplete.Play();
 
         completion.SetActive(false);
+        if (orbHolder != null)
+        {
+            orbHolder.GetComponent<Bounce>().Escape();
+        }
 
         sm.FinalRitual();
         sm.TpPlayerOnEnd();

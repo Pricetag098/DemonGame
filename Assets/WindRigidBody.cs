@@ -4,28 +4,27 @@ using UnityEngine;
 
 public class WindRigidBody : MonoBehaviour
 {
-    public float WindStrengthMin = 0;
-    public float WindStrengthMax = 5;
+    [Min(0.01f)]public float freq = 0;
+    public float amp = 5;
     public float radius = 100;
 
     float windStrength;
-    int i;
     RaycastHit hit;
     Collider[] hitColliders;
     Rigidbody rb;
-
     void Update()
     {
-        windStrength = Random.Range(WindStrengthMin, WindStrengthMax);
+
+        windStrength = Mathf.Sin(Time.time/freq) * amp;
 
         hitColliders = Physics.OverlapSphere(transform.position, radius);
 
-        for (i = 0; i < hitColliders.Length; i++)
+        for (int i = 0; i < hitColliders.Length; i++)
         {
-            if (rb = hitColliders[i].GetComponent<Rigidbody>())
-                if (Physics.Raycast(transform.position, rb.position - transform.position, out hit))
-                    if (hit.transform.GetComponent<Rigidbody>())
-                        rb.AddForce(transform.forward * windStrength, ForceMode.Acceleration);
+            if (hitColliders[i].TryGetComponent(out Rigidbody rb))
+            {
+                rb.AddForce(transform.forward * windStrength);
+            }
         }
     }
 }

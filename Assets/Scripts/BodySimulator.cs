@@ -40,11 +40,11 @@ public class BodySimulator : MonoBehaviour
         Transform target = transform;
         foreach (TransformData transformData in transformDatas)
         {
-            Destroy(target.GetComponent<Rigidbody>());
-            Destroy(target.GetComponent<Collider>());
-            Destroy(target.GetComponent<CharacterJoint>());
+            //DestroyImmediate(target.GetComponent<Collider>());
+            DestroyImmediate(target.GetComponent<CharacterJoint>());
+            DestroyImmediate(target.GetComponent<Rigidbody>());
             transformData.Load(target);
-            target = target.GetChild(0);
+            if(target.childCount > 0) target = target.GetChild(0);
         }
         Destroy(this);
     }

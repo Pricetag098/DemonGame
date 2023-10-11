@@ -50,6 +50,10 @@ public class Bounce : MonoBehaviour
                 escInt++;
             }
         }
+        if (escInt >= escPos.Count)
+        {
+            Door();
+        }
 
     }
     void SetTargetPos()
@@ -73,5 +77,9 @@ public class Bounce : MonoBehaviour
     {
         escaped = true;
         parent.GetComponent<MeshRenderer>().enabled = false;
+    }
+    public void Door()
+    {
+        Destroy(this.gameObject);
     }
 }

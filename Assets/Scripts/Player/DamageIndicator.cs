@@ -28,7 +28,8 @@ public class DamageIndicator : MonoBehaviour
     {
         foreach (float time in startTimes)
         {
-            indicators[startTimes.IndexOf(time)].GetComponent<Image>().color = new Color ( 1, 1, 1, (delay - (Time.time - time)) / delay);
+            Color indColor = indicators[startTimes.IndexOf(time)].GetComponent<Image>().color;
+            indicators[startTimes.IndexOf(time)].GetComponent<Image>().color = new Color ( indColor.r, indColor.g, indColor.b, (delay - (Time.time - time)) / delay);
             //indicators[startTimes.IndexOf(time)].GetComponentInChildren<Image>().color = new Color(1, 1, 1, (delay - (Time.time - time)) / delay);
 
         }

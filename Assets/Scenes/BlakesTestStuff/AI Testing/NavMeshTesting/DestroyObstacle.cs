@@ -10,14 +10,15 @@ public class DestroyObstacle : MonoBehaviour
     [SerializeField] private int DestructibleAttackDamage = 1;
     [SerializeField] private LayerMask DestructibleLayers;
 
-    private NavMeshAgent Agent;
+    //private NavMeshAgent Agent;
+    private AiAgent Agent;
     private DemonBase demon;
     private NavMeshPath OrigianlPath;
     private Timer timer;
 
     private void Awake()
     {
-        Agent = GetComponent<NavMeshAgent>();
+        Agent = GetComponent<AiAgent>();
         demon = GetComponent<DemonBase>();
         timer = new Timer(AttackDelay, true);
     }
@@ -55,7 +56,7 @@ public class DestroyObstacle : MonoBehaviour
             if (obj.Health <= 0)
             {
                 Agent.enabled = true;
-                Agent.path = OrigianlPath;
+                Agent.canMove = true;
                 obj = null;
                 demon.DemonInMap = true;
             }
@@ -64,29 +65,45 @@ public class DestroyObstacle : MonoBehaviour
 
     private bool CheckForDistructibleObjects()
     {
-        Vector3[] corners = new Vector3[2];
+        RaycastHit hit;
+        Agent.Raycast(CheckDistance, out hit, DestructibleLayers);
 
-        int length = Agent.path.GetCornersNonAlloc(corners);
-        if(length > 1)
+        if (hit.collider.TryGetComponent<DestrcutibleObject>(out DestrcutibleObject d))
         {
-            if (Physics.Raycast(corners[0], (corners[1] - corners[0]).normalized, out RaycastHit hit, CheckDistance, DestructibleLayers))
+            if (d.Health > 0)
             {
-                if(hit.collider.TryGetComponent<DestrcutibleObject>(out DestrcutibleObject d))
-                {
-                    if(d.Health > 0)
-                    {
-                        OrigianlPath = Agent.path;
-                        Agent.enabled = false;
-                        obj = d;
-                        return true;
-                    }
-                    else
-                    {
-                        demon.DemonInMap = true;
-                    }
-                }
+                Agent.canMove = false;
+                //Agent.enabled = false;
+                obj = d;
+                return true;
+            }
+            else
+            {
+                demon.DemonInMap = true;
             }
         }
+
+
+        //if(length > 1)
+        //{
+        //    if (Physics.Raycast(corners[0], (corners[1] - corners[0]).normalized, out RaycastHit hit, CheckDistance, DestructibleLayers))
+        //    {
+        //        if(hit.collider.TryGetComponent<DestrcutibleObject>(out DestrcutibleObject d))
+        //        {
+        //            if(d.Health > 0)
+        //            {
+        //                OrigianlPath = Agent.path;
+        //                Agent.enabled = false;
+        //                obj = d;
+        //                return true;
+        //            }
+        //            else
+        //            {
+        //                demon.DemonInMap = true;
+        //            }
+        //        }
+        //    }
+        //}
 
         return false;
     }

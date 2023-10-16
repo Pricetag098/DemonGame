@@ -66,7 +66,7 @@ public class DestroyObstacle : MonoBehaviour
     private bool CheckForDistructibleObjects()
     {
         RaycastHit hit;
-        Agent.Raycast(CheckDistance, out hit, DestructibleLayers);
+        Agent.RaycastMoveDirection(CheckDistance, out hit, DestructibleLayers);
 
         if (hit.collider.TryGetComponent<DestrcutibleObject>(out DestrcutibleObject d))
         {

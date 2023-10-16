@@ -21,6 +21,7 @@ public class AiAgent : MonoBehaviour
     private Rigidbody rb;
     int pathIndex = 1;
 	float radius;
+    public float rayHeightOffset;
 	public AgentPath path = new AgentPath();
     public bool canMove = true;
     // Start is called before the first frame update
@@ -41,7 +42,7 @@ public class AiAgent : MonoBehaviour
     {
         Vector3 idealVel;
 		
-        if (Physics.Raycast(transform.position, -transform.up, out RaycastHit hit, groundingRange,wallLayers))
+        if (Physics.Raycast(transform.position + transform.up * rayHeightOffset, -transform.up, out RaycastHit hit, groundingRange,wallLayers))
         {
 			if (canMove && path.hasPath)
 			{
@@ -97,7 +98,7 @@ public class AiAgent : MonoBehaviour
         float angle = 360 / scanRays;
         for(int i = 0; i < scanRays; i++)
         {
-            if(Physics.Raycast(transform.position,Vector3.ProjectOnPlane(Quaternion.Euler(Vector3.up * angle*i) * transform.forward,transform.up),out RaycastHit hit, scanRadius, wallLayers))
+            if(Physics.Raycast(transform.position + transform.up * rayHeightOffset, Vector3.ProjectOnPlane(Quaternion.Euler(Vector3.up * angle*i) * transform.forward,transform.up),out RaycastHit hit, scanRadius, wallLayers))
             {
                 if(hit.distance < radius)
                 {
@@ -235,7 +236,7 @@ public class AiAgent : MonoBehaviour
 		float angle = 360 / scanRays;
 		for (int i = 0; i < scanRays; i++)
 		{
-            Gizmos.DrawRay(transform.position, Vector3.ProjectOnPlane(Quaternion.Euler(Vector3.up * angle * i) * transform.forward, transform.up) * scanRadius);
+            Gizmos.DrawRay(transform.position + transform.up * rayHeightOffset, Vector3.ProjectOnPlane(Quaternion.Euler(Vector3.up * angle * i) * transform.forward, transform.up) * scanRadius);
 		}
 
 	}

@@ -13,19 +13,24 @@ public class AiTester : MonoBehaviour
     {
         agents = FindObjectsOfType<AiAgent>();
         things = FindObjectsOfType<TestAgentThing>();
-        foreach (AiAgent agent in agents)
-        {
-            agent.UpdatePath(target);
-        }
-        foreach(TestAgentThing thing in things)
-        {
-            thing.GetComponent<NavMeshAgent>().SetDestination(target.position);
-        }
+        Run();
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+    [ContextMenu("Run")]
+    public void Run()
+    {
+        foreach (AiAgent agent in agents)
+        {
+            agent.UpdatePath(target);
+        }
+        foreach (TestAgentThing thing in things)
+        {
+            thing.GetComponent<NavMeshAgent>().SetDestination(target.position);
+        }
     }
 }

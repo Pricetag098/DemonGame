@@ -10,6 +10,8 @@ public class DemonAttachments : MonoBehaviour
     public List<GameObject> Choker;
 
     [Header("Arms")]
+    public List<GameObject> UpperArmLeft;
+    public List<GameObject> UpperArmRight;
     public List<GameObject> ForearmLeft;
     public List<GameObject> ForearmRight;
     public List<GameObject> WristLeft;
@@ -27,6 +29,8 @@ public class DemonAttachments : MonoBehaviour
         activeAttachments = new List<GameObject>();
         SetAllFalse(Horns);
         SetAllFalse(Choker);
+        SetAllFalse(UpperArmLeft);
+        SetAllFalse(UpperArmRight);
         SetAllFalse(ForearmLeft);
         SetAllFalse(ForearmRight);
         SetAllFalse(WristLeft);
@@ -41,6 +45,8 @@ public class DemonAttachments : MonoBehaviour
     {
         activeAttachments.Add(SetActiveFromList(Horns));
         activeAttachments.Add(SetActiveFromList(Choker));
+        activeAttachments.Add(SetActiveFromList(UpperArmLeft));
+        activeAttachments.Add(SetActiveFromList(UpperArmRight));
         activeAttachments.Add(SetActiveFromList(ForearmLeft));
         activeAttachments.Add(SetActiveFromList(ForearmRight));
         activeAttachments.Add(SetActiveFromList(WristLeft));

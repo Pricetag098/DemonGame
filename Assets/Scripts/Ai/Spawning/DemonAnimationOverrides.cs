@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Animations;
 using UnityEngine;
 
 public class DemonAnimationOverrides : MonoBehaviour
@@ -46,6 +45,6 @@ public class DemonAnimationOverrides : MonoBehaviour
 [System.Serializable]
 public class AnimatorControllerOverrides
 {
-    public AnimatorController controller;
+    public RuntimeAnimatorController controller;
     public List<AnimatorOverrideController> Overrides = new List<AnimatorOverrideController>();
 }

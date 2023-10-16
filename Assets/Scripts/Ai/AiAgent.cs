@@ -52,6 +52,7 @@ public class AiAgent : MonoBehaviour
 				idealVel = toTarget * followSpeed;
                 if(hit.normal != Vector3.zero)
                 idealVel = Vector3.ProjectOnPlane(idealVel, hit.normal);
+                transform.up = hit.normal;
 			}
 			else
 			{
@@ -98,7 +99,7 @@ public class AiAgent : MonoBehaviour
         float angle = 360 / scanRays;
         for(int i = 0; i < scanRays; i++)
         {
-            if(Physics.Raycast(transform.position,Quaternion.Euler(transform.up * angle*i) * transform.forward,out RaycastHit hit, scanRadius, wallLayers))
+            if(Physics.Raycast(transform.position,Vector3.ProjectOnPlane(Quaternion.Euler(Vector3.up * angle*i) * transform.forward,transform.up),out RaycastHit hit, scanRadius, wallLayers))
             {
                 if(hit.distance < radius)
                 {
@@ -161,7 +162,7 @@ public class AiAgent : MonoBehaviour
 		agentPath.pathLength = path.GetCornersNonAlloc(agentPath.path);
         
 	}
-	private void OnDrawGizmos()
+	private void OnDrawGizmosSelected()
     {
 		Gizmos.color = Color.white;
 		if (others.Length > 0)
@@ -179,7 +180,7 @@ public class AiAgent : MonoBehaviour
 		float angle = 360 / scanRays;
 		for (int i = 0; i < scanRays; i++)
 		{
-            Gizmos.DrawRay(transform.position, Quaternion.Euler(0, angle * i, 0) * transform.forward * scanRadius);
+            Gizmos.DrawRay(transform.position, Vector3.ProjectOnPlane(Quaternion.Euler(Vector3.up * angle * i) * transform.forward, transform.up) * scanRadius);
 		}
 
 	}

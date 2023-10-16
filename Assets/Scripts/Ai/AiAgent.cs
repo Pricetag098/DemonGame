@@ -25,7 +25,7 @@ public class AiAgent : MonoBehaviour
 	public AgentPath path = new AgentPath();
     public bool canMove = true;
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         rb = GetComponent<Rigidbody>();
         others = FindObjectsOfType<AiAgent>();

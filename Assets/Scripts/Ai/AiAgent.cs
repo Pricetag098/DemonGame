@@ -86,13 +86,10 @@ public class AiAgent : MonoBehaviour
 
     public void UpdatePath(Transform target)
     {
-        //CalculatePath(transform.position, target.position, path);
-		pathIndex = 1;
+        NavMeshPath path = new NavMeshPath();
+        CalculatePath(target.position, path);
+        SetPath(path);
 	}
-
-    
-
-    
 
     void UpdateRadius()
     {
@@ -188,13 +185,11 @@ public class AiAgent : MonoBehaviour
 
     public bool CalculatePath(Vector3 start, Vector3 end, NavMeshPath path)
     {
-        bool result;
-        return result = NavMesh.CalculatePath(start, end, NavMesh.AllAreas, path);
+        return NavMesh.CalculatePath(start, end, NavMesh.AllAreas, path);
     }
     public bool CalculatePath(Vector3 end, NavMeshPath path)
-    {
-        bool result; 
-        return result = NavMesh.CalculatePath(transform.position, end, NavMesh.AllAreas, path);
+    { 
+        return NavMesh.CalculatePath(transform.position, end, NavMesh.AllAreas, path);
     }
 
     public void SetPath(NavMeshPath navPath)

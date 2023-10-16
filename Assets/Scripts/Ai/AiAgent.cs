@@ -18,7 +18,7 @@ public class AiAgent : MonoBehaviour
     public float gravityScale;
     public float indexChangeDistance = .1f;
     public float stopingDistance = 1;
-    Rigidbody rb;
+    private Rigidbody rb;
     int pathIndex = 1;
 	float radius;
 	public AgentPath path = new AgentPath();
@@ -40,7 +40,6 @@ public class AiAgent : MonoBehaviour
     private void FixedUpdate()
     {
         Vector3 idealVel;
-
 		
         if (Physics.Raycast(transform.position, -transform.up, out RaycastHit hit, groundingRange,wallLayers))
         {
@@ -48,7 +47,7 @@ public class AiAgent : MonoBehaviour
 			{
 				UpdateRadius();
 				
-				Vector3 toTarget = (path.path[pathIndex] - transform.position).normalized;
+				Vector3 toTarget = (path.corners[pathIndex] - transform.position).normalized;
 				idealVel = toTarget * followSpeed;
                 if(hit.normal != Vector3.zero)
                 idealVel = Vector3.ProjectOnPlane(idealVel, hit.normal);
@@ -87,11 +86,10 @@ public class AiAgent : MonoBehaviour
 
     public void UpdatePath(Transform target)
     {
-        CalculatePath(transform.position, target.position, path);
-		pathIndex = 1;
+        NavMeshPath path = new NavMeshPath();
+        CalculatePath(target.position, path);
+        SetPath(path);
 	}
-
-    
 
     void UpdateRadius()
     {
@@ -140,28 +138,85 @@ public class AiAgent : MonoBehaviour
     public class AgentPath
     {
         public int pathLength;
-        public Vector3[] path;
+        public Vector3[] corners;
         public bool hasPath = false;
         public Vector3 this[int key]
         {
-            get { return path[key]; }
+            get { return corners[key]; }
         }
 
         public AgentPath()
         {
             pathLength = 0;
-            path = new Vector3[100];
+            corners = new Vector3[100];
+        }
+
+        public void ResetPath()
+        {
+            hasPath = false;
+            pathLength = 0;
+            corners = new Vector3[100];
+        }
+    }
+    public float RemainingDistance
+    {
+        get
+        {
+            float num = 0;
+
+            num += Vector3.Distance(path[pathIndex], transform.position);
+
+            for (int i = 0; i < path.pathLength - 1; i++)
+            {
+                num += Vector3.Distance(path[i + pathIndex], path[i + pathIndex + 1]);
+            }
+
+            return num;
         }
     }
 
-	void CalculatePath(Vector3 start, Vector3 end,AgentPath agentPath)
+    public float VelocityMag
+    {
+        get
+        {
+            return rb.velocity.magnitude;
+        }
+    }
+
+    public bool CalculatePath(Vector3 start, Vector3 end, NavMeshPath path)
+    {
+        return NavMesh.CalculatePath(start, end, NavMesh.AllAreas, path);
+    }
+    public bool CalculatePath(Vector3 end, NavMeshPath path)
+    { 
+        return NavMesh.CalculatePath(transform.position, end, NavMesh.AllAreas, path);
+    }
+
+    public void SetPath(NavMeshPath navPath)
+    {
+        path.pathLength = navPath.GetCornersNonAlloc(path.corners);
+
+        if(path.pathLength > 1)
+        {
+            path.hasPath = true;
+            pathIndex = 1;
+        }
+    }
+
+	void CalculatePath(Vector3 start, Vector3 end, AgentPath agentPath)
 	{
         NavMeshPath path = new NavMeshPath();
         
 		agentPath.hasPath = NavMesh.CalculatePath(start, end, NavMesh.AllAreas,path);
-		agentPath.pathLength = path.GetCornersNonAlloc(agentPath.path);
-        
+		agentPath.pathLength = path.GetCornersNonAlloc(agentPath.corners);
 	}
+
+    public void RaycastMoveDirection(float distance, out RaycastHit hit, LayerMask layer)
+    {
+        Physics.Raycast(transform.position, rb.velocity, out RaycastHit obj, distance, layer);
+        hit = obj;
+    }
+
 	private void OnDrawGizmosSelected()
     {
 		Gizmos.color = Color.white;
@@ -172,7 +227,7 @@ public class AiAgent : MonoBehaviour
         {
             for(int i = 0;i< path.pathLength;i++)
             {
-                Gizmos.DrawWireSphere(path.path[i], indexChangeDistance);
+                Gizmos.DrawWireSphere(path.corners[i], indexChangeDistance);
             }
         }
 

@@ -41,9 +41,9 @@ public class BasicDemon : DemonBase
 
     public override void Tick()
     {
-        DetectPlayer(_agent.enabled);
+        DetectPlayer(_aiAgent.enabled);
 
-        if(DemonInMap == false) m_obstacle.Detection();
+        //if(DemonInMap == false) m_obstacle.Detection();
 
         SetAnimationVariables();
     }
@@ -105,13 +105,13 @@ public class BasicDemon : DemonBase
     {
         base.OnFinishedSpawnAnimation();
 
-        _agent.enabled = true;
-        CalculateAndSetPath(_target, _agent.enabled);
+        //_aiAgent.enabled = true;
+        CalculateAndSetPath(_target, _aiAgent.enabled);
     }
 
     public override void PathFinding()
     {
-        CalculateAndSetPath(_target, _agent.enabled);
+        CalculateAndSetPath(_target, _aiAgent.enabled);
     }
 
     public override void DetectPlayer(bool active)
@@ -181,7 +181,7 @@ public class BasicDemon : DemonBase
 
     private void SetAnimationVariables()
     {
-        float evalSpeed = GetRange(_agent.velocity.magnitude, 0, speedProfile.maxSpeed); // returns between 0 - 1
+        float evalSpeed = GetRange(_aiAgent.VelocityMag, 0, speedProfile.maxSpeed); // returns between 0 - 1
         _animator.SetFloat("Speed", evalSpeed);
 
         if (evalSpeed <= 0f)

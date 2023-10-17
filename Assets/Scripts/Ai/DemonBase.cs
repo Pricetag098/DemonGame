@@ -69,7 +69,8 @@ public class DemonBase : MonoBehaviour, IDemon
     [Header("Ai Pathing")]
     protected bool _calculatePath = false;
     protected Vector3 lastPos;
-    protected NavMeshAgent _agent;
+    //protected NavMeshAgent _agent;
+    protected AiAgent _aiAgent;
     protected NavMeshPath _currentPath;
 
     protected int _currentUpdatedRound = 1;
@@ -77,7 +78,8 @@ public class DemonBase : MonoBehaviour, IDemon
 
     private void Awake()
     {
-        _agent = GetComponent<NavMeshAgent>();
+        //_agent = GetComponent<NavMeshAgent>();
+        _aiAgent = GetComponent<AiAgent>();
         _health = GetComponent<Health>();
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
@@ -90,7 +92,7 @@ public class DemonBase : MonoBehaviour, IDemon
 
         OnAwakened();
 
-        _agent.enabled = false;
+        //_aiAgent.enabled = false;
     }
 
     private void Start()
@@ -111,7 +113,7 @@ public class DemonBase : MonoBehaviour, IDemon
         _health.OnDeath += OnDeath;
         _health.OnHit += OnHit;
 
-        _agent.stoppingDistance = _stoppingDistance;
+        _aiAgent.stopingDistance = _stoppingDistance;
     }
     public virtual void Tick() { }
     public virtual void OnAttack()
@@ -125,8 +127,8 @@ public class DemonBase : MonoBehaviour, IDemon
     public virtual void PathFinding() { }
     public virtual void OnDeath()
     {
-        _agent.speed = 0;
-        _agent.enabled = false;
+        _aiAgent.followSpeed = 0;
+        //_aiAgent.enabled = false;
         
         SetAllColliders(false);
 
@@ -155,7 +157,7 @@ public class DemonBase : MonoBehaviour, IDemon
     }
     public virtual void OnSpawn(DemonType demon, Transform target, SpawnType type)
     {
-        _agent.speed = 0;
+        _aiAgent.followSpeed = 0;
         _target = target;
         _spawnType = type;
         _type = demon;
@@ -174,8 +176,8 @@ public class DemonBase : MonoBehaviour, IDemon
 
         SetAllColliders(true);
 
-        _attachments.ResetAllAttachments();
-        _attachments.RandomAttachments();
+        //_attachments.ResetAllAttachments();
+        //_attachments.RandomAttachments();
 
         DemonSpawner.ActiveDemons.Add(this);
 
@@ -186,8 +188,8 @@ public class DemonBase : MonoBehaviour, IDemon
     public virtual void OnBuff() { }
     public virtual void OnDespawn(bool forcedDespawn = false)
     {
-        _agent.speed = 0;
-        _agent.enabled = false;
+        _aiAgent.followSpeed = 0;
+        //_aiAgent.enabled = false;
 
         SetAllColliders(false);
 
@@ -227,8 +229,8 @@ public class DemonBase : MonoBehaviour, IDemon
 
     public void ForcedDeath()
     {
-        _agent.speed = 0;
-        _agent.enabled = false;
+        _aiAgent.followSpeed = 0;
+        //_aiAgent.enabled = false;
 
         SetAllColliders(false);
 
@@ -239,7 +241,7 @@ public class DemonBase : MonoBehaviour, IDemon
 
     public virtual void OnFinishedSpawnAnimation() 
     {
-        _agent.speed = _moveSpeed;
+        _aiAgent.followSpeed = _moveSpeed;
         _rb.isKinematic = false;
     }
     protected void OnFinishedDeathAnimation()
@@ -252,12 +254,6 @@ public class DemonBase : MonoBehaviour, IDemon
     public void ApplyForce(Vector3 force, ForceMode mode = ForceMode.Impulse)
     {
         _rb.AddForce(force, mode);
-    }
-
-    public void SetNavmeshPosition(Vector3 pos)
-    {
-        transform.position = pos;
-        _agent.nextPosition = pos;
     }
 
     public void PlayAnimation(string trigger)
@@ -330,7 +326,7 @@ public class DemonBase : MonoBehaviour, IDemon
     {
         get
         {
-            return _agent.remainingDistance;
+            return _aiAgent.RemainingDistance;
         }
     }
 
@@ -344,38 +340,32 @@ public class DemonBase : MonoBehaviour, IDemon
     #endregion
 
     #region Interface
-    
-    public NavMeshPath CalculatePath(Transform targetPos)
-    {
-        NavMeshPath path = new NavMeshPath();
 
-        _agent.CalculatePath(targetPos.position, path);
-
-        return path;
-    }
     public void CalculateAndSetPath(Transform targetPos, bool active)
     {
-        if(active == true)
+        if (active == true)
         {
             NavMeshPath path = new NavMeshPath();
 
-            lastPos = targetPos.position;
-
-            _agent.CalculatePath(lastPos, path);
-
-            if (path.status == NavMeshPathStatus.PathComplete)
+            if(_aiAgent.CalculatePath(targetPos.position, path))
             {
-                _agent.SetPath(path);
+                _aiAgent.SetPath(path);
+                Debug.Log("has path");
             }
+
+            //if (path.status == NavMeshPathStatus.PathComplete)
+            //{
+            //    _aiAgent.SetPath(path);
+            //}
 
             _target = targetPos;
         }
     }
-    
+
     public void StopPathing()
     {
-        _agent.isStopped = true;
-        _agent.ResetPath();
+        //_agent.isStopped = true;
+        //_agent.ResetPath();
     }
     public void SetTarget(Transform newTarget)
     {

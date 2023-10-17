@@ -116,7 +116,6 @@ public class SpawnerManager : MonoBehaviour
                 }
             }
         }
-
         _DemonSpawner.CallDemonUpdatePosition();
     }
 

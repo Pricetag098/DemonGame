@@ -43,7 +43,9 @@ public class BasicDemon : DemonBase
     {
         DetectPlayer(_aiAgent.enabled);
 
-        //if(DemonInMap == false) m_obstacle.Detection();
+        _aiAgent.LookDirection();
+
+        if(DemonInMap == false) m_obstacle.Detection();
 
         SetAnimationVariables();
     }

@@ -162,6 +162,7 @@ public class DemonBase : MonoBehaviour, IDemon
         _spawnType = type;
         _type = demon;
         _rb.isKinematic = true;
+        _animator.applyRootMotion = true;
 
         switch (type)
         {
@@ -174,10 +175,12 @@ public class DemonBase : MonoBehaviour, IDemon
                 break;
         }
 
+        _animationOverrides.SelectController(_animator);
+
         SetAllColliders(true);
 
-        //_attachments.ResetAllAttachments();
-        //_attachments.RandomAttachments();
+        _attachments.ResetAllAttachments();
+        _attachments.RandomAttachments();
 
         DemonSpawner.ActiveDemons.Add(this);
 
@@ -243,6 +246,7 @@ public class DemonBase : MonoBehaviour, IDemon
     {
         _aiAgent.followSpeed = _moveSpeed;
         _rb.isKinematic = false;
+        _animator.applyRootMotion = false;
     }
     protected void OnFinishedDeathAnimation()
     {
@@ -313,7 +317,7 @@ public class DemonBase : MonoBehaviour, IDemon
 
     public void SetAttackOverride()
     {
-        _animator.runtimeAnimatorController = _animationOverrides.SetOverrideController(_animator);
+        _animator.runtimeAnimatorController = _animationOverrides.SetOverrideController();
     }
 
     public void setSpawnPosition(Vector3 pos)
@@ -345,13 +349,14 @@ public class DemonBase : MonoBehaviour, IDemon
     {
         if (active == true)
         {
-            NavMeshPath path = new NavMeshPath();
+            //NavMeshPath path = new NavMeshPath();
 
-            if(_aiAgent.CalculatePath(targetPos.position, path))
-            {
-                _aiAgent.SetPath(path);
-                Debug.Log("has path");
-            }
+            _aiAgent.UpdatePath(targetPos);
+
+            //if(_aiAgent.CalculatePath(targetPos.position, path))
+            //{
+            //    _aiAgent.SetPath(path);
+            //}
 
             //if (path.status == NavMeshPathStatus.PathComplete)
             //{

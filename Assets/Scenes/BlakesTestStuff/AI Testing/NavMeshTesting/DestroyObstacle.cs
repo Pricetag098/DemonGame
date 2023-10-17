@@ -12,14 +12,14 @@ public class DestroyObstacle : MonoBehaviour
 
     //private NavMeshAgent Agent;
     private AiAgent Agent;
-    private DemonBase demon;
+    private BasicDemon demon;
     private NavMeshPath OrigianlPath;
     private Timer timer;
 
     private void Awake()
     {
         Agent = GetComponent<AiAgent>();
-        demon = GetComponent<DemonBase>();
+        demon = GetComponent<BasicDemon>();
         timer = new Timer(AttackDelay, true);
     }
 
@@ -55,7 +55,6 @@ public class DestroyObstacle : MonoBehaviour
 
             if (obj.Health <= 0)
             {
-                Agent.enabled = true;
                 Agent.canMove = true;
                 obj = null;
                 demon.DemonInMap = true;
@@ -75,7 +74,6 @@ public class DestroyObstacle : MonoBehaviour
                 if (d.Health > 0)
                 {
                     Agent.canMove = false;
-                    //Agent.enabled = false;
                     obj = d;
                     return true;
                 }

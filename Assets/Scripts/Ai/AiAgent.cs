@@ -9,6 +9,8 @@ public class AiAgent : MonoBehaviour
     
     public float followSpeed;
     public float acceleration;
+    public float rotationSpeed;
+    public bool canRotate;
     
     public LayerMask wallLayers;
     public float scanRadius;
@@ -91,6 +93,22 @@ public class AiAgent : MonoBehaviour
         CalculatePath(target.position, path);
         SetPath(path);
 	}
+
+    public void LookDirection()
+    {
+        if(canRotate == true)
+        {
+            var lookPos = path[pathIndex] - transform.position;
+            lookPos.y = 0;
+            var rotation = Quaternion.LookRotation(lookPos);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
+        }
+    }
+
+    public void SetRotation()
+    {
+
+    }
 
     void UpdateRadius()
     {

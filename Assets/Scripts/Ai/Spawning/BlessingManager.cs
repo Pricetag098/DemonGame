@@ -7,6 +7,9 @@ public class BlessingManager : MonoBehaviour
 {
     private int Counter;
     private int SpawnNum;
+
+    public int percentageChance;
+
     private BlessingSpawner blessingSpawner;
 
     [SerializeField] private AnimationCurve minRound;
@@ -47,5 +50,15 @@ public class BlessingManager : MonoBehaviour
         }
 
         Counter++;
+    }
+
+    public void PercentChance(Transform pos)
+    {
+        int rand = Random.Range(1, 101);
+
+        if(rand <= percentageChance)
+        {
+            blessingSpawner.SpawnBlessing(pos);
+        }
     }
 }

@@ -68,42 +68,23 @@ public class DestroyObstacle : MonoBehaviour
         RaycastHit hit;
         Agent.RaycastMoveDirection(CheckDistance, out hit, DestructibleLayers);
 
-        if (hit.collider.TryGetComponent<DestrcutibleObject>(out DestrcutibleObject d))
+        if (hit.collider != null)
         {
-            if (d.Health > 0)
+            if (hit.collider.TryGetComponent<DestrcutibleObject>(out DestrcutibleObject d))
             {
-                Agent.canMove = false;
-                //Agent.enabled = false;
-                obj = d;
-                return true;
-            }
-            else
-            {
-                demon.DemonInMap = true;
+                if (d.Health > 0)
+                {
+                    Agent.canMove = false;
+                    //Agent.enabled = false;
+                    obj = d;
+                    return true;
+                }
+                else
+                {
+                    demon.DemonInMap = true;
+                }
             }
         }
-
-
-        //if(length > 1)
-        //{
-        //    if (Physics.Raycast(corners[0], (corners[1] - corners[0]).normalized, out RaycastHit hit, CheckDistance, DestructibleLayers))
-        //    {
-        //        if(hit.collider.TryGetComponent<DestrcutibleObject>(out DestrcutibleObject d))
-        //        {
-        //            if(d.Health > 0)
-        //            {
-        //                OrigianlPath = Agent.path;
-        //                Agent.enabled = false;
-        //                obj = d;
-        //                return true;
-        //            }
-        //            else
-        //            {
-        //                demon.DemonInMap = true;
-        //            }
-        //        }
-        //    }
-        //}
 
         return false;
     }

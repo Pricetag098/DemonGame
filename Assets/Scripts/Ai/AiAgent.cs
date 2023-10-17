@@ -21,10 +21,11 @@ public class AiAgent : MonoBehaviour
     private Rigidbody rb;
     int pathIndex = 1;
 	float radius;
+    public float rayHeightOffset;
 	public AgentPath path = new AgentPath();
     public bool canMove = true;
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         rb = GetComponent<Rigidbody>();
         others = FindObjectsOfType<AiAgent>();
@@ -41,7 +42,7 @@ public class AiAgent : MonoBehaviour
     {
         Vector3 idealVel;
 		
-        if (Physics.Raycast(transform.position, -transform.up, out RaycastHit hit, groundingRange,wallLayers))
+        if (Physics.Raycast(transform.position + transform.up * rayHeightOffset, -transform.up, out RaycastHit hit, groundingRange,wallLayers))
         {
 			if (canMove && path.hasPath)
 			{
@@ -86,13 +87,10 @@ public class AiAgent : MonoBehaviour
 
     public void UpdatePath(Transform target)
     {
-        //CalculatePath(transform.position, target.position, path);
-		pathIndex = 1;
+        NavMeshPath path = new NavMeshPath();
+        CalculatePath(target.position, path);
+        SetPath(path);
 	}
-
-    
-
-    
 
     void UpdateRadius()
     {
@@ -100,7 +98,7 @@ public class AiAgent : MonoBehaviour
         float angle = 360 / scanRays;
         for(int i = 0; i < scanRays; i++)
         {
-            if(Physics.Raycast(transform.position,Vector3.ProjectOnPlane(Quaternion.Euler(Vector3.up * angle*i) * transform.forward,transform.up),out RaycastHit hit, scanRadius, wallLayers))
+            if(Physics.Raycast(transform.position + transform.up * rayHeightOffset, Vector3.ProjectOnPlane(Quaternion.Euler(Vector3.up * angle*i) * transform.forward,transform.up),out RaycastHit hit, scanRadius, wallLayers))
             {
                 if(hit.distance < radius)
                 {
@@ -188,13 +186,11 @@ public class AiAgent : MonoBehaviour
 
     public bool CalculatePath(Vector3 start, Vector3 end, NavMeshPath path)
     {
-        bool result;
-        return result = NavMesh.CalculatePath(start, end, NavMesh.AllAreas, path);
+        return NavMesh.CalculatePath(start, end, NavMesh.AllAreas, path);
     }
     public bool CalculatePath(Vector3 end, NavMeshPath path)
-    {
-        bool result; 
-        return result = NavMesh.CalculatePath(transform.position, end, NavMesh.AllAreas, path);
+    { 
+        return NavMesh.CalculatePath(transform.position, end, NavMesh.AllAreas, path);
     }
 
     public void SetPath(NavMeshPath navPath)
@@ -240,7 +236,7 @@ public class AiAgent : MonoBehaviour
 		float angle = 360 / scanRays;
 		for (int i = 0; i < scanRays; i++)
 		{
-            Gizmos.DrawRay(transform.position, Vector3.ProjectOnPlane(Quaternion.Euler(Vector3.up * angle * i) * transform.forward, transform.up) * scanRadius);
+            Gizmos.DrawRay(transform.position + transform.up * rayHeightOffset, Vector3.ProjectOnPlane(Quaternion.Euler(Vector3.up * angle * i) * transform.forward, transform.up) * scanRadius);
 		}
 
 	}

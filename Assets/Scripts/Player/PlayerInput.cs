@@ -375,9 +375,16 @@ namespace Movement
 						{
 							rb.AddForce(gravityDir, ForceMode.Acceleration);
 						}
-						
+						if(rb.velocity.magnitude < crouchData.speed)
+						{
+							moveState = MoveStates.crouch;
+							lastCamPos = cam.localPosition;
+							targetCamPos = camCrouchingPos;
+							camMovementTimer = 0;
+						}
 
-						break;
+
+                        break;
 
 				}
 			}

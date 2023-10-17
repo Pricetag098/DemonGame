@@ -6423,27 +6423,19 @@ MonoBehaviour:
   groundingLayer:
     serializedVersion: 2
     m_Bits: 1
-  walkMaxSpeed: 5.85
-  walkAcceleration: 1000
-  walkSlowForce: 900
-  walkControlForce: 900
-  walkOppositeVelMulti: 6.5
-  runMaxSpeed: 7.5
-  runAcceleration: 1000
-  runSlowForce: 500
-  runControlForce: 0
-  runOppositeVelMulti: 8
-  crouchMaxSpeed: 3
-  crouchAcceleration: 2000
-  crouchSlowForce: 700
-  crouchControlForce: 500
-  crouchOppositeVelMulti: 2
-  airMaxSpeed: 4.5
-  airAcceleration: 800
-  airSlowForce: 0.2
-  airControlForce: 12
+  walkData:
+    speed: 5.85
+    accleration: 8
+  runData:
+    speed: 8
+    accleration: 10
+  crouchData:
+    speed: 3
+    accleration: 6
+  airData:
+    speed: 5.85
+    accleration: 8
   jumpHeight: 1.6
-  airOppositeVelMulti: 4.5
   slideLaunchVel: 4
   slideGravityModifier: 0.1
   slideSlowForce: 300

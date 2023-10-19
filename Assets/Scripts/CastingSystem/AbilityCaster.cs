@@ -16,7 +16,8 @@ public class AbilityCaster : MonoBehaviour
 
     public Optional<PlayerStats> playerStats;
 
-
+    public delegate void CollisionAction(Collision collision);
+    public CollisionAction collisionAction;
     public float DamageMulti
     {
         get { if (playerStats.Enabled)
@@ -109,5 +110,10 @@ public class AbilityCaster : MonoBehaviour
             abilities[index].DeEquip();
         abilities[index] = ability;
         ability.Equip(this);
+	}
+	private void OnCollisionEnter(Collision collision)
+	{
+        if(collisionAction != null)
+        collisionAction(collision);
 	}
 }

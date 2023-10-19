@@ -32,12 +32,14 @@ public class DemonSpawner : MonoBehaviour
 
         for (int i = 0; i < num; i++)
         {
-            DemonBase temp = ActiveDemons[0];
+            DemonBase demon = ActiveDemons[0];
 
-            temp.PathFinding();
-
-            ActiveDemons.RemoveAt(0);
-            ActiveDemons.Add(temp);
+            if(demon.GetHealth().dead == false)
+            {
+                demon.PathFinding();
+                ActiveDemons.RemoveAt(0);
+                ActiveDemons.Add(demon);
+            }
         }
     }
 

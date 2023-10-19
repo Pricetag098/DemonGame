@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -26,6 +27,9 @@ public class AiAgent : MonoBehaviour
     public float rayHeightOffset;
 	public AgentPath path = new AgentPath();
     public bool canMove = true;
+
+    private Quaternion lastRotation = Quaternion.identity;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -102,6 +106,11 @@ public class AiAgent : MonoBehaviour
             lookPos.y = 0;
             var rotation = Quaternion.LookRotation(lookPos);
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
+            lastRotation = transform.rotation;
+        }
+        else
+        {
+            transform.rotation = lastRotation;
         }
     }
 

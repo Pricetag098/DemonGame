@@ -41,13 +41,16 @@ public class BasicDemon : DemonBase
 
     public override void Tick()
     {
-        DetectPlayer(_aiAgent.enabled);
+        if(_health.dead == false)
+        {
+            DetectPlayer();
+
+            if (DemonInMap == false) m_obstacle.Detection();
+
+            SetAnimationVariables();
+        }
 
         _aiAgent.LookDirection();
-
-        if(DemonInMap == false) m_obstacle.Detection();
-
-        SetAnimationVariables();
     }
     public override void OnAttack()
     {
@@ -63,7 +66,7 @@ public class BasicDemon : DemonBase
             }
         }
     }
-    public override void OnSpawn(DemonType demon,Transform target, SpawnType type)
+    public override void OnSpawn(DemonType demon, Transform target, SpawnType type)
     {
         base.OnSpawn(demon, target, type);
 
@@ -75,7 +78,10 @@ public class BasicDemon : DemonBase
         SetMoveSpeed(demon.SpeedType);
 
         DemonInMap = false;
+
+        _aiAgent.canRotate = true;
     }
+
     public override void OnDespawn(bool forcedDespawn = false)
     {
         base.OnDespawn(forcedDespawn);
@@ -93,6 +99,8 @@ public class BasicDemon : DemonBase
         {
             SoulBox.AddSoul();
         }
+
+        _aiAgent.canRotate = false;
     }
     public override void OnBuff()
     {
@@ -107,7 +115,6 @@ public class BasicDemon : DemonBase
     {
         base.OnFinishedSpawnAnimation();
 
-        //_aiAgent.enabled = true;
         CalculateAndSetPath(_target, _aiAgent.enabled);
     }
 
@@ -116,23 +123,20 @@ public class BasicDemon : DemonBase
         CalculateAndSetPath(_target, _aiAgent.enabled);
     }
 
-    public override void DetectPlayer(bool active)
+    public override void DetectPlayer()
     {
-        if(active == true)
+        float dist = DistanceToTargetUnits;
+
+        if (dist < _attackRange)
         {
-            float dist = DistanceToTargetUnits;
-
-            if (dist < _attackRange)
-            {
-                AttackAnimation();
-            }
-
-            dist = DistanceToTargetNavmesh;
-
-            if (dist > 100000) dist = 0;
-
-            if(dist > distanceToRespawn) OnDespawn();
+            AttackAnimation();
         }
+
+        dist = DistanceToTargetNavmesh;
+
+        if (dist > 100000) dist = 0;
+
+        if(dist > distanceToRespawn) OnDespawn();
     }
 
     

@@ -214,7 +214,7 @@ public class DemonBase : MonoBehaviour, IDemon
         _pooledObject.Despawn();
     }
     public virtual void CalculateStats(int round) { }
-    public virtual void DetectPlayer(bool active) { }
+    public virtual void DetectPlayer() { }
     public virtual void UpdateHealthToCurrentRound(int currentRound) { }
 
     protected Collider[] GetAllColliders()
@@ -366,6 +366,11 @@ public class DemonBase : MonoBehaviour, IDemon
             _target = targetPos;
         }
     }
+
+    public Health GetHealth() { return _health; }
+    public AiAgent GetAgent() { return _aiAgent; }
+    public Animator GetAnimator() { return _animator; }
+    public Rigidbody GetRigidbody() { return _rb; }
 
     public void StopPathing()
     {

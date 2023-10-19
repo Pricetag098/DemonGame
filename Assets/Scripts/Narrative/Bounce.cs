@@ -41,15 +41,15 @@ public class Bounce : MonoBehaviour
     {
         if (!escaped)
         {
-            if (ritualSpawner.RitualActive)
-            {
-                if(!check)
-                {
-                    initialDemonCount = ritualSpawner.demonsLeft;
-                    check = true;
-                }
-                speed = (initialDemonCount - ritualSpawner.demonsLeft) / (float)initialDemonCount;
-            }
+            //if (ritualSpawner.RitualActive)
+            //{
+            //    if(!check)
+            //    {
+            //        initialDemonCount = ritualSpawner.demonsLeft;
+            //        check = true;
+            //    }
+            //    speed = (initialDemonCount - ritualSpawner.demonsLeft) / (float)initialDemonCount;
+            //}
             transform.DOLocalMove(targetPos, speed).SetSpeedBased(true).SetEase(Ease.OutQuart);
             if (transform.localPosition == targetPos)
             {

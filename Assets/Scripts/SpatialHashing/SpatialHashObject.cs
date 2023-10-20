@@ -23,7 +23,7 @@ namespace BlakesSpatialHash
 
         public SpatialHashGrid3D Grid;
 
-        void Start()
+        public void Initalise()
         {
             Grid = SpatialHashGrid3D.Instance;
         }

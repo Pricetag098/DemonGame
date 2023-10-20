@@ -27,12 +27,16 @@ public class AiAgent : SpatialHashObject
 
     private Quaternion lastRotation = Quaternion.identity;
 
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+        rb.sleepThreshold = 0;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        //others = FindObjectsOfType<AiAgent>();
-        rb.sleepThreshold = 0;
+        Initalise();
     }
 
     // Update is called once per frame

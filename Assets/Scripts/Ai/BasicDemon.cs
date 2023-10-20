@@ -102,8 +102,6 @@ public class BasicDemon : DemonBase
         }
 
         _aiAgent.canRotate = false;
-
-        RemoveFromSpatialHash();
     }
     public override void OnBuff()
     {

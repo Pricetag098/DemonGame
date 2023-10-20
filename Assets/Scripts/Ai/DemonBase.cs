@@ -129,8 +129,9 @@ public class DemonBase : MonoBehaviour, IDemon
     public virtual void OnDeath()
     {
         _aiAgent.followSpeed = 0;
+        RemoveFromSpatialHash();
         //_aiAgent.enabled = false;
-        
+
         SetAllColliders(false);
 
         switch(_spawnType)
@@ -147,6 +148,8 @@ public class DemonBase : MonoBehaviour, IDemon
         Transform t = transform;
         t.position += new Vector3(0, 1, 0);
         _spawnerManager.GetBlessingChance(t, DemonInMap);
+
+        
 
         DemonSpawner.ActiveDemons.Remove(this);
 

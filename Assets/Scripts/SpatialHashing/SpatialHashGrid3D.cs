@@ -12,6 +12,7 @@ public class SpatialHashGrid3D : MonoBehaviour
 
     [Header("Total Cells")]
     public int TotalCells;
+    public int CurrentCells;
 
     [Header("Gizmos")]
     public bool ShowGizmos;
@@ -34,9 +35,7 @@ public class SpatialHashGrid3D : MonoBehaviour
 
     void Start()
     {
-        int count = DemonSpawner.ActiveDemons.Count;
-
-        Debug.Log(count);
+        int count = DemonSpawner.ActiveDemons.Count;;
 
         for (int i = 0; i < count; i++)
         {
@@ -58,7 +57,7 @@ public class SpatialHashGrid3D : MonoBehaviour
             }
         }
 
-        Debug.Log(cells.cellPositions.Count);
+        CurrentCells = cells.cellPositions.Count;
     }
 
     public void OnDrawGizmos()

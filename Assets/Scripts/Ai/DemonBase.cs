@@ -1,3 +1,4 @@
+using BlakesSpatialHash;
 using DemonInfo;
 using Newtonsoft.Json.Bson;
 using System.Collections;
@@ -241,6 +242,31 @@ public class DemonBase : MonoBehaviour, IDemon
 
         PlaySoundDeath();
     }
+
+    public SpatialHashObject GetSpatialHashObject()
+    {
+        return _aiAgent;
+    }
+
+    public void UpdateAgentNearby(List<SpatialHashObject> objs)
+    {
+        _aiAgent.SetNearbyAgents(objs);
+    }
+
+    public void RemoveFromSpatialHash()
+    {
+        _aiAgent.RemoveFromSpatialHash();
+    }
+
+    public bool CanUpdateSpatialIndex()
+    {
+        return !_health.dead;
+    }
+
+    //public void AddToSpatialHash()
+    //{
+    //    _aiAgent.AddToSpatialHash();
+    //}
 
     public virtual void OnFinishedSpawnAnimation() 
     {

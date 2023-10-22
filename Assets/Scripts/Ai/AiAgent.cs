@@ -1,13 +1,10 @@
-using System.Collections;
+using BlakesSpatialHash;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class AiAgent : MonoBehaviour
+public class AiAgent : SpatialHashObject
 {
-    AiAgent[] others = new AiAgent[0];
-    
     public float followSpeed;
     public float acceleration;
     public float rotationSpeed;
@@ -30,12 +27,16 @@ public class AiAgent : MonoBehaviour
 
     private Quaternion lastRotation = Quaternion.identity;
 
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+        rb.sleepThreshold = 0;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        others = FindObjectsOfType<AiAgent>();
-        rb.sleepThreshold = 0;
+        Initalise();
     }
 
     // Update is called once per frame
@@ -87,8 +88,6 @@ public class AiAgent : MonoBehaviour
         {
             rb.AddForce(Vector3.down * gravityScale);
         }
-        
-        
     }
 
     public void UpdatePath(Transform target)
@@ -114,9 +113,9 @@ public class AiAgent : MonoBehaviour
         }
     }
 
-    public void SetRotation()
+    public void SetNearbyAgents(List<SpatialHashObject> objs)
     {
-
+        Objects = objs;
     }
 
     void UpdateRadius()
@@ -139,7 +138,7 @@ public class AiAgent : MonoBehaviour
     Vector3 GetPushForce()
     {
         Vector3 force = Vector3.zero;
-        foreach(AiAgent other in others)
+        foreach(SpatialHashObject other in Objects)
         {
             if (other == this)
                 continue;
@@ -150,7 +149,6 @@ public class AiAgent : MonoBehaviour
             dirTo /= dist;
 
             force += dirTo * SmoothingVal(radius, dist);
-
         }
 
         return force;   
@@ -245,10 +243,20 @@ public class AiAgent : MonoBehaviour
         hit = obj;
     }
 
-	private void OnDrawGizmosSelected()
+    public void RemoveFromSpatialHash()
+    {
+        Grid.cells.Remove(this);
+    }
+
+    public void AddToSpatialHash()
+    {
+        Grid.cells.Insert(this);
+    }
+
+    private void OnDrawGizmosSelected()
     {
 		Gizmos.color = Color.white;
-		if (others.Length > 0)
+		if (Objects.Count > 0)
         Gizmos.DrawRay(transform.position, GetPushForce());
         Gizmos.color = Color.magenta;
         if(path.pathLength >0)

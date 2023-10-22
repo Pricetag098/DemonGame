@@ -80,6 +80,7 @@ public class BasicDemon : DemonBase
         DemonInMap = false;
 
         _aiAgent.canRotate = true;
+        //AddToSpatialHash();
     }
 
     public override void OnDespawn(bool forcedDespawn = false)

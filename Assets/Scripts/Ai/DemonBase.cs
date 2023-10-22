@@ -1,3 +1,4 @@
+using BlakesSpatialHash;
 using DemonInfo;
 using Newtonsoft.Json.Bson;
 using System.Collections;
@@ -128,8 +129,9 @@ public class DemonBase : MonoBehaviour, IDemon
     public virtual void OnDeath()
     {
         _aiAgent.followSpeed = 0;
+        RemoveFromSpatialHash();
         //_aiAgent.enabled = false;
-        
+
         SetAllColliders(false);
 
         switch(_spawnType)
@@ -146,6 +148,8 @@ public class DemonBase : MonoBehaviour, IDemon
         Transform t = transform;
         t.position += new Vector3(0, 1, 0);
         _spawnerManager.GetBlessingChance(t, DemonInMap);
+
+        
 
         DemonSpawner.ActiveDemons.Remove(this);
 
@@ -241,6 +245,31 @@ public class DemonBase : MonoBehaviour, IDemon
 
         PlaySoundDeath();
     }
+
+    public SpatialHashObject GetSpatialHashObject()
+    {
+        return _aiAgent;
+    }
+
+    public void UpdateAgentNearby(List<SpatialHashObject> objs)
+    {
+        _aiAgent.SetNearbyAgents(objs);
+    }
+
+    public void RemoveFromSpatialHash()
+    {
+        _aiAgent.RemoveFromSpatialHash();
+    }
+
+    public bool CanUpdateSpatialIndex()
+    {
+        return !_health.dead;
+    }
+
+    //public void AddToSpatialHash()
+    //{
+    //    _aiAgent.AddToSpatialHash();
+    //}
 
     public virtual void OnFinishedSpawnAnimation() 
     {

@@ -93,6 +93,7 @@ namespace Movement
 		[HideInInspector] public bool grounded;
 		[HideInInspector] public bool touchingSurface;
 		[HideInInspector] public RaycastHit lastSurface;
+		[HideInInspector] public SurfaceData lastSurfaceData;
 		[SerializeField] float surfaceCheckRange;
 
 		Vector3 slideEntryVel;
@@ -409,7 +410,7 @@ namespace Movement
 
 		void Move(MovementData data)
 		{
-			Vector3 idealVel = Vector3.ProjectOnPlane((orientation.forward * inputDir.y + orientation.right * inputDir.x) * data.speed * playerStats.speedMulti,surfaceNormal);
+			Vector3 idealVel = Vector3.ProjectOnPlane((orientation.forward * inputDir.y + orientation.right * inputDir.x) * data.speed * playerStats.speedMulti,surfaceNormal * lastSurfaceData.speedModifier);
 			Vector3 vel = rb.velocity;
 			Vector3 turningForce = idealVel - vel;
 			rb.AddForce(turningForce * data.accleration * playerStats.accelerationMulti);
@@ -497,6 +498,15 @@ namespace Movement
 				surfaceNormal = hit.normal;
 				touchingSurface = hit.distance <= surfaceCheckRange;
 				lastSurface = hit;
+				
+				if (lastSurface.collider.TryGetComponent(out Surface s))
+				{
+					lastSurfaceData = s.data;
+				}
+				else
+				{
+					lastSurfaceData = VfxSpawner.DefaultSurfaceData;
+				}
 			}
 			else
 			{

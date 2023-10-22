@@ -25,6 +25,7 @@ MonoBehaviour:
   state: 0
   maxChargeTime: 3
   chargeSpeed: 30
+  hitForce: 500
   distanceChargeCurve:
     serializedVersion: 2
     m_Curve:
@@ -49,5 +50,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  minChargePercent: 0
+  minChargePercent: 0.1
+  hitCheckRadius: 10
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
   chargeMoveSpeedModifier: 0.9

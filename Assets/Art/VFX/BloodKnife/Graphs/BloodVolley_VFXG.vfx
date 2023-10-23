@@ -17,8 +17,6 @@ MonoBehaviour:
   categories:
   - name: Blood Ring
     collapsed: 1
-  - name: Swirls
-    collapsed: 1
   - name: Symbols
     collapsed: 0
   uiBounds:
@@ -61,9 +59,7 @@ MonoBehaviour:
   - {fileID: 8926484042661616000}
   - {fileID: 8926484042661616029}
   - {fileID: 8926484042661616043}
-  - {fileID: 8926484042661616098}
   - {fileID: 8926484042661616100}
-  - {fileID: 8926484042661616104}
   - {fileID: 8926484042661616106}
   - {fileID: 8926484042661616108}
   - {fileID: 8926484042661616112}
@@ -142,47 +138,6 @@ MonoBehaviour:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
       m_SerializableObject: '{"r":0.4150943160057068,"g":0.0,"b":0.0,"a":0.0}'
-    min: -Infinity
-    max: Infinity
-    enumValues: []
-    descendantCount: 0
-  - name: Swirls
-    path: 
-    tooltip: 
-    sheetType: 
-    realType: 
-    defaultValue:
-      m_Type:
-        m_SerializableType: 
-      m_SerializableObject: 
-    min: -Infinity
-    max: Infinity
-    enumValues: []
-    descendantCount: 0
-  - name: Dissolve Curve
-    path: Dissolve Curve
-    tooltip: 
-    sheetType: m_AnimationCurve
-    realType: AnimationCurve
-    defaultValue:
-      m_Type:
-        m_SerializableType: UnityEngine.AnimationCurve, UnityEngine.CoreModule, Version=0.0.0.0,
-          Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"frames":[{"time":0.0,"value":1.0,"inTangent":0.0,"outTangent":0.0,"tangentMode":0,"leftTangentMode":1,"rightTangentMode":1,"broken":false},{"time":0.9004372954368591,"value":1.0,"inTangent":0.0,"outTangent":0.0,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":true},{"time":1.0,"value":1.5631039142608643,"inTangent":6.67116117477417,"outTangent":6.67116117477417,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false}],"preWrapMode":8,"postWrapMode":8,"version":1}'
-    min: -Infinity
-    max: Infinity
-    enumValues: []
-    descendantCount: 0
-  - name: Blood Swirl Dissolve
-    path: Blood Swirl Dissolve
-    tooltip: 
-    sheetType: m_Float
-    realType: Single
-    defaultValue:
-      m_Type:
-        m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-          PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 0.5
     min: -Infinity
     max: Infinity
     enumValues: []
@@ -276,7 +231,7 @@ MonoBehaviour:
   - {fileID: 8926484042661615389}
   m_ExposedName: Blood Ring Colour 1
   m_Exposed: 1
-  m_Order: 3
+  m_Order: 1
   m_Category: Blood Ring
   m_Min:
     m_Type:
@@ -492,7 +447,7 @@ MonoBehaviour:
   - {fileID: 8926484042661615395}
   m_ExposedName: Blood Ring Colour 2
   m_Exposed: 1
-  m_Order: 5
+  m_Order: 2
   m_Category: Blood Ring
   m_Min:
     m_Type:
@@ -2066,7 +2021,7 @@ MonoBehaviour:
     linkedSlots:
     - outputSlot: {fileID: 8926484042661615852}
       inputSlot: {fileID: 8926484042661616487}
-    position: {x: 4541, y: -1808}
+    position: {x: 4456, y: -1756}
     expandedSlots: []
     expanded: 0
   - m_Id: 10
@@ -7321,86 +7276,6 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
   m_Direction: 0
   m_LinkedSlots: []
---- !u!114 &8926484042661616098
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 330e0fca1717dde4aaa144f48232aa64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_UIIgnoredErrors: []
-  m_Parent: {fileID: 114350483966674976}
-  m_Children: []
-  m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 1
-  m_UISuperCollapsed: 0
-  m_InputSlots: []
-  m_OutputSlots:
-  - {fileID: 8926484042661616099}
-  m_ExposedName: Blood Swirl Dissolve
-  m_Exposed: 1
-  m_Order: 4
-  m_Category: Swirls
-  m_Min:
-    m_Type:
-      m_SerializableType: 
-    m_SerializableObject: 
-  m_Max:
-    m_Type:
-      m_SerializableType: 
-    m_SerializableObject: 
-  m_IsOutput: 0
-  m_EnumValues: []
-  m_ValueFilter: 0
-  m_Tooltip: 
-  m_Nodes:
-  - m_Id: 0
-    linkedSlots:
-    - outputSlot: {fileID: 8926484042661616099}
-      inputSlot: {fileID: 8926484042661616109}
-    position: {x: 2739.2847, y: -1204.7616}
-    expandedSlots: []
-    expanded: 0
---- !u!114 &8926484042661616099
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f780aa281814f9842a7c076d436932e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_UIIgnoredErrors: []
-  m_Parent: {fileID: 0}
-  m_Children: []
-  m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 1
-  m_UISuperCollapsed: 0
-  m_MasterSlot: {fileID: 8926484042661616099}
-  m_MasterData:
-    m_Owner: {fileID: 8926484042661616098}
-    m_Value:
-      m_Type:
-        m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-          PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 0.5
-    m_Space: 2147483647
-  m_Property:
-    name: o
-    m_serializedType:
-      m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-        PublicKeyToken=b77a5c561934e089
-  m_Direction: 1
-  m_LinkedSlots:
-  - {fileID: 8926484042661616109}
 --- !u!114 &8926484042661616100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7457,8 +7332,7 @@ MonoBehaviour:
       m_SerializableType: UnityEngine.AnimationCurve, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
   m_Direction: 0
-  m_LinkedSlots:
-  - {fileID: 8926484042661616105}
+  m_LinkedSlots: []
 --- !u!114 &8926484042661616102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7529,86 +7403,6 @@ MonoBehaviour:
   m_Direction: 1
   m_LinkedSlots:
   - {fileID: 8926484042661616110}
---- !u!114 &8926484042661616104
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 330e0fca1717dde4aaa144f48232aa64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_UIIgnoredErrors: []
-  m_Parent: {fileID: 114350483966674976}
-  m_Children: []
-  m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 1
-  m_UISuperCollapsed: 0
-  m_InputSlots: []
-  m_OutputSlots:
-  - {fileID: 8926484042661616105}
-  m_ExposedName: Dissolve Curve
-  m_Exposed: 1
-  m_Order: 2
-  m_Category: Swirls
-  m_Min:
-    m_Type:
-      m_SerializableType: 
-    m_SerializableObject: 
-  m_Max:
-    m_Type:
-      m_SerializableType: 
-    m_SerializableObject: 
-  m_IsOutput: 0
-  m_EnumValues: []
-  m_ValueFilter: 0
-  m_Tooltip: 
-  m_Nodes:
-  - m_Id: 0
-    linkedSlots:
-    - outputSlot: {fileID: 8926484042661616105}
-      inputSlot: {fileID: 8926484042661616101}
-    position: {x: 2625.2192, y: -950.7756}
-    expandedSlots: []
-    expanded: 0
---- !u!114 &8926484042661616105
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c117b74c5c58db542bffe25c78fe92db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_UIIgnoredErrors: []
-  m_Parent: {fileID: 0}
-  m_Children: []
-  m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 1
-  m_UISuperCollapsed: 0
-  m_MasterSlot: {fileID: 8926484042661616105}
-  m_MasterData:
-    m_Owner: {fileID: 8926484042661616104}
-    m_Value:
-      m_Type:
-        m_SerializableType: UnityEngine.AnimationCurve, UnityEngine.CoreModule, Version=0.0.0.0,
-          Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"frames":[{"time":0.0,"value":1.0,"inTangent":0.0,"outTangent":0.0,"tangentMode":0,"leftTangentMode":1,"rightTangentMode":1,"broken":false},{"time":0.9004372954368591,"value":1.0,"inTangent":0.0,"outTangent":0.0,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":true},{"time":1.0,"value":1.5631039142608643,"inTangent":6.67116117477417,"outTangent":6.67116117477417,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false}],"preWrapMode":8,"postWrapMode":8,"version":1}'
-    m_Space: 2147483647
-  m_Property:
-    name: o
-    m_serializedType:
-      m_SerializableType: UnityEngine.AnimationCurve, UnityEngine.CoreModule, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-  m_Direction: 1
-  m_LinkedSlots:
-  - {fileID: 8926484042661616101}
 --- !u!114 &8926484042661616106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7730,8 +7524,7 @@ MonoBehaviour:
       m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
         PublicKeyToken=b77a5c561934e089
   m_Direction: 0
-  m_LinkedSlots:
-  - {fileID: 8926484042661616099}
+  m_LinkedSlots: []
 --- !u!114 &8926484042661616110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11265,7 +11058,7 @@ MonoBehaviour:
   - {fileID: 8926484042661616263}
   m_ExposedName: Symbol Colour
   m_Exposed: 1
-  m_Order: 6
+  m_Order: 3
   m_Category: Symbols
   m_Min:
     m_Type:
@@ -11645,7 +11438,7 @@ MonoBehaviour:
   - {fileID: 8926484042661616277}
   m_ExposedName: Symbol Speed
   m_Exposed: 1
-  m_Order: 7
+  m_Order: 4
   m_Category: Symbols
   m_Min:
     m_Type:
@@ -16052,7 +15845,7 @@ MonoBehaviour:
   m_UIIgnoredErrors: []
   m_Parent: {fileID: 114350483966674976}
   m_Children: []
-  m_UIPosition: {x: 4568, y: -1722}
+  m_UIPosition: {x: 4588, y: -1739}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots:

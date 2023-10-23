@@ -52,7 +52,7 @@ public class BasicDemon : DemonBase
 
         _aiAgent.LookDirection();
     }
-    public override void OnAttack()
+    public override void OnAttack() // update this to check if demon is targeting something else (demons can attack barriers and you at the same time)
     {
         base.OnAttack();
 
@@ -62,7 +62,7 @@ public class BasicDemon : DemonBase
             _target.GetComponent<Health>().TakeDmg(_damage);
             if (_target.TryGetComponent<DamageIndicator>(out DamageIndicator damageIndicator))
             {
-                damageIndicator.Indicate(this.transform);
+                damageIndicator.Indicate(transform);
             }
         }
     }

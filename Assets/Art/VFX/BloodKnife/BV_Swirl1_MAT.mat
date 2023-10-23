@@ -11,7 +11,6 @@ Material:
   m_Shader: {fileID: -6465566751694194690, guid: d83cb7182683cdc4d8555556a9fa63bc, type: 3}
   m_ValidKeywords:
   - _ALPHATEST_ON
-  - _ALPHATOMASK_ON
   - _DISABLE_SSR_TRANSPARENT
   - _DOUBLESIDED_ON
   - _ENABLE_FOG_ON_TRANSPARENT
@@ -20,7 +19,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
-  m_CustomRenderQueue: 3050
+  m_CustomRenderQueue: 3000
   stringTagMap:
     MotionVector: User
     RenderType: Transparent
@@ -33,6 +32,26 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _SampleTexture2D_264e3c3a0ab84049b8de53fcc1cbda47_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 0d37ad1c18aea6b45a0e0ab5f55eb553, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_26a1ed5cf69f477fa003587a9744127f_Texture_1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_3fa71e239768455599b6dbcec5eddcc1_Texture_1:
+        m_Texture: {fileID: 2800000, guid: b1611712a29544549a880743126574ec, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_4ea5e905f5284e3bb988d169881e0193_Texture_1:
+        m_Texture: {fileID: 2800000, guid: c754df1dcca2ea04c888c10451dbb8c0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_54d71ccd8eeb4a87aca53c17c0b96d5c_Texture_1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -48,12 +67,12 @@ Material:
     m_Ints: []
     m_Floats:
     - _AddPrecomputedVelocity: 0
-    - _AlphaClip: 0.16
+    - _AlphaClip: -0.05
     - _AlphaCutoffEnable: 1
     - _AlphaDstBlend: 10
     - _AlphaSrcBlend: 1
-    - _AlphaToMask: 1
-    - _AlphaToMaskInspectorValue: 1
+    - _AlphaToMask: 0
+    - _AlphaToMaskInspectorValue: 0
     - _BlendMode: 0
     - _ConservativeDepthOffsetEnable: 0
     - _CullMode: 0
@@ -63,16 +82,19 @@ Material:
     - _DoubleSidedGIMode: 0
     - _DoubleSidedNormalMode: 2
     - _DstBlend: 10
-    - _EnableBlendModePreserveSpecularLighting: 0
+    - _EnableBlendModePreserveSpecularLighting: 1
     - _EnableFogOnTransparent: 1
-    - _NoiseScale: 11.6
-    - _OpaqueCullMode: 2
+    - _Float: 1.39
+    - _NoiseScale: 20
+    - _OpaqueCullMode: 1
+    - _Power: 1.76
     - _RayTracing: 0
     - _ReceivesSSR: 1
     - _ReceivesSSRTransparent: 0
     - _RefractionModel: 0
     - _RenderQueueType: 4
     - _RequireSplitLighting: 0
+    - _Scale: 1
     - _SrcBlend: 1
     - _StencilRef: 0
     - _StencilRefDepth: 0
@@ -90,7 +112,7 @@ Material:
     - _TransparentCullMode: 2
     - _TransparentDepthPostpassEnable: 0
     - _TransparentDepthPrepassEnable: 0
-    - _TransparentSortPriority: 50
+    - _TransparentSortPriority: 0
     - _TransparentWritingMotionVec: 0
     - _TransparentZWrite: 0
     - _UseShadowThreshold: 0
@@ -99,9 +121,9 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 0
     m_Colors:
-    - _Colour_1: {r: 0.8113208, g: 0, b: 0, a: 1}
-    - _Colour_2: {r: 0.3490566, g: 0, b: 0, a: 0}
-    - _DissolveSpeed: {r: 0.2, g: 0.2, b: 0, a: 0}
+    - _Colour_1: {r: 1, g: 0, b: 0, a: 1}
+    - _Colour_2: {r: 0.16037738, g: 0, b: 0, a: 0}
+    - _DissolveSpeed: {r: -0.2, g: -0.2, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

@@ -113,11 +113,7 @@ public class AiAgent : SpatialHashObject
         }
     }
 
-    public void SetNearbyAgents(List<SpatialHashObject> objs)
-    {
-        Objects = objs;
-    }
-
+    
     void UpdateRadius()
     {
         radius = scanRadius;
@@ -237,6 +233,7 @@ public class AiAgent : SpatialHashObject
 		agentPath.pathLength = path.GetCornersNonAlloc(agentPath.corners);
 	}
 
+    #region HelperFunctions
     public void RaycastMoveDirection(float distance, out RaycastHit hit, LayerMask layer)
     {
         Physics.Raycast(transform.position, rb.velocity, out RaycastHit obj, distance, layer);
@@ -252,6 +249,16 @@ public class AiAgent : SpatialHashObject
     {
         Grid.cells.Insert(this);
     }
+    public void SetNearbyAgents(List<SpatialHashObject> objs)
+    {
+        Objects = objs;
+    }
+
+    public void SetFollowSpeed(float num)
+    {
+        followSpeed = num;
+    }
+    #endregion
 
     private void OnDrawGizmosSelected()
     {

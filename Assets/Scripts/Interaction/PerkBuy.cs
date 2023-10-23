@@ -22,8 +22,19 @@ public class PerkBuy : ShopInteractable
 	{
 		return !interactor.perkManager.HasPerk(perk);
 	}
-	
-	public void Upgrade(PerkManager perkManager)
+
+    public override void EndHover(Interactor interactor)
+    {
+        base.EndHover(interactor);
+        interactor.display.HideText();
+    }
+    public override void StartHover(Interactor interactor)
+    {
+        base.StartHover(interactor);
+        interactor.display.DisplayMessage(true," " + buyMessage + " " + perk.perkName + ": " + GetCost(interactor));
+    }
+
+    public void Upgrade(PerkManager perkManager)
 	{
 		if(perkManager.HasPerk(perk))
 		{

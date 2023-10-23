@@ -7,21 +7,20 @@ namespace BlakesSpatialHash
     public class HashGrid3D<T> where T : SpatialHashObject
     {
         public Dictionary<uint, List<T>> cells;
-
-        private Vector3 CellSize;
-
-        public uint CellCountMax;
-        public uint CurrentCellCount;
-
-        private Vector3[] offsets;
-
         public List<Vector3> cellPositions = new List<Vector3>();
 
+        /// <summary>
+        /// Max Amount of Hashable Cells
+        /// </summary>
+        public const uint CellCountMax = 10000; // going over this cell count wont cause errors but will cause OBJECTS to be hashed into duplicate cells
+        public uint CellCount { get { return CellCountMax; } }
+
+        private Vector3[] offsets;
+        private Vector3 CellSize;
+        
         public HashGrid3D(Vector3 cellSize)
         {
             CellSize = cellSize;
-
-            CellCountMax = 10000;
 
             cells = new Dictionary<uint, List<T>>((int)CellCountMax);
 
@@ -80,13 +79,17 @@ namespace BlakesSpatialHash
 
             //    cellPositions.Add(cellPos); // for drawing cells
             //}
+
             cells[index].Add(obj);
 
-            cellPositions.Add(cellPos); // for drawing cells
+            if (!cellPositions.Contains(cellPos))
+            {
+                cellPositions.Add(cellPos); // for drawing cells
+            }
         }
 
         /// <summary>
-        /// Removes OBJECT from current Cell
+        /// Removes OBJECT from its current Cell
         /// </summary>
         /// <param name="obj"></param>
         public void Remove(T obj)
@@ -109,11 +112,11 @@ namespace BlakesSpatialHash
             Vector3 position = obj.GetPosition;
             uint index = obj.Index;
 
-            // Get all objects in current cell & remove this obj
+            // Get all objects in current cell & removes current obj
             tempList.AddRange(cells[index]);
             tempList.Remove(obj);
 
-            //get all objects in surrounding cells
+            //gets all objects in surrounding cells
             for (int i = 0; i < 26; i++)
             {
                 uint tempIndex = GetIndex(position + offsets[i], out Vector3Int pos);
@@ -177,7 +180,10 @@ namespace BlakesSpatialHash
                 obj.Index = newIndex;
                 obj.GetLastPosition = position;
 
-                cellPositions.Add(cellPos); // for drawing cells
+                if(!cellPositions.Contains(cellPos))
+                {
+                    cellPositions.Add(cellPos); // for drawing cells
+                }
             }
         }
 
@@ -196,11 +202,18 @@ namespace BlakesSpatialHash
             return pos = new Vector3Int(cellX, cellY, cellZ);
         }
 
-        private uint HashCell(Vector3Int cellCoord)
+
+        /// <summary>
+        /// Hashes a Vector3Int
+        /// </summary>
+        /// <param name="cellCoord"></param>
+        /// <returns></returns>
+        private uint HashCell(Vector3Int cellCoord) 
         {
             var hash = Hash128.Compute(ref cellCoord);
             return (uint)hash.GetHashCode();
         }
+
 
         private uint GetIndexFromHash(uint num)
         {

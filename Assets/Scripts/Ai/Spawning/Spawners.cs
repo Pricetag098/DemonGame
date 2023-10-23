@@ -74,7 +74,7 @@ public class Spawners : MonoBehaviour
                             s.distToArea = Vector2.Distance(s.position, a.Value.Area.position);
                         }
 
-                        closestSpawners.Sort((p1, p2) => p1.distToArea.CompareTo(p2.distToArea));
+                        closestSpawners.Sort((p1, p2) => p2.distToArea.CompareTo(p1.distToArea));
 
                         int num = closestSpawners.Count;
                         if (num > area.baseDepth) { num = area.baseDepth; }
@@ -93,7 +93,7 @@ public class Spawners : MonoBehaviour
                             s.distToArea = Vector2.Distance(s.position, a.Value.Area.position);
                         }
 
-                        closestSpawners.Sort((p1, p2) => p1.distToArea.CompareTo(p2.distToArea));
+                        closestSpawners.Sort((p1, p2) => p2.distToArea.CompareTo(p1.distToArea));
 
                         int num = closestSpawners.Count;
                         if (num > area.specialDepth) { num = area.specialDepth; }

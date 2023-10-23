@@ -25,12 +25,17 @@ public class SpatialHashGrid3D : MonoBehaviour
         {
             Instance = this;
             Instance.cells = new HashGrid3D<SpatialHashObject>(cellSize);
-            TotalCells = (int)cells.CellCountMax;
+            TotalCells = (int)cells.CellCount;
         }
         else
         {
             Destroy(gameObject);
         }
+    }
+
+    public static void CreateNewHasHGrid(Vector3 cellSize)
+    {
+        Instance.cells = new HashGrid3D<SpatialHashObject>(cellSize);
     }
 
     void Start()
@@ -49,11 +54,11 @@ public class SpatialHashGrid3D : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
-            DemonBase temp = DemonSpawner.ActiveDemons[i];
+            DemonBase demon = DemonSpawner.ActiveDemons[i];
 
-            if(temp.CanUpdateSpatialIndex())
+            if(demon.isAlive())
             {
-                temp.UpdateAgentNearby(cells.UpdateObjectAndGetSurroudingObjects(temp.GetSpatialHashObject()));
+                demon.UpdateAgentNearby(cells.UpdateObjectAndGetSurroudingObjects(demon.GetSpatialHashObject()));
             }
         }
 
@@ -65,6 +70,7 @@ public class SpatialHashGrid3D : MonoBehaviour
         if(ShowGizmos == true)
         {
             Gizmos.color = Color.magenta;
+
             if (cells != null)
             {
                 int count = cells.cellPositions.Count;
@@ -73,8 +79,7 @@ public class SpatialHashGrid3D : MonoBehaviour
                 {
                     Vector3 v = cells.cellPositions[i];
 
-                    Gizmos.DrawWireCube(new Vector3(v.x * cellSize.x, v.y * cellSize.y, v.z * cellSize.z) +
-                                       new Vector3(cellSize.x / 2, cellSize.y / 2, cellSize.z / 2), cellSize);
+                    Gizmos.DrawWireCube(new Vector3(v.x * cellSize.x, v.y * cellSize.y, v.z * cellSize.z) + cellSize / 2, cellSize); 
                 }
             }
         }

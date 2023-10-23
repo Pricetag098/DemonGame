@@ -8,7 +8,7 @@ public class Nuke : Blessing
 	protected override void OnEquip()
 	{
 		//todo: loop through all enemys and deal a million damage
-		foreach(GameObject g in SpawnerManager.AllActiveDemons())
+		foreach(DemonBase g in DemonSpawner.ActiveDemons)
 		{
 			g.GetComponent<Health>().TakeDmg(1000000);
 		}

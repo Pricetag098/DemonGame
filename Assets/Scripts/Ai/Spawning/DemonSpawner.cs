@@ -15,9 +15,6 @@ public class DemonSpawner : MonoBehaviour
     private Spawners _spawners;
     [HideInInspector] public DemonPoolers demonPool;
 
-    private int baseSpawnerCount = 0;
-    private int specialSpawnerCount = 0;
-
     private void Awake()
     {
         _spawners = GetComponent<Spawners>();
@@ -34,7 +31,7 @@ public class DemonSpawner : MonoBehaviour
         {
             DemonBase demon = ActiveDemons[0];
 
-            if(demon.GetHealth().dead == false)
+            if(demon.GetHealth.dead == false)
             {
                 demon.PathFinding();
                 ActiveDemons.RemoveAt(0);
@@ -128,9 +125,9 @@ public class DemonSpawner : MonoBehaviour
                         }
                     }
 
-                    if(spawner is null) { DemonQueue.Enqueue(demon); return false; }
+                    if(spawner == null) { DemonQueue.Enqueue(demon); return false; }
 
-                    return spawner.RequestSpawn(demon, this, sm, SpawnType.Default);
+                    return spawner.RequestSpawn(demon, sm, SpawnType.Default);
                 }
                 else 
                 { 
@@ -154,9 +151,9 @@ public class DemonSpawner : MonoBehaviour
                         }
                     }
 
-                    if (spawner is null) { DemonQueue.Enqueue(demon); return false; }
+                    if (spawner == null) { DemonQueue.Enqueue(demon); return false; }
 
-                    return spawner.RequestSpawn(demon, this, sm, SpawnType.Default);
+                    return spawner.RequestSpawn(demon, sm, SpawnType.Default);
                 }
                 else 
                 { 
@@ -191,9 +188,9 @@ public class DemonSpawner : MonoBehaviour
             }
         }
 
-        if (spawner is null) { ritual.DemonQueue.Enqueue(demon); return false; }
+        if (spawner == null) { ritual.DemonQueue.Enqueue(demon); return false; }
 
-        return spawner.RequestSpawn(demon, this, sm, list, SpawnType.Ritual); ;
+        return spawner.RequestSpawn(demon, sm, list, SpawnType.Ritual); ;
     }
 
     /// <summary>

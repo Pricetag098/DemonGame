@@ -201,6 +201,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e1961b26390920f45838452975d10909, type: 3}
+--- !u!198 &7830695100030478339 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7619735407531808311, guid: e1961b26390920f45838452975d10909, type: 3}
+  m_PrefabInstance: {fileID: 365507691421056564}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &8524350968521253922 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8313116346449943062, guid: e1961b26390920f45838452975d10909, type: 3}
+  m_PrefabInstance: {fileID: 365507691421056564}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8453795093290679714
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -249,6 +259,10 @@ PrefabInstance:
       value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 9100000, guid: bb713971444c96842acb5446759943aa, type: 2}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: critDamage
       value: 400
       objectReference: {fileID: 0}
@@ -271,11 +285,11 @@ PrefabInstance:
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: gunfire.val
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 7830695100030478339}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: animator.val
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8524350968521253922}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: path.enabled
       value: 1

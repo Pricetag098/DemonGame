@@ -28,6 +28,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1407511262853453033, guid: 3d1ecbaf04c48454da42b04e7ca34201, type: 3}
+      propertyPath: m_Name
+      value: Model
+      objectReference: {fileID: 0}
+    - target: {fileID: 1407511262853453033, guid: 3d1ecbaf04c48454da42b04e7ca34201, type: 3}
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
@@ -245,6 +249,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d1ecbaf04c48454da42b04e7ca34201, type: 3}
+--- !u!95 &393829038059822863 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5630485183446668329, guid: 3d1ecbaf04c48454da42b04e7ca34201, type: 3}
+  m_PrefabInstance: {fileID: 5428149393775282982}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &9117908198294464759 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3881531337400443857, guid: 3d1ecbaf04c48454da42b04e7ca34201, type: 3}
+  m_PrefabInstance: {fileID: 5428149393775282982}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9029681748443392828
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -321,6 +335,10 @@ PrefabInstance:
       value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 510571fd9927b5c49aacb39ff7464dcf, type: 2}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: critDamage
       value: 100
       objectReference: {fileID: 0}
@@ -343,14 +361,14 @@ PrefabInstance:
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: gunfire.val
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 9117908198294464759}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: animator.val
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 393829038059822863}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: path.enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: roundsPerMin
@@ -362,7 +380,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: gunfire.enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: maxPenetrations

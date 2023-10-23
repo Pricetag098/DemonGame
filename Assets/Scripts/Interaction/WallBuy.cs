@@ -30,7 +30,8 @@ public class WallBuy : ShopInteractable
 	public override void StartHover(Interactor interactor)
 	{
 		base.StartHover(interactor);
-		interactor.display.DisplayMessage(true, interactor.holster.HasGun(prefab.GetComponent<Gun>()) ? refillAmmoText + GetCost(interactor) : buyMessage + GetCost(interactor));
+		Gun g = prefab.GetComponent<Gun>();
+		interactor.display.DisplayMessage(true, interactor.holster.HasGun(g) ? refillAmmoText + GetCost(interactor) : buyMessage + " " + g.gunName + ": " + GetCost(interactor));
 		
 	}
 

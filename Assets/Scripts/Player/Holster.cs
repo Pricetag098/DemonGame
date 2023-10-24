@@ -50,6 +50,13 @@ public class Holster : MonoBehaviour
     public string holsterTigger;
     public bool consumeAmmo = true;
     float drawTimer = 0;
+
+    private void Awake()
+    {
+        rb = GetComponentInParent<Rigidbody>();
+        stats = GetComponentInParent<PlayerStats>();
+        abilityCaster = GetComponentInParent<AbilityCaster>();
+    }
     private void Start()
 	{
         verticalRecoilDynamics = new SecondOrderDynamics(frequncey, damping, reaction, 0);

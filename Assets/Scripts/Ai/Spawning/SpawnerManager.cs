@@ -64,7 +64,6 @@ public class SpawnerManager : MonoBehaviour
     {
         if(RunDefaultSpawning == true)
         {
-            Timers();
             Bools();
 
             if (EndOfRound == true)
@@ -83,13 +82,11 @@ public class SpawnerManager : MonoBehaviour
                 }
             }
 
-            
-
             if (spawnTimer.TimeGreaterThan && canSpawn == true)
             {
                 if (HelperFuntions.IntGreaterThanOrEqual(maxDemonsAtOnce, currentDemons))
                 {
-                    if (_DemonSpawner.DemonCount <= 0) // if no demons to spawn return
+                    if (_DemonSpawner.DemonCount == 0) // if no demons to spawn return
                     {
                         return;
                     }
@@ -208,11 +205,6 @@ public class SpawnerManager : MonoBehaviour
         }
 
         return list;
-    }
-
-    void Timers()
-    {
-        //spawnTimer += Time.deltaTime;
     }
 
     void Bools()

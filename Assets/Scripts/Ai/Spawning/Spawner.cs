@@ -24,22 +24,22 @@ public class Spawner : MonoBehaviour
     /// <param name="spawner"></param>
     /// <param name="sm"></param>
     /// <returns></returns>
-    public bool RequestSpawn(DemonType demon, DemonSpawner spawner, SpawnerManager sm, SpawnType type)
+    public bool RequestSpawn(DemonType demon, SpawnerManager sm, SpawnType type)
     {
         if(CanSpawn == true)
         {
-            SpawnDemon(demon, spawner.demonPool, sm.player, type);
+            SpawnDemon(demon, sm.player, type);
 
             return true;
         }
 
         return false;
     }
-    public bool RequestSpawn(DemonType demon, DemonSpawner spawner, SpawnerManager sm, List<DemonBase> list, SpawnType type)
+    public bool RequestSpawn(DemonType demon, SpawnerManager sm, List<DemonBase> list, SpawnType type)
     {
         if (CanSpawn == true)
         {
-            SpawnDemon(demon, spawner.demonPool, sm.player, list, type);
+            SpawnDemon(demon, sm.player, list, type);
 
             return true;
         }
@@ -53,7 +53,7 @@ public class Spawner : MonoBehaviour
     /// <param name="demon"></param>
     /// <param name="pool"></param>
     /// <param name="target"></param>
-    private void SpawnDemon(DemonType demon, DemonPoolers pool, Transform target, SpawnType type)
+    private void SpawnDemon(DemonType demon, Transform target, SpawnType type)
     {
         GameObject demonTemp = DemonPoolers.demonPoolers[demon.Id].Spawn();
         DemonBase demonBase = demonTemp.GetComponent<DemonBase>();
@@ -62,7 +62,7 @@ public class Spawner : MonoBehaviour
         demonTemp.transform.position = position;
     }
 
-    private void SpawnDemon(DemonType demon, DemonPoolers pool, Transform target, List<DemonBase> list, SpawnType type)
+    private void SpawnDemon(DemonType demon, Transform target, List<DemonBase> list, SpawnType type)
     {
         GameObject demonTemp = DemonPoolers.demonPoolers[demon.Id].Spawn();
         DemonBase demonBase = demonTemp.GetComponent<DemonBase>();

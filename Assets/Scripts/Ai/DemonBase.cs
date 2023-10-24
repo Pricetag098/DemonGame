@@ -1,3 +1,4 @@
+using BlakesSpatialHash;
 using DemonInfo;
 using Newtonsoft.Json.Bson;
 using System.Collections;
@@ -69,7 +70,6 @@ public class DemonBase : MonoBehaviour, IDemon
     [Header("Ai Pathing")]
     protected bool _calculatePath = false;
     protected Vector3 lastPos;
-    //protected NavMeshAgent _agent;
     protected AiAgent _aiAgent;
     protected NavMeshPath _currentPath;
 
@@ -78,7 +78,6 @@ public class DemonBase : MonoBehaviour, IDemon
 
     private void Awake()
     {
-        //_agent = GetComponent<NavMeshAgent>();
         _aiAgent = GetComponent<AiAgent>();
         _health = GetComponent<Health>();
         _animator = GetComponent<Animator>();
@@ -91,8 +90,6 @@ public class DemonBase : MonoBehaviour, IDemon
         _colliders = GetAllColliders();
 
         OnAwakened();
-
-        //_aiAgent.enabled = false;
     }
 
     private void Start()
@@ -127,9 +124,9 @@ public class DemonBase : MonoBehaviour, IDemon
     public virtual void PathFinding() { }
     public virtual void OnDeath()
     {
-        _aiAgent.followSpeed = 0;
-        //_aiAgent.enabled = false;
-        
+        _aiAgent.SetFollowSpeed(0);
+        RemoveFromSpatialHash();
+
         SetAllColliders(false);
 
         switch(_spawnType)
@@ -150,14 +147,13 @@ public class DemonBase : MonoBehaviour, IDemon
         DemonSpawner.ActiveDemons.Remove(this);
 
         _animator.SetLayerWeight(_animator.GetLayerIndex("Upper"), 0);
+
         PlayAnimation("Death");
-
-
         PlaySoundDeath();
     }
     public virtual void OnSpawn(DemonType demon, Transform target, SpawnType type)
     {
-        _aiAgent.followSpeed = 0;
+        _aiAgent.SetFollowSpeed(0);
         _target = target;
         _spawnType = type;
         _type = demon;
@@ -191,12 +187,13 @@ public class DemonBase : MonoBehaviour, IDemon
     public virtual void OnBuff() { }
     public virtual void OnDespawn(bool forcedDespawn = false)
     {
-        _aiAgent.followSpeed = 0;
-        //_aiAgent.enabled = false;
+        _aiAgent.SetFollowSpeed(0);
 
         SetAllColliders(false);
 
-        if(forcedDespawn == true) _spawner.AddDemonBackToPool(_type, _spawnerManager);
+        RemoveFromSpatialHash();
+
+        if (forcedDespawn == true) _spawner.AddDemonBackToPool(_type, _spawnerManager);
         else
         {
             switch (_spawnType)
@@ -232,19 +229,40 @@ public class DemonBase : MonoBehaviour, IDemon
 
     public void ForcedDeath()
     {
-        _aiAgent.followSpeed = 0;
-        //_aiAgent.enabled = false;
+        _aiAgent.SetFollowSpeed(0);
 
         SetAllColliders(false);
+
+        RemoveFromSpatialHash();
 
         PlayAnimation("Death");
 
         PlaySoundDeath();
     }
 
+    public SpatialHashObject GetSpatialHashObject()
+    {
+        return _aiAgent;
+    }
+
+    public void UpdateAgentNearby(List<SpatialHashObject> objs)
+    {
+        _aiAgent.SetNearbyAgents(objs);
+    }
+
+    public void RemoveFromSpatialHash()
+    {
+        _aiAgent.RemoveFromSpatialHash();
+    }
+
+    public bool isAlive()
+    {
+        return !_health.dead;
+    }
+
     public virtual void OnFinishedSpawnAnimation() 
     {
-        _aiAgent.followSpeed = _moveSpeed;
+        _aiAgent.SetFollowSpeed(_moveSpeed);
         _rb.isKinematic = false;
         _animator.applyRootMotion = false;
     }
@@ -367,71 +385,15 @@ public class DemonBase : MonoBehaviour, IDemon
         }
     }
 
-    public Health GetHealth() { return _health; }
-    public AiAgent GetAgent() { return _aiAgent; }
-    public Animator GetAnimator() { return _animator; }
-    public Rigidbody GetRigidbody() { return _rb; }
+    public Health GetHealth { get { return _health; } }
+    public AiAgent GetAgent { get { return _aiAgent; } }
+    public Animator GetAnimator { get { return _animator; } }
+    public Rigidbody GetRigidbody { get { return _rb; } }
 
-    public void StopPathing()
-    {
-        //_agent.isStopped = true;
-        //_agent.ResetPath();
-    }
-    public void SetTarget(Transform newTarget)
-    {
-        _target = newTarget;
-    }
-    public Transform GetTarget()
-    {
-        return _target;
-    }
-    public void UpdateAttackSpeed(float amount)
-    {
-        _attackSpeed = amount;
-    }
-    public void SetAttackSpeed(float amount)
-    {
-        _attackSpeed += amount;
-    }
-    public void UpdateHealth(float amount)
-    {
-        _health.health += amount;
-    }
     public void SetHealth(float amount)
     {
         _health.health = amount;
     }
-    public void UpdateMaxHealth(float amount)
-    {
-        _health.maxHealth += amount;
-    }
-    public void SetMaxHealth(float amount)
-    {
-        _health.maxHealth = amount;
-    }
-    public void UpdateAttackRange(float amount)
-    {
-        _attackRange += amount;
-    }
-    public void SetAttackRange(float amount)
-    {
-        _attackRange = amount;
-    }
-    public void UpdateMoveSpeed(float amount)
-    {
-        _moveSpeed += amount;
-    }
-    public void SetMoveSpeed(float amount)
-    {
-        _moveSpeed = amount;
-    }
-    public void UpdateDamage(float amount)
-    {
-        _damage += amount;
-    }
-    public void SetDamage(float amount)
-    {
-        _damage = amount;
-    }
+   
     #endregion
 }

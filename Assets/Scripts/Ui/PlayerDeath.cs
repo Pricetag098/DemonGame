@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>
+public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersistance<SessionData>
 {
     [SerializeField] CanvasGroup canvasGroup;
     SpawnerManager spawnerManager;
@@ -140,10 +140,20 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>
 
     void IDataPersistance<GameData>.SaveData(ref GameData data)
 	{
-        data.deaths = deaths;
+        //data.deaths = deaths;
 	}
     void IDataPersistance<GameData>.LoadData(GameData data)
 	{
-        deaths = data.deaths;
+        deaths += data.deaths;
 	}
+
+    public void LoadData(SessionData data)
+    {
+        //throw new System.NotImplementedException();
+    }
+
+    public void SaveData(ref SessionData data)
+    {
+        data.deaths = deaths;
+    }
 }

@@ -72,4 +72,6 @@ public class SessionDataSystem : MonoBehaviour
         IEnumerable<IDataPersistance<SessionData>> list = FindObjectsOfType<MonoBehaviour>().OfType<IDataPersistance<SessionData>>();
         return new List<IDataPersistance<SessionData>>(list);
     }
+
+    public class CompleteSession { }
 }

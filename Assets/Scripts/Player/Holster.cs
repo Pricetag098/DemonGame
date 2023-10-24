@@ -69,6 +69,7 @@ public class Holster : MonoBehaviour
 
         OnHolster();
 		animator.SetTrigger(drawTrigger);
+        animator.SetFloat(HeldGun.EquipSpeedKey, 1 / HeldGun.drawTime);
     }
 	private void Update()
 	{
@@ -135,6 +136,7 @@ public class Holster : MonoBehaviour
         lastGunIndex = heldGunIndex;
         heldGunIndex = index;
         animator.SetTrigger(holsterTigger);
+        animator.SetFloat(HeldGun.UnEquipSpeedKey, 1 / HeldGun.holsterTime);
         //      for(int i = 0; i < guns.Length; i++)
         //{
         //          if (guns[i] != null)
@@ -142,7 +144,7 @@ public class Holster : MonoBehaviour
         //              guns[i].gameObject.SetActive(i==index);
         //	}
         //}
-        
+
     }
     
     

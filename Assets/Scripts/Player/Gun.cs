@@ -106,6 +106,10 @@ public class Gun : MonoBehaviour
     public RuntimeAnimatorController controller;
     public string shootKey = "shoot";
     public string reloadKey = "reload";
+    public string shootspeedKey = "FireRate";
+    public string reloadSpeedKey = "ReloadRate";
+    public string EquipSpeedKey = "EquipRate";
+    public string UnEquipSpeedKey = "UnEquipRate";
     //public string sprintKey = "sprinting";
 
     [Header("Upgrading")]
@@ -137,7 +141,12 @@ public class Gun : MonoBehaviour
 	{
 		shootAction.action.Enable();
         reloadAction.action.Enable();
-	}
+        
+        if (animator.Enabled)
+        {
+            animator.Value.SetFloat(EquipSpeedKey, 1 / drawTime);
+        }
+    }
 	private void OnDisable()
 	{
         //shootAction.action.Disable();
@@ -299,12 +308,10 @@ public class Gun : MonoBehaviour
     protected virtual void Shoot()
     {
 
-
+       
         for (int i = 0; i < shotsPerFiring; i++)
         {
-            holster.animator.SetTrigger(shootKey);
-            if (animator.Enabled)
-                animator.Value.SetTrigger(shootKey);
+            
             Vector3 randVal = GetSpread(UnityEngine.Random.insideUnitSphere);
             
             
@@ -406,6 +413,14 @@ public class Gun : MonoBehaviour
             recoil = maxAmmo;
         timeSinceLastShot = 0;
         shootSound.Play();
+        holster.animator.SetTrigger(shootKey);
+        holster.animator.SetFloat(shootspeedKey,1/ fireTimer);
+        if (animator.Enabled)
+        {
+            animator.Value.SetTrigger(shootKey);
+            animator.Value.SetFloat(shootspeedKey,1/ fireTimer);
+        }
+            
         if (gunfire.Enabled)
         {
             gunfire.Value.Play();
@@ -434,7 +449,11 @@ public class Gun : MonoBehaviour
         if (gunState != GunStates.awaiting || ammoLeft == maxAmmo || stash <= 0)
             return;
         if (animator.Enabled)
+        {
             animator.Value.SetTrigger(reloadKey);
+            animator.Value.SetFloat(reloadSpeedKey, reloadDuration);
+        }
+        holster.animator.SetFloat(reloadSpeedKey,reloadDuration);
         holster.animator.SetTrigger(reloadKey);
         gunState = GunStates.reloading;
         reloadTimer = 0;

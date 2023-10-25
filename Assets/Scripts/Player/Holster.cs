@@ -77,8 +77,9 @@ public class Holster : MonoBehaviour
 
         OnHolster();
 		animator.SetTrigger(drawTrigger);
-        animator.SetFloat(HeldGun.EquipSpeedKey, 1 / HeldGun.drawTime);
-    }
+		animator.SetFloat(HeldGun.equipSpeedKey, 1 / HeldGun.drawTime);
+
+	}
 	private void Update()
 	{
 		if (updateKVals)
@@ -144,7 +145,7 @@ public class Holster : MonoBehaviour
         lastGunIndex = heldGunIndex;
         heldGunIndex = index;
         animator.SetTrigger(holsterTigger);
-        animator.SetFloat(HeldGun.UnEquipSpeedKey, 1 / HeldGun.holsterTime);
+        animator.SetFloat(HeldGun.unEquipSpeedKey, 1 / HeldGun.holsterTime);
         //      for(int i = 0; i < guns.Length; i++)
         //{
         //          if (guns[i] != null)
@@ -217,7 +218,8 @@ public class Holster : MonoBehaviour
         animator.runtimeAnimatorController = guns[heldGunIndex].controller;
         state = HolsterStates.drawing;
         drawTimer = guns[heldGunIndex].drawTime;
-        animator.SetTrigger(drawTrigger);
+		animator.SetFloat(HeldGun.equipSpeedKey, 1 / HeldGun.drawTime);
+		animator.SetTrigger(drawTrigger);
     }
     public void OnDraw()
     {

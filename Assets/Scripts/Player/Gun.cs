@@ -108,8 +108,10 @@ public class Gun : MonoBehaviour
     public string reloadKey = "reload";
     public string shootspeedKey = "FireRate";
     public string reloadSpeedKey = "ReloadRate";
-    public string EquipSpeedKey = "EquipRate";
-    public string UnEquipSpeedKey = "UnEquipRate";
+    public string equipSpeedKey = "EquipRate";
+    public string unEquipSpeedKey = "UnEquipRate";
+	public string fireIndexKey = "FireIndex";
+	public int fireAnimations = 1;
     //public string sprintKey = "sprinting";
 
     [Header("Upgrading")]
@@ -144,7 +146,7 @@ public class Gun : MonoBehaviour
         
         if (animator.Enabled)
         {
-            animator.Value.SetFloat(EquipSpeedKey, 1 / drawTime);
+            animator.Value.SetFloat(equipSpeedKey, 1 / drawTime);
         }
     }
 	private void OnDisable()
@@ -415,10 +417,12 @@ public class Gun : MonoBehaviour
             recoil = maxAmmo;
         timeSinceLastShot = 0;
         shootSound.Play();
+
         holster.animator.SetTrigger(shootKey);
         holster.animator.SetFloat(shootspeedKey,1/ fireTimer);
         if (animator.Enabled)
         {
+            animator.Value.SetInteger(fireIndexKey,ammoLeft % fireAnimations);
             animator.Value.SetTrigger(shootKey);
             animator.Value.SetFloat(shootspeedKey,1/ fireTimer);
         }

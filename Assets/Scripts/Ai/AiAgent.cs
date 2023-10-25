@@ -1,5 +1,6 @@
 using BlakesSpatialHash;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,6 +10,7 @@ public class AiAgent : SpatialHashObject
     public float acceleration;
     public float rotationSpeed;
     public bool canRotate;
+    public float RemainingDistancePath;
     
     public LayerMask wallLayers;
     public float scanRadius;
@@ -42,14 +44,14 @@ public class AiAgent : SpatialHashObject
     // Update is called once per frame
     void Update()
     {
-        //transform.forward = rb.velocity;
+        RemainingDistancePath = RemainingDistance;
     }
 
     private void FixedUpdate()
     {
         Vector3 idealVel;
 		
-        if (Physics.Raycast(transform.position + transform.up * rayHeightOffset, -transform.up, out RaycastHit hit, groundingRange,wallLayers))
+        if (Physics.Raycast(transform.position + transform.up * rayHeightOffset, -transform.up, out RaycastHit hit, groundingRange, wallLayers))
         {
 			if (canMove && path.hasPath)
 			{
@@ -65,17 +67,25 @@ public class AiAgent : SpatialHashObject
 			{
 				idealVel = Vector3.zero;
 			}
+
 			rb.AddForce(GetPushForce() * dispersionForce);
 			Vector3 turningVel = idealVel - rb.velocity;
 			rb.AddForce(turningVel * acceleration);
-            if(pathIndex == path.pathLength - 1)
+
+            //if(pathIndex == path.pathLength - 1)
+            //{
+            //    if (Vector3.Distance(transform.position, path[pathIndex]) < stopingDistance)
+            //    {
+            //        path.hasPath = false;
+            //    }
+            //}
+
+            if (RemainingDistancePath < stopingDistance)
             {
-                if (Vector3.Distance(transform.position, path[pathIndex]) < stopingDistance)
-                {
-                    path.hasPath = false;
-                }
+                path.hasPath = false;
             }
-			if (Vector3.Distance(transform.position, path[pathIndex]) < indexChangeDistance)
+
+            if (Vector3.Distance(transform.position, path[pathIndex]) < indexChangeDistance)
 			{
 				pathIndex++;
 				if (pathIndex >= path.pathLength)
@@ -186,11 +196,13 @@ public class AiAgent : SpatialHashObject
         {
             float num = 0;
 
-            num += Vector3.Distance(path[pathIndex], transform.position);
+            num = Vector3.Distance(path[pathIndex], transform.position);
 
-            for (int i = 0; i < path.pathLength - 1; i++)
+            if (path.pathLength == 1) return num;
+
+            for (int i = pathIndex + 1; i < path.pathLength; i++)
             {
-                num += Vector3.Distance(path[i + pathIndex], path[i + pathIndex + 1]);
+                num += Vector3.Distance(path[i], path[i + 1]);
             }
 
             return num;

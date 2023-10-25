@@ -7,5 +7,5 @@ public interface IDemon
 {
     void SetHealth(float amount);
     public void CalculateStats(int round);
-    void CalculateAndSetPath(Transform targetPos, bool active);
+    void CalculateAndSetPath(Transform targetPos);
 }

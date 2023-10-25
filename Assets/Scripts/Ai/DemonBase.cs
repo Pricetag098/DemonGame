@@ -348,7 +348,7 @@ public class DemonBase : MonoBehaviour, IDemon
     {
         get
         {
-            return _aiAgent.RemainingDistance;
+            return _aiAgent.RemainingDistancePath;
         }
     }
 
@@ -363,24 +363,13 @@ public class DemonBase : MonoBehaviour, IDemon
 
     #region Interface
 
-    public void CalculateAndSetPath(Transform targetPos, bool active)
+    public void CalculateAndSetPath(Transform targetPos)
     {
-        if (active == true)
+        float num = Vector3.Distance(targetPos.position, transform.position);
+
+        if (num > _aiAgent.stopingDistance)
         {
-            //NavMeshPath path = new NavMeshPath();
-
             _aiAgent.UpdatePath(targetPos);
-
-            //if(_aiAgent.CalculatePath(targetPos.position, path))
-            //{
-            //    _aiAgent.SetPath(path);
-            //}
-
-            //if (path.status == NavMeshPathStatus.PathComplete)
-            //{
-            //    _aiAgent.SetPath(path);
-            //}
-
             _target = targetPos;
         }
     }

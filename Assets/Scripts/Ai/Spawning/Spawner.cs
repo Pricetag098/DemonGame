@@ -35,6 +35,15 @@ public class Spawner : MonoBehaviour
 
         return false;
     }
+
+    /// <summary>
+    /// Return if a Spawner is able to spawn for ritual
+    /// </summary>
+    /// <param name="demon"></param>
+    /// <param name="sm"></param>
+    /// <param name="list"></param>
+    /// <param name="type"></param>
+    /// <returns></returns>
     public bool RequestSpawn(DemonType demon, SpawnerManager sm, List<DemonBase> list, SpawnType type)
     {
         if (CanSpawn == true)
@@ -62,6 +71,13 @@ public class Spawner : MonoBehaviour
         demonTemp.transform.position = position;
     }
 
+    /// <summary>
+    /// Spawns a Demon for a Ritual
+    /// </summary>
+    /// <param name="demon"></param>
+    /// <param name="target"></param>
+    /// <param name="list"></param>
+    /// <param name="type"></param>
     private void SpawnDemon(DemonType demon, Transform target, List<DemonBase> list, SpawnType type)
     {
         GameObject demonTemp = DemonPoolers.demonPoolers[demon.Id].Spawn();

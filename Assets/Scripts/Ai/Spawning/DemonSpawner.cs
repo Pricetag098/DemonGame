@@ -5,7 +5,6 @@ using DemonInfo;
 using System.Reflection;
 using Unity.Jobs;
 using UnityEngine.AI;
-//using static UnityEditor.PlayerSettings;
 
 public class DemonSpawner : MonoBehaviour
 {

@@ -80,7 +80,6 @@ public class BasicDemon : DemonBase
         DemonInMap = false;
 
         _aiAgent.canRotate = true;
-        //AddToSpatialHash();
     }
 
     public override void OnDespawn(bool forcedDespawn = false)
@@ -116,12 +115,12 @@ public class BasicDemon : DemonBase
     {
         base.OnFinishedSpawnAnimation();
 
-        CalculateAndSetPath(_target, _aiAgent.enabled);
+        //CalculateAndSetPath(_target);
     }
 
     public override void PathFinding()
     {
-        CalculateAndSetPath(_target, _aiAgent.enabled);
+        CalculateAndSetPath(_target);
     }
 
     public override void DetectPlayer()
@@ -216,7 +215,7 @@ public class BasicDemon : DemonBase
     /// <param name="destMin"></param>
     /// <param name="destMax"></param>
     /// <returns></returns>
-    private float GetRange(float value, float min, float max, float destMin = 0, float destMax = 1)
+    private float GetRange(float value, float min, float max, float destMin = 0, float destMax = 1) // can return less than 0 and greater than 1 if value is outside bounds of min and max
     {
         return destMin + (value - min) / (max - min) * (destMax - destMin);
     }

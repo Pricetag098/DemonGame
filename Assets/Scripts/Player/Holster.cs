@@ -56,6 +56,7 @@ public class Holster : MonoBehaviour
         rb = GetComponentInParent<Rigidbody>();
         stats = GetComponentInParent<PlayerStats>();
         abilityCaster = GetComponentInParent<AbilityCaster>();
+        playerInput = GetComponentInParent<Movement.PlayerInput>();
     }
     private void Start()
 	{

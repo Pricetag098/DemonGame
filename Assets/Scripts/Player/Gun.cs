@@ -270,12 +270,14 @@ public class Gun : MonoBehaviour
 				}
                 break;
             case GunStates.reloading:
-                reloadTimer += Time.deltaTime;
-                if (reloadTimer >= reloadDuration * holster.stats.reloadTimeMulti)
+				reloadTimer += Time.deltaTime;
+				if (reloadTimer > reloadDuration * holster.stats.reloadTimeMulti)
                 {
+                    Debug.Log(reloadTimer);
                     Reload();
                 }
-                break;
+				
+				break;
             case GunStates.disabled:
                 break;
 		}
@@ -451,9 +453,10 @@ public class Gun : MonoBehaviour
         if (animator.Enabled)
         {
             animator.Value.SetTrigger(reloadKey);
-            animator.Value.SetFloat(reloadSpeedKey, reloadDuration);
+            animator.Value.SetFloat(reloadSpeedKey, 1/reloadDuration);
         }
-        holster.animator.SetFloat(reloadSpeedKey,reloadDuration);
+        holster.animator.SetFloat(reloadSpeedKey,1/reloadDuration);
+        Debug.Log(reloadDuration);
         holster.animator.SetTrigger(reloadKey);
         gunState = GunStates.reloading;
         reloadTimer = 0;

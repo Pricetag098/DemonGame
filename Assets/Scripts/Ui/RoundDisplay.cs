@@ -11,27 +11,40 @@ namespace DemonInfo
     {
         SpawnerManager manager;
         public TextMeshProUGUI roundText;
+        public CanvasGroup roundDisplayCanvasGroup;
+        public float flashDuration;
         public float colourChangeDuration;
+
+        public Color darkerRed = new Color(0.6f, 0.17f, 0.17f);
 
         private void Awake()
         {
             roundText = GetComponentInChildren<TextMeshProUGUI>();
             manager = FindObjectOfType<SpawnerManager>();
         }
-
-        private void Update()
-        {
-            roundText.text = manager.currentRound.ToString();
-            
-        }
         
-        public void ColourChange()
+        public void ColourFlash()
         {
-            roundText.DOColor(Color.white, colourChangeDuration).SetEase(Ease.InOutSine).OnComplete(() => 
+            roundText.DOColor(Color.white, flashDuration).SetLoops(5, LoopType.Yoyo).OnComplete(() => 
             {
-                roundText.DOColor(new Color(154, 44, 44), colourChangeDuration).SetEase(Ease.InOutSine);
+                roundDisplayCanvasGroup.DOFade(0, colourChangeDuration);
+                ColourChangeWhite(); 
             });
+        }
 
+        public void ColourChangeWhite()
+        {
+            roundText.DOColor(Color.white, colourChangeDuration).OnComplete(() => 
+            {
+                ColourChangeRed();
+                roundText.text = manager.currentRound.ToString();
+            });
+        }
+
+        public void ColourChangeRed() 
+        {
+            roundDisplayCanvasGroup.DOFade(1, colourChangeDuration);
+            roundText.DOColor(darkerRed, colourChangeDuration).SetEase(Ease.InOutSine);
         }
 
 

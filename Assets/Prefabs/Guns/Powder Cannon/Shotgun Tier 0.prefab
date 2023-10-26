@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3844997103318859602
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2976076430887880905}
+  m_Layer: 0
+  m_Name: ProjectileOrigin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2976076430887880905
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3844997103318859602}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.001, y: 0.045, z: 0.411}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 2711638744810927058}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &3539963794888799398
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -47,6 +78,10 @@ PrefabInstance:
       propertyPath: damage
       value: 225
       objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: origin
+      value: 
+      objectReference: {fileID: 2976076430887880905}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: gunName
       value: Shrapnel Cannon
@@ -411,7 +446,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 172037967610121114, guid: 92b72af084fa71044a448699a51df3ed, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 172037967610121114, guid: 92b72af084fa71044a448699a51df3ed, type: 3}
       propertyPath: m_LocalPosition.x
@@ -495,7 +530,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2442283954544925344, guid: 92b72af084fa71044a448699a51df3ed, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2442283954544925344, guid: 92b72af084fa71044a448699a51df3ed, type: 3}
       propertyPath: m_LocalPosition.y
@@ -503,7 +538,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2442283954544925344, guid: 92b72af084fa71044a448699a51df3ed, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.358
+      value: 0.41
       objectReference: {fileID: 0}
     - target: {fileID: 2519558236514374363, guid: 92b72af084fa71044a448699a51df3ed, type: 3}
       propertyPath: m_Layer
@@ -623,6 +658,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 92b72af084fa71044a448699a51df3ed, type: 3}
+--- !u!4 &2711638744810927058 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1427626846538979435, guid: 92b72af084fa71044a448699a51df3ed, type: 3}
+  m_PrefabInstance: {fileID: 3922175816420584377}
+  m_PrefabAsset: {fileID: 0}
 --- !u!198 &6889212971225609861 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 7635071061231017276, guid: 92b72af084fa71044a448699a51df3ed, type: 3}

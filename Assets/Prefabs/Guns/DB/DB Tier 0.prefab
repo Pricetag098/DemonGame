@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1875341125935990431
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7718893645546145646}
+  m_Layer: 0
+  m_Name: ProjectileOrigin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7718893645546145646
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875341125935990431}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.0006, y: 0.0808, z: 0.4861}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 2354459969871068760}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &365507691421056564
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13,7 +44,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 155576258185674897, guid: e1961b26390920f45838452975d10909, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 155576258185674897, guid: e1961b26390920f45838452975d10909, type: 3}
       propertyPath: m_LocalPosition.x
@@ -88,12 +119,16 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2427220330929263019, guid: e1961b26390920f45838452975d10909, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427220330929263019, guid: e1961b26390920f45838452975d10909, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.0801
       objectReference: {fileID: 0}
     - target: {fileID: 2427220330929263019, guid: e1961b26390920f45838452975d10909, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.426
+      value: 0.483
       objectReference: {fileID: 0}
     - target: {fileID: 2730791290451241305, guid: e1961b26390920f45838452975d10909, type: 3}
       propertyPath: m_Layer
@@ -205,6 +240,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e1961b26390920f45838452975d10909, type: 3}
+--- !u!4 &2354459969871068760 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2719667923711524972, guid: e1961b26390920f45838452975d10909, type: 3}
+  m_PrefabInstance: {fileID: 365507691421056564}
+  m_PrefabAsset: {fileID: 0}
 --- !u!198 &7830695100030478339 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 7619735407531808311, guid: e1961b26390920f45838452975d10909, type: 3}
@@ -242,6 +282,10 @@ PrefabInstance:
       propertyPath: damage
       value: 350
       objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: origin
+      value: 
+      objectReference: {fileID: 7718893645546145646}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: gunName
       value: GI Exalter

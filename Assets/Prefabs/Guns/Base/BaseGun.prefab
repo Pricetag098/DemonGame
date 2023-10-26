@@ -361,7 +361,6 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4155650501356117442}
-  - {fileID: 3118617947092816437}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -390,6 +389,7 @@ MonoBehaviour:
   bloodGainMulti: 1
   drawTime: 1
   holsterTime: 1
+  onHitEffectList: []
   headDamage: 10
   bodyDamage: 5
   limbDamage: 5
@@ -468,7 +468,7 @@ MonoBehaviour:
   damageLossDivisor: 2
   stash: 0
   maxStash: 0
-  origin: {fileID: 3118617947092816437}
+  origin: {fileID: 0}
   shootSound: {fileID: 1386787118721847894}
   reloadSound: {fileID: 6784654094601265656}
   emptySound: {fileID: 6001458314360550378}
@@ -514,6 +514,12 @@ MonoBehaviour:
   controller: {fileID: 9100000, guid: ad159d2f054845f48b3c772e0e7ff5f2, type: 2}
   shootKey: Fire
   reloadKey: Reload
+  shootspeedKey: FireRate
+  reloadSpeedKey: ReloadRate
+  equipSpeedKey: EquipRate
+  unEquipSpeedKey: UnEquipRate
+  fireIndexKey: FireIndex
+  fireAnimations: 1
   path:
     enabled: 0
     val: {fileID: 0}
@@ -667,37 +673,6 @@ MonoBehaviour:
   looping: 0
   isPlaying: 0
   soundLoc: 2
---- !u!1 &3118617947092816438
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3118617947092816437}
-  m_Layer: 3
-  m_Name: ProjectileOrigin
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3118617947092816437
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3118617947092816438}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3118617946729100853}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4826210723476144375
 GameObject:
   m_ObjectHideFlags: 0

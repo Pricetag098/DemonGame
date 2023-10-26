@@ -1705,7 +1705,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4281085082
-  m_fontColor: {r: 0.6037736, g: 0.17372729, b: 0.17372729, a: 1}
+  m_fontColor: {r: 0.6039216, g: 0.17254902, b: 0.17254902, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1983,6 +1983,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3876659859721200660}
   - component: {fileID: 8966416419807411979}
+  - component: {fileID: 1165699701}
   m_Layer: 0
   m_Name: RoundsDisplay
   m_TagString: Untagged
@@ -2024,8 +2025,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roundText: {fileID: 3652115268001486538}
+  roundDisplayCanvasGroup: {fileID: 1165699701}
+  flashDuration: 0.5
   colourChangeDuration: 2
-  pauseDuration: 1
+  darkerRed: {r: 0.6, g: 0.17, b: 0.17, a: 1}
+--- !u!225 &1165699701
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2546704385338516880}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2949354535619579342
 GameObject:
   m_ObjectHideFlags: 0
@@ -2260,7 +2275,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: d83876bbfe286554192f0ebf0358c184, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -5302,7 +5317,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f7089f99d27ba114eb5fb0d87de71d0b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

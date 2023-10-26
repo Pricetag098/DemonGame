@@ -27,6 +27,7 @@ public class DemonAttachments : MonoBehaviour
     private void Awake()
     {
         activeAttachments = new List<GameObject>();
+
         SetAllFalse(Horns);
         SetAllFalse(Choker);
         SetAllFalse(UpperArmLeft);
@@ -81,5 +82,10 @@ public class DemonAttachments : MonoBehaviour
         }
 
         activeAttachments.Clear();
+    }
+
+    public List<GameObject> ReturnActiveObjects()
+    {
+        return activeAttachments;
     }
 }

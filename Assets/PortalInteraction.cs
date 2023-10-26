@@ -14,6 +14,10 @@ public class PortalInteraction : MonoBehaviour
 
     [SerializeField] Animator armAnimator;
 
+    [SerializeField] float minEmission;
+
+    [SerializeField] float maxEmission;
+
     [SerializeField] float time;
 
     void Start()

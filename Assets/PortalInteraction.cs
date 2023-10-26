@@ -2,31 +2,48 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 
 public class PortalInteraction : ShopInteractable
 {
     [SerializeField] Transform body;
 
-    [SerializeField] Vector3 minPortalSize;
+    [SerializeField] float minPortalSize;
 
-    [SerializeField] Vector3 maxPortalSize;
+    [SerializeField] float maxPortalSize =1;
 
     [SerializeField] Animator armAnimator;
     [SerializeField] SoundPlayer openSound,idleSound,closeSound;
 
     [SerializeField] float openTime;
-
+	[SerializeField] float animationTime;
     [SerializeField] Ability ability;
-    
 
+	private void Awake()
+	{
+		Close();
+		DOTween.Kill(this, true);
+	}
 
-    public void Open()
+	protected override bool CanBuy(Interactor interactor)
+	{
+		return !interactor.GetComponent<PlayerAbilityCaster>().caster.HasAbility(ability);
+	}
+	protected override void DoBuy(Interactor interactor)
+	{
+		interactor.caster.SetAbility(Instantiate(ability));
+		Close();
+	}
+
+	public void Open()
     {
+		
         Sequence open = DOTween.Sequence();
-        open.Append(body.DOScale(Vector3.one, openTime)).SetEase(Ease.InSine);
-        open.AppendCallback(() => armAnimator.SetTrigger("In"));
-        open.AppendCallback(() => openSound.Play());
+        open.Append(body.DOScale(Vector3.one * maxPortalSize, openTime)).SetEase(Ease.InSine);
+        open.AppendCallback(() => armAnimator.SetTrigger("Out"));
+		open.AppendCallback(() => armAnimator.ResetTrigger("In"));
+		open.AppendCallback(() => openSound.Play());
 		open.AppendCallback(() => idleSound.Play());
 	}
 
@@ -35,8 +52,10 @@ public class PortalInteraction : ShopInteractable
 		Sequence close = DOTween.Sequence();
 		close.AppendCallback(() => idleSound.Stop());
 		close.AppendCallback(() => closeSound.Play());
-		close.AppendCallback(() => armAnimator.SetTrigger("Out"));
-		close.Append(body.DOScale(Vector3.one, openTime)).SetEase(Ease.InSine);
+		close.AppendCallback(() => armAnimator.SetTrigger("In"));
+		close.AppendCallback(() => armAnimator.ResetTrigger("Out"));
+		close.AppendInterval(animationTime);
+		close.Append(body.DOScale(Vector3.one * minPortalSize, openTime)).SetEase(Ease.InSine);
 		
         
 	}

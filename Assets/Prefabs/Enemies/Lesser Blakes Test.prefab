@@ -839,6 +839,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 9e4e8a0f77dd75140a7b3f5a56b35c6a, type: 2}
   Penetrable: 1
+--- !u!137 &2250030400170790660 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4275268257267216521, guid: c9428055ff488274fa74d5707628ac60, type: 3}
+  m_PrefabInstance: {fileID: 2624889872114581389}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2508796820197510357 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 485388221361451864, guid: c9428055ff488274fa74d5707628ac60, type: 3}
@@ -2168,6 +2173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b81d6e882c61b464e8c5b25cf6dac18c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _skinnedMeshRenderer: {fileID: 2250030400170790660}
   pointsOnDeath: 50
   DemonInMap: 0
   _baseDamage: 15
@@ -2259,8 +2265,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81d9bdf2985deb74ba7c8762bdec7353, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Grid: {fileID: 0}
   followSpeed: 4
   acceleration: 10
+  rotationSpeed: 0
+  canRotate: 0
+  RemainingDistancePath: 0
   wallLayers:
     serializedVersion: 2
     m_Bits: 1

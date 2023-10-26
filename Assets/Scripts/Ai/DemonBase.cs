@@ -36,6 +36,9 @@ public class DemonBase : MonoBehaviour, IDemon
     [Header("Pooled Object")]
     protected PooledObject _pooledObject;
 
+    [Header("SkinnedMeshedRenderer")]
+    [SerializeField] protected SkinnedMeshRenderer _skinnedMeshRenderer;
+
     [Header("Points")]
     [SerializeField] protected int pointsOnDeath;
     protected GrantPointsOnDeath _deathPoints;
@@ -177,6 +180,13 @@ public class DemonBase : MonoBehaviour, IDemon
 
         _attachments.ResetAllAttachments();
         _attachments.RandomAttachments();
+
+        foreach(var obj in _attachments.ReturnActiveObjects())
+        {
+            DemonMaterials.SetAttachmentMaterial(obj);
+        }
+
+        DemonMaterials.SetDefaultSpawningMaterial(_skinnedMeshRenderer);
 
         DemonSpawner.ActiveDemons.Add(this);
 

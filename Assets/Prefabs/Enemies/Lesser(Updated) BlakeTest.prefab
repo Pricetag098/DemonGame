@@ -519,6 +519,10 @@ PrefabInstance:
       propertyPath: distanceToRespawn
       value: 200
       objectReference: {fileID: 0}
+    - target: {fileID: 3968166814518687175, guid: e52b671e99bb016438a85851c6ad8a36, type: 3}
+      propertyPath: _skinnedMeshRenderer
+      value: 
+      objectReference: {fileID: 5281482466837627043}
     - target: {fileID: 4008760598788378195, guid: e52b671e99bb016438a85851c6ad8a36, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -1383,6 +1387,7 @@ MonoBehaviour:
   acceleration: 10
   rotationSpeed: 200
   canRotate: 1
+  RemainingDistancePath: 0
   wallLayers:
     serializedVersion: 2
     m_Bits: 1
@@ -1500,3 +1505,8 @@ MonoBehaviour:
     - {x: 0, y: 0, z: 0}
     hasPath: 0
   canMove: 1
+--- !u!137 &5281482466837627043 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1325199687677610881, guid: e52b671e99bb016438a85851c6ad8a36, type: 3}
+  m_PrefabInstance: {fileID: 6570635627861379874}
+  m_PrefabAsset: {fileID: 0}

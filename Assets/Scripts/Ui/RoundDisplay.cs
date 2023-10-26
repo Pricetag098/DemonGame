@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using DG.Tweening;
 
 namespace DemonInfo 
 
@@ -10,6 +11,7 @@ namespace DemonInfo
     {
         SpawnerManager manager;
         public TextMeshProUGUI roundText;
+        public float colourChangeDuration;
 
         private void Awake()
         {
@@ -23,6 +25,15 @@ namespace DemonInfo
             
         }
         
+        public void ColourChange()
+        {
+            roundText.DOColor(Color.white, colourChangeDuration).SetEase(Ease.InOutSine).OnComplete(() => 
+            {
+                roundText.DOColor(new Color(154, 44, 44), colourChangeDuration).SetEase(Ease.InOutSine);
+            });
+
+        }
+
 
     }
 }

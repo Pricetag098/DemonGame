@@ -17,7 +17,8 @@ public class SpawnerManager : MonoBehaviour
     [HideInInspector] public DemonSpawner _DemonSpawner;
     [HideInInspector] public RitualManager RitualManager;
     [HideInInspector] public BlessingManager BlessingManager;
-    
+    [HideInInspector] public RoundDisplay roundDisplay;
+
     [Header("Player")]
     public Transform player;
 
@@ -51,6 +52,7 @@ public class SpawnerManager : MonoBehaviour
         _DemonSpawner = GetComponent<DemonSpawner>();
         RitualManager = GetComponent<RitualManager>();
         BlessingManager = GetComponent<BlessingManager>();
+        roundDisplay = FindObjectOfType<RoundDisplay>();
 
         spawnTimer = new Timer(timeBetweenSpawns);
         endRoundTimer = new Timer(timeBetweenRounds);
@@ -176,6 +178,8 @@ public class SpawnerManager : MonoBehaviour
 
     void WaveEnd()
     {
+        roundDisplay.ColourChange();
+
         _DemonSpawner.DemonQueue.Clear();
         currentRound++;
     }

@@ -178,7 +178,7 @@ public class SpawnerManager : MonoBehaviour
 
     void WaveEnd()
     {
-        roundDisplay.ColourChange();
+        roundDisplay.ColourFlash();
 
         _DemonSpawner.DemonQueue.Clear();
         currentRound++;

@@ -5,6 +5,7 @@ using UnityEngine;
 public class DoorBuy : ShopInteractable
 {
     public bool open;
+    [SerializeField] Optional<Animator> doorAnimator;
 
     [SerializeField] Optional<Area> AreaConnection1;
     [SerializeField] Optional<Area> AreaConnection2;
@@ -56,8 +57,13 @@ public class DoorBuy : ShopInteractable
             }
         }
 
-        //doAnimationStuff
-        transform.parent.gameObject.SetActive(false);
+        if (doorAnimator.Enabled)
+        {
+            doorAnimator.Value.SetTrigger("Open");
+        }
+        else
+        {
+            transform.parent.gameObject.SetActive(false);
+        }
     }
-
 }

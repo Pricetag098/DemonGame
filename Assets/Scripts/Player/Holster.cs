@@ -161,7 +161,7 @@ public class Holster : MonoBehaviour
     public void OnHit(float damage,float targetMaxHealth)
 	{
         
-        abilityCaster.AddBlood((damage * HeldGun.bloodGainMulti * stats.bloodGainMulti));
+        abilityCaster.AddBlood((damage/targetMaxHealth) * HeldGun.bloodGainMulti * stats.bloodGainMulti);
         if(OnDealDamage != null)
         OnDealDamage(damage);
 	}

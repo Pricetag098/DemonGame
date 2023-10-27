@@ -1,32 +1,59 @@
+using BlakesSpatialHash;
 using DemonInfo;
 using Newtonsoft.Json.Bson;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Mail;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class DemonBase : MonoBehaviour, IDemon
 {
     [Header("Target")]
-    [SerializeField] protected Transform _target;
+    protected Transform _target;
 
     [Header("Spawner")]
-    [SerializeField] protected DemonSpawner _spawner;
+    protected DemonSpawner _spawner;
 
-    protected GrantPointsOnDeath _deathPoints;
+    [Header("Attachments")]
+    protected DemonAttachments _attachments;
+
+    [Header("Animator")]
+    protected Animator _animator;
+
+    [Header("Animation Overwrite")]
+    protected DemonAnimationOverrides _animationOverrides;
+
+    [Header("Collider")]
+    protected Collider[] _colliders;
+
+    [Header("Rigidbody")]
+    protected Rigidbody _rb;
+
+    [Header("Health")]
+    protected Health _health;
+
+    [Header("Pooled Object")]
+    protected PooledObject _pooledObject;
+
+    [Header("SkinnedMeshedRenderer")]
+    [SerializeField] protected SkinnedMeshRenderer _skinnedMeshRenderer;
+
+    [Header("Points")]
     [SerializeField] protected int pointsOnDeath;
+    protected GrantPointsOnDeath _deathPoints;
 
     protected SpawnerManager _spawnerManager;
-    protected bool ritualSpawn;
+    [HideInInspector] public bool DemonInMap;
 
     [Header("Demon Type")]
-    [SerializeField] protected DemonType _type;
+    protected DemonType _type;
+    protected SpawnType _spawnType;
 
     [Header("BaseStats")]
     [SerializeField] protected float _baseDamage;
     [SerializeField] protected float _baseHealth;
     [SerializeField] protected float _baseMoveSpeed;
-    [SerializeField] protected SpawnType _spawnType;
 
     [Header("Stats")]
     [SerializeField] protected float _damage;
@@ -38,49 +65,34 @@ public class DemonBase : MonoBehaviour, IDemon
     [Header("Demon Sounds")]
     [SerializeField] SoundPlayer _soundPlayerIdle;
     [SerializeField] SoundPlayer _soundPlayerAttack;
+    [SerializeField] SoundPlayer _soundPlayerAttackAmbience;
     [SerializeField] SoundPlayer _soundPlayerHit;
     [SerializeField] SoundPlayer _soundPlayerDeath;
     [SerializeField] SoundPlayer _soundPlayerFootsteps;
 
-    [Header("AnimationCurves")]
-    [SerializeField] protected AnimationCurve _moveSpeedCurve;
-
-    [Header("Animator")]
-    protected Animator _animator;
-
-    [Header("Collider")]
-    protected Collider[] _colliders;
-
-    [Header("Rigidbody")]
-    protected Rigidbody _rb;
-
     [Header("Ai Pathing")]
     protected bool _calculatePath = false;
     protected Vector3 lastPos;
-    protected NavMeshAgent _agent;
+    protected AiAgent _aiAgent;
     protected NavMeshPath _currentPath;
 
-    protected Health _health;
-    protected PooledObject _pooledObject;
-
     protected int _currentUpdatedRound = 1;
-
-    [SerializeField] protected Vector3 spawpos = Vector3.zero;
+    protected Vector3 spawpos = Vector3.zero;
 
     private void Awake()
     {
-        _agent = GetComponent<NavMeshAgent>();
+        _aiAgent = GetComponent<AiAgent>();
         _health = GetComponent<Health>();
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
         _deathPoints = GetComponent<GrantPointsOnDeath>();
+        _attachments = GetComponent<DemonAttachments>();
+        _animationOverrides = GetComponent<DemonAnimationOverrides>();
         _spawner = FindObjectOfType<DemonSpawner>();
         _spawnerManager = FindObjectOfType<SpawnerManager>();
         _colliders = GetAllColliders();
 
         OnAwakened();
-
-        _agent.enabled = false;
     }
 
     private void Start()
@@ -101,7 +113,7 @@ public class DemonBase : MonoBehaviour, IDemon
         _health.OnDeath += OnDeath;
         _health.OnHit += OnHit;
 
-        _agent.stoppingDistance = _stoppingDistance;
+        _aiAgent.stopingDistance = _stoppingDistance;
     }
     public virtual void Tick() { }
     public virtual void OnAttack()
@@ -115,24 +127,41 @@ public class DemonBase : MonoBehaviour, IDemon
     public virtual void PathFinding() { }
     public virtual void OnDeath()
     {
-        _agent.speed = 0;
-        _agent.enabled = false;
+        _aiAgent.SetFollowSpeed(0);
+        RemoveFromSpatialHash();
 
         SetAllColliders(false);
 
-        _spawner.ActiveDemons.Remove(this);
+        switch(_spawnType)
+        {
+            case SpawnType.Default:
+                
+                break;
+            case SpawnType.Ritual:
+                
+                break;
+        }
+
+    
+        Transform t = transform;
+        t.position += new Vector3(0, 1, 0);
+        _spawnerManager.GetBlessingChance(t, DemonInMap);
+
+        DemonSpawner.ActiveDemons.Remove(this);
+
+        _animator.SetLayerWeight(_animator.GetLayerIndex("Upper"), 0);
 
         PlayAnimation("Death");
-
         PlaySoundDeath();
     }
     public virtual void OnSpawn(DemonType demon, Transform target, SpawnType type)
     {
-        _agent.speed = 0;
+        _aiAgent.SetFollowSpeed(0);
         _target = target;
         _spawnType = type;
         _type = demon;
         _rb.isKinematic = true;
+        _animator.applyRootMotion = true;
 
         switch (type)
         {
@@ -141,12 +170,25 @@ public class DemonBase : MonoBehaviour, IDemon
                 break;
             case SpawnType.Ritual:
                 _deathPoints.points = 0;
+                DemonInMap = true;
                 break;
         }
 
+        _animationOverrides.SelectController(_animator);
+
         SetAllColliders(true);
 
-        _spawner.ActiveDemons.Add(this);
+        _attachments.ResetAllAttachments();
+        _attachments.RandomAttachments();
+
+        foreach(var obj in _attachments.ReturnActiveObjects())
+        {
+            DemonMaterials.SetAttachmentMaterial(obj);
+        }
+
+        DemonMaterials.SetDefaultSpawningMaterial(_skinnedMeshRenderer);
+
+        DemonSpawner.ActiveDemons.Add(this);
 
         PlaySoundIdle();
 
@@ -155,18 +197,19 @@ public class DemonBase : MonoBehaviour, IDemon
     public virtual void OnBuff() { }
     public virtual void OnDespawn(bool forcedDespawn = false)
     {
-        _agent.speed = 0;
-        _agent.enabled = false;
+        _aiAgent.SetFollowSpeed(0);
 
         SetAllColliders(false);
 
-        if(forcedDespawn == true) _spawner.AddDemonBackToPool(_type, _spawnerManager);
+        RemoveFromSpatialHash();
+
+        if (forcedDespawn == true) _spawner.AddDemonBackToPool(_type, _spawnerManager);
         else
         {
             switch (_spawnType)
             {
                 case SpawnType.Default:
-                    _spawner.ActiveDemons.Remove(this);
+                    DemonSpawner.ActiveDemons.Remove(this);
                     _spawner.AddDemonBackToPool(_type, _spawnerManager);
                     break;
                 case SpawnType.Ritual:
@@ -178,7 +221,7 @@ public class DemonBase : MonoBehaviour, IDemon
         _pooledObject.Despawn();
     }
     public virtual void CalculateStats(int round) { }
-    public virtual void DetectPlayer(bool active) { }
+    public virtual void DetectPlayer() { }
     public virtual void UpdateHealthToCurrentRound(int currentRound) { }
 
     protected Collider[] GetAllColliders()
@@ -196,20 +239,42 @@ public class DemonBase : MonoBehaviour, IDemon
 
     public void ForcedDeath()
     {
-        _agent.speed = 0;
-        _agent.enabled = false;
+        _aiAgent.SetFollowSpeed(0);
 
         SetAllColliders(false);
+
+        RemoveFromSpatialHash();
 
         PlayAnimation("Death");
 
         PlaySoundDeath();
     }
 
+    public SpatialHashObject GetSpatialHashObject()
+    {
+        return _aiAgent;
+    }
+
+    public void UpdateAgentNearby(List<SpatialHashObject> objs)
+    {
+        _aiAgent.SetNearbyAgents(objs);
+    }
+
+    public void RemoveFromSpatialHash()
+    {
+        _aiAgent.RemoveFromSpatialHash();
+    }
+
+    public bool isAlive()
+    {
+        return !_health.dead;
+    }
+
     public virtual void OnFinishedSpawnAnimation() 
     {
-        _agent.speed = _moveSpeed;
+        _aiAgent.SetFollowSpeed(_moveSpeed);
         _rb.isKinematic = false;
+        _animator.applyRootMotion = false;
     }
     protected void OnFinishedDeathAnimation()
     {
@@ -223,33 +288,33 @@ public class DemonBase : MonoBehaviour, IDemon
         _rb.AddForce(force, mode);
     }
 
-    public void SetNavmeshPosition(Vector3 pos)
-    {
-        transform.position = pos;
-        _agent.nextPosition = pos;
-    }
-
     public void PlayAnimation(string trigger)
     {
         _animator.SetTrigger(trigger);
     }
 
-    protected void PlaySoundIdle()
+    public void PlaySoundIdle()
     {
         _soundPlayerIdle.Play();
     }
 
-    protected void PlaySoundAttack()
+    public void PlaySoundAttack()
     {
         _soundPlayerAttack.Play();
+        
     }
 
-    protected void PlaySoundHit()
+    public void PlaySoundAttackAmbience()
+    {
+        _soundPlayerAttackAmbience.Play();
+    }
+
+    public void PlaySoundHit()
     {
         _soundPlayerHit.Play();
     }
 
-    protected void PlaySoundDeath()
+    public void PlaySoundDeath()
     {
         _soundPlayerDeath.Play();
     }
@@ -257,6 +322,30 @@ public class DemonBase : MonoBehaviour, IDemon
     protected void PlaySoundFootStep()
     {
         _soundPlayerFootsteps.Play();
+    }
+    public void AttackAnimation()
+    {
+        if (_animator.GetFloat("Speed") <= 0f)
+        {
+            if(!_animator.GetCurrentAnimatorStateInfo(1).IsName("Attack"))
+            {
+                PlayAnimation("StandingAttack");
+                
+            }
+        }
+        else
+        {
+            if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("StandingAttack"))
+            {
+                PlayAnimation("Attack");
+             
+            }
+        }
+    }
+
+    public void SetAttackOverride()
+    {
+        _animator.runtimeAnimatorController = _animationOverrides.SetOverrideController();
     }
 
     public void setSpawnPosition(Vector3 pos)
@@ -269,7 +358,7 @@ public class DemonBase : MonoBehaviour, IDemon
     {
         get
         {
-            return _agent.remainingDistance;
+            return _aiAgent.RemainingDistancePath;
         }
     }
 
@@ -283,94 +372,27 @@ public class DemonBase : MonoBehaviour, IDemon
     #endregion
 
     #region Interface
-    
-    public NavMeshPath CalculatePath(Transform targetPos)
-    {
-        NavMeshPath path = new NavMeshPath();
 
-        _agent.CalculatePath(targetPos.position, path);
-
-        return path;
-    }
-    public void CalculateAndSetPath(Transform targetPos, bool active)
+    public void CalculateAndSetPath(Transform targetPos)
     {
-        if(active == true)
+        float num = Vector3.Distance(targetPos.position, transform.position);
+
+        if (num > _aiAgent.stopingDistance)
         {
-            NavMeshPath path = new NavMeshPath();
-
-            lastPos = targetPos.position;
-
-            _agent.CalculatePath(lastPos, path);
-
-            if (path.status == NavMeshPathStatus.PathComplete)
-            {
-                _agent.SetPath(path);
-            }
-
+            _aiAgent.UpdatePath(targetPos);
             _target = targetPos;
         }
     }
-    
-    public void StopPathing()
-    {
-        _agent.isStopped = true;
-        _agent.ResetPath();
-    }
-    public void SetTarget(Transform newTarget)
-    {
-        _target = newTarget;
-    }
-    public Transform GetTarget()
-    {
-        return _target;
-    }
-    public void UpdateAttackSpeed(float amount)
-    {
-        _attackSpeed = amount;
-    }
-    public void SetAttackSpeed(float amount)
-    {
-        _attackSpeed += amount;
-    }
-    public void UpdateHealth(float amount)
-    {
-        _health.health += amount;
-    }
+
+    public Health GetHealth { get { return _health; } }
+    public AiAgent GetAgent { get { return _aiAgent; } }
+    public Animator GetAnimator { get { return _animator; } }
+    public Rigidbody GetRigidbody { get { return _rb; } }
+
     public void SetHealth(float amount)
     {
         _health.health = amount;
     }
-    public void UpdateMaxHealth(float amount)
-    {
-        _health.maxHealth += amount;
-    }
-    public void SetMaxHealth(float amount)
-    {
-        _health.maxHealth = amount;
-    }
-    public void UpdateAttackRange(float amount)
-    {
-        _attackRange += amount;
-    }
-    public void SetAttackRange(float amount)
-    {
-        _attackRange = amount;
-    }
-    public void UpdateMoveSpeed(float amount)
-    {
-        _moveSpeed += amount;
-    }
-    public void SetMoveSpeed(float amount)
-    {
-        _moveSpeed = amount;
-    }
-    public void UpdateDamage(float amount)
-    {
-        _damage += amount;
-    }
-    public void SetDamage(float amount)
-    {
-        _damage = amount;
-    }
+   
     #endregion
 }

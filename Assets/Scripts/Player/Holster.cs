@@ -48,8 +48,16 @@ public class Holster : MonoBehaviour
     public Animator animator;
     public string drawTrigger;
     public string holsterTigger;
-
+    public bool consumeAmmo = true;
     float drawTimer = 0;
+
+    private void Awake()
+    {
+        rb = GetComponentInParent<Rigidbody>();
+        stats = GetComponentInParent<PlayerStats>();
+        abilityCaster = GetComponentInParent<AbilityCaster>();
+        playerInput = GetComponentInParent<Movement.PlayerInput>();
+    }
     private void Start()
 	{
         verticalRecoilDynamics = new SecondOrderDynamics(frequncey, damping, reaction, 0);
@@ -69,7 +77,9 @@ public class Holster : MonoBehaviour
 
         OnHolster();
 		animator.SetTrigger(drawTrigger);
-    }
+		animator.SetFloat(HeldGun.equipSpeedKey, 1 / HeldGun.drawTime);
+
+	}
 	private void Update()
 	{
 		if (updateKVals)
@@ -120,7 +130,7 @@ public class Holster : MonoBehaviour
         gun.holster = this;
         if (gun.visualiserPool.Enabled && !gun.useOwnVisualiser)
             gun.visualiserPool.Value = bulletVisualierPool;
-		guns[slot].gameObject.SetActive(true);
+		//guns[slot].gameObject.SetActive(true);
 		SetGunIndex(slot);
     }
 
@@ -131,10 +141,12 @@ public class Holster : MonoBehaviour
             return;
         }
         state = HolsterStates.holstering;
-        drawTimer = guns[heldGunIndex].holsterTime;
+		animator.SetTrigger(holsterTigger);
+		animator.SetFloat(HeldGun.unEquipSpeedKey, 1 / HeldGun.holsterTime);
+		drawTimer = guns[heldGunIndex].holsterTime;
         lastGunIndex = heldGunIndex;
         heldGunIndex = index;
-        animator.SetTrigger(holsterTigger);
+        
         //      for(int i = 0; i < guns.Length; i++)
         //{
         //          if (guns[i] != null)
@@ -142,14 +154,14 @@ public class Holster : MonoBehaviour
         //              guns[i].gameObject.SetActive(i==index);
         //	}
         //}
-        
+
     }
     
     
     public void OnHit(float damage,float targetMaxHealth)
 	{
         
-        abilityCaster.AddBlood((damage * 100 * HeldGun.bloodGainMulti * stats.bloodGainMulti)/targetMaxHealth);
+        abilityCaster.AddBlood((damage/targetMaxHealth) * HeldGun.bloodGainMulti * stats.bloodGainMulti);
         if(OnDealDamage != null)
         OnDealDamage(damage);
 	}
@@ -207,7 +219,8 @@ public class Holster : MonoBehaviour
         animator.runtimeAnimatorController = guns[heldGunIndex].controller;
         state = HolsterStates.drawing;
         drawTimer = guns[heldGunIndex].drawTime;
-        animator.SetTrigger(drawTrigger);
+		animator.SetFloat(HeldGun.equipSpeedKey, 1 / HeldGun.drawTime);
+		animator.SetTrigger(drawTrigger);
     }
     public void OnDraw()
     {

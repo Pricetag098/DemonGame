@@ -9,6 +9,8 @@ public class SurfaceData : ScriptableObject
 	public Optional<VfxSpawnRequest> stepFx;
 	public Optional<VfxSpawnRequest> slideFx;
 	public Optional<VfxSpawnRequest> jumpFx;
+	public float speedModifier = 1;
+
 	public void PlayHitVfx(Vector3 pos, Vector3 dir)
 	{
 		if (hitFx.Enabled)

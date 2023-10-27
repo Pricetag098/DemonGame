@@ -8,13 +8,13 @@ public class FileDataHandler<T>
     string dataPath;
     string fileName;
 	bool useEncryption;
-
+	bool logErrors;
 	string encryptionKey = "Why bother dude";
-	public FileDataHandler(string dataPath, string fileName, bool useEncryption = false)
+	public FileDataHandler(string dataPath, string fileName, bool useEncryption = false,bool logErrors = false)
 	{
 		this.dataPath = dataPath;
 		this.fileName = fileName;
-
+		this.logErrors = logErrors;
 		Debug.Log(Path.Combine(dataPath, fileName));
 		this.useEncryption = useEncryption;
 
@@ -49,6 +49,7 @@ public class FileDataHandler<T>
 		}
 		catch (Exception ex)
 		{
+			if(logErrors)
 			Debug.LogError("Error when saving data to file: " + path + "\n" + ex);
 		}
 		return data;
@@ -77,7 +78,8 @@ public class FileDataHandler<T>
 		}
 		catch (Exception ex)
 		{
-			Debug.LogError("Error when saving data to file: " + path + "\n" + ex);
+            if (logErrors)
+                Debug.LogError("Error when saving data to file: " + path + "\n" + ex);
 		}
 	}
 

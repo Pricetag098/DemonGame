@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>
+public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDataPersistance<SessionData>
 {
     [HideInInspector]public AbilityCaster caster;
     public int activeIndex;
@@ -76,14 +76,14 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>
 
     void IDataPersistance<GameData>.LoadData(GameData data)
 	{
-        bloodGained = data.bloodGained;
-        bloodSpent = data.bloodSpent;
+        //bloodGained = data.bloodGained;
+        //bloodSpent = data.bloodSpent;
 	}
 
     void IDataPersistance<GameData>.SaveData(ref GameData data)
 	{
-        data.bloodGained = bloodGained;
-        data.bloodSpent = bloodSpent;
+        data.bloodGained += bloodGained;
+        data.bloodSpent += bloodSpent;
 	}
 
     void Swap(InputAction.CallbackContext context)
@@ -144,5 +144,16 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>
             }
         }
         caster.SetAbility(activeIndex, ability);
+    }
+
+    public void LoadData(SessionData data)
+    {
+        //throw new System.NotImplementedException();
+    }
+
+    public void SaveData(ref SessionData data)
+    {
+        data.bloodSpent = bloodSpent;
+        data.bloodGained = bloodGained;
     }
 }

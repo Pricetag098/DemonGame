@@ -5,31 +5,30 @@ using UnityEngine.AI;
 
 public class DestroyObstacle : MonoBehaviour
 {
-    [SerializeField] private int DestructibleCheckRate = 10;
     [SerializeField] private float CheckDistance = 1f;
     [SerializeField] private float AttackDelay = 1f;
     [SerializeField] private int DestructibleAttackDamage = 1;
     [SerializeField] private LayerMask DestructibleLayers;
 
-    private NavMeshAgent Agent;
-    private DemonBase demon;
+    //private NavMeshAgent Agent;
+    private AiAgent Agent;
+    private BasicDemon demon;
     private NavMeshPath OrigianlPath;
+    private Timer timer;
 
     private void Awake()
     {
-        Agent = GetComponent<NavMeshAgent>();
-        demon = GetComponent<DemonBase>();
+        Agent = GetComponent<AiAgent>();
+        demon = GetComponent<BasicDemon>();
+        timer = new Timer(AttackDelay, true);
     }
 
     private bool checkForObjects;
     private bool foundObject;
     private DestrcutibleObject obj;
-    private float timer;
 
     public void Detection()
     {
-        timer += Time.deltaTime;
-
         if(foundObject == false)
         {
             checkForObjects = CheckForDistructibleObjects();
@@ -39,43 +38,48 @@ public class DestroyObstacle : MonoBehaviour
 
         foundObject = true;
 
-        if (HelperFuntions.TimerGreaterThan(timer, AttackDelay))
+        if (timer.TimeGreaterThan)
         {
             if(obj is not null)
             {
-                obj.TakeDamage(DestructibleAttackDamage);
-                demon.PlayAnimation("Attack");
+                demon.AttackAnimation();
+            }
+        }
+    }
 
-                if (obj.Health <= 0)
-                {
-                    Agent.enabled = true;
-                    Agent.path = OrigianlPath;
-                    obj = null;
-                }
+    public void BarrierTakeDmg()
+    {
+        if (obj is not null)
+        {
+            obj.TakeDamage(DestructibleAttackDamage);
 
-                timer = 0;
+            if (obj.Health <= 0)
+            {
+                Agent.canMove = true;
+                obj = null;
+                demon.DemonInMap = true;
             }
         }
     }
 
     private bool CheckForDistructibleObjects()
     {
-        Vector3[] corners = new Vector3[2];
+        RaycastHit hit;
+        Agent.RaycastMoveDirection(CheckDistance, out hit, DestructibleLayers);
 
-        int length = Agent.path.GetCornersNonAlloc(corners);
-        if(length > 1)
+        if (hit.collider != null)
         {
-            if (Physics.Raycast(corners[0], (corners[1] - corners[0]).normalized, out RaycastHit hit, CheckDistance, DestructibleLayers))
+            if (hit.collider.TryGetComponent<DestrcutibleObject>(out DestrcutibleObject d))
             {
-                if(hit.collider.TryGetComponent<DestrcutibleObject>(out DestrcutibleObject d))
+                if (d.Health > 0)
                 {
-                    if(d.Health > 0)
-                    {
-                        OrigianlPath = Agent.path;
-                        Agent.enabled = false;
-                        obj = d;
-                        return true;
-                    }
+                    Agent.canMove = false;
+                    obj = d;
+                    return true;
+                }
+                else
+                {
+                    demon.DemonInMap = true;
                 }
             }
         }

@@ -15,18 +15,20 @@ public class DestrcutibleObject : Interactable
 
     private List<GameObject> activeSymbols = new List<GameObject>();
 
-    private float rebuildTimer;
     [SerializeField] private float rebuildInterval;
 
     private bool canRebuild;
 
     private PlayerStats player;
+    private Timer timer;
 
     private void Awake()
     {
         activeSymbols.AddRange(symbolsList);
 
         player = FindObjectOfType<PlayerStats>();
+
+        timer = new Timer(rebuildInterval);
     }
 
     public void TakeDamage(int Damage)
@@ -48,6 +50,8 @@ public class DestrcutibleObject : Interactable
     public void RestoreHealth(int amount)
     {
         Health += amount;
+        if (Health > maxHealth) { Health = maxHealth; }
+
         activeSymbols[Health - 1].SetActive(true);
         if(Health == 1)
         {
@@ -56,7 +60,7 @@ public class DestrcutibleObject : Interactable
 
         player.GainPoints(pointsToGain);
 
-        if (Health > maxHealth) { Health = maxHealth; }
+        
     }
     public void RestoreHealthToMax()
     {
@@ -70,34 +74,32 @@ public class DestrcutibleObject : Interactable
 
     public override void Interact(Interactor interactor)
     {
-        if (canRebuild == true)
-        {
-            RestoreHealth(1);
-
-            canRebuild = false;
-            rebuildTimer = 0;
-        }
+        canRebuild = true;
     }
 
     private void Update()
     {
-        if(canRebuild == false)
+        if(canRebuild == true)
         {
-            canRebuild = rebuildTimer > rebuildInterval && Health < maxHealth;
-
-            rebuildTimer += Time.deltaTime;   
+            if(timer.TimeGreaterThan)
+            {
+                RestoreHealth(1);
+            }
         }
     }
 
     public override void StartHover(Interactor interactor)
     {
         base.StartHover(interactor);
-        interactor.display.DisplayMessage(true, interactMessage);
+        if(Health < maxHealth) interactor.display.DisplayMessage(true, interactMessage);
     }
 
     public override void EndHover(Interactor interactor)
     {
         base.EndHover(interactor);
         interactor.display.HideText();
+
+        canRebuild = false;
+        timer.SetTime(timer.TimeInterval);
     }
 }

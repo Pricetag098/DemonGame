@@ -36,6 +36,7 @@ public class Gun : MonoBehaviour
     public float bloodGainMulti = 1;
     public float drawTime = 1;
     public float holsterTime = 1;
+    [SerializeField] List<OnHitEffect> onHitEffectList = new List<OnHitEffect>();
 
     [Header("DamageSetting")]
     public float headDamage = 10;
@@ -105,6 +106,12 @@ public class Gun : MonoBehaviour
     public RuntimeAnimatorController controller;
     public string shootKey = "shoot";
     public string reloadKey = "reload";
+    public string shootspeedKey = "FireRate";
+    public string reloadSpeedKey = "ReloadRate";
+    public string equipSpeedKey = "EquipRate";
+    public string unEquipSpeedKey = "UnEquipRate";
+	public string fireIndexKey = "FireIndex";
+	public int fireAnimations = 1;
     //public string sprintKey = "sprinting";
 
     [Header("Upgrading")]
@@ -136,7 +143,12 @@ public class Gun : MonoBehaviour
 	{
 		shootAction.action.Enable();
         reloadAction.action.Enable();
-	}
+        
+        if (animator.Enabled)
+        {
+            animator.Value.SetFloat(equipSpeedKey, 1 / drawTime);
+        }
+    }
 	private void OnDisable()
 	{
         //shootAction.action.Disable();
@@ -260,12 +272,14 @@ public class Gun : MonoBehaviour
 				}
                 break;
             case GunStates.reloading:
-                reloadTimer += Time.deltaTime;
-                if (reloadTimer >= reloadDuration * holster.stats.reloadTimeMulti)
+				reloadTimer += Time.deltaTime;
+				if (reloadTimer > reloadDuration * holster.stats.reloadTimeMulti)
                 {
+                    Debug.Log(reloadTimer);
                     Reload();
                 }
-                break;
+				
+				break;
             case GunStates.disabled:
                 break;
 		}
@@ -298,12 +312,10 @@ public class Gun : MonoBehaviour
     protected virtual void Shoot()
     {
 
-
+       
         for (int i = 0; i < shotsPerFiring; i++)
         {
-            holster.animator.SetTrigger(shootKey);
-            if (animator.Enabled)
-                animator.Value.SetTrigger(shootKey);
+            
             Vector3 randVal = GetSpread(UnityEngine.Random.insideUnitSphere);
             
             
@@ -397,7 +409,7 @@ public class Gun : MonoBehaviour
             }
             
         }
-                
+        if(holster.consumeAmmo)
         ammoLeft--;
         fireTimer = 1/(roundsPerMin/60);
         recoil++;
@@ -405,6 +417,16 @@ public class Gun : MonoBehaviour
             recoil = maxAmmo;
         timeSinceLastShot = 0;
         shootSound.Play();
+
+        holster.animator.SetTrigger(shootKey);
+        holster.animator.SetFloat(shootspeedKey,1/ fireTimer);
+        if (animator.Enabled)
+        {
+            animator.Value.SetInteger(fireIndexKey,ammoLeft % fireAnimations);
+            animator.Value.SetTrigger(shootKey);
+            animator.Value.SetFloat(shootspeedKey,1/ fireTimer);
+        }
+            
         if (gunfire.Enabled)
         {
             gunfire.Value.Play();
@@ -433,7 +455,12 @@ public class Gun : MonoBehaviour
         if (gunState != GunStates.awaiting || ammoLeft == maxAmmo || stash <= 0)
             return;
         if (animator.Enabled)
+        {
             animator.Value.SetTrigger(reloadKey);
+            animator.Value.SetFloat(reloadSpeedKey, 1/reloadDuration);
+        }
+        holster.animator.SetFloat(reloadSpeedKey,1/reloadDuration);
+        Debug.Log(reloadDuration);
         holster.animator.SetTrigger(reloadKey);
         gunState = GunStates.reloading;
         reloadTimer = 0;

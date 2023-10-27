@@ -5,18 +5,14 @@ using DemonInfo;
 using System.Reflection;
 using Unity.Jobs;
 using UnityEngine.AI;
-//using static UnityEditor.PlayerSettings;
 
 public class DemonSpawner : MonoBehaviour
 {
     [HideInInspector] public Queue<DemonType> DemonQueue = new Queue<DemonType>();
-    [HideInInspector] public List<DemonBase> ActiveDemons = new List<DemonBase>();
+    [HideInInspector] public static List<DemonBase> ActiveDemons = new List<DemonBase>();
 
     private Spawners _spawners;
     [HideInInspector] public DemonPoolers demonPool;
-
-    private int baseSpawnerCount = 0;
-    private int specialSpawnerCount = 0;
 
     private void Awake()
     {
@@ -32,12 +28,14 @@ public class DemonSpawner : MonoBehaviour
 
         for (int i = 0; i < num; i++)
         {
-            DemonBase temp = ActiveDemons[0];
+            DemonBase demon = ActiveDemons[0];
 
-            temp.PathFinding();
-
-            ActiveDemons.RemoveAt(0);
-            ActiveDemons.Add(temp);
+            if(demon.GetHealth.dead == false)
+            {
+                demon.PathFinding();
+                ActiveDemons.RemoveAt(0);
+                ActiveDemons.Add(demon);
+            }
         }
     }
 
@@ -52,18 +50,6 @@ public class DemonSpawner : MonoBehaviour
 
         DemonQueue.Enqueue(demon);
     }
-
-    /// <summary>
-    /// Gets the ActiveSpawners in Range of the Player
-    /// </summary>
-    /// <param name="player"></param>
-    /// <param name="playerAgent"></param>
-    //public void ActiveSpawners(Transform player, NavMeshAgent playerAgent, SpawnerManager sm)
-    //{
-    //    baseSpawnerCount = _spawners.CheckBaseSpawners(player, playerAgent);
-    //    //specialSpawnerCount = _spawners.CheckSpecialSpawners(player, playerAgent);
-    //    specialSpawnerCount = 0;
-    //}
 
     public void ActiveSpawners(Areas Id, Areas CurrentArea)
     {
@@ -82,7 +68,6 @@ public class DemonSpawner : MonoBehaviour
             ActiveDemons[i].OnDespawn(true);
         }
 
-        Debug.Log(DemonCount);
         ActiveDemons.Clear();
     }
 
@@ -96,6 +81,18 @@ public class DemonSpawner : MonoBehaviour
         }
 
         ActiveDemons.Clear();
+    }
+
+    public static List<GameObject> AllActiveDemons()
+    {
+        List<GameObject> list = new List<GameObject>();
+
+        foreach(var demon in ActiveDemons)
+        {
+            list.Add(demon.gameObject);
+        }
+
+        return list;    
     }
 
 
@@ -127,9 +124,9 @@ public class DemonSpawner : MonoBehaviour
                         }
                     }
 
-                    if(spawner is null) { DemonQueue.Enqueue(demon); return false; }
+                    if(spawner == null) { DemonQueue.Enqueue(demon); return false; }
 
-                    return spawner.RequestSpawn(demon, this, sm, SpawnType.Default);
+                    return spawner.RequestSpawn(demon, sm, SpawnType.Default);
                 }
                 else 
                 { 
@@ -153,9 +150,9 @@ public class DemonSpawner : MonoBehaviour
                         }
                     }
 
-                    if (spawner is null) { DemonQueue.Enqueue(demon); return false; }
+                    if (spawner == null) { DemonQueue.Enqueue(demon); return false; }
 
-                    return spawner.RequestSpawn(demon, this, sm, SpawnType.Default);
+                    return spawner.RequestSpawn(demon, sm, SpawnType.Default);
                 }
                 else 
                 { 
@@ -190,9 +187,9 @@ public class DemonSpawner : MonoBehaviour
             }
         }
 
-        if (spawner is null) { ritual.DemonQueue.Enqueue(demon); return false; }
+        if (spawner == null) { ritual.DemonQueue.Enqueue(demon); return false; }
 
-        return spawner.RequestSpawn(demon, this, sm, list, SpawnType.Ritual); ;
+        return spawner.RequestSpawn(demon, sm, list, SpawnType.Ritual); ;
     }
 
     /// <summary>

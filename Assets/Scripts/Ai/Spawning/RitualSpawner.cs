@@ -32,12 +32,14 @@ public class RitualSpawner : MonoBehaviour
 
     [Header("Ritual Completion")]
     [SerializeField] GameObject completion;
+    [SerializeField] GameObject orbHolder;
     [HideInInspector] public bool IncrementRitual;
     
 
     private SpawnerManager manager;
     private DemonSpawner demonSpawner;
     private Health playerHealth;
+    private Timer ritualTimer;
 
     private float timer;
 
@@ -51,7 +53,7 @@ public class RitualSpawner : MonoBehaviour
     private void Start()
     {
         BlockerObjects.gameObject.SetActive(false);
-        demonSpawner = manager.DemonSpawner;
+        demonSpawner = manager._DemonSpawner;
     }
 
     private void Update()
@@ -85,14 +87,14 @@ public class RitualSpawner : MonoBehaviour
             BlockerObjects.gameObject.SetActive(true);
 
             soundPlayerStart.Play();
+
+            ritualTimer = new Timer(ritual.TimeBetweenSpawns);
         }
     }
 
     public void Spawning(DemonSpawner spawner, SpawnerManager sm)
     {
-        timer += Time.deltaTime;
-
-        if (HelperFuntions.TimerGreaterThan(timer, ritual.TimeBetweenSpawns) && RitualActive == true)
+        if(ritualTimer.TimeGreaterThan && RitualActive == true)
         {
             if (HelperFuntions.IntGreaterThanOrEqual(ritual.MaxDemonsAtOnce, currentDemons))
             {
@@ -154,6 +156,10 @@ public class RitualSpawner : MonoBehaviour
         soundPlayerComplete.Play();
 
         completion.SetActive(false);
+        if (orbHolder != null)
+        {
+            orbHolder.GetComponent<Bounce>().Escape();
+        }
 
         sm.FinalRitual();
         sm.TpPlayerOnEnd();

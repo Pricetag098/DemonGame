@@ -251,10 +251,10 @@ public class DemonBase : MonoBehaviour
     /// <param name="targetPos"></param>
     public void CalculateAndSetPath(Transform targetPos)
     {
-        if(_aiAgent.UpdatePath(targetPos))
-        {
-            _target = targetPos;
-        }
+        _aiAgent.UpdatePath(targetPos);
+        
+        _target = targetPos;
+        
     }
 
     /// <summary>

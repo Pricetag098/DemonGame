@@ -94,12 +94,12 @@ public class AiAgent : SpatialHashObject
 
     public bool UpdatePath(Transform target)
     {
-        if(RemainingDistancePath > stopingDistance)
-        {
-            NavMeshPath path = new NavMeshPath();
-            CalculatePath(target.position, path);
-            SetPath(path);
+        NavMeshPath path = new NavMeshPath();
+        CalculatePath(target.position, path);
+        SetPath(path);
 
+        if (RemainingDistancePath > stopingDistance)
+        {
             return true;
         }
 

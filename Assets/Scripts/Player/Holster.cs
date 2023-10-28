@@ -15,12 +15,13 @@ public class Holster : MonoBehaviour
     [SerializeField] InputActionProperty input;
 
     public int heldGunIndex = 0;
-    public int lastGunIndex = 0;
+    public int newGunIndex = 0;
     public Gun HeldGun { 
         get { return guns[heldGunIndex]; }
         set { SetGun(heldGunIndex, value); }
     }
-    const int MaxGuns = 2;
+	Gun replacingGun;
+	const int MaxGuns = 2;
     //[HideInInspector]
     public Gun[] guns = new Gun[MaxGuns];
 
@@ -41,7 +42,8 @@ public class Holster : MonoBehaviour
     {
 		normal,
 		drawing,
-        holstering
+        holstering,
+        replacing
     }
     [SerializeField]HolsterStates state;
     [Header("Animation")]
@@ -50,8 +52,16 @@ public class Holster : MonoBehaviour
     public string holsterTigger;
     public bool consumeAmmo = true;
     float drawTimer = 0;
+	private void OnEnable()
+	{
+		input.action.Enable();
+	}
 
-    private void Awake()
+	private void OnDisable()
+	{
+		input.action.Disable();
+	}
+	private void Awake()
     {
         rb = GetComponentInParent<Rigidbody>();
         stats = GetComponentInParent<PlayerStats>();
@@ -69,15 +79,19 @@ public class Holster : MonoBehaviour
             Gun g;
 			if (transform.GetChild(i).TryGetComponent(out g))
 			{
-                SetGun(j, g);
+                guns[i] = g;
+                SetUpGun(g);
+                g.gameObject.SetActive(false);
                 j++;
 			}
 		}
-        //OnDraw();
+		//OnDraw();
 
-        OnHolster();
-		animator.SetTrigger(drawTrigger);
-		animator.SetFloat(HeldGun.equipSpeedKey, 1 / HeldGun.drawTime);
+
+		//SetGunIndex(0);
+		guns[heldGunIndex].gameObject.SetActive(true);
+		animator.runtimeAnimatorController = guns[heldGunIndex].controller;
+        DrawGun();
 
 	}
 	private void Update()
@@ -87,52 +101,120 @@ public class Holster : MonoBehaviour
             verticalRecoilDynamics.UpdateKVals(frequncey, damping, reaction);
             horizontalRecoilDynamics.UpdateKVals(frequncey, damping, reaction);
         }
+        drawTimer-= Time.deltaTime;
 
         switch (state)
         {
             case HolsterStates.normal:
                 break;
-            case HolsterStates.drawing:
-				drawTimer -= Time.deltaTime;
-				if (drawTimer < 0)
-				{
-					OnDraw();
-				}
-				break;
-            case HolsterStates.holstering: 
-                drawTimer -= Time.deltaTime;
+            case HolsterStates.holstering:
                 if(drawTimer < 0)
                 {
-                    OnHolster();
+
+                    guns[heldGunIndex].gameObject.SetActive(false);
+                    heldGunIndex = newGunIndex;
+					animator.runtimeAnimatorController = HeldGun.controller;
+					guns[heldGunIndex].gameObject.SetActive(true);
+                    DrawGun();
+				}
+                break;
+            case HolsterStates.drawing:
+                if(drawTimer < 0)
+                {
+                    state = HolsterStates.normal;
                 }
                 break;
+            case HolsterStates.replacing:
+				if (drawTimer < 0)
+				{
+
+					Destroy(HeldGun.gameObject);
+                    guns[heldGunIndex] = replacingGun;
+					animator.runtimeAnimatorController = HeldGun.controller;
+					guns[heldGunIndex].gameObject.SetActive(true);
+					DrawGun();
+				}
+				break;
         }
         
 	}
+
+    void HolsterGun()
+    {
+        state = HolsterStates.holstering;
+
+        animator.SetFloat(HeldGun.unEquipSpeedKey, 1 / HeldGun.holsterTime);
+        animator.SetTrigger(holsterTigger);
+        if (HeldGun.animator.Enabled)
+        {
+			HeldGun.animator.Value.SetFloat(HeldGun.unEquipSpeedKey, 1 / HeldGun.holsterTime);
+			HeldGun.animator.Value.SetTrigger(holsterTigger);
+		}
+        drawTimer = HeldGun.holsterTime;
+    }
+
+    void ReplaceGun()
+    {
+		state = HolsterStates.replacing;
+
+		animator.SetFloat(HeldGun.unEquipSpeedKey, 1 / HeldGun.holsterTime);
+		animator.SetTrigger(holsterTigger);
+		if (HeldGun.animator.Enabled)
+		{
+			HeldGun.animator.Value.SetFloat(HeldGun.unEquipSpeedKey, 1 / HeldGun.holsterTime);
+			HeldGun.animator.Value.SetTrigger(holsterTigger);
+		}
+		drawTimer = HeldGun.holsterTime;
+	}
+    void DrawGun()
+    {
+		state = HolsterStates.drawing;
+
+		animator.SetFloat(HeldGun.equipSpeedKey, 1 / HeldGun.drawTime);
+		animator.SetTrigger(drawTrigger);
+		if (HeldGun.animator.Enabled)
+		{
+			HeldGun.animator.Value.SetFloat(HeldGun.equipSpeedKey, 1 / HeldGun.drawTime);
+			HeldGun.animator.Value.SetTrigger(drawTrigger);
+		}
+		drawTimer = HeldGun.drawTime;
+	}
+    
+
 	public void SetGun(int slot,Gun gun)
 	{
         if (slot > MaxGuns)
             return;
-        for(int i=0; i < MaxGuns; i++)
+		gun.gameObject.SetActive(false);
+		for (int i=0; i < MaxGuns; i++)
 		{
             if (guns[i] == null)
 			{
                 slot = i;
-                break;
+				SetUpGun(gun);
+                guns[slot] = gun;
+				SetGunIndex(slot);
+				
+				return;
             }
                 
 		}
-        if(guns[slot] != null)
-		{
-            Destroy(guns[slot].gameObject);
-		}
-        guns[slot] = gun;
-        gun.holster = this;
-        if (gun.visualiserPool.Enabled && !gun.useOwnVisualiser)
-            gun.visualiserPool.Value = bulletVisualierPool;
-		//guns[slot].gameObject.SetActive(true);
-		SetGunIndex(slot);
-    }
+        replacingGun = gun;
+  
+        SetUpGun(gun);
+        ReplaceGun();
+        
+	}
+
+    void SetUpGun(Gun gun)
+    {
+		gun.holster = this;
+		if (gun.visualiserPool.Enabled && !gun.useOwnVisualiser)
+			gun.visualiserPool.Value = bulletVisualierPool;
+	}
+
+    
+    
 
     public void SetGunIndex(int index)
 	{
@@ -140,21 +222,8 @@ public class Holster : MonoBehaviour
 		{
             return;
         }
-        state = HolsterStates.holstering;
-		animator.SetTrigger(holsterTigger);
-		animator.SetFloat(HeldGun.unEquipSpeedKey, 1 / HeldGun.holsterTime);
-		drawTimer = guns[heldGunIndex].holsterTime;
-        lastGunIndex = heldGunIndex;
-        heldGunIndex = index;
-        
-        //      for(int i = 0; i < guns.Length; i++)
-        //{
-        //          if (guns[i] != null)
-        //	{
-        //              guns[i].gameObject.SetActive(i==index);
-        //	}
-        //}
-
+        newGunIndex = index;
+        HolsterGun();
     }
     
     
@@ -166,15 +235,7 @@ public class Holster : MonoBehaviour
         OnDealDamage(damage);
 	}
 
-	private void OnEnable()
-	{
-		input.action.Enable();
-	}
-
-	private void OnDisable()
-	{
-		input.action.Disable();
-	}
+	
 
     void SwapGun(InputAction.CallbackContext callback)
 	{
@@ -209,26 +270,7 @@ public class Holster : MonoBehaviour
         return false;
     }
 
-    public void OnHolster()
-    {
-        Debug.Log("Holster");
-        guns[lastGunIndex].gameObject.SetActive(false);
-        guns[heldGunIndex].gameObject.SetActive(true);
-        animator.ResetTrigger(holsterTigger);
-        guns[heldGunIndex].gunState = Gun.GunStates.disabled;
-        animator.runtimeAnimatorController = guns[heldGunIndex].controller;
-        state = HolsterStates.drawing;
-        drawTimer = guns[heldGunIndex].drawTime;
-		animator.SetFloat(HeldGun.equipSpeedKey, 1 / HeldGun.drawTime);
-		animator.SetTrigger(drawTrigger);
-    }
-    public void OnDraw()
-    {
-        Debug.Log("Draw");
-        guns[heldGunIndex].gunState = Gun.GunStates.awaiting;
-        state = HolsterStates.normal;
-		animator.ResetTrigger(drawTrigger);
-	}
+   
     public bool CanShoot()
 	{
         return playerInput.Running();

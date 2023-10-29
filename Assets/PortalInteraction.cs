@@ -36,6 +36,14 @@ public class PortalInteraction : ShopInteractable
 		Close();
 	}
 
+	public override void StartHover(Interactor interactor)
+	{
+		base.StartHover(interactor);
+		Ability a = ability;
+		interactor.display.DisplayMessage(true, buyMessage + " " + a.abilityName + ": " + GetCost(interactor));
+
+	}
+
 	public void Open()
     {
 		if (isOpen)

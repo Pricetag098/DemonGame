@@ -46,12 +46,16 @@ public class SpawnerManager : MonoBehaviour
     private Timer spawnTimer;
     private Timer endRoundTimer;
 
+    [Header("Spawn Particle")]
+    [HideInInspector] public ObjectPooler ParticleSpawner;
+
     private void Awake()
     {
         WaveManager = GetComponent<WaveManager>();
         _DemonSpawner = GetComponent<DemonSpawner>();
         RitualManager = GetComponent<RitualManager>();
         BlessingManager = GetComponent<BlessingManager>();
+        ParticleSpawner = GetComponent<ObjectPooler>();
         roundDisplay = FindObjectOfType<RoundDisplay>();
 
         spawnTimer = new Timer(timeBetweenSpawns);

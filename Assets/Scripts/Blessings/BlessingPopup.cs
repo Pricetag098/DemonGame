@@ -24,11 +24,11 @@ public class BlessingPopup : MonoBehaviour
 
 	public void Display(Blessing blessing)
 	{
-		DOTween.KillAll(gameObject);
+		DOTween.Kill(this,true);
 		image.sprite = blessing.blessingImage;
 		title.text = blessing.blessingName;
 
-		Sequence sequence = DOTween.Sequence(gameObject);
+		Sequence sequence = DOTween.Sequence(this);
 		sequence.Append(canvasGroup.DOFade(1, entryTime));
 		sequence.Join(rectTransform.DOPunchScale(Vector3.one * punchScale, entryTime));
 		sequence.AppendInterval(holdTime);

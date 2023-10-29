@@ -370,4 +370,13 @@ public class DemonBase : MonoBehaviour
         }
     }
     #endregion
+
+    #region SPAWNING_FUNCTIONS
+
+    public void SetDemonInMap(bool active)
+    {
+        DemonInMap = active;
+    }
+
+    #endregion
 }

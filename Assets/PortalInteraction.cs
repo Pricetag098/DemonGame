@@ -25,7 +25,7 @@ public class PortalInteraction : ShopInteractable
 		Close();
 		DOTween.Kill(this, true);
 	}
-
+	bool isOpen = true;	
 	protected override bool CanBuy(Interactor interactor)
 	{
 		return !interactor.GetComponent<PlayerAbilityCaster>().caster.HasAbility(ability);
@@ -38,8 +38,9 @@ public class PortalInteraction : ShopInteractable
 
 	public void Open()
     {
-		
-        Sequence open = DOTween.Sequence();
+		if (isOpen)
+			return; isOpen = true;
+		Sequence open = DOTween.Sequence();
         open.Append(body.DOScale(Vector3.one * maxPortalSize, openTime)).SetEase(Ease.InSine);
         open.AppendCallback(() => armAnimator.SetTrigger("Out"));
 		open.AppendCallback(() => armAnimator.ResetTrigger("In"));
@@ -49,6 +50,8 @@ public class PortalInteraction : ShopInteractable
 
    public void Close()
     {
+		if(!isOpen)
+			return; isOpen = false;
 		Sequence close = DOTween.Sequence();
 		close.AppendCallback(() => idleSound.Stop());
 		close.AppendCallback(() => closeSound.Play());

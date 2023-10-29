@@ -14,6 +14,8 @@ public class NavMeshBaker : MonoBehaviour
     {
         foreach (MeshRenderer mesh in meshRenderers)
         {
+            mesh.GetComponent<MeshCollider>().enabled = true;
+
             mesh.enabled = true;
         }
 
@@ -27,6 +29,8 @@ public class NavMeshBaker : MonoBehaviour
     {
         foreach (MeshRenderer mesh in meshRenderers)
         {
+            mesh.GetComponent<MeshCollider>().enabled = false;
+
             mesh.enabled = false;
         }
 

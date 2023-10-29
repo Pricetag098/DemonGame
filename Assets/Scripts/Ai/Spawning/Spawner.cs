@@ -6,15 +6,25 @@ using DemonInfo;
 
 public class Spawner : MonoBehaviour
 {
+    [SerializeField] private bool SpawnerInMap;
+    [SerializeField] private bool ParticleOnSpawn;
     [HideInInspector] public Vector3 position;
     [HideInInspector] public bool CanSpawn;
     [HideInInspector] public bool Visited;
     [HideInInspector] public float distToArea;
 
+    public delegate void Action(ObjectPooler spawnParticle);
+    private Action particleSpawnAction;
+
     private void Awake()
     {
         position = transform.position;
         CanSpawn = true;
+
+        if(ParticleOnSpawn == true)
+        {
+            particleSpawnAction += OnSpawn;
+        }
     }
 
     /// <summary>
@@ -28,8 +38,8 @@ public class Spawner : MonoBehaviour
     {
         if(CanSpawn == true)
         {
-            SpawnDemon(demon, sm.player, type);
-
+            SpawnDemon(demon, sm, type);
+            particleSpawnAction?.Invoke(sm.ParticleSpawner);
             return true;
         }
 
@@ -48,8 +58,8 @@ public class Spawner : MonoBehaviour
     {
         if (CanSpawn == true)
         {
-            SpawnDemon(demon, sm.player, list, type);
-
+            SpawnDemon(demon, sm, list, type);
+            particleSpawnAction?.Invoke(sm.ParticleSpawner);
             return true;
         }
 
@@ -62,12 +72,12 @@ public class Spawner : MonoBehaviour
     /// <param name="demon"></param>
     /// <param name="pool"></param>
     /// <param name="target"></param>
-    private void SpawnDemon(DemonType demon, Transform target, SpawnType type)
+    private void SpawnDemon(DemonType demon, SpawnerManager sm, SpawnType type)
     {
         GameObject demonTemp = DemonPoolers.demonPoolers[demon.Id].Spawn();
         DemonBase demonBase = demonTemp.GetComponent<DemonBase>();
-        demonBase.setSpawnPosition(position);
-        demonBase.OnSpawn(demon, target, type);
+        demonBase.SetDemonInMap(SpawnerInMap);
+        demonBase.OnSpawn(demon, sm.player, type);
         demonTemp.transform.position = position;
     }
 
@@ -78,13 +88,19 @@ public class Spawner : MonoBehaviour
     /// <param name="target"></param>
     /// <param name="list"></param>
     /// <param name="type"></param>
-    private void SpawnDemon(DemonType demon, Transform target, List<DemonBase> list, SpawnType type)
+    private void SpawnDemon(DemonType demon, SpawnerManager sm, List<DemonBase> list, SpawnType type)
     {
         GameObject demonTemp = DemonPoolers.demonPoolers[demon.Id].Spawn();
         DemonBase demonBase = demonTemp.GetComponent<DemonBase>();
-        demonBase.setSpawnPosition(position);
-        demonBase.OnSpawn(demon, target, type);
+        demonBase.SetDemonInMap(SpawnerInMap);
+        demonBase.OnSpawn(demon, sm.player, type);
         demonTemp.transform.position = position;
         list.Add(demonBase);
+    }
+
+    private void OnSpawn(ObjectPooler spawnParticle)
+    {
+        GameObject obj = spawnParticle.Spawn();
+        obj.transform.position = position;
     }
 }

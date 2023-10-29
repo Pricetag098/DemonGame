@@ -18,6 +18,7 @@ public class Blessing : ScriptableObject
     public void Equip(BlessingStatusHandler handler)
     {
         this.handler = handler;
+        handler.DisplayBlessing(this);
         OnEquip();
         if (!instantEffect)
         {

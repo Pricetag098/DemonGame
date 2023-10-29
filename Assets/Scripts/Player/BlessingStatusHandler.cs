@@ -10,7 +10,7 @@ public class BlessingStatusHandler : MonoBehaviour
 	[HideInInspector]public PlayerStats playerStats;
 	[HideInInspector]public DestrcutibleObject[] destrcutibleObjects;
 	[HideInInspector] public AbilityCaster abilityCaster;
-
+	BlessingPopup popup;
 	private void Awake()
 	{
 		destrcutibleObjects= FindObjectsOfType<DestrcutibleObject>();
@@ -18,13 +18,19 @@ public class BlessingStatusHandler : MonoBehaviour
 		spawner = FindObjectOfType<Spawner>();
 		playerStats = GetComponent<PlayerStats>();
 		abilityCaster = GetComponent<AbilityCaster>();
+		popup = FindObjectOfType<BlessingPopup>();
 	}
-
+	
 	private void Update()
 	{
 		for(int i = activeBlessings.Count - 1; i >= 0; i--)
 		{
 			activeBlessings[i].Tick();
 		}
+	}
+
+	public void DisplayBlessing(Blessing blessing)
+	{
+		popup.Display(blessing);
 	}
 }

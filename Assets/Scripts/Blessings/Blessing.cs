@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Blessing : ScriptableObject
 {
     protected BlessingStatusHandler handler;
     public bool instantEffect = true;
+    public string blessingName = "";
+    public Sprite blessingImage = null;
+
 
     /// <summary>
     /// Call to apply the effect

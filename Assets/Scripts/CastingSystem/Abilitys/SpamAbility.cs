@@ -37,6 +37,7 @@ public class SpamAbility : Ability
 		{
 			caster.animator.SetTrigger("Cast");
 			caster.animator.SetBool("Held", true);
+			startedCasting = true;
 		}
 		if(timer > cooldown)
 		{

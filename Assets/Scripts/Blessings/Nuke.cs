@@ -10,7 +10,10 @@ public class Nuke : Blessing
 		//todo: loop through all enemys and deal a million damage
 		for(int i = DemonSpawner.ActiveDemons.Count; i > 0; i--)
 		{
-			DemonSpawner.ActiveDemons[i].GetComponent<Health>().TakeDmg(1000000);
+			//DemonSpawner.ActiveDemons[i].GetComponent<Health>().TakeDmg(1000000);
+			DemonSpawner.ActiveDemons[i].ForcedDeath();
 		}
+
+		DemonSpawner.ActiveDemons.Clear();
 	}
 }

@@ -19,11 +19,11 @@ public class BloodSpikeAbility : Ability
 	[SerializeField] float coolDown;
 	float timer;
 	[SerializeField, Range(0f, 1f)] float directionWeight;
-	[SerializeField] VfxSpawnRequest spawnVfx;
+	[SerializeField] VfxSpawnRequest spawnVfx,spike;
+	
 	protected override void OnEquip()
 	{
-		pooler = new GameObject().AddComponent<ObjectPooler>();
-		pooler.CreatePool(prefab, 100);
+		
 		timer = coolDown;
 	}
 
@@ -60,10 +60,10 @@ public class BloodSpikeAbility : Ability
 	void SpawnSpike(Vector3 pos,Vector3 normal,Vector3 aimDir, float distance, ref List<Health> healths)
 	{
 		float scale = distanceScale.Evaluate(distance/range);
-		GameObject spike = pooler.Spawn();
-		spike.transform.position = pos;
-		spike.transform.up = Vector3.Slerp(normal,aimDir,directionWeight);
-		spike.GetComponent<Spike>().Spawn(scale * Vector3.one);
+		
+		
+		Vector3 up = Vector3.Slerp(normal,aimDir,directionWeight);
+		spike.Play(pos,up,Vector3.one * scale);
 		Collider[] colliders = Physics.OverlapCapsule(pos, pos + normal * scale, 1,targetLayers);
 		foreach(Collider collider in colliders)
 		{

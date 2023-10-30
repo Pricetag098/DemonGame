@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeshCombiner : MonoBehaviour
+public class ArmMeshCombiner : MonoBehaviour
 {
     Mesh m1;
     [SerializeField] Mesh m2,m3;

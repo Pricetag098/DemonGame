@@ -14,6 +14,8 @@ public class Ability : ScriptableObject
 	public Optional<AbilityUpgradePath> upgradePath;
 	public int tier = 0;
 
+	public float drawTime = 1,holsterTime = 1;
+
 	public RuntimeAnimatorController controller;
 	public enum CastModes
 	{

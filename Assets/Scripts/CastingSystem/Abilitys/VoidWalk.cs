@@ -34,20 +34,25 @@ public class VoidWalk : Ability
 
 	public override void Tick()
 	{
-		if (!held && castTimer > minCastTime && !stoppedCasting)
+		if (!held && castTimer > minCastTime )
 		{
-			stats.accelerationMulti -= accelerationBuff;
-			stats.speedMulti -= moveSpeedBuff;
-			stoppedCasting = true;
-			startedCasting = false;
-			playerDeath.SetWorldState(true);
+			if (!stoppedCasting)
+			{
+				stats.accelerationMulti -= accelerationBuff;
+				stats.speedMulti -= moveSpeedBuff;
+				stoppedCasting = true;
+				startedCasting = false;
+				playerDeath.SetWorldState(true);
+			}
+			caster.RemoveBlood(bloodCost * Time.deltaTime);
 		}
 		else
 		{
 			castTimer += Time.deltaTime;
-			caster.RemoveBlood(bloodCost * Time.deltaTime);
+			
 			held = false;
 		}
 		
+
 	}
 }

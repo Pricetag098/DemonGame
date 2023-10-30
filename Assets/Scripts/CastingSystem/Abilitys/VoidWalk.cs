@@ -34,9 +34,9 @@ public class VoidWalk : Ability
 
 	public override void Tick()
 	{
-		if (!held && castTimer > minCastTime )
+		if (castTimer > minCastTime )
 		{
-			if (!stoppedCasting)
+			if (!held && !stoppedCasting)
 			{
 				stats.accelerationMulti -= accelerationBuff;
 				stats.speedMulti -= moveSpeedBuff;
@@ -44,15 +44,16 @@ public class VoidWalk : Ability
 				startedCasting = false;
 				playerDeath.SetWorldState(true);
 			}
-			caster.RemoveBlood(bloodCost * Time.deltaTime);
+			
 		}
 		else
 		{
-			castTimer += Time.deltaTime;
+			caster.RemoveBlood(bloodCost * Time.deltaTime);
 			
-			held = false;
+			
+			
 		}
-		
-
+		held = false;
+		castTimer += Time.deltaTime;
 	}
 }

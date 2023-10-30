@@ -43,6 +43,8 @@ public class BasicDemon : DemonBase
     {
         if(_health.dead == false)
         {
+            base.Tick();
+
             DetectPlayer();
 
             if (DemonInMap == false) m_obstacle.Detection();

@@ -11,7 +11,7 @@ public class ResurrectionBuy : ShopInteractable
 	}
 	protected override bool CanBuy(Interactor interactor)
 	{
-		return playerDeath.respawnsLeft > 0;
+		return playerDeath.respawnsLeft == 0;
 	}
 
 	protected override void DoBuy(Interactor interactor)

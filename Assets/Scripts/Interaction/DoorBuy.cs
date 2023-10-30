@@ -56,7 +56,7 @@ public class DoorBuy : ShopInteractable
                 }
             }
         }
-        enabled = false;
+        GetComponent<Collider>().enabled = false;   
         if (doorAnimator.Enabled)
         {
             doorAnimator.Value.SetTrigger("Open");

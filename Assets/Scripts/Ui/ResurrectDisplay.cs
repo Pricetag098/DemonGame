@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class ResurrectDisplay : MonoBehaviour
 {
-    PlayerDeath playerDeath;
-    Image image;
+    public PlayerDeath playerDeath;
+    public Image image;
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         playerDeath = FindObjectOfType<PlayerDeath>();
         image = GetComponent<Image>();

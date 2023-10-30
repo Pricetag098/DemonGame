@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 726cf3e2307dbee43bdbcf4ea2515aa7, type: 3}
+  m_Name: Spikes 2
+  m_EditorClassIdentifier: 
+  abilityName: Spikes
+  guid: 7d27a561-1b9a-4857-b3be-42ddad361dff
+  icon: {fileID: 21300000, guid: 6772913c805bf8143a27684e614e8cf3, type: 3}
+  caster: {fileID: 0}
+  bloodCost: 750
+  upgradePath:
+    enabled: 1
+    val: {fileID: 11400000, guid: 7357224dd6ed94c48aa71d30f141fe94, type: 2}
+  tier: 2
+  castMode: 0
+  prefab: {fileID: 7618396641767711950, guid: d6f009d6e39643e40a14fe446adbf41f, type: 3}
+  poolSize: 100
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 128
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 1
+  distanceScale:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.25
+      inSlope: 1.9103771
+      outSlope: 1.9103771
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.20833333
+    - serializedVersion: 3
+      time: 1
+      value: 1.5
+      inSlope: 0.11039755
+      outSlope: 0.11039755
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.5875
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  distanceDamage:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 3000
+      inSlope: 1000
+      outSlope: 1000
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 4000
+      inSlope: 1000
+      outSlope: 1000
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  points: 10
+  angle: 45
+  range: 16
+  spikeCount: 160
+  coolDown: 0
+  directionWeight: 0.25
+  spawnVfx: {fileID: 11400000, guid: 00c5cddbee38db64d89ab2d1ae95acfc, type: 2}

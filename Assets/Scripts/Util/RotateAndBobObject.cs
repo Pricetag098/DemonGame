@@ -8,6 +8,8 @@ public class RotateAndBobObject : MonoBehaviour
 
     public Vector3 rotationAxis = Vector3.up; // Axis around which to rotate
 
+    public Vector3 bobAxis = Vector3.up; // Axis around which to rotate
+
     public float rotationSpeed = 30f; // Speed of rotation in degrees per second
 
     public float bobSpeed = 1f; // Speed of bobbing motion
@@ -54,7 +56,7 @@ public class RotateAndBobObject : MonoBehaviour
 
         // Update the object's position with bobbing motion
 
-        transform.localPosition = startPosition + new Vector3(0f, bobOffset, 0f);
+        transform.localPosition = startPosition + bobAxis * bobOffset;
 
     }
 

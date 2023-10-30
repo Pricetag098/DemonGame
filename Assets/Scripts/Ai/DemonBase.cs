@@ -1,13 +1,9 @@
 using BlakesSpatialHash;
 using DemonInfo;
-using Newtonsoft.Json.Bson;
-using System.Collections;
 using System.Collections.Generic;
-using System.Net.Mail;
 using UnityEngine;
-using UnityEngine.AI;
 
-public class DemonBase : MonoBehaviour, IDemon
+public class DemonBase : MonoBehaviour
 {
     [Header("Target")]
     protected Transform _target;
@@ -50,15 +46,9 @@ public class DemonBase : MonoBehaviour, IDemon
     protected DemonType _type;
     protected SpawnType _spawnType;
 
-    [Header("BaseStats")]
-    [SerializeField] protected float _baseDamage;
-    [SerializeField] protected float _baseHealth;
-    [SerializeField] protected float _baseMoveSpeed;
-
     [Header("Stats")]
     [SerializeField] protected float _damage;
     [SerializeField] protected float _moveSpeed;
-    [SerializeField] protected float _attackSpeed;
     [SerializeField] protected float _attackRange;
     [SerializeField] protected float _stoppingDistance;
 
@@ -70,11 +60,8 @@ public class DemonBase : MonoBehaviour, IDemon
     [SerializeField] SoundPlayer _soundPlayerDeath;
     [SerializeField] SoundPlayer _soundPlayerFootsteps;
 
-    [Header("Ai Pathing")]
-    protected bool _calculatePath = false;
-    protected Vector3 lastPos;
+    [Header("Ai Agent")]
     protected AiAgent _aiAgent;
-    protected NavMeshPath _currentPath;
 
     protected int _currentUpdatedRound = 1;
     protected Vector3 spawpos = Vector3.zero;
@@ -224,19 +211,6 @@ public class DemonBase : MonoBehaviour, IDemon
     public virtual void DetectPlayer() { }
     public virtual void UpdateHealthToCurrentRound(int currentRound) { }
 
-    protected Collider[] GetAllColliders()
-    {
-        return HelperFuntions.AllChildren<Collider>(transform).ToArray();
-    }
-
-    protected void SetAllColliders(bool active)
-    {
-        foreach(Collider c in _colliders)
-        {
-            c.enabled = active;
-        }
-    }
-
     public void ForcedDeath()
     {
         _aiAgent.SetFollowSpeed(0);
@@ -250,27 +224,102 @@ public class DemonBase : MonoBehaviour, IDemon
         PlaySoundDeath();
     }
 
-    public SpatialHashObject GetSpatialHashObject()
+    public void setSpawnPosition(Vector3 pos)
     {
-        return _aiAgent;
+        spawpos = pos;
     }
 
-    public void UpdateAgentNearby(List<SpatialHashObject> objs)
+    #region AI FUNCTIONS
+    /// <summary>
+    /// Returns The Agent Component
+    /// </summary>
+    public AiAgent GetAgent { get { return _aiAgent; } }
+
+    /// <summary>
+    /// Returns the Remaining Distance of the Path
+    /// </summary>
+    protected float DistanceToTargetNavmesh { get { return _aiAgent.RemainingDistance; } }
+
+    /// <summary>
+    /// Returns world space distance to target
+    /// </summary>
+    protected float DistanceToTargetUnits { get { return Vector3.Distance(_target.position, transform.position); } }
+
+    /// <summary>
+    /// Calculates and Sets a New Path
+    /// </summary>
+    /// <param name="targetPos"></param>
+    public void CalculateAndSetPath(Transform targetPos)
     {
-        _aiAgent.SetNearbyAgents(objs);
+        _aiAgent.UpdatePath(targetPos);
+        
+        _target = targetPos;
+        
     }
 
-    public void RemoveFromSpatialHash()
+    /// <summary>
+    /// Returns SpatialHashObject
+    /// </summary>
+    /// <returns></returns>
+    public SpatialHashObject GetSpatialHashObject() { return _aiAgent; }
+
+    /// <summary>
+    /// Sets Nearby Spatial Hash OBJECTS
+    /// </summary>
+    /// <param name="objs"></param>
+    public void UpdateAgentNearby(List<SpatialHashObject> objs) { _aiAgent.SetNearbyAgents(objs); }
+
+    /// <summary>
+    /// Removes OBJECT from Spatial Hash pool
+    /// </summary>
+    public void RemoveFromSpatialHash() { _aiAgent.RemoveFromSpatialHash(); }
+
+    #endregion
+
+    #region HEALTH_FUNCTIONS
+    public Health GetHealth { get { return _health; } }
+    public void SetHealth(float amount)
     {
-        _aiAgent.RemoveFromSpatialHash();
+        _health.health = amount;
     }
 
-    public bool isAlive()
+    public bool HealthStatus()
     {
-        return !_health.dead;
+        return _health.dead;
     }
 
-    public virtual void OnFinishedSpawnAnimation() 
+    #endregion
+
+    #region ANIMATOR_FUNCTIONS
+    public Animator GetAnimator { get { return _animator; } }
+    public void PlayAnimation(string trigger) { _animator.SetTrigger(trigger); }
+
+    public void AttackAnimation()
+    {
+        if (_animator.GetFloat("Speed") <= 0f)
+        {
+            if (!_animator.GetCurrentAnimatorStateInfo(1).IsName("Attack"))
+            {
+                PlayAnimation("StandingAttack");
+
+            }
+        }
+        else
+        {
+            if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("StandingAttack"))
+            {
+                PlayAnimation("Attack");
+
+            }
+        }
+    }
+
+    public void SetAttackOverride()
+    {
+        _animator.runtimeAnimatorController = _animationOverrides.SetOverrideController();
+    }
+
+    public virtual void OnFinishedSpawnAnimation()
     {
         _aiAgent.SetFollowSpeed(_moveSpeed);
         _rb.isKinematic = false;
@@ -282,117 +331,52 @@ public class DemonBase : MonoBehaviour, IDemon
 
         _pooledObject.Despawn();
     }
+    #endregion
+
+    #region RIGIDBODY_FUNCTIONS
+    public Rigidbody GetRigidbody { get { return _rb; } }
 
     public void ApplyForce(Vector3 force, ForceMode mode = ForceMode.Impulse)
     {
         _rb.AddForce(force, mode);
     }
+    #endregion
 
-    public void PlayAnimation(string trigger)
+    #region SOUND_FUNCTIONS
+    public void PlaySoundIdle() { _soundPlayerIdle.Play(); }
+
+    public void PlaySoundAttack() { _soundPlayerAttack.Play(); }
+
+    public void PlaySoundAttackAmbience() { _soundPlayerAttackAmbience.Play(); }
+
+    public void PlaySoundHit() { _soundPlayerHit.Play(); }
+
+    public void PlaySoundDeath() {_soundPlayerDeath.Play(); }
+
+    protected void PlaySoundFootStep() {  _soundPlayerFootsteps.Play(); }
+    #endregion
+
+    #region COLLIDER_FUNCTIONS
+    protected Collider[] GetAllColliders()
     {
-        _animator.SetTrigger(trigger);
+        return HelperFuntions.AllChildren<Collider>(transform).ToArray();
     }
 
-    public void PlaySoundIdle()
+    protected void SetAllColliders(bool active)
     {
-        _soundPlayerIdle.Play();
-    }
-
-    public void PlaySoundAttack()
-    {
-        _soundPlayerAttack.Play();
-        
-    }
-
-    public void PlaySoundAttackAmbience()
-    {
-        _soundPlayerAttackAmbience.Play();
-    }
-
-    public void PlaySoundHit()
-    {
-        _soundPlayerHit.Play();
-    }
-
-    public void PlaySoundDeath()
-    {
-        _soundPlayerDeath.Play();
-    }
-
-    protected void PlaySoundFootStep()
-    {
-        _soundPlayerFootsteps.Play();
-    }
-    public void AttackAnimation()
-    {
-        if (_animator.GetFloat("Speed") <= 0f)
+        foreach (Collider c in _colliders)
         {
-            if(!_animator.GetCurrentAnimatorStateInfo(1).IsName("Attack"))
-            {
-                PlayAnimation("StandingAttack");
-                
-            }
-        }
-        else
-        {
-            if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("StandingAttack"))
-            {
-                PlayAnimation("Attack");
-             
-            }
-        }
-    }
-
-    public void SetAttackOverride()
-    {
-        _animator.runtimeAnimatorController = _animationOverrides.SetOverrideController();
-    }
-
-    public void setSpawnPosition(Vector3 pos)
-    {
-        spawpos = pos;
-    }
-
-    #region Properties
-    protected float DistanceToTargetNavmesh // gets path distance remaining to target
-    {
-        get
-        {
-            return _aiAgent.RemainingDistancePath;
-        }
-    }
-
-    protected float DistanceToTargetUnits // gets world space distance remaining to target
-    {
-        get
-        {
-            return Vector3.Distance(_target.position, transform.position);
+            c.enabled = active;
         }
     }
     #endregion
 
-    #region Interface
+    #region SPAWNING_FUNCTIONS
 
-    public void CalculateAndSetPath(Transform targetPos)
+    public void SetDemonInMap(bool active)
     {
-        float num = Vector3.Distance(targetPos.position, transform.position);
-
-        if (num > _aiAgent.stopingDistance)
-        {
-            _aiAgent.UpdatePath(targetPos);
-            _target = targetPos;
-        }
+        DemonInMap = active;
     }
 
-    public Health GetHealth { get { return _health; } }
-    public AiAgent GetAgent { get { return _aiAgent; } }
-    public Animator GetAnimator { get { return _animator; } }
-    public Rigidbody GetRigidbody { get { return _rb; } }
-
-    public void SetHealth(float amount)
-    {
-        _health.health = amount;
-    }
-   
     #endregion
 }

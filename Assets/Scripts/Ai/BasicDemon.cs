@@ -56,6 +56,8 @@ public class BasicDemon : DemonBase
     {
         base.OnAttack();
 
+        if(DemonInMap == false) return;
+
         // deal damage
         if (Vector3.Distance(_target.position, transform.position) < _attackRange)
         {
@@ -114,8 +116,6 @@ public class BasicDemon : DemonBase
     public override void OnFinishedSpawnAnimation()
     {
         base.OnFinishedSpawnAnimation();
-
-        //CalculateAndSetPath(_target);
     }
 
     public override void PathFinding()
@@ -187,7 +187,8 @@ public class BasicDemon : DemonBase
 
     private void SetAnimationVariables()
     {
-        float evalSpeed = GetRange(_aiAgent.VelocityMag, 0, speedProfile.maxSpeed); // returns between 0 - 1
+        float evalSpeed = GetRange(_aiAgent.VelocityMag, 0, speedProfile.maxSpeed);
+
         _animator.SetFloat("Speed", evalSpeed);
 
         if (evalSpeed <= 0f)

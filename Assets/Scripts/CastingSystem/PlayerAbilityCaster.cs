@@ -203,7 +203,7 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
 				}
                 return;
 			}
-            else if(ability.guid == caster.emptyAbility.guid)
+            else if (caster.abilities[i].guid == caster.emptyAbility.guid)
             {
                 
 				if (i != activeIndex)
@@ -227,7 +227,7 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
     {
         replacingAbility = ability;
         state = State.replacing;
-		ActiveAbility.DeEquip();
+		ActiveAbility.DeSelect();
 		caster.animator.SetFloat("UnEquipSpeed", 1 / ActiveAbility.holsterTime);
 		caster.animator.SetTrigger("Unequip");
 		timer = ActiveAbility.holsterTime;
@@ -245,7 +245,7 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
     void HolsterAbility()
     {
         state = State.holstering;
-        ActiveAbility.DeEquip();
+        ActiveAbility.DeSelect();
         caster.animator.SetFloat("UnEquipSpeed", 1 / ActiveAbility.holsterTime);
         caster.animator.SetTrigger("Unequip");
         timer = ActiveAbility.holsterTime;

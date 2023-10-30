@@ -17,13 +17,28 @@ public class SpamAbility : Ability
 	float cooldown;
 	float timer;
 	[SerializeField] AimAssist aimAssist;
+
+	bool startedCasting;
+	bool pressed;
 	
 	public override void Tick()
 	{
 		timer += Time.deltaTime;
+		if (!pressed && startedCasting)
+		{
+			caster.animator.SetBool("Held", false);
+			startedCasting = false;
+		}
+		pressed = false;
 	}
 	public override void Cast(Vector3 origin, Vector3 direction)
 	{
+		if(!startedCasting)
+		{
+			caster.animator.SetTrigger("Cast");
+			caster.animator.SetBool("Held", true);
+			startedCasting = true;
+		}
 		if(timer > cooldown)
 		{
 			Vector3 rand = Random.insideUnitSphere * spreadUnits;
@@ -49,7 +64,7 @@ public class SpamAbility : Ability
 			
 			
 		}
-		
+		pressed = true;
 	}
 	
 	protected override void OnEquip()

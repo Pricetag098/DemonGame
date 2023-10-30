@@ -51,6 +51,7 @@ public class BloodSpikeAbility : Ability
 				SpawnSpike(hit.point, hit.normal,dir, range * randCircle.y, ref healths);
 			}
         }
+		caster.animator.SetTrigger("Cast");
 	}
 	public override void Tick()
 	{

@@ -44,8 +44,11 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
         
         caster.OnAddBlood += OnAddBlood;
         caster.OnRemoveBlood += OnRemoveBlood;
-        
-    }
+		caster.animator.runtimeAnimatorController = ActiveAbility.controller;
+
+		DrawAbility();
+
+	}
 
 	private void OnEnable()
 	{

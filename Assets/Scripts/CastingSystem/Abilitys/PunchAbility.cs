@@ -41,7 +41,9 @@ public class PunchAbility : Ability
             case State.None:
                 state = State.Charging;
                 stats.speedMulti -= chargeMoveSpeedModifier;
-                break;
+                caster.animator.SetTrigger("Cast");
+				caster.animator.SetBool("Held", false);
+				break;
                 
             case State.Charging:
                 if (direction != Vector3.up)
@@ -123,7 +125,7 @@ public class PunchAbility : Ability
 	}
     void Release()
     {
-        
+        caster.animator.SetBool("Held", false);
         state = State.Release;
         
         flightTime = distanceChargeCurve.Evaluate(chargeTimer / maxChargeTime) / chargeSpeed;

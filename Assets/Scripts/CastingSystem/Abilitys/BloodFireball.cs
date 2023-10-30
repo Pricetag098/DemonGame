@@ -37,7 +37,9 @@ public class BloodFireball : Ability
         if (!startedCasting)
         {
             startedCasting = true;
-        }
+			caster.animator.SetTrigger("Cast");
+			caster.animator.SetBool("Held", true);
+		}
         chargeTime = Mathf.Clamp(chargeTime + Time.deltaTime, 0, maxChargeTime);
         lastAimDir = direction;
         lastOrigin = origin;
@@ -51,9 +53,9 @@ public class BloodFireball : Ability
 
             if (chargeTime > minChargeTime)
                 Launch();
+			
 
-
-            startedCasting = false;
+			startedCasting = false;
             chargeTime = 0;
         }
 
@@ -71,7 +73,8 @@ public class BloodFireball : Ability
         caster.RemoveBlood(bloodCost);
         projectileSpawner.Spawn().GetComponent<Fireball>().Shoot(lastOrigin, velocity, damage * caster.DamageMulti, this, radius);
         shootFx.Play(caster.castOrigin.position, lastAimDir);
-    }
+		caster.animator.SetBool("Held", false);
+	}
 
     public override void OnHit(Health health)
 	{

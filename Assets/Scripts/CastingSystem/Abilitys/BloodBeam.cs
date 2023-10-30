@@ -30,6 +30,8 @@ public class BloodBeam : Ability
 			lineRenderer.enabled = true;
 			startedCasting = true;
 			sound.Play();
+			caster.animator.SetTrigger("Cast");
+			caster.animator.SetBool("Held", true);
 		}
 
 		float range = maxRange;
@@ -81,9 +83,14 @@ public class BloodBeam : Ability
 	{
 		if (!held)
 		{
+			if (startedCasting)
+			{
+				caster.animator.SetBool("Held", false);
+			}
 			sound.Stop();
 			startedCasting = false;
 			lineRenderer.enabled = false;
+			
 		}
 		held = false;
 	}

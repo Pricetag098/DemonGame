@@ -15,14 +15,14 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
 	public float bloodSpent = 0;
     public float bloodGained = 0;
 
-	enum HolsterStates
+	enum State
 	{
 		normal,
 		drawing,
 		holstering,
 		replacing
 	}
-	[SerializeField] HolsterStates state;
+	[SerializeField] State state;
 
 
 
@@ -133,7 +133,7 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
 
 	void SelectAbility(int index)
     {
-        if (index == activeIndex)
+        if (index == activeIndex || )
             return;
         if(caster.abilities[index].guid != caster.emptyAbility.guid)
         {

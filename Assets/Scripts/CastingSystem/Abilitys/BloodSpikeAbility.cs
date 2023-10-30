@@ -79,10 +79,7 @@ public class BloodSpikeAbility : Ability
 			}
 		}
 	}
-	protected override void OnDeEquip()
-	{
-		Destroy(pooler.gameObject);
-	}
+
 
 	public override void OnHit(Health health)
 	{

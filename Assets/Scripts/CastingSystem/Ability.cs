@@ -13,6 +13,8 @@ public class Ability : ScriptableObject
 	public float bloodCost = 10;
 	public Optional<AbilityUpgradePath> upgradePath;
 	public int tier = 0;
+
+	public RuntimeAnimatorController controller;
 	public enum CastModes
 	{
 		press,

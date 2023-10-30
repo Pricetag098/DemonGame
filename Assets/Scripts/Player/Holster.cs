@@ -55,6 +55,7 @@ public class Holster : MonoBehaviour
 	private void OnEnable()
 	{
 		input.action.Enable();
+        DrawGun();
 	}
 
 	private void OnDisable()

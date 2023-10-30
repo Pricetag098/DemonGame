@@ -15,6 +15,7 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
     PerkManager perkManager;
     public int respawnsLeft;
     public float deathStateTimeSeconds;
+    public Slider deathStateSlider;
     DeathStateToggler[] togglers;
     bool dead;
 
@@ -42,9 +43,12 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
         if (dead)
         {
             deathStateTimer += Time.deltaTime;
+            float sliderTimeLeft = 1f- Mathf.Clamp01(deathStateTimer / deathStateTimeSeconds);
+            deathStateSlider.value = sliderTimeLeft;
             if(deathStateTimer > deathStateTimeSeconds)
             {
                 ReturnToBody();
+                
             }
         }
     }

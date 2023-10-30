@@ -15,7 +15,18 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
 	public float bloodSpent = 0;
     public float bloodGained = 0;
 
-    public Ability ActiveAbility { get { return caster.abilities[activeIndex]; } set { SetAbility(value); } }
+	enum State
+	{
+		normal,
+		drawing,
+		holstering,
+		replacing
+	}
+	[SerializeField] State state;
+
+
+
+	public Ability ActiveAbility { get { return caster.abilities[activeIndex]; } set { SetAbility(value); } }
 	// Start is called before the first frame update
 
 	private void Awake()
@@ -122,7 +133,7 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
 
 	void SelectAbility(int index)
     {
-        if (index == activeIndex)
+        if (index == activeIndex || state != State.normal)
             return;
         if(caster.abilities[index].guid != caster.emptyAbility.guid)
         {

@@ -381,15 +381,17 @@ namespace Movement
 							moveState = MoveStates.crouch;
 							lastCamPos = cam.localPosition;
 							targetCamPos = camCrouchingPos;
+							slideInput = false;
 							camMovementTimer = 0;
-							if(Vector3.Dot(orientation.right * inputDir.x,rb.velocity) < maxSlideSpeed * inputDir.x)
-							{
-								rb.AddForce(orientation.right * (slideHorizontalAcceleration));
-							}
+							
+						}
+						if (Vector3.Dot(orientation.right * inputDir.x, rb.velocity) < maxSlideSpeed * inputDir.x)
+						{
+							rb.AddForce(orientation.right * (slideHorizontalAcceleration));
 						}
 
 
-                        break;
+						break;
 
 				}
 			}

@@ -133,7 +133,7 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
 
 	void SelectAbility(int index)
     {
-        if (index == activeIndex || )
+        if (index == activeIndex || state != State.normal)
             return;
         if(caster.abilities[index].guid != caster.emptyAbility.guid)
         {

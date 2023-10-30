@@ -7,10 +7,14 @@ public class SubSceneReferences : MonoBehaviour
 {
     public static SubSceneReferences Instance { get; private set; }
 
-    public SubScene scene1;
+    // ONE OF THESE FOR EACH AREA OF THE MAP
+    public SubScene MainGate;
 
     private void Awake()
     {
-        Instance = this;
+        if(Instance == null)
+        {
+            Instance = this;
+        }
     }
 }

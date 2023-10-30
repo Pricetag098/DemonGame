@@ -60,6 +60,11 @@ public class DemonBase : MonoBehaviour
     [SerializeField] SoundPlayer _soundPlayerDeath;
     [SerializeField] SoundPlayer _soundPlayerFootsteps;
 
+    private Timer IdleSoundTimer;
+
+    [SerializeField] float minTimeInterval;
+    [SerializeField] float maxTimeInterval;
+
     [Header("Ai Agent")]
     protected AiAgent _aiAgent;
 
@@ -78,6 +83,8 @@ public class DemonBase : MonoBehaviour
         _spawner = FindObjectOfType<DemonSpawner>();
         _spawnerManager = FindObjectOfType<SpawnerManager>();
         _colliders = GetAllColliders();
+
+        IdleSoundTimer = new Timer(Random.Range(minTimeInterval, maxTimeInterval));
 
         OnAwakened();
     }
@@ -102,7 +109,13 @@ public class DemonBase : MonoBehaviour
 
         _aiAgent.stopingDistance = _stoppingDistance;
     }
-    public virtual void Tick() { }
+    public virtual void Tick() 
+    {
+        if(IdleSoundTimer.TimeGreaterThan)
+        {
+            IdleSoundInterval(IdleSoundTimer);
+        }
+    }
     public virtual void OnAttack()
     {
         PlaySoundAttack();
@@ -209,25 +222,7 @@ public class DemonBase : MonoBehaviour
     }
     public virtual void CalculateStats(int round) { }
     public virtual void DetectPlayer() { }
-    public virtual void UpdateHealthToCurrentRound(int currentRound) { }
-
-    public void ForcedDeath()
-    {
-        _aiAgent.SetFollowSpeed(0);
-
-        SetAllColliders(false);
-
-        RemoveFromSpatialHash();
-
-        PlayAnimation("Death");
-
-        PlaySoundDeath();
-    }
-
-    public void setSpawnPosition(Vector3 pos)
-    {
-        spawpos = pos;
-    }
+    
 
     #region AI FUNCTIONS
     /// <summary>
@@ -282,6 +277,8 @@ public class DemonBase : MonoBehaviour
     {
         _health.health = amount;
     }
+
+    public virtual void UpdateHealthToCurrentRound(int currentRound) { }
 
     public bool HealthStatus()
     {
@@ -354,6 +351,12 @@ public class DemonBase : MonoBehaviour
     public void PlaySoundDeath() {_soundPlayerDeath.Play(); }
 
     protected void PlaySoundFootStep() {  _soundPlayerFootsteps.Play(); }
+
+    public void IdleSoundInterval(Timer timer)
+    {
+        timer.ResetTimer(Random.Range(minTimeInterval, maxTimeInterval));
+        PlaySoundIdle();
+    }
     #endregion
 
     #region COLLIDER_FUNCTIONS
@@ -378,5 +381,20 @@ public class DemonBase : MonoBehaviour
         DemonInMap = active;
     }
 
+    #endregion
+
+    #region DEATH_FUNCTIONS
+    public void ForcedDeath()
+    {
+        _aiAgent.SetFollowSpeed(0);
+
+        SetAllColliders(false);
+
+        RemoveFromSpatialHash();
+
+        PlayAnimation("Death");
+
+        PlaySoundDeath();
+    }
     #endregion
 }

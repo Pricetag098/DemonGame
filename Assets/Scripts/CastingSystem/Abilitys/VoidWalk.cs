@@ -36,7 +36,7 @@ public class VoidWalk : Ability
 	{
 		if (castTimer > minCastTime )
 		{
-			if (!held && !stoppedCasting)
+			if ( !stoppedCasting)
 			{
 				stats.accelerationMulti -= accelerationBuff;
 				stats.speedMulti -= moveSpeedBuff;
@@ -49,9 +49,6 @@ public class VoidWalk : Ability
 		else
 		{
 			caster.RemoveBlood(bloodCost * Time.deltaTime);
-			
-			
-			
 		}
 		held = false;
 		castTimer += Time.deltaTime;

@@ -376,12 +376,16 @@ namespace Movement
 						{
 							rb.AddForce(gravityDir, ForceMode.Acceleration);
 						}
-						if(rb.velocity.magnitude < crouchData.speed)
+						if(rb.velocity.magnitude < slideMinVel)
 						{
 							moveState = MoveStates.crouch;
 							lastCamPos = cam.localPosition;
 							targetCamPos = camCrouchingPos;
 							camMovementTimer = 0;
+							if(Vector3.Dot(orientation.right * inputDir.x,rb.velocity) < maxSlideSpeed * inputDir.x)
+							{
+								rb.AddForce(orientation.right * (slideHorizontalAcceleration));
+							}
 						}
 
 

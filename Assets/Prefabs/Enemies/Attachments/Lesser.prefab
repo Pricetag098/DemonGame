@@ -2133,14 +2133,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b81d6e882c61b464e8c5b25cf6dac18c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _skinnedMeshRenderer: {fileID: 0}
   pointsOnDeath: 50
   DemonInMap: 0
-  _baseDamage: 15
-  _baseHealth: 150
-  _baseMoveSpeed: 2
-  _damage: 15
+  _damage: 30
   _moveSpeed: 2
-  _attackSpeed: 1
   _attackRange: 2
   _stoppingDistance: 1.75
   _soundPlayerIdle: {fileID: 2374997166137015300}
@@ -2149,6 +2146,8 @@ MonoBehaviour:
   _soundPlayerHit: {fileID: 8169365065386288903}
   _soundPlayerDeath: {fileID: 8752544681198941098}
   _soundPlayerFootsteps: {fileID: 4856249049247837581}
+  minTimeInterval: 0
+  maxTimeInterval: 0
   distanceToRespawn: 60
   walker:
     Speed: 0
@@ -2166,6 +2165,7 @@ MonoBehaviour:
   m_xAmountOfRounds: 9
   m_HealthToAdd: 100
   m_HealthMultiplier: 1.1
+  SoulBox: {fileID: 0}
 --- !u!114 &6116379329521226440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2229,6 +2229,8 @@ MonoBehaviour:
   Choker:
   - {fileID: 5812755780734237033}
   - {fileID: 5961619232154160532}
+  UpperArmLeft: []
+  UpperArmRight: []
   ForearmLeft:
   - {fileID: 5956302686661896575}
   - {fileID: 424462557019565469}

@@ -14,18 +14,15 @@ public class GlyphSpawning : MonoBehaviour
     private void Awake()
     {
         dissolveMat = abilityGlyph.GetComponentInChildren<Renderer>().sharedMaterial;
-        Debug.Log(dissolveMat.name);
     }
 
     public void SpawnAbility()
     {
         DOTween.To(() => dissolveMat.GetFloat("_Alpha_Clip"), x => dissolveMat.SetFloat("_Alpha_Clip", x), 0, dissolveTime);
-        Debug.Log("out");
     }
 
     public void DespawnAbility()
     {
         DOTween.To(() => dissolveMat.GetFloat("_Alpha_Clip"), x => dissolveMat.SetFloat("_Alpha_Clip", x), 1, dissolveTime);
-        Debug.Log("in");
     }
 }

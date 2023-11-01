@@ -20,12 +20,15 @@ public class PortalInteraction : ShopInteractable
 	[SerializeField] float animationTime;
     [SerializeField] Ability ability;
 
-	private void Awake()
+	[SerializeField] GlyphSpawning glyphSpawning;
+
+
+    private void Awake()
 	{
 		Close();
 		DOTween.Kill(this, true);
-	}
-	bool isOpen = true;	
+    }
+    bool isOpen = true;	
 	protected override bool CanBuy(Interactor interactor)
 	{
 		return !interactor.GetComponent<PlayerAbilityCaster>().caster.HasAbility(ability);
@@ -49,14 +52,15 @@ public class PortalInteraction : ShopInteractable
 		if (isOpen)
 			return; isOpen = true;
 		Sequence open = DOTween.Sequence();
+		glyphSpawning.DespawnAbility();
         open.Append(body.DOScale(Vector3.one * maxPortalSize, openTime)).SetEase(Ease.InSine);
         open.AppendCallback(() => armAnimator.SetTrigger("Out"));
 		open.AppendCallback(() => armAnimator.ResetTrigger("In"));
 		open.AppendCallback(() => openSound.Play());
 		open.AppendCallback(() => idleSound.Play());
-	}
+    }
 
-   public void Close()
+    public void Close()
     {
 		if(!isOpen)
 			return; isOpen = false;
@@ -67,7 +71,7 @@ public class PortalInteraction : ShopInteractable
 		close.AppendCallback(() => armAnimator.ResetTrigger("Out"));
 		close.AppendInterval(animationTime);
 		close.Append(body.DOScale(Vector3.one * minPortalSize, openTime)).SetEase(Ease.InSine);
-		
-        
-	}
+        close.AppendInterval(openTime);
+        close.AppendCallback(() => glyphSpawning.SpawnAbility());
+    }
 }

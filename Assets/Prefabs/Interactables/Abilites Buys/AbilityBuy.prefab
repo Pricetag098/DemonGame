@@ -159,6 +159,7 @@ GameObject:
   - component: {fileID: 1157889485354241066}
   - component: {fileID: 4032218186876451040}
   - component: {fileID: 6587651977254615105}
+  - component: {fileID: 2893665058984745068}
   m_Layer: 0
   m_Name: PortalFrame
   m_TagString: Untagged
@@ -209,7 +210,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8928647976891049358, guid: df5ef23c484489742a53fffc6b80a6d0, type: 3}
+  - {fileID: 2100000, guid: 3f52cc14acdfa154db60ab10d2da3649, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -244,6 +245,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 172.48521, y: 222.30232, z: 29.132982}
   m_Center: {x: 0, y: 111.15118, z: 0.00000047683713}
+--- !u!114 &2893665058984745068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3239686151888197941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38657192cfd0f5546bf0de8e6b6e8758, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxEmission: 2
+  minEmission: 0
+  blinkSpeed: 1
 --- !u!1 &3401087525722034960
 GameObject:
   m_ObjectHideFlags: 0
@@ -872,6 +888,7 @@ MonoBehaviour:
   animationTime: 2
   ability: {fileID: 11400000, guid: 9d56930368b52474e841c943d4b53d32, type: 2}
   glyphSpawning: {fileID: 2978065952109146882}
+  portalFrame: {fileID: 2893665058984745068}
 --- !u!114 &2978065952109146882
 MonoBehaviour:
   m_ObjectHideFlags: 0

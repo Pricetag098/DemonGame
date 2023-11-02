@@ -25,19 +25,53 @@ public class Spawners : MonoBehaviour
 
         foreach(Area a in areas)
         {
-            if(a.AreaId == Areas.Courtyard) { AreaDictionary.Add(a.AreaId, a);  }
-            else if(a.AreaId == Areas.Graveyard) { AreaDictionary.Add(a.AreaId, a);  }
-            else if (a.AreaId == Areas.MainEntrance) { AreaDictionary.Add(a.AreaId, a);  }
-            else if (a.AreaId == Areas.Garden) { AreaDictionary.Add(a.AreaId, a);  }
-            else if (a.AreaId == Areas.Kitchen) { AreaDictionary.Add(a.AreaId, a);  }
-            else if (a.AreaId == Areas.Library) { AreaDictionary.Add(a.AreaId, a);  }
-            else if (a.AreaId == Areas.BishopsQuarters) { AreaDictionary.Add(a.AreaId, a);  }
-            else if (a.AreaId == Areas.CathedralHallUpper) { AreaDictionary.Add(a.AreaId, a);  }
-            else if (a.AreaId == Areas.CathedralHallLower) { AreaDictionary.Add(a.AreaId, a);  }
-            else if (a.AreaId == Areas.Tomb) { AreaDictionary.Add(a.AreaId, a); }
+            //if(a.AreaId == Areas.Courtyard) { AreaDictionary.Add(a.AreaId, a);  }
+            //else if(a.AreaId == Areas.Graveyard) { AreaDictionary.Add(a.AreaId, a);  }
+            //else if (a.AreaId == Areas.MainEntrance) { AreaDictionary.Add(a.AreaId, a);  }
+            //else if (a.AreaId == Areas.Garden) { AreaDictionary.Add(a.AreaId, a);  }
+            //else if (a.AreaId == Areas.Kitchen) { AreaDictionary.Add(a.AreaId, a);  }
+            //else if (a.AreaId == Areas.Library) { AreaDictionary.Add(a.AreaId, a);  }
+            //else if (a.AreaId == Areas.BishopsQuarters) { AreaDictionary.Add(a.AreaId, a);  }
+            //else if (a.AreaId == Areas.CathedralHallUpper) { AreaDictionary.Add(a.AreaId, a);  }
+            //else if (a.AreaId == Areas.CathedralHallLower) { AreaDictionary.Add(a.AreaId, a);  }
+            //else if (a.AreaId == Areas.Tomb) { AreaDictionary.Add(a.AreaId, a); }
+
+            switch(a.AreaId)
+            {
+                case Areas.Courtyard:
+                    AreaDictionary.Add(a.AreaId, a);
+                    break;
+                case Areas.Graveyard:
+                    AreaDictionary.Add(a.AreaId, a);
+                    break;
+                case Areas.MainEntrance:
+                    AreaDictionary.Add(a.AreaId, a);
+                    break;
+                case Areas.Garden:
+                    AreaDictionary.Add(a.AreaId, a);
+                    break;
+                case Areas.Kitchen:
+                    AreaDictionary.Add(a.AreaId, a);
+                    break;
+                case Areas.Library:
+                    AreaDictionary.Add(a.AreaId, a);
+                    break;
+                case Areas.BishopsQuarters:
+                    AreaDictionary.Add(a.AreaId, a);
+                    break;
+                case Areas.CathedralHallUpper:
+                    AreaDictionary.Add(a.AreaId, a);
+                    break;
+                case Areas.CathedralHallLower:
+                    AreaDictionary.Add(a.AreaId, a);
+                    break;
+                case Areas.Tomb:
+                    AreaDictionary.Add(a.AreaId, a);
+                    break;
+            }
         }
 
-        barriers = FindObjectsOfType<DestrcutibleObject>();
+        //barriers = FindObjectsOfType<DestrcutibleObject>();
     }
 
     public void UpdateActiveSpawners(Areas Id , Areas CurrentArea)
@@ -145,5 +179,5 @@ public enum Areas
     BishopsQuarters,
     CathedralHallUpper,
     CathedralHallLower,
-    Tomb,
+    Tomb
 }

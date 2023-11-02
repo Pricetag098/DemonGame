@@ -6,6 +6,7 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
 {
     [HideInInspector]public AbilityCaster caster;
     public int activeIndex;
+    int newActiveIndex;
     public InputActionProperty useAction;
     public InputActionProperty swapAction;
 	public InputActionProperty setAbility1Action;
@@ -15,7 +16,18 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
 	public float bloodSpent = 0;
     public float bloodGained = 0;
 
-    public Ability ActiveAbility { get { return caster.abilities[activeIndex]; } set { SetAbility(value); } }
+	enum State
+	{
+		normal,
+		drawing,
+		holstering,
+		replacing
+	}
+	[SerializeField] State state;
+
+    float timer;
+
+	public Ability ActiveAbility { get { return caster.abilities[activeIndex]; } set { SetAbility(value); } }
 	// Start is called before the first frame update
 
 	private void Awake()
@@ -32,8 +44,11 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
         
         caster.OnAddBlood += OnAddBlood;
         caster.OnRemoveBlood += OnRemoveBlood;
-        
-    }
+		caster.animator.runtimeAnimatorController = ActiveAbility.controller;
+
+		DrawAbility();
+
+	}
 
 	private void OnEnable()
 	{
@@ -56,12 +71,48 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
 	// Update is called once per frame
 	void Update()
     {
-        if ((useAction.action.IsPressed() && caster.abilities[activeIndex].castMode == Ability.CastModes.hold) ||
-            (useAction.action.WasPerformedThisFrame() && caster.abilities[activeIndex].castMode == Ability.CastModes.press) ||
-             caster.abilities[activeIndex].castMode == Ability.CastModes.passive)
+        timer-= Time.deltaTime;
+        switch (state)
         {
-            caster.Cast(activeIndex, Camera.main.transform.position, Camera.main.transform.forward);
+            case State.normal:
+				if ((useAction.action.IsPressed() && caster.abilities[activeIndex].castMode == Ability.CastModes.hold) ||
+			(useAction.action.WasPerformedThisFrame() && caster.abilities[activeIndex].castMode == Ability.CastModes.press) ||
+			 caster.abilities[activeIndex].castMode == Ability.CastModes.passive)
+				{
+					caster.Cast(activeIndex, Camera.main.transform.position, Camera.main.transform.forward);
+				}
+				break;
+
+            case State.holstering:
+                if(timer < 0)
+                {
+                    activeIndex = newActiveIndex;
+                    caster.animator.runtimeAnimatorController = ActiveAbility.controller;
+
+                    DrawAbility();
+                }
+                break;
+
+            case State.drawing:
+                if(timer< 0)
+                {
+                    state = State.normal;
+                    ActiveAbility.Select();
+                }
+                break;
+            case State.replacing:
+                if(timer< 0)
+                {
+                    caster.SetAbility(activeIndex, replacingAbility);
+					caster.animator.runtimeAnimatorController = ActiveAbility.controller;
+
+					DrawAbility();
+				}
+                break;
         }
+
+
+        
     }
 
     void OnAddBlood(float amount)
@@ -88,22 +139,22 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
 
     void Swap(InputAction.CallbackContext context)
     {
-        int lastActiveIndex = activeIndex;
+  //      int lastActiveIndex = activeIndex;
 
-        bool done = false;
-        while(caster.abilities[activeIndex].guid == caster.emptyAbility.guid || ! done)
-		{
-            done = true;
-            activeIndex++;
-            if (activeIndex > caster.abilities.Length - 1)
-            {
-                activeIndex = 0;
-            }
-        }
+  //      bool done = false;
+  //      while(caster.abilities[activeIndex].guid == caster.emptyAbility.guid || ! done)
+		//{
+  //          done = true;
+  //          activeIndex++;
+  //          if (activeIndex > caster.abilities.Length - 1)
+  //          {
+  //              activeIndex = 0;
+  //          }
+  //      }
 
-        caster.abilities[lastActiveIndex].DeSelect();
+  //      caster.abilities[lastActiveIndex].DeSelect();
         
-        caster.abilities[activeIndex].Select();
+  //      caster.abilities[activeIndex].Select();
     }
 
     void SelectAbility1(InputAction.CallbackContext context)
@@ -122,14 +173,14 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
 
 	void SelectAbility(int index)
     {
-        if (index == activeIndex)
+        if (index == activeIndex || state != State.normal)
             return;
         if(caster.abilities[index].guid != caster.emptyAbility.guid)
         {
-			caster.abilities[activeIndex].DeSelect();
-            activeIndex = index;
-			caster.abilities[activeIndex].Select();
+            newActiveIndex = index;
+			HolsterAbility();
 		}
+        
     }
 
 
@@ -137,13 +188,67 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
     {
         for(int i = 0; i < caster.abilities.Length; i++)
         {
-            if(caster.abilities[i].GetType() == typeof(Ability))
+            if(ability.guid == caster.abilities[i].guid)
             {
-                caster.SetAbility(i, ability);
+				
+                if(i != activeIndex)
+                {
+					caster.SetAbility(i, ability);
+					HolsterAbility();
+					newActiveIndex = i;
+				}
+                else
+                {
+					ReplaceAbility(ability);
+				}
                 return;
-            }
+			}
+            else if (caster.abilities[i].guid == caster.emptyAbility.guid)
+            {
+                
+				if (i != activeIndex)
+				{
+					caster.SetAbility(i, ability);
+					HolsterAbility();
+					newActiveIndex = i;
+				}
+                else
+                {
+					ReplaceAbility(ability);
+				}
+                return;
+			}
         }
-        caster.SetAbility(activeIndex, ability);
+        ReplaceAbility(ability);
+    }
+
+    Ability replacingAbility;
+    void ReplaceAbility(Ability ability)
+    {
+        replacingAbility = ability;
+        state = State.replacing;
+		ActiveAbility.DeSelect();
+		caster.animator.SetFloat("UnEquipSpeed", 1 / ActiveAbility.holsterTime);
+		caster.animator.SetTrigger("Unequip");
+		timer = ActiveAbility.holsterTime;
+	}
+
+
+    void DrawAbility()
+    {
+        state = State.drawing;
+
+        caster.animator.SetFloat("EquipSpeed", 1 / ActiveAbility.drawTime);
+        timer = ActiveAbility.drawTime;
+    }
+
+    void HolsterAbility()
+    {
+        state = State.holstering;
+        ActiveAbility.DeSelect();
+        caster.animator.SetFloat("UnEquipSpeed", 1 / ActiveAbility.holsterTime);
+        caster.animator.SetTrigger("Unequip");
+        timer = ActiveAbility.holsterTime;
     }
 
     public void LoadData(SessionData data)

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DetectArea : MonoBehaviour
 {
-    public Areas CurrentArea;
+    public static Areas CurrentArea;
     public LayerMask areaLayer;
     [SerializeField] Transform orientation;
     [SerializeField] float TimerBetweenUpdates;

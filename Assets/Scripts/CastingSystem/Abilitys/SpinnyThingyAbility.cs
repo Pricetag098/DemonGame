@@ -50,7 +50,7 @@ public class SpinnyThingyAbility : Ability
 		
 		healths.Clear();
 		caster.RemoveBlood(bloodCost);
-
+		caster.animator.SetTrigger("Cast");
 	}
 
 	protected override void OnEquip()

@@ -1,5 +1,78 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3734499868003468751
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 58488633027638977}
+  - component: {fileID: 4368661332621248883}
+  - component: {fileID: 303529159223951568}
+  - component: {fileID: 4201314087761531532}
+  m_Layer: 11
+  m_Name: Shootthrough
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &58488633027638977
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3734499868003468751}
+  m_LocalRotation: {x: 0.07841956, y: 0.0000000037252899, z: 0.0000000037252899, w: 0.99692047}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7282791640372321193}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 8.995, y: 0, z: 0}
+--- !u!65 &4368661332621248883
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3734499868003468751}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.4981952, y: 0.18567078, z: 1.7530954}
+  m_Center: {x: 0.2472353, y: -0.71138483, z: -1.1757908}
+--- !u!65 &303529159223951568
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3734499868003468751}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.15167236, y: 0.76440823, z: 2.0028462}
+  m_Center: {x: -1.1790744, y: -1.2194047, z: -1.0509036}
+--- !u!65 &4201314087761531532
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3734499868003468751}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.17153752, y: 0.76440823, z: 2.0028462}
+  m_Center: {x: 1.8832275, y: -1.219407, z: -1.0509036}
 --- !u!1001 &2256932749981486382
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -61,3 +134,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acae716f4dc64a84c9fbe1bdc780b9c8, type: 3}
+--- !u!4 &7282791640372321193 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8810043668238177927, guid: acae716f4dc64a84c9fbe1bdc780b9c8, type: 3}
+  m_PrefabInstance: {fileID: 2256932749981486382}
+  m_PrefabAsset: {fileID: 0}

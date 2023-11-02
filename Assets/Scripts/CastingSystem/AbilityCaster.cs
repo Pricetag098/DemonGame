@@ -15,6 +15,7 @@ public class AbilityCaster : MonoBehaviour
     public Transform castOrigin;
 
     public Optional<PlayerStats> playerStats;
+    public Animator animator;
 
     public delegate void CollisionAction(Collision collision);
     public CollisionAction collisionAction;

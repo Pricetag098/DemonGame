@@ -45,6 +45,11 @@ public class AiAgent : SpatialHashObject
     void Update()
     {
         RemainingDistancePath = RemainingDistance;
+
+        if (RemainingDistancePath < stopingDistance)
+        {
+            path.hasPath = false;
+        }
     }
 
     private void FixedUpdate()
@@ -72,19 +77,6 @@ public class AiAgent : SpatialHashObject
 			Vector3 turningVel = idealVel - rb.velocity;
 			rb.AddForce(turningVel * acceleration);
 
-            //if(pathIndex == path.pathLength - 1)
-            //{
-            //    if (Vector3.Distance(transform.position, path[pathIndex]) < stopingDistance)
-            //    {
-            //        path.hasPath = false;
-            //    }
-            //}
-
-            if (RemainingDistancePath < stopingDistance)
-            {
-                path.hasPath = false;
-            }
-
             if (Vector3.Distance(transform.position, path[pathIndex]) < indexChangeDistance)
 			{
 				pathIndex++;
@@ -100,11 +92,18 @@ public class AiAgent : SpatialHashObject
         }
     }
 
-    public void UpdatePath(Transform target)
+    public bool UpdatePath(Transform target)
     {
         NavMeshPath path = new NavMeshPath();
         CalculatePath(target.position, path);
         SetPath(path);
+
+        if (RemainingDistancePath > stopingDistance)
+        {
+            return true;
+        }
+
+        return false;
 	}
 
     public void LookDirection()

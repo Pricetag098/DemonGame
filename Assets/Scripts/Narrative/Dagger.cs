@@ -10,9 +10,9 @@ public class Dagger : MonoBehaviour
     [SerializeField] private GameObject falseDaggerInteractable;
     [SerializeField] private List<GameObject> daggerModels;
     [SerializeField] private GameObject interactable;
-    private bool playerHasDagger = false;
-    private bool playerHasFalseDagger = false;
-    private bool playerHasShovel = false;
+    [SerializeField] private bool playerHasDagger = false;
+    [SerializeField] private bool playerHasFalseDagger = false;
+    [SerializeField] private bool playerHasShovel = false;
     [SerializeField] private List<AudioSource> audioSources;
     private Animator animator;
 

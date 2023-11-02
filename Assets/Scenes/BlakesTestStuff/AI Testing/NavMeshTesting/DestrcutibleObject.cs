@@ -9,7 +9,10 @@ public class DestrcutibleObject : Interactable
     public int maxHealth;
     public int pointsToGain;
     public List<GameObject> symbolsList;
+    public AudioSource audioSource;
+    public List<AudioClip> wardingSounds;
     public GameObject pentagramSymbol;
+
 
     public string interactMessage;
 
@@ -53,9 +56,13 @@ public class DestrcutibleObject : Interactable
         if (Health > maxHealth) { Health = maxHealth; }
 
         activeSymbols[Health - 1].SetActive(true);
-        if(Health == 1)
+        audioSource.clip = wardingSounds[Random.Range(0, wardingSounds.Count)];
+        audioSource.Play();
+        if (Health == 1)
         {
             pentagramSymbol.SetActive(true);
+            audioSource.clip = wardingSounds[Random.Range(0, wardingSounds.Count)];
+            audioSource.Play();
         }
 
         player.GainPoints(pointsToGain);

@@ -25,6 +25,7 @@ public class DemonMaterials : MonoBehaviour
         Ritual3 = LoadALlAssestsFromFolder<Material>("Materials/LesserDemonMaterialVarients/3stRitualMaterialVariations");
         Ritual4 = LoadALlAssestsFromFolder<Material>("Materials/LesserDemonMaterialVarients/4stRitualMaterialVariations");
 
+        Resources.UnloadUnusedAssets();
     }
     public static void SetClothMaterial(GameObject obj)
     {
@@ -57,7 +58,8 @@ public class DemonMaterials : MonoBehaviour
         int num = Random.Range(0, defaultDemonMaterials.Length);
 
         Material[] mats = meshRenderer.materials;
-        mats[1] = defaultDemonMaterials[num];
+
+        mats[1] = defaultDemonMaterials[num]; // sets second material as first is not the demon material
 
         meshRenderer.materials = mats;
     }

@@ -14,18 +14,7 @@ public class ChunkLoader : ComponentSystem
 
     protected override void OnUpdate()
     {
-        // add logic here
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            LoadSubScene(SubSceneReferences.Instance.MainGate);
-            Debug.Log("Loaded");
-        }
-
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            UnloadSubScene(SubSceneReferences.Instance.MainGate);
-            Debug.Log("Unloaded");
-        }
+        
     }
 
     private void LoadSubScene(SubScene subScene)

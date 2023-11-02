@@ -9,6 +9,15 @@ public class SubSceneReferences : MonoBehaviour
 
     // ONE OF THESE FOR EACH AREA OF THE MAP
     public SubScene MainGate;
+    public SubScene Courtyard;
+    public SubScene Graveyard;
+    public SubScene Garden;
+    //public SubScene Kitchen;
+    //public SubScene Library;
+    //public SubScene BishopsQuarters;
+    //public SubScene CathedralHallUpper;
+    //public SubScene CathedralHallLower;
+    //public SubScene Tomb;
 
     private void Awake()
     {

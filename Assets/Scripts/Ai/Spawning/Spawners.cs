@@ -13,14 +13,11 @@ public class Spawners : MonoBehaviour
     [Header("Barriers")]
     public DestrcutibleObject[] barriers;
 
-    private DetectArea areaInfo;
-
     private Area[] areas;
     public static Dictionary<Areas, Area> AreaDictionary = new Dictionary<Areas, Area>();
 
     private void Awake()
     {
-        areaInfo = FindObjectOfType<DetectArea>();
         areas = FindObjectsOfType<Area>();
 
         foreach(Area a in areas)
@@ -70,8 +67,6 @@ public class Spawners : MonoBehaviour
                     break;
             }
         }
-
-        //barriers = FindObjectsOfType<DestrcutibleObject>();
     }
 
     public void UpdateActiveSpawners(Areas Id , Areas CurrentArea)

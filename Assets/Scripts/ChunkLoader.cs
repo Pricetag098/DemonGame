@@ -14,7 +14,38 @@ public class ChunkLoader : ComponentSystem
 
     protected override void OnUpdate()
     {
-        
+        if(SubSceneLoader.UpdateSubScenes())
+        {
+            switch(SubSceneLoader.CurrentArea)
+            {
+                case Areas.MainEntrance:
+                    // Areas To Load
+                    LoadSubScene(SubSceneReferences.Instance.Garden);
+
+                    // Areas To Unload
+                    UnloadSubScene(SubSceneReferences.Instance.Graveyard);
+                    break;
+                case Areas.Garden:
+                    // Areas To Load
+
+                    // Areas To Unload
+                    UnloadSubScene(SubSceneReferences.Instance.Graveyard);
+                    break;
+                case Areas.Courtyard:
+                    // Areas To Load
+                    LoadSubScene(SubSceneReferences.Instance.Graveyard);
+
+                    // Areas To Unload
+                    UnloadSubScene(SubSceneReferences.Instance.Garden);
+                    break;
+                case Areas.Graveyard:
+                    // Areas To Load
+
+                    // Areas To Unload
+                    UnloadSubScene(SubSceneReferences.Instance.Garden);
+                    break;
+            }
+        }
     }
 
     private void LoadSubScene(SubScene subScene)

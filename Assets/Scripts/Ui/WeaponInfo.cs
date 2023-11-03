@@ -16,7 +16,9 @@ public class WeaponInfo : MonoBehaviour
     [SerializeField] TextMeshProUGUI stashAmountText;
     [SerializeField] TextMeshProUGUI dividerText;
     [SerializeField] TextMeshProUGUI nameText;
+    [SerializeField] CanvasGroup noAmmoNotificaiton;
     [SerializeField] Holster holster;
+
 
     [SerializeField] Color defaultColour;
     [SerializeField] Color noAmmoColour;
@@ -28,12 +30,15 @@ public class WeaponInfo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        nameText.text = holster.HeldGun.gunName;
+
+
+            nameText.text = holster.HeldGun.gunName;
         clipAmountText.text = holster.HeldGun.ammoLeft.ToString();
         stashAmountText.text = holster.HeldGun.stash.ToString();
         clipAmountText.color = defaultColour;
         stashAmountText.color = defaultColour;
         dividerText.color = defaultColour;
+        
 
         if (holster.HeldGun.ammoLeft == 0)
         {
@@ -48,6 +53,12 @@ public class WeaponInfo : MonoBehaviour
         if (holster.HeldGun.ammoLeft == 0 && holster.HeldGun.stash == 0)
         {
             dividerText.color = noAmmoColour;
+            noAmmoNotificaiton.alpha = 1;
+
+        }
+        else
+        {
+            noAmmoNotificaiton.alpha = 0;
         }
     }
 
@@ -63,6 +74,11 @@ public class WeaponInfo : MonoBehaviour
             WeaponSwitchTween(nameParent, reserveNameParent);
             switchtext = false;
         }
+    }
+
+    private void noAmmoNotificationTween()
+    {
+
     }
 
     void WeaponSwitchTween(RectTransform reserveText, RectTransform activeText)

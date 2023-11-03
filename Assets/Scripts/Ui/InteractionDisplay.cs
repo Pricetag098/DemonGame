@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using DG.Tweening;
 public class InteractionDisplay : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI interactText;
@@ -12,18 +13,22 @@ public class InteractionDisplay : MonoBehaviour
 	private void Awake()
 	{
 		canvasGroup = GetComponent<CanvasGroup>();
+		canvasGroup.alpha = 0;
 	}
 	public void DisplayMessage(bool canInteract, string text)
 	{
+		canvasGroup.DOFade(1, 0.2f);
 		interactText.enabled = canInteract;
 		icon.enabled = canInteract;
 		messageText.text = text;
-		canvasGroup.alpha = 1f;
 	}
 	public void HideText()
 	{
-		interactText.enabled = false;
-		icon.enabled = false;
-		canvasGroup.alpha = 0f;
-	}
+        canvasGroup.DOFade(0, 0.2f).OnComplete(() => 
+		{
+            interactText.enabled = false;
+            icon.enabled = false;
+        });
+
+    }
 }

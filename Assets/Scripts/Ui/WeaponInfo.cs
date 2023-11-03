@@ -8,14 +8,14 @@ public class WeaponInfo : MonoBehaviour
 {
     [SerializeField] RectTransform nameParent;
     [SerializeField] RectTransform reserveNameParent;
-    [SerializeField] TextMeshProUGUI reserveNameText;
+    [SerializeField] public TextMeshProUGUI reserveNameText;
     bool switchtext = false;
     public AnimationCurve easeCurve;
 
     [SerializeField] TextMeshProUGUI clipAmountText;
     [SerializeField] TextMeshProUGUI stashAmountText;
     [SerializeField] TextMeshProUGUI dividerText;
-    [SerializeField] TextMeshProUGUI nameText;
+    [SerializeField] public TextMeshProUGUI nameText;
     [SerializeField] CanvasGroup noAmmoNotificaiton;
     [SerializeField] Holster holster;
 
@@ -27,12 +27,11 @@ public class WeaponInfo : MonoBehaviour
     {
         holster = FindObjectOfType<Holster>();
     }
-    // Update is called once per frame
+
     void Update()
     {
-
-
-            nameText.text = holster.HeldGun.gunName;
+        nameText.text = holster.HeldGun.gunName;
+        if(holster.gunCount > 1) { reserveNameText.text = holster.OffHandGun.gunName; }
         clipAmountText.text = holster.HeldGun.ammoLeft.ToString();
         stashAmountText.text = holster.HeldGun.stash.ToString();
         clipAmountText.color = defaultColour;
@@ -53,32 +52,34 @@ public class WeaponInfo : MonoBehaviour
         if (holster.HeldGun.ammoLeft == 0 && holster.HeldGun.stash == 0)
         {
             dividerText.color = noAmmoColour;
-            noAmmoNotificaiton.alpha = 1;
-
+            noAmmoNotificationTween(1);
         }
         else
         {
-            noAmmoNotificaiton.alpha = 0;
+            noAmmoNotificationTween(0);
         }
     }
 
     public void WeaponSwapTween()
     {
+        
         if (!switchtext)
         {
             WeaponSwitchTween(reserveNameParent, nameParent);
+
             switchtext = true;
         }
         else
         {
             WeaponSwitchTween(nameParent, reserveNameParent);
+
             switchtext = false;
         }
     }
 
-    private void noAmmoNotificationTween()
+    private void noAmmoNotificationTween(int alphaValue)
     {
-
+        noAmmoNotificaiton.DOFade(alphaValue, 0.2f);
     }
 
     void WeaponSwitchTween(RectTransform reserveText, RectTransform activeText)
@@ -94,9 +95,9 @@ public class WeaponInfo : MonoBehaviour
             ReserveText(reserveNameText);
         }
 
-        reserveText.DOAnchorPos(new Vector2(-30, 40), 0.5f).SetEase(easeCurve);
+        reserveText.DOAnchorPos(new Vector2(-30, 40), holster.drawTimer).SetEase(easeCurve);
 
-        activeText.DOAnchorPos(new Vector2(0, 90), 0.5f).SetEase(easeCurve);
+        activeText.DOAnchorPos(new Vector2(0, 90), holster.drawTimer).SetEase(easeCurve);
     }
 
     void ReserveText(TextMeshProUGUI reserveText)

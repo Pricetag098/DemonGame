@@ -10,6 +10,7 @@ public class Holster : MonoBehaviour
     public PlayerStats stats;
     public ObjectPooler bulletVisualierPool;
     public AbilityCaster abilityCaster;
+    public WeaponInfo weaponInfo;
     public Rigidbody rb;
     
     [SerializeField] InputActionProperty input;
@@ -59,7 +60,7 @@ public class Holster : MonoBehaviour
     public string drawTrigger;
     public string holsterTigger;
     public bool consumeAmmo = true;
-    float drawTimer = 0;
+    public float drawTimer = 0;
 	private void OnEnable()
 	{
 		input.action.Enable();
@@ -265,7 +266,9 @@ public class Holster : MonoBehaviour
             i = 0;
 		}
         SetGunIndex(i);
-	}
+        
+        //weaponInfo.WeaponSwapTween();
+    }
 
     public bool HasGun(Gun g)
     {

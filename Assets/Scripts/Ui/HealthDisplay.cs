@@ -6,7 +6,7 @@ public class HealthDisplay : MonoBehaviour
 {
     Health health;
     CanvasGroup canvasGroup;
-    [SerializeField, Range(0, 1)] float startinghealth, endHealth,maxAlpha;
+    [SerializeField] float startinghealth, endHealth,maxAlpha;
     
     // Start is called before the first frame update
     void Start()

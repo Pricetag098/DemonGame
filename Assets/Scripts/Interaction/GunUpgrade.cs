@@ -12,6 +12,13 @@ public class GunUpgrade : ShopInteractable
         interactor.holster.HeldGun = gun.GetComponent<Gun>();
 
     }
+    public override void StartHover(Interactor interactor)
+    {
+        Gun heldGun = interactor.holster.HeldGun;
+        base.StartHover(interactor);
+        interactor.display.DisplayMessage(true, buyMessage + " " + heldGun.gunName + ": " + GetCost(interactor));
+
+    }
     protected override bool CanBuy(Interactor interactor)
     {
         Gun heldGun = interactor.holster.HeldGun;

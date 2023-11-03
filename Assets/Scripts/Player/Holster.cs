@@ -16,10 +16,18 @@ public class Holster : MonoBehaviour
 
     public int heldGunIndex = 0;
     public int newGunIndex = 0;
+
+    public int gunCount = 0;
     public Gun HeldGun { 
         get { return guns[heldGunIndex]; }
         set { SetGun(heldGunIndex, value); }
     }
+    public Gun OffHandGun
+    {
+        get { return guns[GetOffHandIndex()]; }
+        
+    }
+
 	Gun replacingGun;
 	const int MaxGuns = 2;
     //[HideInInspector]
@@ -74,6 +82,7 @@ public class Holster : MonoBehaviour
         verticalRecoilDynamics = new SecondOrderDynamics(frequncey, damping, reaction, 0);
         horizontalRecoilDynamics = new SecondOrderDynamics(frequncey, damping, reaction, 0);
         input.action.performed += SwapGun;
+        gunCount = 0;
         int j = 0;
         for(int i = 0; i < transform.childCount; i++)
 		{
@@ -130,6 +139,7 @@ public class Holster : MonoBehaviour
 				{
 
 					Destroy(HeldGun.gameObject);
+                    gunCount--;
                     guns[heldGunIndex] = replacingGun;
 					animator.runtimeAnimatorController = HeldGun.controller;
 					guns[heldGunIndex].gameObject.SetActive(true);
@@ -212,6 +222,7 @@ public class Holster : MonoBehaviour
 		gun.holster = this;
 		if (gun.visualiserPool.Enabled && !gun.useOwnVisualiser)
 			gun.visualiserPool.Value = bulletVisualierPool;
+        gunCount++;
 	}
 
     
@@ -236,7 +247,15 @@ public class Holster : MonoBehaviour
         OnDealDamage(damage);
 	}
 
-	
+	int GetOffHandIndex()
+    {
+		int i = heldGunIndex + 1;
+		if (i >= guns.Length)
+		{
+			i = 0;
+		}
+        return i;
+	}
 
     void SwapGun(InputAction.CallbackContext callback)
 	{

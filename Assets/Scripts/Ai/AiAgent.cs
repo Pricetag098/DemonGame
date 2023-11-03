@@ -112,6 +112,7 @@ public class AiAgent : SpatialHashObject
         if (startPoint.status != NavMeshPathStatus.PathComplete)
         {
             startPointValid = false;
+            Debug.Log("On Path");
         }
 
         if (RemainingDistancePath < stopingDistance)

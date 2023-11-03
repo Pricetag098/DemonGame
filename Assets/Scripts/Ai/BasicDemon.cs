@@ -41,10 +41,9 @@ public class BasicDemon : DemonBase
 
     public override void Tick()
     {
-        if(_health.dead == false)
+        base.Tick();
+        if (_health.dead == false)
         {
-            base.Tick();
-
             DetectPlayer();
 
             if (DemonInMap == false) m_obstacle.Detection();
@@ -120,9 +119,13 @@ public class BasicDemon : DemonBase
         base.OnFinishedSpawnAnimation();
     }
 
-    public override void PathFinding()
+    public override bool PathFinding()
     {
-        CalculateAndSetPath(_target);
+        base.PathFinding();
+
+        CalculateAndSetPath(_target, out bool valid);
+
+        return valid;
     }
 
     public override void DetectPlayer()

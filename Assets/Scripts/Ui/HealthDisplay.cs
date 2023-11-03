@@ -12,6 +12,7 @@ public class HealthDisplay : MonoBehaviour
     void Start()
     {
         health = FindObjectOfType<PlayerStats>().GetComponent<Health>();
+        canvasGroup = GetComponent<CanvasGroup>();
     }
 
     // Update is called once per frame

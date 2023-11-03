@@ -9,7 +9,7 @@ public class HealthDisplay : MonoBehaviour
     [SerializeField] float startinghealth, endHealth,maxAlpha;
     
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         health = FindObjectOfType<PlayerStats>().GetComponent<Health>();
         canvasGroup = GetComponent<CanvasGroup>();
@@ -18,6 +18,6 @@ public class HealthDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        canvasGroup.alpha = maxAlpha * ((health.health - startinghealth) / (endHealth - startinghealth));
+        canvasGroup.alpha = maxAlpha * Mathf.Clamp01(((health.health - startinghealth) / (endHealth - startinghealth)));
     }
 }

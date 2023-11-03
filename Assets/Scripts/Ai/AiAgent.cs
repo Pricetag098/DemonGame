@@ -221,7 +221,7 @@ public class AiAgent : SpatialHashObject
         {
             float num = 0;
 
-            if(path.pathLength == 0) { return num; }
+            //if(path.pathLength == 0) { return num; }
 
             num = Vector3.Distance(path[pathIndex], transform.position);
 

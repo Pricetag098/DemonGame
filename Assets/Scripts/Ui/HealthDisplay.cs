@@ -18,6 +18,6 @@ public class HealthDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        canvasGroup.alpha = maxAlpha * Mathf.Clamp01(((health.health - startinghealth) / (endHealth - startinghealth)));
+        canvasGroup.alpha = maxAlpha * (1 - Mathf.Clamp01((health.health - startinghealth) / (endHealth - startinghealth)));
     }
 }

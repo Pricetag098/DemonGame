@@ -10,6 +10,15 @@ public class AbilityUpgrade : ShopInteractable
         interactor.caster.ActiveAbility = current.upgradePath.Value.abilities[current.tier + 1];
     }
 
+    public override void StartHover(Interactor interactor)
+    {
+        Ability current = interactor.caster.ActiveAbility;
+        base.StartHover(interactor);
+        interactor.display.DisplayMessage(true, buyMessage + " " + current.abilityName + ": " + GetCost(interactor));
+
+    }
+
+
     protected override bool CanBuy(Interactor interactor)
     {
         if (interactor.caster.ActiveAbility.upgradePath.Enabled)

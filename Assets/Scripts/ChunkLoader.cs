@@ -21,6 +21,7 @@ public class ChunkLoader : ComponentSystem
                 case Areas.MainEntrance:
                     // Areas To Load
                     LoadSubScene(SubSceneReferences.Instance.Garden);
+                    LoadSubScene(SubSceneReferences.Instance.Courtyard);
 
                     // Areas To Unload
                     UnloadSubScene(SubSceneReferences.Instance.Graveyard);
@@ -30,6 +31,7 @@ public class ChunkLoader : ComponentSystem
 
                     // Areas To Unload
                     UnloadSubScene(SubSceneReferences.Instance.Graveyard);
+                    UnloadSubScene(SubSceneReferences.Instance.Courtyard);
                     break;
                 case Areas.Courtyard:
                     // Areas To Load

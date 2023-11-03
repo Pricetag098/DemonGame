@@ -9,7 +9,6 @@ namespace BlakesSpatialHash
         Vector3 GetLastPosition { get; set; }
         uint Index { get; set; }
         bool Enabled { get; }
-
         List<SpatialHashObject> Objects { get; set; }
     }
 
@@ -21,7 +20,7 @@ namespace BlakesSpatialHash
         public bool Enabled { get { return gameObject.activeSelf; } }
         public List<SpatialHashObject> Objects { get; set; }
 
-        public SpatialHashGrid3D Grid;
+        [HideInInspector] public SpatialHashGrid3D Grid;
 
         public void Initalise()
         {

@@ -10,7 +10,7 @@ public class AiAgent : SpatialHashObject
     public float acceleration;
     public float rotationSpeed;
     public bool canRotate;
-    public float RemainingDistancePath;
+    [HideInInspector] public float RemainingDistancePath;
     
     public LayerMask wallLayers;
     public float scanRadius;
@@ -28,11 +28,13 @@ public class AiAgent : SpatialHashObject
     public bool canMove = true;
 
     private Quaternion lastRotation = Quaternion.identity;
+    private DemonBase demon;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         rb.sleepThreshold = 0;
+        demon = GetComponent<DemonBase>();
     }
 
     // Start is called before the first frame update
@@ -74,17 +76,21 @@ public class AiAgent : SpatialHashObject
 			}
 
 			rb.AddForce(GetPushForce() * dispersionForce);
+
 			Vector3 turningVel = idealVel - rb.velocity;
 			rb.AddForce(turningVel * acceleration);
 
-            if (Vector3.Distance(transform.position, path[pathIndex]) < indexChangeDistance)
-			{
-				pathIndex++;
-				if (pathIndex >= path.pathLength)
-				{
-					pathIndex = path.pathLength - 1;
-				}
-			}
+            if (path[pathIndex] != null)
+            {
+                if (Vector3.Distance(transform.position, path[pathIndex]) < indexChangeDistance)
+                {
+                    pathIndex++;
+                    if (pathIndex >= path.pathLength)
+                    {
+                        pathIndex = path.pathLength - 1;
+                    }
+                }
+            }
 		}
         else
         {
@@ -92,24 +98,41 @@ public class AiAgent : SpatialHashObject
         }
     }
 
-    public bool UpdatePath(Transform target)
+    public bool UpdatePath(Transform target, out bool startPointValid)
     {
         NavMeshPath path = new NavMeshPath();
+
         CalculatePath(target.position, path);
         SetPath(path);
 
-        if (RemainingDistancePath > stopingDistance)
+        NavMeshPath startPoint = new NavMeshPath();
+        CalculatePath(transform.position, startPoint);
+        startPointValid = true;
+
+        if (startPoint.status != NavMeshPathStatus.PathComplete)
         {
-            return true;
+            startPointValid = false;
         }
 
-        return false;
+        if (RemainingDistancePath < stopingDistance)
+        {
+            return false;
+        }
+
+        
+        return true;
 	}
 
     public void LookDirection()
     {
         if(canRotate == true)
         {
+            if (path[pathIndex] == null) 
+            {
+                transform.rotation = lastRotation;
+                return;
+            }
+
             var lookPos = path[pathIndex] - transform.position;
             lookPos.y = 0;
             var rotation = Quaternion.LookRotation(lookPos);
@@ -143,6 +166,9 @@ public class AiAgent : SpatialHashObject
     Vector3 GetPushForce()
     {
         Vector3 force = Vector3.zero;
+
+        if(demon.DemonInMap == false) return force;
+
         foreach(SpatialHashObject other in Objects)
         {
             if (other == this)
@@ -157,9 +183,8 @@ public class AiAgent : SpatialHashObject
         }
 
         return force;   
-
-
     }
+
 	float SmoothingVal(float radius, float distance)
 	{
 		float val = Mathf.Max(0, radius - distance);
@@ -195,13 +220,18 @@ public class AiAgent : SpatialHashObject
         {
             float num = 0;
 
+            if(path.pathLength == 0) { return num; }
+
             num = Vector3.Distance(path[pathIndex], transform.position);
 
             if (path.pathLength == 1) return num;
 
             for (int i = pathIndex + 1; i < path.pathLength; i++)
             {
-                num += Vector3.Distance(path[i], path[i + 1]);
+                if (path[i + 1] != null)
+                {
+                    num += Vector3.Distance(path[i], path[i + 1]);
+                }
             }
 
             return num;
@@ -221,7 +251,7 @@ public class AiAgent : SpatialHashObject
         return NavMesh.CalculatePath(start, end, NavMesh.AllAreas, path);
     }
     public bool CalculatePath(Vector3 end, NavMeshPath path)
-    { 
+    {
         return NavMesh.CalculatePath(transform.position, end, NavMesh.AllAreas, path);
     }
 

@@ -6,6 +6,7 @@ public class CasterDisplay : MonoBehaviour
 {
     [SerializeField] Image[] icons;
     [SerializeField] Slider bloodMeter;
+    [SerializeField] CanvasGroup onEmptyVisualization;
     [SerializeField] PlayerAbilityCaster caster;
 
     [SerializeField] float frequncey;
@@ -33,5 +34,13 @@ public class CasterDisplay : MonoBehaviour
             icons[i].GetComponent<Outline>().enabled = i == caster.activeIndex;
 		}
         bloodMeter.value = dynamics.Update(Time.unscaledDeltaTime,caster.caster.blood / caster.caster.maxBlood);
+        if(bloodMeter.value <= 0.1f)
+        {
+            onEmptyVisualization.alpha = Mathf.PingPong(Time.time * 1 , Time.time * 3f);
+        }
+        else
+        {
+            onEmptyVisualization.alpha = 0f;
+        }
     }
 }

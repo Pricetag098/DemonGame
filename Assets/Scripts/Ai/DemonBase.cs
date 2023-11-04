@@ -61,6 +61,8 @@ public class DemonBase : MonoBehaviour
     [SerializeField] SoundPlayer _soundPlayerFootsteps;
 
     private Timer IdleSoundTimer;
+    private Timer IdleTimer;
+    private Vector3 lastPosition = Vector3.zero;
 
     [SerializeField] float minTimeInterval;
     [SerializeField] float maxTimeInterval;
@@ -85,6 +87,7 @@ public class DemonBase : MonoBehaviour
         _colliders = GetAllColliders();
 
         IdleSoundTimer = new Timer(Random.Range(minTimeInterval, maxTimeInterval));
+        IdleTimer = new Timer(10);
 
         OnAwakened();
     }
@@ -115,6 +118,22 @@ public class DemonBase : MonoBehaviour
         {
             IdleSoundInterval(IdleSoundTimer);
         }
+
+        Vector3 pos = transform.position;
+
+        if(lastPosition == pos)
+        {
+            if(IdleTimer.TimeGreaterThan)
+            {
+                OnDespawn();
+            }
+        }
+        else
+        {
+            IdleTimer.ResetTimer(10);
+        }
+
+        lastPosition = pos;
     }
     public virtual void OnAttack()
     {
@@ -124,7 +143,7 @@ public class DemonBase : MonoBehaviour
     {
         PlaySoundHit();
     } 
-    public virtual void PathFinding() { }
+    public virtual bool PathFinding() { return false; }
     public virtual void OnDeath()
     {
         _aiAgent.SetFollowSpeed(0);
@@ -244,15 +263,10 @@ public class DemonBase : MonoBehaviour
     /// Calculates and Sets a New Path
     /// </summary>
     /// <param name="targetPos"></param>
-    public void CalculateAndSetPath(Transform targetPos)
+    public void CalculateAndSetPath(Transform targetPos, out bool valid)
     {
         _aiAgent.UpdatePath(targetPos, out bool startPointValid);
-
-        if(startPointValid == false)
-        {
-            OnDespawn(true);
-        }
-        
+        valid = startPointValid;
         _target = targetPos;
     }
 

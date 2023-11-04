@@ -119,6 +119,10 @@ public class SpawnerManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void LateUpdate()
+    {
         _DemonSpawner.CallDemonUpdatePosition();
     }
 

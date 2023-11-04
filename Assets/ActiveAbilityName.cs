@@ -11,7 +11,7 @@ public class ActiveAbilityName : MonoBehaviour
 
 
     [SerializeField] TMP_FontAsset[] fontList;
-    [SerializeField] TMP_FontAsset currentFont;
+    TMP_FontAsset currentFont;
 
     [SerializeField] TextMeshProUGUI abilityNameText;
 
@@ -24,6 +24,11 @@ public class ActiveAbilityName : MonoBehaviour
     {
         abilityCaster = FindObjectOfType<AbilityCaster>();
         playerAbilityCaster = FindObjectOfType<PlayerAbilityCaster>();
+    }
+
+    private void Update()
+    {
+        abilityNameText.text = abilityCaster.abilities[playerAbilityCaster.activeIndex].abilityName;
     }
 
     /*public void OnSwitchAbility()

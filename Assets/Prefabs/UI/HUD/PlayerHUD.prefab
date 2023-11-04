@@ -506,7 +506,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 50}
+  m_SizeDelta: {x: 0, y: 81.8243}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &867045986484031297
 CanvasRenderer:
@@ -563,8 +563,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
-  m_fontSizeBase: 50
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -5864,6 +5864,7 @@ MonoBehaviour:
   frequncey: 0.5
   damping: 1
   theOtherOne: 1
+  isEmpty: 0
 --- !u!114 &7948334003852133506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6712,7 +6713,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.69999695, y: 3}
+  m_AnchoredPosition: {x: 0.69999695, y: 2.399994}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7967681060334870067
@@ -7627,7 +7628,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Revolver
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5bf1636631ecc11448744687fb71195d, type: 2}
   m_sharedMaterial: {fileID: -1402977960246351400, guid: 5bf1636631ecc11448744687fb71195d, type: 2}
@@ -7917,6 +7918,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7916292588588122309}
   - component: {fileID: 379755053}
+  - component: {fileID: 6067949582178801025}
+  - component: {fileID: 3305861120622170148}
   m_Layer: 0
   m_Name: AbilityNameDisplay
   m_TagString: Untagged
@@ -7986,6 +7989,46 @@ MonoBehaviour:
   - HOOTY
   maxPhrases: 3
   lingerTime: 0.5
+--- !u!114 &6067949582178801025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8761401012841347798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 811d66d3ab0ab994bab581afb038a10e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fontList:
+  - {fileID: 0}
+  - {fileID: 0}
+  currentFont: {fileID: 0}
+  abilityNameText: {fileID: 0}
+  phrases: []
+  maxPhrases: 0
+  lingerTime: 0
+--- !u!114 &3305861120622170148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8761401012841347798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 811d66d3ab0ab994bab581afb038a10e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fontList:
+  - {fileID: 0}
+  - {fileID: 0}
+  currentFont: {fileID: 0}
+  abilityNameText: {fileID: 0}
+  phrases: []
+  maxPhrases: 0
+  lingerTime: 0
 --- !u!1 &8797440135481095236
 GameObject:
   m_ObjectHideFlags: 0

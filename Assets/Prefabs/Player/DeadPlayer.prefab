@@ -155,9 +155,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2069573598797596830}
-  - component: {fileID: 2292742161660783821}
   - component: {fileID: 1960216989522773171}
-  m_Layer: 9
+  - component: {fileID: 8427452743043733227}
+  m_Layer: 16
   m_Name: Interactable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,19 +179,6 @@ Transform:
   m_Father: {fileID: 5830401860190242207}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &2292742161660783821
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7465844683118949514}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1960216989522773171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,6 +191,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ca4cd025cdfde240b563c354e4a22bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hovered: 0
   interactMessage: to respawn
   body: {fileID: 4215594812752125536}
+--- !u!135 &8427452743043733227
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7465844683118949514}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}

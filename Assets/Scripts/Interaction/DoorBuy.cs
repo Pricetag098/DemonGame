@@ -6,6 +6,7 @@ public class DoorBuy : ShopInteractable
 {
     public bool open;
     [SerializeField] Optional<Animator> doorAnimator;
+    [SerializeField] Optional<List<ArcaneLock>> arcaneLock;
 
     [SerializeField] Optional<Area> AreaConnection1;
     [SerializeField] Optional<Area> AreaConnection2;
@@ -60,10 +61,28 @@ public class DoorBuy : ShopInteractable
         if (doorAnimator.Enabled)
         {
             doorAnimator.Value.SetTrigger("Open");
+            if (arcaneLock.Enabled)
+            {
+                for (int i = 0; i < arcaneLock.Value.Count; i++)
+                {
+                    arcaneLock.Value[i].DisolveLock();
+                }
+            }
         }
         else
         {
             transform.parent.gameObject.SetActive(false);
+        }
+    }
+
+    protected override void CantBuy(Interactor interactor)
+    {
+        if (arcaneLock.Enabled)
+        {
+            for (int i = 0; i < arcaneLock.Value.Count; i++)
+            {
+                arcaneLock.Value[i].NoBuy();
+            }
         }
     }
 }

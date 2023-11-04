@@ -18,13 +18,15 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
     public Slider deathStateSlider;
     DeathStateToggler[] togglers;
     bool dead;
-
+    PlayerStats stats;
+    [Range(0,1)] public float pointLoss;
     int deaths;
     // Start is called before the first frame update
     void Awake()
     {
         perkManager = GetComponent<PerkManager>();
         health = GetComponent<Health>();
+        stats = GetComponent<PlayerStats>();
         health.OnDeath += Die;
         body = FindObjectOfType<PlayerBodyInteract>();
         spawnerManager = FindObjectOfType<SpawnerManager>();

@@ -46,9 +46,13 @@ public class Melee : MonoBehaviour
 
 		animator.SetTrigger(animationKey);
 		List<Health> healths = new List<Health>();
-		soundPlayer.Play();
+		
 		
 		RaycastHit[] hits = Physics.SphereCastAll(origin, rad, direction, range, layers);
+		
+		if(hits.Length == 0)
+			soundPlayer.Play();
+
 		foreach (RaycastHit hit in hits)
 		{
 			HitBox hb;
@@ -59,21 +63,35 @@ public class Melee : MonoBehaviour
 				healths.Add(hb.health);
 				playerStats.GainPoints(points);
 				hb.health.TakeDmg(damage * playerStats.damageMulti);
-				if(hit.collider.TryGetComponent(out Surface surface))
-				{
-					if (hit.point == Vector3.zero)
-					{
-						Vector3 pos = hit.collider.ClosestPoint(origin);
-						surface.data.PlayHitVfx(pos, pos - origin);
-						
-					}
-					else
-					{
-						surface.data.PlayHitVfx(hit.point, hit.normal);
-					}
-				}
+				
 				
 
+			}
+			if (hit.collider.TryGetComponent(out Surface surface))
+			{
+				if (hit.point == Vector3.zero)
+				{
+					Vector3 pos = hit.collider.ClosestPoint(origin);
+					surface.data.PlayHitVfx(pos, pos - origin);
+
+				}
+				else
+				{
+					surface.data.PlayHitVfx(hit.point, hit.normal);
+				}
+			}
+			else
+			{
+				if (hit.point == Vector3.zero)
+				{
+					Vector3 pos = hit.collider.ClosestPoint(origin);
+					VfxSpawner.DefaultSurfaceData.PlayHitVfx(pos, pos - origin);
+
+				}
+				else
+				{
+					VfxSpawner.DefaultSurfaceData.PlayHitVfx(hit.point, hit.normal);
+				}
 			}
 		}
 	}

@@ -164,8 +164,9 @@ public class Holster : MonoBehaviour
         drawTimer = HeldGun.holsterTime;
     }
 
-    void ReplaceGun()
+    public void ReplaceGun(Gun gun)
     {
+        replacingGun = gun;
 		state = HolsterStates.replacing;
 
 		animator.SetFloat(HeldGun.unEquipSpeedKey, 1 / HeldGun.holsterTime);
@@ -210,14 +211,14 @@ public class Holster : MonoBehaviour
             }
                 
 		}
-        replacingGun = gun;
+        
   
         SetUpGun(gun);
-        ReplaceGun();
+        ReplaceGun(gun);
         
 	}
 
-    void SetUpGun(Gun gun)
+    public void SetUpGun(Gun gun)
     {
 		gun.holster = this;
 		if (gun.visualiserPool.Enabled && !gun.useOwnVisualiser)

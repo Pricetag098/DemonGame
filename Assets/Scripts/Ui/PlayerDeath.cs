@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
+
 public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersistance<SessionData>
 {
     [SerializeField] CanvasGroup canvasGroup;
+    TextMeshProUGUI text;
     SpawnerManager spawnerManager;
     float respawnTimer;
     float deathStateTimer;
@@ -21,6 +24,7 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
     PlayerStats stats;
     [Range(0,1)] public float pointLoss;
     int deaths;
+    [SerializeField] string onDeathText, onRegaintext, onLossText;
     // Start is called before the first frame update
     void Awake()
     {
@@ -30,6 +34,7 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
         health.OnDeath += Die;
         body = FindObjectOfType<PlayerBodyInteract>();
         spawnerManager = FindObjectOfType<SpawnerManager>();
+        text = canvasGroup.GetComponentInChildren<TextMeshProUGUI>();
     }
 
     PlayerBodyInteract body;
@@ -50,7 +55,7 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
             if(deathStateTimer > deathStateTimeSeconds)
             {
                 ReturnToBody();
-                
+                text.text = onLossText;
                 stats.points = Mathf.FloorToInt((float)stats.points * (1- pointLoss));
             }
         }
@@ -61,6 +66,7 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
 	{
         if(respawnsLeft > 0)
 		{
+            text.text = onDeathText;
             StopAllCoroutines();
             StartCoroutine(DoDie());
             respawnsLeft--;
@@ -76,6 +82,7 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
     {
         dead = false;
         body.Hide();
+        text.text = onRegaintext;
         StopAllCoroutines();
         StartCoroutine(DoReturnToBody());
 

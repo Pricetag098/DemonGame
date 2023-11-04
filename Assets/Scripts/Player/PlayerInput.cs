@@ -71,7 +71,7 @@ namespace Movement
 		[SerializeField] float maxSlideSpeed = float.PositiveInfinity;
 		[SerializeField] float slideMinVel = 2;
 		[SerializeField] float slideHorizontalAcceleration;
-		[SerializeField] float slideOppositeVelMulti = 2;
+		
 
 
 
@@ -389,6 +389,7 @@ namespace Movement
 						{
 							rb.AddForce(orientation.right * (slideHorizontalAcceleration));
 						}
+						rb.AddForce(-rb.velocity * slideSlowForce, ForceMode.Acceleration);
 
 
 						break;

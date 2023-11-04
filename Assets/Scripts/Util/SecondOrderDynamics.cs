@@ -34,7 +34,7 @@ public class SecondOrderDynamics
 
     public float Update(float T , float x)
 	{
-        if (Time.timeScale == 0)
+        if (T == 0)
             return xp;
         float xd = (x - xp) /T;
         xp = x;
@@ -43,6 +43,14 @@ public class SecondOrderDynamics
 
         float k2Stable = Mathf.Max(k2, T * T / 2 + T * k1 / 2, T*k1);
         y = y + T * yd;
+        if (float.IsNaN(y))
+        {
+            Debug.Log("NAN");
+            Debug.Log(x);
+			xp = x;
+			y = x;
+			yd = 0;
+		}
         yd = yd + T * (x + k3 * xd - y - k1 * yd) / k2Stable;
         
         return y;

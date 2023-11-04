@@ -79,11 +79,16 @@ public class Holster : MonoBehaviour
         abilityCaster = GetComponentInParent<AbilityCaster>();
         playerInput = GetComponentInParent<Movement.PlayerInput>();
     }
+
+    void ResetRecoil()
+    {
+		verticalRecoilDynamics = new SecondOrderDynamics(frequncey, damping, reaction, 0);
+		horizontalRecoilDynamics = new SecondOrderDynamics(frequncey, damping, reaction, 0);
+	}
     private void Start()
 	{
-        verticalRecoilDynamics = new SecondOrderDynamics(frequncey, damping, reaction, 0);
-        horizontalRecoilDynamics = new SecondOrderDynamics(frequncey, damping, reaction, 0);
-        input.action.performed += SwapGun;
+		ResetRecoil();
+		input.action.performed += SwapGun;
         gunCount = 0;
         int j = 0;
         for(int i = 0; i < transform.childCount; i++)

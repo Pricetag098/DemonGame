@@ -766,6 +766,7 @@ GameObject:
   - component: {fileID: 4587607995133939683}
   - component: {fileID: 5012691005754328540}
   - component: {fileID: 2080388957296298785}
+  - component: {fileID: 2270270797737669242}
   m_Layer: 5
   m_Name: Pause Menu
   m_TagString: Untagged
@@ -810,10 +811,35 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4587607995133939687}
   m_Enabled: 1
-  m_Alpha: 0
-  m_Interactable: 0
-  m_BlocksRaycasts: 0
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &2270270797737669242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4587607995133939687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 434e33ba66e8fd448af09e32bdfeb2c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  openTime: 0.1
+  openAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Open
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 383f1a93-c39f-480a-8868-b90b9e542a79
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 7645908138541941640, guid: b5b5fd5d1836ae549b2c0e6bb6d5cf61, type: 3}
 --- !u!1 &4587607995309158348
 GameObject:
   m_ObjectHideFlags: 0

@@ -292,20 +292,26 @@ public class Gun : MonoBehaviour
 
         if(timeSinceLastShot > recoilEffectDuration)
 		{
-            holster.playerInput.SetRecoil(
-                new Vector3(
-                    holster.verticalRecoilDynamics.Update(Time.deltaTime,0),
-                    holster.horizontalRecoilDynamics.Update(Time.deltaTime,0)
-                    ,0));
+            if(Time.timeScale != 0)
+            {
+				holster.playerInput.SetRecoil(
+				new Vector3(
+					holster.verticalRecoilDynamics.Update(Time.deltaTime, 0),
+					holster.horizontalRecoilDynamics.Update(Time.deltaTime, 0)
+					, 0));
+			}
+            
         }
         else
         {
-
-			holster.playerInput.SetRecoil(
-			new Vector3(
-					holster.verticalRecoilDynamics.Update(Time.deltaTime, -verticalRecoilSpreadCurve.Evaluate(recoil)),
-					holster.horizontalRecoilDynamics.Update(Time.deltaTime, horizontalRecoilSpreadCurve.Evaluate(recoil))
-					, 0));
+            if (Time.timeScale != 0)
+            {
+                holster.playerInput.SetRecoil(
+            new Vector3(
+                    holster.verticalRecoilDynamics.Update(Time.deltaTime, -verticalRecoilSpreadCurve.Evaluate(recoil)),
+                    holster.horizontalRecoilDynamics.Update(Time.deltaTime, horizontalRecoilSpreadCurve.Evaluate(recoil))
+                    , 0));
+            }
 		}
     }
 

@@ -400,12 +400,16 @@ namespace Movement
 			
 		}
 
-		
+
 
 		void DoCamRot()
 		{
+			
 			Vector2 camDir = mouseAction.action.ReadValue<Vector2>();
+			
+
 			camRotX = Mathf.Clamp(-camDir.y * sensitivity * Time.deltaTime + camRotX + recoilVal.x, -90, 90);
+			
 			cam.rotation = Quaternion.Euler(camRotX, cam.rotation.eulerAngles.y + camDir.x * sensitivity * Time.deltaTime + recoilVal.y, cam.rotation.eulerAngles.z);
 		}
 		[System.Serializable]

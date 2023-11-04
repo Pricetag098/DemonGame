@@ -17,6 +17,8 @@ public class Melee : MonoBehaviour
 	PlayerStats playerStats;
 	float cooldown;
 	float timer;
+	[SerializeField] Animator animator;
+	[SerializeField] string animationKey = "Melee";
 
 	protected void Awake()
 	{
@@ -41,6 +43,8 @@ public class Melee : MonoBehaviour
 		if (timer < cooldown)
 			return;
 		timer = 0;
+
+		animator.SetTrigger(animationKey);
 		List<Health> healths = new List<Health>();
 		soundPlayer.Play();
 		

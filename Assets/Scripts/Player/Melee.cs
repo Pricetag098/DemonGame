@@ -72,7 +72,7 @@ public class Melee : MonoBehaviour
 				if (hit.point == Vector3.zero)
 				{
 					Vector3 pos = hit.collider.ClosestPoint(origin);
-					surface.data.PlayHitVfx(pos, pos - origin);
+					surface.data.PlayMeleeHitVfx(pos, pos - origin);
 
 				}
 				else
@@ -85,7 +85,7 @@ public class Melee : MonoBehaviour
 				if (hit.point == Vector3.zero)
 				{
 					Vector3 pos = hit.collider.ClosestPoint(origin);
-					VfxSpawner.DefaultSurfaceData.PlayHitVfx(pos, pos - origin);
+					VfxSpawner.DefaultSurfaceData.PlayMeleeHitVfx(pos, pos - origin);
 
 				}
 				else

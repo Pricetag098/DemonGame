@@ -319,10 +319,10 @@ public class Gun : MonoBehaviour
             Vector3 randVal = GetSpread(UnityEngine.Random.insideUnitSphere);
             
             
-            Vector3 dir = Camera.main.transform.rotation * (Quaternion.Euler(randVal) * Vector3.forward);
-            Debug.DrawRay(Camera.main.transform.position, dir * 10, Color.green);
+            Vector3 dir = holster.aimTarget.rotation * (Quaternion.Euler(randVal) * Vector3.forward);
+            Debug.DrawRay(holster.aimTarget.position, dir * 10, Color.green);
 
-            RaycastHit[] hitArray = Physics.RaycastAll(Camera.main.transform.position, dir, bulletRange, hitMask);
+            RaycastHit[] hitArray = Physics.RaycastAll(holster.aimTarget.position, dir, bulletRange, hitMask);
             if (hitArray.Length > 0)
             {
                 float damageMulti = 1;

@@ -12,6 +12,7 @@ public class Holster : MonoBehaviour
     public AbilityCaster abilityCaster;
     public WeaponInfo weaponInfo;
     public Rigidbody rb;
+    public Transform aimTarget;
     
     [SerializeField] InputActionProperty input;
 

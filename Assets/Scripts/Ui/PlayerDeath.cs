@@ -51,6 +51,7 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
             {
                 ReturnToBody();
                 
+                stats.points = Mathf.FloorToInt((float)stats.points * (1- pointLoss));
             }
         }
     }

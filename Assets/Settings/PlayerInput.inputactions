@@ -300,15 +300,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Smite",
-                    "type": "Button",
-                    "id": "9fbc1520-c859-4cf4-aaa8-5fc950d8a24c",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "GetAbility1",
                     "type": "Button",
                     "id": "e0675d3f-5901-4f22-a087-3ef2ea11ae75",
@@ -343,6 +334,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "AbilityChange",
+                    "type": "Value",
+                    "id": "e53e9aa3-c39d-4ca5-b088-de7e93bafc32",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -415,7 +415,7 @@
                 {
                     "name": "",
                     "id": "ea7e8ded-f7d3-443b-b050-f232bca11d16",
-                    "path": "<Keyboard>/q",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -453,28 +453,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "SwapAbility",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "082485c2-ee07-4c20-b24e-7f6047534f42",
-                    "path": "<Keyboard>/g",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Smite",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ceb707b8-0ffa-48e7-90b0-fa9d9b82126a",
-                    "path": "<Gamepad>/rightShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Smite",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -563,6 +541,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Melee",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8e48920d-3b49-466b-8486-6e2e4dd1def0",
+                    "path": "<Mouse>/scroll",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AbilityChange",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

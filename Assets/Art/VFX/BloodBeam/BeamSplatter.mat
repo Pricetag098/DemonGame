@@ -1,5 +1,21 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-1866386961634468374
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da692e001514ec24dbc4cca1949ff7e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 12
+  hdPluginSubTargetMaterialVersions:
+    m_Keys: []
+    m_Values: 
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -7,8 +23,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ArcaneLock_MAT
-  m_Shader: {fileID: -6465566751694194690, guid: d30dbc2466710e84e9a110fd202f029e, type: 3}
+  m_Name: BeamSplatter
+  m_Shader: {fileID: -6465566751694194690, guid: 9b3f6398092594840a9f7deca137f640, type: 3}
   m_ValidKeywords:
   - _ALPHATEST_ON
   - _DISABLE_SSR_TRANSPARENT
@@ -29,12 +45,12 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _SampleTexture2D_367cf5ffb2534141bdfe3df1cbe4b916_Texture_1:
-        m_Texture: {fileID: 2800000, guid: bd42c9ec981985e479c769e1fb1637e9, type: 3}
+    - _Noise_Texture:
+        m_Texture: {fileID: 2800000, guid: b1611712a29544549a880743126574ec, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_f6db1215507248fcad65ad24addfe87b_Texture_1:
-        m_Texture: {fileID: 2800000, guid: f566f16d13c843846bfa3a07cacf3fa3, type: 3}
+    - _SampleTexture2D_98cfd00f471343d19056d6045150ec07_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 0d37ad1c18aea6b45a0e0ab5f55eb553, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -52,25 +68,26 @@ Material:
     m_Ints: []
     m_Floats:
     - _AddPrecomputedVelocity: 0
+    - _AlphaClip: 0.23
     - _AlphaCutoffEnable: 1
     - _AlphaDstBlend: 0
     - _AlphaSrcBlend: 1
     - _AlphaToMask: 0
     - _AlphaToMaskInspectorValue: 0
+    - _BeamSize: 1
     - _BlendMode: 0
     - _ConservativeDepthOffsetEnable: 0
     - _CullMode: 2
     - _CullModeForward: 2
     - _DepthOffsetEnable: 0
-    - _Dissolve_Amount: 0
     - _DoubleSidedEnable: 0
     - _DoubleSidedGIMode: 0
     - _DoubleSidedNormalMode: 2
     - _DstBlend: 0
     - _EnableBlendModePreserveSpecularLighting: 1
     - _EnableFogOnTransparent: 1
-    - _Fresnel_Power: 0
     - _OpaqueCullMode: 2
+    - _RadialScale: 0.208
     - _RayTracing: 0
     - _ReceivesSSR: 1
     - _ReceivesSSRTransparent: 0
@@ -103,26 +120,10 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 1
     m_Colors:
-    - _Colour_1: {r: 19.278553, g: 0, b: 0, a: 1}
+    - _Colour_1: {r: 0.1872549, g: 0, b: 0, a: 0}
     - _Colour_2: {r: 0, g: 0, b: 0, a: 0}
-    - _Dissolve_Colour: {r: 45.254833, g: 43.74228, b: 0, a: 0}
-    - _Dissolve_Scale: {r: 1, g: 1, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _NoiseScale: {r: 2, g: 2, b: 0, a: 0}
+    - _Speed: {r: -2.5, g: -0.54, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &7666788205091609808
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da692e001514ec24dbc4cca1949ff7e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 12
-  hdPluginSubTargetMaterialVersions:
-    m_Keys: []
-    m_Values: 

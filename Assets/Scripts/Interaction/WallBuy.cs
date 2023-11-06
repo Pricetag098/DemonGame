@@ -31,7 +31,7 @@ public class WallBuy : ShopInteractable
 	{
 		base.StartHover(interactor);
 		Gun g = prefab.GetComponent<Gun>();
-		interactor.display.DisplayMessage(true, interactor.holster.HasGun(g) ? refillAmmoText + GetCost(interactor) : buyMessage + " " + g.gunName + ": " + GetCost(interactor));
+		interactor.display.DisplayMessage(true, interactor.holster.HasGun(g) ? refillAmmoText + " " + g.gunName + ": " + GetCost(interactor) : buyMessage + " " + g.gunName + ": " + GetCost(interactor));
 		
 	}
 

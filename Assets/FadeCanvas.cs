@@ -1,0 +1,35 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using DG.Tweening;   
+
+public class FadeCanvas : MonoBehaviour
+{
+    [SerializeField] public CanvasGroup canvasGroup;
+    [SerializeField] public float duration = 1.5f;
+    [SerializeField] public bool fadeIn;
+
+    private void Awake()
+    {
+            canvasGroup = GetComponent<CanvasGroup>();
+    }
+
+    private void Start()
+    {
+        Fade();
+    }
+
+    public void Fade()
+    {
+        if (fadeIn)
+        {
+            canvasGroup.alpha = 1f;
+            canvasGroup.DOFade(0, duration);
+
+        }
+        else
+        {
+            canvasGroup.DOFade(1, duration);
+        }
+    }
+}

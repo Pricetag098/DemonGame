@@ -86,6 +86,8 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
                     Debug.Log("Scroll 1");
                     if (selectedAbility == 1)
                     {
+                        SelectAbility(2);
+                        selectedAbility = 3;
                         return;
                     }
                     if (selectedAbility == 2)
@@ -118,6 +120,8 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
                     }
                     if (selectedAbility == 3)
                     {
+                        SelectAbility(0);
+                        selectedAbility = 1;
                         return;
                     }
                 }

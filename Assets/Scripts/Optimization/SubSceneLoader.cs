@@ -21,12 +21,7 @@ public class SubSceneLoader : MonoBehaviour
 
     public void Start()
     {
-        refs = SubSceneReferences.Instance;
-    }
-
-    public void Update()
-    {
-        
+        //refs = SubSceneReferences.Instance;
     }
 
     public static bool UpdateSubScenes()

@@ -8,7 +8,7 @@ public class AreaLoader : MonoBehaviour
 
     private void Awake()
     {
-        CreateDictionary();
+        //CreateDictionary();
     }
 
     private void Start()

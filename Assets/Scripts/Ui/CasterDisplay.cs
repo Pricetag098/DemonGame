@@ -54,6 +54,6 @@ public class CasterDisplay : MonoBehaviour
     private void TweenEmptyVisals()
     {
         isEmpty = true;
-        onEmptyVisualization.DOFade(1, 2f).SetLoops(-1, LoopType.Yoyo);
+        onEmptyVisualization.DOFade(1, .8f).SetLoops(-1, LoopType.Yoyo);
     }
 }

@@ -14,14 +14,23 @@ public class HitBox : MonoBehaviour
     public BodyPart bodyPart;
     
     public Health health;
+
+    private Animator animator;
     // Start is called before the first frame update
     void Start()
     {
         if(health == null)
         health = GetComponentInParent<Health>();
+        animator = GetComponentInParent<Animator>();
     }
     public void OnHit(float dmg)
     {
         health.TakeDmg(dmg);
+        animator.ResetTrigger("Hit");
+
+        int hitNum = Random.Range(0, 7);
+
+        animator.SetInteger("HitNum", hitNum);
+        animator.SetTrigger("Hit");
     }
 }

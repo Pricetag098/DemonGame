@@ -220,6 +220,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a976b7248a6173b4ab134b66967384bb, type: 3}
+--- !u!4 &1448731671578499301 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 788628772780789867, guid: a976b7248a6173b4ab134b66967384bb, type: 3}
+  m_PrefabInstance: {fileID: 2227918933674625166}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1727325365984188219 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 654034817721655221, guid: a976b7248a6173b4ab134b66967384bb, type: 3}
@@ -228,11 +233,6 @@ Transform:
 --- !u!95 &4690672254889987393 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 6914069856961988047, guid: a976b7248a6173b4ab134b66967384bb, type: 3}
-  m_PrefabInstance: {fileID: 2227918933674625166}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &9190974878147759683 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 7018805610502309581, guid: a976b7248a6173b4ab134b66967384bb, type: 3}
   m_PrefabInstance: {fileID: 2227918933674625166}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8880242989242738431
@@ -250,6 +250,14 @@ PrefabInstance:
       propertyPath: clips.Array.data[0]
       value: 
       objectReference: {fileID: 8300000, guid: cff34190abafdf14e810ffc6c1acb2e7, type: 3}
+    - target: {fileID: 2975763056316716188, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: moveWithTransform
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2975763056316716188, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: moveWithCustomTransform
+      value: 
+      objectReference: {fileID: 1448731671578499301}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: guid
       value: 65e5febb-1aeb-48a3-92bf-26c98d193a04
@@ -318,10 +326,6 @@ PrefabInstance:
       propertyPath: bulletRange
       value: 200
       objectReference: {fileID: 0}
-    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
-      propertyPath: gunfire.val
-      value: 
-      objectReference: {fileID: 9190974878147759683}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: holsterTime
       value: 0.6
@@ -694,6 +698,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -28.366
       objectReference: {fileID: 0}
+    - target: {fileID: 3142484435731541938, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.552
+      objectReference: {fileID: 0}
+    - target: {fileID: 3142484435731541938, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.046
+      objectReference: {fileID: 0}
+    - target: {fileID: 3142484435731541938, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.037
+      objectReference: {fileID: 0}
     - target: {fileID: 6001458314360550378, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: clips.Array.size
       value: 1
@@ -710,6 +726,10 @@ PrefabInstance:
       propertyPath: clips.Array.data[0]
       value: 
       objectReference: {fileID: 8300000, guid: 98eb2190ccdc6804988197a2b17d465a, type: 3}
+    - target: {fileID: 8367461429409578649, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9267b089335434640aa9c208b32c3619, type: 3}
 --- !u!4 &5799364791294578890 stripped

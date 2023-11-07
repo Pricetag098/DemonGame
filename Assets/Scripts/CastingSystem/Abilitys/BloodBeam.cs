@@ -11,7 +11,7 @@ public class BloodBeam : Ability
 	float pointTimer;
     [SerializeField] float maxRange;
 	[SerializeField] float radius;
-	LineRenderer lineRenderer;
+	LineRenderer[] lineRenderers;
 	SoundPlayer sound;
 	[SerializeField] LayerMask enemyLayers;
 	[SerializeField] LayerMask wallLayer;
@@ -19,15 +19,19 @@ public class BloodBeam : Ability
 	bool held,startedCasting;
 	protected override void OnEquip()
 	{
-		lineRenderer = Instantiate(prefab).GetComponent<LineRenderer>();
-		sound = lineRenderer.GetComponent<SoundPlayer>();
+		GameObject go = Instantiate(prefab);
+		sound = go.GetComponent<SoundPlayer>();
+		lineRenderers = go.GetComponentsInChildren<LineRenderer>();
 	}
 
 	public override void Cast(Vector3 origin, Vector3 direction)
 	{
 		if (!startedCasting)
 		{
-			lineRenderer.enabled = true;
+			foreach(LineRenderer lr in lineRenderers)
+			{
+				lr.enabled = true;
+			}
 			startedCasting = true;
 			sound.Play();
 			caster.animator.SetTrigger("Cast");
@@ -69,10 +73,16 @@ public class BloodBeam : Ability
 
 			}
 		}
-		lineRenderer.transform.position = caster.castOrigin.position;
-		lineRenderer.positionCount = 2;
-		lineRenderer.SetPosition(0, caster.castOrigin.position);
-		lineRenderer.SetPosition(1, end);
+
+        foreach (LineRenderer lr in lineRenderers)
+        {
+            lr.transform.position = caster.castOrigin.position;
+            lr.positionCount = 2;
+            lr.SetPosition(0, caster.castOrigin.position);
+            lr.SetPosition(1, end);
+			lr.material.SetFloat("_BeamSize", range);
+        }
+        
 		caster.RemoveBlood(bloodCost * Time.deltaTime);
 		
 
@@ -89,13 +99,16 @@ public class BloodBeam : Ability
 			}
 			sound.Stop();
 			startedCasting = false;
-			lineRenderer.enabled = false;
-			
-		}
+            foreach (LineRenderer lr in lineRenderers)
+            {
+                lr.enabled = false;
+            }
+
+        }
 		held = false;
 	}
 	protected override void OnDeEquip()
 	{
-		Destroy(lineRenderer.gameObject);
+		Destroy(sound.gameObject);
 	}
 }

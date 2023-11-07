@@ -17,11 +17,12 @@ public class PunchAbility : Ability
     public float maxChargeTime = 3;
     [SerializeField] float chargeSpeed = 30;
     [SerializeField] float hitForce = 100f;
+    [SerializeField] AnimationCurve damageCurve;
     [SerializeField] AnimationCurve distanceChargeCurve;
     [SerializeField,Range(0,1)] float minChargePercent;
     [SerializeField] float hitCheckRadius;
     [SerializeField] LayerMask enemyLayer, wallLayer;
-
+    
     [Tooltip("Subtracts from the moveSpeedModifier in player stats")]
     [SerializeField, Range(0, 1)] float chargeMoveSpeedModifier;
     float flightTime = 0;
@@ -104,7 +105,9 @@ public class PunchAbility : Ability
                                 forceVector.y = 0;
                                 forceVector = forceVector.normalized * (1/forceVector.sqrMagnitude);
                                 rigidbody.AddForce(forceVector * hitForce);
+
                             }
+                            hitBox.OnHit(damageCurve.Evaluate(chargeTimer/flightTime));
                             healths.Add(hitBox.health);
                         }
                     }
@@ -129,7 +132,8 @@ public class PunchAbility : Ability
         state = State.Release;
         
         flightTime = distanceChargeCurve.Evaluate(chargeTimer / maxChargeTime) / chargeSpeed;
-
+        
+        caster.RemoveBlood(bloodCost);
 		chargeTimer = 0;
 	}
 

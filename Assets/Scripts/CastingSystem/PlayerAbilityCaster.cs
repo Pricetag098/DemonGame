@@ -12,11 +12,9 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
 	public InputActionProperty setAbility1Action;
 	public InputActionProperty setAbility2Action;
 	public InputActionProperty setAbility3Action;
-    public InputActionProperty abilityChange;
 
 	public float bloodSpent = 0;
     public float bloodGained = 0;
-    private int selectedAbility;
 
 	enum State
 	{
@@ -39,7 +37,6 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
         setAbility1Action.action.performed += SelectAbility1;
 		setAbility2Action.action.performed += SelectAbility2;
 		setAbility3Action.action.performed += SelectAbility3;
-        selectedAbility = 1;
 	}
 	void Start()
     {
@@ -60,7 +57,7 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
         setAbility1Action.action.Enable();
         setAbility2Action.action.Enable();
         setAbility3Action.action.Enable();
-        abilityChange.action.Enable();
+
 	}
 
 	private void OnDisable()
@@ -70,7 +67,6 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
         setAbility1Action.action.Disable();
         setAbility2Action.action.Disable();
         setAbility3Action.action.Disable();
-        abilityChange.action.Disable();
     }
 
 	// Update is called once per frame
@@ -80,51 +76,6 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
         switch (state)
         {
             case State.normal:
-                //aiden wrote this. it bad. jake fix.
-                if (abilityChange.action.ReadValue<Vector2>().y >= 1)
-                {
-                    Debug.Log("Scroll 1");
-                    if (selectedAbility == 1)
-                    {
-                        SelectAbility(2);
-                        selectedAbility = 3;
-                        return;
-                    }
-                    if (selectedAbility == 2)
-                    {
-                        SelectAbility(0);
-                        selectedAbility = 1;
-                        return;
-                    }
-                    if (selectedAbility == 3)
-                    {
-                        SelectAbility(1);
-                        selectedAbility = 2;
-                        return;
-                    }
-                }
-                else if (abilityChange.action.ReadValue<Vector2>().y <= -1)
-                {
-                    Debug.Log("Scroll 2");
-                    if (selectedAbility == 1)
-                    {
-                        SelectAbility(1);
-                        selectedAbility = 2;
-                        return;
-                    }
-                    if (selectedAbility == 2)
-                    {
-                        SelectAbility(2);
-                        selectedAbility = 3;
-                        return;
-                    }
-                    if (selectedAbility == 3)
-                    {
-                        SelectAbility(0);
-                        selectedAbility = 1;
-                        return;
-                    }
-                }
                 if ((useAction.action.IsPressed() && caster.abilities[activeIndex].castMode == Ability.CastModes.hold) ||
 			(useAction.action.WasPerformedThisFrame() && caster.abilities[activeIndex].castMode == Ability.CastModes.press) ||
 			 caster.abilities[activeIndex].castMode == Ability.CastModes.passive)
@@ -210,17 +161,14 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
     void SelectAbility1(InputAction.CallbackContext context)
     {
         SelectAbility(0);
-        selectedAbility = 1;
     }
 	void SelectAbility2(InputAction.CallbackContext context)
 	{
 		SelectAbility(1);
-        selectedAbility = 2;
     }
 	void SelectAbility3(InputAction.CallbackContext context)
 	{
 		SelectAbility(2);
-        selectedAbility = 3;
     }
 
 

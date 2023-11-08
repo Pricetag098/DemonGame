@@ -8004,6 +8004,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1337733614503575327}
+  - component: {fileID: 6172376328304672548}
+  - component: {fileID: 7975352590927990557}
   m_Layer: 0
   m_Name: WheelContrainer
   m_TagString: Untagged
@@ -8039,6 +8041,44 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 700, y: 700}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &6172376328304672548
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6566014480748843742}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
+--- !u!114 &7975352590927990557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6566014480748843742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b24bcc5890a13e846bc777a13947f311, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  openTime: 0.1
+  timeScale: 0.2
+  tabAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Tab
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: e1c22875-1144-4687-a896-658249e06e9e
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -9011027859875579785, guid: b5b5fd5d1836ae549b2c0e6bb6d5cf61, type: 3}
 --- !u!1 &6703057113811580648
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,23 +5,20 @@ using UnityEngine;
 
 public class SubSceneLoader : MonoBehaviour
 {
-    private SubSceneReferences refs;
-
-    // get current area from detectarea
     public static Areas CurrentArea { get { return DetectArea.CurrentArea; } }
     private static Areas LastArea { get; set; }
 
-    // break each area up into smaller chunks and load based off player position
-    // grab the current area and where the player is facing to load / unload objects as the player moves around
+    public delegate void Action();
+    public static Action AreaUpdate;
 
     private void Awake()
     {
         LastArea = Areas.Null;
     }
 
-    public void Start()
+    private void Update()
     {
-        //refs = SubSceneReferences.Instance;
+        UpdateSubScenes();
     }
 
     public static bool UpdateSubScenes()
@@ -29,6 +26,11 @@ public class SubSceneLoader : MonoBehaviour
         if(LastArea != CurrentArea)
         {
             LastArea = CurrentArea;
+
+            if(AreaUpdate != null)
+            {
+                AreaUpdate();
+            }
             return true;
         }
 

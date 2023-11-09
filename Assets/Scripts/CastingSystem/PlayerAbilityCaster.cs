@@ -206,7 +206,7 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
     }
 
 
-    void SelectAbility(int index)
+    public void SelectAbility(int index)
     {
         if (index == activeIndex || state != State.normal)
             return;

@@ -30,14 +30,14 @@ public class WeaponWheel : MonoBehaviour
 
     public InputActionProperty mousePos;
 
-    private AbilityCaster caster;
+    private PlayerAbilityCaster caster;
 
     float kickoutTimer;
 
     private void Awake()
     {
 
-        caster = FindObjectOfType<AbilityCaster>();
+        caster = FindObjectOfType < PlayerAbilityCaster>();
         canvasGroup = GetComponent<CanvasGroup>();
         open = true;
         Close(openTime);
@@ -48,14 +48,14 @@ public class WeaponWheel : MonoBehaviour
     public void AbilitySelected(Ability ability)
     {
         selectedAbilityIcon.text = ability.fontReference.ToString();
-        selectedAbilityName.text = ability.name.ToString();
+        selectedAbilityName.text = ability.abilityName.ToString();
     }
 
     public void GainedAbility(Ability ability)
     {
         foreach (AbilitySlot abilitySlot in abilitySlots)
         {
-            if(abilitySlot.ability.name == ability.name)
+            if(abilitySlot.ability.guid == ability.guid)
             {
                 abilitySlot.HasAbility();
                 return;
@@ -80,7 +80,7 @@ public class WeaponWheel : MonoBehaviour
         {
             canvasGroup.interactable = true;
             Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            Cursor.lockState = CursorLockMode.Confined;
         });
     }
 
@@ -90,11 +90,11 @@ public class WeaponWheel : MonoBehaviour
         {
             if (item.selected)
             {
-                for (int i = 0; i < caster.abilities.Length; i++)
+                for (int i = 0; i < caster.caster.abilities.Length; i++)
                 {
-                    if (caster.abilities[i].name == item.ability.name)
+                    if (caster.caster.abilities[i].guid == item.ability.guid)
                     {
-                        caster.abilities[i].Equip(caster);
+						caster.SelectAbility(i);
                     }
                 }
             }
@@ -144,25 +144,36 @@ public class WeaponWheel : MonoBehaviour
 
     public void FindTarget()
     {
-        AbilitySlot bestSlot = null;
+        int bestSlot = -1;
         float bestValue = float.NegativeInfinity;
 
-        foreach (AbilitySlot abilitySlot in abilitySlots)
-        {
-            Vector3 toScanZone = abilitySlot.scanZone.transform.position - transform.position;
-            Debug.Log(toScanZone  + " Scan Zone");
 
-            Vector3 toMouse = Camera.main.ScreenToViewportPoint(mousePos.action.ReadValue<Vector2>()) - new Vector3(Screen.width / 2, Screen.height / 2);
-            Debug.Log(toMouse + " To Mouse");
+        for(int i = 0;i < abilitySlots.Count;i++)
+        { 
+            Vector3 toScanZone = (abilitySlots[i].scanZone.GetComponent<RectTransform>().position - GetComponent<RectTransform>().position);
+            //Debug.Log(toScanZone  + " Scan Zone",);
 
-            if(Vector3.Dot(toMouse, toScanZone) > bestValue)
+            Vector3 toMouse = ((Vector3)mousePos.action.ReadValue<Vector2>() - new Vector3(Screen.width / 2, Screen.height / 2));
+            //Debug.Log(toMouse + " To Mouse");
+            float value = Vector3.Dot(toMouse, toScanZone);
+
+			if (value > bestValue && abilitySlots[i].hasAbility)
             {
-                bestSlot = abilitySlot;
+                bestSlot = i;
+                bestValue = value;
             }
         }
-        Debug.Log(mousePos.action.ReadValue<Vector2>() + " Mouse Pos");
-        Debug.Log(bestSlot.name);
-        bestSlot.OnSelect();
+        for(int i = 0; i < abilitySlots.Count; i++)
+        {
+            if(i == bestSlot)
+            {
+                abilitySlots[i].OnSelect();
+            }
+            else
+            {
+                abilitySlots[i].OnDeselect();
+            }
+        }
     }
 
     //private void OnDrawGizmos()

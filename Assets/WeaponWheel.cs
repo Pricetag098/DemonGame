@@ -16,20 +16,29 @@ public class WeaponWheel : MonoBehaviour
     CanvasGroup canvasGroup;
     [SerializeField] float openTime;
     [SerializeField][Range(0, 1)] float timeScale;
+    [SerializeField] float timeUntilKickout;
+    [SerializeField] float kickOutTime;
 
     [SerializeField] InputActionProperty tabAction;
 
     [SerializeField] List<AbilitySlot> abilitySlots = new List<AbilitySlot>();
 
+    [SerializeField] Volume blackWhiteVolume;
+
+    [SerializeField] Volume normalVolume;
+
     private AbilityCaster caster;
+
+    float kickoutTimer;
 
     private void Awake()
     {
         caster = FindObjectOfType<AbilityCaster>();
         canvasGroup = GetComponent<CanvasGroup>();
         open = true;
-        Close();
+        Close(openTime);
         tabAction.action.performed += Open;
+        kickoutTimer = timeUntilKickout *  timeScale;
     }
 
     public void AbilitySelected(Ability ability)
@@ -61,6 +70,8 @@ public class WeaponWheel : MonoBehaviour
         f.Append(canvasGroup.DOFade(1, openTime));
         f.AppendCallback(() => DOTween.To(() => Time.timeScale, x => Time.timeScale = x, timeScale, openTime));
         f.AppendCallback(() => DOTween.To(() => Time.fixedDeltaTime, x => Time.fixedDeltaTime = x, 0.01f * timeScale, openTime));
+        f.AppendCallback(() => DOTween.To(() => blackWhiteVolume.weight, x => blackWhiteVolume.weight = x, 1f, openTime));
+        f.AppendCallback(() => DOTween.To(() => normalVolume.weight, x => normalVolume.weight = x, 0f, openTime));
         f.AppendCallback(() =>
         {
             canvasGroup.interactable = true;
@@ -69,7 +80,7 @@ public class WeaponWheel : MonoBehaviour
         });
     }
 
-    public void Close()
+    public void Close(float time)
     {
         foreach (var item in abilitySlots)
         {
@@ -91,24 +102,36 @@ public class WeaponWheel : MonoBehaviour
         open = false;
         Sequence f = DOTween.Sequence(this);
         f.SetUpdate(true);
+        f.Append(canvasGroup.DOFade(0, time));
+        f.AppendCallback(() => DOTween.To(() => Time.timeScale, x => Time.timeScale = x, 1, time));
+        f.AppendCallback(() => DOTween.To(() => Time.fixedDeltaTime, x => Time.fixedDeltaTime = x, 0.01f, time));
+        f.AppendCallback(() => DOTween.To(() => blackWhiteVolume.weight, x => blackWhiteVolume.weight = x, 0f, time));
+        f.AppendCallback(() => DOTween.To(() => normalVolume.weight, x => normalVolume.weight = x, 1f, time));
+        f.AppendInterval(time);
         f.AppendCallback(() =>
         {
             canvasGroup.interactable = false;
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         });
-        f.Append(canvasGroup.DOFade(0, openTime));
-        f.AppendCallback(() => DOTween.To(() => Time.timeScale, x => Time.timeScale = x, 1, openTime));
-        f.AppendCallback(() => DOTween.To(() => Time.fixedDeltaTime, x => Time.fixedDeltaTime = x, 0.01f, openTime));
+
+        kickoutTimer = timeUntilKickout * timeScale;
     }
 
     private void Update()
     {
         if (open)
         {
+            kickoutTimer -= Time.deltaTime;
+
+            if(kickoutTimer < 0)
+            {
+                Close(kickOutTime);
+            }
+
             if (tabAction.action.WasReleasedThisFrame())
             {
-                Close();
+                Close(openTime);
             }
         }
     }

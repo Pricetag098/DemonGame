@@ -16,12 +16,12 @@ public class AbilityGiveInteractable : Interactable
 	{
 		canvasGroup = icon.GetComponent<CanvasGroup>();
 	}
-	public override void Interact(Interactor interactor)
+/*	public override void Interact(Interactor interactor)
 	{
 		interactor.caster.SetAbility(Instantiate(ability));
 		Close();
 		
-	}
+	}*/
 
 	public override void StartHover(Interactor interactor)
 	{

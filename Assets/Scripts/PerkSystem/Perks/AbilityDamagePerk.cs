@@ -6,22 +6,31 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Perks/ADamage")]
 public class AbilityDamagePerk : Perk
 {
-	[SerializeField] float damageModToGain;
-	[SerializeField] float killPointModToGain;
+	[SerializeField] float bloodGainModToGain;
+	[SerializeField] float bloodMeterModToGain;
 	protected override void OnEquip()
 	{
-		manager.GetComponent<PlayerStats>().abilityDamageMulti += damageModToGain;
+		PlayerStats playerStats = manager.GetComponent<PlayerStats>();
+		AbilityCaster abilityCaster = manager.GetComponent<AbilityCaster>();
+
+        playerStats.bloodGainMulti = (playerStats.bloodGainMulti * bloodGainModToGain);
+		abilityCaster.maxBlood = (abilityCaster.maxBlood * bloodMeterModToGain);
 	}
 	protected override void OnUpgrade()
 	{
-		GrantPointsOnDeath.gainMod += killPointModToGain;
+		
 	}
 
 	protected override void OnUnEquip()
 	{
 		PlayerStats playerStats = manager.GetComponent<PlayerStats>();
-		playerStats.damageMulti -= damageModToGain;
-		if (upgraded)
-			GrantPointsOnDeath.gainMod -= killPointModToGain;
-	}
+        AbilityCaster abilityCaster = manager.GetComponent<AbilityCaster>();
+
+        playerStats.bloodGainMulti = (playerStats.bloodGainMulti / bloodGainModToGain);
+        abilityCaster.maxBlood = (abilityCaster.maxBlood / bloodMeterModToGain);
+		if(abilityCaster.blood > abilityCaster.maxBlood)
+		{
+			abilityCaster.blood = abilityCaster.maxBlood;
+		}
+    }
 }

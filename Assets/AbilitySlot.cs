@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class AbilitySlot : MonoBehaviour
 {
@@ -9,60 +10,77 @@ public class AbilitySlot : MonoBehaviour
 
     [SerializeField] GameObject lockImage;
 
+    [SerializeField] TextMeshProUGUI AbilityIcon;
+
     [SerializeField] Color selectedColour;
 
     [SerializeField] Color hasColour;
 
     [SerializeField] Color doesntHaveColour;
 
+    [SerializeField] GameObject scanZone;
+    [SerializeField] TMP_FontAsset blankFont;
+    [SerializeField] TMP_FontAsset colourFont;
+
+    public bool hasAbility;
+
+    public bool selected;
+
     Image sectionImage;
 
-    public bool hasAbility
+    WeaponWheel weaponWheel;
+
+    public void HasAbility()
     {
-        get {  return hasAbility; }
-        set 
+        hasAbility = true;
+
+        AbilityIcon.font = colourFont;
+        lockImage.SetActive(false);
+        sectionImage.color = hasColour;
+        scanZone.SetActive(true);
+    }
+    public void DoesntHaveAbility()
+    {
+        hasAbility = false;
+
+        AbilityIcon.font = blankFont;
+        lockImage.SetActive(true);
+        scanZone.SetActive(false);
+        sectionImage.color = doesntHaveColour;
+    }
+
+    public void OnSelect()
+    {
+        selected = true;
+
+        sectionImage.color = selectedColour;
+
+        weaponWheel.AbilitySelected(ability);
+    }
+
+    public void OnDeselect()
+    {
+        selected = false;
+
+        if (hasAbility)
         {
-            hasAbility = value; 
-            if(value)
-            {
-                lockImage.SetActive(false);
-                sectionImage.color = hasColour;
-                
-            }
-            else
-            {
-                lockImage.SetActive(true);
-                sectionImage.color = doesntHaveColour;
-            }
+            sectionImage.color = hasColour;
+        }
+        else
+        {
+            sectionImage.color = doesntHaveColour;
         }
     }
 
-    public bool selected
-    {
-        get { return selected; }
-        set
-        {
-            selected = value;
-            if (value)
-            {
-                sectionImage.color = selectedColour;
-            }
-            else
-            {
-                if (hasAbility)
-                {
-                    sectionImage.color = hasColour;
-                }
-                else
-                {
-                    sectionImage.color = doesntHaveColour;
-                }
-            }
-        }
-    }
-
-    private void Start()
+    private void Awake()
     {
         sectionImage = GetComponent<Image>();
+
+        weaponWheel = GetComponentInParent<WeaponWheel>();
+
+        AbilityIcon.text = ability.fontReference.ToString();
+
+        DoesntHaveAbility();
+        OnDeselect();
     }
 }

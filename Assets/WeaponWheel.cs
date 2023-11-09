@@ -5,9 +5,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
+using TMPro;
 
 public class WeaponWheel : MonoBehaviour
 {
+    [SerializeField] TextMeshProUGUI selectedAbilityIcon;
+    [SerializeField] TextMeshProUGUI selectedAbilityName;
+
     private bool open;
     CanvasGroup canvasGroup;
     [SerializeField] float openTime;
@@ -15,12 +19,35 @@ public class WeaponWheel : MonoBehaviour
 
     [SerializeField] InputActionProperty tabAction;
 
+    [SerializeField] List<AbilitySlot> abilitySlots = new List<AbilitySlot>();
+
+    private AbilityCaster caster;
+
     private void Awake()
     {
+        caster = FindObjectOfType<AbilityCaster>();
         canvasGroup = GetComponent<CanvasGroup>();
         open = true;
         Close();
         tabAction.action.performed += Open;
+    }
+
+    public void AbilitySelected(Ability ability)
+    {
+        selectedAbilityIcon.text = ability.fontReference.ToString();
+        selectedAbilityName.text = ability.name.ToString();
+    }
+
+    public void GainedAbility(Ability ability)
+    {
+        foreach (AbilitySlot abilitySlot in abilitySlots)
+        {
+            if(abilitySlot.ability.name == ability.name)
+            {
+                abilitySlot.HasAbility();
+                return;
+            }
+        }
     }
 
     public void Open(InputAction.CallbackContext context)
@@ -44,6 +71,20 @@ public class WeaponWheel : MonoBehaviour
 
     public void Close()
     {
+        foreach (var item in abilitySlots)
+        {
+            if (item.selected)
+            {
+                for (int i = 0; i < caster.abilities.Length; i++)
+                {
+                    if (caster.abilities[i].name == item.ability.name)
+                    {
+                        caster.abilities[i].Equip(caster);
+                    }
+                }
+            }
+        }
+
         if (!open)
             return;
         DOTween.Kill(this, true);

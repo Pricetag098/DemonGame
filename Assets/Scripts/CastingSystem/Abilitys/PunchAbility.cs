@@ -60,7 +60,7 @@ public class PunchAbility : Ability
         }
         pressedThisFrame = true;
 	}
-	
+	List<Health> healths = new List<Health>();
 	public override void Tick()
 	{
 		switch (state)
@@ -92,7 +92,7 @@ public class PunchAbility : Ability
                 chargeTimer += Time.deltaTime;
 
                 Collider[] colliders = Physics.OverlapSphere(caster.castOrigin.position, hitCheckRadius, enemyLayer);
-				List<Health> healths = new List<Health>();
+				
 				foreach (Collider collider in colliders)
                 {
                     if(collider.TryGetComponent(out HitBox hitBox))
@@ -130,7 +130,7 @@ public class PunchAbility : Ability
     {
         caster.animator.SetBool("Held", false);
         state = State.Release;
-        
+        healths.Clear();
         flightTime = distanceChargeCurve.Evaluate(chargeTimer / maxChargeTime) / chargeSpeed;
         
         caster.RemoveBlood(bloodCost);

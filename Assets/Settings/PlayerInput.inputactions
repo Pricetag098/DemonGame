@@ -283,9 +283,9 @@
                 },
                 {
                     "name": "SwapGun",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "780117cf-7fe8-4897-a95f-fa9f11f028c9",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -334,15 +334,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "AbilityChange",
-                    "type": "Value",
-                    "id": "e53e9aa3-c39d-4ca5-b088-de7e93bafc32",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -427,6 +418,28 @@
                     "name": "",
                     "id": "81ab527a-dc92-427d-929a-ff4b4b492cf1",
                     "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwapGun",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fee173b5-1d7c-4832-92e0-237900bb50b1",
+                    "path": "<Mouse>/scroll/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwapGun",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6d240c9b-376f-4a7c-90bd-35eda4c26abf",
+                    "path": "<Mouse>/scroll/up",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -541,17 +554,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Melee",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "8e48920d-3b49-466b-8486-6e2e4dd1def0",
-                    "path": "<Mouse>/scroll",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "AbilityChange",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

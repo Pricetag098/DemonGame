@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Physics;
 using UnityEngine;
 using UnityEngine.Rendering.HighDefinition;
 
@@ -13,7 +14,6 @@ public class DestrcutibleObject : Interactable
     public List<AudioClip> wardingSounds;
     public GameObject pentagramSymbol;
 
-
     public string interactMessage;
 
     private List<GameObject> activeSymbols = new List<GameObject>();
@@ -24,6 +24,8 @@ public class DestrcutibleObject : Interactable
 
     private PlayerStats player;
     private Timer timer;
+
+    private Interactor InteractionHandler;
 
     private void Awake()
     {
@@ -53,7 +55,7 @@ public class DestrcutibleObject : Interactable
     public void RestoreHealth(int amount)
     {
         Health += amount;
-        if (Health > maxHealth) { Health = maxHealth; }
+        if (Health > maxHealth) { Health = maxHealth; return; }
 
         activeSymbols[Health - 1].SetActive(true);
         audioSource.clip = wardingSounds[Random.Range(0, wardingSounds.Count)];
@@ -67,7 +69,7 @@ public class DestrcutibleObject : Interactable
 
         player.GainPoints(pointsToGain);
 
-        
+        if(Health >= maxHealth) { InteractionHandler.display.HideText(); }
     }
     public void RestoreHealthToMax()
     {
@@ -99,6 +101,8 @@ public class DestrcutibleObject : Interactable
     {
         base.StartHover(interactor);
         if(Health < maxHealth) interactor.display.DisplayMessage(true, interactMessage);
+
+        InteractionHandler = interactor;
     }
 
     public override void EndHover(Interactor interactor)

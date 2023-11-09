@@ -18,7 +18,7 @@ public class AbilitySlot : MonoBehaviour
 
     [SerializeField] Color doesntHaveColour;
 
-    [SerializeField] GameObject scanZone;
+    public GameObject scanZone;
     [SerializeField] TMP_FontAsset blankFont;
     [SerializeField] TMP_FontAsset colourFont;
 

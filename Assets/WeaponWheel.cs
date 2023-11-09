@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using TMPro;
+using UnityEditor.PackageManager.UI;
 
 public class WeaponWheel : MonoBehaviour
 {
@@ -27,12 +28,15 @@ public class WeaponWheel : MonoBehaviour
 
     [SerializeField] Volume normalVolume;
 
+    public InputActionProperty mousePos;
+
     private AbilityCaster caster;
 
     float kickoutTimer;
 
     private void Awake()
     {
+
         caster = FindObjectOfType<AbilityCaster>();
         canvasGroup = GetComponent<CanvasGroup>();
         open = true;
@@ -133,16 +137,68 @@ public class WeaponWheel : MonoBehaviour
             {
                 Close(openTime);
             }
+
+            FindTarget();
         }
     }
+
+    public void FindTarget()
+    {
+        AbilitySlot bestSlot = null;
+        float bestValue = float.NegativeInfinity;
+
+        foreach (AbilitySlot abilitySlot in abilitySlots)
+        {
+            Vector3 toScanZone = abilitySlot.scanZone.transform.position - transform.position;
+            Debug.Log(toScanZone  + " Scan Zone");
+
+            Vector3 toMouse = Camera.main.ScreenToViewportPoint(mousePos.action.ReadValue<Vector2>()) - new Vector3(Screen.width / 2, Screen.height / 2);
+            Debug.Log(toMouse + " To Mouse");
+
+            if(Vector3.Dot(toMouse, toScanZone) > bestValue)
+            {
+                bestSlot = abilitySlot;
+            }
+        }
+        Debug.Log(mousePos.action.ReadValue<Vector2>() + " Mouse Pos");
+        Debug.Log(bestSlot.name);
+        bestSlot.OnSelect();
+    }
+
+    //private void OnDrawGizmos()
+    //{
+    //    AbilitySlot bestSlot = null;
+    //    float bestValue = float.NegativeInfinity;
+
+    //    foreach (AbilitySlot abilitySlot in abilitySlots)
+    //    {
+    //        Gizmos.color = Color.red;
+    //        Gizmos.DrawWireSphere(transform.position, 0.1f);
+    //        Vector3 toScanZone = abilitySlot.scanZone.transform.position - transform.position;
+
+    //        Gizmos.DrawWireSphere(abilitySlot.scanZone.transform.position, 0.1f);
+    //        Vector3 toMouse = mousePos.action.ReadValue<Vector2>() - new Vector2(Screen.width / 2, Screen.height / 2);
+    //        Gizmos.color = Color.yellow;
+    //        Gizmos.DrawWireSphere(mousePos.action.ReadValue<Vector2>(), 0.1f);
+    //        Gizmos.DrawWireSphere(new Vector2(Screen.width / 2, Screen.height / 2), 0.1f);
+    //        if (Vector3.Dot(toMouse, toScanZone) > bestValue)
+    //        {
+    //            bestSlot = abilitySlot;
+    //        }
+    //    }
+
+    //    bestSlot.OnSelect();
+    //}
 
     private void OnEnable()
     {
         tabAction.action.Enable();
+        mousePos.action.Enable();
     }
     private void OnDisable()
     {
         tabAction.action.Disable();
+        mousePos.action.Disable();
     }
     private void OnDestroy()
     {

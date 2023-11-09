@@ -16,7 +16,7 @@ MonoBehaviour:
   guid: 64ae8ef2-83bc-4606-98bb-529719f0aed0
   icon: {fileID: 21300000, guid: 5f11867db598689468bf34f748311bec, type: 3}
   caster: {fileID: 0}
-  bloodCost: 100
+  bloodCost: 250
   upgradePath:
     enabled: 1
     val: {fileID: 11400000, guid: 7bfa1b11a644a5841a0a449cb36212cb, type: 2}
@@ -41,7 +41,7 @@ MonoBehaviour:
       outSlope: 0.3
       tangentMode: 34
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
@@ -51,7 +51,7 @@ MonoBehaviour:
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0
+      outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -80,11 +80,11 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   minChargePercent: 0.1
-  hitCheckRadius: 10
+  hitCheckRadius: 5
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
   wallLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
   chargeMoveSpeedModifier: 0.9

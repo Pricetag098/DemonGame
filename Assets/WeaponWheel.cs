@@ -37,7 +37,6 @@ public class WeaponWheel : MonoBehaviour
         f.AppendCallback(() =>
         {
             canvasGroup.interactable = true;
-            canvasGroup.blocksRaycasts = true;
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         });
@@ -54,7 +53,6 @@ public class WeaponWheel : MonoBehaviour
         f.AppendCallback(() =>
         {
             canvasGroup.interactable = false;
-            canvasGroup.blocksRaycasts = false;
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         });

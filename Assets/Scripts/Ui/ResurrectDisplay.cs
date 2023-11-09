@@ -11,7 +11,6 @@ public class ResurrectDisplay : MonoBehaviour
     void Start()
     {
         playerDeath = FindObjectOfType<PlayerDeath>();
-        image = GetComponent<Image>();
     }
 
     // Update is called once per frame

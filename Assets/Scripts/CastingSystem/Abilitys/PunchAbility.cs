@@ -103,7 +103,7 @@ public class PunchAbility : Ability
                             {
                                 Vector3 forceVector = -(rigidbody.position - caster.castOrigin.position);
                                 forceVector.y = 0;
-                                forceVector = forceVector.normalized * (1/forceVector.sqrMagnitude);
+                                forceVector = forceVector.normalized;// * (1/forceVector.sqrMagnitude);
                                 rigidbody.AddForce(forceVector * hitForce);
 
                             }

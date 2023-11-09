@@ -49,7 +49,8 @@ public class PunchAbility : Ability
             case State.Charging:
                 if (direction != Vector3.up)
                 {
-					aimDir = direction;
+                    caster.animator.SetBool("Held", true);
+                    aimDir = direction;
                     aimDir.y = 0;
                     aimDir.Normalize();
 				}

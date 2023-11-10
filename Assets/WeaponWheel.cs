@@ -6,7 +6,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using TMPro;
-using UnityEditor.PackageManager.UI;
 using Movement;
 
 public class WeaponWheel : MonoBehaviour

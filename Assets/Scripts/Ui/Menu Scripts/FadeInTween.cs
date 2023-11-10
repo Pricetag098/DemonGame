@@ -10,7 +10,7 @@ public class FadeInTween : MonoBehaviour
     DirectionTweens directionTweens;
 
     private Vector2 startPosition;
-    private Vector2 endPosition = new Vector2 (0f, 0f);
+    private Vector2 endPosition = new Vector2 (0,0);
 
     public float startValue;
 

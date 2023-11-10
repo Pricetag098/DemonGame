@@ -49,7 +49,8 @@ public class PunchAbility : Ability
             case State.Charging:
                 if (direction != Vector3.up)
                 {
-					aimDir = direction;
+                    caster.animator.SetBool("Held", true);
+                    aimDir = direction;
                     aimDir.y = 0;
                     aimDir.Normalize();
 				}
@@ -107,7 +108,7 @@ public class PunchAbility : Ability
                                 rigidbody.AddForce(forceVector * hitForce);
 
                             }
-                            hitBox.OnHit(damageCurve.Evaluate(chargeTimer/flightTime));
+                            hitBox.OnHit(damageCurve.Evaluate(chargeTimer/flightTime) * hitBox.health.maxHealth);
                             healths.Add(hitBox.health);
                         }
                     }

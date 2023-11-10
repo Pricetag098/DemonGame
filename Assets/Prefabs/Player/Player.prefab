@@ -6217,6 +6217,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 404098c413b10574eae0962ee935f434, type: 2}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   castOrigin: {fileID: 1954936625}
   playerStats:
     enabled: 1
@@ -6236,6 +6239,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   caster: {fileID: 0}
   activeIndex: 0
+  previousActiveIndex: 0
   useAction:
     m_UseReference: 1
     m_Action:
@@ -6296,6 +6300,54 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: -193565729221872040, guid: b5b5fd5d1836ae549b2c0e6bb6d5cf61, type: 3}
+  setAbility4Action:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Set Ability 4
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: ba185d6b-8d2e-43d3-8913-3e8a1fd7ea2d
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -221576519014425479, guid: b5b5fd5d1836ae549b2c0e6bb6d5cf61, type: 3}
+  setAbility5Action:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Set Ability 5
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: cf2fbadc-c3cf-427c-a2ca-ce1161d2ce3a
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -2317521114174332807, guid: b5b5fd5d1836ae549b2c0e6bb6d5cf61, type: 3}
+  setAbility6Action:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Set Ability 6
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 74c97e9b-9072-4e1e-8fef-93b78df5cbf7
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 8984839260136246260, guid: b5b5fd5d1836ae549b2c0e6bb6d5cf61, type: 3}
+  quickSwap:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Quick Swap
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 631a5187-5d03-464f-b9cf-858fcf62f5dd
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 7725420356223212310, guid: b5b5fd5d1836ae549b2c0e6bb6d5cf61, type: 3}
   bloodSpent: 0
   bloodGained: 0
   state: 0
@@ -7027,6 +7079,7 @@ GameObject:
   - component: {fileID: 779474888}
   - component: {fileID: 1728692306876458663}
   - component: {fileID: 8934278044561421630}
+  - component: {fileID: 1631235558416246555}
   m_Layer: 6
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -7273,6 +7326,23 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   sharedProfile: {fileID: 11400000, guid: 70e643e9fefd24541bfb9a4565a20589, type: 2}
+--- !u!114 &1631235558416246555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3899720133498506833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 0
+  sharedProfile: {fileID: 11400000, guid: 375a31f23de3d1540bc816811ffe5efc, type: 2}
 --- !u!1 &3899720133823062388
 GameObject:
   m_ObjectHideFlags: 0

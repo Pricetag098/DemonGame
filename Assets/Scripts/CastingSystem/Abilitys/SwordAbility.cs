@@ -40,7 +40,7 @@ public class SwordAbility : Ability
 					continue;
 				healths.Add(hb.health);
 				OnHit(hb.health);
-				hb.health.TakeDmg((damage * hb.health.maxHealth) * caster.DamageMulti);
+				hb.health.TakeDmg(damage * caster.DamageMulti);
 				if(hit.point == Vector3.zero)
 				{
 					Vector3 pos = hit.collider.ClosestPoint(origin);

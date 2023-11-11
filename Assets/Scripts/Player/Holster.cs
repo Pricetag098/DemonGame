@@ -38,7 +38,7 @@ public class Holster : MonoBehaviour
     public delegate void OnDealDamageAction(float amount);
     public OnDealDamageAction OnDealDamage;
 
-    public Movement.PlayerInput playerInput;
+    public Movement.PlayerInputt playerInput;
 
 
     [SerializeField] float frequncey =1;
@@ -77,7 +77,7 @@ public class Holster : MonoBehaviour
         rb = GetComponentInParent<Rigidbody>();
         stats = GetComponentInParent<PlayerStats>();
         abilityCaster = GetComponentInParent<AbilityCaster>();
-        playerInput = GetComponentInParent<Movement.PlayerInput>();
+        playerInput = GetComponentInParent<Movement.PlayerInputt>();
     }
 
     void ResetRecoil()

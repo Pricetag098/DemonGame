@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using TMPro;
-using UnityEditor.PackageManager.UI;
+using Movement;
 
 public class WeaponWheel : MonoBehaviour
 {
@@ -32,11 +32,13 @@ public class WeaponWheel : MonoBehaviour
 
     private PlayerAbilityCaster caster;
 
+    PlayerInputt playerInput;
+
     float kickoutTimer;
 
     private void Awake()
     {
-
+        playerInput = FindObjectOfType<PlayerInputt>();
         caster = FindObjectOfType < PlayerAbilityCaster>();
         canvasGroup = GetComponent<CanvasGroup>();
         open = true;
@@ -69,6 +71,7 @@ public class WeaponWheel : MonoBehaviour
             return;
         DOTween.Kill(this, true);
         open = true;
+        playerInput.tabing = true;
         Sequence f = DOTween.Sequence(this);
         f.SetUpdate(true);
         f.Append(canvasGroup.DOFade(1, openTime));
@@ -104,6 +107,7 @@ public class WeaponWheel : MonoBehaviour
             return;
         DOTween.Kill(this, true);
         open = false;
+        playerInput.tabing = false;
         Sequence f = DOTween.Sequence(this);
         f.SetUpdate(true);
         f.Append(canvasGroup.DOFade(0, time));

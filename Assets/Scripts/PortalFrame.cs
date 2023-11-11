@@ -16,7 +16,7 @@ public class PortalFrame : MonoBehaviour
 
     private void Awake()
     {
-        material = GetComponent<MeshRenderer>().sharedMaterial;
+        material = GetComponent<MeshRenderer>().material;
         originalEmissionColor = material.GetColor("_EmissionColour");
     }
 
@@ -29,6 +29,7 @@ public class PortalFrame : MonoBehaviour
     {
         if (isBlinking)
         {
+            Debug.Log("Blinking");
             float emissionIntensity = Mathf.PingPong(Time.time * blinkSpeed, maxEmission - minEmission) + minEmission;
 
             currentEmissionIntensity = emissionIntensity;
@@ -39,6 +40,7 @@ public class PortalFrame : MonoBehaviour
         }
         else
         {
+            Debug.Log("Stopped");
             currentEmissionIntensity = Mathf.Lerp(currentEmissionIntensity, maxEmission, Time.deltaTime * blinkSpeed);
 
             Color newEmissionColor = originalEmissionColor * currentEmissionIntensity;

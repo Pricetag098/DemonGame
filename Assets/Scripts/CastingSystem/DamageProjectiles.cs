@@ -1,15 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 public class DamageProjectiles : MonoBehaviour
 {
+    public float targetRadius;
+    public LayerMask targetmask;
+    public float wallRadius;
+    public LayerMask wallMask;
+
     [HideInInspector]
     public int penetrations;
     public int maxPenetrations;
     [HideInInspector]
     public float damage;
-    Rigidbody body;
+    
     PooledObject pooledObject;
     ProjectileVisualiser visualiser;
     List<Health> healths = new List<Health>();
@@ -27,7 +33,7 @@ public class DamageProjectiles : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        body = GetComponent<Rigidbody>();
+        
         //pooledObject = GetComponent<PooledObject>();
         visualiser = GetComponentInChildren<ProjectileVisualiser>();
     }
@@ -37,6 +43,7 @@ public class DamageProjectiles : MonoBehaviour
 
         damage = dmg;
         transform.position = origin;
+        lastPos = origin;
         useTarget = false;
         timer = 0;
         start = origin;
@@ -46,7 +53,7 @@ public class DamageProjectiles : MonoBehaviour
         this.ability = ability;
         visualiser.Start(ability.caster.castOrigin, transform);
         maxPenetrations = penetrations;
-        body.isKinematic = false;
+        
         this.penetrations = 0;
     }
 
@@ -55,7 +62,8 @@ public class DamageProjectiles : MonoBehaviour
         Debug.Log("AAA");
         damage = dmg;
         transform.position = origin;
-        this.offset = offset;
+		lastPos = origin;
+		this.offset = offset;
         timer = 0;
         this.penetrations = 0;
         start = origin;
@@ -66,65 +74,13 @@ public class DamageProjectiles : MonoBehaviour
         this.ability = ability;
         visualiser.Start(ability.caster.castOrigin, transform);
         maxPenetrations = penetrations;
-        body.isKinematic = false;
+        
     }
 
     
-	private void OnTriggerEnter(Collider other)
-	{
-        
-        HitBox hb;
-        if(other.gameObject.TryGetComponent(out hb))
-        {
-            if (!healths.Contains(hb.health))
-            {
-                hb.OnHit(damage);
-                healths.Add(hb.health);
-                ability.OnHit(hb.health);
-                penetrations++;
-                if (onPenetrate != null)
-                    onPenetrate(hb.health);
-            }
-        }
-        SurfaceData data;
-        Surface hs;
-        if(other.gameObject.TryGetComponent(out hs))
-		{
-            data = hs.data;
-		}
-		else
-		{
-            data = VfxSpawner.DefaultSurfaceData;
-		}
-        data.PlayHitVfx(other.ClosestPoint(transform.position), -transform.forward); 
-
-        if (penetrations > maxPenetrations)
-        {
-            body.isKinematic = true;
-            GetComponent<PooledObject>().Despawn();
-        }
-		
-        //Debug.Log(collision.gameObject);
-
-	}
-    private void OnCollisionEnter(Collision collision)
-    {
-        SurfaceData data;
-        Surface hs;
-        if (collision.gameObject.TryGetComponent(out hs))
-        {
-            data = hs.data;
-        }
-        else
-        {
-            data = VfxSpawner.DefaultSurfaceData;
-        }
-        data.PlayHitVfx(collision.collider.ClosestPoint(transform.position), -transform.forward);
-        body.isKinematic = true;
-        Debug.Log("Dead");
-        GetComponent<PooledObject>().Despawn();
-    }
-
+    
+	
+    Vector3 lastPos;
 	private void Update()
 	{
         if (useTarget)
@@ -133,9 +89,72 @@ public class DamageProjectiles : MonoBehaviour
         if(timer > maxTimer)
             GetComponent<PooledObject>().Despawn();
         float t = timer / maxTimer;
-        body.position = QaudraticLerp(start,mid,end,t);
+        
+        transform.position = (QaudraticLerp(start,mid,end,t));
         transform.forward = Vector3.Lerp(mid - start, end - mid,t);
+
+        Collider[] colliders = Physics.OverlapCapsule(lastPos,transform.position,targetRadius,targetmask);
+        
+        foreach(Collider other in colliders)
+        {
+			HitBox hb;
+			if (other.gameObject.TryGetComponent(out hb))
+			{
+				if (!healths.Contains(hb.health))
+				{
+					hb.OnHit(damage);
+					healths.Add(hb.health);
+					ability.OnHit(hb.health);
+					penetrations++;
+					if (onPenetrate != null)
+						onPenetrate(hb.health);
+				}
+			}
+			SurfaceData data;
+			Surface hs;
+			if (other.gameObject.TryGetComponent(out hs))
+			{
+				data = hs.data;
+			}
+			else
+			{
+				data = VfxSpawner.DefaultSurfaceData;
+			}
+			data.PlayHitVfx(other.ClosestPoint(transform.position), -transform.forward);
+
+			if (penetrations > maxPenetrations)
+			{
+				
+				GetComponent<PooledObject>().Despawn();
+			}
+		}
+
+
+        Collider[] wallColliders = Physics.OverlapCapsule(lastPos, transform.position, wallRadius, wallMask);
+        if(wallColliders.Length > 0)
+        {
+			SurfaceData data;
+			Surface hs;
+			if (wallColliders[0].gameObject.TryGetComponent(out hs))
+			{
+				data = hs.data;
+			}
+			else
+			{
+				data = VfxSpawner.DefaultSurfaceData;
+			}
+			data.PlayHitVfx(wallColliders[0].ClosestPoint(transform.position), -transform.forward);
+			
+			Debug.Log("Dead");
+			GetComponent<PooledObject>().Despawn();
+		}
+
 	}
+
+    void LateUpdate()
+    {
+        lastPos = transform.position;
+    }
 
     Vector3 QaudraticLerp(Vector3 a, Vector3 b, Vector3 c, float t)
     {
@@ -143,12 +162,12 @@ public class DamageProjectiles : MonoBehaviour
         Vector3 bc = Vector3.Lerp(b, c, t);
         return Vector3.Lerp(ab, bc, t);
     }
-	private void OnDrawGizmos()
+	private void OnDrawGizmosSelected()
 	{
-        //Gizmos.color = Color.green;
-        //Gizmos.DrawWireSphere(start, 1);
-        //Gizmos.DrawWireSphere(mid, 1);
-        //Gizmos.DrawWireSphere(end, 1);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, wallRadius);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position,targetRadius);
 	}
 
 }

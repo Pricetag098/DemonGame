@@ -26,9 +26,14 @@ public class AbilityCaster : MonoBehaviour
         else return 1f;
         }
     }
+
+    WeaponWheel abilityWheel;
+
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
+        abilityWheel = FindObjectOfType<WeaponWheel>();
+
         if (abilities.Length == 0)
             return;
         emptyAbility = Resources.Load<Ability>(BaseAbilityPath);
@@ -40,6 +45,7 @@ public class AbilityCaster : MonoBehaviour
 			}
 			else
 			{
+                abilityWheel.GainedAbility(abilities[i]);
                 abilities[i] = Instantiate(abilities[i]);
 			}
             abilities[i].Equip(this);
@@ -111,6 +117,7 @@ public class AbilityCaster : MonoBehaviour
             abilities[index].DeEquip();
         abilities[index] = ability;
         ability.Equip(this);
+        abilityWheel.GainedAbility(ability);
 	}
 	private void OnCollisionEnter(Collision collision)
 	{

@@ -36,6 +36,7 @@ public class Gun : MonoBehaviour
     public float bloodGainMulti = 1;
     public float drawTime = 1;
     public float holsterTime = 1;
+    public float raydius;
     [SerializeField] List<OnHitEffect> onHitEffectList = new List<OnHitEffect>();
 
     [Header("DamageSetting")]
@@ -328,7 +329,7 @@ public class Gun : MonoBehaviour
             Vector3 dir = holster.aimTarget.rotation * (Quaternion.Euler(randVal) * Vector3.forward);
             Debug.DrawRay(holster.aimTarget.position, dir * 10, Color.green);
 
-            RaycastHit[] hitArray = Physics.RaycastAll(holster.aimTarget.position, dir, bulletRange, hitMask);
+            RaycastHit[] hitArray = Physics.SphereCastAll(holster.aimTarget.position,raydius, dir, bulletRange, hitMask);
             if (hitArray.Length > 0)
             {
                 float damageMulti = 1;
@@ -404,7 +405,7 @@ public class Gun : MonoBehaviour
                 }
                 if (visualiserPool.Enabled)
                 {
-                    visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin.position, hits[penIndex].point, Vector3.Distance(origin.position, hits[penIndex].point) / bulletVisualiserSpeed,dir);
+                    visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin.position, hits[0].point, Vector3.Distance(origin.position, hits[0].point) / bulletVisualiserSpeed,dir);
                 }
             }
 

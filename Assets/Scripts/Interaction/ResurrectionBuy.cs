@@ -7,6 +7,7 @@ public class ResurrectionBuy : ShopInteractable
 	PlayerDeath playerDeath;
 	int buys = 0;
 	int buyLimit = 3;
+	public string cantBuyMessage;
 	private void Awake()
 	{
 		playerDeath = FindObjectOfType<PlayerDeath>();

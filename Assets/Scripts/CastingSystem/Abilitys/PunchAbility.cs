@@ -49,7 +49,8 @@ public class PunchAbility : Ability
             case State.Charging:
                 if (direction != Vector3.up)
                 {
-					aimDir = direction;
+                    caster.animator.SetBool("Held", true);
+                    aimDir = direction;
                     aimDir.y = 0;
                     aimDir.Normalize();
 				}
@@ -60,7 +61,7 @@ public class PunchAbility : Ability
         }
         pressedThisFrame = true;
 	}
-	
+	List<Health> healths = new List<Health>();
 	public override void Tick()
 	{
 		switch (state)
@@ -92,7 +93,7 @@ public class PunchAbility : Ability
                 chargeTimer += Time.deltaTime;
 
                 Collider[] colliders = Physics.OverlapSphere(caster.castOrigin.position, hitCheckRadius, enemyLayer);
-				List<Health> healths = new List<Health>();
+				
 				foreach (Collider collider in colliders)
                 {
                     if(collider.TryGetComponent(out HitBox hitBox))
@@ -103,7 +104,7 @@ public class PunchAbility : Ability
                             {
                                 Vector3 forceVector = -(rigidbody.position - caster.castOrigin.position);
                                 forceVector.y = 0;
-                                forceVector = forceVector.normalized * (1/forceVector.sqrMagnitude);
+                                forceVector = forceVector.normalized;// * (1/forceVector.sqrMagnitude);
                                 rigidbody.AddForce(forceVector * hitForce);
 
                             }
@@ -130,7 +131,7 @@ public class PunchAbility : Ability
     {
         caster.animator.SetBool("Held", false);
         state = State.Release;
-        
+        healths.Clear();
         flightTime = distanceChargeCurve.Evaluate(chargeTimer / maxChargeTime) / chargeSpeed;
         
         caster.RemoveBlood(bloodCost);

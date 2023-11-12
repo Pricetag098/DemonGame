@@ -19,7 +19,7 @@ public class BlessingObject : MonoBehaviour
     {
         if(other.gameObject.layer == 6)
         {
-            GameObject target = other.GetComponentInParent<PlayerInput>().gameObject;
+            GameObject target = other.GetComponentInParent<PlayerInputt>().gameObject;
 
 		 Activate(target);
             if(vfx.Enabled)

@@ -13,6 +13,8 @@ public class Ability : ScriptableObject
 	public float bloodCost = 10;
 	public Optional<AbilityUpgradePath> upgradePath;
 	public int tier = 0;
+	public int abilitySlot;
+	public int fontReference;
 
 	public float drawTime = 1,holsterTime = 1;
 

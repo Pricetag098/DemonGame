@@ -54,11 +54,11 @@ public class SpatialHashGrid3D : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
-            DemonBase demon = DemonSpawner.ActiveDemons[i];
+            DemonFramework demon = DemonSpawner.ActiveDemons[i];
 
-            if(demon.HealthStatus() == false)
+            if(demon.IsAlive() == false)
             {
-                demon.UpdateAgentNearby(cells.UpdateObjectAndGetSurroudingObjects(demon.GetSpatialHashObject()));
+                demon.UpdateAgentNearby(cells.UpdateObjectAndGetSurroudingObjects(demon.GetAgent));
             }
         }
 

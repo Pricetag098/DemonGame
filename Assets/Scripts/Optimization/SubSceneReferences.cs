@@ -25,5 +25,9 @@ public class SubSceneReferences : MonoBehaviour
         {
             Instance = this;
         }
+        else
+        {
+            Destroy(this);
+        }
     }
 }

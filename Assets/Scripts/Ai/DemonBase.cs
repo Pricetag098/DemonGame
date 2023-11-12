@@ -1,420 +1,418 @@
-using BlakesSpatialHash;
-using DemonInfo;
-using System.Collections.Generic;
-using UnityEngine;
+//using BlakesSpatialHash;
+//using DemonInfo;
+//using System.Collections.Generic;
+//using UnityEngine;
 
-public class DemonBase : MonoBehaviour
-{
-    //#region 
+//public class DemonBase : MonoBehaviour
+//{
+//    [Header("Target")]
+//    protected Transform _target;
 
-    [Header("Target")]
-    protected Transform _target;
+//    [Header("Spawner")]
+//    protected DemonSpawner _spawner;
 
-    [Header("Spawner")]
-    protected DemonSpawner _spawner;
+//    [Header("Attachments")]
+//    protected DemonAttachments _attachments;
 
-    [Header("Attachments")]
-    protected DemonAttachments _attachments;
+//    [Header("Animator")]
+//    protected Animator _animator;
 
-    [Header("Animator")]
-    protected Animator _animator;
+//    [Header("Animation Overwrite")]
+//    protected DemonAnimationOverrides _animationOverrides;
 
-    [Header("Animation Overwrite")]
-    protected DemonAnimationOverrides _animationOverrides;
+//    [Header("Collider")]
+//    protected Collider[] _colliders;
 
-    [Header("Collider")]
-    protected Collider[] _colliders;
+//    [Header("Rigidbody")]
+//    protected Rigidbody _rb;
 
-    [Header("Rigidbody")]
-    protected Rigidbody _rb;
+//    [Header("Health")]
+//    protected Health _health;
 
-    [Header("Health")]
-    protected Health _health;
+//    [Header("Pooled Object")]
+//    protected PooledObject _pooledObject;
 
-    [Header("Pooled Object")]
-    protected PooledObject _pooledObject;
+//    [Header("SkinnedMeshedRenderer")]
+//    [SerializeField] protected SkinnedMeshRenderer _skinnedMeshRenderer;
 
-    [Header("SkinnedMeshedRenderer")]
-    [SerializeField] protected SkinnedMeshRenderer _skinnedMeshRenderer;
+//    [Header("Points")]
+//    [SerializeField] protected int pointsOnDeath;
+//    protected GrantPointsOnDeath _deathPoints;
 
-    [Header("Points")]
-    [SerializeField] protected int pointsOnDeath;
-    protected GrantPointsOnDeath _deathPoints;
+//    protected SpawnerManager _spawnerManager;
+//    [HideInInspector] public bool DemonInMap;
 
-    protected SpawnerManager _spawnerManager;
-    [HideInInspector] public bool DemonInMap;
+//    [Header("Demon Type")]
+//    protected DemonType _type;
+//    protected SpawnType _spawnType;
 
-    [Header("Demon Type")]
-    protected DemonType _type;
-    protected SpawnType _spawnType;
+//    [Header("Stats")]
+//    [SerializeField] protected float _damage;
+//    [SerializeField] protected float _moveSpeed;
+//    [SerializeField] protected float _attackRange;
+//    [SerializeField] protected float _stoppingDistance;
 
-    [Header("Stats")]
-    [SerializeField] protected float _damage;
-    [SerializeField] protected float _moveSpeed;
-    [SerializeField] protected float _attackRange;
-    [SerializeField] protected float _stoppingDistance;
+//    [Header("Demon Sounds")]
+//    [SerializeField] SoundPlayer _soundPlayerIdle;
+//    [SerializeField] SoundPlayer _soundPlayerAttack;
+//    [SerializeField] SoundPlayer _soundPlayerAttackAmbience;
+//    [SerializeField] SoundPlayer _soundPlayerHit;
+//    [SerializeField] SoundPlayer _soundPlayerDeath;
+//    [SerializeField] SoundPlayer _soundPlayerFootsteps;
 
-    [Header("Demon Sounds")]
-    [SerializeField] SoundPlayer _soundPlayerIdle;
-    [SerializeField] SoundPlayer _soundPlayerAttack;
-    [SerializeField] SoundPlayer _soundPlayerAttackAmbience;
-    [SerializeField] SoundPlayer _soundPlayerHit;
-    [SerializeField] SoundPlayer _soundPlayerDeath;
-    [SerializeField] SoundPlayer _soundPlayerFootsteps;
+//    private Timer IdleSoundTimer;
+//    private Timer IdleTimer;
+//    private Vector3 lastPosition = Vector3.zero;
 
-    private Timer IdleSoundTimer;
-    private Timer IdleTimer;
-    private Vector3 lastPosition = Vector3.zero;
+//    [SerializeField] float minTimeInterval;
+//    [SerializeField] float maxTimeInterval;
 
-    [SerializeField] float minTimeInterval;
-    [SerializeField] float maxTimeInterval;
+//    [Header("Ai Agent")]
+//    protected AiAgent _aiAgent;
 
-    [Header("Ai Agent")]
-    protected AiAgent _aiAgent;
+//    protected int _currentUpdatedRound = 1;
+//    protected Vector3 spawpos = Vector3.zero;
 
-    protected int _currentUpdatedRound = 1;
-    protected Vector3 spawpos = Vector3.zero;
+//    private void Awake()
+//    {
+//        _aiAgent = GetComponent<AiAgent>();
+//        _health = GetComponent<Health>();
+//        _animator = GetComponent<Animator>();
+//        _rb = GetComponent<Rigidbody>();
+//        _deathPoints = GetComponent<GrantPointsOnDeath>();
+//        _attachments = GetComponent<DemonAttachments>();
+//        _animationOverrides = GetComponent<DemonAnimationOverrides>();
+//        _spawner = FindObjectOfType<DemonSpawner>();
+//        _spawnerManager = FindObjectOfType<SpawnerManager>();
+//        _colliders = GetAllColliders();
 
-    private void Awake()
-    {
-        _aiAgent = GetComponent<AiAgent>();
-        _health = GetComponent<Health>();
-        _animator = GetComponent<Animator>();
-        _rb = GetComponent<Rigidbody>();
-        _deathPoints = GetComponent<GrantPointsOnDeath>();
-        _attachments = GetComponent<DemonAttachments>();
-        _animationOverrides = GetComponent<DemonAnimationOverrides>();
-        _spawner = FindObjectOfType<DemonSpawner>();
-        _spawnerManager = FindObjectOfType<SpawnerManager>();
-        _colliders = GetAllColliders();
+//        IdleSoundTimer = new Timer(Random.Range(minTimeInterval, maxTimeInterval));
+//        IdleTimer = new Timer(10);
 
-        IdleSoundTimer = new Timer(Random.Range(minTimeInterval, maxTimeInterval));
-        IdleTimer = new Timer(10);
+//        OnAwakened();
+//    }
 
-        OnAwakened();
-    }
-
-    private void Start()
-    {
-        Setup();
-        _pooledObject = GetComponent<PooledObject>();
-    }
-    private void Update()
-    {
-        Tick();
-    }
+//    private void Start()
+//    {
+//        Setup();
+//        _pooledObject = GetComponent<PooledObject>();
+//    }
+//    private void Update()
+//    {
+//        Tick();
+//    }
     
-    public virtual void OnAwakened() { }
-    public virtual void Setup()
-    {
-        _health.health = _health.maxHealth;
+//    public virtual void OnAwakened() { }
+//    public virtual void Setup()
+//    {
+//        _health.health = _health.maxHealth;
 
-        _health.OnDeath += OnDeath;
-        _health.OnHit += OnHit;
+//        _health.OnDeath += OnDeath;
+//        _health.OnHit += OnHit;
 
-        _aiAgent.stopingDistance = _stoppingDistance;
-    }
-    public virtual void Tick() 
-    {
-        if(IdleSoundTimer.TimeGreaterThan)
-        {
-            IdleSoundInterval(IdleSoundTimer);
-        }
+//        _aiAgent.stopingDistance = _stoppingDistance;
+//    }
+//    public virtual void Tick() 
+//    {
+//        if(IdleSoundTimer.TimeGreaterThan)
+//        {
+//            IdleSoundInterval(IdleSoundTimer);
+//        }
 
-        Vector3 pos = transform.position;
+//        Vector3 pos = transform.position;
 
-        if(lastPosition == pos)
-        {
-            if(IdleTimer.TimeGreaterThan)
-            {
-                OnDespawn();
-            }
-        }
-        else
-        {
-            IdleTimer.ResetTimer(10);
-        }
+//        if(lastPosition == pos)
+//        {
+//            if(IdleTimer.TimeGreaterThan)
+//            {
+//                OnDespawn();
+//            }
+//        }
+//        else
+//        {
+//            IdleTimer.ResetTimer(10);
+//        }
 
-        lastPosition = pos;
-    }
-    public virtual void OnAttack()
-    {
-        PlaySoundAttack();
-    }
-    public virtual void OnHit()
-    {
-        PlaySoundHit();
-    } 
-    public virtual bool PathFinding() { return false; }
-    public virtual void OnDeath()
-    {
-        _aiAgent.SetFollowSpeed(0);
-        RemoveFromSpatialHash();
+//        lastPosition = pos;
+//    }
+//    public virtual void OnAttack()
+//    {
+//        PlaySoundAttack();
+//    }
+//    public virtual void OnHit()
+//    {
+//        PlaySoundHit();
+//    } 
+//    public virtual bool PathFinding() { return false; }
+//    public virtual void OnDeath()
+//    {
+//        _aiAgent.SetFollowSpeed(0);
+//        RemoveFromSpatialHash();
 
-        SetAllColliders(false);
+//        SetAllColliders(false);
 
-        switch(_spawnType)
-        {
-            case SpawnType.Default:
+//        switch(_spawnType)
+//        {
+//            case SpawnType.Default:
                 
-                break;
-            case SpawnType.Ritual:
+//                break;
+//            case SpawnType.Ritual:
                 
-                break;
-        }
+//                break;
+//        }
 
     
-        Transform t = transform;
-        t.position += new Vector3(0, 1, 0);
-        _spawnerManager.GetBlessingChance(t, DemonInMap);
+//        Transform t = transform;
+//        t.position += new Vector3(0, 1, 0);
+//        _spawnerManager.GetBlessingChance(t, DemonInMap);
 
-        DemonSpawner.ActiveDemons.Remove(this);
+//        DemonSpawner.ActiveDemons.Remove(this);
 
-        _animator.SetLayerWeight(_animator.GetLayerIndex("Upper"), 0);
+//        _animator.SetLayerWeight(_animator.GetLayerIndex("Upper"), 0);
 
-        PlayAnimation("Death");
-        PlaySoundDeath();
-    }
-    public virtual void OnSpawn(DemonType demon, Transform target, SpawnType type)
-    {
-        _aiAgent.SetFollowSpeed(0);
-        _target = target;
-        _spawnType = type;
-        _type = demon;
-        _rb.isKinematic = true;
-        _animator.applyRootMotion = true;
+//        PlayAnimation("Death");
+//        PlaySoundDeath();
+//    }
+//    public virtual void OnSpawn(DemonType demon, Transform target, SpawnType type)
+//    {
+//        _aiAgent.SetFollowSpeed(0);
+//        _target = target;
+//        _spawnType = type;
+//        _type = demon;
+//        _rb.isKinematic = true;
+//        _animator.applyRootMotion = true;
 
-        switch (type)
-        {
-            case SpawnType.Default:
-                _deathPoints.points = pointsOnDeath;
-                break;
-            case SpawnType.Ritual:
-                _deathPoints.points = 0;
-                DemonInMap = true;
-                break;
-        }
+//        switch (type)
+//        {
+//            case SpawnType.Default:
+//                _deathPoints.points = pointsOnDeath;
+//                break;
+//            case SpawnType.Ritual:
+//                _deathPoints.points = 0;
+//                DemonInMap = true;
+//                break;
+//        }
 
-        _animationOverrides.SelectController(_animator);
+//        _animationOverrides.SelectController(_animator);
 
-        SetAllColliders(true);
+//        SetAllColliders(true);
 
-        _attachments.ResetAllAttachments();
-        _attachments.RandomAttachments();
+//        _attachments.ResetAllAttachments();
+//        _attachments.RandomAttachments();
 
-        foreach(var obj in _attachments.ReturnActiveObjects())
-        {
-            DemonMaterials.SetAttachmentMaterial(obj);
-        }
+//        foreach(var obj in _attachments.ReturnActiveObjects())
+//        {
+//            DemonMaterials.SetAttachmentMaterial(obj);
+//        }
 
-        DemonMaterials.SetDefaultSpawningMaterial(_skinnedMeshRenderer);
+//        DemonMaterials.SetDefaultSpawningMaterial(_skinnedMeshRenderer);
 
-        DemonSpawner.ActiveDemons.Add(this);
+//        DemonSpawner.ActiveDemons.Add(this);
 
-        PlaySoundIdle();
+//        PlaySoundIdle();
 
-        PlayAnimation("Spawn");
-    }
-    public virtual void OnBuff() { }
-    public virtual void OnDespawn(bool forcedDespawn = false)
-    {
-        _aiAgent.SetFollowSpeed(0);
+//        PlayAnimation("Spawn");
+//    }
+//    public virtual void OnBuff() { }
+//    public virtual void OnDespawn(bool forcedDespawn = false)
+//    {
+//        _aiAgent.SetFollowSpeed(0);
 
-        SetAllColliders(false);
+//        SetAllColliders(false);
 
-        RemoveFromSpatialHash();
+//        RemoveFromSpatialHash();
 
-        if (forcedDespawn == true) _spawner.AddDemonBackToPool(_type, _spawnerManager);
-        else
-        {
-            switch (_spawnType)
-            {
-                case SpawnType.Default:
-                    DemonSpawner.ActiveDemons.Remove(this);
-                    _spawner.AddDemonBackToPool(_type, _spawnerManager);
-                    break;
-                case SpawnType.Ritual:
-                    _spawnerManager.AddDemonBackToRitual(_type);
-                    break;
-            }
-        }
+//        if (forcedDespawn == true) _spawner.AddDemonBackToPool(_type, _spawnerManager);
+//        else
+//        {
+//            switch (_spawnType)
+//            {
+//                case SpawnType.Default:
+//                    DemonSpawner.ActiveDemons.Remove(this);
+//                    _spawner.AddDemonBackToPool(_type, _spawnerManager);
+//                    break;
+//                case SpawnType.Ritual:
+//                    _spawnerManager.AddDemonBackToRitual(_type);
+//                    break;
+//            }
+//        }
         
-        _pooledObject.Despawn();
-    }
-    public virtual void CalculateStats(int round) { }
-    public virtual void DetectPlayer() { }
+//        _pooledObject.Despawn();
+//    }
+//    public virtual void CalculateStats(int round) { }
+//    public virtual void DetectPlayer() { }
     
 
-    #region AI FUNCTIONS
-    /// <summary>
-    /// Returns The Agent Component
-    /// </summary>
-    public AiAgent GetAgent { get { return _aiAgent; } }
+//    #region AI FUNCTIONS
+//    /// <summary>
+//    /// Returns The Agent Component
+//    /// </summary>
+//    public AiAgent GetAgent { get { return _aiAgent; } }
 
-    /// <summary>
-    /// Returns the Remaining Distance of the Path
-    /// </summary>
-    protected float DistanceToTargetNavmesh { get { return _aiAgent.RemainingDistance; } }
+//    /// <summary>
+//    /// Returns the Remaining Distance of the Path
+//    /// </summary>
+//    protected float DistanceToTargetNavmesh { get { return _aiAgent.RemainingDistance; } }
 
-    /// <summary>
-    /// Returns world space distance to target
-    /// </summary>
-    protected float DistanceToTargetUnits { get { return Vector3.Distance(_target.position, transform.position); } }
+//    /// <summary>
+//    /// Returns world space distance to target
+//    /// </summary>
+//    protected float DistanceToTargetUnits { get { return Vector3.Distance(_target.position, transform.position); } }
 
-    /// <summary>
-    /// Calculates and Sets a New Path
-    /// </summary>
-    /// <param name="targetPos"></param>
-    public void CalculateAndSetPath(Transform targetPos, out bool valid)
-    {
-        _aiAgent.UpdatePath(targetPos, out bool startPointValid);
-        valid = startPointValid;
-        _target = targetPos;
-    }
+//    /// <summary>
+//    /// Calculates and Sets a New Path
+//    /// </summary>
+//    /// <param name="targetPos"></param>
+//    public void CalculateAndSetPath(Transform targetPos, out bool valid)
+//    {
+//        _aiAgent.UpdatePath(targetPos, out bool startPointValid);
+//        valid = startPointValid;
+//        _target = targetPos;
+//    }
 
-    /// <summary>
-    /// Returns SpatialHashObject
-    /// </summary>
-    /// <returns></returns>
-    public SpatialHashObject GetSpatialHashObject() { return _aiAgent; }
+//    /// <summary>
+//    /// Returns SpatialHashObject
+//    /// </summary>
+//    /// <returns></returns>
+//    public SpatialHashObject GetSpatialHashObject() { return _aiAgent; }
 
-    /// <summary>
-    /// Sets Nearby Spatial Hash OBJECTS
-    /// </summary>
-    /// <param name="objs"></param>
-    public void UpdateAgentNearby(List<SpatialHashObject> objs) { _aiAgent.SetNearbyAgents(objs); }
+//    /// <summary>
+//    /// Sets Nearby Spatial Hash OBJECTS
+//    /// </summary>
+//    /// <param name="objs"></param>
+//    public void UpdateAgentNearby(List<SpatialHashObject> objs) { _aiAgent.SetNearbyAgents(objs); }
 
-    /// <summary>
-    /// Removes OBJECT from Spatial Hash pool
-    /// </summary>
-    public void RemoveFromSpatialHash() { _aiAgent.RemoveFromSpatialHash(); }
+//    /// <summary>
+//    /// Removes OBJECT from Spatial Hash pool
+//    /// </summary>
+//    public void RemoveFromSpatialHash() { _aiAgent.RemoveFromSpatialHash(); }
 
-    #endregion
+//    #endregion
 
-    #region HEALTH_FUNCTIONS
-    public Health GetHealth { get { return _health; } }
-    public void SetHealth(float amount)
-    {
-        _health.health = amount;
-    }
+//    #region HEALTH_FUNCTIONS
+//    public Health GetHealth { get { return _health; } }
+//    public void SetHealth(float amount)
+//    {
+//        _health.health = amount;
+//    }
 
-    public virtual void UpdateHealthToCurrentRound(int currentRound) { }
+//    public virtual void UpdateHealthToCurrentRound(int currentRound) { }
 
-    public bool HealthStatus()
-    {
-        return _health.dead;
-    }
+//    public bool HealthStatus()
+//    {
+//        return _health.dead;
+//    }
 
-    #endregion
+//    #endregion
 
-    #region ANIMATOR_FUNCTIONS
-    public Animator GetAnimator { get { return _animator; } }
-    public void PlayAnimation(string trigger) { _animator.SetTrigger(trigger); }
+//    #region ANIMATOR_FUNCTIONS
+//    public Animator GetAnimator { get { return _animator; } }
+//    public void PlayAnimation(string trigger) { _animator.SetTrigger(trigger); }
 
-    public void AttackAnimation()
-    {
-        if (_animator.GetFloat("Speed") <= 0f)
-        {
-            if (!_animator.GetCurrentAnimatorStateInfo(1).IsName("Attack"))
-            {
-                PlayAnimation("StandingAttack");
+//    public void AttackAnimation()
+//    {
+//        if (_animator.GetFloat("Speed") <= 0f)
+//        {
+//            if (!_animator.GetCurrentAnimatorStateInfo(1).IsName("Attack"))
+//            {
+//                PlayAnimation("StandingAttack");
 
-            }
-        }
-        else
-        {
-            if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("StandingAttack"))
-            {
-                PlayAnimation("Attack");
+//            }
+//        }
+//        else
+//        {
+//            if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("StandingAttack"))
+//            {
+//                PlayAnimation("Attack");
 
-            }
-        }
-    }
+//            }
+//        }
+//    }
 
-    public void SetAttackOverride()
-    {
-        _animator.runtimeAnimatorController = _animationOverrides.SetOverrideController();
-    }
+//    public void SetAttackOverride()
+//    {
+//        _animator.runtimeAnimatorController = _animationOverrides.SetOverrideController();
+//    }
 
-    public virtual void OnFinishedSpawnAnimation()
-    {
-        _aiAgent.SetFollowSpeed(_moveSpeed);
-        _rb.isKinematic = false;
-        _animator.applyRootMotion = false;
-    }
-    protected void OnFinishedDeathAnimation()
-    {
-        if (_spawnType == SpawnType.Default) { _spawnerManager.DemonKilled(); }
+//    public virtual void OnFinishedSpawnAnimation()
+//    {
+//        _aiAgent.SetFollowSpeed(_moveSpeed);
+//        _rb.isKinematic = false;
+//        _animator.applyRootMotion = false;
+//    }
+//    protected void OnFinishedDeathAnimation()
+//    {
+//        if (_spawnType == SpawnType.Default) { _spawnerManager.DemonKilled(); }
 
-        _pooledObject.Despawn();
-    }
-    #endregion
+//        _pooledObject.Despawn();
+//    }
+//    #endregion
 
-    #region RIGIDBODY_FUNCTIONS
-    public Rigidbody GetRigidbody { get { return _rb; } }
+//    #region RIGIDBODY_FUNCTIONS
+//    public Rigidbody GetRigidbody { get { return _rb; } }
 
-    public void ApplyForce(Vector3 force, ForceMode mode = ForceMode.Impulse)
-    {
-        _rb.AddForce(force, mode);
-    }
-    #endregion
+//    public void ApplyForce(Vector3 force, ForceMode mode = ForceMode.Impulse)
+//    {
+//        _rb.AddForce(force, mode);
+//    }
+//    #endregion
 
-    #region SOUND_FUNCTIONS
-    public void PlaySoundIdle() { _soundPlayerIdle.Play(); }
+//    #region SOUND_FUNCTIONS
+//    public void PlaySoundIdle() { _soundPlayerIdle.Play(); }
 
-    public void PlaySoundAttack() { _soundPlayerAttack.Play(); }
+//    public void PlaySoundAttack() { _soundPlayerAttack.Play(); }
 
-    public void PlaySoundAttackAmbience() { _soundPlayerAttackAmbience.Play(); }
+//    public void PlaySoundAttackAmbience() { _soundPlayerAttackAmbience.Play(); }
 
-    public void PlaySoundHit() { _soundPlayerHit.Play(); }
+//    public void PlaySoundHit() { _soundPlayerHit.Play(); }
 
-    public void PlaySoundDeath() {_soundPlayerDeath.Play(); }
+//    public void PlaySoundDeath() {_soundPlayerDeath.Play(); }
 
-    protected void PlaySoundFootStep() {  _soundPlayerFootsteps.Play(); }
+//    protected void PlaySoundFootStep() {  _soundPlayerFootsteps.Play(); }
 
-    public void IdleSoundInterval(Timer timer)
-    {
-        timer.ResetTimer(Random.Range(minTimeInterval, maxTimeInterval));
-        PlaySoundIdle();
-    }
-    #endregion
+//    public void IdleSoundInterval(Timer timer)
+//    {
+//        timer.ResetTimer(Random.Range(minTimeInterval, maxTimeInterval));
+//        PlaySoundIdle();
+//    }
+//    #endregion
 
-    #region COLLIDER_FUNCTIONS
-    protected Collider[] GetAllColliders()
-    {
-        return HelperFuntions.AllChildren<Collider>(transform).ToArray();
-    }
+//    #region COLLIDER_FUNCTIONS
+//    protected Collider[] GetAllColliders()
+//    {
+//        return HelperFuntions.AllChildren<Collider>(transform).ToArray();
+//    }
 
-    protected void SetAllColliders(bool active)
-    {
-        foreach (Collider c in _colliders)
-        {
-            c.enabled = active;
-        }
-    }
-    #endregion
+//    protected void SetAllColliders(bool active)
+//    {
+//        foreach (Collider c in _colliders)
+//        {
+//            c.enabled = active;
+//        }
+//    }
+//    #endregion
 
-    #region SPAWNING_FUNCTIONS
+//    #region SPAWNING_FUNCTIONS
 
-    public void SetDemonInMap(bool active)
-    {
-        DemonInMap = active;
-    }
+//    public void SetDemonInMap(bool active)
+//    {
+//        DemonInMap = active;
+//    }
 
-    #endregion
+//    #endregion
 
-    #region DEATH_FUNCTIONS
-    public void ForcedDeath()
-    {
-        _aiAgent.SetFollowSpeed(0);
+//    #region DEATH_FUNCTIONS
+//    public void ForcedDeath()
+//    {
+//        _aiAgent.SetFollowSpeed(0);
 
-        SetAllColliders(false);
+//        SetAllColliders(false);
 
-        RemoveFromSpatialHash();
+//        RemoveFromSpatialHash();
 
-        PlayAnimation("Death");
+//        PlayAnimation("Death");
 
-        PlaySoundDeath();
-    }
-    #endregion
-}
+//        PlaySoundDeath();
+//    }
+//    #endregion
+//}

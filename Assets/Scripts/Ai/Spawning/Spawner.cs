@@ -54,7 +54,7 @@ public class Spawner : MonoBehaviour
     /// <param name="list"></param>
     /// <param name="type"></param>
     /// <returns></returns>
-    public bool RequestSpawn(DemonType demon, SpawnerManager sm, List<DemonBase> list, SpawnType type)
+    public bool RequestSpawn(DemonType demon, SpawnerManager sm, List<DemonFramework> list, SpawnType type)
     {
         if (CanSpawn == true)
         {
@@ -75,8 +75,8 @@ public class Spawner : MonoBehaviour
     private void SpawnDemon(DemonType demon, SpawnerManager sm, SpawnType type)
     {
         GameObject demonTemp = DemonPoolers.demonPoolers[demon.Id].Spawn();
-        DemonBase demonBase = demonTemp.GetComponent<DemonBase>();
-        demonBase.SetDemonInMap(SpawnerInMap);
+        DemonFramework demonBase = demonTemp.GetComponent<DemonFramework>();
+        //demonBase.SetDemonInMap(SpawnerInMap);
         demonBase.OnSpawn(demon, sm.player, type);
         demonTemp.transform.position = position;
     }
@@ -88,11 +88,11 @@ public class Spawner : MonoBehaviour
     /// <param name="target"></param>
     /// <param name="list"></param>
     /// <param name="type"></param>
-    private void SpawnDemon(DemonType demon, SpawnerManager sm, List<DemonBase> list, SpawnType type)
+    private void SpawnDemon(DemonType demon, SpawnerManager sm, List<DemonFramework> list, SpawnType type)
     {
         GameObject demonTemp = DemonPoolers.demonPoolers[demon.Id].Spawn();
-        DemonBase demonBase = demonTemp.GetComponent<DemonBase>();
-        demonBase.SetDemonInMap(SpawnerInMap);
+        DemonFramework demonBase = demonTemp.GetComponent<DemonFramework>();
+        //demonBase.SetDemonInMap(SpawnerInMap);
         demonBase.OnSpawn(demon, sm.player, type);
         demonTemp.transform.position = position;
         list.Add(demonBase);

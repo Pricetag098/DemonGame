@@ -28,13 +28,13 @@ public class AiAgent : SpatialHashObject
     public bool canMove = true;
 
     private Quaternion lastRotation = Quaternion.identity;
-    private DemonBase demon;
+    private DemonFramework demon;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         rb.sleepThreshold = 0;
-        demon = GetComponent<DemonBase>();
+        demon = GetComponent<DemonFramework>();
     }
 
     // Start is called before the first frame update
@@ -168,7 +168,7 @@ public class AiAgent : SpatialHashObject
     {
         Vector3 force = Vector3.zero;
 
-        if(demon.DemonInMap == false) return force;
+        //if(demon.DemonInMap == false) return force;
 
         foreach(SpatialHashObject other in Objects)
         {

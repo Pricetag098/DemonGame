@@ -19,7 +19,7 @@ public class RitualSpawner : MonoBehaviour
 
     [Header("Demons")]
     public Queue<DemonType> DemonQueue = new Queue<DemonType>();
-    private List<DemonBase> ActiveDemons = new List<DemonBase>();
+    private List<DemonFramework> ActiveDemons = new List<DemonFramework>();
 
     [Header("Blockers")]
     [SerializeField] Transform BlockerObjects;

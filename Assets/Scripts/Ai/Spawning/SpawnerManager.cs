@@ -123,7 +123,7 @@ public class SpawnerManager : MonoBehaviour
 
     private void LateUpdate()
     {
-        _DemonSpawner.CallDemonUpdatePosition();
+        _DemonSpawner.UpdateCallToDemons();
     }
 
     public void GetBlessingChance(Transform pos, bool spawnDrop = false)

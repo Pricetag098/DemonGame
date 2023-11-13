@@ -5,13 +5,15 @@ using DemonInfo;
 using System.Reflection;
 using Unity.Jobs;
 using UnityEngine.AI;
+using Assets.CaptainCatSparrow.SpellIconsVolume_2.Druid.Demo;
 
 public class DemonSpawner : MonoBehaviour
 {
     [HideInInspector] public Queue<DemonType> DemonQueue = new Queue<DemonType>();
-    //[HideInInspector] public static List<DemonBase> ActiveDemons = new List<DemonBase>();
-
     [HideInInspector] public static List<DemonFramework> ActiveDemons = new List<DemonFramework>();
+    [HideInInspector] public static List<DemonFramework> ActiveDemonsToRemove = new List<DemonFramework>();
+
+    private const int MAX_DEMON_UPDATES_PER_FRAME = 15;
 
     private Spawners _spawners;
     [HideInInspector] public DemonPoolers demonPool;
@@ -22,50 +24,11 @@ public class DemonSpawner : MonoBehaviour
         demonPool = GetComponent<DemonPoolers>();
     }
 
-    //public void CallDemonUpdatePosition()
-    //{
-    //    int num = ActiveDemons.Count;
-
-    //    if (num > 10) { num = 10; }
-
-    //    for (int i = 0; i < num; i++)
-    //    {
-    //        DemonBase demon = ActiveDemons[0];
-
-    //        if(demon.GetHealth.dead == false)
-    //        {
-    //            demon.PathFinding();
-    //            ActiveDemons.RemoveAt(0);
-    //            ActiveDemons.Add(demon);
-    //        }
-    //    }
-    //}
-
     public void UpdateCallToDemons()
     {
         int num = ActiveDemons.Count;
 
-        List<DemonFramework> templist = new List<DemonFramework>();
-
-        for (int i = 0; i < num; i++)
-        {
-            DemonFramework demon = ActiveDemons[i];
-
-            if (demon.IsAlive() == false && demon.CanDespawn() == true || demon.CheckToDespawn()) // if dead and death animation has finished
-            {
-                templist.Add(demon);
-            }
-        }
-
-        foreach(DemonFramework d in templist)
-        {
-            d.OnDespawn();
-            ActiveDemons.Remove(d);
-        }
-
-        num = ActiveDemons.Count;
-
-        if (num > 10) { num = 10; }
+        if (num > MAX_DEMON_UPDATES_PER_FRAME) { num = MAX_DEMON_UPDATES_PER_FRAME; }
 
         for (int i = 0; i < num; i++)
         {
@@ -76,6 +39,17 @@ public class DemonSpawner : MonoBehaviour
             ActiveDemons.RemoveAt(0);
             ActiveDemons.Add(demon);
         }
+    }
+
+    public void RemoveActiveDemons()
+    {
+        foreach(DemonFramework demon in ActiveDemonsToRemove)
+        {
+            ActiveDemons.Remove(demon);
+            demon.DespawnObject();
+        }
+
+        ActiveDemonsToRemove.Clear();
     }
 
     /// <summary>

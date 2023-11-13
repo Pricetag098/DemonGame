@@ -14,12 +14,6 @@ public class DemonFramework : MonoBehaviour
 
     #region VISUALS
     /// <summary>
-    /// Attachemnt Component for Random Visuals
-    /// </summary>
-    [Header("Attachments")]
-    protected DemonAttachments _attachments;
-
-    /// <summary>
     /// Skinned Mesh Renderer
     /// </summary>
     [Header("SkinnedMeshedRenderer")]
@@ -57,7 +51,7 @@ public class DemonFramework : MonoBehaviour
     #endregion
 
     #region DEATH
-    protected bool _isDead;
+    protected bool _isRemoved;
     #endregion
 
     #region ANIMATION
@@ -134,6 +128,13 @@ public class DemonFramework : MonoBehaviour
     protected AiAgent _aiAgent;
     #endregion
 
+    #region WORLD
+    /// <summary>
+    /// Returns If Demon is in the Map
+    /// </summary>
+    private bool DemonInMap;
+    #endregion
+
     #region INITALISE
     private void Awake()
     {
@@ -142,7 +143,6 @@ public class DemonFramework : MonoBehaviour
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
         _deathPoints = GetComponent<GrantPointsOnDeath>();
-        _attachments = GetComponent<DemonAttachments>();
         _animationOverrides = GetComponent<DemonAnimationOverrides>();
         _spawner = FindObjectOfType<DemonSpawner>();
         _spawnerManager = FindObjectOfType<SpawnerManager>();
@@ -194,7 +194,7 @@ public class DemonFramework : MonoBehaviour
         _type = type;
         _rb.isKinematic = true;
         _animator.applyRootMotion = true;
-        _isDead = false;
+        _isRemoved = false;
 
         switch (spawnType)
         {
@@ -210,11 +210,6 @@ public class DemonFramework : MonoBehaviour
 
         SetAllColliders(true);
 
-        foreach (var obj in _attachments.ReturnActiveObjects())
-        {
-            DemonMaterials.SetAttachmentMaterial(obj);
-        }
-
         DemonMaterials.SetDefaultSpawningMaterial(_skinnedMeshRenderer);
 
         PlayAnimation("Spawn");
@@ -226,8 +221,6 @@ public class DemonFramework : MonoBehaviour
         RemoveFromSpatialHash();
 
         SetAllColliders(false);
-
-        //DemonSpawner.ActiveDemons.Remove(this);
 
         _animator.SetLayerWeight(_animator.GetLayerIndex("Upper"), 0);
 
@@ -271,10 +264,10 @@ public class DemonFramework : MonoBehaviour
     public virtual void OnHit() { }
     public virtual void PathFinding() 
     {
-        _aiAgent.UpdatePath(CurrentTarget, out bool valid);
+        _aiAgent.UpdatePath(CurrentTarget);
     }
     public virtual void CalculateStats(int round) { }
-    public virtual void DetectTarget() { }
+    public virtual bool DetectTarget() { return false; }
     public virtual void CalculateAndSetPath() { }
     public virtual void UpdateHealthToCurrentRound(int currentRound) { }
     public virtual void OnFinishedSpawnAnimation()
@@ -287,9 +280,7 @@ public class DemonFramework : MonoBehaviour
     {
         if (_spawnType == SpawnType.Default) { _spawnerManager.DemonKilled(); }
 
-        _isDead = true;
-
-        //_pooledObject.Despawn();
+        MarkForRemoval();
     }
     public virtual void SetAnimationVariables() { }
     public virtual bool CheckToDespawn() 
@@ -351,7 +342,7 @@ public class DemonFramework : MonoBehaviour
     #region ANIMATOR_FUNCTIONS
     public Animator GetAnimator { get { return _animator; } }
     public void PlayAnimation(string trigger) { _animator.SetTrigger(trigger); }
-    public void CurrenAttackStateAnimation()
+    public void CurrentAttackStateAnimation()
     {
         if (_animator.GetFloat("Speed") <= 0f)
         {
@@ -424,13 +415,13 @@ public class DemonFramework : MonoBehaviour
     #endregion
 
     #region DEATH_FUNCTIONS
-    public bool CanDespawn()
+    public void MarkForRemoval()
     {
-        if(_isDead == true)
+        if(_isRemoved == false)
         {
-            return true;
+            _isRemoved = true;
+            DemonSpawner.ActiveDemonsToRemove.Add(this);
         }
-        return false;
     }
     #endregion
 
@@ -438,6 +429,17 @@ public class DemonFramework : MonoBehaviour
     public void DespawnObject()
     {
         _pooledObject.Despawn();
+    }
+    #endregion
+
+    #region WORLD_FUNCTIONS
+    public void SetDemonInMap(bool active)
+    {
+        DemonInMap = active;
+    }
+    public bool GetDemonInMap
+    {
+        get { return DemonInMap; }
     }
     #endregion
 }

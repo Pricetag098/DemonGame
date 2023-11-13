@@ -80,15 +80,12 @@ public class AiAgent : SpatialHashObject
 			Vector3 turningVel = idealVel - rb.velocity;
 			rb.AddForce(turningVel * acceleration);
 
-            if (path[pathIndex] != null)
+            if (Vector3.Distance(transform.position, path[pathIndex]) < indexChangeDistance)
             {
-                if (Vector3.Distance(transform.position, path[pathIndex]) < indexChangeDistance)
+                pathIndex++;
+                if (pathIndex >= path.pathLength)
                 {
-                    pathIndex++;
-                    if (pathIndex >= path.pathLength)
-                    {
-                        pathIndex = path.pathLength - 1;
-                    }
+                    pathIndex = path.pathLength - 1;
                 }
             }
 		}
@@ -98,28 +95,17 @@ public class AiAgent : SpatialHashObject
         }
     }
 
-    public bool UpdatePath(Transform target, out bool startPointValid)
+    public bool UpdatePath(Transform target)
     {
         NavMeshPath path = new NavMeshPath();
 
         CalculatePath(target.position, path);
         SetPath(path);
 
-        NavMeshPath startPoint = new NavMeshPath();
-        CalculatePath(transform.position, startPoint);
-        startPointValid = true;
-
-        if (startPoint.status != NavMeshPathStatus.PathComplete)
-        {
-            startPointValid = false;
-            Debug.Log("On Path");
-        }
-
         if (RemainingDistancePath < stopingDistance)
         {
             return false;
         }
-
         
         return true;
 	}
@@ -168,7 +154,7 @@ public class AiAgent : SpatialHashObject
     {
         Vector3 force = Vector3.zero;
 
-        //if(demon.DemonInMap == false) return force;
+        if(demon.GetDemonInMap == false) return force;
 
         foreach(SpatialHashObject other in Objects)
         {
@@ -220,8 +206,6 @@ public class AiAgent : SpatialHashObject
         get
         {
             float num = 0;
-
-            //if(path.pathLength == 0) { return num; }
 
             num = Vector3.Distance(path[pathIndex], transform.position);
 

@@ -35,7 +35,7 @@ public class Holster : MonoBehaviour
     //[HideInInspector]
     public Gun[] guns = new Gun[MaxGuns];
 
-    public delegate void OnDealDamageAction(float amount);
+    public delegate void OnDealDamageAction(float amount,HitBox hitBox);
     public OnDealDamageAction OnDealDamage;
 
     public Movement.PlayerInputt playerInput;
@@ -247,12 +247,12 @@ public class Holster : MonoBehaviour
     }
     
     
-    public void OnHit(float damage,float targetMaxHealth)
+    public void OnHit(float damage,HitBox hitBox)
 	{
         
-        abilityCaster.AddBlood((damage/targetMaxHealth) * HeldGun.bloodGainMulti * stats.bloodGainMulti);
+        abilityCaster.AddBlood(Mathf.Clamp01(damage/hitBox.health.maxHealth) * HeldGun.bloodGainMulti * stats.bloodGainMulti);
         if(OnDealDamage != null)
-        OnDealDamage(damage);
+        OnDealDamage(damage,hitBox);
 	}
 
 	int GetOffHandIndex()

@@ -27,7 +27,7 @@ public class AoeDamagePerk : Perk
 		if(damageCount < 0)
 			damageCount = 0;
 	}
-	void AddDamage(float amount)
+	void AddDamage(float amount,HitBox hitBox)
 	{
 		damageCount += amount;
 		if(damageCount > triggerPoint)

@@ -31,6 +31,11 @@ public class GunUpgrade : ShopInteractable
         
 
     }
+
+    protected override int GetCost(Interactor interactor)
+    {
+        return interactor.holster.HeldGun.upgradeCost;
+    }
     protected override bool CanBuy(Interactor interactor)
     {
         Gun heldGun = interactor.holster.HeldGun;

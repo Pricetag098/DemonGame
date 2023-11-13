@@ -42,7 +42,7 @@ public class DestroyObstacle : MonoBehaviour
         {
             if(obj is not null)
             {
-                //demon.AttackAnimation();
+                demon.CurrentAttackStateAnimation();
             }
         }
     }
@@ -57,7 +57,7 @@ public class DestroyObstacle : MonoBehaviour
             {
                 Agent.canMove = true;
                 obj = null;
-                demon.DemonInMap = true;
+                demon.SetDemonInMap(true);
             }
         }
     }
@@ -79,7 +79,7 @@ public class DestroyObstacle : MonoBehaviour
                 }
                 else
                 {
-                    demon.DemonInMap = true;
+                    demon.SetDemonInMap(true);
                 }
             }
         }

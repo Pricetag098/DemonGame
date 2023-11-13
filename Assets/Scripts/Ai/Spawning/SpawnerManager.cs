@@ -119,11 +119,13 @@ public class SpawnerManager : MonoBehaviour
                 }
             }
         }
+
+        _DemonSpawner.UpdateCallToDemons();
     }
 
     private void LateUpdate()
     {
-        _DemonSpawner.UpdateCallToDemons();
+        _DemonSpawner.RemoveActiveDemons();
     }
 
     public void GetBlessingChance(Transform pos, bool spawnDrop = false)

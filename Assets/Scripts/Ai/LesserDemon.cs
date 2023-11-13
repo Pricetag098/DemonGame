@@ -1,13 +1,11 @@
 using DemonInfo;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Mail;
 using UnityEngine;
 
 public class LesserDemon : DemonFramework
 {
-    [Header("Demon Pathing")]
-    [SerializeField] float distanceToRespawn;
-
     [Header("Speed Profiles")]
     [SerializeField] DemonSpeedProfile walker;
     [SerializeField] DemonSpeedProfile jogger;
@@ -26,7 +24,7 @@ public class LesserDemon : DemonFramework
     [Header("ObstacleDetection")]
     private DestroyObstacle m_obstacle;
 
-    public bool DemonInMap;
+    private DemonAttachments _attachments;
 
     #region OVERRIDE_FUNCTIONS
     public override void OnAwakened()
@@ -34,6 +32,7 @@ public class LesserDemon : DemonFramework
         base.OnAwakened();
 
         m_obstacle = GetComponent<DestroyObstacle>();
+        _attachments = GetComponent<DemonAttachments>();
     }
     public override void OnStart()
     {
@@ -43,9 +42,9 @@ public class LesserDemon : DemonFramework
     {
         base.OnUpdate();
 
-        DetectTarget();
+        if(DetectTarget() == false) { return; }
 
-        if(DemonInMap == false) { m_obstacle.Detection(); }
+        if(GetDemonInMap == false) { m_obstacle.Detection(); }
 
         SetAnimationVariables();
 
@@ -66,10 +65,22 @@ public class LesserDemon : DemonFramework
         SetMoveSpeed(type.SpeedType);
 
         _aiAgent.canRotate = true;
+
+        _attachments.ResetAllAttachments();
+        _attachments.RandomAttachments();
+
+        foreach (var obj in _attachments.ReturnActiveObjects())
+        {
+            DemonMaterials.SetAttachmentMaterial(obj);
+        }
     }
     public override void OnDeath()
     {
         base.OnDeath();
+
+        Transform t = transform;
+        t.position += new Vector3(0, 1, 0);
+        _spawnerManager.GetBlessingChance(t, GetDemonInMap);
 
         if (_spawnType == SpawnType.Ritual)
         {
@@ -96,6 +107,18 @@ public class LesserDemon : DemonFramework
     public override void OnAttack()
     {
         base.OnAttack();
+
+        // deal damage
+        Transform target = CurrentTarget;
+
+        if (Vector3.Distance(target.position, transform.position) < _attackRange)
+        {
+            target.GetComponent<Health>().TakeDmg(_damage);
+            if (target.TryGetComponent<DamageIndicator>(out DamageIndicator damageIndicator))
+            {
+                damageIndicator.Indicate(transform);
+            }
+        }
     }
     public override void OnHit()
     {
@@ -109,9 +132,23 @@ public class LesserDemon : DemonFramework
     {
         base.CalculateStats(round);
     }
-    public override void DetectTarget()
+    public override bool DetectTarget()
     {
         base.DetectTarget();
+
+        float dist = DistanceToTargetUnits;
+
+        if (dist < _attackRange)
+        {
+            CurrentAttackStateAnimation();
+        }
+
+        if(CheckToDespawn() == true)
+        {
+            MarkForRemoval();
+        }
+
+        return true;
     }
     public override void CalculateAndSetPath()
     {

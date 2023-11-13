@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using DG.Tweening;
 public class LoadingBar : MonoBehaviour
 {
     public GameObject loadingImage;
@@ -13,6 +14,13 @@ public class LoadingBar : MonoBehaviour
     public Slider slider;
     public float loadTime;
     float timer;
+
+    public float toolTipTimer;
+    [TextArea(2, 5)]
+    public List<string> potentialToolTips;
+    public float toolTipDuration;
+    public float toolTipFadeDuration;
+
     [TextArea(2,5)]
     public string toolTipText;
 
@@ -21,9 +29,11 @@ public class LoadingBar : MonoBehaviour
     AsyncOperation operation;
     [SerializeField] InputActionProperty inputAction;
     public bool isLoading = false;
+
+
     private void Awake()
     {
-        textObject.text = toolTipText;
+        textObject.text = "Shooting demons grants you their blood, channel it to use it against them... rinse and repeat";
         slider.value= 0;
         slider.maxValue = 1;
         inputAction.action.performed += DoLoad;
@@ -41,6 +51,14 @@ public class LoadingBar : MonoBehaviour
                 isLoading = false;
                 EndLoading();
             }
+        }
+
+        toolTipTimer += Time.deltaTime;
+
+        if (toolTipTimer > (toolTipDuration + toolTipFadeDuration + 0.5f))
+        {
+            StartCoroutine(CycleNextToolTip());
+            toolTipTimer = 0;
         }
     }
 
@@ -72,5 +90,22 @@ public class LoadingBar : MonoBehaviour
             timer += Time.deltaTime;
         }
         slider.value = timer/loadTime;
+    }
+
+    public IEnumerator CycleNextToolTip()
+    {
+        textObject.DOFade(0, toolTipFadeDuration);
+
+        yield return new WaitForSeconds(toolTipFadeDuration);
+
+        int index = Random.Range(0, potentialToolTips.Count - 5);
+        string lastTip = potentialToolTips[index];
+        textObject.text = lastTip;
+        textObject.DOFade(1, toolTipFadeDuration);
+        potentialToolTips.RemoveAt(index);
+        potentialToolTips.Add(lastTip);
+
+        yield return new WaitForSeconds(toolTipDuration);
+
     }
 }

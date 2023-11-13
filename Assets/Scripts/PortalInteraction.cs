@@ -46,7 +46,7 @@ public class PortalInteraction : ShopInteractable
 	{
 		base.StartHover(interactor);
 		Ability a = ability;
-		interactor.display.DisplayMessage(true, buyMessage + " " + a.abilityName + ": " + GetCost(interactor));
+		interactor.display.DisplayMessage(true, buyMessage + ": " + GetCost(interactor));
 
 	}
 

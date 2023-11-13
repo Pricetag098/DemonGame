@@ -23,6 +23,8 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
 	public float bloodSpent = 0;
     public float bloodGained = 0;
 
+    WeaponWheel abilityWheel;
+
 	enum State
 	{
 		normal,
@@ -51,7 +53,7 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
 	}
 	void Start()
     {
-        
+        abilityWheel = FindObjectOfType<WeaponWheel>();
         
         caster.OnAddBlood += OnAddBlood;
         caster.OnRemoveBlood += OnRemoveBlood;
@@ -138,6 +140,7 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
     public void OnUpgrade()
     {
         upgradeNum++;
+        abilityWheel.UpdateWheel(upgradeNum);
     }
 
     void OnAddBlood(float amount)

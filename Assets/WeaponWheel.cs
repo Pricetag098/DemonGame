@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using TMPro;
 using Movement;
+using UnityEngine.UI;
 
 public class WeaponWheel : MonoBehaviour
 {
@@ -33,6 +34,11 @@ public class WeaponWheel : MonoBehaviour
     private PlayerAbilityCaster caster;
 
     PlayerInputt playerInput;
+
+    public Image wheelBorder;
+    public Image wheelInner;
+    public Sprite[] wheelBorderIcons;
+    public Sprite[] wheelInnerIcons;
 
     float kickoutTimer;
 
@@ -144,6 +150,12 @@ public class WeaponWheel : MonoBehaviour
 
             FindTarget();
         }
+    }
+
+    public void UpdateWheel(int tier)
+    {
+        wheelBorder.sprite = wheelBorderIcons[tier];
+        wheelInner.sprite = wheelInnerIcons[tier];
     }
 
     public void FindTarget()

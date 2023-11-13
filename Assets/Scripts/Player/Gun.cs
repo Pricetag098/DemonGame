@@ -26,6 +26,8 @@ public class Gun : MonoBehaviour
     [Header("Gun Settings")]
     public string gunName;
     public string guid;
+    public int refillCost;
+    public int upgradeCost;
     public FireTypes fireSelect;
     public float bulletRange = float.PositiveInfinity;
     [Min(1)]

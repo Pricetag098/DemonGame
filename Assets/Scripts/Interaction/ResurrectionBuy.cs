@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Entities;
 using UnityEngine;
 
 public class ResurrectionBuy : ShopInteractable
@@ -7,7 +8,8 @@ public class ResurrectionBuy : ShopInteractable
 	PlayerDeath playerDeath;
 	int buys = 0;
 	int buyLimit = 3;
-	public string cantBuyMessage;
+	public string usedUpMessage;
+	public string alreadyOwnsMessage;
 	private void Awake()
 	{
 		playerDeath = FindObjectOfType<PlayerDeath>();
@@ -23,4 +25,26 @@ public class ResurrectionBuy : ShopInteractable
 		playerDeath.respawnsLeft++;
 		buys++;
 	}
+    public override void StartHover(Interactor interactor)
+    {
+        base.StartHover(interactor);
+        
+		if(buys >= buyLimit)
+		{
+            interactor.display.DisplayMessage(false, usedUpMessage);
+        }
+		else if(playerDeath.respawnsLeft >0)
+		{
+			interactor.display.DisplayMessage(false, alreadyOwnsMessage);
+		}
+		else
+		{
+			interactor.display.DisplayMessage(true, buyMessage);
+		}
+        
+		
+
+    }
+
+    
 }

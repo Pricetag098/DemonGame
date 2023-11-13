@@ -212,6 +212,8 @@ public class DemonFramework : MonoBehaviour
 
         DemonMaterials.SetDefaultSpawningMaterial(_skinnedMeshRenderer);
 
+        DemonSpawner.ActiveDemons.Add(this);
+
         PlayAnimation("Spawn");
     }
     public virtual void OnDeath() 
@@ -267,7 +269,7 @@ public class DemonFramework : MonoBehaviour
         _aiAgent.UpdatePath(CurrentTarget);
     }
     public virtual void CalculateStats(int round) { }
-    public virtual bool DetectTarget() { return false; }
+    public virtual bool DetectTarget() { return true; }
     public virtual void CalculateAndSetPath() { }
     public virtual void UpdateHealthToCurrentRound(int currentRound) { }
     public virtual void OnFinishedSpawnAnimation()

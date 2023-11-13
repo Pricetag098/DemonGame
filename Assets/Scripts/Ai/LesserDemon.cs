@@ -42,7 +42,9 @@ public class LesserDemon : DemonFramework
     {
         base.OnUpdate();
 
-        if(DetectTarget() == false) { return; }
+        Debug.Log("updating");
+
+        if(DetectTarget() == false) { Debug.Log("this is false"); return; }
 
         if(GetDemonInMap == false) { m_obstacle.Detection(); }
 
@@ -137,6 +139,8 @@ public class LesserDemon : DemonFramework
         base.DetectTarget();
 
         float dist = DistanceToTargetUnits;
+
+        Debug.Log(dist);
 
         if (dist < _attackRange)
         {

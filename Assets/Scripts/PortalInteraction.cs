@@ -1,9 +1,11 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
+using Sequence = DG.Tweening.Sequence;
 
 public class PortalInteraction : ShopInteractable
 {
@@ -36,7 +38,7 @@ public class PortalInteraction : ShopInteractable
 	}
 	protected override void DoBuy(Interactor interactor)
 	{
-		interactor.caster.SetAbility(Instantiate(ability));
+		interactor.caster.SetAbility(Instantiate(ability.upgradePath.Value.abilities[interactor.caster.upgradeNum]));
 		Close();
 	}
 

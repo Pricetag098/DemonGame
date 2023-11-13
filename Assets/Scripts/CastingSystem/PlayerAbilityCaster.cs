@@ -8,6 +8,7 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
     [HideInInspector]public AbilityCaster caster;
     public int activeIndex;
     public int previousActiveIndex;
+    public int upgradeNum = 0;
     int newActiveIndex;
     public InputActionProperty useAction;
     public InputActionProperty swapAction;
@@ -132,6 +133,11 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
 
 
         
+    }
+
+    public void OnUpgrade()
+    {
+        upgradeNum++;
     }
 
     void OnAddBlood(float amount)

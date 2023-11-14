@@ -10,11 +10,11 @@ public class AbilityUpgrade : ShopInteractable
         AbilityCaster abilityCaster = interactor.GetComponent<AbilityCaster>();
         for (int i = 0; i < abilityCaster.abilities.Length; i++)
         {
-            if (abilityCaster.abilities[i] != current)
+            if (i != interactor.caster.activeIndex)
             {
                 if (abilityCaster.abilities[i].upgradePath.Enabled)
                 {
-                    abilityCaster.abilities[i] = abilityCaster.abilities[i].upgradePath.Value.abilities[abilityCaster.abilities[i].tier + 1];
+                    abilityCaster.SetAbility(i,Instantiate(abilityCaster.abilities[i].upgradePath.Value.abilities[abilityCaster.abilities[i].tier + 1]));
                 }
             }
             else

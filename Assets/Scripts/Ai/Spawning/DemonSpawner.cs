@@ -26,6 +26,14 @@ public class DemonSpawner : MonoBehaviour
 
     public void UpdateCallToDemons()
     {
+        foreach(DemonFramework demon in ActiveDemons)
+        {
+            demon.OnUpdate();
+        }
+    }
+
+    public void UpdatePathfinding()
+    {
         int num = ActiveDemons.Count;
 
         if (num > MAX_DEMON_UPDATES_PER_FRAME) { num = MAX_DEMON_UPDATES_PER_FRAME; }
@@ -34,7 +42,7 @@ public class DemonSpawner : MonoBehaviour
         {
             DemonFramework demon = ActiveDemons[0];
 
-            demon.OnUpdate();
+            demon.PathFinding();
 
             ActiveDemons.RemoveAt(0);
             ActiveDemons.Add(demon);

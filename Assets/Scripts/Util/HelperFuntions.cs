@@ -103,9 +103,18 @@ public static class HelperFuntions
         return (int)curve.Evaluate(num);
     }
 
-    public static List<T> AllChildren<T>(Transform root)
+    public static List<T> AllChildren<T>(Transform root, bool getRoot = false)
     {
         List<T> result = new List<T>();
+
+        if(getRoot == true)
+        {
+            if (root.TryGetComponent<T>(out T component))
+            {
+                result.Add(component);
+            }
+        }
+
         if (root.childCount > 0)
         {
             foreach (Transform item in root)

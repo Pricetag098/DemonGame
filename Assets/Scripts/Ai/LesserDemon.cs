@@ -24,15 +24,12 @@ public class LesserDemon : DemonFramework
     [Header("ObstacleDetection")]
     private DestroyObstacle m_obstacle;
 
-    private DemonAttachments _attachments;
-
     #region OVERRIDE_FUNCTIONS
     public override void OnAwakened()
     {
         base.OnAwakened();
 
         m_obstacle = GetComponent<DestroyObstacle>();
-        _attachments = GetComponent<DemonAttachments>();
     }
     public override void OnStart()
     {
@@ -42,21 +39,17 @@ public class LesserDemon : DemonFramework
     {
         base.OnUpdate();
 
-        Debug.Log("updating");
+        if(DetectTarget() == false) { return; }
 
-        if(DetectTarget() == false) { Debug.Log("this is false"); return; }
-
-        if(GetDemonInMap == false) { m_obstacle.Detection(); }
+        if(GetDemonInMap == false) { m_obstacle.Detection(); Debug.Log("Looking for wards"); }
 
         SetAnimationVariables();
 
         _aiAgent.LookDirection();
-
-        PathFinding();
     }
-    public override void OnSpawn(DemonType type, Transform target, SpawnType spawnType)
+    public override void OnSpawn(DemonType type, Transform target, SpawnType spawnType, bool inMap)
     {
-        base.OnSpawn(type, target, spawnType);
+        base.OnSpawn(type, target, spawnType, inMap);
 
         UpdateHealthToCurrentRound(_spawnerManager.currentRound);
 
@@ -101,6 +94,8 @@ public class LesserDemon : DemonFramework
         base.OnForcedDeath();
 
         _spawner.AddDemonBackToPool(_type, _spawnerManager);
+
+        MarkForRemoval();
     }
     public override void OnDespawn()
     {
@@ -170,6 +165,8 @@ public class LesserDemon : DemonFramework
     }
     public override void SetAnimationVariables()
     {
+        if(IsAlive() == false) { return; }
+
         base.SetAnimationVariables();
 
         float evalSpeed = GetRange(_aiAgent.VelocityMag, 0, speedProfile.maxSpeed);

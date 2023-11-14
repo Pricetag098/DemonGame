@@ -18,6 +18,8 @@ public class DemonFramework : MonoBehaviour
     /// </summary>
     [Header("SkinnedMeshedRenderer")]
     [SerializeField] protected SkinnedMeshRenderer _skinnedMeshRenderer;
+
+    protected DemonAttachments _attachments;
     #endregion
 
     #region SPAWNING
@@ -51,7 +53,15 @@ public class DemonFramework : MonoBehaviour
     #endregion
 
     #region DEATH
+    protected LesserDemonRagdoll _ragdoll;
+    private bool _isRagdolled;
+
     protected bool _isRemoved;
+    protected bool _isDead;
+
+    [SerializeField] private float deathFadeTime;
+    [SerializeField] private float fadeTimeMultiplier;
+    private Timer _deathFadeTimer;
     #endregion
 
     #region ANIMATION
@@ -132,7 +142,7 @@ public class DemonFramework : MonoBehaviour
     /// <summary>
     /// Returns If Demon is in the Map
     /// </summary>
-    private bool DemonInMap;
+    [SerializeField] private bool DemonInMap;
     #endregion
 
     #region INITALISE
@@ -146,9 +156,12 @@ public class DemonFramework : MonoBehaviour
         _animationOverrides = GetComponent<DemonAnimationOverrides>();
         _spawner = FindObjectOfType<DemonSpawner>();
         _spawnerManager = FindObjectOfType<SpawnerManager>();
+        _ragdoll = GetComponent<LesserDemonRagdoll>();
+        _attachments = GetComponent<DemonAttachments>();
         _colliders = GetAllColliders();
 
         IdleSoundTimer = new Timer(Random.Range(minTimeInterval, maxTimeInterval));
+        _deathFadeTimer = new Timer(deathFadeTime);
 
         OnAwakened();
     }
@@ -185,16 +198,87 @@ public class DemonFramework : MonoBehaviour
         {
             IdleSoundInterval(IdleSoundTimer);
         }
+
+        DeathFade();
     }
-    public virtual void OnSpawn(DemonType type, Transform target, SpawnType spawnType)
+
+    public void DeathFade()
+    {
+        if (_isDead == true)
+        {
+            if (_isRagdolled == false)
+            {
+                _isRagdolled = true;
+                _ragdoll.ToggleRagdoll(true);
+
+                Transform t = transform;
+                t.position = t.position + new Vector3(0, -1, 0);
+                transform.position = t.position;
+            }
+
+            float fade = _deathFadeTimer.Time * fadeTimeMultiplier;
+
+            Material[] skinMats = _skinnedMeshRenderer.materials;
+
+            foreach (Material m in skinMats)
+            {
+                m.SetFloat("_AlphaClip", fade);
+            }
+
+            _skinnedMeshRenderer.materials = skinMats;
+
+            foreach(GameObject g in _attachments.ReturnActiveObjects())
+            {
+                if(g.TryGetComponent<MeshRenderer>(out MeshRenderer renderer))
+                {
+                    renderer.material.SetFloat("_AlphaClip", fade);
+                }
+            }
+
+            if (_deathFadeTimer.TimeGreaterThan)
+            {
+                _isDead = false;
+
+                _deathFadeTimer.ResetTimer(deathFadeTime);
+
+                if (_spawnType == SpawnType.Default) { _spawnerManager.DemonKilled(); }
+
+                _ragdoll.ToggleRagdoll(false);
+
+                skinMats = _skinnedMeshRenderer.materials;
+
+                foreach (Material m in skinMats)
+                {
+                    m.SetFloat("AlphaClip", 0);
+                }
+
+                _skinnedMeshRenderer.materials = skinMats;
+
+                foreach (GameObject g in _attachments.ReturnActiveObjects())
+                {
+                    if (g.TryGetComponent<MeshRenderer>(out MeshRenderer renderer))
+                    {
+                        renderer.material.SetFloat("_AlphaClip", 0);
+                    }
+                }
+
+                MarkForRemoval();
+            }
+        }
+    }
+    public virtual void OnSpawn(DemonType type, Transform target, SpawnType spawnType, bool inMap)
     {
         _aiAgent.SetFollowSpeed(0);
         CurrentTarget = target;
         _spawnType = spawnType;
         _type = type;
         _rb.isKinematic = true;
+        _animator.enabled = true;
         _animator.applyRootMotion = true;
         _isRemoved = false;
+        _isDead = false;
+        _isRagdolled = false;
+        DemonInMap = inMap;
 
         switch (spawnType)
         {
@@ -222,12 +306,11 @@ public class DemonFramework : MonoBehaviour
 
         RemoveFromSpatialHash();
 
-        SetAllColliders(false);
-
         _animator.SetLayerWeight(_animator.GetLayerIndex("Upper"), 0);
 
-        PlayAnimation("Death");
         PlaySoundDeath();
+
+        _isDead = true;
     }
     public virtual void OnForcedDeath() { }
     public virtual void OnDespawn() 
@@ -248,7 +331,7 @@ public class DemonFramework : MonoBehaviour
                 break;
         }
 
-        _pooledObject.Despawn();
+        MarkForRemoval();
     }
     public virtual void OnForcedDespawn() 
     {
@@ -400,7 +483,7 @@ public class DemonFramework : MonoBehaviour
     #region COLLIDER_FUNCTIONS
     protected Collider[] GetAllColliders()
     {
-        return HelperFuntions.AllChildren<Collider>(transform).ToArray();
+        return HelperFuntions.AllChildren<Collider>(transform, true).ToArray();
     }
 
     protected void SetAllColliders(bool active)

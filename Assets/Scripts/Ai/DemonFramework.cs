@@ -142,7 +142,7 @@ public class DemonFramework : MonoBehaviour
     /// <summary>
     /// Returns If Demon is in the Map
     /// </summary>
-    private bool DemonInMap;
+    [SerializeField] private bool DemonInMap;
     #endregion
 
     #region INITALISE
@@ -307,11 +307,8 @@ public class DemonFramework : MonoBehaviour
 
         RemoveFromSpatialHash();
 
-        //SetAllColliders(false);
-
         _animator.SetLayerWeight(_animator.GetLayerIndex("Upper"), 0);
 
-        //PlayAnimation("Death");
         PlaySoundDeath();
 
         _isDead = true;
@@ -335,7 +332,8 @@ public class DemonFramework : MonoBehaviour
                 break;
         }
 
-        _pooledObject.Despawn();
+        //_pooledObject.Despawn();
+        MarkForRemoval();
     }
     public virtual void OnForcedDespawn() 
     {

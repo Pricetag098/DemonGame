@@ -94,6 +94,8 @@ public class LesserDemon : DemonFramework
         base.OnForcedDeath();
 
         _spawner.AddDemonBackToPool(_type, _spawnerManager);
+
+        MarkForRemoval();
     }
     public override void OnDespawn()
     {

@@ -195,31 +195,35 @@ public class DemonFramework : MonoBehaviour
             IdleSoundInterval(IdleSoundTimer);
         }
 
-        //if(_isDead == true)
-        //{
-        //    if(_isRagdolled == false)
-        //    {
-        //        _isRagdolled = true;
-        //        _ragdoll.ToggleRagdoll(true);
+        if (_isDead == true)
+        {
+            if (_isRagdolled == false)
+            {
+                _isRagdolled = true;
+                _ragdoll.ToggleRagdoll(true);
 
-        //        Debug.Break();
-        //    }
+                Transform t = transform;
 
-        //    // lerp values
+                t.position = t.position + new Vector3(0, -1, 0);
 
-        //    if(_deathFadeTimer.TimeGreaterThan)
-        //    {
-        //        _isDead = false;
+                transform.position = t.position;
+            }
 
-        //        _deathFadeTimer.ResetTimer(deathFadeTime);
+            // lerp values
 
-        //        if (_spawnType == SpawnType.Default) { _spawnerManager.DemonKilled(); }
+            if (_deathFadeTimer.TimeGreaterThan)
+            {
+                _isDead = false;
 
-        //        _ragdoll.ToggleRagdoll(false);
+                _deathFadeTimer.ResetTimer(deathFadeTime);
 
-        //        MarkForRemoval();
-        //    }
-        //}
+                if (_spawnType == SpawnType.Default) { _spawnerManager.DemonKilled(); }
+
+                _ragdoll.ToggleRagdoll(false);
+
+                MarkForRemoval();
+            }
+        }
     }
     public virtual void OnSpawn(DemonType type, Transform target, SpawnType spawnType)
     {
@@ -262,11 +266,11 @@ public class DemonFramework : MonoBehaviour
 
         RemoveFromSpatialHash();
 
-        SetAllColliders(false);
+        //SetAllColliders(false);
 
         _animator.SetLayerWeight(_animator.GetLayerIndex("Upper"), 0);
 
-        PlayAnimation("Death");
+        //PlayAnimation("Death");
         PlaySoundDeath();
 
         _isDead = true;

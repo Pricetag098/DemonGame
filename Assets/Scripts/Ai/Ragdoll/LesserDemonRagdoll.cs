@@ -24,6 +24,7 @@ public class LesserDemonRagdoll : MonoBehaviour
         foreach (Rigidbody rb in ragdollRigidbodies)
         {
             rb.isKinematic = !state;
+            rb.useGravity = state;
         }
 
         foreach (Collider col in colliders)

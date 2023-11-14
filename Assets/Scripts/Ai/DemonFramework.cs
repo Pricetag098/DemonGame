@@ -51,7 +51,14 @@ public class DemonFramework : MonoBehaviour
     #endregion
 
     #region DEATH
+    protected LesserDemonRagdoll _ragdoll;
+    private bool _isRagdolled;
+
     protected bool _isRemoved;
+    protected bool _isDead;
+
+    [SerializeField] private float deathFadeTime;
+    private Timer _deathFadeTimer;
     #endregion
 
     #region ANIMATION
@@ -146,9 +153,11 @@ public class DemonFramework : MonoBehaviour
         _animationOverrides = GetComponent<DemonAnimationOverrides>();
         _spawner = FindObjectOfType<DemonSpawner>();
         _spawnerManager = FindObjectOfType<SpawnerManager>();
+        _ragdoll = GetComponent<LesserDemonRagdoll>();
         _colliders = GetAllColliders();
 
         IdleSoundTimer = new Timer(Random.Range(minTimeInterval, maxTimeInterval));
+        _deathFadeTimer = new Timer(deathFadeTime);
 
         OnAwakened();
     }
@@ -185,6 +194,32 @@ public class DemonFramework : MonoBehaviour
         {
             IdleSoundInterval(IdleSoundTimer);
         }
+
+        //if(_isDead == true)
+        //{
+        //    if(_isRagdolled == false)
+        //    {
+        //        _isRagdolled = true;
+        //        _ragdoll.ToggleRagdoll(true);
+
+        //        Debug.Break();
+        //    }
+
+        //    // lerp values
+
+        //    if(_deathFadeTimer.TimeGreaterThan)
+        //    {
+        //        _isDead = false;
+
+        //        _deathFadeTimer.ResetTimer(deathFadeTime);
+
+        //        if (_spawnType == SpawnType.Default) { _spawnerManager.DemonKilled(); }
+
+        //        _ragdoll.ToggleRagdoll(false);
+
+        //        MarkForRemoval();
+        //    }
+        //}
     }
     public virtual void OnSpawn(DemonType type, Transform target, SpawnType spawnType)
     {
@@ -193,8 +228,13 @@ public class DemonFramework : MonoBehaviour
         _spawnType = spawnType;
         _type = type;
         _rb.isKinematic = true;
+        _animator.enabled = true;
         _animator.applyRootMotion = true;
         _isRemoved = false;
+        _isDead = false;
+        _isRagdolled = false;
+
+        // reset materials due to dissolve
 
         switch (spawnType)
         {
@@ -228,6 +268,8 @@ public class DemonFramework : MonoBehaviour
 
         PlayAnimation("Death");
         PlaySoundDeath();
+
+        _isDead = true;
     }
     public virtual void OnForcedDeath() { }
     public virtual void OnDespawn() 
@@ -400,7 +442,7 @@ public class DemonFramework : MonoBehaviour
     #region COLLIDER_FUNCTIONS
     protected Collider[] GetAllColliders()
     {
-        return HelperFuntions.AllChildren<Collider>(transform).ToArray();
+        return HelperFuntions.AllChildren<Collider>(transform, true).ToArray();
     }
 
     protected void SetAllColliders(bool active)

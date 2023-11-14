@@ -46,6 +46,10 @@ public class SpawnerManager : MonoBehaviour
     private Timer spawnTimer;
     private Timer endRoundTimer;
 
+    [Header("Sound Players")]
+    [SerializeField] private SoundPlayer OnWaveEnd;
+    [SerializeField] private SoundPlayer OnWaveStart;
+    
     [Header("Spawn Particle")]
     [HideInInspector] public ObjectPooler ParticleSpawner;
 
@@ -121,6 +125,7 @@ public class SpawnerManager : MonoBehaviour
         }
 
         _DemonSpawner.UpdateCallToDemons();
+        _DemonSpawner.UpdatePathfinding();
     }
 
     private void LateUpdate()
@@ -184,11 +189,15 @@ public class SpawnerManager : MonoBehaviour
         demonsToSpawnEachTick = DemonSpawnsEachTick;
 
         _DemonSpawner.DemonQueue = WaveManager.GetDemonToSpawn(maxDemonsToSpawn);
+
+        OnWaveStart.Play();
     }
 
     void WaveEnd()
     {
         roundDisplay.ColourFlash();
+
+        OnWaveEnd.Play();
 
         _DemonSpawner.DemonQueue.Clear();
         currentRound++;

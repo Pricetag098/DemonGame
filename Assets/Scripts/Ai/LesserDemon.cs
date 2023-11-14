@@ -140,8 +140,6 @@ public class LesserDemon : DemonFramework
 
         float dist = DistanceToTargetUnits;
 
-        Debug.Log(dist);
-
         if (dist < _attackRange)
         {
             CurrentAttackStateAnimation();

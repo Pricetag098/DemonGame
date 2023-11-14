@@ -25,6 +25,7 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
     [Range(0,1)] public float pointLoss;
     int deaths;
     [SerializeField] string onDeathText, onRegaintext, onLossText;
+    ResurrectionBuy resurrectionBuy;
     // Start is called before the first frame update
     void Awake()
     {
@@ -35,6 +36,7 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
         body = FindObjectOfType<PlayerBodyInteract>();
         spawnerManager = FindObjectOfType<SpawnerManager>();
         text = canvasGroup.GetComponentInChildren<TextMeshProUGUI>();
+        resurrectionBuy = FindObjectOfType<ResurrectionBuy>();
     }
 
     PlayerBodyInteract body;
@@ -70,8 +72,14 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
             StopAllCoroutines();
             StartCoroutine(DoDie());
             respawnsLeft--;
+            resurrectionBuy.EmissionOn();
+            resurrectionBuy.StartHeadBlink();
+            resurrectionBuy.blinkOn = false;
+            resurrectionBuy.blink = true;
+            resurrectionBuy.doNothing = false;
+            resurrectionBuy.turnOff = false;
         }
-		else
+        else
 		{
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 		}
@@ -85,7 +93,6 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
         text.text = onRegaintext;
         StopAllCoroutines();
         StartCoroutine(DoReturnToBody());
-
     }
 
     IEnumerator DoReturnToBody()

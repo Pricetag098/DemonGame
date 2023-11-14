@@ -178,7 +178,7 @@ Transform:
   - {fileID: 6848390882709000259}
   - {fileID: 373449888103523512}
   m_Father: {fileID: 3566194893443809712}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1851216341644569347
 GameObject:
@@ -294,7 +294,7 @@ Transform:
   - {fileID: 2033359728893726714}
   - {fileID: 3729771022610319178}
   m_Father: {fileID: 3566194893443809712}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2156198622962466783
 GameObject:
@@ -327,7 +327,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3566194893443809712}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5352598173029138644
 MonoBehaviour:
@@ -350,8 +350,17 @@ MonoBehaviour:
   tooExpensiveSound:
     enabled: 1
     val: {fileID: 5802695562672831656}
+  buyLimit: 3
   usedUpMessage: No More Rebirth Stones
   alreadyOwnsMessage: Already Holding a Rebirth Stone
+  maxEmission: 2.5
+  minEmission: 0
+  blinkTime: 2
+  fountainHeads: {fileID: 2768024408268050316}
+  fountain: {fileID: 1851216341644569347}
+  turnOff: 0
+  doNothing: 0
+  blinkOn: 0
 --- !u!136 &1015096192579475016
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -501,7 +510,7 @@ Transform:
   - {fileID: 1714599830028947105}
   - {fileID: 4892178960280479765}
   m_Father: {fileID: 3566194893443809712}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2768024408268050316
 GameObject:
@@ -864,7 +873,7 @@ Transform:
   - {fileID: 2876982152941945536}
   - {fileID: 4760843151907794420}
   m_Father: {fileID: 3566194893443809712}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6468388173545656082
 GameObject:
@@ -1157,11 +1166,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 4398747999604731377}
   - {fileID: 520359504747053375}
   - {fileID: 2170706217052192305}
   - {fileID: 3182390294399024542}
   - {fileID: 9188690399258147058}
-  - {fileID: 4398747999604731377}
   - {fileID: 8663034112682832313}
   m_Father: {fileID: 0}
   m_RootOrder: 0

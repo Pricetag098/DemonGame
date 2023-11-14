@@ -41,15 +41,15 @@ public class LesserDemon : DemonFramework
 
         if(DetectTarget() == false) { return; }
 
-        if(GetDemonInMap == false) { m_obstacle.Detection(); }
+        if(GetDemonInMap == false) { m_obstacle.Detection(); Debug.Log("Looking for wards"); }
 
         SetAnimationVariables();
 
         _aiAgent.LookDirection();
     }
-    public override void OnSpawn(DemonType type, Transform target, SpawnType spawnType)
+    public override void OnSpawn(DemonType type, Transform target, SpawnType spawnType, bool inMap)
     {
-        base.OnSpawn(type, target, spawnType);
+        base.OnSpawn(type, target, spawnType, inMap);
 
         UpdateHealthToCurrentRound(_spawnerManager.currentRound);
 

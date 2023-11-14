@@ -28,7 +28,6 @@ Material:
   m_ValidKeywords:
   - _ALPHATEST_ON
   - _DISABLE_SSR_TRANSPARENT
-  - _DOUBLESIDED_ON
   m_InvalidKeywords:
   - _EMISSIVE_COLOR_MAP
   - _MASKMAP
@@ -175,8 +174,8 @@ Material:
     - _BlendMode: 0
     - _CoatMask: 0
     - _ConservativeDepthOffsetEnable: 0
-    - _CullMode: 0
-    - _CullModeForward: 0
+    - _CullMode: 2
+    - _CullModeForward: 2
     - _Cutoff: 0.5
     - _DepthOffsetEnable: 0
     - _DetailAlbedoScale: 1
@@ -187,7 +186,8 @@ Material:
     - _DisplacementLockObjectScale: 1
     - _DisplacementLockTilingScale: 1
     - _DisplacementMode: 0
-    - _DoubleSidedEnable: 1
+    - _Dissolve_Width: 0.04
+    - _DoubleSidedEnable: 0
     - _DoubleSidedGIMode: 1
     - _DoubleSidedNormalMode: 0
     - _DstBlend: 0
@@ -278,6 +278,8 @@ Material:
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 0.29125136, g: 0.3301887, b: 0.3301887, a: 1}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
+    - _Dissolve_Colour: {r: 8.47419, g: 0.44367486, b: 0, a: 0}
+    - _Dissolve_Scale: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _DoubleSidedConstants: {r: -1, g: -1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColour: {r: 0.6415094, g: 0.048474595, b: 0, a: 1}

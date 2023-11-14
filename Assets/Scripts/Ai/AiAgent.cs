@@ -244,7 +244,9 @@ public class AiAgent : SpatialHashObject
     {
         path.pathLength = navPath.GetCornersNonAlloc(path.corners);
 
-        if(path.pathLength > 1)
+        Debug.Log("Path length: " + path.pathLength);
+
+        if (path.pathLength > 1)
         {
             path.hasPath = true;
             pathIndex = 1;
@@ -288,24 +290,24 @@ public class AiAgent : SpatialHashObject
 
     private void OnDrawGizmosSelected()
     {
-		Gizmos.color = Color.white;
-		if (Objects.Count > 0)
-        Gizmos.DrawRay(transform.position, GetPushForce());
-        Gizmos.color = Color.magenta;
-        if(path.pathLength >0)
-        {
-            for(int i = 0;i< path.pathLength;i++)
-            {
-                Gizmos.DrawWireSphere(path.corners[i], indexChangeDistance);
-            }
-        }
+		//Gizmos.color = Color.white;
+		//if (Objects.Count > 0)
+  //      Gizmos.DrawRay(transform.position, GetPushForce());
+  //      Gizmos.color = Color.magenta;
+  //      if(path.pathLength >0)
+  //      {
+  //          for(int i = 0;i< path.pathLength;i++)
+  //          {
+  //              Gizmos.DrawWireSphere(path.corners[i], indexChangeDistance);
+  //          }
+  //      }
 
-        Gizmos.color = Color.blue;
-		float angle = 360 / scanRays;
-		for (int i = 0; i < scanRays; i++)
-		{
-            Gizmos.DrawRay(transform.position + transform.up * rayHeightOffset, Vector3.ProjectOnPlane(Quaternion.Euler(Vector3.up * angle * i) * transform.forward, transform.up) * scanRadius);
-		}
+  //      Gizmos.color = Color.blue;
+		//float angle = 360 / scanRays;
+		//for (int i = 0; i < scanRays; i++)
+		//{
+  //          Gizmos.DrawRay(transform.position + transform.up * rayHeightOffset, Vector3.ProjectOnPlane(Quaternion.Euler(Vector3.up * angle * i) * transform.forward, transform.up) * scanRadius);
+		//}
 
 	}
 

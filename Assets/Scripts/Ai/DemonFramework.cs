@@ -266,7 +266,7 @@ public class DemonFramework : MonoBehaviour
             }
         }
     }
-    public virtual void OnSpawn(DemonType type, Transform target, SpawnType spawnType)
+    public virtual void OnSpawn(DemonType type, Transform target, SpawnType spawnType, bool inMap)
     {
         _aiAgent.SetFollowSpeed(0);
         CurrentTarget = target;
@@ -278,8 +278,7 @@ public class DemonFramework : MonoBehaviour
         _isRemoved = false;
         _isDead = false;
         _isRagdolled = false;
-
-        // reset materials due to dissolve
+        DemonInMap = inMap;
 
         switch (spawnType)
         {
@@ -332,7 +331,6 @@ public class DemonFramework : MonoBehaviour
                 break;
         }
 
-        //_pooledObject.Despawn();
         MarkForRemoval();
     }
     public virtual void OnForcedDespawn() 

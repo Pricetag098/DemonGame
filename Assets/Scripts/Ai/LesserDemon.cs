@@ -41,7 +41,7 @@ public class LesserDemon : DemonFramework
 
         if(DetectTarget() == false) { return; }
 
-        if(GetDemonInMap == false) { m_obstacle.Detection(); Debug.Log("Looking for wards"); }
+        if(GetDemonInMap == false) { m_obstacle.Detection(); }
 
         SetAnimationVariables();
 

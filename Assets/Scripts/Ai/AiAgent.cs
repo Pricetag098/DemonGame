@@ -244,8 +244,6 @@ public class AiAgent : SpatialHashObject
     {
         path.pathLength = navPath.GetCornersNonAlloc(path.corners);
 
-        Debug.Log("Path length: " + path.pathLength);
-
         if (path.pathLength > 1)
         {
             path.hasPath = true;

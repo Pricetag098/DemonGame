@@ -72,12 +72,6 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
             StopAllCoroutines();
             StartCoroutine(DoDie());
             respawnsLeft--;
-            resurrectionBuy.EmissionOn();
-            resurrectionBuy.StartHeadBlink();
-            resurrectionBuy.blinkOn = false;
-            resurrectionBuy.blink = true;
-            resurrectionBuy.doNothing = false;
-            resurrectionBuy.turnOff = false;
         }
         else
 		{
@@ -93,6 +87,7 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
         text.text = onRegaintext;
         StopAllCoroutines();
         StartCoroutine(DoReturnToBody());
+        resurrectionBuy.EnableEmission();
     }
 
     IEnumerator DoReturnToBody()

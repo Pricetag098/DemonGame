@@ -278,7 +278,6 @@ public class Gun : MonoBehaviour
 				reloadTimer += Time.deltaTime;
 				if (reloadTimer > reloadDuration * holster.stats.reloadTimeMulti)
                 {
-                    Debug.Log(reloadTimer);
                     Reload();
                 }
 				
@@ -469,7 +468,6 @@ public class Gun : MonoBehaviour
             animator.Value.SetFloat(reloadSpeedKey, 1/reloadDuration);
         }
         holster.animator.SetFloat(reloadSpeedKey,1/reloadDuration);
-        Debug.Log(reloadDuration);
         holster.animator.SetTrigger(reloadKey);
         gunState = GunStates.reloading;
         reloadTimer = 0;

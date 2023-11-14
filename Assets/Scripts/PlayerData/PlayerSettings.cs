@@ -6,4 +6,5 @@ public class PlayerSettings
 {
     public float sensitivity = 10;
     public bool holdToSlide = false;
+    public bool toggleSprint = true;
 }

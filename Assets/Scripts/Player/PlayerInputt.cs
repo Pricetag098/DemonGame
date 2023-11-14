@@ -117,6 +117,7 @@ namespace Movement
 
 		}
 		public bool holdToSlide;
+		public bool toggleSprint;
 		// Start is called before the first frame update
 		void Start()
 		{
@@ -195,6 +196,7 @@ namespace Movement
 		}
 
 		bool slideInput;
+		bool sprintInput;
 
 
 		public bool Running()
@@ -224,13 +226,22 @@ namespace Movement
 				if (crouchAction.action.WasPressedThisFrame())
 					slideInput = !slideInput;
 			}
+			if (!toggleSprint)
+			{
+				sprintInput = sprintAction.action.IsPressed();
+			}
+			else
+			{
+				if (sprintAction.action.IsPressed())
+					sprintInput = !sprintInput;
+			}
 			//Different update for each state
 			switch (moveState)
 			{
 				case MoveStates.walk:
 
 					SetCollider(0);
-					if (sprintAction.action.IsPressed() && inputDir.y > 0 && !fireAction.action.IsPressed())
+					if (sprintInput && inputDir.y > 0 && !fireAction.action.IsPressed())
 					{
 						moveState = MoveStates.run;
 						lastCamPos = cam.localPosition;
@@ -251,8 +262,9 @@ namespace Movement
 					break;
 				case MoveStates.run:
 					SetCollider(0);
-					if (!sprintAction.action.IsPressed() || inputDir.y <= 0 || (fireAction.action.IsPressed() && !canSprintAndShoot))
+					if (!sprintInput || inputDir.y <= 0 || (fireAction.action.IsPressed() && !canSprintAndShoot))
 					{
+						sprintInput = false;
 						moveState = MoveStates.walk;
 						lastCamPos = cam.localPosition;
 						targetCamPos = camStandingPos;
@@ -261,6 +273,7 @@ namespace Movement
 					}
 					if (slideInput)
 					{
+						sprintInput = false;
 						moveState = MoveStates.slide;
 						lastCamPos = cam.localPosition;
 						targetCamPos = camCrouchingPos;
@@ -542,12 +555,14 @@ namespace Movement
 		{
 			sensitivity = data.sensitivity;
 			holdToSlide = data.holdToSlide;
+			toggleSprint = data.toggleSprint;
 		}
 
 		void IDataPersistance<PlayerSettings>.SaveData(ref PlayerSettings data)
 		{
 			data.sensitivity = sensitivity;
 			data.holdToSlide = holdToSlide;
+			data.toggleSprint = toggleSprint;	
 		}
 	}
 }

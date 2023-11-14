@@ -30,6 +30,6 @@ public class PlayerBodyInteract : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
-        death.ReturnToBody();
+        death.ReturnToBody(false);
 	}
 }

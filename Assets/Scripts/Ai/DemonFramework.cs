@@ -18,6 +18,8 @@ public class DemonFramework : MonoBehaviour
     /// </summary>
     [Header("SkinnedMeshedRenderer")]
     [SerializeField] protected SkinnedMeshRenderer _skinnedMeshRenderer;
+
+    protected DemonAttachments _attachments;
     #endregion
 
     #region SPAWNING
@@ -58,6 +60,7 @@ public class DemonFramework : MonoBehaviour
     protected bool _isDead;
 
     [SerializeField] private float deathFadeTime;
+    [SerializeField] private float fadeTimeMultiplier;
     private Timer _deathFadeTimer;
     #endregion
 
@@ -154,6 +157,7 @@ public class DemonFramework : MonoBehaviour
         _spawner = FindObjectOfType<DemonSpawner>();
         _spawnerManager = FindObjectOfType<SpawnerManager>();
         _ragdoll = GetComponent<LesserDemonRagdoll>();
+        _attachments = GetComponent<DemonAttachments>();
         _colliders = GetAllColliders();
 
         IdleSoundTimer = new Timer(Random.Range(minTimeInterval, maxTimeInterval));
@@ -195,6 +199,11 @@ public class DemonFramework : MonoBehaviour
             IdleSoundInterval(IdleSoundTimer);
         }
 
+        DeathFade();
+    }
+
+    public void DeathFade()
+    {
         if (_isDead == true)
         {
             if (_isRagdolled == false)
@@ -203,13 +212,28 @@ public class DemonFramework : MonoBehaviour
                 _ragdoll.ToggleRagdoll(true);
 
                 Transform t = transform;
-
                 t.position = t.position + new Vector3(0, -1, 0);
-
                 transform.position = t.position;
             }
 
-            // lerp values
+            float fade = _deathFadeTimer.Time * fadeTimeMultiplier;
+
+            Material[] skinMats = _skinnedMeshRenderer.materials;
+
+            foreach (Material m in skinMats)
+            {
+                m.SetFloat("_AlphaClip", fade);
+            }
+
+            _skinnedMeshRenderer.materials = skinMats;
+
+            foreach(GameObject g in _attachments.ReturnActiveObjects())
+            {
+                if(g.TryGetComponent<MeshRenderer>(out MeshRenderer renderer))
+                {
+                    renderer.material.SetFloat("_AlphaClip", fade);
+                }
+            }
 
             if (_deathFadeTimer.TimeGreaterThan)
             {
@@ -220,6 +244,23 @@ public class DemonFramework : MonoBehaviour
                 if (_spawnType == SpawnType.Default) { _spawnerManager.DemonKilled(); }
 
                 _ragdoll.ToggleRagdoll(false);
+
+                skinMats = _skinnedMeshRenderer.materials;
+
+                foreach (Material m in skinMats)
+                {
+                    m.SetFloat("AlphaClip", 0);
+                }
+
+                _skinnedMeshRenderer.materials = skinMats;
+
+                foreach (GameObject g in _attachments.ReturnActiveObjects())
+                {
+                    if (g.TryGetComponent<MeshRenderer>(out MeshRenderer renderer))
+                    {
+                        renderer.material.SetFloat("_AlphaClip", 0);
+                    }
+                }
 
                 MarkForRemoval();
             }

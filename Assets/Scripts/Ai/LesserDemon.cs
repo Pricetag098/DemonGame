@@ -24,15 +24,12 @@ public class LesserDemon : DemonFramework
     [Header("ObstacleDetection")]
     private DestroyObstacle m_obstacle;
 
-    private DemonAttachments _attachments;
-
     #region OVERRIDE_FUNCTIONS
     public override void OnAwakened()
     {
         base.OnAwakened();
 
         m_obstacle = GetComponent<DestroyObstacle>();
-        _attachments = GetComponent<DemonAttachments>();
     }
     public override void OnStart()
     {
@@ -135,8 +132,6 @@ public class LesserDemon : DemonFramework
         base.DetectTarget();
 
         float dist = DistanceToTargetUnits;
-
-        Debug.Log(dist);
 
         if (dist < _attackRange)
         {

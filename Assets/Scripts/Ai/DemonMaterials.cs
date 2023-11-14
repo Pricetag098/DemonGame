@@ -27,6 +27,7 @@ public class DemonMaterials : MonoBehaviour
 
         Resources.UnloadUnusedAssets();
     }
+
     public static void SetClothMaterial(GameObject obj)
     {
         int num = Random.Range(0, defaultClothMaterials.Length);

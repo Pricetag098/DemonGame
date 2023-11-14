@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DoorBuy : ShopInteractable
 {
     public bool open;
+    [SerializeField] string animationTrigger = "Open";
+    [SerializeField] Optional<UnityEvent> interactEvents;
     [SerializeField] Optional<Animator> doorAnimator;
     [SerializeField] Optional<List<ArcaneLock>> arcaneLock;
 
@@ -60,7 +63,7 @@ public class DoorBuy : ShopInteractable
         GetComponent<Collider>().enabled = false;   
         if (doorAnimator.Enabled)
         {
-            doorAnimator.Value.SetTrigger("Open");
+            doorAnimator.Value.SetTrigger(animationTrigger);
             if (arcaneLock.Enabled)
             {
                 for (int i = 0; i < arcaneLock.Value.Count; i++)
@@ -72,6 +75,10 @@ public class DoorBuy : ShopInteractable
         else
         {
             transform.parent.gameObject.SetActive(false);
+        }
+        if (interactEvents.Enabled)
+        {
+            interactEvents.Value.Invoke();
         }
     }
 

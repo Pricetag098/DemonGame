@@ -18,11 +18,13 @@ public class GlyphSpawning : MonoBehaviour
 
     public void SpawnAbility()
     {
+        DOTween.Kill(this, true);
         DOTween.To(() => dissolveMat.GetFloat("_Alpha_Clip"), x => dissolveMat.SetFloat("_Alpha_Clip", x), 0, dissolveTime);
     }
 
     public void DespawnAbility()
     {
+        DOTween.Kill(this, true);
         DOTween.To(() => dissolveMat.GetFloat("_Alpha_Clip"), x => dissolveMat.SetFloat("_Alpha_Clip", x), 1, dissolveTime);
     }
 }

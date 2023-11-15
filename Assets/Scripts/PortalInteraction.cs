@@ -1,10 +1,5 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
 using Sequence = DG.Tweening.Sequence;
 
 public class PortalInteraction : ShopInteractable
@@ -22,18 +17,23 @@ public class PortalInteraction : ShopInteractable
 	[SerializeField] float animationTime;
     [SerializeField] Ability ability;
 
-	[SerializeField] GlyphSpawning glyphSpawning;
-
     [SerializeField] PortalFrame portalFrame;
 
-	AbilityNotification notification;
+    [SerializeField] GameObject abilityGlyph;
+
+    public float dissolveTime;
+
+    private Material dissolveMat;
+
+    AbilityNotification notification;
 
 	bool hasAbility = false;
 
     private void Awake()
 	{
 		notification = FindObjectOfType<AbilityNotification>();
-		Close(false);
+        dissolveMat = abilityGlyph.GetComponentInChildren<Renderer>().sharedMaterial;
+        Close(false);
 		DOTween.Kill(this, true);
     }
     bool isOpen = true;	
@@ -60,9 +60,10 @@ public class PortalInteraction : ShopInteractable
 		{
             if (isOpen)
                 return; isOpen = true;
+            DOTween.Kill(this, true);
             Sequence open = DOTween.Sequence();
             portalFrame.StopEmissionBlink();
-            glyphSpawning.DespawnAbility();
+            open.Append(DOTween.To(() => dissolveMat.GetFloat("_Alpha_Clip"), x => dissolveMat.SetFloat("_Alpha_Clip", x), 0, dissolveTime));
             open.Append(body.DOScale(Vector3.one * maxPortalSize, openTime)).SetEase(Ease.InSine);
             open.AppendCallback(() => armAnimator.SetTrigger("Out"));
             open.AppendCallback(() => armAnimator.ResetTrigger("In"));
@@ -78,6 +79,7 @@ public class PortalInteraction : ShopInteractable
             if (!isOpen)
                 return; isOpen = false;
             if (has) hasAbility = true;
+            DOTween.Kill(this, true);
             Sequence close = DOTween.Sequence();
             close.AppendCallback(() => idleSound.Stop());
             close.AppendCallback(() => closeSound.Play());
@@ -86,7 +88,7 @@ public class PortalInteraction : ShopInteractable
             close.AppendInterval(animationTime);
             close.Append(body.DOScale(Vector3.one * minPortalSize, openTime)).SetEase(Ease.InSine);
             close.AppendInterval(openTime);
-            close.AppendCallback(() => glyphSpawning.SpawnAbility());
+            close.Append(DOTween.To(() => dissolveMat.GetFloat("_Alpha_Clip"), x => dissolveMat.SetFloat("_Alpha_Clip", x), 1, dissolveTime));
             close.AppendCallback(() => portalFrame.StartEmissionBlink());
         }
     }

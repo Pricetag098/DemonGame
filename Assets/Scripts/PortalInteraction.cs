@@ -26,8 +26,11 @@ public class PortalInteraction : ShopInteractable
 
     [SerializeField] PortalFrame portalFrame;
 
+	AbilityNotification notification;
+
     private void Awake()
 	{
+		notification = FindObjectOfType<AbilityNotification>();
 		Close();
 		DOTween.Kill(this, true);
     }
@@ -39,6 +42,7 @@ public class PortalInteraction : ShopInteractable
 	protected override void DoBuy(Interactor interactor)
 	{
 		interactor.caster.SetAbility(Instantiate(ability.upgradePath.Value.abilities[interactor.caster.upgradeNum]));
+		notification.Notify(ability);
 		Close();
 	}
 

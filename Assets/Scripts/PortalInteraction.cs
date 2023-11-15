@@ -28,10 +28,12 @@ public class PortalInteraction : ShopInteractable
 
 	AbilityNotification notification;
 
+	bool hasAbility = false;
+
     private void Awake()
 	{
 		notification = FindObjectOfType<AbilityNotification>();
-		Close();
+		Close(false);
 		DOTween.Kill(this, true);
     }
     bool isOpen = true;	
@@ -43,44 +45,49 @@ public class PortalInteraction : ShopInteractable
 	{
 		interactor.caster.SetAbility(Instantiate(ability.upgradePath.Value.abilities[interactor.caster.upgradeNum]));
 		notification.Notify(ability);
-		Close();
+		Close(true);
 	}
 
 	public override void StartHover(Interactor interactor)
 	{
 		base.StartHover(interactor);
-		Ability a = ability;
 		interactor.display.DisplayMessage(true, buyMessage + " " + ability.abilityName + " ", "[Cost: " + GetCost(interactor).ToString() + "]");
-
 	}
 
 	public void Open()
     {
-		if (isOpen)
-			return; isOpen = true;
-		Sequence open = DOTween.Sequence();
-		portalFrame.StopEmissionBlink();
-		glyphSpawning.DespawnAbility();
-        open.Append(body.DOScale(Vector3.one * maxPortalSize, openTime)).SetEase(Ease.InSine);
-        open.AppendCallback(() => armAnimator.SetTrigger("Out"));
-		open.AppendCallback(() => armAnimator.ResetTrigger("In"));
-		open.AppendCallback(() => openSound.Play());
-		open.AppendCallback(() => idleSound.Play());
+		if (!hasAbility)
+		{
+            if (isOpen)
+                return; isOpen = true;
+            Sequence open = DOTween.Sequence();
+            portalFrame.StopEmissionBlink();
+            glyphSpawning.DespawnAbility();
+            open.Append(body.DOScale(Vector3.one * maxPortalSize, openTime)).SetEase(Ease.InSine);
+            open.AppendCallback(() => armAnimator.SetTrigger("Out"));
+            open.AppendCallback(() => armAnimator.ResetTrigger("In"));
+            open.AppendCallback(() => openSound.Play());
+            open.AppendCallback(() => idleSound.Play());
+        }
     }
 
-    public void Close()
+    public void Close(bool has)
     {
-		if(!isOpen)
-			return; isOpen = false;
-		Sequence close = DOTween.Sequence();
-		close.AppendCallback(() => idleSound.Stop());
-		close.AppendCallback(() => closeSound.Play());
-		close.AppendCallback(() => armAnimator.SetTrigger("In"));
-		close.AppendCallback(() => armAnimator.ResetTrigger("Out"));
-		close.AppendInterval(animationTime);
-		close.Append(body.DOScale(Vector3.one * minPortalSize, openTime)).SetEase(Ease.InSine);
-        close.AppendInterval(openTime);
-        close.AppendCallback(() => glyphSpawning.SpawnAbility());
-        close.AppendCallback(() => portalFrame.StartEmissionBlink());
+		if (!hasAbility)
+		{
+            if (!isOpen)
+                return; isOpen = false;
+            if (has) hasAbility = true;
+            Sequence close = DOTween.Sequence();
+            close.AppendCallback(() => idleSound.Stop());
+            close.AppendCallback(() => closeSound.Play());
+            close.AppendCallback(() => armAnimator.SetTrigger("In"));
+            close.AppendCallback(() => armAnimator.ResetTrigger("Out"));
+            close.AppendInterval(animationTime);
+            close.Append(body.DOScale(Vector3.one * minPortalSize, openTime)).SetEase(Ease.InSine);
+            close.AppendInterval(openTime);
+            close.AppendCallback(() => glyphSpawning.SpawnAbility());
+            close.AppendCallback(() => portalFrame.StartEmissionBlink());
+        }
     }
 }

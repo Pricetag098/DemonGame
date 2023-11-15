@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class GrantPointsOnDeath : MonoBehaviour
 {
-    public static float gainMod = 1;
+    public static float gunGainMod = 1;
+    public static float abilityGainMod = 1;
     PlayerStats playerStats;
     public int points;
 
@@ -17,6 +18,13 @@ public class GrantPointsOnDeath : MonoBehaviour
 
     void AddPointsDeath()
 	{
-        playerStats.GainPoints((int)(points * gainMod));
+        
+        playerStats.GainPoints((int)(points * gunGainMod));
 	}
+}
+
+public enum HitType
+{
+    gun,
+    ability
 }

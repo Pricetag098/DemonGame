@@ -73,7 +73,7 @@ public class BloodSpikeAbility : Ability
 				if (!healths.Contains(hb.health))
 				{
 					healths.Add(hb.health);
-					hb.health.TakeDmg(distanceDamage.Evaluate(distance/range) * caster.DamageMulti);
+					hb.health.TakeDmg(distanceDamage.Evaluate(distance/range) * caster.DamageMulti, HitType.ABILITY);
 					OnHit(hb.health);
 				}
 			}

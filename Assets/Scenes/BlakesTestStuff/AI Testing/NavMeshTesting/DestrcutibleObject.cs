@@ -100,7 +100,7 @@ public class DestrcutibleObject : Interactable
     public override void StartHover(Interactor interactor)
     {
         base.StartHover(interactor);
-        if(Health < maxHealth) interactor.display.DisplayMessage(true, interactMessage);
+        if(Health < maxHealth) interactor.display.DisplayMessage(true, interactMessage, null);
 
         InteractionHandler = interactor;
     }

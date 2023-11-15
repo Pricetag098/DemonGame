@@ -19,6 +19,6 @@ public class SoulBoxInteractable : Interactable
     public override void StartHover(Interactor interactor)
     {
         base.StartHover(interactor);
-        if (soulBox.active == false) { interactor.display.DisplayMessage(true, activateMessage); }
+        if (soulBox.active == false) { interactor.display.DisplayMessage(true, activateMessage, null); }
     }
 }

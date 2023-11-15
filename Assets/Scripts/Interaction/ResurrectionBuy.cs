@@ -79,15 +79,15 @@ public class ResurrectionBuy : ShopInteractable
 
         if (buys >= buyLimit)
         {
-            interactor.display.DisplayMessage(false, usedUpMessage);
+            interactor.display.DisplayMessage(false, usedUpMessage, null);
         }
         else if (playerDeath.respawnsLeft > 0)
         {
-            interactor.display.DisplayMessage(false, alreadyOwnsMessage);
+            interactor.display.DisplayMessage(false, alreadyOwnsMessage, null);
         }
         else
         {
-            interactor.display.DisplayMessage(true, buyMessage + ": " + Cost);
+            interactor.display.DisplayMessage(true, buyMessage + ": ", Cost.ToString());
         }
     }
 

@@ -56,7 +56,7 @@ public class Smite : MonoBehaviour
 					if (!healths.Contains(hb.health))
 					{
 						healths.Add(hb.health);
-						hb.health.TakeDmg(damage);
+						hb.health.TakeDmg(damage, HitType.ABILITY);
 						
 					}
 				}

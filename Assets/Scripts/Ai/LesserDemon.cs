@@ -110,7 +110,7 @@ public class LesserDemon : DemonFramework
 
         if (Vector3.Distance(target.position, transform.position) < _attackRange)
         {
-            target.GetComponent<Health>().TakeDmg(_damage);
+            target.GetComponent<Health>().TakeDmg(_damage, HitType.Null);
             if (target.TryGetComponent<DamageIndicator>(out DamageIndicator damageIndicator))
             {
                 damageIndicator.Indicate(transform);

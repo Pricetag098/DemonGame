@@ -374,7 +374,7 @@ public class Gun : MonoBehaviour
                             float damage = GetDamage(hitBox.bodyPart) * damageMulti * holster.stats.damageMulti;
 
                             healths.Add(hitBox.health);
-                            hitBox.OnHit(damage);
+                            hitBox.OnHit(damage, HitType.GUN);
                             holster.stats.GainPoints(GetPoints(hitBox.bodyPart));
                             holster.OnHit(damage, hitBox);
                         }

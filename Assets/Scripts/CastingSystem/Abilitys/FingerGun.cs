@@ -61,7 +61,7 @@ public class FingerGun : Ability
 
 		if(health.health / health.maxHealth < executePercent)
 		{
-			health.TakeDmg(float.PositiveInfinity);
+			health.TakeDmg(float.PositiveInfinity, HitType.ABILITY);
 			if(health.TryGetComponent(out VfxTargets target))
 			{
 				executeFx.Play(target.origin.position, target.origin.forward);

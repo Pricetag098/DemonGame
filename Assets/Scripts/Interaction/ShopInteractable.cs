@@ -57,7 +57,7 @@ public class ShopInteractable : Interactable
 	public override void StartHover(Interactor interactor)
 	{
 		base.StartHover(interactor);
-		interactor.display.DisplayMessage(true,buyMessage + ": " + GetCost(interactor));
+		interactor.display.DisplayMessage(true, buyMessage + " ", "[Cost: " + GetCost(interactor).ToString() + "]" );
 	}
 	protected virtual string GetBuyMessage(Interactor interactor)
 	{

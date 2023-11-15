@@ -5,7 +5,7 @@ using UnityEngine;
 public class GrantPointsOnDeath : MonoBehaviour
 {
     public static float gunGainMod = 1;
-    public static float abilityGainMod = 1;
+    public static float abilityGainMod = 0.5f;
     PlayerStats playerStats;
     public int points;
 
@@ -13,18 +13,22 @@ public class GrantPointsOnDeath : MonoBehaviour
     void Awake()
     {
         playerStats = FindObjectOfType<PlayerStats>();
-        GetComponent<Health>().OnDeath += AddPointsDeath;
+        //GetComponent<Health>().OnDeath += AddPointsDeath;
     }
 
-    void AddPointsDeath()
+    public void AddPointsDeathGun()
 	{
-        
         playerStats.GainPoints((int)(points * gunGainMod));
 	}
+    public void AddPointsDeathAbility()
+    {
+        playerStats.GainPoints((int)(points * abilityGainMod));
+    }
 }
 
 public enum HitType
 {
-    gun,
-    ability
+    Null,
+    GUN,
+    ABILITY
 }

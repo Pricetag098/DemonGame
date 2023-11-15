@@ -425,7 +425,6 @@ public class Gun : MonoBehaviour
             recoil = maxAmmo;
         timeSinceLastShot = 0;
         shootSound.Play();
-
         holster.animator.SetTrigger(shootKey);
         holster.animator.SetFloat(shootspeedKey,1/ fireTimer);
         if (animator.Enabled)

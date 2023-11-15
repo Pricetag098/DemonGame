@@ -15,6 +15,7 @@ public class Ability : ScriptableObject
 	public int tier = 0;
 	public int abilitySlot;
 	public int fontReference;
+	public float killPointMod;
 
 	public float drawTime = 1,holsterTime = 1;
 

@@ -32,7 +32,7 @@ public class PerkUpgrade : Interactable
     public override void StartHover(Interactor interactor)
     {
         base.StartHover(interactor);
-        interactor.display.DisplayMessage(false, interactMessage);
+        interactor.display.DisplayMessage(false, interactMessage, null);
     }
 
     public override void EndHover(Interactor interactor)

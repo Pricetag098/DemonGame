@@ -29,7 +29,7 @@ public class AbilityUpgrade : ShopInteractable
     {
         Ability current = interactor.caster.ActiveAbility;
         base.StartHover(interactor);
-        interactor.display.DisplayMessage(true, buyMessage + ": " + GetCost(interactor));
+        interactor.display.DisplayMessage(true, buyMessage + " ", "[Cost: " + GetCost(interactor).ToString() + "]" );
 
     }
 

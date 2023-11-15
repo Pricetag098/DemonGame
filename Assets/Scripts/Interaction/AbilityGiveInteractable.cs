@@ -26,7 +26,7 @@ public class AbilityGiveInteractable : Interactable
 	public override void StartHover(Interactor interactor)
 	{
 		base.StartHover(interactor);
-		interactor.display.DisplayMessage(true, grabText + ability.abilityName);
+		interactor.display.DisplayMessage(true, grabText + ability.abilityName, null);
 
 	}
 

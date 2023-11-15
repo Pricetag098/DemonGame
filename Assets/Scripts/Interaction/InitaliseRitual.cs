@@ -47,7 +47,7 @@ public class InitaliseRitual : Interactable
         base.StartHover(interactor);
         if(spawner.ritualComplete == false && spawner.RitualActive == false)
         {
-            interactor.display.DisplayMessage(true, activateMessage);
+            interactor.display.DisplayMessage(true, activateMessage, null);
         }
     }
 }

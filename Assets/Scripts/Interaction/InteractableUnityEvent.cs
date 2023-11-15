@@ -18,7 +18,7 @@ public class InteractableUnityEvent : Interactable
 		base.StartHover(interactor);
 		if (hasInteractMessage)
 		{
-			interactor.display.DisplayMessage(false, interactMessage);
+			interactor.display.DisplayMessage(false, interactMessage, null);
 		}
 	}
 	public override void EndHover(Interactor interactor)

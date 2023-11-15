@@ -21,11 +21,11 @@ public class GunUpgrade : ShopInteractable
         base.StartHover(interactor);
         if(CanBuy(interactor))
         {
-			interactor.display.DisplayMessage(true, buyMessage + " " + heldGun.gunName + ": " + GetCost(interactor));
+			interactor.display.DisplayMessage(true, buyMessage + " " + heldGun.gunName + " ", "Cost: " + GetCost(interactor).ToString() + "]");
         }
         else
         {
-            interactor.display.DisplayMessage(false, maxUpgradeText);
+            interactor.display.DisplayMessage(false, maxUpgradeText, null);
 
 		}
         

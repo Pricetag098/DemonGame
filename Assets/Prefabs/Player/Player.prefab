@@ -15347,6 +15347,7 @@ GameObject:
   - component: {fileID: 7953531323786687850}
   - component: {fileID: 8011163011684349001}
   - component: {fileID: 9216910861138493697}
+  - component: {fileID: 6076085686433482335}
   m_Layer: 3
   m_Name: LeftArmRigged
   m_TagString: Untagged
@@ -15404,6 +15405,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bloodKnife: {fileID: 1174936960101407885}
+--- !u!114 &6076085686433482335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8290423319771402501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7c1fe8e27842c44ebe6026ee152907c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dissolveTime: 0.25
+  moveTime: 0.1
+  returnTime: 0.05
+  unEquipPos: {x: -0.1172, y: 0.026, z: 0.1441}
+  equipPos: {x: -0.156, y: 0.026, z: 0.097}
+  sword: {fileID: 4773617365744980904}
 --- !u!1 &8333250467422227591
 GameObject:
   m_ObjectHideFlags: 0
@@ -17674,6 +17693,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44ed3837ef06b234d8202dd11111ac35, type: 3}
+--- !u!1 &4773617365744980904 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3349595813187947822, guid: 44ed3837ef06b234d8202dd11111ac35, type: 3}
+  m_PrefabInstance: {fileID: 7801197825456971398}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4773617365744980907 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3349595813187947821, guid: 44ed3837ef06b234d8202dd11111ac35, type: 3}

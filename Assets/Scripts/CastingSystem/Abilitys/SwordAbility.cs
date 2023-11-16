@@ -58,11 +58,11 @@ public class SwordAbility : Ability
 				}
 			}
 		}
-			
-		
-	}
+        caster.animator.ResetTrigger("Cast");
+        caster.animator.SetTrigger("Cast");
+    }
 
-	public override void Tick()
+    public override void Tick()
 	{
 		timer += Time.deltaTime;
 

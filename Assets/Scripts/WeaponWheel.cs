@@ -35,10 +35,9 @@ public class WeaponWheel : MonoBehaviour
 
     PlayerInputt playerInput;
 
-    public Image wheelBorder;
     public Image wheelInner;
-    public Sprite[] wheelBorderIcons;
-    public Sprite[] wheelInnerIcons;
+    public GameObject[] wheelIcons;
+    GameObject currentWheel;
 
     float kickoutTimer;
 
@@ -51,6 +50,9 @@ public class WeaponWheel : MonoBehaviour
         Close(openTime);
         tabAction.action.performed += Open;
         kickoutTimer = timeUntilKickout *  timeScale;
+
+        currentWheel = wheelIcons[0];
+        currentWheel.SetActive(true);
     }
 
     public void AbilitySelected(Ability ability)
@@ -154,8 +156,14 @@ public class WeaponWheel : MonoBehaviour
 
     public void UpdateWheel(int tier)
     {
-        wheelBorder.sprite = wheelBorderIcons[tier];
-        wheelInner.sprite = wheelInnerIcons[tier];
+        currentWheel.gameObject.SetActive(false);
+        currentWheel = wheelIcons[tier];
+        currentWheel.SetActive(true);
+
+        for (int i = 0; i < abilitySlots.Count; i++)
+        {
+            abilitySlots[i].ability = abilitySlots[i].ability.upgradePath.Value.abilities[tier];
+        }
     }
 
     public void FindTarget()

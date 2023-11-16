@@ -17,11 +17,13 @@ public class BloodVolleyStuff : MonoBehaviour
 
     public void CastVolley()
     {
-        vfx.Play();
+        bloodVolley.SetActive(true);
+        vfx.Reinit();
     }
 
     public void WithdrawVolley()
     {
         vfx.Stop();
+        bloodVolley.SetActive(false);
     }
 }

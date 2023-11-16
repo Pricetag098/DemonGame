@@ -15,12 +15,15 @@ public class SwordStuff : MonoBehaviour
 
     Vector3 originalPos;
     Material dissolve;
+    TrailRenderer trailRenderer;
 
     private void Awake()
     {
         originalPos = sword.transform.localPosition;
         dissolve = sword.GetComponentInChildren<Renderer>().sharedMaterial;
+        trailRenderer = sword.GetComponentInChildren<TrailRenderer>();
         dissolve.SetFloat("_Alpha_Clip", 1);
+        trailRenderer.enabled = false;
     }
 
     public void Equip()
@@ -28,7 +31,7 @@ public class SwordStuff : MonoBehaviour
         sword.SetActive(true);
         sword.transform.localPosition = equipPos;
         Sequence equip = DOTween.Sequence();
-        equip.Append(DOTween.To(() => dissolve.GetFloat("_Alpha_Clip"), x => dissolve.SetFloat("_Alpha_Clip", x), 0, dissolveTime));
+        equip.Append(DOTween.To(() => dissolve.GetFloat("_Alpha_Clip"), x => dissolve.SetFloat("_Alpha_Clip", x), -1, dissolveTime));
         equip.Append(sword.transform.DOLocalMove(originalPos, returnTime));
     }
 
@@ -40,5 +43,15 @@ public class SwordStuff : MonoBehaviour
         unEquip.AppendInterval(dissolveTime);
         unEquip.AppendCallback(() => sword.transform.localPosition = originalPos);
         unEquip.AppendCallback(() => sword.SetActive(false));
+    }
+
+    public void TrailOn()
+    {
+        trailRenderer.enabled = true;
+    }
+
+    public void TrailOff()
+    {
+        trailRenderer.enabled = false;
     }
 }

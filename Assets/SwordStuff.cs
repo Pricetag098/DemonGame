@@ -26,7 +26,7 @@ public class SwordStuff : MonoBehaviour
         trailRenderer.enabled = false;
     }
 
-    public void Equip()
+    public void EquipSword()
     {
         sword.SetActive(true);
         sword.transform.localPosition = equipPos;
@@ -35,7 +35,7 @@ public class SwordStuff : MonoBehaviour
         equip.Append(sword.transform.DOLocalMove(originalPos, returnTime));
     }
 
-    public void UnEquip()
+    public void UnEquipSword()
     {
         Sequence unEquip = DOTween.Sequence();
         unEquip.Append(sword.transform.DOLocalMove(unEquipPos, moveTime));

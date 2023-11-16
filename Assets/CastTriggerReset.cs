@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class CastTriggerReset : StateMachineBehaviour
 {
-    public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        base.OnStateExit(animator, stateInfo, layerIndex);
+        base.OnStateEnter(animator, stateInfo, layerIndex);
 
         animator.ResetTrigger("Cast");
     }

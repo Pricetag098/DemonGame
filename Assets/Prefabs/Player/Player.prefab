@@ -3591,6 +3591,7 @@ Transform:
   - {fileID: 4530771686676544069}
   - {fileID: 840753426443261518}
   - {fileID: 4773617365744980907}
+  - {fileID: 7762302864106856590}
   m_Father: {fileID: 2575861227769535325}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -15348,6 +15349,7 @@ GameObject:
   - component: {fileID: 8011163011684349001}
   - component: {fileID: 9216910861138493697}
   - component: {fileID: 6076085686433482335}
+  - component: {fileID: 3070146203482783267}
   m_Layer: 3
   m_Name: LeftArmRigged
   m_TagString: Untagged
@@ -15423,6 +15425,19 @@ MonoBehaviour:
   unEquipPos: {x: -0.1172, y: 0.026, z: 0.1441}
   equipPos: {x: -0.156, y: 0.026, z: 0.097}
   sword: {fileID: 4773617365744980904}
+--- !u!114 &3070146203482783267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8290423319771402501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e73c68e4e479262409c6366c81b29d21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bloodVolley: {fileID: 0}
 --- !u!1 &8333250467422227591
 GameObject:
   m_ObjectHideFlags: 0
@@ -17702,4 +17717,46 @@ GameObject:
 Transform:
   m_CorrespondingSourceObject: {fileID: 3349595813187947821, guid: 44ed3837ef06b234d8202dd11111ac35, type: 3}
   m_PrefabInstance: {fileID: 7801197825456971398}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7989068712016149645
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1569861178821642491}
+    m_Modifications:
+    - target: {fileID: 389529475487816707, guid: 5d3bf29c079c0184894a1346e5ba1536, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 389529475487816707, guid: 5d3bf29c079c0184894a1346e5ba1536, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 389529475487816707, guid: 5d3bf29c079c0184894a1346e5ba1536, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -30
+      objectReference: {fileID: 0}
+    - target: {fileID: 389529475487816707, guid: 5d3bf29c079c0184894a1346e5ba1536, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5663257974248696066, guid: 5d3bf29c079c0184894a1346e5ba1536, type: 3}
+      propertyPath: m_Name
+      value: BloodVolleyVFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 5663257974248696066, guid: 5d3bf29c079c0184894a1346e5ba1536, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7768972580411535996, guid: 5d3bf29c079c0184894a1346e5ba1536, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5d3bf29c079c0184894a1346e5ba1536, type: 3}
+--- !u!4 &7762302864106856590 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 389529475487816707, guid: 5d3bf29c079c0184894a1346e5ba1536, type: 3}
+  m_PrefabInstance: {fileID: 7989068712016149645}
   m_PrefabAsset: {fileID: 0}

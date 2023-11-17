@@ -108,6 +108,7 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
             case State.holstering:
                 if(timer < 0)
                 {
+                    ActiveAbility.EndSelect();
                     activeIndex = newActiveIndex;
                     caster.animator.runtimeAnimatorController = ActiveAbility.controller;
 
@@ -119,7 +120,7 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
                 if(timer< 0)
                 {
                     state = State.normal;
-                    ActiveAbility.Select();
+                    ActiveAbility.EndSelect();
                 }
                 break;
             case State.replacing:
@@ -224,6 +225,7 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
             previousActiveIndex = activeIndex;
             newActiveIndex = index;
 			HolsterAbility();
+            
 		}
         
     }
@@ -232,7 +234,7 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
     public void SetAbility(Ability ability)
     {
         caster.SetAbility(ability.abilitySlot, ability);
-        HolsterAbility();
+        SelectAbility(ability.abilitySlot);
         newActiveIndex = ability.abilitySlot;
         /*        for(int i = 0; i < caster.abilities.Length; i++)
                 {
@@ -275,7 +277,7 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
     {
         replacingAbility = ability;
         state = State.replacing;
-		ActiveAbility.DeSelect();
+		ActiveAbility.StartDeSelect();
 		caster.animator.SetFloat("UnEquipSpeed", 1 / ActiveAbility.holsterTime);
 		caster.animator.SetTrigger("Unequip");
 		timer = ActiveAbility.holsterTime;
@@ -285,7 +287,7 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
     void DrawAbility()
     {
         state = State.drawing;
-
+        ActiveAbility.StartSelect();
         caster.animator.SetFloat("EquipSpeed", 1 / ActiveAbility.drawTime);
         timer = ActiveAbility.drawTime;
     }
@@ -293,7 +295,7 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
     void HolsterAbility()
     {
         state = State.holstering;
-        ActiveAbility.DeSelect();
+        ActiveAbility.StartDeSelect();
         caster.animator.SetFloat("UnEquipSpeed", 1 / ActiveAbility.holsterTime);
         caster.animator.SetTrigger("Unequip");
         timer = ActiveAbility.holsterTime;

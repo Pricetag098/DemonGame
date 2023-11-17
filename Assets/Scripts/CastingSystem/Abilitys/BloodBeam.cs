@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class BloodBeam : Ability
     [SerializeField] float damage;
 	[SerializeField] int points;
 	[SerializeField] float pointFrequency;
+	[SerializeField] float vfxWaitTime;
 	float pointTimer;
     [SerializeField] float maxRange;
 	[SerializeField] float radius;
@@ -27,18 +29,17 @@ public class BloodBeam : Ability
 	public override void Cast(Vector3 origin, Vector3 direction)
 	{
 		if (!startedCasting)
-		{
-			foreach(LineRenderer lr in lineRenderers)
-			{
-				lr.enabled = true;
-			}
-			startedCasting = true;
-			sound.Play();
-			caster.animator.SetTrigger("Cast");
-			caster.animator.SetBool("Held", true);
-		}
+        {
+            Sequence wait = DOTween.Sequence();
+			wait.AppendInterval(vfxWaitTime);
+			wait.AppendCallback(() => EnableLineRenderer(true));
+            startedCasting = true;
+            sound.Play();
+            caster.animator.SetTrigger("Cast");
+            caster.animator.SetBool("Held", true);
+        }
 
-		float range = maxRange;
+        float range = maxRange;
 		pointTimer += Time.deltaTime;
 		RaycastHit wallHit;
 		Vector3 end = origin + direction * maxRange;
@@ -89,7 +90,15 @@ public class BloodBeam : Ability
 		held = true;
 	}
 
-	public override void Tick()
+    private void EnableLineRenderer(bool enabled)
+    {
+        foreach (LineRenderer lr in lineRenderers)
+        {
+            lr.enabled = enabled;
+        }
+    }
+
+    public override void Tick()
 	{
 		if (!held)
 		{
@@ -99,10 +108,7 @@ public class BloodBeam : Ability
 			}
 			sound.Stop();
 			startedCasting = false;
-            foreach (LineRenderer lr in lineRenderers)
-            {
-                lr.enabled = false;
-            }
+			EnableLineRenderer(false);
 
         }
 		held = false;

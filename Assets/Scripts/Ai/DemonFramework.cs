@@ -121,6 +121,7 @@ public class DemonFramework : MonoBehaviour
     #region SOUNDS
     [Header("Demon Sounds")]
     [SerializeField] SoundPlayer _soundPlayerIdle;
+    [SerializeField] SoundPlayer _soundPlayerWhileMoving;
     [SerializeField] SoundPlayer _soundPlayerAttack;
     [SerializeField] SoundPlayer _soundPlayerAttackAmbience;
     [SerializeField] SoundPlayer _soundPlayerHit;
@@ -131,6 +132,11 @@ public class DemonFramework : MonoBehaviour
     [Header("Idle Sound")]
     [SerializeField] float minTimeInterval;
     [SerializeField] float maxTimeInterval;
+
+    private Timer WhileMovingSoundTimer;
+    [Header("While-Moving Sound")]
+    [SerializeField] float whileMovingMinTimeInterval;
+    [SerializeField] float whileMovingMaxTimeInterval;
     #endregion
 
     #region AI
@@ -161,6 +167,7 @@ public class DemonFramework : MonoBehaviour
         _colliders = GetAllColliders();
 
         IdleSoundTimer = new Timer(Random.Range(minTimeInterval, maxTimeInterval));
+        WhileMovingSoundTimer = new Timer(Random.Range(whileMovingMinTimeInterval, whileMovingMaxTimeInterval));
         _deathFadeTimer = new Timer(deathFadeTime);
 
         OnAwakened();
@@ -197,6 +204,11 @@ public class DemonFramework : MonoBehaviour
         if (IdleSoundTimer.TimeGreaterThan)
         {
             IdleSoundInterval(IdleSoundTimer);
+            
+        }
+        if (WhileMovingSoundTimer.TimeGreaterThan)
+        {
+            WhileMovingSoundInterval(WhileMovingSoundTimer);
         }
 
         DeathFade();
@@ -463,6 +475,8 @@ public class DemonFramework : MonoBehaviour
     #region SOUND_FUNCTIONS
     public void PlaySoundIdle() { _soundPlayerIdle.Play(); }
 
+    public void PlaySoundWhileMoving() { _soundPlayerWhileMoving.Play(); }
+
     public void PlaySoundAttack() { _soundPlayerAttack.Play(); }
 
     public void PlaySoundAttackAmbience() { _soundPlayerAttackAmbience.Play(); }
@@ -477,6 +491,12 @@ public class DemonFramework : MonoBehaviour
     {
         timer.ResetTimer(Random.Range(minTimeInterval, maxTimeInterval));
         PlaySoundIdle();
+    }
+
+    public void WhileMovingSoundInterval(Timer timer)
+    {
+        timer.ResetTimer(Random.Range(whileMovingMinTimeInterval, whileMovingMaxTimeInterval));
+        PlaySoundWhileMoving();
     }
     #endregion
 

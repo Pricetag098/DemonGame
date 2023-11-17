@@ -26,7 +26,7 @@ public class SwordAbility : Ability
 	{
 		if (timer < cooldown)
 		{
-
+			//was going to do something here come back later
 		}
 		else
 		{
@@ -73,4 +73,20 @@ public class SwordAbility : Ability
 		if (caster.playerStats.Enabled)
 			caster.playerStats.Value.GainPoints(points);
 	}
+
+    public override void StartSelect()
+    {
+		//Enable sword
+        //Animate sword in
+    }
+
+    public override void StartDeSelect()
+    {
+        //Animate sword out
+    }
+
+    public override void EndDeSelect()
+    {
+        //Disable Sword
+    }
 }

@@ -58,25 +58,26 @@ public class Ability : ScriptableObject
     {
 
     }
-
-	public void Select()
+	public virtual void EndSelect()
 	{
 
 	}
-	protected virtual void OnSelect()
+	
+	public virtual void StartSelect()
 	{
 
 	}
 
-    public void DeSelect()
+    
+    public virtual void EndDeSelect()
     {
 
     }
-    protected virtual void DeOnSelect()
-    {
 
-    }
+	public virtual void StartDeSelect()
+	{
 
+	}
 	public virtual void OnHit(Health health)
 	{
 

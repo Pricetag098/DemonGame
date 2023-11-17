@@ -23,9 +23,11 @@ public class WeaponInfo : MonoBehaviour
     [SerializeField] Color defaultColour;
     [SerializeField] Color noAmmoColour;
 
+    bool displayOpen;
     private void Awake()
     {
         holster = FindObjectOfType<Holster>();
+        displayOpen = noAmmoNotificaiton.alpha == 1;
     }
 
     void Update()
@@ -52,11 +54,21 @@ public class WeaponInfo : MonoBehaviour
         if (holster.HeldGun.ammoLeft == 0 && holster.HeldGun.stash == 0)
         {
             dividerText.color = noAmmoColour;
-            noAmmoNotificationTween(1);
+            if (!displayOpen)
+            {
+                noAmmoNotificationTween(1);
+                displayOpen = true;
+            }
+            
         }
         else
         {
-            noAmmoNotificationTween(0);
+            if(displayOpen)
+            {
+                noAmmoNotificationTween(0);
+                displayOpen = false;
+            }
+            
         }
     }
 

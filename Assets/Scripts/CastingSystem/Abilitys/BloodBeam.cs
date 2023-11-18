@@ -10,6 +10,7 @@ public class BloodBeam : Ability
 	[SerializeField] int points;
 	[SerializeField] float pointFrequency;
 	[SerializeField] float vfxWaitTime;
+	[SerializeField] VfxSpawnRequest endRequest;
 	float pointTimer;
     [SerializeField] float maxRange;
 	[SerializeField] float radius;
@@ -19,6 +20,8 @@ public class BloodBeam : Ability
 	[SerializeField] LayerMask wallLayer;
 
 	bool held,startedCasting;
+	GameObject endVFX;
+
 	protected override void OnEquip()
 	{
 		GameObject go = Instantiate(prefab);
@@ -33,6 +36,7 @@ public class BloodBeam : Ability
             Sequence wait = DOTween.Sequence();
 			wait.AppendInterval(vfxWaitTime);
 			wait.AppendCallback(() => EnableLineRenderer(true));
+			wait.AppendCallback(() => endVFX = endRequest.PlayReturn(Vector3.zero, caster.transform.forward, Vector3.one).gameObject);
             startedCasting = true;
             sound.Play();
             caster.animator.SetTrigger("Cast");
@@ -82,9 +86,14 @@ public class BloodBeam : Ability
             lr.SetPosition(0, caster.castOrigin.position);
             lr.SetPosition(1, end);
 			lr.material.SetFloat("_BeamSize", range);
+			if (endVFX)
+			{
+                endVFX.transform.position = end;
+                endVFX.transform.LookAt(caster.transform);
+            }
         }
-        
-		caster.RemoveBlood(bloodCost * Time.deltaTime);
+
+        caster.RemoveBlood(bloodCost * Time.deltaTime);
 		
 
 		held = true;
@@ -105,11 +114,11 @@ public class BloodBeam : Ability
 			if (startedCasting)
 			{
 				caster.animator.SetBool("Held", false);
-			}
-			sound.Stop();
+                endVFX.GetComponent<PooledObject>().Despawn();
+            }
+            sound.Stop();
 			startedCasting = false;
 			EnableLineRenderer(false);
-
         }
 		held = false;
 	}

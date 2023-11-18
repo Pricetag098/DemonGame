@@ -79,15 +79,20 @@ public class SwordAbility : Ability
 		//Enable sword
         //Animate sword in
     }
+    public override void EndSelect()
+    {
+        //enable trail
+    }
 
     public override void StartDeSelect()
     {
         //Animate sword out
+		//disable trail
     }
 
     public override void EndDeSelect()
     {
         //Disable Sword
-		//test
+		
     }
 }

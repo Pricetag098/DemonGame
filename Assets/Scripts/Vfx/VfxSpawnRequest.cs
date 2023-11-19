@@ -16,4 +16,9 @@ public class VfxSpawnRequest : ScriptableObject
 	{
 		VfxSpawner.SpawnVfx(this, point, dir,scale);
 	}
+
+    public VfxObject PlayReturn(Vector3 point, Vector3 dir, Vector3 scale)
+    {
+        return VfxSpawner.SpawnVfx(this, point, dir, scale);
+    }
 }

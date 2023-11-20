@@ -115,6 +115,9 @@ public class AiAgent : SpatialHashObject
             lastRotation = result;
             transform.forward = result;
 
+            Quaternion rot = transform.rotation;
+
+            transform.rotation = new Quaternion(0, rot.y, 0, rot.w);
         }
         else
         {

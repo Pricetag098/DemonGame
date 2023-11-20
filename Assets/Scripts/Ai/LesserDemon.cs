@@ -56,7 +56,8 @@ public class LesserDemon : DemonFramework
 
         if (SampleNavmeshPosition() == false && _isDead == false)
         {
-            MarkForRemoval();
+            OnDespawn();
+            return;
         }
 
         DeathFade();
@@ -162,9 +163,9 @@ public class LesserDemon : DemonFramework
 
         _spawner.AddDemonBackToPool(_type, _spawnerManager);
 
-        _pooledObject.Despawn();
+        //_pooledObject.Despawn();
 
-        _spawner.AddDemonBackToPool(_type, _spawnerManager);
+        //_spawner.AddDemonBackToPool(_type, _spawnerManager);
 
         MarkForRemoval();
     }
@@ -223,7 +224,7 @@ public class LesserDemon : DemonFramework
     }
     public override void PathFinding()
     {
-        base.PathFinding();
+        _aiAgent.UpdatePath(CurrentTarget);
     }
     public override void CalculateStats(int round)
     {
@@ -242,7 +243,7 @@ public class LesserDemon : DemonFramework
 
         if(CheckToDespawn() == true) // add timer to this
         {
-            MarkForRemoval();
+            OnDespawn();
         }
 
         return true;

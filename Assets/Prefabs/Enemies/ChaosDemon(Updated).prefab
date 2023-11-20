@@ -2185,6 +2185,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bodyPart: 2
   health: {fileID: 8213396783624391975}
+--- !u!137 &964377352193247684 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2096598216510679344, guid: bece2910c06e585418ae494ecc0cc4a1, type: 3}
+  m_PrefabInstance: {fileID: 1187460392926781684}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2182202924823368862 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1022890029838857322, guid: bece2910c06e585418ae494ecc0cc4a1, type: 3}
@@ -3497,6 +3502,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9ffce472bccea6a4697d2bf06a3a4082, type: 3}
+--- !u!114 &175586103585419776 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6522695575588176796, guid: 9ffce472bccea6a4697d2bf06a3a4082, type: 3}
+  m_PrefabInstance: {fileID: 6407087011060396444}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16f05e2ba87802c43a201f318fbc996d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &309035431686838580 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6675286441573099688, guid: 9ffce472bccea6a4697d2bf06a3a4082, type: 3}
@@ -3684,87 +3700,6 @@ MonoBehaviour:
     - {x: 0, y: 0, z: 0}
     hasPath: 0
   canMove: 1
---- !u!114 &8990972491674890974
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 309035431686838580}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf9d8209a3a03434f84e304e78b09123, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _skinnedMeshRenderer: {fileID: 0}
-  deathFadeTime: 0
-  fadeTimeMultiplier: 0
-  pointsOnDeath: 0
-  _damage: 0
-  _moveSpeed: 0
-  _attackRange: 0
-  _stoppingDistance: 0
-  _distanceToRespawn: 0
-  _soundPlayerIdle: {fileID: 0}
-  _soundPlayerWhileMoving: {fileID: 0}
-  _soundPlayerAttack: {fileID: 0}
-  _soundPlayerAttackAmbience: {fileID: 0}
-  _soundPlayerHit: {fileID: 0}
-  _soundPlayerDeath: {fileID: 0}
-  _soundPlayerFootsteps: {fileID: 0}
-  minTimeInterval: 0
-  maxTimeInterval: 0
-  whileMovingMinTimeInterval: 0
-  whileMovingMaxTimeInterval: 0
-  DemonInMap: 0
-  meleeStopingDistance: 0
-  normalStats:
-    meleeDamage: 0
-    spellDamage: 0
-    spellRadius: 0
-    castInterval:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    meleeAggroRange: 0
-    moveSpeed: 0
-    stoppingDistance: 0
-    strikeWarmUp: 0
-  enragedStats:
-    meleeDamage: 0
-    spellDamage: 0
-    spellRadius: 0
-    castInterval:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    meleeAggroRange: 0
-    moveSpeed: 0
-    stoppingDistance: 0
-    strikeWarmUp: 0
-  enragePoint: 0
-  walker:
-    Speed: 0
-    minSpeed: 0
-    maxSpeed: 0
-  jogger:
-    Speed: 0
-    minSpeed: 0
-    maxSpeed: 0
-  runner:
-    Speed: 0
-    minSpeed: 0
-    maxSpeed: 0
-  SpeedType: 0
-  healthMultipleir: 0
-  m_xAmountOfRounds: 0
-  m_HealthToAdd: 0
-  m_HealthMultiplier: 0
-  SoulBox: {fileID: 0}
 --- !u!114 &7438785430297300844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3781,11 +3716,147 @@ MonoBehaviour:
   poolSize: 10
   autoRefillPool: 0
   poolContainer: {fileID: 0}
+--- !u!114 &8990972491674890974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 309035431686838580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf9d8209a3a03434f84e304e78b09123, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _skinnedMeshRenderer: {fileID: 964377352193247684}
+  deathFadeTime: 2
+  fadeTimeMultiplier: 1
+  pointsOnDeath: 250
+  _damage: 50
+  _moveSpeed: 0
+  _attackRange: 2
+  _stoppingDistance: 1
+  _distanceToRespawn: 200
+  _soundPlayerIdle: {fileID: 6036243834403694851}
+  _soundPlayerWhileMoving: {fileID: 4779092001823154548}
+  _soundPlayerAttack: {fileID: 5480150830493938047}
+  _soundPlayerAttackAmbience: {fileID: 8956477524674597214}
+  _soundPlayerHit: {fileID: 175586103585419776}
+  _soundPlayerDeath: {fileID: 740821919388477101}
+  _soundPlayerFootsteps: {fileID: 3482540731357149322}
+  minTimeInterval: 4
+  maxTimeInterval: 12
+  whileMovingMinTimeInterval: 3
+  whileMovingMaxTimeInterval: 6
+  DemonInMap: 0
+  meleeStopingDistance: 1
+  normalStats:
+    meleeDamage: 50
+    spellDamage: 50
+    spellRadius: 5
+    castInterval:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    meleeAggroRange: 10
+    moveSpeed: 3.5
+    stoppingDistance: 1
+    strikeWarmUp: 1
+  enragedStats:
+    meleeDamage: 50
+    spellDamage: 50
+    spellRadius: 10
+    castInterval:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    meleeAggroRange: 10
+    moveSpeed: 4.5
+    stoppingDistance: 1
+    strikeWarmUp: 1
+  enragePoint: 0.3
+  walker:
+    Speed: 0
+    minSpeed: 3.5
+    maxSpeed: 3.5
+  jogger:
+    Speed: 0
+    minSpeed: 3.5
+    maxSpeed: 3.5
+  runner:
+    Speed: 0
+    minSpeed: 3.5
+    maxSpeed: 3.5
+  SpeedType: 0
+  healthMultipleir: 1.1
+  m_xAmountOfRounds: 9
+  m_HealthToAdd: 100
+  m_HealthMultiplier: 1.1
+  SoulBox: {fileID: 0}
+--- !u!114 &740821919388477101 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5957530225167243057, guid: 9ffce472bccea6a4697d2bf06a3a4082, type: 3}
+  m_PrefabInstance: {fileID: 6407087011060396444}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16f05e2ba87802c43a201f318fbc996d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3482540731357149322 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7547738206282254614, guid: 9ffce472bccea6a4697d2bf06a3a4082, type: 3}
+  m_PrefabInstance: {fileID: 6407087011060396444}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16f05e2ba87802c43a201f318fbc996d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4779092001823154548 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1925347571808751848, guid: 9ffce472bccea6a4697d2bf06a3a4082, type: 3}
+  m_PrefabInstance: {fileID: 6407087011060396444}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16f05e2ba87802c43a201f318fbc996d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &4786081533249001685 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1909834634818693449, guid: 9ffce472bccea6a4697d2bf06a3a4082, type: 3}
   m_PrefabInstance: {fileID: 6407087011060396444}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5480150830493938047 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1506422831957737699, guid: 9ffce472bccea6a4697d2bf06a3a4082, type: 3}
+  m_PrefabInstance: {fileID: 6407087011060396444}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16f05e2ba87802c43a201f318fbc996d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6036243834403694851 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 806004117850822815, guid: 9ffce472bccea6a4697d2bf06a3a4082, type: 3}
+  m_PrefabInstance: {fileID: 6407087011060396444}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16f05e2ba87802c43a201f318fbc996d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8213396783624391975 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -6264133887467537221, guid: 9ffce472bccea6a4697d2bf06a3a4082, type: 3}
@@ -3795,5 +3866,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 92e3e2a29ca31b74292024e792c15860, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8956477524674597214 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2639469378478399682, guid: 9ffce472bccea6a4697d2bf06a3a4082, type: 3}
+  m_PrefabInstance: {fileID: 6407087011060396444}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16f05e2ba87802c43a201f318fbc996d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

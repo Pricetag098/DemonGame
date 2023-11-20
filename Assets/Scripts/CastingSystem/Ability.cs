@@ -7,7 +7,7 @@ public class Ability : ScriptableObject
 {
 	public string abilityName;
 	public string guid;
-	public Sprite icon;
+	public string symbolText;
 	[HideInInspector]
 	public AbilityCaster caster;
 	public float bloodCost = 10;

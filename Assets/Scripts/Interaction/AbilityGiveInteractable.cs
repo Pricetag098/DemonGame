@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 public class AbilityGiveInteractable : Interactable
@@ -8,7 +9,7 @@ public class AbilityGiveInteractable : Interactable
 	float timer;
 	public Ability ability;
 	[SerializeField] AbilityBuy abilityBuy;
-	public Image icon;
+	public TextMeshProUGUI icon;
 	[SerializeField] string grabText = "To take ";
 	[SerializeField] AnimationCurve alphaOverLifetime;
 	CanvasGroup canvasGroup;
@@ -40,7 +41,7 @@ public class AbilityGiveInteractable : Interactable
 	{
 		this.ability = ability;
 		gameObject.SetActive(true);
-		icon.sprite = ability.icon;
+		icon.text = ability.symbolText;
 		abilityBuy.gameObject.SetActive(false);
 		timer = 0;
 	}

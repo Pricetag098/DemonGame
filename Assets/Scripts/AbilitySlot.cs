@@ -78,7 +78,7 @@ public class AbilitySlot : MonoBehaviour
 
         weaponWheel = GetComponentInParent<WeaponWheel>();
 
-        AbilityIcon.text = ability.fontReference.ToString();
+        AbilityIcon.text = ability.symbolText;
 
         DoesntHaveAbility();
         OnDeselect();

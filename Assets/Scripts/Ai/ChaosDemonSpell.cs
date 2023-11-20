@@ -10,7 +10,8 @@ public class ChaosDemonSpell : MonoBehaviour
     float damage;
     [SerializeField] float hitRadius = 1;
     [SerializeField] LayerMask targetLayers, wallLayers;
-    [SerializeField]LightningBoltPrefabScript strikeLightning;
+    [SerializeField] LightningBoltPrefabScript strikeLightning;
+    [SerializeField] SoundPlayer strikeSound;
     [SerializeField] float boltOriginHeight;
     bool struck = false;
 
@@ -23,7 +24,7 @@ public class ChaosDemonSpell : MonoBehaviour
         timer = 0;
         struck = false;
         transform.position = spawnPoint;
-        if(Physics.Raycast(transform.position,Vector3.down,out RaycastHit hit,100,wallLayers))
+        if(Physics.Raycast(transform.position,Vector3.down,out RaycastHit hit,10000000,wallLayers))
         {
             transform.position = hit.point;
         }
@@ -34,18 +35,24 @@ public class ChaosDemonSpell : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        List<Health> healths = new List<Health>();
         timer += Time.deltaTime;
         if(timer > activationTime && !struck)
         {
-            strikeLightning.Trigger(transform.position, new Vector3(transform.position.x, boltOriginHeight, transform.position.z));
+            strikeLightning.Trigger(new Vector3(transform.position.x, boltOriginHeight, transform.position.z), transform.position);
             struck = true;
-
+            strikeSound.Play();
             Collider[] colliders = Physics.OverlapCapsule(transform.position, new Vector3(transform.position.x, boltOriginHeight, transform.position.z),hitRadius,targetLayers);
             foreach(Collider collider in colliders)
             {
                 if(collider.TryGetComponent(out HitBox hitBox))
                 {
-                    hitBox.OnHit(damage, HitType.ABILITY);
+                    if (!healths.Contains(hitBox.health))
+                    {
+                        healths.Add(hitBox.health);
+                        hitBox.OnHit(damage, HitType.ABILITY);
+                    }
+                    
 
                 }
             }

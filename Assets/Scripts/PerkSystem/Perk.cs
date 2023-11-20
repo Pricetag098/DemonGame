@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class Perk : ScriptableObject
 {
 	protected PerkManager manager;
-	public Sprite icon;
+	public string symbolText;
 	public string perkName;
 	public bool upgraded = false;
     public void Equip(PerkManager perkManager)

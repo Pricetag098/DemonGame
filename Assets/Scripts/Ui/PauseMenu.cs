@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
+
+	[SerializeField] CanvasGroup playerHUDCanvas;
     public bool open {  get; private set; }
     CanvasGroup canvasGroup;
     [SerializeField] float openTime;
@@ -27,7 +29,11 @@ public class PauseMenu : MonoBehaviour
 		s.Append(canvasGroup.DOFade(1, openTime));
 		s.AppendCallback(() =>
 		{
-			canvasGroup.interactable = true;
+			playerHUDCanvas.interactable = false;
+			playerHUDCanvas.blocksRaycasts = false;
+			playerHUDCanvas.alpha = 0;
+
+            canvasGroup.interactable = true;
 			canvasGroup.blocksRaycasts = true;
 			Time.timeScale = 0;
 			Cursor.visible = true;
@@ -46,7 +52,11 @@ public class PauseMenu : MonoBehaviour
         s.SetUpdate(true);
 		s.AppendCallback(() =>
 		{
-			canvasGroup.interactable = false;
+            playerHUDCanvas.interactable = true;
+            playerHUDCanvas.blocksRaycasts = true;
+            playerHUDCanvas.alpha = 1;
+
+            canvasGroup.interactable = false;
 			canvasGroup.blocksRaycasts = false;
 			Time.timeScale = 1;
 			Cursor.visible = false;

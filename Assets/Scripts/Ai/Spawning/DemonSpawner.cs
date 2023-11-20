@@ -40,6 +40,7 @@ public class DemonSpawner : MonoBehaviour
         foreach(DemonFramework demon in ActiveDemonsToRemove)
         {
             ActiveDemons.Remove(demon);
+            demon.RemoveFromSpatialHash();
             demon.DespawnObject();
 
             demonsDespawned++;

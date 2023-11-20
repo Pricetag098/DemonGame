@@ -56,7 +56,7 @@ public class SpatialHashGrid3D : MonoBehaviour
         {
             DemonFramework demon = DemonSpawner.ActiveDemons[i];
 
-            if(demon.IsAlive() == false)
+            if(demon.IsAlive() == true)
             {
                 demon.UpdateAgentNearby(cells.UpdateObjectAndGetSurroudingObjects(demon.GetAgent));
             }

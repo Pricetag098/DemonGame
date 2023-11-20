@@ -228,7 +228,11 @@ public class LesserDemon : DemonFramework
     }
     public override void CalculateStats(int round)
     {
-        base.CalculateStats(round);
+        if (round <= m_xAmountOfRounds)
+        {
+            _health.maxHealth += m_HealthToAdd;
+        }
+        else { _health.maxHealth = _health.maxHealth * m_HealthMultiplier; }
     }
     public override bool DetectTarget()
     {
@@ -254,7 +258,15 @@ public class LesserDemon : DemonFramework
     }
     public override void UpdateHealthToCurrentRound(int currentRound)
     {
-        base.UpdateHealthToCurrentRound(currentRound);
+        if (currentRound != _currentUpdatedRound)
+        {
+            for (int round = _currentUpdatedRound + 1; round < currentRound ; round++)
+            {
+                CalculateStats(round);
+            }
+
+            _currentUpdatedRound = currentRound;
+        }
     }
     public override void OnFinishedSpawnAnimation()
     {

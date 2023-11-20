@@ -30,6 +30,7 @@ public class SpatialHashGrid3D : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            CreateNewHasHGrid(cellSize);
         }
     }
 
@@ -40,29 +41,29 @@ public class SpatialHashGrid3D : MonoBehaviour
 
     void Start()
     {
-        int count = DemonSpawner.ActiveDemons.Count;;
+        //int count = DemonSpawner.ActiveDemons.Count;
 
-        for (int i = 0; i < count; i++)
-        {
-            cells.Insert(DemonSpawner.ActiveDemons[i].GetComponent<SpatialHashObject>());
-        }
+        //for (int i = 0; i < count; i++)
+        //{
+        //    cells.Insert(DemonSpawner.ActiveDemons[i].GetComponent<SpatialHashObject>());
+        //}
     }
 
     void Update()
     {
-        int count = DemonSpawner.ActiveDemons.Count;
+        //int count = DemonSpawner.ActiveDemons.Count;
 
-        for (int i = 0; i < count; i++)
-        {
-            DemonFramework demon = DemonSpawner.ActiveDemons[i];
+        //for (int i = 0; i < count; i++)
+        //{
+        //    DemonFramework demon = DemonSpawner.ActiveDemons[i];
 
-            if(demon.IsAlive() == true)
-            {
-                demon.UpdateAgentNearby(cells.UpdateObjectAndGetSurroudingObjects(demon.GetAgent));
-            }
-        }
+        //    if(demon.IsAlive() == true)
+        //    {
+        //        demon.UpdateAgentNearby(cells.UpdateObjectAndGetSurroudingObjects(demon.GetAgent));
+        //    }
+        //}
 
-        CurrentCells = cells.cellPositions.Count;
+        //CurrentCells = cells.cellPositions.Count;
     }
 
     public void OnDrawGizmos()

@@ -35,6 +35,7 @@ public class ChaosDemonSpell : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        List<Health> healths = new List<Health>();
         timer += Time.deltaTime;
         if(timer > activationTime && !struck)
         {
@@ -46,7 +47,12 @@ public class ChaosDemonSpell : MonoBehaviour
             {
                 if(collider.TryGetComponent(out HitBox hitBox))
                 {
-                    hitBox.OnHit(damage, HitType.ABILITY);
+                    if (!healths.Contains(hitBox.health))
+                    {
+                        healths.Add(hitBox.health);
+                        hitBox.OnHit(damage, HitType.ABILITY);
+                    }
+                    
 
                 }
             }

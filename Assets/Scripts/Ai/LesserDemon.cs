@@ -71,6 +71,8 @@ public class LesserDemon : DemonFramework
         _aiAgent.LookDirection();
 
         PathFinding();
+
+        UpdateAgentNearby(GetAgent.Grid.cells.UpdateObjectAndGetSurroudingObjects(GetAgent));
     }
     public override void OnSpawn(DemonType type, Transform target, SpawnType spawnType, bool inMap)
     {
@@ -96,6 +98,10 @@ public class LesserDemon : DemonFramework
                 _deathPoints.points = 0;
                 break;
         }
+
+        _aiAgent.Initalised();
+
+        GetAgent.Grid.cells.Insert(GetAgent);
 
         _animationOverrides.SelectController(_animator);
 

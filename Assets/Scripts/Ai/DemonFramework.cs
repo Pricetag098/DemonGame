@@ -120,7 +120,7 @@ public class DemonFramework : MonoBehaviour
     [SerializeField] protected float _stoppingDistance;
     [SerializeField] protected float _distanceToRespawn;
 
-    protected int _currentUpdatedRound = 1; 
+    [SerializeField] protected int _currentUpdatedRound = 1; 
     #endregion
 
     #region SOUNDS

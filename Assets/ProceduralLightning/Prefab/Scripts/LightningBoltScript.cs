@@ -754,6 +754,7 @@ namespace DigitalRuby.ThunderAndLightning
 
         private void OnDestroy()
         {
+            if(threadState != null)
             if (threadState.multiThreaded)
             {
                 threadState.TerminateAndWaitForEnd(true);

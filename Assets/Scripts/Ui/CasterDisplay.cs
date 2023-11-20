@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
 public class CasterDisplay : MonoBehaviour
 {
-    [SerializeField] Image[] icons;
+    [SerializeField] TextMeshProUGUI[] abilityIconIdentifier;
     [SerializeField] Slider bloodMeter;
     [SerializeField] CanvasGroup onEmptyVisualization;
     
@@ -32,10 +33,10 @@ public class CasterDisplay : MonoBehaviour
 	// Update is called once per frame
 	void Update()
     {
-        for(int i = 0; i < icons.Length; i++)
+        for(int i = 0; i < abilityIconIdentifier.Length; i++)
 		{
-            icons[i].sprite = caster.caster.abilities[i].icon;
-            icons[i].GetComponent<Outline>().enabled = i == caster.activeIndex;
+            abilityIconIdentifier[i].text = caster.caster.abilities[i].symbolText;
+            abilityIconIdentifier[i].GetComponent<Outline>().enabled = i == caster.activeIndex;
 		}
         bloodMeter.value = dynamics.Update(Time.unscaledDeltaTime,caster.caster.blood / caster.caster.maxBlood);
 

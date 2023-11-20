@@ -10,7 +10,7 @@ public class AiAgent : SpatialHashObject
     public float acceleration;
     public float rotationSpeed;
     public bool canRotate;
-    [HideInInspector] public float RemainingDistancePath;
+    public float RemainingDistancePath;
     
     public LayerMask wallLayers;
     public float scanRadius;
@@ -21,13 +21,13 @@ public class AiAgent : SpatialHashObject
     public float indexChangeDistance = .1f;
     public float stopingDistance = 1;
     private Rigidbody rb;
-    int pathIndex = 1;
+    public int pathIndex = 1;
 	float radius;
     public float rayHeightOffset;
 	public AgentPath path = new AgentPath();
     public bool canMove = true;
 
-    private Quaternion lastRotation = Quaternion.identity;
+    private Vector3 lastRotation = Vector3.zero;
     private DemonFramework demon;
 
     private void Awake()
@@ -47,20 +47,15 @@ public class AiAgent : SpatialHashObject
     void Update()
     {
         RemainingDistancePath = RemainingDistance;
-
-        if (RemainingDistancePath < stopingDistance)
-        {
-            path.hasPath = false;
-        }
     }
 
     private void FixedUpdate()
     {
-        Vector3 idealVel;
-		
+        Vector3 idealVel = Vector3.zero;
+
         if (Physics.Raycast(transform.position + transform.up * rayHeightOffset, -transform.up, out RaycastHit hit, groundingRange, wallLayers))
         {
-			if (canMove && path.hasPath)
+            if (canMove && path.hasPath)
 			{
 				UpdateRadius();
 				
@@ -70,15 +65,11 @@ public class AiAgent : SpatialHashObject
                 idealVel = Vector3.ProjectOnPlane(idealVel, hit.normal);
                 transform.up = hit.normal;
 			}
-			else
-			{
-				idealVel = Vector3.zero;
-			}
 
-			rb.AddForce(GetPushForce() * dispersionForce);
+			rb.AddForce(GetPushForce() * dispersionForce * Time.fixedDeltaTime);
 
 			Vector3 turningVel = idealVel - rb.velocity;
-			rb.AddForce(turningVel * acceleration);
+			rb.AddForce(turningVel * acceleration * Time.fixedDeltaTime);
 
             if (Vector3.Distance(transform.position, path[pathIndex]) < indexChangeDistance)
             {
@@ -91,7 +82,7 @@ public class AiAgent : SpatialHashObject
 		}
         else
         {
-            rb.AddForce(Vector3.down * gravityScale);
+            rb.AddForce(Vector3.down * gravityScale * Time.fixedDeltaTime);
         }
     }
 
@@ -99,14 +90,16 @@ public class AiAgent : SpatialHashObject
     {
         NavMeshPath path = new NavMeshPath();
 
-        CalculatePath(target.position, path);
-        SetPath(path);
+        if(CalculatePath(target.position, path))
+        {
+            SetPath(path);
+        }
 
         if (RemainingDistancePath < stopingDistance)
         {
             return false;
         }
-        
+
         return true;
 	}
 
@@ -114,21 +107,18 @@ public class AiAgent : SpatialHashObject
     {
         if(canRotate == true)
         {
-            if (path[pathIndex] == null) 
-            {
-                transform.rotation = lastRotation;
-                return;
-            }
+            Vector3 forward = transform.forward;
+            Vector3 targetDirection = path[pathIndex] - transform.position;
 
-            var lookPos = path[pathIndex] - transform.position;
-            lookPos.y = 0;
-            var rotation = Quaternion.LookRotation(lookPos);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
-            lastRotation = transform.rotation;
+            Vector3 result = Vector3.Lerp(forward, targetDirection, Time.deltaTime * rotationSpeed);
+
+            lastRotation = result;
+            transform.forward = result;
+
         }
         else
         {
-            transform.rotation = lastRotation;
+            transform.forward = lastRotation;
         }
     }
 
@@ -207,16 +197,19 @@ public class AiAgent : SpatialHashObject
         {
             float num = 0;
 
-            num = Vector3.Distance(path[pathIndex], transform.position);
-
-            if (path.pathLength == 1) return num;
-
-            for (int i = pathIndex + 1; i < path.pathLength; i++)
+            if (path.pathLength == 2) // if start and end position (only 2 positions) return distance to next index(end)
             {
-                if (path[i + 1] != null)
-                {
-                    num += Vector3.Distance(path[i], path[i + 1]);
-                }
+                num = Vector3.Distance(path[1], transform.position);
+
+                return num; 
+            }
+
+            num += Vector3.Distance(path[pathIndex], transform.position); // add current distance to next index
+
+            for (int i = pathIndex; i < path.pathLength - 1; i++) // loop over remaining positions and add to total
+            {
+                num += Vector3.Distance(path[i], path[i + 1]);
+                
             }
 
             return num;
@@ -288,25 +281,25 @@ public class AiAgent : SpatialHashObject
 
     private void OnDrawGizmosSelected()
     {
-		//Gizmos.color = Color.white;
-		//if (Objects.Count > 0)
-  //      Gizmos.DrawRay(transform.position, GetPushForce());
-  //      Gizmos.color = Color.magenta;
-  //      if(path.pathLength >0)
-  //      {
-  //          for(int i = 0;i< path.pathLength;i++)
-  //          {
-  //              Gizmos.DrawWireSphere(path.corners[i], indexChangeDistance);
-  //          }
-  //      }
+        //Gizmos.color = Color.white;
+        //if (Objects.Count > 0)
+        //      Gizmos.DrawRay(transform.position, GetPushForce());
+        //      Gizmos.color = Color.magenta;
+        if (path.pathLength > 0)
+        {
+            for (int i = 0; i < path.pathLength; i++)
+            {
+                Gizmos.DrawWireSphere(path.corners[i], indexChangeDistance);
+            }
+        }
 
-  //      Gizmos.color = Color.blue;
-		//float angle = 360 / scanRays;
-		//for (int i = 0; i < scanRays; i++)
-		//{
-  //          Gizmos.DrawRay(transform.position + transform.up * rayHeightOffset, Vector3.ProjectOnPlane(Quaternion.Euler(Vector3.up * angle * i) * transform.forward, transform.up) * scanRadius);
-		//}
+        //      Gizmos.color = Color.blue;
+        //float angle = 360 / scanRays;
+        //for (int i = 0; i < scanRays; i++)
+        //{
+        //          Gizmos.DrawRay(transform.position + transform.up * rayHeightOffset, Vector3.ProjectOnPlane(Quaternion.Euler(Vector3.up * angle * i) * transform.forward, transform.up) * scanRadius);
+        //}
 
-	}
+    }
 
 }

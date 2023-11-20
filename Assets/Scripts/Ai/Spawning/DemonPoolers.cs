@@ -7,17 +7,14 @@ public class DemonPoolers : MonoBehaviour
 {
     [Header("Object Poolers")]
     [SerializeField] ObjectPooler baseDemonPooler;
-    [SerializeField] ObjectPooler summonerDemonPooler;
-    [SerializeField] ObjectPooler stalkerDemonPooler;
     [SerializeField] ObjectPooler choasDemonPooler;
-    [SerializeField] ObjectPooler cultistDemonPooler;
 
-    static public Dictionary<DemonID, ObjectPooler> demonPoolers = new Dictionary<DemonID, ObjectPooler>();
+    static public Dictionary<DemonID, ObjectPooler> demonPoolers;
 
     private void Awake()
     {
+        demonPoolers = new Dictionary<DemonID, ObjectPooler>();
         demonPoolers.Add(DemonID.Base, baseDemonPooler);
-        demonPoolers.Add(DemonID.Stalker, stalkerDemonPooler);
         demonPoolers.Add(DemonID.Chaos, choasDemonPooler);
     }
 }

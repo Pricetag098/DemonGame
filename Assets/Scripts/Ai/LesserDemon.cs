@@ -46,6 +46,8 @@ public class LesserDemon : DemonFramework
         SetAnimationVariables();
 
         _aiAgent.LookDirection();
+
+        PathFinding();
     }
     public override void OnSpawn(DemonType type, Transform target, SpawnType spawnType, bool inMap)
     {

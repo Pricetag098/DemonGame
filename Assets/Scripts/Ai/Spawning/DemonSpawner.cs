@@ -32,23 +32,6 @@ public class DemonSpawner : MonoBehaviour
         }
     }
 
-    public void UpdatePathfinding()
-    {
-        int num = ActiveDemons.Count;
-
-        if (num > MAX_DEMON_UPDATES_PER_FRAME) { num = MAX_DEMON_UPDATES_PER_FRAME; }
-
-        for (int i = 0; i < num; i++)
-        {
-            DemonFramework demon = ActiveDemons[0];
-
-            demon.PathFinding();
-
-            ActiveDemons.RemoveAt(0);
-            ActiveDemons.Add(demon);
-        }
-    }
-
     public void RemoveActiveDemons()
     {
         foreach(DemonFramework demon in ActiveDemonsToRemove)

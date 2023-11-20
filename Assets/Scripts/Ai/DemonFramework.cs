@@ -2,6 +2,7 @@ using BlakesSpatialHash;
 using DemonInfo;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class DemonFramework : MonoBehaviour
 {
@@ -149,6 +150,8 @@ public class DemonFramework : MonoBehaviour
     /// Returns If Demon is in the Map
     /// </summary>
     [SerializeField] private bool DemonInMap;
+
+    private bool _isOnNavmesh;
     #endregion
 
     #region INITALISE
@@ -545,6 +548,20 @@ public class DemonFramework : MonoBehaviour
     public bool GetDemonInMap
     {
         get { return DemonInMap; }
+    }
+
+    [SerializeField] private float onNavmeshDistance;
+
+    public bool SampleNavmeshPosition()
+    {
+        if(NavMesh.SamplePosition(transform.position, out NavMeshHit hit, onNavmeshDistance, NavMesh.AllAreas))
+        {
+            _isOnNavmesh = true;
+            return true;
+        }
+
+        _isOnNavmesh = false;
+        return false;
     }
     #endregion
 }

@@ -125,7 +125,6 @@ public class SpawnerManager : MonoBehaviour
         }
 
         _DemonSpawner.UpdateCallToDemons();
-        _DemonSpawner.UpdatePathfinding();
     }
 
     private void LateUpdate()

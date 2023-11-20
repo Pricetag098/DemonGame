@@ -135,8 +135,8 @@ public class Spawners : MonoBehaviour
                 }
             }
 
-            baseSpawners = HelperFuntions.ShuffleList(baseSpawners);
-            specialSpawners = HelperFuntions.ShuffleList(specialSpawners);
+            //baseSpawners = HelperFuntions.ShuffleList(baseSpawners);
+            //specialSpawners = HelperFuntions.ShuffleList(specialSpawners);
         }
     }
 
@@ -150,6 +150,9 @@ public class Spawners : MonoBehaviour
         {
             s.Visited = false;
         }
+
+        baseSpawners = HelperFuntions.ShuffleList(baseSpawners);
+        specialSpawners = HelperFuntions.ShuffleList(specialSpawners);
     }
 
 

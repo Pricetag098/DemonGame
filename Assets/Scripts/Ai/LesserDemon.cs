@@ -56,7 +56,8 @@ public class LesserDemon : DemonFramework
 
         if (SampleNavmeshPosition() == false && _isDead == false)
         {
-            MarkForRemoval();
+            OnDespawn();
+            return;
         }
 
         DeathFade();
@@ -128,8 +129,6 @@ public class LesserDemon : DemonFramework
     {
         _aiAgent.SetFollowSpeed(0);
 
-        RemoveFromSpatialHash();
-
         _animator.SetLayerWeight(_animator.GetLayerIndex("Upper"), 0);
 
         PlaySoundDeath();
@@ -158,12 +157,6 @@ public class LesserDemon : DemonFramework
 
         SetAllColliders(false);
 
-        RemoveFromSpatialHash();
-
-        _spawner.AddDemonBackToPool(_type, _spawnerManager);
-
-        _pooledObject.Despawn();
-
         _spawner.AddDemonBackToPool(_type, _spawnerManager);
 
         MarkForRemoval();
@@ -173,8 +166,6 @@ public class LesserDemon : DemonFramework
         _aiAgent.SetFollowSpeed(0);
 
         SetAllColliders(false);
-
-        RemoveFromSpatialHash();
 
         switch (_spawnType)
         {
@@ -223,11 +214,15 @@ public class LesserDemon : DemonFramework
     }
     public override void PathFinding()
     {
-        base.PathFinding();
+        _aiAgent.UpdatePath(CurrentTarget);
     }
     public override void CalculateStats(int round)
     {
-        base.CalculateStats(round);
+        if (round <= m_xAmountOfRounds)
+        {
+            _health.maxHealth += m_HealthToAdd;
+        }
+        else { _health.maxHealth = _health.maxHealth * m_HealthMultiplier; }
     }
     public override bool DetectTarget()
     {
@@ -242,7 +237,7 @@ public class LesserDemon : DemonFramework
 
         if(CheckToDespawn() == true) // add timer to this
         {
-            MarkForRemoval();
+            OnDespawn();
         }
 
         return true;
@@ -253,7 +248,15 @@ public class LesserDemon : DemonFramework
     }
     public override void UpdateHealthToCurrentRound(int currentRound)
     {
-        base.UpdateHealthToCurrentRound(currentRound);
+        if (currentRound != _currentUpdatedRound)
+        {
+            for (int round = _currentUpdatedRound + 1; round < currentRound ; round++)
+            {
+                CalculateStats(round);
+            }
+
+            _currentUpdatedRound = currentRound;
+        }
     }
     public override void OnFinishedSpawnAnimation()
     {

@@ -25,5 +25,15 @@ public class OptionSelector : MonoBehaviour
         index += value;
     }
 
+    public void CompleteAllRituals(bool toggle)
+    {
+        Debug.Log("All rituals complete at start"  + toggle);
+        
+    }
+
+    public void UnlockAllAbilities(bool toggle)
+    {
+        Debug.Log("All Abilities unlocked at start" + toggle);
+    }
 
 }

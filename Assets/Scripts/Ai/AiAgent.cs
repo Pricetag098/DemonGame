@@ -162,7 +162,7 @@ public class AiAgent : SpatialHashObject
         {
             if (other == this) { continue; }
                 
-            Debug.Log("Applying force");
+            //Debug.Log("Applying force");
             Vector3 dirTo = transform.position - other.transform.position;
             float dist = dirTo.magnitude;
             if (dist == 0)

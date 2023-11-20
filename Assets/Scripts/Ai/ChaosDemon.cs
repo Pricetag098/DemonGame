@@ -13,7 +13,7 @@ public class ChaosDemon : DemonFramework
     [SerializeField, Range(0, 1)] float enragePoint;
 
     float castTimer;
-
+    [SerializeField] SoundPlayer enrageSound;
 
     [Header("Speed Profiles")]
     [SerializeField] DemonSpeedProfile walker;
@@ -92,11 +92,11 @@ public class ChaosDemon : DemonFramework
             return;
         }
 
-        DeathFade();
+        //DeathFade();
 
         if (DetectTarget() == false) { return; }
 
-        if (GetDemonInMap == false) { m_obstacle.Detection(); }
+        //if (GetDemonInMap == false) { m_obstacle.Detection(); }
 
         SetAnimationVariables();
 
@@ -117,6 +117,7 @@ public class ChaosDemon : DemonFramework
         if(!isEnraged && _health.health / _health.maxHealth < enragePoint)
         {
             SetValues(enragedStats);
+            enrageSound.Play();
             isEnraged = true;
             Debug.Log("Demon is angy");
         }
@@ -134,6 +135,7 @@ public class ChaosDemon : DemonFramework
             castTimer = activeStats.castInterval.Evaluate(_health.health / _health.maxHealth);
 
         }
+        castTimer -= Time.deltaTime;
     }
 
     
@@ -152,8 +154,9 @@ public class ChaosDemon : DemonFramework
         _isSpawned = false;
         isEnraged = false;
         DemonInMap = inMap;
-        castTimer = activeStats.castInterval.Evaluate(1);
         SetValues(normalStats);
+        castTimer = activeStats.castInterval.Evaluate(1);
+        
 
         switch (spawnType)
         {
@@ -169,7 +172,7 @@ public class ChaosDemon : DemonFramework
 
         SetAllColliders(true);
 
-        DemonMaterials.SetDefaultSpawningMaterial(_skinnedMeshRenderer);
+        //DemonMaterials.SetDefaultSpawningMaterial(_skinnedMeshRenderer);
 
         DemonSpawner.ActiveDemons.Add(this);
 
@@ -185,13 +188,13 @@ public class ChaosDemon : DemonFramework
 
         _aiAgent.canRotate = true;
 
-        _attachments.ResetAllAttachments();
-        _attachments.RandomAttachments();
+        //_attachments.ResetAllAttachments();
+        //_attachments.RandomAttachments();
 
-        foreach (var obj in _attachments.ReturnActiveObjects())
-        {
-            DemonMaterials.SetAttachmentMaterial(obj);
-        }
+        //foreach (var obj in _attachments.ReturnActiveObjects())
+        //{
+        //    DemonMaterials.SetAttachmentMaterial(obj);
+        //}
     }
     public override void OnDeath()
     {
@@ -345,7 +348,7 @@ public class ChaosDemon : DemonFramework
 
         base.SetAnimationVariables();
 
-        float evalSpeed = GetRange(_aiAgent.VelocityMag, 0, speedProfile.maxSpeed);
+        float evalSpeed = GetRange(_aiAgent.VelocityMag, 0, activeStats.moveSpeed);
 
         _animator.SetFloat("Speed", evalSpeed);
 

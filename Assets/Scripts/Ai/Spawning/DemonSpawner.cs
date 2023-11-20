@@ -46,7 +46,7 @@ public class DemonSpawner : MonoBehaviour
             demonsDespawned++;
         }
 
-        Debug.Log("Demons despawned is: " + demonsDespawned);
+        //Debug.Log("Demons despawned is: " + demonsDespawned);
 
         ActiveDemonsToRemove.Clear();
     }
@@ -118,66 +118,71 @@ public class DemonSpawner : MonoBehaviour
     {
         DemonType demon = null;
 
-        if(DemonCount > 0) { demon = DemonQueue.Dequeue(); }
+        if(DemonCount > 0) 
+        { 
+            demon = DemonQueue.Dequeue();
 
-        switch (demon.SpawnerType)
-        {
-            case SpawnerType.Basic:
-                if (_spawners.baseSpawners.Count > 0)
-                {
-                    Spawner spawner = null;
-
-                    foreach (Spawner s in _spawners.baseSpawners)
+            switch (demon.SpawnerType)
+            {
+                case SpawnerType.Basic:
+                    if (_spawners.baseSpawners.Count > 0)
                     {
-                        if(s.Visited == false)
+                        Spawner spawner = null;
+
+                        foreach (Spawner s in _spawners.baseSpawners)
                         {
-                            s.Visited = true;
-                            spawner = s;
+                            if (s.Visited == false)
+                            {
+                                s.Visited = true;
+                                spawner = s;
 
-                            break;
+                                break;
+                            }
                         }
+
+                        if (spawner == null) { DemonQueue.Enqueue(demon); return false; }
+
+                        return spawner.RequestSpawn(demon, sm, SpawnType.Default);
                     }
-
-                    if(spawner == null) { DemonQueue.Enqueue(demon); return false; }
-
-                    return spawner.RequestSpawn(demon, sm, SpawnType.Default);
-                }
-                else 
-                { 
-                    Debug.Log("BASE SPAWNER COUNT 0");
-                    DemonQueue.Enqueue(demon);
-                }
-                break;
-            case SpawnerType.Special:
-                if (_spawners.specialSpawners.Count > 0)
-                {
-                    Spawner spawner = null;
-
-                    foreach (Spawner s in _spawners.specialSpawners)
+                    else
                     {
-                        if (s.Visited == false)
-                        {
-                            s.Visited = true;
-                            spawner = s;
-
-                            break;
-                        }
+                        Debug.Log("BASE SPAWNER COUNT 0");
+                        DemonQueue.Enqueue(demon);
                     }
+                    break;
+                case SpawnerType.Special:
+                    if (_spawners.specialSpawners.Count > 0)
+                    {
+                        Spawner spawner = null;
 
-                    if (spawner == null) { DemonQueue.Enqueue(demon); return false; }
+                        foreach (Spawner s in _spawners.specialSpawners)
+                        {
+                            if (s.Visited == false)
+                            {
+                                s.Visited = true;
+                                spawner = s;
 
-                    return spawner.RequestSpawn(demon, sm, SpawnType.Default);
-                }
-                else 
-                { 
-                    Debug.Log("SPECIAL SPAWNER COUNT 0");
-                    DemonQueue.Enqueue(demon);
-                }
-                break;
-            case SpawnerType.Boss:
+                                break;
+                            }
+                        }
 
-                break;
+                        if (spawner == null) { DemonQueue.Enqueue(demon); return false; }
+
+                        return spawner.RequestSpawn(demon, sm, SpawnType.Default);
+                    }
+                    else
+                    {
+                        Debug.Log("SPECIAL SPAWNER COUNT 0");
+                        DemonQueue.Enqueue(demon);
+                    }
+                    break;
+                case SpawnerType.Boss:
+
+                    break;
+            }
         }
+
+        
 
         return false;
     }

@@ -73,8 +73,9 @@ public class BloodSpikeAbility : Ability
 				if (!healths.Contains(hb.health))
 				{
 					healths.Add(hb.health);
-					hb.health.TakeDmg(distanceDamage.Evaluate(distance/range) * caster.DamageMulti, HitType.ABILITY);
-					OnHit(hb.health);
+                    OnHit(hb.health);
+                    hb.health.TakeDmg(distanceDamage.Evaluate(distance/range) * caster.DamageMulti, HitType.ABILITY);
+					
 				}
 			}
 		}
@@ -83,6 +84,8 @@ public class BloodSpikeAbility : Ability
 
 	public override void OnHit(Health health)
 	{
+		if (health.dead)
+			return;
 		if (caster.playerStats.Enabled)
 			caster.playerStats.Value.GainPoints(points);
 	}

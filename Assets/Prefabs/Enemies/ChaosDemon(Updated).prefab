@@ -4147,6 +4147,7 @@ MonoBehaviour:
   _attackRange: 2
   _stoppingDistance: 1
   _distanceToRespawn: 200
+  _currentUpdatedRound: 1
   _soundPlayerIdle: {fileID: 6036243834403694851}
   _soundPlayerWhileMoving: {fileID: 4779092001823154548}
   _soundPlayerAttack: {fileID: 5480150830493938047}
@@ -4170,17 +4171,26 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 0.5
-        inSlope: 0.5
-        outSlope: 0.5
+        inSlope: 0.80234843
+        outSlope: 0.80234843
         tangentMode: 34
         weightedMode: 0
         inWeight: 0
         outWeight: 0.33333334
       - serializedVersion: 3
+        time: 0.5705867
+        value: 0.9578093
+        inSlope: 1.6146795
+        outSlope: 1.6146795
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
         time: 1
-        value: 1
-        inSlope: 0.5
-        outSlope: 0.5
+        value: 2
+        inSlope: 2.4270105
+        outSlope: 2.4270105
         tangentMode: 34
         weightedMode: 0
         inWeight: 0.33333334
@@ -4188,7 +4198,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    meleeAggroRange: 10
+    meleeAggroRange: 2
     moveSpeed: 3.5
     stoppingDistance: 5
     strikeWarmUp: 3
@@ -4202,17 +4212,26 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 0.5
-        inSlope: 0.5
-        outSlope: 0.5
+        inSlope: 0.80234843
+        outSlope: 0.80234843
         tangentMode: 34
         weightedMode: 0
         inWeight: 0
         outWeight: 0.33333334
       - serializedVersion: 3
+        time: 0.5705867
+        value: 0.9578093
+        inSlope: 1.6146795
+        outSlope: 1.6146795
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
         time: 1
-        value: 1
-        inSlope: 0.5
-        outSlope: 0.5
+        value: 2
+        inSlope: 2.4270105
+        outSlope: 2.4270105
         tangentMode: 34
         weightedMode: 0
         inWeight: 0.33333334
@@ -4220,11 +4239,11 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    meleeAggroRange: 10
+    meleeAggroRange: 2
     moveSpeed: 4.5
     stoppingDistance: 1
     strikeWarmUp: 2
-  enragePoint: 0.3
+  enragePoint: 0.35
   enrageSound: {fileID: 258710143489626923}
   walker:
     Speed: 0
@@ -4239,7 +4258,6 @@ MonoBehaviour:
     minSpeed: 3.5
     maxSpeed: 3.5
   SpeedType: 0
-  totalHealthMultiplier: 5
   m_xAmountOfRounds: 9
   m_HealthToAdd: 500
   m_HealthMultiplier: 1.1

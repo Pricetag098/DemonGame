@@ -66,10 +66,10 @@ public class AiAgent : SpatialHashObject
                 transform.up = hit.normal;
 			}
 
-			rb.AddForce(GetPushForce() * dispersionForce);
+			rb.AddForce(GetPushForce() * dispersionForce * Time.fixedDeltaTime);
 
 			Vector3 turningVel = idealVel - rb.velocity;
-			rb.AddForce(turningVel * acceleration);
+			rb.AddForce(turningVel * acceleration * Time.fixedDeltaTime);
 
             if (Vector3.Distance(transform.position, path[pathIndex]) < indexChangeDistance)
             {
@@ -82,7 +82,7 @@ public class AiAgent : SpatialHashObject
 		}
         else
         {
-            rb.AddForce(Vector3.down * gravityScale);
+            rb.AddForce(Vector3.down * gravityScale * Time.fixedDeltaTime);
         }
     }
 
@@ -107,12 +107,6 @@ public class AiAgent : SpatialHashObject
     {
         if(canRotate == true)
         {
-            if (path[pathIndex] == null) 
-            {
-                transform.rotation = lastRotation;
-                return;
-            }
-
             var lookPos = path[pathIndex] - transform.position;
             lookPos.y = 0;
             var rotation = Quaternion.LookRotation(lookPos);

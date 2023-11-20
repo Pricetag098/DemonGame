@@ -51,6 +51,8 @@ public class DemonFramework : MonoBehaviour
     /// Spawn Type
     /// </summary>
     protected SpawnType _spawnType;
+
+    protected bool _isSpawned;
     #endregion
 
     #region DEATH
@@ -214,6 +216,11 @@ public class DemonFramework : MonoBehaviour
             WhileMovingSoundInterval(WhileMovingSoundTimer);
         }
 
+        if (SampleNavmeshPosition() == false)
+        {
+            MarkForRemoval();
+        }
+
         DeathFade();
     }
 
@@ -293,6 +300,7 @@ public class DemonFramework : MonoBehaviour
         _isRemoved = false;
         _isDead = false;
         _isRagdolled = false;
+        _isSpawned = false;
         DemonInMap = inMap;
 
         switch (spawnType)
@@ -375,6 +383,7 @@ public class DemonFramework : MonoBehaviour
         _aiAgent.SetFollowSpeed(_moveSpeed);
         _rb.isKinematic = false;
         _animator.applyRootMotion = false;
+        _isSpawned = true;
     }
     public virtual void OnFinishedDeathAnimation() 
     {
@@ -550,7 +559,7 @@ public class DemonFramework : MonoBehaviour
         get { return DemonInMap; }
     }
 
-    [SerializeField] private float onNavmeshDistance;
+    private float onNavmeshDistance = 0.7f;
 
     public bool SampleNavmeshPosition()
     {

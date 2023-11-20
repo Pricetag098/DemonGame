@@ -188,6 +188,7 @@ public class ChaosDemon : DemonFramework
 
         _health.dead = false;
 
+        SetMoveSpeed(type.SpeedType);
         SetValues(normalStats);
 
         _aiAgent.canRotate = true;

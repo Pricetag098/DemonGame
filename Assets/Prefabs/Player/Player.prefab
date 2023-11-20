@@ -6881,6 +6881,7 @@ MonoBehaviour:
   - {fileID: 0}
   startTimes: []
   delay: 1
+  soundPlayer: {fileID: 0}
 --- !u!1 &3899720132956419846
 GameObject:
   m_ObjectHideFlags: 0
@@ -6922,6 +6923,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3899720133021509132}
   - component: {fileID: 3899720133021509131}
+  - component: {fileID: 7237928638261281445}
   m_Layer: 6
   m_Name: CrouchCollider
   m_TagString: Untagged
@@ -6958,6 +6960,20 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: -0.5, z: 0}
+--- !u!114 &7237928638261281445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3899720133021509130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cfae3d7b0cc17348a37b7dabd50da9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bodyPart: 0
+  health: {fileID: 8339324333281444828}
 --- !u!1 &3899720133027113965
 GameObject:
   m_ObjectHideFlags: 0
@@ -7360,6 +7376,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3899720133823062390}
   - component: {fileID: 3899720133823062389}
+  - component: {fileID: 6525983011286673818}
   m_Layer: 6
   m_Name: StandingCollider
   m_TagString: Untagged
@@ -7396,6 +7413,20 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6525983011286673818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3899720133823062388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cfae3d7b0cc17348a37b7dabd50da9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bodyPart: 0
+  health: {fileID: 8339324333281444828}
 --- !u!1 &3899720134046173351
 GameObject:
   m_ObjectHideFlags: 0

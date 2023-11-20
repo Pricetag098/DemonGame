@@ -70,8 +70,6 @@ public class Health : MonoBehaviour
         {
             grantPoints = true;
 
-            Debug.Log(LastHitType);
-
             switch (LastHitType)
             {
                 case HitType.Null:

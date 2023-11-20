@@ -225,6 +225,8 @@ public class ChaosDemon : DemonFramework
 
         _aiAgent.canRotate = false;
 
+        if (_spawnType == SpawnType.Default) { _spawnerManager.DemonKilled(); }
+
         MarkForRemoval();
     }
     public override void OnForcedDeath()

@@ -220,7 +220,7 @@ public class DemonFramework : MonoBehaviour
     public virtual void OnHit() { }
     public virtual void PathFinding() 
     {
-        _aiAgent.UpdatePath(CurrentTarget);
+        
     }
     public virtual void CalculateStats(int round) { }
     public virtual bool DetectTarget() { return true; }

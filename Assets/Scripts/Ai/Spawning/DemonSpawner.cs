@@ -18,6 +18,9 @@ public class DemonSpawner : MonoBehaviour
     private Spawners _spawners;
     [HideInInspector] public DemonPoolers demonPool;
 
+    private int demonsSpawned = 0;
+    private int demonsDespawned = 0;
+
     private void Awake()
     {
         _spawners = GetComponent<Spawners>();
@@ -38,7 +41,11 @@ public class DemonSpawner : MonoBehaviour
         {
             ActiveDemons.Remove(demon);
             demon.DespawnObject();
+
+            demonsDespawned++;
         }
+
+        Debug.Log("Demons despawned is: " + demonsDespawned);
 
         ActiveDemonsToRemove.Clear();
     }
@@ -51,6 +58,8 @@ public class DemonSpawner : MonoBehaviour
     {
         sm.currentDemons--;
         sm.maxDemonsToSpawn++;
+
+        //Debug.Log("Demon added back to pool");
 
         DemonQueue.Enqueue(demon);
     }

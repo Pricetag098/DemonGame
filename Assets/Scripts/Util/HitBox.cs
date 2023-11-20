@@ -15,22 +15,27 @@ public class HitBox : MonoBehaviour
     
     public Health health;
 
-    private Animator animator;
+    private Optional<Animator> animator;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         if(health == null)
         health = GetComponentInParent<Health>();
-        animator = GetComponentInParent<Animator>();
+        animator.Value = GetComponentInParent<Animator>();
+        animator.Enabled = animator.Value != null;
     }
     public void OnHit(float dmg, HitType type)
     {
         health.TakeDmg(dmg, type);
-        animator.ResetTrigger("Hit");
+        
 
         int hitNum = Random.Range(0, 7);
-
-        animator.SetInteger("HitNum", hitNum);
-        animator.SetTrigger("Hit");
+        if (animator.Enabled)
+        {
+            animator.Value.ResetTrigger("Hit");
+            animator.Value.SetInteger("HitNum", hitNum);
+            animator.Value.SetTrigger("Hit");
+        }
+        
     }
 }

@@ -325,8 +325,8 @@ public class Gun : MonoBehaviour
         {
             
             Vector3 randVal = GetSpread(UnityEngine.Random.insideUnitSphere);
-            
-            
+
+
             Vector3 dir = holster.aimTarget.rotation * (Quaternion.Euler(randVal) * Vector3.forward);
             Debug.DrawRay(holster.aimTarget.position, dir * 10, Color.green);
 
@@ -415,7 +415,7 @@ public class Gun : MonoBehaviour
             else
             {
                 if (visualiserPool.Enabled)
-                    visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin.position, Camera.main.transform.forward * 1000, 1000 / bulletVisualiserSpeed,dir);
+                    visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin.position,origin.position + dir * 1000, 1000 / bulletVisualiserSpeed,dir);
             }
             
         }

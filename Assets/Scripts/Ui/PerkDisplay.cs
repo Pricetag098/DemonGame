@@ -23,6 +23,7 @@ public class PerkDisplay : MonoBehaviour
             if(perkManager.perkList.Count > i)
 			{
                 perkText[i].text = perkManager.perkList[i].symbolText;
+                perkText[i].font = perkManager.perkList[i].perkFont;
                 perkText[i].gameObject.SetActive(true);
             }
 			else

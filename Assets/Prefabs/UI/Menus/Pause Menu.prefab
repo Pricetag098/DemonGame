@@ -539,6 +539,7 @@ GameObject:
   - component: {fileID: 9079298817981735691}
   - component: {fileID: 8487573865854220342}
   - component: {fileID: 4643053468394436410}
+  - component: {fileID: 1781989274888381067}
   m_Layer: 0
   m_Name: QuitToDesktop
   m_TagString: Untagged
@@ -649,9 +650,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2270270797737669242}
+      - m_Target: {fileID: 1781989274888381067}
         m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
-        m_MethodName: Quit
+        m_MethodName: QuitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -661,6 +662,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1781989274888381067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4074568953280141199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8518f0a84b0d474eb16f09d896296ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4343882740747686218
 GameObject:
   m_ObjectHideFlags: 0

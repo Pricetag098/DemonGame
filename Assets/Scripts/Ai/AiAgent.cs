@@ -27,7 +27,7 @@ public class AiAgent : SpatialHashObject
 	public AgentPath path = new AgentPath();
     public bool canMove = true;
 
-    private Quaternion lastRotation = Quaternion.identity;
+    private Vector3 lastRotation = Vector3.zero;
     private DemonFramework demon;
 
     private void Awake()
@@ -107,20 +107,18 @@ public class AiAgent : SpatialHashObject
     {
         if(canRotate == true)
         {
-            //var lookPos = path[pathIndex] - transform.position;
-            //lookPos.y = 0;
-            //var rotation = Quaternion.LookRotation(lookPos);
-            //transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
-            //lastRotation = transform.rotation;
-
             Vector3 forward = transform.forward;
             Vector3 targetDirection = path[pathIndex] - transform.position;
-            transform.forward = Vector3.Lerp(forward, targetDirection, Time.deltaTime * rotationSpeed);
+
+            Vector3 result = Vector3.Lerp(forward, targetDirection, Time.deltaTime * rotationSpeed);
+
+            lastRotation = result;
+            transform.forward = result;
 
         }
         else
         {
-            transform.rotation = lastRotation;
+            transform.forward = lastRotation;
         }
     }
 

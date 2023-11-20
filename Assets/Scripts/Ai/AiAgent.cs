@@ -27,7 +27,7 @@ public class AiAgent : SpatialHashObject
 	public AgentPath path = new AgentPath();
     public bool canMove = true;
 
-    private Quaternion lastRotation = Quaternion.identity;
+    private Vector3 lastRotation = Vector3.zero;
     private DemonFramework demon;
 
     private void Awake()
@@ -66,10 +66,10 @@ public class AiAgent : SpatialHashObject
                 transform.up = hit.normal;
 			}
 
-			rb.AddForce(GetPushForce() * dispersionForce);
+			rb.AddForce(GetPushForce() * dispersionForce * Time.fixedDeltaTime);
 
 			Vector3 turningVel = idealVel - rb.velocity;
-			rb.AddForce(turningVel * acceleration);
+			rb.AddForce(turningVel * acceleration * Time.fixedDeltaTime);
 
             if (Vector3.Distance(transform.position, path[pathIndex]) < indexChangeDistance)
             {
@@ -82,7 +82,7 @@ public class AiAgent : SpatialHashObject
 		}
         else
         {
-            rb.AddForce(Vector3.down * gravityScale);
+            rb.AddForce(Vector3.down * gravityScale * Time.fixedDeltaTime);
         }
     }
 
@@ -107,21 +107,18 @@ public class AiAgent : SpatialHashObject
     {
         if(canRotate == true)
         {
-            if (path[pathIndex] == null) 
-            {
-                transform.rotation = lastRotation;
-                return;
-            }
+            Vector3 forward = transform.forward;
+            Vector3 targetDirection = path[pathIndex] - transform.position;
 
-            var lookPos = path[pathIndex] - transform.position;
-            lookPos.y = 0;
-            var rotation = Quaternion.LookRotation(lookPos);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
-            lastRotation = transform.rotation;
+            Vector3 result = Vector3.Lerp(forward, targetDirection, Time.deltaTime * rotationSpeed);
+
+            lastRotation = result;
+            transform.forward = result;
+
         }
         else
         {
-            transform.rotation = lastRotation;
+            transform.forward = lastRotation;
         }
     }
 

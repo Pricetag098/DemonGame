@@ -33,13 +33,35 @@ public class LesserDemon : DemonFramework
     }
     public override void OnStart()
     {
-        base.OnStart();
+        _pooledObject = GetComponent<PooledObject>();
+
+        _health.health = _health.maxHealth;
+
+        _health.OnDeath += OnDeath;
+        _health.OnHit += OnHit;
+
+        _aiAgent.stopingDistance = _stoppingDistance;
     }
     public override void OnUpdate()
     {
-        base.OnUpdate();
+        if (IdleSoundTimer.TimeGreaterThan)
+        {
+            IdleSoundInterval(IdleSoundTimer);
 
-        if(DetectTarget() == false) { return; }
+        }
+        if (WhileMovingSoundTimer.TimeGreaterThan)
+        {
+            WhileMovingSoundInterval(WhileMovingSoundTimer);
+        }
+
+        if (SampleNavmeshPosition() == false && _isDead == false)
+        {
+            MarkForRemoval();
+        }
+
+        DeathFade();
+
+        if (DetectTarget() == false) { return; }
 
         if(GetDemonInMap == false) { m_obstacle.Detection(); }
 
@@ -51,7 +73,38 @@ public class LesserDemon : DemonFramework
     }
     public override void OnSpawn(DemonType type, Transform target, SpawnType spawnType, bool inMap)
     {
-        base.OnSpawn(type, target, spawnType, inMap);
+        _aiAgent.SetFollowSpeed(0);
+        CurrentTarget = target;
+        _spawnType = spawnType;
+        _type = type;
+        _rb.isKinematic = true;
+        _animator.enabled = true;
+        _animator.applyRootMotion = true;
+        _isRemoved = false;
+        _isDead = false;
+        _isRagdolled = false;
+        _isSpawned = false;
+        DemonInMap = inMap;
+
+        switch (spawnType)
+        {
+            case SpawnType.Default:
+                _deathPoints.points = pointsOnDeath;
+                break;
+            case SpawnType.Ritual:
+                _deathPoints.points = 0;
+                break;
+        }
+
+        _animationOverrides.SelectController(_animator);
+
+        SetAllColliders(true);
+
+        DemonMaterials.SetDefaultSpawningMaterial(_skinnedMeshRenderer);
+
+        DemonSpawner.ActiveDemons.Add(this);
+
+        PlayAnimation("Spawn");
 
         UpdateHealthToCurrentRound(_spawnerManager.currentRound);
 
@@ -73,7 +126,15 @@ public class LesserDemon : DemonFramework
     }
     public override void OnDeath()
     {
-        base.OnDeath();
+        _aiAgent.SetFollowSpeed(0);
+
+        RemoveFromSpatialHash();
+
+        _animator.SetLayerWeight(_animator.GetLayerIndex("Upper"), 0);
+
+        PlaySoundDeath();
+
+        _isDead = true;
 
         Transform t = transform;
         t.position += new Vector3(0, 1, 0);
@@ -93,7 +154,15 @@ public class LesserDemon : DemonFramework
     }
     public override void OnForcedDeath()
     {
-        base.OnForcedDeath();
+        _aiAgent.SetFollowSpeed(0);
+
+        SetAllColliders(false);
+
+        RemoveFromSpatialHash();
+
+        _spawner.AddDemonBackToPool(_type, _spawnerManager);
+
+        _pooledObject.Despawn();
 
         _spawner.AddDemonBackToPool(_type, _spawnerManager);
 
@@ -101,7 +170,36 @@ public class LesserDemon : DemonFramework
     }
     public override void OnDespawn()
     {
-        base.OnDespawn();
+        _aiAgent.SetFollowSpeed(0);
+
+        SetAllColliders(false);
+
+        RemoveFromSpatialHash();
+
+        switch (_spawnType)
+        {
+            case SpawnType.Default:
+                _spawner.AddDemonBackToPool(_type, _spawnerManager);
+                break;
+            case SpawnType.Ritual:
+                _spawnerManager.AddDemonBackToRitual(_type);
+                break;
+        }
+
+        MarkForRemoval();
+    }
+
+    public override bool CheckToDespawn()
+    {
+        float dist = DistanceToTargetNavmesh;
+
+        if (dist > 100000) dist = 0;
+
+        if (dist > _distanceToRespawn)
+        {
+            return true;
+        }
+        return false;
     }
     public override void OnAttack()
     {
@@ -142,7 +240,7 @@ public class LesserDemon : DemonFramework
             CurrentAttackStateAnimation();
         }
 
-        if(CheckToDespawn() == true)
+        if(CheckToDespawn() == true) // add timer to this
         {
             MarkForRemoval();
         }
@@ -159,11 +257,16 @@ public class LesserDemon : DemonFramework
     }
     public override void OnFinishedSpawnAnimation()
     {
-        base.OnFinishedSpawnAnimation();
+        _aiAgent.SetFollowSpeed(_moveSpeed);
+        _rb.isKinematic = false;
+        _animator.applyRootMotion = false;
+        _isSpawned = true;
     }
     public override void OnFinishedDeathAnimation()
     {
-        base.OnFinishedDeathAnimation();
+        if (_spawnType == SpawnType.Default) { _spawnerManager.DemonKilled(); }
+
+        MarkForRemoval();
     }
     public override void SetAnimationVariables()
     {

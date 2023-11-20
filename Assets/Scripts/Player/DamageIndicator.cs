@@ -9,6 +9,7 @@ public class DamageIndicator : MonoBehaviour
     [SerializeField] private List<RectTransform> indicators;
     [SerializeField] private List<float> startTimes;
     [SerializeField] private float delay;
+    [SerializeField] private SoundPlayer soundPlayer;
     private int value;
     private Quaternion tRotation;
     // Start is called before the first frame update
@@ -35,6 +36,7 @@ public class DamageIndicator : MonoBehaviour
 
     public void Indicate(Transform enemy)
     {
+        soundPlayer.Play();
         Vector3 direction = orientation.position - enemy.position;
 
         tRotation = Quaternion.LookRotation(direction);

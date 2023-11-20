@@ -232,7 +232,7 @@ namespace Movement
 			}
 			else
 			{
-				if (sprintAction.action.IsPressed())
+				if (sprintAction.action.WasPressedThisFrame())
 					sprintInput = !sprintInput;
 			}
 			//Different update for each state

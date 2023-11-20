@@ -156,7 +156,7 @@ public class ChaosDemon : DemonFramework
         isEnraged = false;
         DemonInMap = inMap;
         
-        castTimer = activeStats.castInterval.Evaluate(1);
+        
 
         switch (spawnType)
         {
@@ -190,7 +190,7 @@ public class ChaosDemon : DemonFramework
 
         SetMoveSpeed(type.SpeedType);
         SetValues(normalStats);
-
+        castTimer = activeStats.castInterval.Evaluate(1);
         _aiAgent.canRotate = true;
 
         //_attachments.ResetAllAttachments();

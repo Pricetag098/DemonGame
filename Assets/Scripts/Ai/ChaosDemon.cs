@@ -23,7 +23,6 @@ public class ChaosDemon : DemonFramework
     [HideInInspector] public SpeedType SpeedType;
 
     [Header("Demon Health Algorithm")]
-    [SerializeField] float totalHealthMultiplier = 1;
     [SerializeField] int m_xAmountOfRounds;
     [SerializeField] float m_HealthToAdd;
     [SerializeField] float m_HealthMultiplier;

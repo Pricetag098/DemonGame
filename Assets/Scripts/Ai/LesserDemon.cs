@@ -142,7 +142,7 @@ public class LesserDemon : DemonFramework
             CurrentAttackStateAnimation();
         }
 
-        if(CheckToDespawn() == true)
+        if(CheckToDespawn() == true) // add timer to this
         {
             MarkForRemoval();
         }

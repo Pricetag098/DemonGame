@@ -216,7 +216,7 @@ public class DemonFramework : MonoBehaviour
             WhileMovingSoundInterval(WhileMovingSoundTimer);
         }
 
-        if (SampleNavmeshPosition() == false)
+        if (SampleNavmeshPosition() == false && _isDead == false)
         {
             MarkForRemoval();
         }

@@ -107,11 +107,16 @@ public class AiAgent : SpatialHashObject
     {
         if(canRotate == true)
         {
-            var lookPos = path[pathIndex] - transform.position;
-            lookPos.y = 0;
-            var rotation = Quaternion.LookRotation(lookPos);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
-            lastRotation = transform.rotation;
+            //var lookPos = path[pathIndex] - transform.position;
+            //lookPos.y = 0;
+            //var rotation = Quaternion.LookRotation(lookPos);
+            //transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
+            //lastRotation = transform.rotation;
+
+            Vector3 forward = transform.forward;
+            Vector3 targetDirection = path[pathIndex] - transform.position;
+            transform.forward = Vector3.Lerp(forward, targetDirection, Time.deltaTime * rotationSpeed);
+
         }
         else
         {

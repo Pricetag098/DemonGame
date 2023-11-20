@@ -256,7 +256,7 @@ public class LesserDemon : DemonFramework
     {
         if (currentRound != _currentUpdatedRound)
         {
-            for (int round = _currentUpdatedRound + 1; round < currentRound ; round++)
+            for (int round = _currentUpdatedRound; round < currentRound; round++)
             {
                 CalculateStats(round);
             }

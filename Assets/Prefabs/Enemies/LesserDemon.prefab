@@ -1985,6 +1985,10 @@ PrefabInstance:
       propertyPath: m_Mass
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5855921625175451223, guid: e52b671e99bb016438a85851c6ad8a36, type: 3}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
     - target: {fileID: 5856720760993070796, guid: e52b671e99bb016438a85851c6ad8a36, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -2873,7 +2877,7 @@ MonoBehaviour:
   Grid: {fileID: 0}
   followSpeed: 4
   acceleration: 1000
-  rotationSpeed: 50
+  rotationSpeed: 1000
   canRotate: 1
   RemainingDistancePath: 0
   wallLayers:
@@ -2881,10 +2885,10 @@ MonoBehaviour:
     m_Bits: 1
   scanRadius: 5
   scanRays: 10
-  groundingRange: 1.5
+  groundingRange: 2
   groundingRadius: 0.1
   dispersionForce: 15
-  gravityScale: 10
+  gravityScale: 50
   indexChangeDistance: 0.4
   stopingDistance: 1.5
   pathIndex: 1

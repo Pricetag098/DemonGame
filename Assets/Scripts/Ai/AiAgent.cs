@@ -28,6 +28,7 @@ public class AiAgent : SpatialHashObject
     public bool canMove = true;
 
     private Quaternion lastRotation = Quaternion.identity;
+    private Vector3 upVector = Vector3.zero;
     private DemonFramework demon;
 
     bool initalise = false;
@@ -76,7 +77,7 @@ public class AiAgent : SpatialHashObject
 				idealVel = toTarget * followSpeed;
                 if(hit.normal != Vector3.zero)
                 idealVel = Vector3.ProjectOnPlane(idealVel, hit.normal);
-                transform.up = hit.normal;
+                upVector = hit.normal;
 			}
 
 			rb.AddForce(GetPushForce() * dispersionForce * Time.fixedDeltaTime);
@@ -119,6 +120,7 @@ public class AiAgent : SpatialHashObject
             Vector3 targetDirection = path[pathIndex] - transform.position;
             targetDirection.y = 0;
             targetDirection.Normalize();
+            
 
             Quaternion newRotation = Quaternion.LookRotation(targetDirection);
 

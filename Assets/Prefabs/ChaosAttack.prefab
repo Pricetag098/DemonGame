@@ -105,9 +105,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 725403199886832233}
-  - {fileID: 725415254561863407}
+  m_Children: []
   m_Father: {fileID: 3810713180205302315}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -211,72 +209,10 @@ MonoBehaviour:
   CustomTransformHandler:
     m_PersistentCalls:
       m_Calls: []
-  Source: {fileID: 721944003162868857}
-  Destination: {fileID: 722051354401148355}
+  Source: {fileID: 0}
+  Destination: {fileID: 0}
   StartVariance: {x: 0, y: 0, z: 0}
   EndVariance: {x: 0, y: 0, z: 0}
---- !u!1 &721944003162868857
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 725403199886832233}
-  m_Layer: 0
-  m_Name: LightningStart
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &725403199886832233
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 721944003162868857}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 75, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 721063154601192265}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &722051354401148355
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 725415254561863407}
-  m_Layer: 0
-  m_Name: LightningEnd
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &725415254561863407
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 722051354401148355}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 721063154601192265}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4165141950878932330
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,6 +255,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3810713180205302315}
+  - component: {fileID: 4152480758799385042}
   m_Layer: 0
   m_Name: ChaosAttack
   m_TagString: Untagged
@@ -343,6 +280,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4152480758799385042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4503077899859779925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4642288427be62b4080887eed0729ce3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitRadius: 1
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 1
+  wallLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  strikeLightning: {fileID: 721063154591280233}
+  boltOriginHeight: 200
 --- !u!1 &5429215127375948392
 GameObject:
   m_ObjectHideFlags: 0

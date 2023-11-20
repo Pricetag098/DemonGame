@@ -1,10 +1,20 @@
 using DemonInfo;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class ChaosDemon : DemonFramework
 {
+    [SerializeField] float meleeStopingDistance;
+    [SerializeField] ChaosStats normalStats, enragedStats;
+    ObjectPooler pooler;
+    [SerializeField, Range(0, 1)] float enragePoint;
+
+    float castTimer;
+
+
     [Header("Speed Profiles")]
     [SerializeField] DemonSpeedProfile walker;
     [SerializeField] DemonSpeedProfile jogger;
@@ -13,6 +23,7 @@ public class ChaosDemon : DemonFramework
     [HideInInspector] public SpeedType SpeedType;
 
     [Header("Demon Health Algorithm")]
+    [SerializeField] float healthMultipleir;
     [SerializeField] int m_xAmountOfRounds;
     [SerializeField] float m_HealthToAdd;
     [SerializeField] float m_HealthMultiplier;
@@ -23,12 +34,34 @@ public class ChaosDemon : DemonFramework
     [Header("ObstacleDetection")]
     private DestroyObstacle m_obstacle;
 
+    ChaosStats activeStats;
+    bool isEnraged;
+    [Serializable]
+    public class ChaosStats
+    {
+        public float meleeDamage;
+        public float spellDamage;
+        public float spellRadius;
+        public AnimationCurve castInterval;
+        public float meleeAggroRange;
+        public float moveSpeed;
+        public float stoppingDistance;
+        public float strikeWarmUp;
+    }
+    void SetValues(ChaosStats stats)
+    {
+        activeStats = stats;
+        _aiAgent.followSpeed = stats.moveSpeed;
+        
+    }
+
     #region OVERRIDE_FUNCTIONS
     public override void OnAwakened()
     {
         base.OnAwakened();
 
         m_obstacle = GetComponent<DestroyObstacle>();
+        pooler = GetComponent<ObjectPooler>();
     }
     public override void OnStart()
     {
@@ -70,7 +103,40 @@ public class ChaosDemon : DemonFramework
         _aiAgent.LookDirection();
 
         PathFinding();
+
+        //Chase the player at closeRange
+        if(Vector3.SqrMagnitude(transform.position - CurrentTarget.position) < activeStats.meleeAggroRange * activeStats.meleeAggroRange)
+        {
+            _aiAgent.stopingDistance = meleeStopingDistance;
+        }
+        else
+        {
+            _aiAgent.stopingDistance = activeStats.stoppingDistance;
+        }
+
+        if(!isEnraged && _health.health / _health.maxHealth < enragePoint)
+        {
+            SetValues(enragedStats);
+            isEnraged = true;
+            Debug.Log("Demon is angy");
+        }
+
+        if(castTimer < 0)
+        {
+            //Cast
+
+            Vector3 randVal = UnityEngine.Random.insideUnitSphere * activeStats.spellRadius;
+            randVal.y = MathF.Abs(randVal.y);
+            Vector3 point = CurrentTarget.position + CurrentTarget.GetComponent<Rigidbody>().velocity * activeStats.strikeWarmUp + randVal;
+
+            pooler.Spawn().GetComponent<ChaosDemonSpell>().Spawn(activeStats.strikeWarmUp,point,activeStats.spellDamage);
+
+            castTimer = activeStats.castInterval.Evaluate(_health.health / _health.maxHealth);
+
+        }
     }
+
+    
     public override void OnSpawn(DemonType type, Transform target, SpawnType spawnType, bool inMap)
     {
         _aiAgent.SetFollowSpeed(0);
@@ -84,7 +150,10 @@ public class ChaosDemon : DemonFramework
         _isDead = false;
         _isRagdolled = false;
         _isSpawned = false;
+        isEnraged = false;
         DemonInMap = inMap;
+        castTimer = activeStats.castInterval.Evaluate(1);
+        SetValues(normalStats);
 
         switch (spawnType)
         {
@@ -100,7 +169,7 @@ public class ChaosDemon : DemonFramework
 
         SetAllColliders(true);
 
-        //DemonMaterials.SetDefaultSpawningMaterial(_skinnedMeshRenderer);
+        DemonMaterials.SetDefaultSpawningMaterial(_skinnedMeshRenderer);
 
         DemonSpawner.ActiveDemons.Add(this);
 
@@ -127,8 +196,6 @@ public class ChaosDemon : DemonFramework
     public override void OnDeath()
     {
         _aiAgent.SetFollowSpeed(0);
-
-        RemoveFromSpatialHash();
 
         _animator.SetLayerWeight(_animator.GetLayerIndex("Upper"), 0);
 
@@ -158,13 +225,7 @@ public class ChaosDemon : DemonFramework
 
         SetAllColliders(false);
 
-        RemoveFromSpatialHash();
-
         _spawner.AddDemonBackToPool(_type, _spawnerManager);
-
-        //_pooledObject.Despawn();
-
-        //_spawner.AddDemonBackToPool(_type, _spawnerManager);
 
         MarkForRemoval();
     }
@@ -173,8 +234,6 @@ public class ChaosDemon : DemonFramework
         _aiAgent.SetFollowSpeed(0);
 
         SetAllColliders(false);
-
-        RemoveFromSpatialHash();
 
         switch (_spawnType)
         {
@@ -210,7 +269,7 @@ public class ChaosDemon : DemonFramework
 
         if (Vector3.Distance(target.position, transform.position) < _attackRange)
         {
-            target.GetComponent<Health>().TakeDmg(_damage, HitType.Null);
+            target.GetComponent<Health>().TakeDmg(activeStats.meleeDamage, HitType.Null);
             if (target.TryGetComponent<DamageIndicator>(out DamageIndicator damageIndicator))
             {
                 damageIndicator.Indicate(transform);
@@ -227,7 +286,11 @@ public class ChaosDemon : DemonFramework
     }
     public override void CalculateStats(int round)
     {
-        base.CalculateStats(round);
+        if (round <= m_xAmountOfRounds)
+        {
+            _health.maxHealth += m_HealthToAdd;
+        }
+        else { _health.maxHealth = _health.maxHealth * m_HealthMultiplier; }
     }
     public override bool DetectTarget()
     {
@@ -253,7 +316,15 @@ public class ChaosDemon : DemonFramework
     }
     public override void UpdateHealthToCurrentRound(int currentRound)
     {
-        base.UpdateHealthToCurrentRound(currentRound);
+        if (currentRound != _currentUpdatedRound)
+        {
+            for (int round = _currentUpdatedRound + 1; round < currentRound; round++)
+            {
+                CalculateStats(round);
+            }
+
+            _currentUpdatedRound = currentRound;
+        }
     }
     public override void OnFinishedSpawnAnimation()
     {

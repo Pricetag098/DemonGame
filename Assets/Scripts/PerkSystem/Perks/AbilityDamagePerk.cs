@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 
@@ -8,7 +9,10 @@ public class AbilityDamagePerk : Perk
 {
 	[SerializeField] float bloodGainModToGain;
 	[SerializeField] float bloodMeterModToGain;
-	protected override void OnEquip()
+
+    public TMP_FontAsset perkFont;
+
+    protected override void OnEquip()
 	{
 		PlayerStats playerStats = manager.GetComponent<PlayerStats>();
 		AbilityCaster abilityCaster = manager.GetComponent<AbilityCaster>();

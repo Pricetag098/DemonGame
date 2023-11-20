@@ -10,7 +10,7 @@ public class AbilityDamagePerk : Perk
 	[SerializeField] float bloodGainModToGain;
 	[SerializeField] float bloodMeterModToGain;
 
-    public TMP_FontAsset perkFont;
+    
 
     protected override void OnEquip()
 	{

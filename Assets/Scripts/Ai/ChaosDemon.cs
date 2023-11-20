@@ -72,6 +72,8 @@ public class ChaosDemon : DemonFramework
         _health.OnHit += OnHit;
 
         _aiAgent.stopingDistance = _stoppingDistance;
+
+
     }
     public override void OnUpdate()
     {
@@ -153,7 +155,7 @@ public class ChaosDemon : DemonFramework
         _isSpawned = false;
         isEnraged = false;
         DemonInMap = inMap;
-        SetValues(normalStats);
+        
         castTimer = activeStats.castInterval.Evaluate(1);
 
         switch (spawnType)
@@ -186,7 +188,7 @@ public class ChaosDemon : DemonFramework
 
         _health.dead = false;
 
-        SetMoveSpeed(type.SpeedType);
+        SetValues(normalStats);
 
         _aiAgent.canRotate = true;
 

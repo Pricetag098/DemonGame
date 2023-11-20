@@ -10,12 +10,16 @@ public class LoadingBar : MonoBehaviour
 {
     public GameObject loadingImage;
     public GameObject inputAwaiterImage;
+    public CanvasGroup[] controlDisplays;
+    public int controlIndex = 0;
 
     public Slider slider;
     public float loadTime;
     float timer;
 
     public float toolTipTimer;
+    public float controllerTimer;
+
     [TextArea(2, 5)]
     public List<string> potentialToolTips;
     public float toolTipDuration;
@@ -54,11 +58,22 @@ public class LoadingBar : MonoBehaviour
         }
 
         toolTipTimer += Time.deltaTime;
+        controllerTimer += Time.deltaTime;
 
-        if (toolTipTimer > (toolTipDuration + toolTipFadeDuration + 0.5f))
+        if (toolTipTimer > (toolTipDuration + toolTipFadeDuration))
         {
             StartCoroutine(CycleNextToolTip());
             toolTipTimer = 0;
+        }
+        if (controllerTimer > (toolTipFadeDuration + 13))
+        {
+            StartCoroutine(CycleNextControllerLayout());
+            controllerTimer = 0;
+        }
+
+        if (controlIndex > 1)
+        {
+            controlIndex= 0;
         }
     }
 
@@ -106,6 +121,20 @@ public class LoadingBar : MonoBehaviour
         potentialToolTips.Add(lastTip);
 
         yield return new WaitForSeconds(toolTipDuration);
+
+    }
+
+    public IEnumerator CycleNextControllerLayout()
+    {
+        controlDisplays[controlIndex].DOFade(0, toolTipFadeDuration);
+        controlIndex++;
+
+        yield return new WaitForSeconds(toolTipFadeDuration);
+
+        controlDisplays[controlIndex].DOFade(1, toolTipFadeDuration);
+
+
+        yield return new WaitForSeconds(13);
 
     }
 }

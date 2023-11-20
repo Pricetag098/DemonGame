@@ -63,7 +63,7 @@ public class PortalInteraction : ShopInteractable
             DOTween.Kill(this, true);
             Sequence open = DOTween.Sequence();
             portalFrame.StopEmissionBlink();
-            open.Append(DOTween.To(() => dissolveMat.GetFloat("_Alpha_Clip"), x => dissolveMat.SetFloat("_Alpha_Clip", x), 0, dissolveTime));
+            open.Append(DOTween.To(() => dissolveMat.GetFloat("_Alpha_Clip"), x => dissolveMat.SetFloat("_Alpha_Clip", x), 1, dissolveTime));
             open.Append(body.DOScale(Vector3.one * maxPortalSize, openTime)).SetEase(Ease.InSine);
             open.AppendCallback(() => armAnimator.SetTrigger("Out"));
             open.AppendCallback(() => armAnimator.ResetTrigger("In"));
@@ -88,7 +88,7 @@ public class PortalInteraction : ShopInteractable
             close.AppendInterval(animationTime);
             close.Append(body.DOScale(Vector3.one * minPortalSize, openTime)).SetEase(Ease.InSine);
             close.AppendInterval(openTime);
-            close.Append(DOTween.To(() => dissolveMat.GetFloat("_Alpha_Clip"), x => dissolveMat.SetFloat("_Alpha_Clip", x), 1, dissolveTime));
+            close.Append(DOTween.To(() => dissolveMat.GetFloat("_Alpha_Clip"), x => dissolveMat.SetFloat("_Alpha_Clip", x), 0, dissolveTime));
             close.AppendCallback(() => portalFrame.StartEmissionBlink());
         }
     }

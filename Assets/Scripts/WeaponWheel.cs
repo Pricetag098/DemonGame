@@ -57,7 +57,7 @@ public class WeaponWheel : MonoBehaviour
 
     public void AbilitySelected(Ability ability)
     {
-        selectedAbilityIcon.text = ability.fontReference.ToString();
+        selectedAbilityIcon.text = ability.symbolText;
         selectedAbilityName.text = ability.abilityName.ToString();
     }
 

@@ -341,6 +341,7 @@ public class ChaosDemon : DemonFramework
     public override void OnFinishedSpawnAnimation()
     {
         _aiAgent.SetFollowSpeed(_moveSpeed);
+        SetValues(normalStats);
         _rb.isKinematic = false;
         _animator.applyRootMotion = false;
         _isSpawned = true;

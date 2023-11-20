@@ -53,7 +53,7 @@ public class DamageProjectiles : MonoBehaviour
         this.ability = ability;
         visualiser.Start(ability.caster.castOrigin, transform);
         maxPenetrations = penetrations;
-        
+        healths.Clear();
         this.penetrations = 0;
     }
 

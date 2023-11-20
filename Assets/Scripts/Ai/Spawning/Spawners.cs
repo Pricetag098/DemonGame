@@ -14,10 +14,12 @@ public class Spawners : MonoBehaviour
     public DestrcutibleObject[] barriers;
 
     private Area[] areas;
-    public static Dictionary<Areas, Area> AreaDictionary = new Dictionary<Areas, Area>();
+    public static Dictionary<Areas, Area> AreaDictionary;
 
     private void Awake()
     {
+        AreaDictionary = new Dictionary<Areas, Area>();
+
         areas = FindObjectsOfType<Area>();
 
         foreach(Area a in areas)

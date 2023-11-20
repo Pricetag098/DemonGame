@@ -30,6 +30,16 @@ public class AiAgent : SpatialHashObject
     private Quaternion lastRotation = Quaternion.identity;
     private DemonFramework demon;
 
+    bool initalise = false;
+
+    public void Initalised()
+    {
+        if(initalise == false)
+        {
+            Initalise();
+        }
+    }
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -40,7 +50,7 @@ public class AiAgent : SpatialHashObject
     // Start is called before the first frame update
     void Start()
     {
-        Initalise();
+        //Initalise();
     }
 
     // Update is called once per frame

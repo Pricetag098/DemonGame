@@ -92,15 +92,16 @@ public class AiAgent : SpatialHashObject
 
     public bool UpdatePath(Transform target)
     {
-        NavMeshPath path = new NavMeshPath();
+        NavMeshPath Navpath = new NavMeshPath();
 
-        if(CalculatePath(target.position, path))
+        if(CalculatePath(target.position, Navpath))
         {
-            SetPath(path);
+            SetPath(Navpath);
         }
 
         if (RemainingDistancePath < stopingDistance)
         {
+            path.hasPath = false;
             return false;
         }
 
@@ -156,13 +157,10 @@ public class AiAgent : SpatialHashObject
 
         if(demon.GetDemonInMap == false) return force;
 
-        
-
         foreach(SpatialHashObject other in Objects)
         {
             if (other == this) { continue; }
                 
-            Debug.Log("Applying force");
             Vector3 dirTo = transform.position - other.transform.position;
             float dist = dirTo.magnitude;
             if (dist == 0)

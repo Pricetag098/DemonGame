@@ -156,7 +156,6 @@ public class ChaosDemon : DemonFramework
         DemonInMap = inMap;
         SetValues(normalStats);
         castTimer = activeStats.castInterval.Evaluate(1);
-        
 
         switch (spawnType)
         {
@@ -225,6 +224,8 @@ public class ChaosDemon : DemonFramework
         }
 
         _aiAgent.canRotate = false;
+
+        MarkForRemoval();
     }
     public override void OnForcedDeath()
     {

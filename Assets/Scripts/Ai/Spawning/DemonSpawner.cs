@@ -29,9 +29,18 @@ public class DemonSpawner : MonoBehaviour
 
     public void UpdateCallToDemons()
     {
-        foreach(DemonFramework demon in ActiveDemons)
+        int num = ActiveDemons.Count;
+
+        if(num > MAX_DEMON_UPDATES_PER_FRAME) { num = MAX_DEMON_UPDATES_PER_FRAME; }
+
+        for (int i = 0; i < num; i++)
         {
+            DemonFramework demon = ActiveDemons[0];
+
             demon.OnUpdate();
+
+            ActiveDemons.Remove(demon);
+            ActiveDemons.Add(demon);
         }
     }
 

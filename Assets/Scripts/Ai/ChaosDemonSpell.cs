@@ -10,7 +10,8 @@ public class ChaosDemonSpell : MonoBehaviour
     float damage;
     [SerializeField] float hitRadius = 1;
     [SerializeField] LayerMask targetLayers, wallLayers;
-    [SerializeField] LightningBoltPrefabScript strikeLightning;
+    //[SerializeField] LightningBoltPrefabScript strikeLightning;
+    [SerializeField] GameObject circle;
     [SerializeField] SoundPlayer strikeSound;
     [SerializeField] float boltOriginHeight;
     bool struck = false;
@@ -20,7 +21,7 @@ public class ChaosDemonSpell : MonoBehaviour
     {
         this.damage = damage;
         this.activationTime = activationTime;
-
+        circle.SetActive(true);
         timer = 0;
         struck = false;
         transform.position = spawnPoint;
@@ -39,7 +40,8 @@ public class ChaosDemonSpell : MonoBehaviour
         timer += Time.deltaTime;
         if(timer > activationTime && !struck)
         {
-            strikeLightning.Trigger(new Vector3(transform.position.x, boltOriginHeight, transform.position.z), transform.position);
+            
+            //strikeLightning.Trigger(new Vector3(transform.position.x, boltOriginHeight, transform.position.z), transform.position);
             struck = true;
             strikeSound.Play();
             Collider[] colliders = Physics.OverlapCapsule(transform.position, new Vector3(transform.position.x, boltOriginHeight, transform.position.z),hitRadius,targetLayers);
@@ -56,6 +58,7 @@ public class ChaosDemonSpell : MonoBehaviour
 
                 }
             }
+            circle.SetActive(false);
         }
     }
 }

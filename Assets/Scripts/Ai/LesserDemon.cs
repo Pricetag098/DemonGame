@@ -129,8 +129,6 @@ public class LesserDemon : DemonFramework
     {
         _aiAgent.SetFollowSpeed(0);
 
-        RemoveFromSpatialHash();
-
         _animator.SetLayerWeight(_animator.GetLayerIndex("Upper"), 0);
 
         PlaySoundDeath();
@@ -159,13 +157,7 @@ public class LesserDemon : DemonFramework
 
         SetAllColliders(false);
 
-        RemoveFromSpatialHash();
-
         _spawner.AddDemonBackToPool(_type, _spawnerManager);
-
-        //_pooledObject.Despawn();
-
-        //_spawner.AddDemonBackToPool(_type, _spawnerManager);
 
         MarkForRemoval();
     }
@@ -174,8 +166,6 @@ public class LesserDemon : DemonFramework
         _aiAgent.SetFollowSpeed(0);
 
         SetAllColliders(false);
-
-        RemoveFromSpatialHash();
 
         switch (_spawnType)
         {

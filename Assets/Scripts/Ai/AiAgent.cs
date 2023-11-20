@@ -27,7 +27,7 @@ public class AiAgent : SpatialHashObject
 	public AgentPath path = new AgentPath();
     public bool canMove = true;
 
-    private Vector3 lastRotation = Vector3.zero;
+    private Quaternion lastRotation = Quaternion.identity;
     private DemonFramework demon;
 
     private void Awake()
@@ -47,6 +47,15 @@ public class AiAgent : SpatialHashObject
     void Update()
     {
         RemainingDistancePath = RemainingDistance;
+
+        if (Vector3.Distance(transform.position, path[pathIndex]) < indexChangeDistance)
+        {
+            pathIndex++;
+            if (pathIndex >= path.pathLength)
+            {
+                pathIndex = path.pathLength - 1;
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -70,15 +79,6 @@ public class AiAgent : SpatialHashObject
 
 			Vector3 turningVel = idealVel - rb.velocity;
 			rb.AddForce(turningVel * acceleration * Time.fixedDeltaTime);
-
-            if (Vector3.Distance(transform.position, path[pathIndex]) < indexChangeDistance)
-            {
-                pathIndex++;
-                if (pathIndex >= path.pathLength)
-                {
-                    pathIndex = path.pathLength - 1;
-                }
-            }
 		}
         else
         {
@@ -108,20 +108,23 @@ public class AiAgent : SpatialHashObject
         if(canRotate == true)
         {
             Vector3 forward = transform.forward;
+            forward.y = 0;
+            forward.Normalize();
+
             Vector3 targetDirection = path[pathIndex] - transform.position;
+            targetDirection.y = 0;
+            targetDirection.Normalize();
 
-            Vector3 result = Vector3.Lerp(forward, targetDirection, Time.deltaTime * rotationSpeed);
+            Quaternion newRotation = Quaternion.LookRotation(targetDirection);
 
-            lastRotation = result;
-            transform.forward = result;
+            Quaternion rot = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime * rotationSpeed);
 
-            Quaternion rot = transform.rotation;
-
-            transform.rotation = new Quaternion(0, rot.y, 0, rot.w);
+            lastRotation = rot;
+            transform.rotation = rot;
         }
         else
         {
-            transform.forward = lastRotation;
+            transform.rotation = lastRotation;
         }
     }
 
@@ -149,10 +152,13 @@ public class AiAgent : SpatialHashObject
 
         if(demon.GetDemonInMap == false) return force;
 
+        
+
         foreach(SpatialHashObject other in Objects)
         {
-            if (other == this)
-                continue;
+            if (other == this) { continue; }
+                
+            Debug.Log("Applying force");
             Vector3 dirTo = transform.position - other.transform.position;
             float dist = dirTo.magnitude;
             if (dist == 0)

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ForTesting : MonoBehaviour
 {
+    public float despawnTime;
     PooledObject _pooledObject;
     Timer _timer;
 
@@ -22,6 +23,6 @@ public class ForTesting : MonoBehaviour
 
     private void OnEnable()
     {
-        _timer = new Timer(3);
+        _timer = new Timer(despawnTime);
     }
 }

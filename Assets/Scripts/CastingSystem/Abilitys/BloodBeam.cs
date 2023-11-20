@@ -69,8 +69,12 @@ public class BloodBeam : Ability
 				{
 					if (getPoints)
 					{
-						if (caster.playerStats.Enabled)
-							caster.playerStats.Value.GainPoints(points);
+						if(!hb.health.dead)
+						{
+                            if (caster.playerStats.Enabled)
+                                caster.playerStats.Value.GainPoints(points);
+                        }
+						
 					}
 					hb.OnHit(damage * Time.deltaTime * caster.DamageMulti, HitType.ABILITY);
 					healths.Add(hb.health);

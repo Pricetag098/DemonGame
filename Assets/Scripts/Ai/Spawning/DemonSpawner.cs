@@ -10,8 +10,8 @@ using Assets.CaptainCatSparrow.SpellIconsVolume_2.Druid.Demo;
 public class DemonSpawner : MonoBehaviour
 {
     [HideInInspector] public Queue<DemonType> DemonQueue = new Queue<DemonType>();
-    [HideInInspector] public static List<DemonFramework> ActiveDemons = new List<DemonFramework>();
-    [HideInInspector] public static List<DemonFramework> ActiveDemonsToRemove = new List<DemonFramework>();
+    [HideInInspector] public static List<DemonFramework> ActiveDemons;
+    [HideInInspector] public static List<DemonFramework> ActiveDemonsToRemove;
 
     private const int MAX_DEMON_UPDATES_PER_FRAME = 15;
 
@@ -25,6 +25,10 @@ public class DemonSpawner : MonoBehaviour
     {
         _spawners = GetComponent<Spawners>();
         demonPool = GetComponent<DemonPoolers>();
+
+        ActiveDemons = new List<DemonFramework>();
+        ActiveDemonsToRemove = new List<DemonFramework>();
+
     }
 
     public void UpdateCallToDemons()
@@ -60,8 +64,6 @@ public class DemonSpawner : MonoBehaviour
         sm.currentDemons--;
         sm.maxDemonsToSpawn++;
 
-        //Debug.Log("Demon added back to pool");
-
         DemonQueue.Enqueue(demon);
     }
 
@@ -75,14 +77,10 @@ public class DemonSpawner : MonoBehaviour
     /// </summary>
     public void DespawnAllActiveDemons()
     {
-        int count = ActiveDemons.Count;
-
-        for (int i = 0; i < count; i++)
+        foreach(DemonFramework d in ActiveDemons)
         {
-            ActiveDemons[i].OnForcedDespawn();
+            d.OnDespawn();
         }
-
-        ActiveDemons.Clear();
     }
 
     public void KillAllActiveDemons()

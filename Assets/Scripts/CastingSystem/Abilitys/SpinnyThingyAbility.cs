@@ -117,7 +117,9 @@ public class SpinnyThingyAbility : Ability
 	}
 	public override void OnHit(Health health)
 	{
-		if (caster.playerStats.Enabled)
+        if (health.dead)
+            return;
+        if (caster.playerStats.Enabled)
 			caster.playerStats.Value.GainPoints(points);
 	}
 }

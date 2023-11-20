@@ -75,7 +75,7 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
         }
         else
 		{
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            SceneManager.LoadScene(0);
 		}
         
 	}

@@ -18,9 +18,6 @@ public class DemonSpawner : MonoBehaviour
     private Spawners _spawners;
     [HideInInspector] public DemonPoolers demonPool;
 
-    private int demonsSpawned = 0;
-    private int demonsDespawned = 0;
-
     private void Awake()
     {
         _spawners = GetComponent<Spawners>();
@@ -28,7 +25,6 @@ public class DemonSpawner : MonoBehaviour
 
         ActiveDemons = new List<DemonFramework>();
         ActiveDemonsToRemove = new List<DemonFramework>();
-
     }
 
     public void UpdateCallToDemons()
@@ -46,11 +42,7 @@ public class DemonSpawner : MonoBehaviour
             ActiveDemons.Remove(demon);
             demon.RemoveFromSpatialHash();
             demon.DespawnObject();
-
-            demonsDespawned++;
         }
-
-        //Debug.Log("Demons despawned is: " + demonsDespawned);
 
         ActiveDemonsToRemove.Clear();
     }

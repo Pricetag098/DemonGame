@@ -168,6 +168,10 @@ public class ChaosDemon : DemonFramework
                 break;
         }
 
+        _aiAgent.Initalised();
+
+        GetAgent.Grid.cells.Insert(GetAgent);
+
         _animationOverrides.SelectController(_animator);
 
         SetAllColliders(true);

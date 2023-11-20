@@ -22,7 +22,7 @@ public class AbilityNotification : MonoBehaviour
 
     public void Notify(Ability ability)
     {
-        abilityIcon.text = ability.fontReference.ToString();
+        abilityIcon.text = ability.symbolText;
         abilityName.text = ability.abilityName + " Unlocked";
         Sequence fade = DOTween.Sequence();
         fade.AppendCallback(() => canvasGroup.DOFade(1, fadeTime));

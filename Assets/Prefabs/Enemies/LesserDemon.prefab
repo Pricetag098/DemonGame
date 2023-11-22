@@ -149,6 +149,37 @@ TrailRenderer:
   m_MinVertexDistance: 0.05
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!1 &1881459065952386702
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8033758247860048721}
+  m_Layer: 7
+  m_Name: GroundedCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8033758247860048721
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881459065952386702}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1588826778927386162}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3009820671918658515
 GameObject:
   m_ObjectHideFlags: 0
@@ -2774,6 +2805,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 9e4e8a0f77dd75140a7b3f5a56b35c6a, type: 2}
   Penetrable: 1
+--- !u!4 &1588826778927386162 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5558343281553458448, guid: e52b671e99bb016438a85851c6ad8a36, type: 3}
+  m_PrefabInstance: {fileID: 6570635627861379874}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1589913321547663404 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5566194003100467982, guid: e52b671e99bb016438a85851c6ad8a36, type: 3}
@@ -2884,13 +2920,13 @@ MonoBehaviour:
   rotationSpeed: 1000
   canRotate: 1
   RemainingDistancePath: 0
+  GroundedPosition: {fileID: 8033758247860048721}
   wallLayers:
     serializedVersion: 2
     m_Bits: 1
   scanRadius: 5
   scanRays: 10
-  groundingRange: 2
-  groundingRadius: 0.1
+  groundingRange: 0.1
   dispersionForce: 15
   gravityScale: 50
   indexChangeDistance: 0.4

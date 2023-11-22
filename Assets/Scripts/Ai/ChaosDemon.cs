@@ -155,8 +155,6 @@ public class ChaosDemon : DemonFramework
         _isSpawned = false;
         isEnraged = false;
         DemonInMap = inMap;
-        
-        
 
         switch (spawnType)
         {
@@ -330,7 +328,7 @@ public class ChaosDemon : DemonFramework
     {
         if (currentRound != _currentUpdatedRound)
         {
-            for (int round = _currentUpdatedRound + 1; round < currentRound; round++)
+            for (int round = _currentUpdatedRound; round < currentRound; round++)
             {
                 CalculateStats(round);
             }

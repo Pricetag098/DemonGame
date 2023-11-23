@@ -21,6 +21,7 @@ public class PortalInteraction : ShopInteractable
 
     AbilityNotification notification;
 
+
 	bool hasAbility = false;
 
     private void Awake()

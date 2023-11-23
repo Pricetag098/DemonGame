@@ -7,6 +7,7 @@ public class Perk : ScriptableObject
 {
 	protected PerkManager manager;
 	public string symbolText;
+    public string description;
     public TMP_FontAsset perkFont;
     public string perkName;
 	public bool upgraded = false;

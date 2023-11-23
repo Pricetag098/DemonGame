@@ -1,13 +1,13 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
-using DG.Tweening;
+using UnityEngine;
 
-public class AbilityNotification : MonoBehaviour
+public class PerkNotification : MonoBehaviour
 {
-    public TextMeshProUGUI abilityIcon;
-    public TextMeshProUGUI abilityName;
+    public TextMeshProUGUI perkIcon;
+    public TextMeshProUGUI perkDescription;
     public float fadeTime;
     public float onScreenDuration;
 
@@ -18,10 +18,11 @@ public class AbilityNotification : MonoBehaviour
         canvasGroup = GetComponent<CanvasGroup>();
     }
 
-    public void Notify(Ability ability)
+    public void Notify(Perk perk)
     {
-        abilityIcon.text = ability.symbolText;
-        abilityName.text = ability.abilityName + " Unlocked";
+        perkIcon.text = perk.symbolText;
+        perkIcon.font = perk.perkFont;
+        perkDescription.text = perk.description;
         Sequence fade = DOTween.Sequence();
         fade.AppendCallback(() => canvasGroup.DOFade(1, fadeTime));
         fade.AppendInterval(onScreenDuration);

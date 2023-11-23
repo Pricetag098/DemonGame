@@ -64,6 +64,11 @@ public class SpawnerManager : MonoBehaviour
 
         spawnTimer = new Timer(timeBetweenSpawns);
         endRoundTimer = new Timer(timeBetweenRounds);
+
+        //for (int i = 0; i < 31; i++)
+        //{
+        //    Debug.Log((int)demonsToSpawn.Evaluate(i) + " Round " + i);
+        //}
     }
     private void Start()
     {

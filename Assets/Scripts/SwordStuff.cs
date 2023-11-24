@@ -13,6 +13,8 @@ public class SwordStuff : MonoBehaviour
     [SerializeField] Vector3 equipPos;
     [SerializeField] GameObject sword;
 
+    [SerializeField] List<Material> swordMaterials;
+
     Vector3 originalPos;
     Material dissolve;
     TrailRenderer trailRenderer;
@@ -53,5 +55,15 @@ public class SwordStuff : MonoBehaviour
     public void TrailOff()
     {
         trailRenderer.enabled = false;
+    }
+
+    public void UpdateMat(int tier)
+    {
+        Renderer[] rens = sword.GetComponentsInChildren<Renderer>();
+        foreach(Renderer child in rens)
+        {
+            child.sharedMaterial = swordMaterials[tier];
+        }
+        dissolve = swordMaterials[tier];
     }
 }

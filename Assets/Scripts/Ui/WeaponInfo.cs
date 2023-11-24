@@ -33,7 +33,7 @@ public class WeaponInfo : MonoBehaviour
     void Update()
     {
         nameText.text = holster.HeldGun.gunName;
-        if(holster.gunCount > 1) { reserveNameText.text = holster.OffHandGun.gunName; }
+        //if(holster.gunCount > 1) { reserveNameText.text = holster.OffHandGun.gunName; }
         clipAmountText.text = holster.HeldGun.ammoLeft.ToString();
         stashAmountText.text = holster.HeldGun.stash.ToString();
         clipAmountText.color = defaultColour;

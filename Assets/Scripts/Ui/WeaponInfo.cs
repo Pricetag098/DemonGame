@@ -51,7 +51,7 @@ public class WeaponInfo : MonoBehaviour
             stashAmountText.color = noAmmoColour;
         }
         
-        if (holster.HeldGun.ammoLeft == 0 && holster.HeldGun.stash == 0)
+        if (holster.HeldGun.ammoLeft == 0 && holster.HeldGun.stash == 0 && holster.HeldGun.gunName != "Empty")
         {
             dividerText.color = noAmmoColour;
             if (!displayOpen)

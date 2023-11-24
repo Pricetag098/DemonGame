@@ -28,8 +28,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 6835427074771293442}
+  m_Children: []
   m_Father: {fileID: 5438015149997922620}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -48,7 +47,9 @@ MonoBehaviour:
   stats: {fileID: 0}
   bulletVisualierPool: {fileID: 0}
   abilityCaster: {fileID: 0}
+  weaponInfo: {fileID: 0}
   rb: {fileID: 0}
+  aimTarget: {fileID: 0}
   input:
     m_UseReference: 1
     m_Action:
@@ -62,7 +63,8 @@ MonoBehaviour:
       m_Flags: 0
     m_Reference: {fileID: -6534050188531691962, guid: b5b5fd5d1836ae549b2c0e6bb6d5cf61, type: 3}
   heldGunIndex: 0
-  lastGunIndex: 0
+  newGunIndex: 0
+  gunCount: 0
   guns:
   - {fileID: 0}
   - {fileID: 0}
@@ -76,6 +78,7 @@ MonoBehaviour:
   drawTrigger: Equip
   holsterTigger: Unequip
   consumeAmmo: 1
+  drawTimer: 0
 --- !u!1 &68621870411990549
 GameObject:
   m_ObjectHideFlags: 0
@@ -3681,69 +3684,3 @@ Transform:
   m_Father: {fileID: 4277586101620462262}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &636135095927654411
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 7342594729054605991}
-    m_Modifications:
-    - target: {fileID: 6199294817822432521, guid: 4bec8a021e0d4ce41b9da09dc602e4d6, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6199294817822432521, guid: 4bec8a021e0d4ce41b9da09dc602e4d6, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6199294817822432521, guid: 4bec8a021e0d4ce41b9da09dc602e4d6, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6199294817822432521, guid: 4bec8a021e0d4ce41b9da09dc602e4d6, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6199294817822432521, guid: 4bec8a021e0d4ce41b9da09dc602e4d6, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6199294817822432521, guid: 4bec8a021e0d4ce41b9da09dc602e4d6, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6199294817822432521, guid: 4bec8a021e0d4ce41b9da09dc602e4d6, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6199294817822432521, guid: 4bec8a021e0d4ce41b9da09dc602e4d6, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6199294817822432521, guid: 4bec8a021e0d4ce41b9da09dc602e4d6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6199294817822432521, guid: 4bec8a021e0d4ce41b9da09dc602e4d6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6199294817822432521, guid: 4bec8a021e0d4ce41b9da09dc602e4d6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6199294817822432522, guid: 4bec8a021e0d4ce41b9da09dc602e4d6, type: 3}
-      propertyPath: m_Name
-      value: Crossbow
-      objectReference: {fileID: 0}
-    - target: {fileID: 6199294817822432522, guid: 4bec8a021e0d4ce41b9da09dc602e4d6, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 4bec8a021e0d4ce41b9da09dc602e4d6, type: 3}
---- !u!4 &6835427074771293442 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6199294817822432521, guid: 4bec8a021e0d4ce41b9da09dc602e4d6, type: 3}
-  m_PrefabInstance: {fileID: 636135095927654411}
-  m_PrefabAsset: {fileID: 0}

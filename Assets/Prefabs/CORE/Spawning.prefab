@@ -429,6 +429,54 @@ MonoBehaviour:
   CanSpawn: 0
   Visited: 0
   distToArea: 0
+--- !u!1 &3415577181266751493
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4396993982941742329}
+  - component: {fileID: 3148710900259237642}
+  m_Layer: 0
+  m_Name: LittleGuyPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4396993982941742329
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3415577181266751493}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5790421265325480201}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3148710900259237642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3415577181266751493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df5b4a59829e3604b874842283b3d83f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabToPool: {fileID: 5843296433497018234, guid: 2cd17f2fbbda2a34fabdc06d0490b21b, type: 3}
+  poolSize: 40
+  autoRefillPool: 1
+  poolContainer: {fileID: 4396993982941742329}
 --- !u!1 &3566202220492895793
 GameObject:
   m_ObjectHideFlags: 0
@@ -2349,6 +2397,7 @@ Transform:
   m_Children:
   - {fileID: 5790421265564026974}
   - {fileID: 3208341741876252313}
+  - {fileID: 4396993982941742329}
   m_Father: {fileID: 5790421264906329707}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3142,6 +3191,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseDemonPooler: {fileID: 5790421265564026975}
   choasDemonPooler: {fileID: 5585967252770462674}
+  stalkerDemonPooler: {fileID: 3148710900259237642}
 --- !u!114 &5790421265715282040
 MonoBehaviour:
   m_ObjectHideFlags: 0

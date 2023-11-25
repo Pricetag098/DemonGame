@@ -447,6 +447,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.1461
       objectReference: {fileID: 0}
+    - target: {fileID: 5903488060981363695, guid: f6fd8cc01e182f443ab7ade30971613e, type: 3}
+      propertyPath: health
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 6611332887471926026, guid: f6fd8cc01e182f443ab7ade30971613e, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.92045
@@ -637,6 +641,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16f05e2ba87802c43a201f318fbc996d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1660944156614588218 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7080785735520694204, guid: f6fd8cc01e182f443ab7ade30971613e, type: 3}
+  m_PrefabInstance: {fileID: 8451245448418089094}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16f05e2ba87802c43a201f318fbc996d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1824816666391258929 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7790057352890056631, guid: f6fd8cc01e182f443ab7ade30971613e, type: 3}
@@ -697,7 +712,7 @@ MonoBehaviour:
   _distanceToRespawn: 200
   _currentUpdatedRound: 1
   _soundPlayerIdle: {fileID: 476096209465360205}
-  _soundPlayerWhileMoving: {fileID: 0}
+  _soundPlayerWhileMoving: {fileID: 1660944156614588218}
   _soundPlayerAttack: {fileID: 1824816666391258929}
   _soundPlayerAttackAmbience: {fileID: 2960459148857067280}
   _soundPlayerHit: {fileID: 6282991600069354574}
@@ -722,7 +737,7 @@ MonoBehaviour:
     maxSpeed: 6
   SpeedType: 0
   m_xAmountOfRounds: 9
-  m_HealthToAdd: 75
+  m_HealthToAdd: 70
   m_HealthMultiplier: 1.1
   SoulBox: {fileID: 0}
   body: {fileID: 7498405214155754510}

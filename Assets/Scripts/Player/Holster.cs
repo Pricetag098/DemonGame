@@ -144,7 +144,6 @@ public class Holster : MonoBehaviour
             case HolsterStates.replacing:
 				if (drawTimer < 0)
 				{
-
 					Destroy(HeldGun.gameObject);
                     gunCount--;
                     guns[heldGunIndex] = replacingGun;
@@ -174,7 +173,7 @@ public class Holster : MonoBehaviour
     public void ReplaceGun(Gun gun)
     {
         replacingGun = gun;
-		state = HolsterStates.replacing;
+        state = HolsterStates.replacing;
 
 		animator.SetFloat(HeldGun.unEquipSpeedKey, 1 / HeldGun.holsterTime);
 		animator.SetTrigger(holsterTigger);

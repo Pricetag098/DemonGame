@@ -121,6 +121,9 @@ public class Gun : MonoBehaviour
     public Optional<GunUpgradePath> path;
     public int tier = 0;
 
+    [Header("Model")]
+    public GameObject worldModel;
+
     public Vector3 test;
     // Start is called before the first frame update
     void Start()

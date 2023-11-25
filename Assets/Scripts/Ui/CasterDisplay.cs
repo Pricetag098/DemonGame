@@ -39,12 +39,20 @@ public class CasterDisplay : MonoBehaviour
             //abilityIconIdentifier[i].GetComponent<Outline>().enabled = i == caster.activeIndex;
 		}
         bloodMeter.value = dynamics.Update(Time.unscaledDeltaTime,caster.caster.blood / caster.caster.maxBlood);
+        if(bloodMeter.value < 0.17f)
+        {
+            bloodMeter.value = 0.17f;
+        }
+        else if(bloodMeter.value > 0.9)
+        {
+            bloodMeter.value = 0.9f;
+        }
 
-        if(bloodMeter.value <= 0.1f && !isEmpty)
+        if(bloodMeter.value <= 0.25f && !isEmpty)
         {
             TweenEmptyVisals();
         }
-        else if (bloodMeter.value  > 0.1f)
+        else if (bloodMeter.value  > 0.25f)
         {
             isEmpty = false;
             onEmptyVisualization.DOKill();

@@ -560,6 +560,10 @@ PrefabInstance:
       propertyPath: m_CollisionDetection
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8701398855358314498, guid: f6fd8cc01e182f443ab7ade30971613e, type: 3}
+      propertyPath: prefabToPool
+      value: 
+      objectReference: {fileID: 3712052424168563528, guid: 962b283b58e87e146a693ea591f4dd7a, type: 3}
     - target: {fileID: 8791218606361109282, guid: f6fd8cc01e182f443ab7ade30971613e, type: 3}
       propertyPath: m_LocalScale.z
       value: 1.2051
@@ -588,8 +592,75 @@ PrefabInstance:
       propertyPath: m_CollisionDetection
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6448808681834072061, guid: f6fd8cc01e182f443ab7ade30971613e, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f6fd8cc01e182f443ab7ade30971613e, type: 3}
+--- !u!1 &5843296433497018234 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2620907863307802620, guid: f6fd8cc01e182f443ab7ade30971613e, type: 3}
+  m_PrefabInstance: {fileID: 8451245448418089094}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8370108100372693074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5843296433497018234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75de6e6015ec1d84bb613ab47e57877b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _skinnedMeshRenderer: {fileID: 0}
+  deathFadeTime: 0
+  fadeTimeMultiplier: 0
+  pointsOnDeath: 0
+  _damage: 0
+  _moveSpeed: 0
+  _attackRange: 0
+  _stoppingDistance: 0
+  _distanceToRespawn: 0
+  _currentUpdatedRound: 1
+  _soundPlayerIdle: {fileID: 0}
+  _soundPlayerWhileMoving: {fileID: 0}
+  _soundPlayerAttack: {fileID: 0}
+  _soundPlayerAttackAmbience: {fileID: 0}
+  _soundPlayerHit: {fileID: 0}
+  _soundPlayerDeath: {fileID: 0}
+  _soundPlayerFootsteps: {fileID: 0}
+  minTimeInterval: 0
+  maxTimeInterval: 0
+  whileMovingMinTimeInterval: 0
+  whileMovingMaxTimeInterval: 0
+  DemonInMap: 0
+  walker:
+    Speed: 0
+    minSpeed: 0
+    maxSpeed: 0
+  jogger:
+    Speed: 0
+    minSpeed: 0
+    maxSpeed: 0
+  runner:
+    Speed: 0
+    minSpeed: 0
+    maxSpeed: 0
+  SpeedType: 0
+  m_xAmountOfRounds: 0
+  m_HealthToAdd: 0
+  m_HealthMultiplier: 0
+  SoulBox: {fileID: 0}
+  body: {fileID: 0}
+  maxFlightHeight: 0
+  minFlightHeight: 0
+  wallCheckRadius: 0
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  projectileOrigin: {fileID: 0}
+  projectileSpeed: 0
+  yMoveSpeed: 0
 --- !u!4 &9054644184651736519 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 639603630602845505, guid: f6fd8cc01e182f443ab7ade30971613e, type: 3}

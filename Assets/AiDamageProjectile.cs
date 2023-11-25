@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-public class AiDamageProjectiles : MonoBehaviour
+public class AiDamageProjectile : MonoBehaviour
 {
     public float targetRadius;
     public LayerMask targetmask;

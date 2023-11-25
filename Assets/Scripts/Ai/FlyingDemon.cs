@@ -238,7 +238,7 @@ public class FlyingDemon : DemonFramework
         Vector3 targetPos = CurrentTarget.position + Vector3.up * 1;
         targetPos += CurrentTarget.GetComponent<Rigidbody>().velocity * (Vector3.Distance(projectileOrigin.position, targetPos) / projectileSpeed);
 
-        objectPooler.Spawn().GetComponent<AiDamageProjectiles>().Shoot(projectileOrigin.position,Vector3.Lerp(projectileOrigin.position,targetPos,.5f) ,targetPos,projectileSpeed,_damage,projectileOrigin,0);
+        objectPooler.Spawn().GetComponent<AiDamageProjectile>().Shoot(projectileOrigin.position,Vector3.Lerp(projectileOrigin.position,targetPos,.5f) ,targetPos,projectileSpeed,_damage,projectileOrigin,0);
 
     }
     public override void OnHit()

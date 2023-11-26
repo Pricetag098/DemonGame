@@ -87,7 +87,7 @@ public class FlyingDemon : DemonFramework
 
         if (GetDemonInMap == false) { m_obstacle.Detection(); }
 
-        SetAnimationVariables();
+        //SetAnimationVariables();
 
         _aiAgent.LookDirection();
 

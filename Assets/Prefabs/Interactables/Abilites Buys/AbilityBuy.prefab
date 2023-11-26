@@ -326,6 +326,8 @@ Transform:
   - {fileID: 5127187899756150068}
   - {fileID: 363634974139562994}
   - {fileID: 2863864742705628047}
+  - {fileID: 916101957447994354}
+  - {fileID: 7083003829775237827}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -638,6 +640,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7602391829796170577}
+  - component: {fileID: 6520187974645030184}
   m_Layer: 0
   m_Name: Portal
   m_TagString: Untagged
@@ -662,6 +665,22 @@ Transform:
   m_Father: {fileID: 4236907056370345357}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6520187974645030184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7522342718322094895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2645d4f0ad1a4594586326dd044f8b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeOnAlive: 1
+  deathStateMatChange: 0
+  deathStateMat: {fileID: 0}
+  objToChangeMat: {fileID: 0}
 --- !u!1 &8359140125513289462
 GameObject:
   m_ObjectHideFlags: 0
@@ -869,7 +888,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hovered: 0
   Cost: 950
-  buyMessage: To buy
+  buyMessage: For
   buySound:
     enabled: 0
     val: {fileID: 0}
@@ -886,10 +905,7 @@ MonoBehaviour:
   openTime: 1
   animationTime: 2
   ability: {fileID: 11400000, guid: 9d56930368b52474e841c943d4b53d32, type: 2}
-  glyphSpawning: {fileID: 0}
   portalFrame: {fileID: 2893665058984745068}
-  abilityGlyph: {fileID: 0}
-  dissolveTime: 2
 --- !u!1001 &873900572
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1071,6 +1087,100 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 363634974339469806, guid: 5297a2162ce66f54b93631d5f253fb61, type: 3}
   m_PrefabInstance: {fileID: 873900572}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1676741665380408404
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 4236907056370345357}
+    m_Modifications:
+    - target: {fileID: 2013775652457255046, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: Camera
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652457255046, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: Source
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652457255046, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: ChaosFactor
+      value: 0.109
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652457255046, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: Destination
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652457255046, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: GlowIntensity
+      value: 1.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652457255046, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: GlowTintColor.g
+      value: 0.19713613
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652457255046, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: FadeOutMultiplier
+      value: 0.543
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652457255046, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: GlowWidthMultiplier
+      value: 2.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652467169190, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652467169190, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.101
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652467169190, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.878
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652467169190, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.234
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652467169190, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652467169190, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652467169190, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652467169190, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652467169190, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652467169190, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652467169190, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652467431704, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: m_Name
+      value: AbilityPortalLightning
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+--- !u!4 &916101957447994354 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2013775652467169190, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+  m_PrefabInstance: {fileID: 1676741665380408404}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3352904391586283649
 PrefabInstance:
@@ -1526,22 +1636,97 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7887206701590251460, guid: d86a31448ea4b07498faaeb773a42162, type: 3}
   m_PrefabInstance: {fileID: 4222274364061026741}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &6676485505962923211 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7367655998819818878, guid: d86a31448ea4b07498faaeb773a42162, type: 3}
-  m_PrefabInstance: {fileID: 4222274364061026741}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &3225210718169155871
-MonoBehaviour:
+--- !u!1001 &8771248723333141861
+PrefabInstance:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 4236907056370345357}
+    m_Modifications:
+    - target: {fileID: 2013775652457255046, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: Camera
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652457255046, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: Source
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652457255046, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: ChaosFactor
+      value: 0.109
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652457255046, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: Destination
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652457255046, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: GlowIntensity
+      value: 1.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652457255046, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: GlowTintColor.g
+      value: 0.19713613
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652457255046, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: FadeOutMultiplier
+      value: 0.543
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652457255046, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: GlowWidthMultiplier
+      value: 2.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652467169190, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652467169190, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652467169190, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.878
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652467169190, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.234
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652467169190, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.00000023841858
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652467169190, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652467169190, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652467169190, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652467169190, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652467169190, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -180
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652467169190, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013775652467431704, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+      propertyPath: m_Name
+      value: AbilityPortalLightning (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+--- !u!4 &7083003829775237827 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2013775652467169190, guid: 71323505a483f9743941e7ba22eebf2b, type: 3}
+  m_PrefabInstance: {fileID: 8771248723333141861}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6676485505962923211}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eaba8f9bad20233488cfbd78af28c7ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  abilityGlyph: {fileID: 0}
-  dissolveTime: 1

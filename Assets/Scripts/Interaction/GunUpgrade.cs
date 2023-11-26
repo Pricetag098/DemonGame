@@ -4,17 +4,15 @@ using UnityEngine;
 
 public class GunUpgrade : ShopInteractable
 {
+    [SerializeField] GunUpPickup gunUpPickup;
     public string maxUpgradeText;
     protected override void DoBuy(Interactor interactor)
     {
         Gun heldGun = interactor.holster.HeldGun;
         GameObject newGun = heldGun.path.Value.path[heldGun.tier + 1];
-        GameObject gunGo = Instantiate(newGun, interactor.holster.transform);
-        Gun gun = gunGo.GetComponent<Gun>();
-        interactor.holster.SetUpGun(gun);
-        interactor.holster.ReplaceGun(gun);
-
+        gunUpPickup.Infused(interactor, this, newGun, heldGun);
     }
+
     public override void StartHover(Interactor interactor)
     {
         Gun heldGun = interactor.holster.HeldGun;

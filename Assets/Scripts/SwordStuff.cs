@@ -13,17 +13,19 @@ public class SwordStuff : MonoBehaviour
     [SerializeField] Vector3 equipPos;
     [SerializeField] GameObject sword;
 
+    [SerializeField] List<Material> swordMaterials;
+    [SerializeField] List<Renderer> swordRenderers;
+
     Vector3 originalPos;
     Material dissolve;
-    TrailRenderer trailRenderer;
+    public Material hiltMaterial;
 
     private void Awake()
     {
         originalPos = sword.transform.localPosition;
-        dissolve = sword.GetComponentInChildren<Renderer>().sharedMaterial;
-        trailRenderer = sword.GetComponentInChildren<TrailRenderer>();
+        dissolve = swordRenderers[0].sharedMaterial;
         dissolve.SetFloat("_Alpha_Clip", 1);
-        trailRenderer.enabled = false;
+        hiltMaterial.SetFloat("_Aplha_Clip", 1);
     }
 
     public void EquipSword()
@@ -32,6 +34,7 @@ public class SwordStuff : MonoBehaviour
         sword.transform.localPosition = equipPos;
         Sequence equip = DOTween.Sequence();
         equip.Append(DOTween.To(() => dissolve.GetFloat("_Alpha_Clip"), x => dissolve.SetFloat("_Alpha_Clip", x), -1, dissolveTime));
+        equip.Append(DOTween.To(() => hiltMaterial.GetFloat("_Alpha_Clip"), x => hiltMaterial.SetFloat("_Alpha_Clip", x), -1, dissolveTime));
         equip.Append(sword.transform.DOLocalMove(originalPos, returnTime));
     }
 
@@ -40,18 +43,29 @@ public class SwordStuff : MonoBehaviour
         Sequence unEquip = DOTween.Sequence();
         unEquip.Append(sword.transform.DOLocalMove(unEquipPos, moveTime));
         unEquip.Append(DOTween.To(() => dissolve.GetFloat("_Alpha_Clip"), x => dissolve.SetFloat("_Alpha_Clip", x), 1, dissolveTime));
+        unEquip.Append(DOTween.To(() => hiltMaterial.GetFloat("_Alpha_Clip"), x => hiltMaterial.SetFloat("_Alpha_Clip", x), 1, dissolveTime));
         unEquip.AppendInterval(dissolveTime);
         unEquip.AppendCallback(() => sword.transform.localPosition = originalPos);
         unEquip.AppendCallback(() => sword.SetActive(false));
     }
 
-    public void TrailOn()
-    {
-        trailRenderer.enabled = true;
-    }
 
-    public void TrailOff()
+    public void UpdateMat(int tier)
     {
-        trailRenderer.enabled = false;
+        
+        foreach(Renderer child in swordRenderers)
+        {
+            child.sharedMaterial = swordMaterials[tier];
+        }
+        if (dissolve.GetFloat("_Aplha_Clip") == 1)
+        {
+            swordMaterials[tier].SetFloat("_Alpha_Clip", 1);
+        }
+        else
+        {
+            swordMaterials[tier].SetFloat("_Alpha_Clip", -1);
+        }
+        dissolve = swordMaterials[tier];
+
     }
 }

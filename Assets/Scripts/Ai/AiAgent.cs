@@ -343,17 +343,17 @@ public class AiAgent : SpatialHashObject
 
     private void OnDrawGizmosSelected()
     {
-        //Gizmos.color = Color.white;
-        //if (Objects.Count > 0)
-        //      Gizmos.DrawRay(transform.position, GetPushForce());
-        //      Gizmos.color = Color.magenta;
-        //if (path.pathLength > 0)
-        //{
-        //    for (int i = 0; i < path.pathLength; i++)
-        //    {
-        //        Gizmos.DrawWireSphere(path.corners[i], indexChangeDistance);
-        //    }
-        //}
+        Gizmos.color = Color.white;
+        if (Objects.Count > 0)
+            Gizmos.DrawRay(transform.position, GetPushForce());
+        Gizmos.color = Color.magenta;
+        if (path.pathLength > 0)
+        {
+            for (int i = 0; i < path.pathLength; i++)
+            {
+                Gizmos.DrawWireSphere(path.corners[i], indexChangeDistance);
+            }
+        }
 
         //Gizmos.color = Color.blue;
         //float angle = 360 / scanRays;

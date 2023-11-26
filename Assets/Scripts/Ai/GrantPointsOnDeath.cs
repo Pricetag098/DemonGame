@@ -13,7 +13,6 @@ public class GrantPointsOnDeath : MonoBehaviour
     void Awake()
     {
         playerStats = FindObjectOfType<PlayerStats>();
-        //GetComponent<Health>().OnDeath += AddPointsDeath;
     }
 
     public void AddPointsDeathGun()

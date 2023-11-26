@@ -36,7 +36,9 @@ public class PauseMenu : MonoBehaviour
             canvasGroup.interactable = true;
 			canvasGroup.blocksRaycasts = true;
 			Time.timeScale = 0;
-			Cursor.visible = true;
+            Time.timeScale = 0;
+			Time.fixedDeltaTime = 0;
+            Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
 			
 		});
@@ -59,7 +61,8 @@ public class PauseMenu : MonoBehaviour
             canvasGroup.interactable = false;
 			canvasGroup.blocksRaycasts = false;
 			Time.timeScale = 1;
-			Cursor.visible = false;
+            Time.fixedDeltaTime = 0.01f;
+            Cursor.visible = false;
 			Cursor.lockState = CursorLockMode.Locked;
 			
 		});

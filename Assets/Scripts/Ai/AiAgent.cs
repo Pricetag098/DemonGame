@@ -11,11 +11,12 @@ public class AiAgent : SpatialHashObject
     public float rotationSpeed;
     public bool canRotate;
     public float RemainingDistancePath;
+    public Transform GroundedPosition;
     
     public LayerMask wallLayers;
     public float scanRadius;
     public int scanRays;
-    public float groundingRange, groundingRadius;
+    public float groundingRange;
     public float dispersionForce;
     public float gravityScale;
     public float indexChangeDistance = .1f;
@@ -28,7 +29,7 @@ public class AiAgent : SpatialHashObject
     public bool canMove = true;
 
     private Quaternion lastRotation = Quaternion.identity;
-    private Vector3 upVector = Vector3.zero;
+    //private Vector3 upVector = Vector3.zero;
     private DemonFramework demon;
 
     bool initalise = false;
@@ -52,43 +53,92 @@ public class AiAgent : SpatialHashObject
     void Update()
     {
         RemainingDistancePath = RemainingDistance;
-
-        if (Vector3.Distance(transform.position, path[pathIndex]) < indexChangeDistance)
-        {
-            pathIndex++;
-            if (pathIndex >= path.pathLength)
-            {
-                pathIndex = path.pathLength - 1;
-            }
-        }
     }
 
     private void FixedUpdate()
     {
+        if(Time.timeScale == 0f) { return; }
+
         Vector3 idealVel = Vector3.zero;
 
-        if (Physics.Raycast(transform.position + transform.up * rayHeightOffset, -transform.up, out RaycastHit hit, groundingRange, wallLayers))
+   //     if (Physics.Raycast(transform.position + transform.up * rayHeightOffset, -transform.up, out RaycastHit hit, groundingRange, wallLayers))
+   //     {
+   //         if (canMove && path.hasPath)
+			//{
+			//	UpdateRadius();
+				
+			//	Vector3 toTarget = (path.corners[pathIndex] - transform.position).normalized;
+			//	idealVel = toTarget * followSpeed;
+   //             if(hit.normal != Vector3.zero)
+   //             idealVel = Vector3.ProjectOnPlane(idealVel, hit.normal);
+   //             //upVector = hit.normal;
+			//}
+
+			//rb.AddForce(GetPushForce() * dispersionForce * Time.fixedDeltaTime);
+
+			//Vector3 turningVel = idealVel - rb.velocity;
+			//rb.AddForce(turningVel * acceleration * Time.fixedDeltaTime);
+
+   //         if (Vector3.Distance(transform.position, path[pathIndex]) < indexChangeDistance)
+   //         {
+   //             pathIndex++;
+   //             if (pathIndex >= path.pathLength)
+   //             {
+   //                 pathIndex = path.pathLength - 1;
+   //             }
+   //         }
+   //     }
+   //     else
+   //     {
+   //         rb.AddForce(Vector3.down * gravityScale * Time.fixedDeltaTime);
+   //     }
+
+        if(isGrounded(out RaycastHit hit))
         {
             if (canMove && path.hasPath)
-			{
-				UpdateRadius();
-				
-				Vector3 toTarget = (path.corners[pathIndex] - transform.position).normalized;
-				idealVel = toTarget * followSpeed;
-                if(hit.normal != Vector3.zero)
-                idealVel = Vector3.ProjectOnPlane(idealVel, hit.normal);
-                upVector = hit.normal;
-			}
+            {
+                UpdateRadius();
 
-			rb.AddForce(GetPushForce() * dispersionForce * Time.fixedDeltaTime);
+                Vector3 toTarget = (path.corners[pathIndex] - transform.position).normalized;
+                idealVel = toTarget * followSpeed;
+                if (hit.normal != Vector3.zero)
+                {
+                    idealVel = Vector3.ProjectOnPlane(idealVel, hit.normal);
+                }
+                    
+                //upVector = hit.normal;
+            }
 
-			Vector3 turningVel = idealVel - rb.velocity;
-			rb.AddForce(turningVel * acceleration * Time.fixedDeltaTime);
-		}
+            rb.AddForce(GetPushForce() * dispersionForce * Time.fixedDeltaTime * Time.timeScale);
+
+            Vector3 turningVel = idealVel - rb.velocity;
+            rb.AddForce(turningVel * acceleration * Time.fixedDeltaTime * Time.timeScale);
+
+            if (Vector3.Distance(transform.position, path[pathIndex]) < indexChangeDistance)
+            {
+                pathIndex++;
+                if (pathIndex >= path.pathLength)
+                {
+                    pathIndex = path.pathLength - 1;
+                }
+            }
+        }
         else
         {
-            rb.AddForce(Vector3.down * gravityScale * Time.fixedDeltaTime);
+            rb.AddForce(Vector3.down * gravityScale * Time.fixedDeltaTime * Time.timeScale);
         }
+    }
+
+    private bool isGrounded(out RaycastHit hit)
+    {
+        if (Physics.Raycast(GroundedPosition.position, -transform.up, out RaycastHit cast, groundingRange, wallLayers))
+        {
+            hit = cast;
+            return true;
+        }
+
+        hit = cast;
+        return false;
     }
 
     public bool UpdatePath(Transform target)
@@ -120,7 +170,6 @@ public class AiAgent : SpatialHashObject
             Vector3 targetDirection = path[pathIndex] - transform.position;
             targetDirection.y = 0;
             targetDirection.Normalize();
-            
 
             Quaternion newRotation = Quaternion.LookRotation(targetDirection);
 
@@ -294,10 +343,10 @@ public class AiAgent : SpatialHashObject
 
     private void OnDrawGizmosSelected()
     {
-        //Gizmos.color = Color.white;
-        //if (Objects.Count > 0)
-        //      Gizmos.DrawRay(transform.position, GetPushForce());
-        //      Gizmos.color = Color.magenta;
+        Gizmos.color = Color.white;
+        if (Objects.Count > 0)
+            Gizmos.DrawRay(transform.position, GetPushForce());
+        Gizmos.color = Color.magenta;
         if (path.pathLength > 0)
         {
             for (int i = 0; i < path.pathLength; i++)
@@ -306,13 +355,21 @@ public class AiAgent : SpatialHashObject
             }
         }
 
-        //      Gizmos.color = Color.blue;
+        //Gizmos.color = Color.blue;
         //float angle = 360 / scanRays;
         //for (int i = 0; i < scanRays; i++)
         //{
-        //          Gizmos.DrawRay(transform.position + transform.up * rayHeightOffset, Vector3.ProjectOnPlane(Quaternion.Euler(Vector3.up * angle * i) * transform.forward, transform.up) * scanRadius);
+        //    Gizmos.DrawRay(transform.position + transform.up * rayHeightOffset, Vector3.ProjectOnPlane(Quaternion.Euler(Vector3.up * angle * i) * transform.forward, transform.up) * scanRadius);
         //}
 
+        //Physics.Raycast(transform.position + transform.up * rayHeightOffset, -transform.up, out RaycastHit hit, groundingRange, wallLayers;
+
+
+        Vector3 startpos = GroundedPosition.position;
+        Vector3 endpos = GroundedPosition.position +  -transform.up * groundingRange;
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(startpos, endpos);
     }
 
 }

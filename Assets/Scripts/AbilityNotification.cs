@@ -11,8 +11,6 @@ public class AbilityNotification : MonoBehaviour
     public float fadeTime;
     public float onScreenDuration;
 
-    float timer = 0;
-
     CanvasGroup canvasGroup;
 
     private void Awake()

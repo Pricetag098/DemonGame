@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6517721956851441121}
   - component: {fileID: 8402498361765230461}
   - component: {fileID: 1854961102534669507}
+  - component: {fileID: 3248143551772652162}
   m_Layer: 9
   m_Name: FrontInteract
   m_TagString: Untagged
@@ -46,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hovered: 0
-  Cost: 750
+  Cost: 1250
   buyMessage: 'To Open Gate  '
   buySound:
     enabled: 1
@@ -113,6 +114,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.58, y: 4.9654775, z: 6.357565}
   m_Center: {x: 0.03, y: -0.9584245, z: 1.6001632}
+--- !u!114 &3248143551772652162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 978662280012442353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2645d4f0ad1a4594586326dd044f8b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeOnAlive: 1
+  deathStateMatChange: 0
+  deathStateMat: {fileID: 0}
+  objToChangeMat: {fileID: 0}
 --- !u!1 &4752786518558721464
 GameObject:
   m_ObjectHideFlags: 0
@@ -729,6 +746,7 @@ GameObject:
   - component: {fileID: 5333874458300872043}
   - component: {fileID: 2077705530390360196}
   - component: {fileID: 1260512087616529529}
+  - component: {fileID: 7307819099489558831}
   m_Layer: 9
   m_Name: BackInteract
   m_TagString: Untagged
@@ -764,7 +782,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hovered: 0
-  Cost: 750
+  Cost: 1250
   buyMessage: 'To Open Gate  '
   buySound:
     enabled: 1
@@ -831,6 +849,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.58, y: 4.9654775, z: 6.357565}
   m_Center: {x: 0.03, y: -0.9584245, z: 1.6001632}
+--- !u!114 &7307819099489558831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6946500321327956623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2645d4f0ad1a4594586326dd044f8b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeOnAlive: 1
+  deathStateMatChange: 0
+  deathStateMat: {fileID: 0}
+  objToChangeMat: {fileID: 0}
 --- !u!1 &7007819462202561767
 GameObject:
   m_ObjectHideFlags: 0

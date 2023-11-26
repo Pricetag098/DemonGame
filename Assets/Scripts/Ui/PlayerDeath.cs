@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.Events;
 
 public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersistance<SessionData>
 {
@@ -13,6 +14,7 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
     float respawnTimer;
     float deathStateTimer;
     public float fadeTime;
+    public UnityEvent onRespawnEvents;
     Health health;
     [SerializeField] Transform respawnPoint;
     PerkManager perkManager;
@@ -92,7 +94,7 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
 
     IEnumerator DoReturnToBody(bool outOfTime)
     {
-        
+        onRespawnEvents.Invoke();
         Time.timeScale = 0;
         while (respawnTimer < fadeTime)
         {
@@ -114,7 +116,6 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
             canvasGroup.alpha = respawnTimer / fadeTime;
             yield return null;
         }
-        
     }
 
 

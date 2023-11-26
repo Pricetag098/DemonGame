@@ -429,6 +429,54 @@ MonoBehaviour:
   CanSpawn: 0
   Visited: 0
   distToArea: 0
+--- !u!1 &3415577181266751493
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4396993982941742329}
+  - component: {fileID: 3148710900259237642}
+  m_Layer: 0
+  m_Name: LittleGuyPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4396993982941742329
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3415577181266751493}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5790421265325480201}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3148710900259237642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3415577181266751493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df5b4a59829e3604b874842283b3d83f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabToPool: {fileID: 5843296433497018234, guid: 2cd17f2fbbda2a34fabdc06d0490b21b, type: 3}
+  poolSize: 40
+  autoRefillPool: 1
+  poolContainer: {fileID: 4396993982941742329}
 --- !u!1 &3566202220492895793
 GameObject:
   m_ObjectHideFlags: 0
@@ -2349,6 +2397,7 @@ Transform:
   m_Children:
   - {fileID: 5790421265564026974}
   - {fileID: 3208341741876252313}
+  - {fileID: 4396993982941742329}
   m_Father: {fileID: 5790421264906329707}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2935,7 +2984,7 @@ MonoBehaviour:
   canSpawn: 0
   maxDemonsAtOnce: 38
   timeBetweenSpawns: 3
-  timeBetweenRounds: 6.5
+  timeBetweenRounds: 6
   demonsToSpawnEachTick: 0
   minMax: {x: 25, y: 75}
   demonsToSpawn:
@@ -2962,15 +3011,15 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 5
       value: 25
-      inSlope: 12.6338
-      outSlope: 12.6338
+      inSlope: 7.501448
+      outSlope: 7.501448
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 1
     - serializedVersion: 3
-      time: 10
-      value: 80
+      time: 10.63734
+      value: 56.21242
       inSlope: 6.9473686
       outSlope: 6.9473686
       tangentMode: 0
@@ -2979,7 +3028,7 @@ MonoBehaviour:
       outWeight: 1
     - serializedVersion: 3
       time: 20
-      value: 140
+      value: 105
       inSlope: 8
       outSlope: 8
       tangentMode: 0
@@ -2988,7 +3037,7 @@ MonoBehaviour:
       outWeight: 1
     - serializedVersion: 3
       time: 30
-      value: 240
+      value: 180
       inSlope: 12
       outSlope: 12
       tangentMode: 0
@@ -2997,7 +3046,7 @@ MonoBehaviour:
       outWeight: 1
     - serializedVersion: 3
       time: 40
-      value: 380
+      value: 285
       inSlope: 13.5
       outSlope: 13.5
       tangentMode: 0
@@ -3006,7 +3055,7 @@ MonoBehaviour:
       outWeight: 1
     - serializedVersion: 3
       time: 50
-      value: 510
+      value: 382
       inSlope: 10.571428
       outSlope: 10.571428
       tangentMode: 0
@@ -3015,7 +3064,7 @@ MonoBehaviour:
       outWeight: 1
     - serializedVersion: 3
       time: 75
-      value: 750
+      value: 565
       inSlope: 8.8
       outSlope: 8.8
       tangentMode: 0
@@ -3024,12 +3073,12 @@ MonoBehaviour:
       outWeight: 1
     - serializedVersion: 3
       time: 100
-      value: 950
-      inSlope: 13.262139
-      outSlope: 13.262139
+      value: 715
+      inSlope: 5.183241
+      outSlope: 5.183241
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.22094421
+      inWeight: 0.40789703
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -3142,6 +3191,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseDemonPooler: {fileID: 5790421265564026975}
   choasDemonPooler: {fileID: 5585967252770462674}
+  stalkerDemonPooler: {fileID: 3148710900259237642}
 --- !u!114 &5790421265715282040
 MonoBehaviour:
   m_ObjectHideFlags: 0

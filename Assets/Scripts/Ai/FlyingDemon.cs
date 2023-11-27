@@ -80,7 +80,6 @@ public class FlyingDemon : DemonFramework
 
         body.transform.localPosition = Vector3.MoveTowards(body.transform.localPosition, new Vector3(body.transform.localPosition.x,targetYheight,body.transform.localPosition.z),Time.deltaTime * yMoveSpeed);
 
-
         DeathFade();
 
         if (DetectTarget() == false) { return; }

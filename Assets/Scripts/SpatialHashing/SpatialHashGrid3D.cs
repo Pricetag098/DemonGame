@@ -17,14 +17,14 @@ public class SpatialHashGrid3D : MonoBehaviour
     [Header("Gizmos")]
     public bool ShowGizmos;
 
-    public HashGrid3D<SpatialHashObject> cells;
+    public HashGrid3D<AiAgent> cells;
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            Instance.cells = new HashGrid3D<SpatialHashObject>(cellSize);
+            Instance.cells = new HashGrid3D<AiAgent>(cellSize);
             TotalCells = (int)cells.CellCount;
         }
         else
@@ -36,7 +36,7 @@ public class SpatialHashGrid3D : MonoBehaviour
 
     public static void CreateNewHasHGrid(Vector3 cellSize)
     {
-        Instance.cells = new HashGrid3D<SpatialHashObject>(cellSize);
+        Instance.cells = new HashGrid3D<AiAgent>(cellSize);
     }
 
     void Start()

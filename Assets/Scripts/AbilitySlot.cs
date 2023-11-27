@@ -30,6 +30,10 @@ public class AbilitySlot : MonoBehaviour
 
     WeaponWheel weaponWheel;
 
+    private SoundPlayer SFX;
+
+    
+
     public void HasAbility()
     {
         hasAbility = true;
@@ -51,6 +55,11 @@ public class AbilitySlot : MonoBehaviour
 
     public void OnSelect()
     {
+        if (!selected)
+        {
+            SFX.Play();
+        }
+
         selected = true;
 
         sectionImage.color = selectedColour;
@@ -75,6 +84,7 @@ public class AbilitySlot : MonoBehaviour
     private void Awake()
     {
         sectionImage = GetComponent<Image>();
+        SFX = GetComponent<SoundPlayer>();
 
         weaponWheel = GetComponentInParent<WeaponWheel>();
 

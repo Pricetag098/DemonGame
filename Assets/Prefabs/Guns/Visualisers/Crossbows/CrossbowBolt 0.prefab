@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 5660610589027008671}
   - component: {fileID: 3852232165449420735}
   - component: {fileID: 1601406914011565519}
-  - component: {fileID: -7996768842660627022}
+  - component: {fileID: -4325919915202711434}
   m_Layer: 0
-  m_Name: PistolBullet
+  m_Name: CrossbowBolt 0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 429431636643580045}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 3.536}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -68,7 +68,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 429431636643580045}
-  m_Mesh: {fileID: 5329809369554974377, guid: 16a8a9e8ef32ba445932c9b305666c3a, type: 3}
+  m_Mesh: {fileID: -881844236896109120, guid: 71e545fe1c4348247a02e454ca151c59, type: 3}
 --- !u!23 &1601406914011565519
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -89,7 +89,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b970ade91c201c341bdee45038d6e336, type: 2}
+  - {fileID: -2833377806533730776, guid: e35c91d334ccf7c469fc51b6d630fa8a, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -111,7 +111,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!96 &-7996768842660627022
+--- !u!96 &-4325919915202711434
 TrailRenderer:
   serializedVersion: 2
   m_ObjectHideFlags: 0
@@ -132,7 +132,7 @@ TrailRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 5b673a16ef3445f409d52ad7c1974cc7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -153,7 +153,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.1
+  m_Time: 0.2
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.01
@@ -216,6 +216,6 @@ TrailRenderer:
     textureMode: 0
     shadowBias: 0.5
     generateLightingData: 0
-  m_MinVertexDistance: 0.1
+  m_MinVertexDistance: 5.1
   m_Autodestruct: 0
   m_Emitting: 1

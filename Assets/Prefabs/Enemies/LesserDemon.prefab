@@ -2974,22 +2974,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81d9bdf2985deb74ba7c8762bdec7353, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Grid: {fileID: 0}
   followSpeed: 4
   acceleration: 1000
-  rotationSpeed: 1000
+  rotationSpeed: 3.5
   canRotate: 1
   RemainingDistancePath: 0
   GroundedPosition: {fileID: 8033758247860048721}
+  dispersionLayer: 1
+  dispersionMask: 2
   wallLayers:
     serializedVersion: 2
     m_Bits: 1
   scanRadius: 5
   scanRays: 10
-  groundingRange: 1.5
-  dispersionForce: 15
-  gravityScale: 10
-  indexChangeDistance: 0.4
+  groundingRange: 0.1
+  dispersionForce: 8
+  gravityScale: 100
+  indexChangeDistance: 0.1
   stopingDistance: 1.5
   pathIndex: 1
   rayHeightOffset: 0.5
@@ -3098,6 +3099,7 @@ MonoBehaviour:
     - {x: 0, y: 0, z: 0}
     hasPath: 0
   canMove: 1
+  Grid: {fileID: 0}
 --- !u!114 &5391837197847682207
 MonoBehaviour:
   m_ObjectHideFlags: 0

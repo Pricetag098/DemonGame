@@ -266,7 +266,7 @@ public class DemonFramework : MonoBehaviour
     /// Sets Nearby Spatial Hash OBJECTS
     /// </summary>
     /// <param name="objs"></param>
-    public void UpdateAgentNearby(List<SpatialHashObject> objs) { _aiAgent.SetNearbyAgents(objs); }
+    public void UpdateAgentNearby(List<AiAgent> objs) { _aiAgent.SetNearbyAgents(objs); }
 
     /// <summary>
     /// Removes OBJECT from Spatial Hash pool

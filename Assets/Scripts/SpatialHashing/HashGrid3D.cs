@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BlakesSpatialHash
 {
-    public class HashGrid3D<T> where T : SpatialHashObject
+    public class HashGrid3D<T> where T : AiAgent
     {
         public Dictionary<uint, List<T>> cells;
         public List<Vector3> cellPositions = new List<Vector3>();
@@ -12,7 +12,7 @@ namespace BlakesSpatialHash
         /// <summary>
         /// Max Amount of Hashable Cells
         /// </summary>
-        public const uint CellCountMax = 10000; // going over this cell count wont cause errors but will cause OBJECTS to be hashed into duplicate cells
+        public const uint CellCountMax = 20000; // going over this cell count wont cause errors but will cause OBJECTS to be hashed into duplicate cells
         public uint CellCount { get { return CellCountMax; } }
 
         private Vector3[] offsets;

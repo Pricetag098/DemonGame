@@ -3,16 +3,34 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
-public class AiAgent : SpatialHashObject
+public class AiAgent : MonoBehaviour
 {
+    [System.Flags]
+    public enum DispersionMask
+    {
+        Ignore = 1,
+        Ground = 2,
+        Flying = 4
+    }
+
+    public enum DispersionLayer
+    {
+        Ignore = 0,
+        Ground = 1,
+        Flying = 2
+    }
+
     public float followSpeed;
     public float acceleration;
     public float rotationSpeed;
     public bool canRotate;
     public float RemainingDistancePath;
     public Transform GroundedPosition;
-    
+
+    public DispersionLayer dispersionLayer;
+    public DispersionMask dispersionMask;
     public LayerMask wallLayers;
     public float scanRadius;
     public int scanRays;
@@ -29,8 +47,22 @@ public class AiAgent : SpatialHashObject
     public bool canMove = true;
 
     private Quaternion lastRotation = Quaternion.identity;
-    //private Vector3 upVector = Vector3.zero;
     private DemonFramework demon;
+
+    public Vector3 GetPosition { get { return transform.position; } }
+    public Vector3 GetLastPosition { get; set; }
+    public uint Index { get; set; }
+    public bool Enabled { get { return gameObject.activeSelf; } }
+    public List<AiAgent> Objects { get; set; }
+
+    [HideInInspector] public SpatialHashGrid3D Grid;
+
+    public void Initalise()
+    {
+        Grid = SpatialHashGrid3D.Instance;
+
+        Objects = new List<AiAgent>();
+    }
 
     bool initalise = false;
 
@@ -49,15 +81,17 @@ public class AiAgent : SpatialHashObject
         demon = GetComponent<DemonFramework>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         RemainingDistancePath = RemainingDistance;
+
+        if (Time.timeScale == 0.0f) { rb.isKinematic = true; }
+        else { rb.isKinematic = false; }
     }
 
     private void FixedUpdate()
     {
-        if(Time.timeScale == 0f) { return; }
+        if(Time.timeScale == 0.0f || Time.fixedDeltaTime == 0.0f) { return; }
 
         Vector3 idealVel = Vector3.zero;
 
@@ -105,10 +139,8 @@ public class AiAgent : SpatialHashObject
                 {
                     idealVel = Vector3.ProjectOnPlane(idealVel, hit.normal);
                 }
-                    
-                //upVector = hit.normal;
             }
-
+              
             rb.AddForce(GetPushForce() * dispersionForce * Time.fixedDeltaTime * Time.timeScale);
 
             Vector3 turningVel = idealVel - rb.velocity;
@@ -199,7 +231,6 @@ public class AiAgent : SpatialHashObject
                 }
             }
         }
-        //radius = Mathf.Min(radius, Vector3.Distance(transform.position, path[pathIndex]));
     }
 
     Vector3 GetPushForce()
@@ -208,10 +239,10 @@ public class AiAgent : SpatialHashObject
 
         if(demon.GetDemonInMap == false) return force;
 
-        foreach(SpatialHashObject other in Objects)
+        foreach(AiAgent other in Objects)
         {
-            if (other == this) { continue; }
-                
+            if (other == this || !((int)dispersionMask == ((int)dispersionMask | (1 << (int)other.dispersionLayer)))) { continue; }
+
             Vector3 dirTo = transform.position - other.transform.position;
             float dist = dirTo.magnitude;
             if (dist == 0)
@@ -330,7 +361,7 @@ public class AiAgent : SpatialHashObject
     {
         Grid.cells.Insert(this);
     }
-    public void SetNearbyAgents(List<SpatialHashObject> objs)
+    public void SetNearbyAgents(List<AiAgent> objs)
     {
         Objects = objs;
     }
@@ -343,17 +374,17 @@ public class AiAgent : SpatialHashObject
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.white;
-        if (Objects.Count > 0)
-            Gizmos.DrawRay(transform.position, GetPushForce());
-        Gizmos.color = Color.magenta;
-        if (path.pathLength > 0)
-        {
-            for (int i = 0; i < path.pathLength; i++)
-            {
-                Gizmos.DrawWireSphere(path.corners[i], indexChangeDistance);
-            }
-        }
+        //Gizmos.color = Color.white;
+        //if (Objects.Count > 0)
+        //    Gizmos.DrawRay(transform.position, GetPushForce());
+        //Gizmos.color = Color.magenta;
+        //if (path.pathLength > 0)
+        //{
+        //    for (int i = 0; i < path.pathLength; i++)
+        //    {
+        //        Gizmos.DrawWireSphere(path.corners[i], indexChangeDistance);
+        //    }
+        //}
 
         //Gizmos.color = Color.blue;
         //float angle = 360 / scanRays;
@@ -365,11 +396,16 @@ public class AiAgent : SpatialHashObject
         //Physics.Raycast(transform.position + transform.up * rayHeightOffset, -transform.up, out RaycastHit hit, groundingRange, wallLayers;
 
 
-        Vector3 startpos = GroundedPosition.position;
-        Vector3 endpos = GroundedPosition.position +  -transform.up * groundingRange;
+        //Vector3 startpos = GroundedPosition.position;
+        //Vector3 endpos = GroundedPosition.position +  -transform.up * groundingRange;
 
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(startpos, endpos);
+        //Gizmos.color = Color.blue;
+        //Gizmos.DrawLine(startpos, endpos);
     }
+}
 
+public enum PathingType
+{
+    Grounded,
+    Flying
 }

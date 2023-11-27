@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Movement;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,7 @@ public class PauseMenu : MonoBehaviour
 
     [SerializeField] InputActionProperty openAction;
 
+	PlayerInputt playerInput;
 	
 
     [ContextMenu("Open")]
@@ -41,6 +43,7 @@ public class PauseMenu : MonoBehaviour
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
 			
+			playerInput.enabled = false;
 		});
 	}
 	[ContextMenu("Close")]
@@ -64,8 +67,9 @@ public class PauseMenu : MonoBehaviour
             Time.fixedDeltaTime = 0.01f;
             Cursor.visible = false;
 			Cursor.lockState = CursorLockMode.Locked;
-			
-		});
+
+            playerInput.enabled = true;
+        });
 		s.Append(canvasGroup.DOFade(0, openTime));
         
 	}
@@ -88,7 +92,7 @@ public class PauseMenu : MonoBehaviour
         open = true;
         Close();
         openAction.action.performed += ToggleAction;
-		
+		playerInput = FindObjectOfType<PlayerInputt>();
 	}
 	private void OnEnable()
 	{

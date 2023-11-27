@@ -10,6 +10,13 @@ public class InteractionDisplay : MonoBehaviour
     [SerializeField] Image icon;
     [SerializeField] TextMeshProUGUI messageText;
 	[SerializeField] TextMeshProUGUI costText;
+
+	[SerializeField] Vector3 cantBuyPunchScale;
+    [SerializeField] int punchVibrado = 10;
+    [SerializeField] float punchElasticity = 1;
+    [SerializeField] float cantBuyPunchTime;
+    [SerializeField] Color cantBuyColour;
+
 	CanvasGroup canvasGroup;
 	private void Awake()
 	{
@@ -38,5 +45,16 @@ public class InteractionDisplay : MonoBehaviour
             icon.enabled = false;
         });
 
+    }
+
+	public void CantBuy()
+	{
+		DOTween.Kill(this);
+		Color originalColour = interactText.color;
+		interactText.color = cantBuyColour;
+		messageText.color = cantBuyColour;
+		Sequence punch = DOTween.Sequence();
+        punch.Append(interactText.transform.parent.DOPunchScale(cantBuyPunchScale, cantBuyPunchTime, punchVibrado, punchElasticity));
+		punch.AppendCallback(() => { interactText.color = originalColour; messageText.color = originalColour; });
     }
 }

@@ -30,6 +30,7 @@ public class ShopInteractable : Interactable
 		{
 			if(tooExpensiveSound.Enabled)
 				tooExpensiveSound.Value.Play();
+            interactor.display.CantBuy();
             CantBuy(interactor);
         }
     }

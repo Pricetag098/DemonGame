@@ -26,6 +26,7 @@ public class PunchAbility : Ability
     [Tooltip("Subtracts from the moveSpeedModifier in player stats")]
     [SerializeField, Range(0, 1)] float chargeMoveSpeedModifier;
     float flightTime = 0;
+    ChargeStuff chargeStuff;
 	protected override void OnEquip()
 	{
 		stats = caster.GetComponent<PlayerStats>();
@@ -36,7 +37,6 @@ public class PunchAbility : Ability
     
 	public override void Cast(Vector3 origin, Vector3 direction)
 	{
-        
 		switch(state)
         {
             case State.None:
@@ -44,7 +44,9 @@ public class PunchAbility : Ability
                 stats.speedMulti -= chargeMoveSpeedModifier;
                 caster.animator.SetTrigger("Cast");
 				caster.animator.SetBool("Held", false);
-				break;
+                chargeStuff = FindObjectOfType<ChargeStuff>();
+                chargeStuff.ChargeStage1();
+                break;
                 
             case State.Charging:
                 if (direction != Vector3.up)
@@ -53,7 +55,7 @@ public class PunchAbility : Ability
                     aimDir = direction;
                     aimDir.y = 0;
                     aimDir.Normalize();
-				}
+                }
 				
 				break;
             case State.Release:
@@ -71,7 +73,18 @@ public class PunchAbility : Ability
 			case State.Charging:
                 float charge = chargeTimer / maxChargeTime;
 
-				if (!pressedThisFrame ||  charge > 1)
+                if(charge > 0.4 && charge < 0.8)
+                {
+                    chargeStuff.ChargeStage2();
+                    Debug.Log(charge + " Charge");
+                }
+                else if(charge > 0.8)
+                {
+                    chargeStuff.ChargeStage3();
+                    Debug.Log(charge + " Charge");
+                }
+
+                if (!pressedThisFrame ||  charge > 1)
                 {
                     if(charge< minChargePercent)
                     {
@@ -136,7 +149,8 @@ public class PunchAbility : Ability
         
         caster.RemoveBlood(bloodCost);
 		chargeTimer = 0;
-	}
+        chargeStuff.StopEffect();
+    }
 
-    
+
 }

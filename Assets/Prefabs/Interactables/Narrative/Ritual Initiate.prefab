@@ -512,7 +512,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hovered: 0
-  activateMessage: 'To Activate '
+  activateMessage: To begin the ritual
 --- !u!114 &7451408592494383043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -926,7 +926,7 @@ MonoBehaviour:
   - {fileID: 8601429545357843581}
   - {fileID: 8601429544380907202}
   - {fileID: 8601429544924351031}
-  ritualSpawner: {fileID: 0}
+  ritualSpawner: {fileID: 7451408592494383043}
   initialDemonCount: 0
 --- !u!82 &8601429544032639876
 AudioSource:
@@ -937,10 +937,10 @@ AudioSource:
   m_GameObject: {fileID: 8601429544032639882}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -2714562108704848090, guid: 721a4b919c5aedf419f892e62f50ea7e, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.75
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1752,6 +1752,24 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 5105665ff1eba4c4a9c72a6e265cf898, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1476f8330c7fe248b1a6d04675330b3, type: 3}
+--- !u!1 &5475199333555980437 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -5956866245259455009, guid: a1476f8330c7fe248b1a6d04675330b3, type: 3}
+  m_PrefabInstance: {fileID: 7399173931657387338}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &622546543011113990
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5475199333555980437}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.015481448, y: 0.017257469, z: 0.017022673}
+  m_Center: {x: 4.0657581e-19, y: -0.0010954954, z: 0.00000000279369}
 --- !u!4 &7000172721736366753 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a1476f8330c7fe248b1a6d04675330b3, type: 3}

@@ -87,7 +87,7 @@ public class ResurrectionBuy : ShopInteractable
         }
         else
         {
-            interactor.display.DisplayMessage(true, buyMessage + ": ",  "[ " + Cost.ToString() + "]");
+            interactor.display.DisplayMessage(true, buyMessage + ": ",  "[Cost: " + Cost.ToString() + "]");
         }
     }
 

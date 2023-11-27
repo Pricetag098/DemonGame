@@ -24,6 +24,10 @@ public class SwordStuff : MonoBehaviour
     {
         originalPos = sword.transform.localPosition;
         dissolve = swordRenderers[0].sharedMaterial;
+    }
+
+    private void Start()
+    {
         dissolve.SetFloat("_Alpha_Clip", 1);
         hiltMaterial.SetFloat("_Aplha_Clip", 1);
     }

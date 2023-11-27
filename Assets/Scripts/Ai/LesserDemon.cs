@@ -163,6 +163,16 @@ public class LesserDemon : DemonFramework
 
         SetAllColliders(false);
 
+        //_spawner.AddDemonBackToPool(_type, _spawnerManager);
+
+        MarkForRemoval();
+    }
+    public override void OnForcedDespawn()
+    {
+        _aiAgent.SetFollowSpeed(0);
+
+        SetAllColliders(false);
+
         _spawner.AddDemonBackToPool(_type, _spawnerManager);
 
         MarkForRemoval();

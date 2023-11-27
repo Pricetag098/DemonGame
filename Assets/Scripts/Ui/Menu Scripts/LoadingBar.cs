@@ -65,11 +65,6 @@ public class LoadingBar : MonoBehaviour
             StartCoroutine(CycleNextToolTip());
             toolTipTimer = 0;
         }
-        if (controllerTimer > (toolTipFadeDuration + 13))
-        {
-            StartCoroutine(CycleNextControllerLayout());
-            controllerTimer = 0;
-        }
 
         if (controlIndex > 1)
         {
@@ -124,17 +119,4 @@ public class LoadingBar : MonoBehaviour
 
     }
 
-    public IEnumerator CycleNextControllerLayout()
-    {
-        controlDisplays[controlIndex].DOFade(0, toolTipFadeDuration);
-        controlIndex++;
-
-        yield return new WaitForSeconds(toolTipFadeDuration);
-
-        controlDisplays[controlIndex].DOFade(1, toolTipFadeDuration);
-
-
-        yield return new WaitForSeconds(13);
-
-    }
 }

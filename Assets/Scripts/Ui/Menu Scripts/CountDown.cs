@@ -24,6 +24,8 @@ public class CountDown : MonoBehaviour
     public GameObject[] panels;
     public GameObject[] buttons;
 
+    public SoundPlayer enterSFX = null;
+
     private void Awake()
     {
         //timer = new Timer()
@@ -49,6 +51,7 @@ public class CountDown : MonoBehaviour
 
     public void OnCompleteCountdown()
     {
+        enterSFX.Play();
         panels[0].SetActive(false);
         panels[1].SetActive(true);
 

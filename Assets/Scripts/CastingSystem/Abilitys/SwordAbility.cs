@@ -20,6 +20,8 @@ public class SwordAbility : Ability
 
 	bool inputBuffered;
 
+    [SerializeField, Range(0, 1)] float inputBufferPoint;
+
 	protected override void OnEquip()
 	{
 		cooldown = 1 / (swingsPerMin / 60);
@@ -31,47 +33,65 @@ public class SwordAbility : Ability
 
 	public override void Cast(Vector3 origin, Vector3 direction)
 	{
-		
+		if(timer / cooldown > inputBufferPoint)
+        {
+            inputBuffered = true;
+        }
         
     }
-   
+    bool swung = false;
 
     public override void Tick(Vector3 origin, Vector3 direction)
 	{
 		timer += Time.deltaTime;
-
-		if(inputBuffered)
-		{
-            timer = 0;
-            List<Health> healths = new List<Health>();
-            //slashVfx.Play(origin, direction);
-            caster.RemoveBlood(bloodCost);
-            RaycastHit[] hits = Physics.SphereCastAll(origin, rad, direction, range, layers);
-            foreach (RaycastHit hit in hits)
+        if(timer > cooldown)
+        {
+            if (inputBuffered)
             {
-                HitBox hb;
-                if (hit.collider.TryGetComponent(out hb))
+                swung = true;
+                timer = 0;
+                inputBuffered = false;
+                Debug.Log("Swing");
+                List<Health> healths = new List<Health>();
+                //slashVfx.Play(origin, direction);
+                caster.RemoveBlood(bloodCost);
+                RaycastHit[] hits = Physics.SphereCastAll(origin, rad, direction, range, layers);
+                foreach (RaycastHit hit in hits)
                 {
-                    if (healths.Contains(hb.health))
-                        continue;
-                    healths.Add(hb.health);
-                    OnHit(hb.health);
-                    hb.health.TakeDmg(damage * caster.DamageMulti, HitType.ABILITY);
-                    if (hit.point == Vector3.zero)
+                    HitBox hb;
+                    if (hit.collider.TryGetComponent(out hb))
                     {
-                        Vector3 pos = hit.collider.ClosestPoint(origin);
-                        vfx.Play(pos, pos - origin);
-                    }
-                    else
-                    {
-                        vfx.Play(hit.point, hit.normal);
-                    }
+                        if (healths.Contains(hb.health))
+                            continue;
+                        healths.Add(hb.health);
+                        OnHit(hb.health);
+                        hb.health.TakeDmg(damage * caster.DamageMulti, HitType.ABILITY);
+                        if (hit.point == Vector3.zero)
+                        {
+                            Vector3 pos = hit.collider.ClosestPoint(origin);
+                            vfx.Play(pos, pos - origin);
+                        }
+                        else
+                        {
+                            vfx.Play(hit.point, hit.normal);
+                        }
 
+                    }
                 }
+
+                caster.animator.SetTrigger("Cast");
             }
-            caster.animator.ResetTrigger("Cast");
-            caster.animator.SetTrigger("Cast");
+            else
+            {
+                if(swung)
+                {
+                    swung = false;
+                    caster.animator.SetTrigger("Exit");
+                }
+                
+            }
         }
+		
 		
 	}
 	public override void OnHit(Health health)

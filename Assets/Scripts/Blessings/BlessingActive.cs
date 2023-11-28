@@ -7,6 +7,9 @@ public class BlessingActive : MonoBehaviour
 {
     BlessingStatusHandler blessingStatusHandler;
     Image[] images;
+
+    private Color alphaOn = new Color(0, 0, 0, 1);
+    private Color alphaOff = new Color(0, 0, 0, 0);
     // Start is called before the first frame update
     void Awake()
     {
@@ -22,11 +25,13 @@ public class BlessingActive : MonoBehaviour
             if (i < blessingStatusHandler.activeBlessings.Count)
             {
                 images[i].gameObject.SetActive(true);
+                images[i].color = alphaOn;
                 images[i].sprite = blessingStatusHandler.activeBlessings[i].blessingImage;
             }
             else
             {
                 images[i].gameObject.SetActive(false);
+                images[i].color = alphaOff;
             }
         }
     }

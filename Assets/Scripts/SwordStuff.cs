@@ -15,21 +15,23 @@ public class SwordStuff : MonoBehaviour
 
     [SerializeField] List<Material> swordMaterials;
     [SerializeField] List<Renderer> swordRenderers;
+    [SerializeField] Renderer hiltRen;
 
     Vector3 originalPos;
     Material dissolve;
-    public Material hiltMaterial;
+    Material hiltMaterial;
 
     private void Awake()
     {
         originalPos = sword.transform.localPosition;
         dissolve = swordRenderers[0].sharedMaterial;
+        hiltMaterial = hiltRen.sharedMaterial;
     }
 
     private void Start()
     {
         dissolve.SetFloat("_Alpha_Clip", 1);
-        hiltMaterial.SetFloat("_Aplha_Clip", 1);
+        hiltMaterial.SetFloat("_Alpha_Clip", 1);
     }
 
     public void EquipSword()
@@ -37,8 +39,11 @@ public class SwordStuff : MonoBehaviour
         sword.SetActive(true);
         sword.transform.localPosition = equipPos;
         Sequence equip = DOTween.Sequence();
-        equip.Append(DOTween.To(() => dissolve.GetFloat("_Alpha_Clip"), x => dissolve.SetFloat("_Alpha_Clip", x), -1, dissolveTime));
-        equip.Append(DOTween.To(() => hiltMaterial.GetFloat("_Alpha_Clip"), x => hiltMaterial.SetFloat("_Alpha_Clip", x), -1, dissolveTime));
+        equip.AppendCallback(() => 
+        { 
+            DOTween.To(() => dissolve.GetFloat("_Alpha_Clip"), x => dissolve.SetFloat("_Alpha_Clip", x), 0, dissolveTime);
+            DOTween.To(() => hiltMaterial.GetFloat("_Alpha_Clip"), x => hiltMaterial.SetFloat("_Alpha_Clip", x), 0, dissolveTime);
+        });
         equip.Append(sword.transform.DOLocalMove(originalPos, returnTime));
     }
 
@@ -46,8 +51,11 @@ public class SwordStuff : MonoBehaviour
     {
         Sequence unEquip = DOTween.Sequence();
         unEquip.Append(sword.transform.DOLocalMove(unEquipPos, moveTime));
-        unEquip.Append(DOTween.To(() => dissolve.GetFloat("_Alpha_Clip"), x => dissolve.SetFloat("_Alpha_Clip", x), 1, dissolveTime));
-        unEquip.Append(DOTween.To(() => hiltMaterial.GetFloat("_Alpha_Clip"), x => hiltMaterial.SetFloat("_Alpha_Clip", x), 1, dissolveTime));
+        unEquip.AppendCallback(() => 
+        {
+            DOTween.To(() => dissolve.GetFloat("_Alpha_Clip"), x => dissolve.SetFloat("_Alpha_Clip", x), 1, dissolveTime);
+            DOTween.To(() => hiltMaterial.GetFloat("_Alpha_Clip"), x => hiltMaterial.SetFloat("_Alpha_Clip", x), 1, dissolveTime);
+        });
         unEquip.AppendInterval(dissolveTime);
         unEquip.AppendCallback(() => sword.transform.localPosition = originalPos);
         unEquip.AppendCallback(() => sword.SetActive(false));

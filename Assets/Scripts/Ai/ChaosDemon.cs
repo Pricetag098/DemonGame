@@ -33,6 +33,9 @@ public class ChaosDemon : DemonFramework
     [Header("ObstacleDetection")]
     private DestroyObstacle m_obstacle;
 
+    [Header("Enrage Stats")]
+    public int DemonEnrageAmount;
+
     ChaosStats activeStats;
     bool isEnraged;
     [Serializable]
@@ -72,8 +75,6 @@ public class ChaosDemon : DemonFramework
         _health.OnHit += OnHit;
 
         _aiAgent.stopingDistance = _stoppingDistance;
-
-
     }
     public override void OnUpdate()
     {
@@ -115,13 +116,15 @@ public class ChaosDemon : DemonFramework
             _aiAgent.stopingDistance = activeStats.stoppingDistance;
         }
 
-        if(!isEnraged && _health.health / _health.maxHealth < enragePoint)
-        {
-            SetValues(enragedStats);
-            enrageSound.Play();
-            isEnraged = true;
-            Debug.Log("Demon is angy");
-        }
+        EnrageState();
+
+        //if (!isEnraged && _health.health / _health.maxHealth < enragePoint)
+        //{
+        //    SetValues(enragedStats);
+        //    enrageSound.Play();
+        //    isEnraged = true;
+        //    Debug.Log("Demon is angy");
+        //}
 
         if(castTimer < 0)
         {
@@ -139,6 +142,30 @@ public class ChaosDemon : DemonFramework
         castTimer -= Time.deltaTime;
     }
 
+    private void EnrageState()
+    {
+        if(isEnraged == true) { return; }
+
+        if (!isEnraged && _health.health / _health.maxHealth < enragePoint)
+        {
+            SetEnrageState();
+            return;
+        }
+
+        if(_spawner.GetDemonQueueCount + _spawner.GetActiveDemonCount <= DemonEnrageAmount)
+        {
+            SetEnrageState();
+            return;
+        }
+    }
+
+    private void SetEnrageState()
+    {
+        SetValues(enragedStats);
+        enrageSound.Play();
+        isEnraged = true;
+        Debug.Log("Demon is angy");
+    }
     
     public override void OnSpawn(DemonType type, Transform target, SpawnType spawnType, bool inMap)
     {

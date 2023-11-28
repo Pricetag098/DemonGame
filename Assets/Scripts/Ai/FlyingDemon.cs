@@ -53,6 +53,14 @@ public class FlyingDemon : DemonFramework
     }
     public override void OnUpdate()
     {
+        if (SampleNavmeshPosition() == false && _isDead == false)
+        {
+            OnDespawn();
+            return;
+        }
+
+        if (DetectTarget() == false) { return; }
+
         if (IdleSoundTimer.TimeGreaterThan)
         {
             IdleSoundInterval(IdleSoundTimer);
@@ -61,12 +69,6 @@ public class FlyingDemon : DemonFramework
         if (WhileMovingSoundTimer.TimeGreaterThan)
         {
             WhileMovingSoundInterval(WhileMovingSoundTimer);
-        }
-
-        if (SampleNavmeshPosition() == false && _isDead == false)
-        {
-            OnDespawn();
-            return;
         }
         
         float targetYheight = maxFlightHeight;
@@ -81,8 +83,6 @@ public class FlyingDemon : DemonFramework
         body.transform.localPosition = Vector3.MoveTowards(body.transform.localPosition, new Vector3(body.transform.localPosition.x,targetYheight,body.transform.localPosition.z),Time.deltaTime * yMoveSpeed);
 
         DeathFade();
-
-        if (DetectTarget() == false) { return; }
 
         if (GetDemonInMap == false) { m_obstacle.Detection(); }
 

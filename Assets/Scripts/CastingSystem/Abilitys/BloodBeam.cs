@@ -111,7 +111,7 @@ public class BloodBeam : Ability
         }
     }
 
-    public override void Tick()
+    public override void Tick(Vector3 origin, Vector3 direction)
 	{
 		if (!held)
 		{

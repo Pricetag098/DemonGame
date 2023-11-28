@@ -46,7 +46,7 @@ public class BloodFireball : Ability
         held = true;
     }
 
-    public override void Tick()
+    public override void Tick(Vector3 origin, Vector3 direction)
     {
         if (!held && chargeTime > 0)
         {

@@ -32,7 +32,7 @@ public class VoidWalk : Ability
 		held = true;
 	}
 
-	public override void Tick()
+	public override void Tick(Vector3 origin, Vector3 direction)
 	{
 		if (castTimer > minCastTime )
 		{

@@ -134,7 +134,7 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
                 break;
         }
 
-
+        caster.UpdateAbilitys(Camera.main.transform.position, Camera.main.transform.forward);
         
     }
 

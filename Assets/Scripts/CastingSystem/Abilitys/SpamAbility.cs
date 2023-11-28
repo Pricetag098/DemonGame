@@ -21,7 +21,7 @@ public class SpamAbility : Ability
 	bool startedCasting;
 	bool pressed;
 	
-	public override void Tick()
+	public override void Tick(Vector3 origin, Vector3 direction)
 	{
 		timer += Time.deltaTime;
 		if (!pressed && startedCasting)

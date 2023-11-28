@@ -20,7 +20,7 @@ public class FingerGun : Ability
 	float timer;
 	[SerializeField] AimAssist aimAssist;
 
-	public override void Tick()
+	public override void Tick(Vector3 origin, Vector3 direction)
 	{
 		timer += Time.deltaTime;
 	}

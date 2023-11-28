@@ -33,7 +33,8 @@ public class PunchAbility : Ability
 	{
 		stats = caster.GetComponent<PlayerStats>();
         rb = caster.GetComponent<Rigidbody>();
-	}
+        chargeStuff = FindObjectOfType<ChargeStuff>();
+    }
     bool pressedThisFrame;
     Vector3 aimDir;
     
@@ -45,8 +46,8 @@ public class PunchAbility : Ability
                 state = State.Charging;
                 stats.speedMulti -= chargeMoveSpeedModifier;
                 caster.animator.SetTrigger("Cast");
-				caster.animator.SetBool("Held", false);
-                chargeStuff = FindObjectOfType<ChargeStuff>();
+                caster.animator.SetBool("Held", false);
+                
                 chargeStuff.ChargeStage1();
                 break;
                 
@@ -93,7 +94,8 @@ public class PunchAbility : Ability
 						chargeTimer = 0;
 						state = State.None;
 						stats.speedMulti += chargeMoveSpeedModifier;
-					}
+                        caster.animator.SetBool("Held", false);
+                    }
                     else
                     Release();
                 }

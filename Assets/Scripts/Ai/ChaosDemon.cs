@@ -152,7 +152,7 @@ public class ChaosDemon : DemonFramework
             return;
         }
 
-        if(_spawner.GetDemonQueueCount <= DemonEnrageAmount)
+        if(_spawner.GetDemonQueueCount + _spawner.GetActiveDemonCount <= DemonEnrageAmount)
         {
             SetEnrageState();
             return;

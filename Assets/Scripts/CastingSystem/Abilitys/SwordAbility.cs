@@ -17,25 +17,28 @@ public class SwordAbility : Ability
 	float cooldown;
 	float timer;
 	Trail trail;
+    [SerializeField] float swingDamageDelay = .1f;
 
 	bool inputBuffered;
-
+    int combo =0, comboLength = 3;
     [SerializeField, Range(0, 1)] float inputBufferPoint;
-
+    bool didDamage;
 	protected override void OnEquip()
 	{
 		cooldown = 1 / (swingsPerMin / 60);
-
+        timer = cooldown;
 		trail = caster.animator.transform.parent.parent.GetComponentInChildren<Trail>();
+        didDamage = true;
 		
 	}
 
 
 	public override void Cast(Vector3 origin, Vector3 direction)
 	{
-		if(timer / cooldown > inputBufferPoint)
+		if(timer / cooldown > inputBufferPoint && !inputBuffered && combo < comboLength)
         {
             inputBuffered = true;
+            combo++;
         }
         
     }
@@ -44,6 +47,14 @@ public class SwordAbility : Ability
     public override void Tick(Vector3 origin, Vector3 direction)
 	{
 		timer += Time.deltaTime;
+
+        if(timer > swingDamageDelay && !didDamage)
+        {
+            didDamage = true;
+            DoSwing(origin, direction);
+        }
+
+
         if(timer > cooldown)
         {
             if (inputBuffered)
@@ -51,33 +62,7 @@ public class SwordAbility : Ability
                 swung = true;
                 timer = 0;
                 inputBuffered = false;
-                Debug.Log("Swing");
-                List<Health> healths = new List<Health>();
-                //slashVfx.Play(origin, direction);
-                caster.RemoveBlood(bloodCost);
-                RaycastHit[] hits = Physics.SphereCastAll(origin, rad, direction, range, layers);
-                foreach (RaycastHit hit in hits)
-                {
-                    HitBox hb;
-                    if (hit.collider.TryGetComponent(out hb))
-                    {
-                        if (healths.Contains(hb.health))
-                            continue;
-                        healths.Add(hb.health);
-                        OnHit(hb.health);
-                        hb.health.TakeDmg(damage * caster.DamageMulti, HitType.ABILITY);
-                        if (hit.point == Vector3.zero)
-                        {
-                            Vector3 pos = hit.collider.ClosestPoint(origin);
-                            vfx.Play(pos, pos - origin);
-                        }
-                        else
-                        {
-                            vfx.Play(hit.point, hit.normal);
-                        }
-
-                    }
-                }
+                didDamage = false;
 
                 caster.animator.SetTrigger("Cast");
             }
@@ -86,6 +71,7 @@ public class SwordAbility : Ability
                 if(swung)
                 {
                     swung = false;
+                    combo = 0;
                     caster.animator.SetTrigger("Exit");
                 }
                 
@@ -94,6 +80,37 @@ public class SwordAbility : Ability
 		
 		
 	}
+
+    void DoSwing(Vector3 origin, Vector3 direction)
+    {
+        Debug.Log("Swing");
+        List<Health> healths = new List<Health>();
+        //slashVfx.Play(origin, direction);
+        caster.RemoveBlood(bloodCost);
+        RaycastHit[] hits = Physics.SphereCastAll(origin, rad, direction, range, layers);
+        foreach (RaycastHit hit in hits)
+        {
+            HitBox hb;
+            if (hit.collider.TryGetComponent(out hb))
+            {
+                if (healths.Contains(hb.health))
+                    continue;
+                healths.Add(hb.health);
+                OnHit(hb.health);
+                hb.health.TakeDmg(damage * caster.DamageMulti, HitType.ABILITY);
+                if (hit.point == Vector3.zero)
+                {
+                    Vector3 pos = hit.collider.ClosestPoint(origin);
+                    vfx.Play(pos, pos - origin);
+                }
+                else
+                {
+                    vfx.Play(hit.point, hit.normal);
+                }
+
+            }
+        }
+    }
 	public override void OnHit(Health health)
 	{
         if (health.dead)
@@ -110,7 +127,10 @@ public class SwordAbility : Ability
     public override void EndSelect()
     {
         //enable trail
-		trail.GetComponent<MeshRenderer>().enabled = true;
+        swung = false;
+        combo = 0;
+        inputBuffered = false;
+        trail.GetComponent<MeshRenderer>().enabled = true;
     }
 
     public override void StartDeSelect()

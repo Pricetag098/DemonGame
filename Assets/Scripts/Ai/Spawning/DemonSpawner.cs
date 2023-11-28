@@ -19,6 +19,7 @@ public class DemonSpawner : MonoBehaviour
     [HideInInspector] public DemonPoolers demonPool;
 
     public int GetDemonQueueCount { get { return DemonQueue.Count; } }
+    public int GetActiveDemonCount { get { return ActiveDemons.Count; } }
 
     private void Awake()
     {

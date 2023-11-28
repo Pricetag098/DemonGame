@@ -95,6 +95,7 @@ public class PunchAbility : Ability
 						state = State.None;
 						stats.speedMulti += chargeMoveSpeedModifier;
                         caster.animator.SetBool("Held", false);
+                        chargeStuff.StopHand();
                     }
                     else
                     Release();

@@ -32,6 +32,7 @@ public class HoverTween : MonoBehaviour, IPointerEnterHandler, ISelectHandler, I
 
     public void OnSelect(BaseEventData eventData)
     {
+
         confirmSFX.Play();
         transform.DOKill();
         TweenSelect();

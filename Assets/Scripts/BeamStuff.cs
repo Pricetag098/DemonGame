@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,23 +8,27 @@ public class BeamStuff : MonoBehaviour
 {
     [SerializeField] GameObject beamCast;
 
-    VisualEffect vfx;
+    [SerializeField] float shrinkTime;
+
+    Vector3 originalSize;
 
     private void Awake()
     {
-        vfx = beamCast.GetComponentInChildren<VisualEffect>();
-        vfx.Stop();
+        originalSize = beamCast.transform.localScale;
+        beamCast.SetActive(false);
     }
 
     public void CastBeam()
     {
-        beamCast.SetActive(true);
-        vfx.Reinit();
+        Sequence cast = DOTween.Sequence();
+        cast.AppendCallback(() => beamCast.SetActive(true));
+        cast.Append(beamCast.transform.DOScale(originalSize, shrinkTime));
     }
 
     public void WithdrawBeam()
     {
-        vfx.Stop();
-        beamCast.SetActive(false);
+        Sequence withdraw = DOTween.Sequence();
+        withdraw.Append(beamCast.transform.DOScale(new Vector3(0.1f, 0.1f, 0.1f), shrinkTime));
+        withdraw.AppendCallback(() => beamCast.SetActive(false));
     }
 }

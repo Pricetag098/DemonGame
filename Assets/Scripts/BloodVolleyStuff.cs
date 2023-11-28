@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,23 +8,27 @@ public class BloodVolleyStuff : MonoBehaviour
 {
     [SerializeField] GameObject bloodVolley;
 
-    VisualEffect vfx;
+    [SerializeField] float shrinkTime;
+
+    Vector3 originalSize;
 
     private void Awake()
     {
-        vfx = bloodVolley.GetComponentInChildren<VisualEffect>();
-        vfx.Stop();
+        originalSize = bloodVolley.transform.localScale;
+        bloodVolley.SetActive(false);
     }
 
     public void CastVolley()
     {
-        bloodVolley.SetActive(true);
-        vfx.Reinit();
+        Sequence cast = DOTween.Sequence();
+        cast.AppendCallback(() => bloodVolley.SetActive(true));
+        cast.Append(bloodVolley.transform.DOScale(originalSize, shrinkTime));
     }
 
     public void WithdrawVolley()
     {
-        vfx.Stop();
-        bloodVolley.SetActive(false);
+        Sequence withdraw = DOTween.Sequence();
+        withdraw.Append(bloodVolley.transform.DOScale(new Vector3(0.1f, 0.1f, 0.1f), shrinkTime));
+        withdraw.AppendCallback(() => bloodVolley.SetActive(false));
     }
 }

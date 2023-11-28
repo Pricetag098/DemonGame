@@ -18,6 +18,8 @@ public class DemonSpawner : MonoBehaviour
     private Spawners _spawners;
     [HideInInspector] public DemonPoolers demonPool;
 
+    public int GetDemonQueueCount { get { return DemonQueue.Count; } }
+
     private void Awake()
     {
         _spawners = GetComponent<Spawners>();

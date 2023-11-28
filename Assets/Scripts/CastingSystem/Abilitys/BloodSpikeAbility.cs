@@ -53,7 +53,7 @@ public class BloodSpikeAbility : Ability
         }
 		caster.animator.SetTrigger("Cast");
 	}
-	public override void Tick()
+	public override void Tick(Vector3 origin, Vector3 direction)
 	{
 		timer += Time.deltaTime;
 	}

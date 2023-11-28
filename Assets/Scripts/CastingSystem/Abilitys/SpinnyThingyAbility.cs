@@ -71,7 +71,7 @@ public class SpinnyThingyAbility : Ability
 		}
 	}
 	List<Health> healths = new List<Health>();
-	public override void Tick()
+	public override void Tick(Vector3 origin, Vector3 direction)
 	{
 		if (timer < 0)
 		{

@@ -27,7 +27,7 @@ public class Ability : ScriptableObject
 		passive
 	}
 	public CastModes castMode;
-	public virtual void Tick()
+	public virtual void Tick(Vector3 origin, Vector3 direction)
 	{
 
 	}

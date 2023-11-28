@@ -64,7 +64,7 @@ public class PunchAbility : Ability
         pressedThisFrame = true;
 	}
 	List<Health> healths = new List<Health>();
-	public override void Tick()
+	public override void Tick(Vector3 origin, Vector3 direction)
 	{
 		switch (state)
 		{

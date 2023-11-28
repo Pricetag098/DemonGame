@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class RitualManager : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class RitualManager : MonoBehaviour
     [HideInInspector] public RitualSpawner currentRitualSpawner;
     [HideInInspector] public Ritual currentRitual;
 
-    [SerializeField] List<GameObject> FinalCompletionObjects = new List<GameObject>();
+    [SerializeField] UnityEvent FinalCompletionObjects;
     [SerializeField] Optional<Transform> playerTpLocationStart;
     [SerializeField] Optional<Transform> playerTpLocationEnd;
     
@@ -18,11 +19,6 @@ public class RitualManager : MonoBehaviour
 
     private void Awake()
     {
-        foreach(GameObject g in FinalCompletionObjects)
-        {
-            g.SetActive(false);
-        }
-
         player = GetComponent<SpawnerManager>().player;
     }
 
@@ -47,10 +43,7 @@ public class RitualManager : MonoBehaviour
         
         if (currentRitual.FinalRitual == true)
         {
-            foreach (GameObject g in FinalCompletionObjects)
-            {
-                g.SetActive(true);
-            }
+            FinalCompletionObjects.Invoke();
         }
     }
 

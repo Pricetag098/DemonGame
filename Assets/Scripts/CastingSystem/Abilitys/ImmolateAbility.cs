@@ -42,7 +42,7 @@ public class ImmolateAbility : Ability
 			obj.GetComponent<ParticleSystem>().Play();
 		}
 	}
-	public override void Tick()
+	public override void Tick(Vector3 origin, Vector3 direction)
 	{
 		if (casted)
 		{

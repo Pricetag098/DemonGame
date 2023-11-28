@@ -53,14 +53,16 @@ public class AbilityCaster : MonoBehaviour
     }
 	
 
-	// Update is called once per frame
-	void Update()
+	
+    
+
+	public void UpdateAbilitys(Vector3 origin, Vector3 direction)
     {
         if(abilities.Length == 0)
             return;
         for(int i = 0; i < abilities.Length; i++)
 		{
-            abilities[i].Tick();
+            abilities[i].Tick(origin,direction);
 		}
 		
     }

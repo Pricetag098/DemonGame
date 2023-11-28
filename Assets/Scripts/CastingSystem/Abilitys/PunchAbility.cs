@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,6 +27,7 @@ public class PunchAbility : Ability
     [Tooltip("Subtracts from the moveSpeedModifier in player stats")]
     [SerializeField, Range(0, 1)] float chargeMoveSpeedModifier;
     float flightTime = 0;
+    [SerializeField] float speedLinesDelay;
     ChargeStuff chargeStuff;
 	protected override void OnEquip()
 	{
@@ -134,8 +136,11 @@ public class PunchAbility : Ability
                     chargeTimer = 0;
                     state = State.None;
                     stats.speedMulti += chargeMoveSpeedModifier;
+                    Sequence wait = DOTween.Sequence();
+                    wait.AppendInterval(speedLinesDelay);
+                    wait.AppendCallback(() => chargeStuff.StopSpeed());
                 }
-				break;
+                break;
 		}
 
         pressedThisFrame =  false;
@@ -149,7 +154,8 @@ public class PunchAbility : Ability
         
         caster.RemoveBlood(bloodCost);
 		chargeTimer = 0;
-        chargeStuff.StopEffect();
+        chargeStuff.StopHand();
+        chargeStuff.StartSpeed();
     }
 
 

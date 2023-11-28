@@ -44,12 +44,14 @@ public class ChargeStuff : MonoBehaviour
 
     public void StartSpeed()
     {
+        speedEffects.gameObject.SetActive(true);
         speedEffects.Play();
         DOTween.To(() => speedScreen.weight, x => speedScreen.weight = x, 1f, 0.4f);
     }
 
     public void StopSpeed()
     {
+        speedEffects.gameObject.SetActive(false);
         speedEffects.Stop();
         DOTween.To(() => speedScreen.weight, x => speedScreen.weight = x, 0f, 0.4f);
     }

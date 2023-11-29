@@ -18,7 +18,7 @@ namespace DemonInfo
     {
         Null,
         Base,
-        Stalker,
+        LittleGuy,
         Chaos
     }
     public enum SpawnerType

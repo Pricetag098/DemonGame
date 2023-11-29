@@ -201,9 +201,7 @@ public class RitualSpawner : MonoBehaviour
         List<DemonType> demons = new List<DemonType>();
 
         int _base = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.BasePercentage, ritual.demonsToSpawn));
-        int _Summoner = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.SummonerPercentage, ritual.demonsToSpawn));
-        int _stalker = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.StalkerPercentage, ritual.demonsToSpawn));
-        int _choas = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.ChoasPercentage, ritual.demonsToSpawn));
+        int _littleGuy = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.LittleGuyPercentage, ritual.demonsToSpawn));
 
         int counter = ritual.demonsToSpawn;
 
@@ -211,17 +209,9 @@ public class RitualSpawner : MonoBehaviour
 
         counter -= _base;
 
-        AddTypeToList(wave.Summoner, _Summoner, demons);
+        AddTypeToList(wave.LittleGuy, _littleGuy, demons);
 
-        counter -= _Summoner;
-
-        AddTypeToList(wave.Stalker, _stalker, demons);
-
-        counter -= _stalker;
-
-        AddTypeToList(wave.Choas, _choas, demons);
-
-        counter -= _choas;
+        counter -= _littleGuy;
 
         AddTypeToList(wave.Base, counter, demons);
 

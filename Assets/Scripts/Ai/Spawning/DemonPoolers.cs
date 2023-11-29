@@ -17,6 +17,6 @@ public class DemonPoolers : MonoBehaviour
         demonPoolers = new Dictionary<DemonID, ObjectPooler>();
         demonPoolers.Add(DemonID.Base, baseDemonPooler);
         demonPoolers.Add(DemonID.Chaos, choasDemonPooler);
-        demonPoolers.Add(DemonID.Stalker, stalkerDemonPooler);
+        demonPoolers.Add(DemonID.LittleGuy, stalkerDemonPooler);
     }
 }

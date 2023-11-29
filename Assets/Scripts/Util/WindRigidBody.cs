@@ -11,20 +11,32 @@ public class WindRigidBody : MonoBehaviour
     float windStrength;
     RaycastHit hit;
     Collider[] hitColliders;
+    Rigidbody[] bodys;
     Rigidbody rb;
-    void Update()
+    [SerializeField] LayerMask layer;
+
+    private void Start()
     {
-
-        windStrength = Mathf.Sin(Time.time/freq) * amp;
-
         hitColliders = Physics.OverlapSphere(transform.position, radius);
-
+        List<Rigidbody> list = new List<Rigidbody>();
         for (int i = 0; i < hitColliders.Length; i++)
         {
             if (hitColliders[i].TryGetComponent(out Rigidbody rb))
             {
-                rb.AddForce(transform.forward * windStrength);
+                list.Add(rb);
             }
         }
+        bodys = list.ToArray();
+    }
+
+    void FixedUpdate()
+    {
+
+        windStrength = Mathf.Sin(Time.time/freq) * amp;
+        foreach(Rigidbody rb in bodys)
+        {
+            rb.AddForce(transform.forward * windStrength);
+        }
+        
     }
 }

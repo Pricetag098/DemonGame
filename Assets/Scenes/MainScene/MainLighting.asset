@@ -75,10 +75,10 @@ MonoBehaviour:
     m_Value: 55261.973
   aerosolDensity:
     m_OverrideState: 1
-    m_Value: 0.01192826
+    m_Value: 0.267
   aerosolTint:
     m_OverrideState: 1
-    m_Value: {r: 1, g: 0, b: 0, a: 1}
+    m_Value: {r: 0.5566038, g: 0.5566038, b: 0.5566038, a: 1}
   aerosolMaximumAltitude:
     m_OverrideState: 0
     m_Value: 8289.296
@@ -90,7 +90,7 @@ MonoBehaviour:
     m_Value: 3
   groundTint:
     m_OverrideState: 1
-    m_Value: {r: 1, g: 1, b: 1, a: 1}
+    m_Value: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
   groundColorTexture:
     m_OverrideState: 0
     m_Value: {fileID: 0}
@@ -108,7 +108,7 @@ MonoBehaviour:
     m_Value: {fileID: 8900000, guid: 72e4d1c5daf399a4c8a9005bfc09795d, type: 3}
   spaceEmissionMultiplier:
     m_OverrideState: 1
-    m_Value: 0.44
+    m_Value: 0.41
   spaceRotation:
     m_OverrideState: 0
     m_Value: {x: 0, y: 0, z: 0}
@@ -149,7 +149,7 @@ MonoBehaviour:
   active: 1
   indirectDiffuseLightingMultiplier:
     m_OverrideState: 1
-    m_Value: 2.38
+    m_Value: 2.24
   indirectDiffuseLightingLayers:
     m_OverrideState: 1
     m_Value: 255
@@ -210,7 +210,7 @@ MonoBehaviour:
     m_Value: 157.5
   meanFreePath:
     m_OverrideState: 1
-    m_Value: 58.8
+    m_Value: 63.66
   enableVolumetricFog:
     m_OverrideState: 0
     m_Value: 0
@@ -250,6 +250,40 @@ MonoBehaviour:
   directionalLightsOnly:
     m_OverrideState: 0
     m_Value: 0
+--- !u!114 &-2490587760787058503
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b24b200358312b4fa1004e2431c2f1f, type: 3}
+  m_Name: ShadowsMidtonesHighlights
+  m_EditorClassIdentifier: 
+  active: 1
+  shadows:
+    m_OverrideState: 1
+    m_Value: {x: 0.9513513, y: 0.96351343, z: 1, w: 0.18494566}
+  midtones:
+    m_OverrideState: 0
+    m_Value: {x: 1, y: 1, z: 1, w: 0}
+  highlights:
+    m_OverrideState: 0
+    m_Value: {x: 1, y: 1, z: 1, w: 0}
+  shadowsStart:
+    m_OverrideState: 0
+    m_Value: 0
+  shadowsEnd:
+    m_OverrideState: 0
+    m_Value: 0.3
+  highlightsStart:
+    m_OverrideState: 0
+    m_Value: 0.55
+  highlightsEnd:
+    m_OverrideState: 0
+    m_Value: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,6 +304,7 @@ MonoBehaviour:
   - {fileID: 3597514523570150227}
   - {fileID: 1929891047744602082}
   - {fileID: -5260939167084278786}
+  - {fileID: -2490587760787058503}
 --- !u!114 &1929891047744602082
 MonoBehaviour:
   m_ObjectHideFlags: 3

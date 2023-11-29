@@ -35,7 +35,6 @@ public class RitualSpawner : MonoBehaviour
     [SerializeField] GameObject orbHolder;
     [HideInInspector] public bool IncrementRitual;
     [SerializeField] GameObject book;
-    
 
     private SpawnerManager manager;
     private DemonSpawner demonSpawner;

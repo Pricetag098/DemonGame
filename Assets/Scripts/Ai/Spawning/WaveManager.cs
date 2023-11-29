@@ -118,7 +118,7 @@ public class WaveManager : MonoBehaviour
             DemonsToSpawn.Insert(Choasindex, wave.Choas);
         }
 
-        Manager.maxDemonsToSpawn++;
+        //Manager.maxDemonsToSpawn++;
 
         Manager.StartOfRound = false;
         Manager.canSpawn = true;

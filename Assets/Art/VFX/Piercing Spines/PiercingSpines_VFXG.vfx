@@ -21,14 +21,14 @@ MonoBehaviour:
     collapsed: 1
   - name: SMOKE
     collapsed: 1
-  - name: LARGE BLOOD
-    collapsed: 1
+  - name: BLOOD
+    collapsed: 0
   uiBounds:
     serializedVersion: 2
     x: -42
     y: -295
     width: 5587
-    height: 2304
+    height: 2284
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -71,7 +71,6 @@ MonoBehaviour:
   - {fileID: 8926484042661615296}
   - {fileID: 8926484042661615300}
   - {fileID: 8926484042661615304}
-  - {fileID: 8926484042661615308}
   - {fileID: 8926484042661615310}
   - {fileID: 8926484042661615578}
   - {fileID: 8926484042661615584}
@@ -105,6 +104,7 @@ MonoBehaviour:
   - {fileID: 8926484042661616013}
   - {fileID: 8926484042661616017}
   - {fileID: 8926484042661616021}
+  - {fileID: 8926484042661616026}
   m_UIPosition: {x: 0, y: 0}
   m_UICollapsed: 1
   m_UISuperCollapsed: 0
@@ -303,7 +303,7 @@ MonoBehaviour:
     max: Infinity
     enumValues: []
     descendantCount: 0
-  - name: LARGE BLOOD
+  - name: BLOOD
     path: 
     tooltip: 
     sheetType: 
@@ -316,8 +316,8 @@ MonoBehaviour:
     max: Infinity
     enumValues: []
     descendantCount: 0
-  - name: LB_Blood Velocity
-    path: LB_Blood Velocity
+  - name: Blood Velocity
+    path: Blood Velocity
     tooltip: 
     sheetType: m_Vector3f
     realType: Vector3
@@ -358,8 +358,8 @@ MonoBehaviour:
     max: Infinity
     enumValues: []
     descendantCount: 0
-  - name: LB_Lifetime
-    path: LB_Lifetime
+  - name: Lifetime
+    path: Lifetime
     tooltip: 
     sheetType: m_Vector2f
     realType: Vector2
@@ -367,13 +367,13 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector2, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":0.17499999701976777,"y":0.22499999403953553}'
+      m_SerializableObject: '{"x":0.699999988079071,"y":1.0}'
     min: -Infinity
     max: Infinity
     enumValues: []
     descendantCount: 0
-  - name: LB_Blood Scale (Min/Max)
-    path: LB_Blood Scale (Min/Max)
+  - name: Blood Scale (Min/Max)
+    path: Blood Scale (Min/Max)
     tooltip: 
     sheetType: m_Vector2f
     realType: Vector2
@@ -386,22 +386,8 @@ MonoBehaviour:
     max: Infinity
     enumValues: []
     descendantCount: 0
-  - name: SB_Count
-    path: SB_Count
-    tooltip: 
-    sheetType: m_Float
-    realType: Single
-    defaultValue:
-      m_Type:
-        m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-          PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 50
-    min: -Infinity
-    max: Infinity
-    enumValues: []
-    descendantCount: 0
-  - name: LB_Count
-    path: LB_Count
+  - name: Blood Count
+    path: Blood Count
     tooltip: 
     sheetType: m_Float
     realType: Single
@@ -414,8 +400,8 @@ MonoBehaviour:
     max: Infinity
     enumValues: []
     descendantCount: 0
-  - name: LB_Noise Offset (Min/Max)
-    path: LB_Noise Offset (Min/Max)
+  - name: Blood Noise Offset (Min/Max)
+    path: Blood Noise Offset (Min/Max)
     tooltip: 
     sheetType: m_Vector2f
     realType: Vector2
@@ -424,6 +410,20 @@ MonoBehaviour:
         m_SerializableType: UnityEngine.Vector2, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
       m_SerializableObject: '{"x":0.0,"y":2.0}'
+    min: -Infinity
+    max: Infinity
+    enumValues: []
+    descendantCount: 0
+  - name: Small Blood Colour
+    path: Small Blood Colour
+    tooltip: 
+    sheetType: m_Vector4f
+    realType: Color
+    defaultValue:
+      m_Type:
+        m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_SerializableObject: '{"r":2.0,"g":0.0,"b":0.0,"a":1.0}'
     min: -Infinity
     max: Infinity
     enumValues: []
@@ -7992,7 +7992,7 @@ MonoBehaviour:
   - {fileID: 8926484042661615062}
   m_ExposedName: SmokeCount
   m_Exposed: 1
-  m_Order: 0
+  m_Order: 1
   m_Category: SMOKE
   m_Min:
     m_Type:
@@ -8072,7 +8072,7 @@ MonoBehaviour:
   - {fileID: 8926484042661615064}
   m_ExposedName: SmokeVelocity
   m_Exposed: 1
-  m_Order: 1
+  m_Order: 4
   m_Category: SMOKE
   m_Min:
     m_Type:
@@ -8264,7 +8264,7 @@ MonoBehaviour:
   - {fileID: 8926484042661615069}
   m_ExposedName: Colour
   m_Exposed: 1
-  m_Order: 2
+  m_Order: 8
   m_Category: SMOKE
   m_Min:
     m_Type:
@@ -8480,7 +8480,7 @@ MonoBehaviour:
   - {fileID: 8926484042661615075}
   m_ExposedName: Size
   m_Exposed: 1
-  m_Order: 3
+  m_Order: 11
   m_Category: SMOKE
   m_Min:
     m_Type:
@@ -8840,10 +8840,10 @@ MonoBehaviour:
   m_InputSlots: []
   m_OutputSlots:
   - {fileID: 8926484042661615286}
-  m_ExposedName: LB_Blood Velocity
+  m_ExposedName: Blood Velocity
   m_Exposed: 1
   m_Order: 0
-  m_Category: LARGE BLOOD
+  m_Category: BLOOD
   m_Min:
     m_Type:
       m_SerializableType: 
@@ -9045,7 +9045,7 @@ MonoBehaviour:
   m_Parent: {fileID: 114350483966674976}
   m_Children: []
   m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 0
+  m_UICollapsed: 1
   m_UISuperCollapsed: 0
   m_InputSlots: []
   m_OutputSlots:
@@ -9053,7 +9053,7 @@ MonoBehaviour:
   m_ExposedName: Blood Colour 1
   m_Exposed: 1
   m_Order: 1
-  m_Category: LARGE BLOOD
+  m_Category: BLOOD
   m_Min:
     m_Type:
       m_SerializableType: 
@@ -9266,10 +9266,10 @@ MonoBehaviour:
   m_InputSlots: []
   m_OutputSlots:
   - {fileID: 8926484042661615297}
-  m_ExposedName: LB_Lifetime
+  m_ExposedName: Lifetime
   m_Exposed: 1
   m_Order: 3
-  m_Category: LARGE BLOOD
+  m_Category: BLOOD
   m_Min:
     m_Type:
       m_SerializableType: 
@@ -9282,7 +9282,17 @@ MonoBehaviour:
   m_EnumValues: []
   m_ValueFilter: 0
   m_Tooltip: 
-  m_Nodes: []
+  m_Nodes:
+  - m_Id: 0
+    linkedSlots:
+    - outputSlot: {fileID: 8926484042661615298}
+      inputSlot: {fileID: 8926484042661616024}
+    - outputSlot: {fileID: 8926484042661615299}
+      inputSlot: {fileID: 8926484042661616025}
+    position: {x: 3625, y: 776}
+    expandedSlots:
+    - {fileID: 8926484042661615297}
+    expanded: 1
 --- !u!114 &8926484042661615297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9310,7 +9320,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector2, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":0.17499999701976777,"y":0.22499999403953553}'
+      m_SerializableObject: '{"x":0.699999988079071,"y":1.0}'
     m_Space: 2147483647
   m_Property:
     name: o
@@ -9351,7 +9361,8 @@ MonoBehaviour:
       m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
         PublicKeyToken=b77a5c561934e089
   m_Direction: 1
-  m_LinkedSlots: []
+  m_LinkedSlots:
+  - {fileID: 8926484042661616024}
 --- !u!114 &8926484042661615299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9384,7 +9395,8 @@ MonoBehaviour:
       m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
         PublicKeyToken=b77a5c561934e089
   m_Direction: 1
-  m_LinkedSlots: []
+  m_LinkedSlots:
+  - {fileID: 8926484042661616025}
 --- !u!114 &8926484042661615300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9406,10 +9418,10 @@ MonoBehaviour:
   m_InputSlots: []
   m_OutputSlots:
   - {fileID: 8926484042661615301}
-  m_ExposedName: LB_Blood Scale (Min/Max)
+  m_ExposedName: Blood Scale (Min/Max)
   m_Exposed: 1
   m_Order: 4
-  m_Category: LARGE BLOOD
+  m_Category: BLOOD
   m_Min:
     m_Type:
       m_SerializableType: 
@@ -9558,10 +9570,10 @@ MonoBehaviour:
   m_InputSlots: []
   m_OutputSlots:
   - {fileID: 8926484042661615305}
-  m_ExposedName: LB_Noise Offset (Min/Max)
+  m_ExposedName: Blood Noise Offset (Min/Max)
   m_Exposed: 1
-  m_Order: 7
-  m_Category: LARGE BLOOD
+  m_Order: 6
+  m_Category: BLOOD
   m_Min:
     m_Type:
       m_SerializableType: 
@@ -9689,78 +9701,6 @@ MonoBehaviour:
   m_Direction: 1
   m_LinkedSlots:
   - {fileID: 8926484042661615697}
---- !u!114 &8926484042661615308
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 330e0fca1717dde4aaa144f48232aa64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_UIIgnoredErrors: []
-  m_Parent: {fileID: 114350483966674976}
-  m_Children: []
-  m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 1
-  m_UISuperCollapsed: 0
-  m_InputSlots: []
-  m_OutputSlots:
-  - {fileID: 8926484042661615309}
-  m_ExposedName: SB_Count
-  m_Exposed: 1
-  m_Order: 5
-  m_Category: LARGE BLOOD
-  m_Min:
-    m_Type:
-      m_SerializableType: 
-    m_SerializableObject: 
-  m_Max:
-    m_Type:
-      m_SerializableType: 
-    m_SerializableObject: 
-  m_IsOutput: 0
-  m_EnumValues: []
-  m_ValueFilter: 0
-  m_Tooltip: 
-  m_Nodes: []
---- !u!114 &8926484042661615309
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f780aa281814f9842a7c076d436932e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_UIIgnoredErrors: []
-  m_Parent: {fileID: 0}
-  m_Children: []
-  m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 1
-  m_UISuperCollapsed: 0
-  m_MasterSlot: {fileID: 8926484042661615309}
-  m_MasterData:
-    m_Owner: {fileID: 8926484042661615308}
-    m_Value:
-      m_Type:
-        m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-          PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 50
-    m_Space: 2147483647
-  m_Property:
-    name: o
-    m_serializedType:
-      m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-        PublicKeyToken=b77a5c561934e089
-  m_Direction: 1
-  m_LinkedSlots: []
 --- !u!114 &8926484042661615310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9782,10 +9722,10 @@ MonoBehaviour:
   m_InputSlots: []
   m_OutputSlots:
   - {fileID: 8926484042661615311}
-  m_ExposedName: LB_Count
+  m_ExposedName: Blood Count
   m_Exposed: 1
-  m_Order: 6
-  m_Category: LARGE BLOOD
+  m_Order: 5
+  m_Category: BLOOD
   m_Min:
     m_Type:
       m_SerializableType: 
@@ -9798,7 +9738,14 @@ MonoBehaviour:
   m_EnumValues: []
   m_ValueFilter: 0
   m_Tooltip: 
-  m_Nodes: []
+  m_Nodes:
+  - m_Id: 0
+    linkedSlots:
+    - outputSlot: {fileID: 8926484042661615311}
+      inputSlot: {fileID: 8926484042661615582}
+    position: {x: 3760, y: -131}
+    expandedSlots: []
+    expanded: 0
 --- !u!114 &8926484042661615311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9832,7 +9779,8 @@ MonoBehaviour:
       m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
         PublicKeyToken=b77a5c561934e089
   m_Direction: 1
-  m_LinkedSlots: []
+  m_LinkedSlots:
+  - {fileID: 8926484042661615582}
 --- !u!114 &8926484042661615578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9926,7 +9874,8 @@ MonoBehaviour:
       m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
         PublicKeyToken=b77a5c561934e089
   m_Direction: 0
-  m_LinkedSlots: []
+  m_LinkedSlots:
+  - {fileID: 8926484042661615311}
 --- !u!114 &8926484042661615583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11504,48 +11453,15 @@ MonoBehaviour:
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots:
-  - {fileID: 8926484042661615631}
+  - {fileID: 8926484042661616024}
+  - {fileID: 8926484042661616025}
   m_OutputSlots: []
   m_Disabled: 0
   attribute: lifetime
   Composition: 0
   Source: 0
-  Random: 0
+  Random: 2
   channels: 6
---- !u!114 &8926484042661615631
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f780aa281814f9842a7c076d436932e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_UIIgnoredErrors: []
-  m_Parent: {fileID: 0}
-  m_Children: []
-  m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 1
-  m_UISuperCollapsed: 0
-  m_MasterSlot: {fileID: 8926484042661615631}
-  m_MasterData:
-    m_Owner: {fileID: 8926484042661615630}
-    m_Value:
-      m_Type:
-        m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-          PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 0.7
-    m_Space: 2147483647
-  m_Property:
-    name: Lifetime
-    m_serializedType:
-      m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-        PublicKeyToken=b77a5c561934e089
-  m_Direction: 0
-  m_LinkedSlots: []
 --- !u!114 &8926484042661615632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14196,7 +14112,7 @@ MonoBehaviour:
   m_Parent: {fileID: 114350483966674976}
   m_Children: []
   m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 0
+  m_UICollapsed: 1
   m_UISuperCollapsed: 0
   m_InputSlots: []
   m_OutputSlots:
@@ -14204,7 +14120,7 @@ MonoBehaviour:
   m_ExposedName: Blood Colour 2
   m_Exposed: 1
   m_Order: 2
-  m_Category: LARGE BLOOD
+  m_Category: BLOOD
   m_Min:
     m_Type:
       m_SerializableType: 
@@ -17341,7 +17257,8 @@ MonoBehaviour:
       m_SerializableType: UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
   m_Direction: 0
-  m_LinkedSlots: []
+  m_LinkedSlots:
+  - {fileID: 8926484042661616027}
 --- !u!114 &8926484042661615881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18059,7 +17976,7 @@ MonoBehaviour:
   - {fileID: 8926484042661615976}
   m_ExposedName: SpikeColour1
   m_Exposed: 1
-  m_Order: 1
+  m_Order: 6
   m_Category: SPIKE
   m_Min:
     m_Type:
@@ -18275,7 +18192,7 @@ MonoBehaviour:
   - {fileID: 8926484042661615982}
   m_ExposedName: SpikeColour2
   m_Exposed: 1
-  m_Order: 2
+  m_Order: 10
   m_Category: SPIKE
   m_Min:
     m_Type:
@@ -18491,7 +18408,7 @@ MonoBehaviour:
   - {fileID: 8926484042661615988}
   m_ExposedName: EmissionTex
   m_Exposed: 1
-  m_Order: 3
+  m_Order: 13
   m_Category: SPIKE
   m_Min:
     m_Type:
@@ -18571,7 +18488,7 @@ MonoBehaviour:
   - {fileID: 8926484042661615990}
   m_ExposedName: EmissionColour
   m_Exposed: 1
-  m_Order: 4
+  m_Order: 15
   m_Category: SPIKE
   m_Min:
     m_Type:
@@ -18916,7 +18833,7 @@ MonoBehaviour:
   - {fileID: 8926484042661616004}
   m_ExposedName: RockCount
   m_Exposed: 1
-  m_Order: 0
+  m_Order: 3
   m_Category: ROCK
   m_Min:
     m_Type:
@@ -18996,7 +18913,7 @@ MonoBehaviour:
   - {fileID: 8926484042661616006}
   m_ExposedName: RockVelocity
   m_Exposed: 1
-  m_Order: 1
+  m_Order: 7
   m_Category: ROCK
   m_Min:
     m_Type:
@@ -19627,3 +19544,289 @@ MonoBehaviour:
   m_Direction: 1
   m_LinkedSlots:
   - {fileID: 8926484042661614764}
+--- !u!114 &8926484042661616024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f780aa281814f9842a7c076d436932e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UIIgnoredErrors: []
+  m_Parent: {fileID: 0}
+  m_Children: []
+  m_UIPosition: {x: 0, y: 0}
+  m_UICollapsed: 1
+  m_UISuperCollapsed: 0
+  m_MasterSlot: {fileID: 8926484042661616024}
+  m_MasterData:
+    m_Owner: {fileID: 8926484042661615630}
+    m_Value:
+      m_Type:
+        m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089
+      m_SerializableObject: 0.7
+    m_Space: 2147483647
+  m_Property:
+    name: A
+    m_serializedType:
+      m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+  m_Direction: 0
+  m_LinkedSlots:
+  - {fileID: 8926484042661615298}
+--- !u!114 &8926484042661616025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f780aa281814f9842a7c076d436932e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UIIgnoredErrors: []
+  m_Parent: {fileID: 0}
+  m_Children: []
+  m_UIPosition: {x: 0, y: 0}
+  m_UICollapsed: 1
+  m_UISuperCollapsed: 0
+  m_MasterSlot: {fileID: 8926484042661616025}
+  m_MasterData:
+    m_Owner: {fileID: 8926484042661615630}
+    m_Value:
+      m_Type:
+        m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089
+      m_SerializableObject: 1
+    m_Space: 2147483647
+  m_Property:
+    name: B
+    m_serializedType:
+      m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+  m_Direction: 0
+  m_LinkedSlots:
+  - {fileID: 8926484042661615299}
+--- !u!114 &8926484042661616026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 330e0fca1717dde4aaa144f48232aa64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UIIgnoredErrors: []
+  m_Parent: {fileID: 114350483966674976}
+  m_Children: []
+  m_UIPosition: {x: 0, y: 0}
+  m_UICollapsed: 1
+  m_UISuperCollapsed: 0
+  m_InputSlots: []
+  m_OutputSlots:
+  - {fileID: 8926484042661616027}
+  m_ExposedName: Small Blood Colour
+  m_Exposed: 1
+  m_Order: 16
+  m_Category: BLOOD
+  m_Min:
+    m_Type:
+      m_SerializableType: 
+    m_SerializableObject: 
+  m_Max:
+    m_Type:
+      m_SerializableType: 
+    m_SerializableObject: 
+  m_IsOutput: 0
+  m_EnumValues: []
+  m_ValueFilter: 0
+  m_Tooltip: 
+  m_Nodes:
+  - m_Id: 0
+    linkedSlots:
+    - outputSlot: {fileID: 8926484042661616027}
+      inputSlot: {fileID: 8926484042661615880}
+    position: {x: 4893, y: 1767}
+    expandedSlots: []
+    expanded: 0
+--- !u!114 &8926484042661616027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c82227d5759e296488798b1554a72a15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UIIgnoredErrors: []
+  m_Parent: {fileID: 0}
+  m_Children:
+  - {fileID: 8926484042661616028}
+  - {fileID: 8926484042661616029}
+  - {fileID: 8926484042661616030}
+  - {fileID: 8926484042661616031}
+  m_UIPosition: {x: 0, y: 0}
+  m_UICollapsed: 1
+  m_UISuperCollapsed: 0
+  m_MasterSlot: {fileID: 8926484042661616027}
+  m_MasterData:
+    m_Owner: {fileID: 8926484042661616026}
+    m_Value:
+      m_Type:
+        m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_SerializableObject: '{"r":2.0,"g":0.0,"b":0.0,"a":1.0}'
+    m_Space: 2147483647
+  m_Property:
+    name: o
+    m_serializedType:
+      m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  m_Direction: 1
+  m_LinkedSlots:
+  - {fileID: 8926484042661615880}
+--- !u!114 &8926484042661616028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f780aa281814f9842a7c076d436932e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UIIgnoredErrors: []
+  m_Parent: {fileID: 8926484042661616027}
+  m_Children: []
+  m_UIPosition: {x: 0, y: 0}
+  m_UICollapsed: 1
+  m_UISuperCollapsed: 0
+  m_MasterSlot: {fileID: 8926484042661616027}
+  m_MasterData:
+    m_Owner: {fileID: 0}
+    m_Value:
+      m_Type:
+        m_SerializableType: 
+      m_SerializableObject: 
+    m_Space: 2147483647
+  m_Property:
+    name: r
+    m_serializedType:
+      m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+  m_Direction: 1
+  m_LinkedSlots: []
+--- !u!114 &8926484042661616029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f780aa281814f9842a7c076d436932e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UIIgnoredErrors: []
+  m_Parent: {fileID: 8926484042661616027}
+  m_Children: []
+  m_UIPosition: {x: 0, y: 0}
+  m_UICollapsed: 1
+  m_UISuperCollapsed: 0
+  m_MasterSlot: {fileID: 8926484042661616027}
+  m_MasterData:
+    m_Owner: {fileID: 0}
+    m_Value:
+      m_Type:
+        m_SerializableType: 
+      m_SerializableObject: 
+    m_Space: 2147483647
+  m_Property:
+    name: g
+    m_serializedType:
+      m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+  m_Direction: 1
+  m_LinkedSlots: []
+--- !u!114 &8926484042661616030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f780aa281814f9842a7c076d436932e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UIIgnoredErrors: []
+  m_Parent: {fileID: 8926484042661616027}
+  m_Children: []
+  m_UIPosition: {x: 0, y: 0}
+  m_UICollapsed: 1
+  m_UISuperCollapsed: 0
+  m_MasterSlot: {fileID: 8926484042661616027}
+  m_MasterData:
+    m_Owner: {fileID: 0}
+    m_Value:
+      m_Type:
+        m_SerializableType: 
+      m_SerializableObject: 
+    m_Space: 2147483647
+  m_Property:
+    name: b
+    m_serializedType:
+      m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+  m_Direction: 1
+  m_LinkedSlots: []
+--- !u!114 &8926484042661616031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f780aa281814f9842a7c076d436932e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UIIgnoredErrors: []
+  m_Parent: {fileID: 8926484042661616027}
+  m_Children: []
+  m_UIPosition: {x: 0, y: 0}
+  m_UICollapsed: 1
+  m_UISuperCollapsed: 0
+  m_MasterSlot: {fileID: 8926484042661616027}
+  m_MasterData:
+    m_Owner: {fileID: 0}
+    m_Value:
+      m_Type:
+        m_SerializableType: 
+      m_SerializableObject: 
+    m_Space: 2147483647
+  m_Property:
+    name: a
+    m_serializedType:
+      m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+  m_Direction: 1
+  m_LinkedSlots: []

@@ -108,7 +108,7 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
             case State.holstering:
                 if(timer < 0)
                 {
-                    ActiveAbility.EndSelect();
+                    ActiveAbility.EndDeSelect();
                     activeIndex = newActiveIndex;
                     caster.animator.runtimeAnimatorController = ActiveAbility.controller;
 

@@ -137,6 +137,7 @@ public class SwordAbility : Ability
     {
         //Animate sword out
         //disable trail
+        Debug.Log("Deselct");
         trail.GetComponent<MeshRenderer>().enabled = false;
     }
 

@@ -93,7 +93,7 @@ public class DemonSpawner : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
-            ActiveDemons[i].OnForcedDeath();
+            ActiveDemons[i].OnForcedDeath(true);
         }
 
         ActiveDemons.Clear();

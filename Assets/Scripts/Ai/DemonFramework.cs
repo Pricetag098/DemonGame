@@ -209,7 +209,7 @@ public class DemonFramework : MonoBehaviour
     {
         
     }
-    public virtual void OnForcedDeath() { }
+    public virtual void OnForcedDeath(bool ignoreImmunity) { }
     public virtual void OnDespawn() 
     {
         

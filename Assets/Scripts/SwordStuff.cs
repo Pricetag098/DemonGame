@@ -69,7 +69,7 @@ public class SwordStuff : MonoBehaviour
         {
             child.sharedMaterial = swordMaterials[tier];
         }
-        if (dissolve.GetFloat("_Aplha_Clip") == 1)
+        if (dissolve.GetFloat("_Alpha_Clip") == 1)
         {
             swordMaterials[tier].SetFloat("_Alpha_Clip", 1);
         }

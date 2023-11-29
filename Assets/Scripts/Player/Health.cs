@@ -11,6 +11,7 @@ public class Health : MonoBehaviour
     public Action OnDeath;
     public Action OnHit;
     public Action OnRespawn;
+    public float damageLimit = float.PositiveInfinity;
 
     // Start is called before the first frame update
     public float regenPerSecond = 0;
@@ -26,6 +27,9 @@ public class Health : MonoBehaviour
 	}
 	public void TakeDmg(float dmg, HitType damageType)
     {
+        if(dmg > damageLimit)
+            dmg = damageLimit;
+
         health = Mathf.Clamp(health -dmg, 0, maxHealth);
 
         if(OnHit != null)

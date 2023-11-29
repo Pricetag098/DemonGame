@@ -2089,7 +2089,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8652743210697721120, guid: bece2910c06e585418ae494ecc0cc4a1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.089
       objectReference: {fileID: 0}
     - target: {fileID: 8652743210697721120, guid: bece2910c06e585418ae494ecc0cc4a1, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3825,6 +3825,10 @@ PrefabInstance:
       propertyPath: maxHealth
       value: 1250
       objectReference: {fileID: 0}
+    - target: {fileID: -6264133887467537221, guid: 9ffce472bccea6a4697d2bf06a3a4082, type: 3}
+      propertyPath: damageLimit
+      value: 5000
+      objectReference: {fileID: 0}
     - target: {fileID: 1271265312295719666, guid: 9ffce472bccea6a4697d2bf06a3a4082, type: 3}
       propertyPath: points
       value: 500
@@ -4210,43 +4214,52 @@ MonoBehaviour:
   meleeStopingDistance: 1
   normalStats:
     meleeDamage: 50
-    spellDamage: 50
-    spellRadius: 1
+    spellDamage: 30
+    spellRadius: 2
     castInterval:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.2
-        inSlope: 0.06540632
-        outSlope: 0.06540632
+        value: 0.4
+        inSlope: 0.009281979
+        outSlope: 0.009281979
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0.27360523
+        outWeight: 0.30579397
       - serializedVersion: 3
         time: 0.4
-        value: 0.2
-        inSlope: 0.080379106
-        outSlope: 0.080379106
+        value: 0.4
+        inSlope: 0.020933583
+        outSlope: 0.020933583
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.08798346
-        outWeight: 0.3287242
+        inWeight: 0.2489271
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.5
+        value: 0.7
+        inSlope: 1.6532358
+        outSlope: 1.6532358
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.79375017
-        value: 0.7
-        inSlope: 2.3495967
-        outSlope: 2.3495967
+        value: 0.9
+        inSlope: 0.41562033
+        outSlope: 0.41562033
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.13563725
-        outWeight: 0.33333334
+        inWeight: 0.26216838
+        outWeight: 0.41734874
       - serializedVersion: 3
         time: 1
         value: 1
-        inSlope: 1.4545467
-        outSlope: 1.4545467
+        inSlope: 0.484849
+        outSlope: 0.484849
         tangentMode: 34
         weightedMode: 0
         inWeight: 0.33333334
@@ -4255,48 +4268,57 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     meleeAggroRange: 10
-    moveSpeed: 4.5
+    moveSpeed: 4
     stoppingDistance: 16
-    strikeWarmUp: 1.5
+    strikeWarmUp: 2.25
   enragedStats:
     meleeDamage: 50
-    spellDamage: 75
-    spellRadius: 0.5
+    spellDamage: 30
+    spellRadius: 1.25
     castInterval:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.2
-        inSlope: 0.06540632
-        outSlope: 0.06540632
+        value: 0.4
+        inSlope: 0.009281979
+        outSlope: 0.009281979
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0.27360523
+        outWeight: 0.30579397
       - serializedVersion: 3
         time: 0.4
-        value: 0.7
-        inSlope: 2.551708
-        outSlope: 2.551708
+        value: 0.4
+        inSlope: 0.020933583
+        outSlope: 0.020933583
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.08798346
-        outWeight: 0.14496842
+        inWeight: 0.2489271
+        outWeight: 0
       - serializedVersion: 3
-        time: 0.79375017
-        value: 1
-        inSlope: 2.3495967
-        outSlope: 2.3495967
+        time: 0.5
+        value: 0.7
+        inSlope: 1.6532358
+        outSlope: 1.6532358
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.13563725
+        inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
+        time: 0.79375017
+        value: 0.9
+        inSlope: 0.41562033
+        outSlope: 0.41562033
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.26216838
+        outWeight: 0.41734874
+      - serializedVersion: 3
         time: 1
-        value: 2
-        inSlope: 4.848489
-        outSlope: 4.848489
+        value: 1
+        inSlope: 0.484849
+        outSlope: 0.484849
         tangentMode: 34
         weightedMode: 0
         inWeight: 0.33333334
@@ -4307,7 +4329,7 @@ MonoBehaviour:
     meleeAggroRange: 2
     moveSpeed: 5
     stoppingDistance: 1
-    strikeWarmUp: 1
+    strikeWarmUp: 1.25
   enragePoint: 0.4
   enrageSound: {fileID: 258710143489626923}
   walker:
@@ -4327,6 +4349,7 @@ MonoBehaviour:
   m_HealthToAdd: 900
   m_HealthMultiplier: 1.1
   SoulBox: {fileID: 0}
+  DemonEnrageAmount: 10
 --- !u!114 &740821919388477101 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5957530225167243057, guid: 9ffce472bccea6a4697d2bf06a3a4082, type: 3}

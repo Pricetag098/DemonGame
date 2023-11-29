@@ -319,7 +319,10 @@ public class Gun : MonoBehaviour
             }
 		}
     }
+    public void OnKill()
+    {
 
+    }
     protected virtual void Shoot()
     {
 
@@ -379,7 +382,10 @@ public class Gun : MonoBehaviour
                             healths.Add(hitBox.health);
                             if(!hitBox.health.dead)
 							holster.stats.GainPoints(GetPoints(hitBox.bodyPart));
-							hitBox.OnHit(damage, HitType.GUN);
+							if(hitBox.OnHit(damage, HitType.GUN))
+                            {
+                                holster.OnKill(hitBox.bodyPart);
+                            }
                             
                             holster.OnHit(damage, hitBox);
                         }

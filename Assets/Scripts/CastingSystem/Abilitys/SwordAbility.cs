@@ -97,7 +97,8 @@ public class SwordAbility : Ability
                     continue;
                 healths.Add(hb.health);
                 OnHit(hb.health);
-                hb.health.TakeDmg(damage * caster.DamageMulti, HitType.ABILITY);
+                if (hb.health.TakeDmg(damage * caster.DamageMulti, HitType.ABILITY))
+                    caster.OnKill();
                 if (hit.point == Vector3.zero)
                 {
                     Vector3 pos = hit.collider.ClosestPoint(origin);

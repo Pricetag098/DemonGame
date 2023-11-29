@@ -6522,6 +6522,8 @@ MonoBehaviour:
   points: 500
   pointsSpent: 0
   pointsGained: 0
+  killStreak: 0
+  maxKillStreak: 15
 --- !u!114 &5858707596002619737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6551,6 +6553,7 @@ MonoBehaviour:
   health: 150
   maxHealth: 150
   dead: 0
+  damageLimit: Infinity
   regenPerSecond: 25
   regenDelay: 2.5
   vfxTarget:
@@ -14542,7 +14545,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3714472563766812630
 Transform:
   m_ObjectHideFlags: 0
@@ -14664,7 +14667,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8693671452307563859
 Transform:
   m_ObjectHideFlags: 0
@@ -15184,6 +15187,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4085326771923949399}
   - component: {fileID: 5204948291173459911}
+  - component: {fileID: 1680663538392144456}
   m_Layer: 3
   m_Name: Arm_L
   m_TagString: Untagged
@@ -15226,7 +15230,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c80a08026e01dd549a2e285fd688c74d, type: 2}
+  - {fileID: 2100000, guid: 19f9201c07dc11a4f96548caa47ee310, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -15285,6 +15289,22 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.24235994, y: -0.10585141, z: 0.24532963}
     m_Extent: {x: 0.22051632, y: 0.27614376, z: 0.3894629}
   m_DirtyAABB: 0
+--- !u!114 &1680663538392144456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7772810793777663795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ab05fdc95385c64a9b1ca3a92b02cc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m2: {fileID: 7621869289906196317, guid: f76e18fe2d5c52a469e04abd937d9bc0, type: 3}
+  m3: {fileID: 2737674809551037273, guid: 7264acec360066f41a76295306529e06, type: 3}
+  progress: 0
+  spreadMin: 0
 --- !u!1 &7787461600470756055
 GameObject:
   m_ObjectHideFlags: 0

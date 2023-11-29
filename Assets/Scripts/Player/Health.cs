@@ -25,7 +25,7 @@ public class Health : MonoBehaviour
         vfxTarget.Value = GetComponent<VfxTargets>();
         vfxTarget.Enabled = !(vfxTarget.Value is null);
 	}
-	public void TakeDmg(float dmg, HitType damageType)
+	public bool TakeDmg(float dmg, HitType damageType)
     {
         if(dmg > damageLimit)
             dmg = damageLimit;
@@ -36,13 +36,16 @@ public class Health : MonoBehaviour
         {
             OnHit();
         }
-
-        if (health <= 0)
+        timeSinceLastHit = 0;
+        if (health <= 0 && !dead)
 		{
             LastHitType = damageType;
+            
             Die();
-		}
-        timeSinceLastHit = 0;
+            return true;
+        }
+        return false;
+        
     }
 
     public void Respawn()

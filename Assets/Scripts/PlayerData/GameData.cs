@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameData 
 {
 	public int kills;
+	public int headShotKills;
 	public int deaths;
 	public int pointsGained;
 	public int pointsSpent;
@@ -14,6 +15,7 @@ public class GameData
 	public GameData()
 	{
 		kills = 0;
+		headShotKills = 0;
 		deaths = 0;
 		pointsGained = 0;
 		pointsSpent = 0;

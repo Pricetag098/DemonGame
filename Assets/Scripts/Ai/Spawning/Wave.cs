@@ -10,9 +10,6 @@ using DemonInfo;
 [CreateAssetMenu(fileName = "Wave", menuName = "Wave/Create Wave", order = 0)]
 public class Wave : ScriptableObject
 {
-    [Header("Boss Wave")]
-    public bool BossWave;
-
     [Header("Wave")]
     public SpawnType spawnType;
     public int Round;
@@ -23,12 +20,14 @@ public class Wave : ScriptableObject
     public float WalkerPercent;
     public float JoggerPercent;
     public float RunnerPercent;
-    public DemonType Summoner;
-    public float SummonerPercentage;
-    public DemonType Stalker;
-    public float StalkerPercentage;
+
+    public DemonType LittleGuy;
+    public float LittleGuyPercentage;
+
     public DemonType Choas;
-    public float ChoasPercentage;
-    public DemonType Cultist;
-    public float Amount;
+    public int ChoasAmount;
+
+    [Header("Extra Chaos Chance")]
+    [Range(0,100)] public float ChanceToSpawnChaos;
+    [Range(0,10)] public int MaxChoasToSpawn;
 }

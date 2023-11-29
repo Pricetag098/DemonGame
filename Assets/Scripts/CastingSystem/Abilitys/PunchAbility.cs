@@ -126,7 +126,8 @@ public class PunchAbility : Ability
                                 rigidbody.AddForce(forceVector * hitForce);
 
                             }
-                            hitBox.OnHit(damageCurve.Evaluate(chargeTimer/flightTime), HitType.ABILITY);
+                            if(hitBox.OnHit(damageCurve.Evaluate(chargeTimer/flightTime), HitType.ABILITY))
+                                caster.OnKill();
                             healths.Add(hitBox.health);
                         }
                     }

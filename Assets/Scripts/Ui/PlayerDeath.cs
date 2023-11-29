@@ -68,6 +68,8 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
 
     void Die()
 	{
+        
+        stats.ResetKillStreak();
         if(respawnsLeft > 0)
 		{
             text.text = onDeathText;

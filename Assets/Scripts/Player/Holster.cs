@@ -249,6 +249,11 @@ public class Holster : MonoBehaviour
     }
     
     
+    public void OnKill(HitBox.BodyPart bodyPart)
+    {
+        stats.OnKill(bodyPart);
+    }
+
     public void OnHit(float damage,HitBox hitBox)
 	{
         

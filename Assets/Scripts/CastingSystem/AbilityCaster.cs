@@ -52,7 +52,11 @@ public class AbilityCaster : MonoBehaviour
         }
     }
 	
-
+    public void OnKill(HitBox.BodyPart bodyPart = HitBox.BodyPart.Body)
+    {
+        if(playerStats.Enabled)
+            playerStats.Value.OnKill(bodyPart);
+    }
 	
     
 

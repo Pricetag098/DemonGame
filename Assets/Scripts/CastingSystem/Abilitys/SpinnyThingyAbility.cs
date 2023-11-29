@@ -106,7 +106,8 @@ public class SpinnyThingyAbility : Ability
 					if (!healths.Contains(hb.health))
 					{
 						healths.Add(hb.health);
-						hb.OnHit((damage.Evaluate(timer / maxTimer) * caster.DamageMulti), HitType.ABILITY);
+						if(hb.OnHit((damage.Evaluate(timer / maxTimer) * caster.DamageMulti), HitType.ABILITY))
+							caster.OnKill();
 						Vector3 point = hit.ClosestPoint(obj[i].transform.position);
 						vfx.Play(point, obj[i].transform.position - point);
 						OnHit(hb.health);

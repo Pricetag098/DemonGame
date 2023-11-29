@@ -1,3 +1,4 @@
+using DG.Tweening.Plugins.Options;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -42,20 +43,30 @@ public class ArmMeshCombiner : MonoBehaviour
         m1.colors = cols;
         m1.uv = m2.uv;
     }
+    private void Start()
+    {
+        UpdateProgress(0);
+    }
 
     // Update is called once per frame
-    void Update()
-    {
-        progress = (Mathf.Sin(Time.time) + 1)/2;
 
-        for(int i = 0; i < m1v.Length; i++)
-		{
+    public void UpdateProgress(float progress)
+    {
+        this.progress = progress;
+        for (int i = 0; i < m1v.Length; i++)
+        {
             float val = GetValue(cols[i].r);
             newcols[i] = Color.white * val;
-            m1v[i] = Vector3.Lerp(m2v[i], m3v[i],val);
-		}
+            m1v[i] = Vector3.Lerp(m2v[i], m3v[i], val);
+        }
         m1.vertices = m1v;
-        m1.colors=newcols;
+        m1.colors = newcols;
+    }
+    void Update()
+    {
+        //progress = (Mathf.Sin(Time.time) + 1)/2;
+
+        
     }
 
     float GetValue(float t)

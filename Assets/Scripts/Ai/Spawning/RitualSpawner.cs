@@ -34,6 +34,7 @@ public class RitualSpawner : MonoBehaviour
     [SerializeField] GameObject completion;
     [SerializeField] GameObject orbHolder;
     [HideInInspector] public bool IncrementRitual;
+    [SerializeField] GameObject book;
     
 
     private SpawnerManager manager;
@@ -72,6 +73,7 @@ public class RitualSpawner : MonoBehaviour
 
     public void InitaliseRitual()
     {
+        book.SetActive(true);
         if(RitualActive == false && ritualComplete == false)
         {
             RitualActive = true;
@@ -156,6 +158,7 @@ public class RitualSpawner : MonoBehaviour
         soundPlayerComplete.Play();
 
         completion.SetActive(false);
+        book.SetActive(false);
         if (orbHolder != null)
         {
             orbHolder.GetComponent<Bounce>().Escape();

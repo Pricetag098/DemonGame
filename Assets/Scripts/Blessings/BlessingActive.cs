@@ -8,7 +8,7 @@ public class BlessingActive : MonoBehaviour
     BlessingStatusHandler blessingStatusHandler;
     Image[] images;
 
-    private Color alphaOn = new Color(0, 0, 0, 1);
+    private Color alphaOn = Color.white;
     private Color alphaOff = new Color(0, 0, 0, 0);
     // Start is called before the first frame update
     void Awake()

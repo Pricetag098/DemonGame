@@ -157,7 +157,7 @@ public class LesserDemon : DemonFramework
 
         _aiAgent.canRotate = false;
     }
-    public override void OnForcedDeath()
+    public override void OnForcedDeath(bool ignoreImmunity)
     {
         _aiAgent.SetFollowSpeed(0);
 

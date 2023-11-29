@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using Unity.Entities;
 using Unity.Physics;
 using UnityEngine;
-
+using DG.Tweening;
 public class GunUpPickup : Interactable
 {
     [SerializeField] Transform gunHolder;
     [SerializeField] Animator upgradeAnimator;
     [SerializeField] GameObject fakeGun;
-
+    [SerializeField] float delay;
     public string pickUpMessage;
 
-    GameObject newGun;
-    Gun newGunGun;
+    //GameObject newGun;
+    Gun newGun;
     GameObject upgrader;
-
+    int heldIndex;
     GameObject worldGunOld;
 
 
@@ -26,7 +26,7 @@ public class GunUpPickup : Interactable
         base.StartHover(interactor);
         if (finished)
         {
-            interactor.display.DisplayMessage(true, pickUpMessage + " " + newGunGun.gunName + " ", null);
+            interactor.display.DisplayMessage(true, pickUpMessage + " " + newGun.gunName + " ", null);
         }
     }
 
@@ -37,10 +37,11 @@ public class GunUpPickup : Interactable
             finished = false;
             upgrader.SetActive(true);
             Destroy(worldGunOld);
-            GameObject gun = Instantiate(newGun, interactor.holster.transform);
+            GameObject gun = Instantiate(newGun.gameObject, interactor.holster.transform);
             Gun g = gun.GetComponent<Gun>();
             interactor.holster.SetUpGun(g);
             interactor.holster.ReplaceGun(g);
+            g.gameObject.SetActive(false);
         }
     }
 
@@ -59,15 +60,17 @@ public class GunUpPickup : Interactable
         GameObject gun = Instantiate(fakeGun, player.holster.transform);
         Gun fake = gun.GetComponent<Gun>();
         player.holster.SetUpGun(fake);
+        //heldIndex = player.holster.heldGunIndex;
         player.holster.ReplaceGun(fake);
 
-        newGun = nextGun;
-        newGunGun = nextGun.GetComponent<Gun>();
+        //newGun = nextGun;
+        newGun = nextGun.GetComponent<Gun>();
+
     }
 
     public void SpawnNewGun()
     {
-        worldGunOld.GetComponent<WorldGun>().ChangeMat(newGunGun.tier);
+        worldGunOld.GetComponent<WorldGun>().ChangeMat(newGun.tier);
     }
 
     public void EnableGunPickup()

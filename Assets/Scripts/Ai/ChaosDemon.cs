@@ -256,8 +256,13 @@ public class ChaosDemon : DemonFramework
 
         MarkForRemoval();
     }
-    public override void OnForcedDeath()
+    public override void OnForcedDeath(bool ignoreImmunity)
     {
+        if(!ignoreImmunity)
+        {
+            return;
+        }
+
         _aiAgent.SetFollowSpeed(0);
 
         SetAllColliders(false);

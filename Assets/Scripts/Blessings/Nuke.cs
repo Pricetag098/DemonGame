@@ -16,7 +16,7 @@ public class Nuke : Blessing
 
 		foreach(DemonFramework d in DemonSpawner.ActiveDemons)
 		{
-			d.OnForcedDeath();
+			d.OnForcedDeath(false);
 		}
 
 		DemonSpawner.ActiveDemons.Clear();

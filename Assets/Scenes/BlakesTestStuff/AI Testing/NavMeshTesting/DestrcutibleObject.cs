@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Physics;
 using UnityEngine;
 using UnityEngine.Rendering.HighDefinition;
 
@@ -8,15 +9,14 @@ public class DestrcutibleObject : Interactable
     public int Health;
     public int maxHealth;
     public int pointsToGain;
-    public List<GameObject> symbolsList;
+    public List<WardFragment> partList;
     public AudioSource audioSource;
     public List<AudioClip> wardingSounds;
-    public GameObject pentagramSymbol;
-
+    public CrossDissolve crossSymbol;
 
     public string interactMessage;
 
-    private List<GameObject> activeSymbols = new List<GameObject>();
+    private List<WardFragment> activeParts = new List<WardFragment>();
 
     [SerializeField] private float rebuildInterval;
 
@@ -25,9 +25,11 @@ public class DestrcutibleObject : Interactable
     private PlayerStats player;
     private Timer timer;
 
+    private Interactor InteractionHandler;
+
     private void Awake()
     {
-        activeSymbols.AddRange(symbolsList);
+        activeParts.AddRange(partList);
 
         player = FindObjectOfType<PlayerStats>();
 
@@ -37,15 +39,15 @@ public class DestrcutibleObject : Interactable
     public void TakeDamage(int Damage)
     {
         int num = Health - 1;
-        if(num >= 0)
+        if(num >= 1)
         {
-            activeSymbols[num].SetActive(false);
+            activeParts[num - 1].Off();
         }
 
         Health -= Damage;
         if(Health <= 0)
         {
-            pentagramSymbol.SetActive(false);
+            crossSymbol.Off();
             Health = 0;
         }
     }
@@ -53,29 +55,31 @@ public class DestrcutibleObject : Interactable
     public void RestoreHealth(int amount)
     {
         Health += amount;
-        if (Health > maxHealth) { Health = maxHealth; }
-
-        activeSymbols[Health - 1].SetActive(true);
+        if (Health > maxHealth) { Health = maxHealth; return; }
+        if(Health >= 2)
+        {
+            activeParts[Health - 2].On();
+        }
         audioSource.clip = wardingSounds[Random.Range(0, wardingSounds.Count)];
         audioSource.Play();
         if (Health == 1)
         {
-            pentagramSymbol.SetActive(true);
+            crossSymbol.On();
             audioSource.clip = wardingSounds[Random.Range(0, wardingSounds.Count)];
             audioSource.Play();
         }
 
         player.GainPoints(pointsToGain);
 
-        
+        if(Health >= maxHealth) { InteractionHandler.display.HideText(); }
     }
     public void RestoreHealthToMax()
     {
         Health = maxHealth;
-        pentagramSymbol.SetActive(true);
-        for (int i = 0; i < activeSymbols.Count; i++)
+        crossSymbol.On();
+        for (int i = 0; i < activeParts.Count; i++)
         {
-            activeSymbols[i].SetActive(true);
+            activeParts[i].On();
         }
     }
 
@@ -98,7 +102,9 @@ public class DestrcutibleObject : Interactable
     public override void StartHover(Interactor interactor)
     {
         base.StartHover(interactor);
-        if(Health < maxHealth) interactor.display.DisplayMessage(true, interactMessage);
+        if(Health < maxHealth) interactor.display.DisplayMessage(true, interactMessage, null);
+
+        InteractionHandler = interactor;
     }
 
     public override void EndHover(Interactor interactor)

@@ -27,7 +27,7 @@ public class AoeDamagePerk : Perk
 		if(damageCount < 0)
 			damageCount = 0;
 	}
-	void AddDamage(float amount)
+	void AddDamage(float amount,HitBox hitBox)
 	{
 		damageCount += amount;
 		if(damageCount > triggerPoint)
@@ -53,7 +53,7 @@ public class AoeDamagePerk : Perk
 		for(int i = 0; i < healths.Count; i++)
 		{
 			Health health = healths[i];
-			health.TakeDmg(upgraded? health.maxHealth * healthPercent : damage);
+			health.TakeDmg(upgraded? health.maxHealth * healthPercent : damage, HitType.ABILITY);
 		}
 	}
 	

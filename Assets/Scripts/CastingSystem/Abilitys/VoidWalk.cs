@@ -32,22 +32,25 @@ public class VoidWalk : Ability
 		held = true;
 	}
 
-	public override void Tick()
+	public override void Tick(Vector3 origin, Vector3 direction)
 	{
-		if (!held && castTimer > minCastTime && !stoppedCasting)
+		if (castTimer > minCastTime )
 		{
-			stats.accelerationMulti -= accelerationBuff;
-			stats.speedMulti -= moveSpeedBuff;
-			stoppedCasting = true;
-			startedCasting = false;
-			playerDeath.SetWorldState(true);
+			if ( !stoppedCasting)
+			{
+				stats.accelerationMulti -= accelerationBuff;
+				stats.speedMulti -= moveSpeedBuff;
+				stoppedCasting = true;
+				startedCasting = false;
+				playerDeath.SetWorldState(true);
+			}
+			
 		}
 		else
 		{
-			castTimer += Time.deltaTime;
 			caster.RemoveBlood(bloodCost * Time.deltaTime);
-			held = false;
 		}
-		
+		held = false;
+		castTimer += Time.deltaTime;
 	}
 }

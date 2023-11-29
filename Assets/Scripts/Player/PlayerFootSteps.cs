@@ -4,14 +4,14 @@ using UnityEngine;
 using Movement;
 public class PlayerFootSteps : MonoBehaviour
 {
-    PlayerInput playerInput;
+    PlayerInputt playerInput;
     Rigidbody body;
     [SerializeField] float footStepDist;
     Vector3 lastFootstepPos;
     // Start is called before the first frame update
     void Awake()
     {
-        playerInput = GetComponent<PlayerInput>();
+        playerInput = GetComponent<PlayerInputt>();
         body = GetComponent<Rigidbody>();
         lastFootstepPos = transform.position;
     }
@@ -30,7 +30,7 @@ public class PlayerFootSteps : MonoBehaviour
 			{
                 surfaceData = VfxSpawner.DefaultSurfaceData;
 			}
-            if(playerInput.moveState == PlayerInput.MoveStates.slide)
+            if(playerInput.moveState == PlayerInputt.MoveStates.slide)
 			{
                 surfaceData.PlaySlideVfx(playerInput.lastSurface.point, body.velocity);
             }

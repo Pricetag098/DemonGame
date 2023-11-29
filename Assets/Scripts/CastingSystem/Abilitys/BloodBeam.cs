@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,31 +9,41 @@ public class BloodBeam : Ability
     [SerializeField] float damage;
 	[SerializeField] int points;
 	[SerializeField] float pointFrequency;
+	[SerializeField] float vfxWaitTime;
+	[SerializeField] VfxSpawnRequest endRequest;
 	float pointTimer;
     [SerializeField] float maxRange;
 	[SerializeField] float radius;
-	LineRenderer lineRenderer;
+	LineRenderer[] lineRenderers;
 	SoundPlayer sound;
 	[SerializeField] LayerMask enemyLayers;
 	[SerializeField] LayerMask wallLayer;
 
 	bool held,startedCasting;
+	GameObject endVFX;
+
 	protected override void OnEquip()
 	{
-		lineRenderer = Instantiate(prefab).GetComponent<LineRenderer>();
-		sound = lineRenderer.GetComponent<SoundPlayer>();
+		GameObject go = Instantiate(prefab);
+		sound = go.GetComponent<SoundPlayer>();
+		lineRenderers = go.GetComponentsInChildren<LineRenderer>();
 	}
 
 	public override void Cast(Vector3 origin, Vector3 direction)
 	{
 		if (!startedCasting)
-		{
-			lineRenderer.enabled = true;
-			startedCasting = true;
-			sound.Play();
-		}
+        {
+            Sequence wait = DOTween.Sequence();
+			wait.AppendInterval(vfxWaitTime);
+			wait.AppendCallback(() => EnableLineRenderer(true));
+			wait.AppendCallback(() => endVFX = endRequest.PlayReturn(Vector3.zero, caster.transform.forward, Vector3.one).gameObject);
+            startedCasting = true;
+            sound.Play();
+            caster.animator.SetTrigger("Cast");
+            caster.animator.SetBool("Held", true);
+        }
 
-		float range = maxRange;
+        float range = maxRange;
 		pointTimer += Time.deltaTime;
 		RaycastHit wallHit;
 		Vector3 end = origin + direction * maxRange;
@@ -58,37 +69,65 @@ public class BloodBeam : Ability
 				{
 					if (getPoints)
 					{
-						if (caster.playerStats.Enabled)
-							caster.playerStats.Value.GainPoints(points);
+						if(!hb.health.dead)
+						{
+                            if (caster.playerStats.Enabled)
+                                caster.playerStats.Value.GainPoints(points);
+                        }
+						
 					}
-					hb.OnHit(damage * Time.deltaTime * caster.DamageMulti);
+					hb.OnHit(damage * Time.deltaTime * caster.DamageMulti, HitType.ABILITY);
 					healths.Add(hb.health);
 				}
 
 			}
 		}
-		lineRenderer.transform.position = caster.castOrigin.position;
-		lineRenderer.positionCount = 2;
-		lineRenderer.SetPosition(0, caster.castOrigin.position);
-		lineRenderer.SetPosition(1, end);
-		caster.RemoveBlood(bloodCost * Time.deltaTime);
+
+        foreach (LineRenderer lr in lineRenderers)
+        {
+            lr.transform.position = caster.castOrigin.position;
+            lr.positionCount = 2;
+            lr.SetPosition(0, caster.castOrigin.position);
+            lr.SetPosition(1, end);
+			lr.material.SetFloat("_BeamSize", range);
+			if (endVFX)
+			{
+                endVFX.transform.position = end;
+                endVFX.transform.LookAt(caster.transform);
+            }
+        }
+
+        caster.RemoveBlood(bloodCost * Time.deltaTime);
 		
 
 		held = true;
 	}
 
-	public override void Tick()
+    private void EnableLineRenderer(bool enabled)
+    {
+        foreach (LineRenderer lr in lineRenderers)
+        {
+            lr.enabled = enabled;
+        }
+    }
+
+    public override void Tick(Vector3 origin, Vector3 direction)
 	{
 		if (!held)
 		{
-			sound.Stop();
+			if (startedCasting)
+			{
+				caster.animator.SetBool("Held", false);
+                endVFX.GetComponent<PooledObject>().Despawn();
+            }
+            sound.Stop();
 			startedCasting = false;
-			lineRenderer.enabled = false;
-		}
+			EnableLineRenderer(false);
+        }
 		held = false;
 	}
 	protected override void OnDeEquip()
 	{
-		Destroy(lineRenderer.gameObject);
+		Destroy(sound.gameObject);
 	}
 }

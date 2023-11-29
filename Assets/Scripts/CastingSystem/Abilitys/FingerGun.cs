@@ -20,7 +20,7 @@ public class FingerGun : Ability
 	float timer;
 	[SerializeField] AimAssist aimAssist;
 
-	public override void Tick()
+	public override void Tick(Vector3 origin, Vector3 direction)
 	{
 		timer += Time.deltaTime;
 	}
@@ -61,7 +61,7 @@ public class FingerGun : Ability
 
 		if(health.health / health.maxHealth < executePercent)
 		{
-			health.TakeDmg(float.PositiveInfinity);
+			health.TakeDmg(float.PositiveInfinity, HitType.ABILITY);
 			if(health.TryGetComponent(out VfxTargets target))
 			{
 				executeFx.Play(target.origin.position, target.origin.forward);

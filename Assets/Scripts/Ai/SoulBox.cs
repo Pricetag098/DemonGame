@@ -36,7 +36,7 @@ public class SoulBox : MonoBehaviour
         {
             if (other.TryGetComponent(out HitBox hit))
             {
-                if (hit.health.TryGetComponent(out BasicDemon d))
+                if (hit.health.TryGetComponent(out LesserDemon d))
                 {
                     d.SoulBox = this;
                 }
@@ -50,7 +50,7 @@ public class SoulBox : MonoBehaviour
         {
             if (other.TryGetComponent(out HitBox hit))
             {
-                if (hit.health.TryGetComponent(out BasicDemon d))
+                if (hit.health.TryGetComponent(out LesserDemon d))
                 {
                     d.SoulBox = null;
                 }

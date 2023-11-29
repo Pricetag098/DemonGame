@@ -21,7 +21,7 @@ public class SpamAbility : Ability
 	bool startedCasting;
 	bool pressed;
 	
-	public override void Tick()
+	public override void Tick(Vector3 origin, Vector3 direction)
 	{
 		timer += Time.deltaTime;
 		if (!pressed && startedCasting)
@@ -81,7 +81,9 @@ public class SpamAbility : Ability
 
 	public override void OnHit(Health health)
 	{
-		if (caster.playerStats.Enabled)
+        if (health.dead)
+            return;
+        if (caster.playerStats.Enabled)
 			caster.playerStats.Value.GainPoints(points);
 	}
 }

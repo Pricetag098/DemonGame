@@ -5,18 +5,24 @@ using UnityEngine.UI;
 
 public class ResurrectDisplay : MonoBehaviour
 {
-    PlayerDeath playerDeath;
-    Image image;
+    public PlayerDeath playerDeath;
+    public GameObject rebirthStoneIcon;
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         playerDeath = FindObjectOfType<PlayerDeath>();
-        image = GetComponent<Image>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        image.enabled = playerDeath.respawnsLeft > 0;
+        if(playerDeath.respawnsLeft > 0)
+        {
+            rebirthStoneIcon.SetActive(true);
+        }
+        else
+        {
+            rebirthStoneIcon.SetActive(false);
+        }
     }
 }

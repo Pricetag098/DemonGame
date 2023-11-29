@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class AttackAnimationBehaviour : StateMachineBehaviour
 {
-    private DemonBase m_Base;
+    private DemonFramework m_Base;
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         base.OnStateExit(animator, stateInfo, layerIndex);
 
-        if(m_Base is null) m_Base = animator.gameObject.GetComponent<DemonBase>();
+        if(m_Base == null) m_Base = animator.gameObject.GetComponent<DemonFramework>();
         m_Base.SetAttackOverride();
     }
 }

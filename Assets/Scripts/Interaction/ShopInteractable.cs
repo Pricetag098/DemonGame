@@ -30,7 +30,14 @@ public class ShopInteractable : Interactable
 		{
 			if(tooExpensiveSound.Enabled)
 				tooExpensiveSound.Value.Play();
-		}
+            interactor.display.CantBuy();
+            CantBuy(interactor);
+        }
+    }
+
+	protected virtual void CantBuy(Interactor interactor)
+	{
+
 	}
 
 	protected virtual void DoBuy(Interactor interactor)
@@ -51,7 +58,7 @@ public class ShopInteractable : Interactable
 	public override void StartHover(Interactor interactor)
 	{
 		base.StartHover(interactor);
-		interactor.display.DisplayMessage(true,buyMessage + GetCost(interactor));
+		interactor.display.DisplayMessage(true, buyMessage + " ", "[Cost: " + GetCost(interactor).ToString() + "]" );
 	}
 	protected virtual string GetBuyMessage(Interactor interactor)
 	{

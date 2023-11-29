@@ -4,11 +4,43 @@ using UnityEngine;
 
 public class AbilityUpgrade : ShopInteractable
 {
+    SwordStuff swordStuff;
+
+    private void Awake()
+    {
+        swordStuff = FindObjectOfType<SwordStuff>();
+    }
     protected override void DoBuy(Interactor interactor)
     {
         Ability current = interactor.caster.ActiveAbility;
-        interactor.caster.ActiveAbility = current.upgradePath.Value.abilities[current.tier + 1];
+        AbilityCaster abilityCaster = interactor.GetComponent<AbilityCaster>();
+        swordStuff.UpdateMat(interactor.caster.ActiveAbility.tier + 1);
+
+        for (int i = 0; i < abilityCaster.abilities.Length; i++)
+        {
+            if (i != interactor.caster.activeIndex)
+            {
+                if (abilityCaster.abilities[i].upgradePath.Enabled)
+                {
+                    abilityCaster.SetAbility(i,Instantiate(abilityCaster.abilities[i].upgradePath.Value.abilities[abilityCaster.abilities[i].tier + 1]));
+                }
+            }
+            else
+            {
+                interactor.caster.ActiveAbility = current.upgradePath.Value.abilities[current.tier + 1];
+            }
+        }
+        interactor.caster.OnUpgrade();
     }
+
+    public override void StartHover(Interactor interactor)
+    {
+        Ability current = interactor.caster.ActiveAbility;
+        base.StartHover(interactor);
+        interactor.display.DisplayMessage(true, buyMessage + " ", "[Cost: " + GetCost(interactor).ToString() + "]" );
+
+    }
+
 
     protected override bool CanBuy(Interactor interactor)
     {

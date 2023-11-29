@@ -17,6 +17,8 @@ public class Melee : MonoBehaviour
 	PlayerStats playerStats;
 	float cooldown;
 	float timer;
+	[SerializeField] Animator animator;
+	[SerializeField] string animationKey = "Melee";
 
 	protected void Awake()
 	{
@@ -41,10 +43,16 @@ public class Melee : MonoBehaviour
 		if (timer < cooldown)
 			return;
 		timer = 0;
+
+		animator.SetTrigger(animationKey);
 		List<Health> healths = new List<Health>();
-		soundPlayer.Play();
+		
 		
 		RaycastHit[] hits = Physics.SphereCastAll(origin, rad, direction, range, layers);
+		
+		if(hits.Length == 0)
+			soundPlayer.Play();
+
 		foreach (RaycastHit hit in hits)
 		{
 			HitBox hb;
@@ -54,22 +62,36 @@ public class Melee : MonoBehaviour
 					continue;
 				healths.Add(hb.health);
 				playerStats.GainPoints(points);
-				hb.health.TakeDmg(damage * playerStats.damageMulti);
-				if(hit.collider.TryGetComponent(out Surface surface))
-				{
-					if (hit.point == Vector3.zero)
-					{
-						Vector3 pos = hit.collider.ClosestPoint(origin);
-						surface.data.PlayHitVfx(pos, pos - origin);
-						
-					}
-					else
-					{
-						surface.data.PlayHitVfx(hit.point, hit.normal);
-					}
-				}
+				hb.health.TakeDmg(damage * playerStats.damageMulti, HitType.GUN);
+				
 				
 
+			}
+			if (hit.collider.TryGetComponent(out Surface surface))
+			{
+				if (hit.point == Vector3.zero)
+				{
+					Vector3 pos = hit.collider.ClosestPoint(origin);
+					surface.data.PlayMeleeHitVfx(pos, pos - origin);
+
+				}
+				else
+				{
+					surface.data.PlayHitVfx(hit.point, hit.normal);
+				}
+			}
+			else
+			{
+				if (hit.point == Vector3.zero)
+				{
+					Vector3 pos = hit.collider.ClosestPoint(origin);
+					VfxSpawner.DefaultSurfaceData.PlayMeleeHitVfx(pos, pos - origin);
+
+				}
+				else
+				{
+					VfxSpawner.DefaultSurfaceData.PlayHitVfx(hit.point, hit.normal);
+				}
 			}
 		}
 	}

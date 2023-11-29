@@ -12,14 +12,14 @@ public class DestroyObstacle : MonoBehaviour
 
     //private NavMeshAgent Agent;
     private AiAgent Agent;
-    private BasicDemon demon;
+    private LesserDemon demon;
     private NavMeshPath OrigianlPath;
     private Timer timer;
 
     private void Awake()
     {
         Agent = GetComponent<AiAgent>();
-        demon = GetComponent<BasicDemon>();
+        demon = GetComponent<LesserDemon>();
         timer = new Timer(AttackDelay, true);
     }
 
@@ -42,7 +42,7 @@ public class DestroyObstacle : MonoBehaviour
         {
             if(obj is not null)
             {
-                demon.AttackAnimation();
+                demon.CurrentAttackStateAnimation();
             }
         }
     }
@@ -57,7 +57,7 @@ public class DestroyObstacle : MonoBehaviour
             {
                 Agent.canMove = true;
                 obj = null;
-                demon.DemonInMap = true;
+                demon.SetDemonInMap(true);
             }
         }
     }
@@ -79,7 +79,7 @@ public class DestroyObstacle : MonoBehaviour
                 }
                 else
                 {
-                    demon.DemonInMap = true;
+                    demon.SetDemonInMap(true);
                 }
             }
         }

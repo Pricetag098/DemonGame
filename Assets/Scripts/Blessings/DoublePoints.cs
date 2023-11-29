@@ -25,6 +25,6 @@ public class DoublePoints : Blessing
 	}
 	protected override void OnRemove()
 	{
-		handler.playerStats.pointGainMulti += modifier;
+		handler.playerStats.pointGainMulti -= modifier;
 	}
 }

@@ -6,8 +6,12 @@ using UnityEngine.EventSystems;
 
 public class HoverTween : MonoBehaviour, IPointerEnterHandler, ISelectHandler, IPointerExitHandler
 {
+    public SoundPlayer confirmSFX = null;
+    public SoundPlayer hoverSFX = null;
     public float timeToTween;
     public float tweenScale;
+
+    public bool confirm = false;
 
     public void TweenScale(float variable)
     {
@@ -21,12 +25,15 @@ public class HoverTween : MonoBehaviour, IPointerEnterHandler, ISelectHandler, I
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        hoverSFX.Play();
         transform.DOKill();
         TweenScale(tweenScale);    
     }
 
     public void OnSelect(BaseEventData eventData)
     {
+
+        confirmSFX.Play();
         transform.DOKill();
         TweenSelect();
     }

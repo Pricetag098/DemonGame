@@ -11,7 +11,7 @@ public class DeathPlane : MonoBehaviour
 	{
 		if(health.transform.position.y < minHeight && Time.timeScale > 0)
 		{
-			health.TakeDmg(float.PositiveInfinity);
+			health.TakeDmg(float.PositiveInfinity, HitType.Null);
 		}
 	}
 }

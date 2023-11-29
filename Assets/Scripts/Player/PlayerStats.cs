@@ -18,16 +18,26 @@ public class PlayerStats : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
     public int pointsSpent;
     public int pointsGained;
 
-    public void GainPoints(int amount)
+    PointGainUi gainUi;
+
+	private void Awake()
+	{
+		gainUi = FindObjectOfType<PointGainUi>();
+        gainUi.displayPoints = points;
+	}
+
+	public void GainPoints(int amount)
 	{
         amount = (int)(amount * pointGainMulti);
         points += amount;
         pointsGained += amount;
+        gainUi.OnChangePoints(amount);
 	}
     public void SpendPoints(int amount)
 	{
         points -= amount;
         pointsSpent += amount;
+        gainUi.OnChangePoints(-amount);
 	}
     void IDataPersistance<GameData>.SaveData(ref GameData data)
 	{

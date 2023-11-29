@@ -32,7 +32,7 @@ public class Fireball : MonoBehaviour
 				if (!healths.Contains(hb.health))
 				{
                     healths.Add(hb.health);
-                    hb.health.TakeDmg(damage);
+                    hb.health.TakeDmg(damage, HitType.ABILITY);
                     ability.OnHit(hb.health);
 				}
 			}

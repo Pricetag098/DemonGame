@@ -17,52 +17,53 @@ public class SpatialHashGrid3D : MonoBehaviour
     [Header("Gizmos")]
     public bool ShowGizmos;
 
-    public HashGrid3D<SpatialHashObject> cells;
+    public HashGrid3D<AiAgent> cells;
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            Instance.cells = new HashGrid3D<SpatialHashObject>(cellSize);
+            Instance.cells = new HashGrid3D<AiAgent>(cellSize);
             TotalCells = (int)cells.CellCount;
         }
         else
         {
             Destroy(gameObject);
+            CreateNewHasHGrid(cellSize);
         }
     }
 
     public static void CreateNewHasHGrid(Vector3 cellSize)
     {
-        Instance.cells = new HashGrid3D<SpatialHashObject>(cellSize);
+        Instance.cells = new HashGrid3D<AiAgent>(cellSize);
     }
 
     void Start()
     {
-        int count = DemonSpawner.ActiveDemons.Count;;
+        //int count = DemonSpawner.ActiveDemons.Count;
 
-        for (int i = 0; i < count; i++)
-        {
-            cells.Insert(DemonSpawner.ActiveDemons[i].GetComponent<SpatialHashObject>());
-        }
+        //for (int i = 0; i < count; i++)
+        //{
+        //    cells.Insert(DemonSpawner.ActiveDemons[i].GetComponent<SpatialHashObject>());
+        //}
     }
 
     void Update()
     {
-        int count = DemonSpawner.ActiveDemons.Count;
+        //int count = DemonSpawner.ActiveDemons.Count;
 
-        for (int i = 0; i < count; i++)
-        {
-            DemonBase demon = DemonSpawner.ActiveDemons[i];
+        //for (int i = 0; i < count; i++)
+        //{
+        //    DemonFramework demon = DemonSpawner.ActiveDemons[i];
 
-            if(demon.HealthStatus() == false)
-            {
-                demon.UpdateAgentNearby(cells.UpdateObjectAndGetSurroudingObjects(demon.GetSpatialHashObject()));
-            }
-        }
+        //    if(demon.IsAlive() == true)
+        //    {
+        //        demon.UpdateAgentNearby(cells.UpdateObjectAndGetSurroudingObjects(demon.GetAgent));
+        //    }
+        //}
 
-        CurrentCells = cells.cellPositions.Count;
+        //CurrentCells = cells.cellPositions.Count;
     }
 
     public void OnDrawGizmos()

@@ -10,25 +10,35 @@ public class Holster : MonoBehaviour
     public PlayerStats stats;
     public ObjectPooler bulletVisualierPool;
     public AbilityCaster abilityCaster;
+    public WeaponInfo weaponInfo;
     public Rigidbody rb;
+    public Transform aimTarget;
     
     [SerializeField] InputActionProperty input;
 
     public int heldGunIndex = 0;
     public int newGunIndex = 0;
+
+    public int gunCount = 0;
     public Gun HeldGun { 
         get { return guns[heldGunIndex]; }
         set { SetGun(heldGunIndex, value); }
     }
+    public Gun OffHandGun
+    {
+        get { return guns[GetOffHandIndex()]; }
+        
+    }
+
 	Gun replacingGun;
 	const int MaxGuns = 2;
     //[HideInInspector]
     public Gun[] guns = new Gun[MaxGuns];
 
-    public delegate void OnDealDamageAction(float amount);
+    public delegate void OnDealDamageAction(float amount,HitBox hitBox);
     public OnDealDamageAction OnDealDamage;
 
-    public Movement.PlayerInput playerInput;
+    public Movement.PlayerInputt playerInput;
 
 
     [SerializeField] float frequncey =1;
@@ -51,7 +61,7 @@ public class Holster : MonoBehaviour
     public string drawTrigger;
     public string holsterTigger;
     public bool consumeAmmo = true;
-    float drawTimer = 0;
+    public float drawTimer = 0;
 	private void OnEnable()
 	{
 		input.action.Enable();
@@ -67,13 +77,19 @@ public class Holster : MonoBehaviour
         rb = GetComponentInParent<Rigidbody>();
         stats = GetComponentInParent<PlayerStats>();
         abilityCaster = GetComponentInParent<AbilityCaster>();
-        playerInput = GetComponentInParent<Movement.PlayerInput>();
+        playerInput = GetComponentInParent<Movement.PlayerInputt>();
     }
+
+    void ResetRecoil()
+    {
+		verticalRecoilDynamics = new SecondOrderDynamics(frequncey, damping, reaction, 0);
+		horizontalRecoilDynamics = new SecondOrderDynamics(frequncey, damping, reaction, 0);
+	}
     private void Start()
 	{
-        verticalRecoilDynamics = new SecondOrderDynamics(frequncey, damping, reaction, 0);
-        horizontalRecoilDynamics = new SecondOrderDynamics(frequncey, damping, reaction, 0);
-        input.action.performed += SwapGun;
+		ResetRecoil();
+		input.action.performed += SwapGun;
+        gunCount = 0;
         int j = 0;
         for(int i = 0; i < transform.childCount; i++)
 		{
@@ -128,8 +144,8 @@ public class Holster : MonoBehaviour
             case HolsterStates.replacing:
 				if (drawTimer < 0)
 				{
-
 					Destroy(HeldGun.gameObject);
+                    gunCount--;
                     guns[heldGunIndex] = replacingGun;
 					animator.runtimeAnimatorController = HeldGun.controller;
 					guns[heldGunIndex].gameObject.SetActive(true);
@@ -154,9 +170,10 @@ public class Holster : MonoBehaviour
         drawTimer = HeldGun.holsterTime;
     }
 
-    void ReplaceGun()
+    public void ReplaceGun(Gun gun)
     {
-		state = HolsterStates.replacing;
+        replacingGun = gun;
+        state = HolsterStates.replacing;
 
 		animator.SetFloat(HeldGun.unEquipSpeedKey, 1 / HeldGun.holsterTime);
 		animator.SetTrigger(holsterTigger);
@@ -200,18 +217,19 @@ public class Holster : MonoBehaviour
             }
                 
 		}
-        replacingGun = gun;
+        
   
         SetUpGun(gun);
-        ReplaceGun();
+        ReplaceGun(gun);
         
 	}
 
-    void SetUpGun(Gun gun)
+    public void SetUpGun(Gun gun)
     {
 		gun.holster = this;
 		if (gun.visualiserPool.Enabled && !gun.useOwnVisualiser)
 			gun.visualiserPool.Value = bulletVisualierPool;
+        gunCount++;
 	}
 
     
@@ -228,15 +246,23 @@ public class Holster : MonoBehaviour
     }
     
     
-    public void OnHit(float damage,float targetMaxHealth)
+    public void OnHit(float damage,HitBox hitBox)
 	{
         
-        abilityCaster.AddBlood((damage/targetMaxHealth) * HeldGun.bloodGainMulti * stats.bloodGainMulti);
+        abilityCaster.AddBlood(Mathf.Clamp01(damage/hitBox.health.maxHealth) * HeldGun.bloodGainMulti * stats.bloodGainMulti);
         if(OnDealDamage != null)
-        OnDealDamage(damage);
+        OnDealDamage(damage,hitBox);
 	}
 
-	
+	int GetOffHandIndex()
+    {
+		int i = heldGunIndex + 1;
+		if (i >= guns.Length)
+		{
+			i = 0;
+		}
+        return i;
+	}
 
     void SwapGun(InputAction.CallbackContext callback)
 	{
@@ -246,7 +272,9 @@ public class Holster : MonoBehaviour
             i = 0;
 		}
         SetGunIndex(i);
-	}
+        
+        //weaponInfo.WeaponSwapTween();
+    }
 
     public bool HasGun(Gun g)
     {

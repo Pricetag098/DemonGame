@@ -7,12 +7,15 @@ public class Ability : ScriptableObject
 {
 	public string abilityName;
 	public string guid;
-	public Sprite icon;
+	public string symbolText;
 	[HideInInspector]
 	public AbilityCaster caster;
 	public float bloodCost = 10;
 	public Optional<AbilityUpgradePath> upgradePath;
 	public int tier = 0;
+	public int abilitySlot;
+	public int fontReference;
+	public float killPointMod;
 
 	public float drawTime = 1,holsterTime = 1;
 
@@ -24,7 +27,7 @@ public class Ability : ScriptableObject
 		passive
 	}
 	public CastModes castMode;
-	public virtual void Tick()
+	public virtual void Tick(Vector3 origin, Vector3 direction)
 	{
 
 	}
@@ -55,25 +58,26 @@ public class Ability : ScriptableObject
     {
 
     }
-
-	public void Select()
+	public virtual void EndSelect()
 	{
 
 	}
-	protected virtual void OnSelect()
+	
+	public virtual void StartSelect()
 	{
 
 	}
 
-    public void DeSelect()
+    
+    public virtual void EndDeSelect()
     {
 
     }
-    protected virtual void DeOnSelect()
-    {
 
-    }
+	public virtual void StartDeSelect()
+	{
 
+	}
 	public virtual void OnHit(Health health)
 	{
 

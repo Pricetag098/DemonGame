@@ -71,7 +71,7 @@ public class SpinnyThingyAbility : Ability
 		}
 	}
 	List<Health> healths = new List<Health>();
-	public override void Tick()
+	public override void Tick(Vector3 origin, Vector3 direction)
 	{
 		if (timer < 0)
 		{
@@ -106,7 +106,7 @@ public class SpinnyThingyAbility : Ability
 					if (!healths.Contains(hb.health))
 					{
 						healths.Add(hb.health);
-						hb.OnHit(damage.Evaluate(timer / maxTimer) * caster.DamageMulti);
+						hb.OnHit((damage.Evaluate(timer / maxTimer) * caster.DamageMulti), HitType.ABILITY);
 						Vector3 point = hit.ClosestPoint(obj[i].transform.position);
 						vfx.Play(point, obj[i].transform.position - point);
 						OnHit(hb.health);
@@ -117,7 +117,9 @@ public class SpinnyThingyAbility : Ability
 	}
 	public override void OnHit(Health health)
 	{
-		if (caster.playerStats.Enabled)
+        if (health.dead)
+            return;
+        if (caster.playerStats.Enabled)
 			caster.playerStats.Value.GainPoints(points);
 	}
 }

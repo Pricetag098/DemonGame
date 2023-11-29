@@ -5,6 +5,7 @@ using UnityEngine;
 public class Interactable : MonoBehaviour
 {
 	public bool hovered;
+
     public virtual void Interact(Interactor interactor)
 	{
 

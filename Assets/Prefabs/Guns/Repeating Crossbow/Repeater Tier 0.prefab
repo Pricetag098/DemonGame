@@ -157,7 +157,7 @@ PrefabInstance:
     - target: {fileID: 3469924834454425044, guid: 90f81c0027056c44d8ae95aa9d547cd9, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: fc5f3470b26c50b41bbdf30ee45b65f4, type: 2}
+      objectReference: {fileID: 9100000, guid: 1adb1700c6fcaf64196041d11ad8d0c1, type: 2}
     - target: {fileID: 3557689763360935000, guid: 90f81c0027056c44d8ae95aa9d547cd9, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -311,7 +311,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: stash
-      value: 300
+      value: 288
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: damage
@@ -323,15 +323,23 @@ PrefabInstance:
       objectReference: {fileID: 7732969121840077028}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: gunName
-      value: Repeater
+      value: repeater
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: maxAmmo
-      value: 50
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: burstRpm
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: drawTime
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: maxStash
-      value: 300
+      value: 288
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: path.val
@@ -339,7 +347,11 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 40e79d78107e2fe49a8ddf1511a14983, type: 2}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: bodyDamage
-      value: 225
+      value: 350
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: bodyPoints
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: controller
@@ -350,8 +362,12 @@ PrefabInstance:
       value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: critPoints
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: fireSelect
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: headDamage
@@ -359,19 +375,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: headPoints
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: limbDamage
-      value: 225
+      value: 350
       objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: limbPoints
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: refillCost
+      value: 950
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: worldModel
+      value: 
+      objectReference: {fileID: 1278883785465214723, guid: 0442a3771573dd244963f152fa8ed419, type: 3}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: bulletRange
       value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: burstRounds
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: gunfire.val
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: holsterTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: upgradeCost
+      value: 5000
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: animator.val
@@ -387,7 +427,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: roundsPerMin
-      value: 277
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: bloodGainMulti
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: fireAnimations
@@ -395,7 +439,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: reloadDuration
-      value: 3.75
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: gunfire.enabled
@@ -412,10 +456,6 @@ PrefabInstance:
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: recoilResetSpeed
       value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
-      propertyPath: useOwnVisualiser
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: bulletSpreadDegrees
@@ -749,6 +789,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.084
       objectReference: {fileID: 0}
+    - target: {fileID: 4746740357456979033, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: prefabToPool
+      value: 
+      objectReference: {fileID: 429431636643580045, guid: 21b0a19d1159feb40b128474623ab5e7, type: 3}
     - target: {fileID: 6001458314360550378, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: clips.Array.size
       value: 0
@@ -777,6 +821,10 @@ PrefabInstance:
       propertyPath: clips.Array.data[3]
       value: 
       objectReference: {fileID: 8300000, guid: a1d5cdfbac8ddb74e91a5f4234849f61, type: 3}
+    - target: {fileID: 8367461429409578649, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9267b089335434640aa9c208b32c3619, type: 3}
 --- !u!4 &6199294817822432521 stripped

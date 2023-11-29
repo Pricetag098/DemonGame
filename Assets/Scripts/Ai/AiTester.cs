@@ -26,7 +26,7 @@ public class AiTester : MonoBehaviour
     {
         foreach (AiAgent agent in agents)
         {
-            agent.UpdatePath(target);
+            //agent.UpdatePath(target);
         }
         foreach (TestAgentThing thing in things)
         {

@@ -3,13 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
+using UnityEngine.Events;
+
 public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersistance<SessionData>
 {
     [SerializeField] CanvasGroup canvasGroup;
+    TextMeshProUGUI text;
     SpawnerManager spawnerManager;
     float respawnTimer;
     float deathStateTimer;
     public float fadeTime;
+    public UnityEvent onRespawnEvents;
     Health health;
     [SerializeField] Transform respawnPoint;
     PerkManager perkManager;
@@ -18,16 +23,22 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
     public Slider deathStateSlider;
     DeathStateToggler[] togglers;
     bool dead;
-
+    PlayerStats stats;
+    [Range(0,1)] public float pointLoss;
     int deaths;
+    [SerializeField] string onDeathText, onRegaintext, onLossText;
+    ResurrectionBuy resurrectionBuy;
     // Start is called before the first frame update
     void Awake()
     {
         perkManager = GetComponent<PerkManager>();
         health = GetComponent<Health>();
+        stats = GetComponent<PlayerStats>();
         health.OnDeath += Die;
         body = FindObjectOfType<PlayerBodyInteract>();
         spawnerManager = FindObjectOfType<SpawnerManager>();
+        text = canvasGroup.GetComponentInChildren<TextMeshProUGUI>();
+        resurrectionBuy = FindObjectOfType<ResurrectionBuy>();
     }
 
     PlayerBodyInteract body;
@@ -47,8 +58,9 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
             deathStateSlider.value = sliderTimeLeft;
             if(deathStateTimer > deathStateTimeSeconds)
             {
-                ReturnToBody();
-                
+                ReturnToBody(true);
+                text.text = onLossText;
+                stats.points = Mathf.FloorToInt((float)stats.points * (1- pointLoss));
             }
         }
     }
@@ -58,29 +70,31 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
 	{
         if(respawnsLeft > 0)
 		{
+            text.text = onDeathText;
             StopAllCoroutines();
             StartCoroutine(DoDie());
             respawnsLeft--;
         }
-		else
+        else
 		{
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            SceneManager.LoadScene(0);
 		}
         
 	}
 
-    public void ReturnToBody()
+    public void ReturnToBody(bool outOfTime)
     {
         dead = false;
         body.Hide();
+        text.text = onRegaintext;
         StopAllCoroutines();
-        StartCoroutine(DoReturnToBody());
-
+        StartCoroutine(DoReturnToBody(outOfTime));
+        resurrectionBuy.EnableEmission();
     }
 
-    IEnumerator DoReturnToBody()
+    IEnumerator DoReturnToBody(bool outOfTime)
     {
-        
+        onRespawnEvents.Invoke();
         Time.timeScale = 0;
         while (respawnTimer < fadeTime)
         {
@@ -89,8 +103,10 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
             yield return null;
         }
         Time.timeScale = 1;
-        
-        transform.position = body.body.transform.position;
+
+        if (outOfTime) transform.position = respawnPoint.position;
+        else transform.position = body.body.transform.position;
+
         SetWorldState(true);
         spawnerManager.RunDefaultSpawning = true;
         transform.rotation = body.body.transform.rotation;
@@ -100,8 +116,8 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
             canvasGroup.alpha = respawnTimer / fadeTime;
             yield return null;
         }
-        
     }
+
 
     IEnumerator DoDie()
 	{
@@ -113,22 +129,22 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
             yield return null;
 		}
         Time.timeScale = 1;
-        body.body.transform.position = transform.position;
-        body.body.transform.rotation = transform.rotation;
-        body.Show();
-        transform.position = respawnPoint.position;
         SetWorldState(false);
         spawnerManager.DespawnAllActiveDemons();
 		spawnerManager.RunDefaultSpawning = false;
 		transform.rotation = respawnPoint.rotation;
+        health.Respawn();
+        perkManager.ClearPerks();
+        body.body.transform.position = transform.position;
+        body.body.transform.rotation = transform.rotation;
+        body.Show();
+        transform.position = respawnPoint.position;
         while (respawnTimer >=0)
         {
             respawnTimer -= Time.unscaledDeltaTime;
             canvasGroup.alpha = respawnTimer / fadeTime;
             yield return null;
         }
-        health.Respawn();
-        perkManager.ClearPerks();
         dead = true;
         deathStateTimer = 0;
     }

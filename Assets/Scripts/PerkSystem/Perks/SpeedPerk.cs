@@ -16,7 +16,7 @@ public class SpeedPerk : Perk
 	}
 	protected override void OnUpgrade()
 	{
-		manager.GetComponent<PlayerInput>().canSprintAndShoot = true;
+		manager.GetComponent<PlayerInputt>().canSprintAndShoot = true;
 	}
 
 	protected override void OnUnEquip()
@@ -25,7 +25,7 @@ public class SpeedPerk : Perk
 		playerStats.speedMulti -= speedModToGain;
 		playerStats.accelerationMulti -= accelerationModToGain;
 		if(upgraded)
-			manager.GetComponent<PlayerInput>().canSprintAndShoot = true;
+			manager.GetComponent<PlayerInputt>().canSprintAndShoot = true;
 
 	}
 }

@@ -17,19 +17,25 @@ public class Health : MonoBehaviour
     public float regenDelay = 0;
     float timeSinceLastHit;
     public Optional<VfxTargets> vfxTarget;
+    public HitType LastHitType;
 
 	private void Awake()
 	{
         vfxTarget.Value = GetComponent<VfxTargets>();
         vfxTarget.Enabled = !(vfxTarget.Value is null);
 	}
-	public void TakeDmg(float dmg)
+	public void TakeDmg(float dmg, HitType damageType)
     {
         health = Mathf.Clamp(health -dmg, 0, maxHealth);
+
         if(OnHit != null)
-        OnHit();
-        if(health <= 0)
+        {
+            OnHit();
+        }
+
+        if (health <= 0)
 		{
+            LastHitType = damageType;
             Die();
 		}
         timeSinceLastHit = 0;
@@ -40,7 +46,9 @@ public class Health : MonoBehaviour
         health = maxHealth;
         dead = false;
         if (OnRespawn != null)
+        {
             OnRespawn();
+        } 
     }
 
 	private void Update()
@@ -55,9 +63,46 @@ public class Health : MonoBehaviour
         if (dead)
             return;
         dead = true;
-        //do die stuff
-        //Debug.Log("dead",gameObject);
-        if(OnDeath != null)
-        OnDeath();
+
+        bool grantPoints = false;
+
+        if(gameObject.TryGetComponent<GrantPointsOnDeath>(out GrantPointsOnDeath points))
+        {
+            grantPoints = true;
+
+            switch (LastHitType)
+            {
+                case HitType.Null:
+
+                    break;
+                case HitType.GUN:
+                    OnDeath += points.AddPointsDeathGun;
+                    break;
+                case HitType.ABILITY:
+                    OnDeath += points.AddPointsDeathAbility;
+                    break;
+            }
+        }
+
+        if (OnDeath != null)
+        {
+            OnDeath();
+        }
+
+        if(grantPoints == true)
+        {
+            switch (LastHitType)
+            {
+                case HitType.Null:
+
+                    break;
+                case HitType.GUN:
+                    OnDeath -= points.AddPointsDeathGun;
+                    break;
+                case HitType.ABILITY:
+                    OnDeath -= points.AddPointsDeathAbility;
+                    break;
+            }
+        }
 	}
 }

@@ -2,16 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
+using TMPro;
 public class CasterDisplay : MonoBehaviour
 {
-    [SerializeField] Image[] icons;
+    [SerializeField] TextMeshProUGUI[] abilityIconIdentifier;
     [SerializeField] Slider bloodMeter;
+    [SerializeField] CanvasGroup onEmptyVisualization;
+    
     [SerializeField] PlayerAbilityCaster caster;
 
     [SerializeField] float frequncey;
     [SerializeField] float damping;
     [SerializeField] float theOtherOne;
     SecondOrderDynamics dynamics;
+    public bool isEmpty = false;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -27,11 +33,36 @@ public class CasterDisplay : MonoBehaviour
 	// Update is called once per frame
 	void Update()
     {
-        for(int i = 0; i < icons.Length; i++)
+        for(int i = 0; i < abilityIconIdentifier.Length; i++)
 		{
-            icons[i].sprite = caster.caster.abilities[i].icon;
-            icons[i].GetComponent<Outline>().enabled = i == caster.activeIndex;
+            abilityIconIdentifier[i].text = caster.caster.abilities[i].symbolText;
+            //abilityIconIdentifier[i].GetComponent<Outline>().enabled = i == caster.activeIndex;
 		}
         bloodMeter.value = dynamics.Update(Time.unscaledDeltaTime,caster.caster.blood / caster.caster.maxBlood);
+        if(bloodMeter.value < 0.17f)
+        {
+            bloodMeter.value = 0.17f;
+        }
+        else if(bloodMeter.value > 0.9)
+        {
+            bloodMeter.value = 0.9f;
+        }
+
+        if(bloodMeter.value <= 0.25f && !isEmpty)
+        {
+            TweenEmptyVisals();
+        }
+        else if (bloodMeter.value  > 0.25f)
+        {
+            isEmpty = false;
+            onEmptyVisualization.DOKill();
+            onEmptyVisualization.alpha = 0f;
+        }
+    }
+
+    private void TweenEmptyVisals()
+    {
+        isEmpty = true;
+        onEmptyVisualization.DOFade(1, .8f).SetLoops(-1, LoopType.Yoyo);
     }
 }

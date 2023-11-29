@@ -1,20 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Entities.UniversalDelegates;
 using UnityEngine;
 using UnityEngine.InputSystem;
 public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDataPersistance<SessionData>
 {
     [HideInInspector]public AbilityCaster caster;
     public int activeIndex;
+    public int previousActiveIndex;
+    public int upgradeNum = 0;
     int newActiveIndex;
     public InputActionProperty useAction;
     public InputActionProperty swapAction;
 	public InputActionProperty setAbility1Action;
 	public InputActionProperty setAbility2Action;
 	public InputActionProperty setAbility3Action;
+	public InputActionProperty setAbility4Action;
+	public InputActionProperty setAbility5Action;
+	public InputActionProperty setAbility6Action;
+    public InputActionProperty quickSwap;
 
 	public float bloodSpent = 0;
     public float bloodGained = 0;
+
+    WeaponWheel abilityWheel;
 
 	enum State
 	{
@@ -37,10 +46,14 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
         setAbility1Action.action.performed += SelectAbility1;
 		setAbility2Action.action.performed += SelectAbility2;
 		setAbility3Action.action.performed += SelectAbility3;
+		setAbility4Action.action.performed += SelectAbility4;
+		setAbility5Action.action.performed += SelectAbility5;
+		setAbility6Action.action.performed += SelectAbility6;
+		quickSwap.action.performed += QuickSwapAbility;
 	}
 	void Start()
     {
-        
+        abilityWheel = FindObjectOfType<WeaponWheel>();
         
         caster.OnAddBlood += OnAddBlood;
         caster.OnRemoveBlood += OnRemoveBlood;
@@ -57,6 +70,11 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
         setAbility1Action.action.Enable();
         setAbility2Action.action.Enable();
         setAbility3Action.action.Enable();
+        setAbility4Action.action.Enable();
+        setAbility5Action.action.Enable();
+        setAbility6Action.action.Enable();
+        quickSwap.action.Enable();
+
 	}
 
 	private void OnDisable()
@@ -66,7 +84,11 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
         setAbility1Action.action.Disable();
         setAbility2Action.action.Disable();
         setAbility3Action.action.Disable();
-	}
+        setAbility4Action.action.Disable();
+        setAbility5Action.action.Disable();
+        setAbility6Action.action.Disable();
+        quickSwap.action.Disable();
+    }
 
 	// Update is called once per frame
 	void Update()
@@ -75,7 +97,7 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
         switch (state)
         {
             case State.normal:
-				if ((useAction.action.IsPressed() && caster.abilities[activeIndex].castMode == Ability.CastModes.hold) ||
+                if ((useAction.action.IsPressed() && caster.abilities[activeIndex].castMode == Ability.CastModes.hold) ||
 			(useAction.action.WasPerformedThisFrame() && caster.abilities[activeIndex].castMode == Ability.CastModes.press) ||
 			 caster.abilities[activeIndex].castMode == Ability.CastModes.passive)
 				{
@@ -86,6 +108,7 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
             case State.holstering:
                 if(timer < 0)
                 {
+                    ActiveAbility.EndSelect();
                     activeIndex = newActiveIndex;
                     caster.animator.runtimeAnimatorController = ActiveAbility.controller;
 
@@ -97,7 +120,7 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
                 if(timer< 0)
                 {
                     state = State.normal;
-                    ActiveAbility.Select();
+                    ActiveAbility.EndSelect();
                 }
                 break;
             case State.replacing:
@@ -111,8 +134,14 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
                 break;
         }
 
-
+        caster.UpdateAbilitys(Camera.main.transform.position, Camera.main.transform.forward);
         
+    }
+
+    public void OnUpgrade()
+    {
+        upgradeNum++;
+        abilityWheel.UpdateWheel(upgradeNum);
     }
 
     void OnAddBlood(float amount)
@@ -164,21 +193,39 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
 	void SelectAbility2(InputAction.CallbackContext context)
 	{
 		SelectAbility(1);
-	}
+    }
 	void SelectAbility3(InputAction.CallbackContext context)
 	{
 		SelectAbility(2);
-	}
+    }
+    void SelectAbility4(InputAction.CallbackContext context)
+    {
+        SelectAbility(3);
+    }
+    void SelectAbility5(InputAction.CallbackContext context)
+    {
+        SelectAbility(4);
+    }
+    void SelectAbility6(InputAction.CallbackContext context)
+    {
+        SelectAbility(5);
+    }
+    void QuickSwapAbility(InputAction.CallbackContext context)
+    {
+        SelectAbility(previousActiveIndex);
+    }
 
 
-	void SelectAbility(int index)
+    public void SelectAbility(int index)
     {
         if (index == activeIndex || state != State.normal)
             return;
         if(caster.abilities[index].guid != caster.emptyAbility.guid)
         {
+            previousActiveIndex = activeIndex;
             newActiveIndex = index;
 			HolsterAbility();
+            
 		}
         
     }
@@ -186,40 +233,43 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
 
     public void SetAbility(Ability ability)
     {
-        for(int i = 0; i < caster.abilities.Length; i++)
-        {
-            if(ability.guid == caster.abilities[i].guid)
-            {
-				
-                if(i != activeIndex)
+        caster.SetAbility(ability.abilitySlot, ability);
+        SelectAbility(ability.abilitySlot);
+        newActiveIndex = ability.abilitySlot;
+        /*        for(int i = 0; i < caster.abilities.Length; i++)
                 {
-					caster.SetAbility(i, ability);
-					HolsterAbility();
-					newActiveIndex = i;
-				}
-                else
-                {
-					ReplaceAbility(ability);
-				}
-                return;
-			}
-            else if (caster.abilities[i].guid == caster.emptyAbility.guid)
-            {
-                
-				if (i != activeIndex)
-				{
-					caster.SetAbility(i, ability);
-					HolsterAbility();
-					newActiveIndex = i;
-				}
-                else
-                {
-					ReplaceAbility(ability);
-				}
-                return;
-			}
-        }
-        ReplaceAbility(ability);
+                    if(ability.guid == caster.abilities[i].guid)
+                    {
+
+                        if(i != activeIndex)
+                        {
+                            caster.SetAbility(i, ability);
+                            HolsterAbility();
+                            newActiveIndex = i;
+                        }
+                        else
+                        {
+                            ReplaceAbility(ability);
+                        }
+                        return;
+                    }
+                    else if (caster.abilities[i].guid == caster.emptyAbility.guid)
+                    {
+
+                        if (i != activeIndex)
+                        {
+                            caster.SetAbility(i, ability);
+                            HolsterAbility();
+                            newActiveIndex = i;
+                        }
+                        else
+                        {
+                            ReplaceAbility(ability);
+                        }
+                        return;
+                    }
+                }
+                ReplaceAbility(ability);*/
     }
 
     Ability replacingAbility;
@@ -227,7 +277,7 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
     {
         replacingAbility = ability;
         state = State.replacing;
-		ActiveAbility.DeSelect();
+		ActiveAbility.StartDeSelect();
 		caster.animator.SetFloat("UnEquipSpeed", 1 / ActiveAbility.holsterTime);
 		caster.animator.SetTrigger("Unequip");
 		timer = ActiveAbility.holsterTime;
@@ -237,7 +287,7 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
     void DrawAbility()
     {
         state = State.drawing;
-
+        ActiveAbility.StartSelect();
         caster.animator.SetFloat("EquipSpeed", 1 / ActiveAbility.drawTime);
         timer = ActiveAbility.drawTime;
     }
@@ -245,7 +295,7 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
     void HolsterAbility()
     {
         state = State.holstering;
-        ActiveAbility.DeSelect();
+        ActiveAbility.StartDeSelect();
         caster.animator.SetFloat("UnEquipSpeed", 1 / ActiveAbility.holsterTime);
         caster.animator.SetTrigger("Unequip");
         timer = ActiveAbility.holsterTime;

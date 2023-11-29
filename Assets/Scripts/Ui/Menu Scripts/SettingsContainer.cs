@@ -15,7 +15,7 @@ public class SettingsContainer : MonoBehaviour
     public List<Transform> gameplaySettings = new List<Transform>();
     public List<Transform> audioSettings = new List<Transform>();
     public List<Transform> videoSettings = new List<Transform>();
-    public List<Transform> controlSettings = new List<Transform>();
+
 
     private void Awake()
     {
@@ -30,10 +30,6 @@ public class SettingsContainer : MonoBehaviour
         foreach (Transform child in parents[2])
         {
             videoSettings.Add(child);
-        }
-        foreach (Transform child in parents[3])
-        {
-            controlSettings.Add(child);
         }
     }
 
@@ -57,12 +53,6 @@ public class SettingsContainer : MonoBehaviour
                 {
                     ActivePage(value);
                     PlayList(videoSettings, value);
-                    break;
-                }
-            case 3:
-                {
-                    ActivePage(value);
-                    PlayList(controlSettings, value);
                     break;
                 }
         }

@@ -9,8 +9,7 @@ namespace BlakesSpatialHash
         Vector3 GetLastPosition { get; set; }
         uint Index { get; set; }
         bool Enabled { get; }
-
-        List<SpatialHashObject> Objects { get; set; }
+        List<AiAgent> Objects { get; set; }
     }
 
     public class SpatialHashObject : MonoBehaviour, ISpatialHash3D
@@ -19,15 +18,15 @@ namespace BlakesSpatialHash
         public Vector3 GetLastPosition { get; set; }
         public uint Index { get; set; }
         public bool Enabled { get { return gameObject.activeSelf; } }
-        public List<SpatialHashObject> Objects { get; set; }
+        public List<AiAgent> Objects { get; set; }
 
-        public SpatialHashGrid3D Grid;
+        [HideInInspector] public SpatialHashGrid3D Grid;
 
         public void Initalise()
         {
             Grid = SpatialHashGrid3D.Instance;
 
-            Objects = new List<SpatialHashObject>();
+            Objects = new List<AiAgent>();
         }
     }
 }

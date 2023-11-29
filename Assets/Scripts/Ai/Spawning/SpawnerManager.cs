@@ -46,6 +46,10 @@ public class SpawnerManager : MonoBehaviour
     private Timer spawnTimer;
     private Timer endRoundTimer;
 
+    [Header("Sound Players")]
+    [SerializeField] private SoundPlayer OnWaveEnd;
+    [SerializeField] private SoundPlayer OnWaveStart;
+    
     [Header("Spawn Particle")]
     [HideInInspector] public ObjectPooler ParticleSpawner;
 
@@ -60,6 +64,11 @@ public class SpawnerManager : MonoBehaviour
 
         spawnTimer = new Timer(timeBetweenSpawns);
         endRoundTimer = new Timer(timeBetweenRounds);
+
+        //for (int i = 0; i < 31; i++)
+        //{
+        //    Debug.Log((int)demonsToSpawn.Evaluate(i) + " Round " + i);
+        //}
     }
     private void Start()
     {
@@ -119,7 +128,13 @@ public class SpawnerManager : MonoBehaviour
                 }
             }
         }
-        _DemonSpawner.CallDemonUpdatePosition();
+
+        _DemonSpawner.UpdateCallToDemons();
+    }
+
+    private void LateUpdate()
+    {
+        _DemonSpawner.RemoveActiveDemons();
     }
 
     public void GetBlessingChance(Transform pos, bool spawnDrop = false)
@@ -178,11 +193,15 @@ public class SpawnerManager : MonoBehaviour
         demonsToSpawnEachTick = DemonSpawnsEachTick;
 
         _DemonSpawner.DemonQueue = WaveManager.GetDemonToSpawn(maxDemonsToSpawn);
+
+        OnWaveStart.Play();
     }
 
     void WaveEnd()
     {
         roundDisplay.ColourFlash();
+
+        OnWaveEnd.Play();
 
         _DemonSpawner.DemonQueue.Clear();
         currentRound++;

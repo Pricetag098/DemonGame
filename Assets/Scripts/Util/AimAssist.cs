@@ -42,7 +42,7 @@ public class AimAssist
                     
                     healths.Add(hb.health);
                     Vector3 casterToTarget = target.core.position - origin;
-                    casterToTarget.y = 0;
+                    
 
                     //float time = casterToTarget.magnitude / projectileSpeed;
                     //Vector3 newPos = target.core.position + target.GetVelocity() * time;

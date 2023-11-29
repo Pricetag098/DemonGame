@@ -7,7 +7,7 @@ public class KnockBackOnHit : OnHitEffect
     [SerializeField] float magnitude;
     public override void Hit(HitBox hb, Vector3 point, Vector3 dir)
     {
-        if(hb.health.TryGetComponent(out DemonBase demon))
+        if(hb.health.TryGetComponent(out DemonFramework demon))
         {
             demon.ApplyForce(dir * magnitude);
         }

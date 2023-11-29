@@ -6,7 +6,7 @@ public class WallBuy : ShopInteractable
 {
 	[SerializeField] GameObject prefab;
 	[SerializeField] string refillAmmoText;
-	[SerializeField] int refillAmmoCost;
+	
 
 	protected override bool CanBuy(Interactor interactor)
 	{
@@ -27,16 +27,26 @@ public class WallBuy : ShopInteractable
         }
 		
 	}
+
 	public override void StartHover(Interactor interactor)
 	{
 		base.StartHover(interactor);
 		Gun g = prefab.GetComponent<Gun>();
-		interactor.display.DisplayMessage(true, interactor.holster.HasGun(g) ? refillAmmoText + GetCost(interactor) : buyMessage + " " + g.gunName + ": " + GetCost(interactor));
+        if (interactor.holster.HasGun(g))
+        {
+			interactor.display.DisplayMessage(true, refillAmmoText + " " + g.gunName + " ", "[Cost: " + GetCost(interactor).ToString()+ "]");
+		}
+        else
+        {
+			interactor.display.DisplayMessage(true, buyMessage + " " + g.gunName + " ", "[Cost: " + GetCost(interactor).ToString() + "]");
+
+		}
+		//interactor.display.DisplayMessage(true, interactor.holster.HasGun(g) ? (refillAmmoText + " " + g.gunName + ": ", GetCost(interactor).ToString()) : (buyMessage + " " + g.gunName + ": ", GetCost(interactor).ToString()));
 		
 	}
 
 	protected override int GetCost(Interactor interactor)
 	{
-		return interactor.holster.HasGun(prefab.GetComponent<Gun>()) ? refillAmmoCost : Cost;
+		return interactor.holster.HasGun(prefab.GetComponent<Gun>()) ? prefab.GetComponent<Gun>().refillCost : Cost;
 	}
 }

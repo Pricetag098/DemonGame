@@ -42,7 +42,7 @@ public class ImmolateAbility : Ability
 			obj.GetComponent<ParticleSystem>().Play();
 		}
 	}
-	public override void Tick()
+	public override void Tick(Vector3 origin, Vector3 direction)
 	{
 		if (casted)
 		{
@@ -126,7 +126,7 @@ public class ImmolateAbility : Ability
 
 	public void HitTarget(Health health)
 	{
-		health.TakeDmg(damage * caster.DamageMulti);
+		health.TakeDmg(damage * caster.DamageMulti, HitType.ABILITY);
 		vfx.Play(health.GetComponent<VfxTargets>().origin.position,Vector3.up);
 	}
 

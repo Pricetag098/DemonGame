@@ -262,11 +262,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1784459705747082835, guid: 3d1ecbaf04c48454da42b04e7ca34201, type: 3}
   m_PrefabInstance: {fileID: 5428149393775282982}
   m_PrefabAsset: {fileID: 0}
---- !u!198 &9117908198294464759 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 3881531337400443857, guid: 3d1ecbaf04c48454da42b04e7ca34201, type: 3}
-  m_PrefabInstance: {fileID: 5428149393775282982}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9029681748443392828
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -320,7 +315,7 @@ PrefabInstance:
       objectReference: {fileID: 5545707780240182387}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: gunName
-      value: The Crossbow
+      value: crossbow
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: maxAmmo
@@ -348,7 +343,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: bodyDamage
-      value: 36
+      value: 43
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: controller
@@ -368,8 +363,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: limbDamage
-      value: 23
+      value: 43
       objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: refillCost
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: worldModel
+      value: 
+      objectReference: {fileID: 1278883785465214723, guid: b54c2c5ecfa69f044a3669e34522132c, type: 3}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: bulletRange
       value: 300
@@ -377,10 +380,14 @@ PrefabInstance:
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: gunfire.val
       value: 
-      objectReference: {fileID: 9117908198294464759}
+      objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: holsterTime
-      value: 0.75
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: upgradeCost
+      value: 5000
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: animator.val
@@ -395,12 +402,16 @@ PrefabInstance:
       value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: bloodGainMulti
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: reloadDuration
       value: 1.73
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: gunfire.enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: maxPenetrations
@@ -412,7 +423,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: useOwnVisualiser
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3118617946729100852, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: bulletVisualiserSpeed
@@ -750,6 +761,14 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 4746740357456979033, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: prefabToPool
+      value: 
+      objectReference: {fileID: 429431636643580045, guid: 21b0a19d1159feb40b128474623ab5e7, type: 3}
+    - target: {fileID: 4746740357456979033, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: poolContainer
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6001458314360550378, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: clips.Array.size
       value: 0
@@ -781,6 +800,10 @@ PrefabInstance:
     - target: {fileID: 8030366381718863023, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: m_Name
       value: CrossbowModel
+      objectReference: {fileID: 0}
+    - target: {fileID: 8367461429409578649, guid: 9267b089335434640aa9c208b32c3619, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8486546046300459521, guid: 9267b089335434640aa9c208b32c3619, type: 3}
       propertyPath: m_RootOrder

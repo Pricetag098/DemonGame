@@ -8,17 +8,25 @@ public class PerkBuy : ShopInteractable
 	[SerializeField] public Perk perk;
 	public Material upgradedMat;
 	[SerializeField] GameObject chalice;
-	
-	protected override void DoBuy(Interactor interactor)
+
+	PerkNotification perkNotification;
+
+    private void Awake()
+    {
+        perkNotification = FindObjectOfType<PerkNotification>();
+    }
+
+    protected override void DoBuy(Interactor interactor)
 	{
 		interactor.perkManager.AddPerk(Instantiate(perk));
 		if(upgraded)
 		{
 			Upgrade(interactor.perkManager);
-		}
-	}
-	
-	protected override bool CanBuy(Interactor interactor)
+        }
+        perkNotification.Notify(perk);
+    }
+
+    protected override bool CanBuy(Interactor interactor)
 	{
 		return !interactor.perkManager.HasPerk(perk);
 	}
@@ -31,7 +39,7 @@ public class PerkBuy : ShopInteractable
     public override void StartHover(Interactor interactor)
     {
         base.StartHover(interactor);
-        interactor.display.DisplayMessage(true," " + buyMessage + " " + perk.perkName + ": " + GetCost(interactor));
+		interactor.display.DisplayMessage(true, " " + buyMessage + " " + perk.perkName + " ", "[Cost: " + GetCost(interactor).ToString() + "]" ); 
     }
 
     public void Upgrade(PerkManager perkManager)

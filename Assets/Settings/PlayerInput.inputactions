@@ -56,7 +56,7 @@
                     "id": "5c6efc86-7e2b-42c5-a40f-88cf6df820f2",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Hold",
+                    "interactions": "Hold(duration=0.2)",
                     "initialStateCheck": false
                 }
             ],
@@ -143,7 +143,7 @@
                     "id": "730bb7ee-5d5a-436c-9c69-5768112a5f70",
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
-                    "processors": "StickDeadzone,ScaleVector2(x=15,y=15)",
+                    "processors": "StickDeadzone,ScaleVector2(x=40,y=30)",
                     "groups": "",
                     "action": "LookRotation",
                     "isComposite": false,
@@ -186,6 +186,17 @@
                     "name": "",
                     "id": "1af5c8ba-5b45-4db0-91cd-eee1bf842b73",
                     "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Crouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d1a475c5-194c-4ac7-b712-de699cb42280",
+                    "path": "<Keyboard>/c",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -272,9 +283,9 @@
                 },
                 {
                     "name": "SwapGun",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "780117cf-7fe8-4897-a95f-fa9f11f028c9",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -283,15 +294,6 @@
                     "name": "SwapAbility",
                     "type": "Button",
                     "id": "5abdd0db-e2ec-491c-beb2-3d4af4bdcc34",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Smite",
-                    "type": "Button",
-                    "id": "9fbc1520-c859-4cf4-aaa8-5fc950d8a24c",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -325,9 +327,45 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "GetAbility4",
+                    "type": "Button",
+                    "id": "61f600a7-2473-4120-be4f-2fc04efb608e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "GetAbility5",
+                    "type": "Button",
+                    "id": "55020d98-66ce-4880-9ad5-bb828fdb2d94",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "GetAbility6",
+                    "type": "Button",
+                    "id": "149fc8b7-d921-45b4-a2c4-f841aa9d54bd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Melee",
                     "type": "Button",
                     "id": "ebed13c3-3c03-4d99-bf0b-c1157c386445",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "QuickSwap",
+                    "type": "Button",
+                    "id": "9f8c51a7-c3dd-44ab-ab19-6838b300a520",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -404,7 +442,7 @@
                 {
                     "name": "",
                     "id": "ea7e8ded-f7d3-443b-b050-f232bca11d16",
-                    "path": "<Keyboard>/q",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -416,6 +454,28 @@
                     "name": "",
                     "id": "81ab527a-dc92-427d-929a-ff4b4b492cf1",
                     "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwapGun",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fee173b5-1d7c-4832-92e0-237900bb50b1",
+                    "path": "<Mouse>/scroll/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwapGun",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6d240c9b-376f-4a7c-90bd-35eda4c26abf",
+                    "path": "<Mouse>/scroll/up",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -447,41 +507,8 @@
                 },
                 {
                     "name": "",
-                    "id": "082485c2-ee07-4c20-b24e-7f6047534f42",
-                    "path": "<Keyboard>/g",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Smite",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ceb707b8-0ffa-48e7-90b0-fa9d9b82126a",
-                    "path": "<Gamepad>/rightShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Smite",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "755c395b-0ff7-4454-bf9a-1773239777b7",
                     "path": "<Keyboard>/1",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "GetAbility1",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d342bfc8-eb75-43b8-ad1d-bd4670c90247",
-                    "path": "<Gamepad>/dpad/left",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -502,17 +529,6 @@
                 },
                 {
                     "name": "",
-                    "id": "9d5e45b5-8ec2-4471-b165-a00c25073af8",
-                    "path": "<Gamepad>/dpad/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "GetAbility2",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "a2ddd719-6fb9-4216-961a-496f613324e9",
                     "path": "<Keyboard>/3",
                     "interactions": "",
@@ -524,19 +540,8 @@
                 },
                 {
                     "name": "",
-                    "id": "c160cfc1-4445-4d4a-ba25-10875bee72c3",
-                    "path": "<Gamepad>/dpad/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "GetAbility3",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "4300929a-d188-4e74-9c59-aa57e0353822",
-                    "path": "<Keyboard>/z",
+                    "path": "<Keyboard>/v",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -552,6 +557,61 @@
                     "processors": "",
                     "groups": "",
                     "action": "Melee",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2a729fd4-f336-49a6-86aa-8a8c91251c14",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "GetAbility4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6f852b34-3317-4b42-aa34-1b5895ca71ab",
+                    "path": "<Keyboard>/5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "GetAbility5",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bfc17cd5-c9fb-4cb5-9671-ebe25d13d9cc",
+                    "path": "<Keyboard>/6",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "GetAbility6",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7e374605-9b62-4879-98c4-aa14c3ee634b",
+                    "path": "<Keyboard>/q",
+                    "interactions": "Tap",
+                    "processors": "",
+                    "groups": "",
+                    "action": "QuickSwap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "253ec257-4172-4709-bc82-f7d5cdf90b4b",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "Tap",
+                    "processors": "",
+                    "groups": "",
+                    "action": "QuickSwap",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -571,7 +631,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Tab",
+                    "name": "AbilityWheel",
                     "type": "Button",
                     "id": "6f37e306-77ad-450c-bc75-cca45e79217c",
                     "expectedControlType": "Button",
@@ -596,6 +656,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Point",
+                    "type": "PassThrough",
+                    "id": "8c4fbbb8-1209-4f58-aee6-962e119af114",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -624,22 +693,22 @@
                 {
                     "name": "",
                     "id": "aaaebc64-34d9-4d01-9c9d-0addfee1a25f",
-                    "path": "<Gamepad>/select",
-                    "interactions": "",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "Tap(pressPoint=0.2)",
                     "processors": "",
                     "groups": "",
-                    "action": "Tab",
+                    "action": "AbilityWheel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "7dd06c67-d591-4d6a-a853-0fe625903e39",
-                    "path": "<Keyboard>/tab",
-                    "interactions": "",
+                    "path": "<Keyboard>/q",
+                    "interactions": "Hold(duration=0.2)",
                     "processors": "",
                     "groups": "",
-                    "action": "Tab",
+                    "action": "AbilityWheel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -684,6 +753,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b0267b72-2549-4a0f-ac03-62a94e391dba",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Point",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -74,7 +74,8 @@ public class BloodSpikeAbility : Ability
 				{
 					healths.Add(hb.health);
                     OnHit(hb.health);
-                    hb.health.TakeDmg(distanceDamage.Evaluate(distance/range) * caster.DamageMulti, HitType.ABILITY);
+                    if(hb.health.TakeDmg(distanceDamage.Evaluate(distance/range) * caster.DamageMulti, HitType.ABILITY))
+						caster.OnKill();
 					
 				}
 			}

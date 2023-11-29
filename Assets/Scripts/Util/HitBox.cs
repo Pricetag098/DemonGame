@@ -24,9 +24,9 @@ public class HitBox : MonoBehaviour
         animator.Value = GetComponentInParent<Animator>();
         animator.Enabled = animator.Value != null;
     }
-    public void OnHit(float dmg, HitType type)
+    public bool OnHit(float dmg, HitType type)
     {
-        health.TakeDmg(dmg, type);
+        
         
 
         int hitNum = Random.Range(0, 7);
@@ -36,6 +36,6 @@ public class HitBox : MonoBehaviour
             animator.Value.SetInteger("HitNum", hitNum);
             animator.Value.SetTrigger("Hit");
         }
-        
+        return health.TakeDmg(dmg, type);
     }
 }

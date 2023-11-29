@@ -2,6 +2,7 @@
 public class SessionData
 {
     public int kills;
+    public int headShotKills;
     public int deaths;
     public int pointsGained;
     public int pointsSpent;

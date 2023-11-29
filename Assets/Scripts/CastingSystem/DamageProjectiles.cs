@@ -102,7 +102,8 @@ public class DamageProjectiles : MonoBehaviour
 			{
 				if (!healths.Contains(hb.health))
 				{
-					hb.OnHit(damage, HitType.ABILITY);
+                    if (hb.OnHit(damage, HitType.ABILITY))
+                        ability.caster.OnKill();
 					healths.Add(hb.health);
 					ability.OnHit(hb.health);
 					penetrations++;

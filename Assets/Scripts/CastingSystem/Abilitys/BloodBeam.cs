@@ -76,7 +76,8 @@ public class BloodBeam : Ability
                         }
 						
 					}
-					hb.OnHit(damage * Time.deltaTime * caster.DamageMulti, HitType.ABILITY);
+					if (hb.OnHit(damage * Time.deltaTime * caster.DamageMulti, HitType.ABILITY))
+						caster.OnKill();
 					healths.Add(hb.health);
 				}
 

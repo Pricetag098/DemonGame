@@ -75,6 +75,20 @@ public class AreaLoaderGameObject : MonoBehaviour
                 UnloadAll(Garden);
                 UnloadAreaObjects(CathedralHallLower, LowPriority);
                 break;
+            case Areas.Tomb:
+                // Areas To Load
+                LoadAll(Graveyard);
+                LoadAll(MainEntrance);
+                LoadAreaObjects(Garden, HighPriority);
+                LoadAreaObjects(CathedralHallLower, HighPriority);
+                LoadAreaObjects(Library, HighPriority);
+
+                // Areas To Unload
+                UnloadAll(Garden);
+                UnloadAreaObjects(CathedralHallLower, LowPriority);
+                UnloadAreaObjects(Garden, LowPriority);
+                UnloadAreaObjects(Library, LowPriority);
+                break;
         }
     }
 

@@ -156,6 +156,8 @@ public class LesserDemon : DemonFramework
         }
 
         _aiAgent.canRotate = false;
+
+        _ragdoll.ToggleRagdoll(true);
     }
     public override void OnForcedDeath(bool ignoreImmunity)
     {

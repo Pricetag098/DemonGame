@@ -12,5 +12,6 @@ public enum AreaPriority
 {
     Null,
     LOW_PRIORITY,
-    HIGH_PRIORITY
+    HIGH_PRIORITY,
+    ENVIRONMENT
 }

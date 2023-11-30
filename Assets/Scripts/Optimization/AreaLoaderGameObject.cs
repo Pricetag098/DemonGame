@@ -20,6 +20,7 @@ public class AreaLoaderGameObject : MonoBehaviour
 
     private AreaPriority LowPriority = AreaPriority.LOW_PRIORITY;
     private AreaPriority HighPriority = AreaPriority.HIGH_PRIORITY;
+    private AreaPriority Environment = AreaPriority.ENVIRONMENT;
     #endregion
 
     private void Awake()
@@ -112,6 +113,7 @@ public class AreaLoaderGameObject : MonoBehaviour
         AreaObjects.Add(area, new Dictionary<AreaPriority, AreaPriorityObjects>());
         AreaObjects[area].Add(AreaPriority.LOW_PRIORITY, new AreaPriorityObjects());
         AreaObjects[area].Add(AreaPriority.HIGH_PRIORITY, new AreaPriorityObjects());
+        AreaObjects[area].Add(AreaPriority.ENVIRONMENT, new AreaPriorityObjects());
     }
 
     public void CreateDictionary()
@@ -134,12 +136,14 @@ public class AreaLoaderGameObject : MonoBehaviour
     {
         LoadAreaObjects(area, LowPriority);
         LoadAreaObjects(area, HighPriority);
+        LoadAreaObjects(area, Environment);
     }
 
     private void UnloadAll(Areas area)
     {
         UnloadAreaObjects(area, LowPriority);
         UnloadAreaObjects(area, HighPriority);
+        UnloadAreaObjects(area, Environment);
     }
     private void LoadAreaObjects(Areas area, AreaPriority priority)
     {

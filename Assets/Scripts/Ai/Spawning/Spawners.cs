@@ -41,7 +41,7 @@ public class Spawners : MonoBehaviour
                 case Areas.Kitchen:
                     AreaDictionary.Add(a.AreaId, a);
                     break;
-                case Areas.Library:
+                case Areas.LibraryLower:
                     AreaDictionary.Add(a.AreaId, a);
                     break;
                 case Areas.BishopsQuarters:
@@ -161,9 +161,10 @@ public enum Areas
     MainEntrance,
     Garden,
     Kitchen,
-    Library,
+    LibraryLower,
     BishopsQuarters,
     CathedralHallUpper,
     CathedralHallLower,
-    Tomb
+    Tomb,
+    LibaryUpper
 }

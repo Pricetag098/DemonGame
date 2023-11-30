@@ -25,6 +25,7 @@ public class BlessingPopup : MonoBehaviour
 		DOTween.Kill(this,true);
 		icon.text = blessing.blessingFontRef;
 		title.text = blessing.blessingName;
+		icon.font = blessing.blessingFontAsset;
 
 		Sequence sequence = DOTween.Sequence(this);
 		sequence.Append(canvasGroup.DOFade(1, entryTime));

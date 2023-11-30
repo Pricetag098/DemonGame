@@ -26,6 +26,7 @@ public class BlessingActive : MonoBehaviour
                 images[i].gameObject.SetActive(true);
                 images[i].DOFade(1, .3f);
                 images[i].text = blessingStatusHandler.activeBlessings[i].blessingFontRef;
+                images[i].font = blessingStatusHandler.activeBlessings[i].blessingFontAsset;
             }
             else
             {

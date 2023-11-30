@@ -13,12 +13,17 @@ public class Spawner : MonoBehaviour
     [HideInInspector] public bool Visited;
     [HideInInspector] public float distToArea;
 
-    public delegate void Action(ObjectPooler spawnParticle);
+    [SerializeField] VfxSpawnRequest spawnRequest;
+
+    public delegate void Action();
     private Action particleSpawnAction;
+
+    Vector3 up;
 
     private void Awake()
     {
         position = transform.position;
+        up = transform.up;
         CanSpawn = true;
 
         if(ParticleOnSpawn == true)
@@ -39,7 +44,7 @@ public class Spawner : MonoBehaviour
         if(CanSpawn == true)
         {
             SpawnDemon(demon, sm, type);
-            //particleSpawnAction?.Invoke(sm.ParticleSpawner);
+            particleSpawnAction?.Invoke();
             return true;
         }
 
@@ -59,7 +64,7 @@ public class Spawner : MonoBehaviour
         if (CanSpawn == true)
         {
             SpawnDemon(demon, sm, list, type);
-            //particleSpawnAction?.Invoke(sm.ParticleSpawner);
+            particleSpawnAction?.Invoke();
             return true;
         }
 
@@ -96,9 +101,8 @@ public class Spawner : MonoBehaviour
         list.Add(demonBase);
     }
 
-    private void OnSpawn(ObjectPooler spawnParticle)
+    private void OnSpawn()
     {
-        GameObject obj = spawnParticle.Spawn();
-        obj.transform.position = position;
+        spawnRequest.Play(position, up);
     }
 }

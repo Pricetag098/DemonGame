@@ -107,7 +107,9 @@ public class WaveManager : MonoBehaviour
 
         for (int i = 0; i < wave.ChoasAmount; i++)
         {
-            choasToSpawn.Add(wave.Choas);
+            //choasToSpawn.Add(wave.Choas);
+
+            DemonsToSpawn.Insert(GetSpawnIndex(wave.WaveInsertPosition, DemonsToSpawn.Count), wave.Choas);
         }
 
         for (int i = 0; i < choasToSpawn.Count; i++)

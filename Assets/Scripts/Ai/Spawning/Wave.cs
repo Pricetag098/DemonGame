@@ -26,6 +26,7 @@ public class Wave : ScriptableObject
 
     public DemonType Choas;
     public int ChoasAmount;
+    public float WaveInsertPosition;
 
     [Header("Extra Chaos Chance")]
     [Range(0,100)] public float ChanceToSpawnChaos;

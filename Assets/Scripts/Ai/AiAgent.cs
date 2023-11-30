@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -320,7 +321,13 @@ public class AiAgent : MonoBehaviour
     }
     public bool CalculatePath(Vector3 end, NavMeshPath path)
     {
-        return NavMesh.CalculatePath(transform.position, end, NavMesh.AllAreas, path);
+        NavMesh.SamplePosition(transform.position, out NavMeshHit hitStart, 50, NavMesh.AllAreas);
+        NavMesh.SamplePosition(end, out NavMeshHit hitEnd, 50, NavMesh.AllAreas);
+
+        Vector3 startSampledPosition = hitStart.position;
+        Vector3 endSampledPosition = hitEnd.position;
+
+        return NavMesh.CalculatePath(startSampledPosition, endSampledPosition, NavMesh.AllAreas, path);
     }
 
     public void SetPath(NavMeshPath navPath)
@@ -337,8 +344,14 @@ public class AiAgent : MonoBehaviour
 	void CalculatePath(Vector3 start, Vector3 end, AgentPath agentPath)
 	{
         NavMeshPath path = new NavMeshPath();
+
+        NavMesh.SamplePosition(start, out NavMeshHit hitStart, 50, NavMesh.AllAreas);
+        NavMesh.SamplePosition(end, out NavMeshHit hitEnd, 50, NavMesh.AllAreas);
+
+        Vector3 startSampledPosition = hitStart.position;
+        Vector3 endSampledPosition = hitEnd.position;
         
-		agentPath.hasPath = NavMesh.CalculatePath(start, end, NavMesh.AllAreas,path);
+		agentPath.hasPath = NavMesh.CalculatePath(startSampledPosition, endSampledPosition, NavMesh.AllAreas,path);
 		agentPath.pathLength = path.GetCornersNonAlloc(agentPath.corners);
 	}
 

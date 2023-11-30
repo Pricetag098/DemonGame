@@ -10,6 +10,7 @@ public class BulletVisualiser : MonoBehaviour
     Vector3 target;
     PooledObject pooledObject;
     MeshRenderer mr;
+    public bool useMeshRender;
     
     
 	private void Awake()
@@ -27,7 +28,8 @@ public class BulletVisualiser : MonoBehaviour
         if(timer >= travelTime)
 		{
             //pooledObject.Despawn();
-            mr.enabled = false;
+            if (useMeshRender)
+                mr.enabled = false;
             enabled = false;
 		}
         timer += Time.deltaTime ;
@@ -41,9 +43,10 @@ public class BulletVisualiser : MonoBehaviour
         travelTime = time;
         transform.position = origin;
         timer = 0;
-        mr.enabled = true;
         enabled = true;
         transform.forward = direction;
-        
+        if (useMeshRender)
+            mr.enabled = true;
+
     }
 }

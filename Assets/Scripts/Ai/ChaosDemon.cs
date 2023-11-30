@@ -258,18 +258,18 @@ public class ChaosDemon : DemonFramework
     }
     public override void OnForcedDeath(bool ignoreImmunity)
     {
-        if(!ignoreImmunity)
-        {
-            return;
-        }
+        //if(!ignoreImmunity)
+        //{
+        //    return;
+        //}
 
-        _aiAgent.SetFollowSpeed(0);
+        //_aiAgent.SetFollowSpeed(0);
 
-        SetAllColliders(false);
+        //SetAllColliders(false);
 
-        //_spawner.AddDemonBackToPool(_type, _spawnerManager);
+        ////_spawner.AddDemonBackToPool(_type, _spawnerManager);
 
-        MarkForRemoval();
+        //MarkForRemoval();
     }
 
     public override void OnForcedDespawn()

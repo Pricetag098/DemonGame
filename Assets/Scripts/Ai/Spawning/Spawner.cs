@@ -39,7 +39,7 @@ public class Spawner : MonoBehaviour
         if(CanSpawn == true)
         {
             SpawnDemon(demon, sm, type);
-            particleSpawnAction?.Invoke(sm.ParticleSpawner);
+            //particleSpawnAction?.Invoke(sm.ParticleSpawner);
             return true;
         }
 
@@ -59,7 +59,7 @@ public class Spawner : MonoBehaviour
         if (CanSpawn == true)
         {
             SpawnDemon(demon, sm, list, type);
-            particleSpawnAction?.Invoke(sm.ParticleSpawner);
+            //particleSpawnAction?.Invoke(sm.ParticleSpawner);
             return true;
         }
 

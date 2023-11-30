@@ -50,8 +50,8 @@ public class SpawnerManager : MonoBehaviour
     [SerializeField] private SoundPlayer OnWaveEnd;
     [SerializeField] private SoundPlayer OnWaveStart;
     
-    [Header("Spawn Particle")]
-    [HideInInspector] public ObjectPooler ParticleSpawner;
+    //[Header("Spawn Particle")]
+    //[HideInInspector] public ObjectPooler ParticleSpawner;
 
     private void Awake()
     {
@@ -59,7 +59,7 @@ public class SpawnerManager : MonoBehaviour
         _DemonSpawner = GetComponent<DemonSpawner>();
         RitualManager = GetComponent<RitualManager>();
         BlessingManager = GetComponent<BlessingManager>();
-        ParticleSpawner = GetComponent<ObjectPooler>();
+        //ParticleSpawner = GetComponent<ObjectPooler>();
         roundDisplay = FindObjectOfType<RoundDisplay>();
 
         spawnTimer = new Timer(timeBetweenSpawns);

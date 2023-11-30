@@ -55,6 +55,8 @@ public class Blessing : ScriptableObject
     {
         OnRemove();
         handler.activeBlessings.Remove(this);
+        Destroy(this);
+
     }
 
     protected virtual void OnRemove()

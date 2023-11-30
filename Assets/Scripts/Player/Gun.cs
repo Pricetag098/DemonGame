@@ -39,7 +39,7 @@ public class Gun : MonoBehaviour
     public float bloodGainMulti = 1;
     public float drawTime = 1;
     public float holsterTime = 1;
-    public float raydius;
+    //public float raydius;
     [SerializeField] List<OnHitEffect> onHitEffectList = new List<OnHitEffect>();
 
     [Header("DamageSetting")]

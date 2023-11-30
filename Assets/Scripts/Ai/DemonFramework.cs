@@ -387,7 +387,7 @@ public class DemonFramework : MonoBehaviour
             if (_isRagdolled == false)
             {
                 _isRagdolled = true;
-                _ragdoll.ToggleRagdoll(true);
+                //_ragdoll.ToggleRagdoll(true);
 
                 Transform t = transform;
                 t.position = t.position + new Vector3(0, -1, 0);

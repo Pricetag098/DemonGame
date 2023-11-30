@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class BlessingActive : MonoBehaviour
 {
     BlessingStatusHandler blessingStatusHandler;
-    Image[] images;
+    TextMeshProUGUI[] images;
 
     private Color alphaOn = Color.white;
     private Color alphaOff = new Color(0, 0, 0, 0);
@@ -14,7 +15,7 @@ public class BlessingActive : MonoBehaviour
     void Awake()
     {
         blessingStatusHandler = FindObjectOfType<BlessingStatusHandler>();
-        images = GetComponentsInChildren<Image>();
+        images = GetComponentsInChildren<TextMeshProUGUI>();
     }
 
     // Update is called once per frame
@@ -26,7 +27,7 @@ public class BlessingActive : MonoBehaviour
             {
                 images[i].gameObject.SetActive(true);
                 images[i].color = alphaOn;
-                images[i].sprite = blessingStatusHandler.activeBlessings[i].blessingImage;
+                images[i].text = blessingStatusHandler.activeBlessings[i].blessingFontRef;
             }
             else
             {

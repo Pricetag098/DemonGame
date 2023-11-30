@@ -69,16 +69,16 @@ public class WaveManager : MonoBehaviour
 
         DemonsToSpawn = HelperFuntions.ShuffleList(DemonsToSpawn);
 
-        MaxToSpawn -= _base;
+        //MaxToSpawn -= _base;
 
         for (int i = 0; i < _littleGuy; i++)
         {
             DemonsToSpawn.Add(wave.LittleGuy);
         }
 
-        MaxToSpawn -= _littleGuy;
+        //MaxToSpawn -= _littleGuy;
 
-        Manager.maxDemonsToSpawn -= MaxToSpawn;
+        //Manager.maxDemonsToSpawn -= MaxToSpawn;
         
         //specialDemonTypes = HelperFuntions.ShuffleList(specialDemonTypes);
         //int listSize = specialDemonTypes.Count;
@@ -118,7 +118,9 @@ public class WaveManager : MonoBehaviour
             DemonsToSpawn.Insert(Choasindex, wave.Choas);
         }
 
-        //Manager.maxDemonsToSpawn++;
+        Manager.maxDemonsToSpawn = DemonsToSpawn.Count;
+
+        //Debug.Log("Demons to Spawn This wave: " + MaxToSpawn + " How many are in queue: " + DemonsToSpawn.Count);
 
         Manager.StartOfRound = false;
         Manager.canSpawn = true;

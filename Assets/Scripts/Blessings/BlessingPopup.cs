@@ -8,8 +8,8 @@ using UnityEngine.UI;
 public class BlessingPopup : MonoBehaviour
 {
 	CanvasGroup canvasGroup;
-	Image image;
-	TextMeshProUGUI title;
+	[SerializeField] TextMeshProUGUI icon;
+	[SerializeField] TextMeshProUGUI title;
 	[SerializeField] float entryTime;
 	[SerializeField] float holdTime;
 	[SerializeField] float punchScale;
@@ -17,15 +17,13 @@ public class BlessingPopup : MonoBehaviour
 	private void Awake()
 	{
 		canvasGroup = GetComponent<CanvasGroup>();
-		image = GetComponentInChildren<Image>();
-		title = GetComponentInChildren<TextMeshProUGUI>();
 		rectTransform = GetComponent<RectTransform>();
 	}
 
 	public void Display(Blessing blessing)
 	{
 		DOTween.Kill(this,true);
-		image.sprite = blessing.blessingImage;
+		icon.text = blessing.blessingFontRef;
 		title.text = blessing.blessingName;
 
 		Sequence sequence = DOTween.Sequence(this);

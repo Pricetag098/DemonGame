@@ -165,6 +165,8 @@ public class LesserDemon : DemonFramework
 
         //_spawner.AddDemonBackToPool(_type, _spawnerManager);
 
+        if (_spawnType == SpawnType.Default) { _spawnerManager.DemonKilled(); }
+
         MarkForRemoval();
     }
     public override void OnForcedDespawn()

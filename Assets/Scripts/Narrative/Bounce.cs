@@ -49,7 +49,7 @@ public class Bounce : MonoBehaviour
                 }
                 speed = (initialDemonCount - ritualSpawner.demonsLeft) / (float)initialDemonCount;
             }
-            transform.DOLocalMove(targetPos, speed).SetSpeedBased(true).SetEase(Ease.OutQuart);
+            //transform.DOLocalMove(targetPos, speed).SetSpeedBased(true).SetEase(Ease.OutQuart);
             if (transform.localPosition == targetPos)
             {
                 SetTargetPos();
@@ -57,7 +57,7 @@ public class Bounce : MonoBehaviour
         }
         else if (escaped && escInt < escPos.Count)
         {
-            transform.DOMove(escPos[escInt].position, speed).SetSpeedBased(true).SetEase(Ease.OutQuart);
+            //transform.DOMove(escPos[escInt].position, speed).SetSpeedBased(true).SetEase(Ease.OutQuart);
             if (transform.position == escPos[escInt].position)
             {
                 escInt++;

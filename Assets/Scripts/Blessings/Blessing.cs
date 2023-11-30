@@ -8,7 +8,7 @@ public class Blessing : ScriptableObject
     protected BlessingStatusHandler handler;
     public bool instantEffect = true;
     public string blessingName = "";
-    public Sprite blessingImage = null;
+    public string blessingFontRef = null;
 
 
     /// <summary>

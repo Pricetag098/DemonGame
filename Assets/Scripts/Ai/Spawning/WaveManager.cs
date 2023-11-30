@@ -120,7 +120,7 @@ public class WaveManager : MonoBehaviour
 
         Manager.maxDemonsToSpawn = DemonsToSpawn.Count;
 
-        Debug.Log("Demons to Spawn This wave: " + MaxToSpawn + " How many are in queue: " + DemonsToSpawn.Count);
+        //Debug.Log("Demons to Spawn This wave: " + MaxToSpawn + " How many are in queue: " + DemonsToSpawn.Count);
 
         Manager.StartOfRound = false;
         Manager.canSpawn = true;

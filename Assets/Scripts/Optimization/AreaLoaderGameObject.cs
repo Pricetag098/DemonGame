@@ -28,6 +28,8 @@ public class AreaLoaderGameObject : MonoBehaviour
     {
         CreateDictionary();
 
+        LoadAllAreas();
+
         SubSceneLoader.AreaUpdate += OnUpdateArea;
     }
 
@@ -70,10 +72,13 @@ public class AreaLoaderGameObject : MonoBehaviour
                 LoadAreaObjects(Garden, HighPriority);
                 LoadAreaObjects(Garden, Environment);
                 LoadAll(CathedralHallLower);
+                LoadAreaObjects(LibraryLower, Environment);
 
                 // Areas To Unload
                 UnloadAll(LibraryLower);
                 UnloadAreaObjects(Garden, LowPriority);
+                UnloadAll(LibraryLower);
+                UnloadAll(LibraryUpper);
                 break;
             case Areas.Graveyard:
                 // Areas To Load
@@ -119,6 +124,18 @@ public class AreaLoaderGameObject : MonoBehaviour
                 UnloadAreaObjects(CathedralHallLower, LowPriority);
                 break;
         }
+    }
+
+    void LoadAllAreas()
+    {
+        LoadAll(CourtYard);
+        LoadAll(Graveyard);
+        LoadAll(MainEntrance);
+        LoadAll(Garden);
+        LoadAll(LibraryLower);
+        LoadAll(CathedralHallLower);
+        LoadAll(LibraryUpper);
+        LoadAll(Tomb);
     }
 
     #region DICTIONARY CREATION

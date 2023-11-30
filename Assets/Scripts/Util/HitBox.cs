@@ -16,6 +16,7 @@ public class HitBox : MonoBehaviour
     public Health health;
 
     private Optional<Animator> animator;
+    [HideInInspector]public Optional<Rigidbody> rigidBody;
     // Start is called before the first frame update
     void Awake()
     {
@@ -23,6 +24,8 @@ public class HitBox : MonoBehaviour
         health = GetComponentInParent<Health>();
         animator.Value = GetComponentInParent<Animator>();
         animator.Enabled = animator.Value != null;
+        rigidBody.Enabled = TryGetComponent(out Rigidbody r);
+        rigidBody.Value = r;
     }
     public bool OnHit(float dmg, HitType type)
     {

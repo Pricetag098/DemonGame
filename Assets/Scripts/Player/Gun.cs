@@ -39,6 +39,9 @@ public class Gun : MonoBehaviour
     public float bloodGainMulti = 1;
     public float drawTime = 1;
     public float holsterTime = 1;
+
+    public float hitForce = 1;
+
     //public float raydius;
     [SerializeField] List<OnHitEffect> onHitEffectList = new List<OnHitEffect>();
 
@@ -389,7 +392,14 @@ public class Gun : MonoBehaviour
                 else
                 {
                     healths.Add(hitBox.health);
-                    hitBox.OnHit(GetDamage(hitBox.bodyPart) * holster.stats.damageMulti, HitType.GUN);
+                    float damage = GetDamage(hitBox.bodyPart) * holster.stats.damageMulti;
+                    if (hitBox.OnHit(damage, HitType.GUN))
+                    {
+                        holster.OnKill(hitBox.bodyPart);
+                        if (hitBox.rigidBody.Enabled)
+                            hitBox.rigidBody.Value.AddForceAtPosition(dir * hitForce, hit.point);
+                    }
+                    holster.OnHit(damage, hitBox);
                 }
             }
 

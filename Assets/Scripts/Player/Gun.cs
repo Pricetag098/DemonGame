@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 
 public class Gun : MonoBehaviour
@@ -38,7 +39,7 @@ public class Gun : MonoBehaviour
     public float bloodGainMulti = 1;
     public float drawTime = 1;
     public float holsterTime = 1;
-    public float raydius;
+    //public float raydius;
     [SerializeField] List<OnHitEffect> onHitEffectList = new List<OnHitEffect>();
 
     [Header("DamageSetting")]
@@ -79,6 +80,8 @@ public class Gun : MonoBehaviour
     public int maxPenetrations = 3;
     
     public float damageLossDivisor = 2;
+    [Tooltip("How far to step each raycast leave as is please")]
+    public float stepOffset = 0.001f;
 
     [Header("Stash Settings")]
     public int stash;
@@ -136,8 +139,8 @@ public class Gun : MonoBehaviour
 	private void OnDestroy()
 	{
         reloadAction.action.performed -= StartReload;
-        if(visualiserPool.Enabled && visualiserPool.Value != null)
-            visualiserPool.Value.DespawnAll();
+        //if(visualiserPool.Enabled && visualiserPool.Value != null)
+        //    visualiserPool.Value.DespawnAll();
         
     }
     [ContextMenu("Gen Guid")]
@@ -331,102 +334,14 @@ public class Gun : MonoBehaviour
         {
             
             Vector3 randVal = GetSpread(UnityEngine.Random.insideUnitSphere);
-
-
             Vector3 dir = holster.aimTarget.rotation *  (Quaternion.Euler(randVal) * Vector3.forward);
+
             Debug.DrawRay(holster.aimTarget.position, dir * 10, Color.green);
 
-            RaycastHit[] hitArray = Physics.SphereCastAll(holster.aimTarget.position,raydius, dir, bulletRange, hitMask);
-            if (hitArray.Length > 0)
-            {
-                float damageMulti = 1;
-                int penIndex = 0;
+            Vector3 endPoint = holster.aimTarget.position + dir * bulletRange;
+            RecursiveRaycast(holster.aimTarget.position, dir, 0, 0, ref endPoint, new List<Health>());
 
-                //Reorder raycast hits in order of hit
-                List<RaycastHit> hits = new List<RaycastHit>();
-                for (int j = 0; j < hitArray.Length; j++)
-                { 
-                    hits.Add(hitArray[j]);
-                }
-                List<Health> healths = new List<Health>();
-                hits.Sort((a, b) => (a.distance.CompareTo(b.distance)));
-                int completePens = 0;
-
-
-                for (int j = 0; j < hits.Count; j++)
-                {
-                    if (completePens > maxPenetrations)
-                        break;
-                    RaycastHit hit = hits[j];
-                    //Debug.Log(hit.transform);
-                    
-                    penIndex = j;
-
-                    bool playFx = true;
-
-                    bool penetrable = false;
-                    HitBox hitBox;
-                    if (hit.collider.TryGetComponent(out hitBox))
-                    {
-                        //check to avoid double hits on penetration
-                        if (healths.Contains(hitBox.health))
-                        {
-                            playFx = false;
-                        }
-						else
-						{
-                            //Do all on hit stuff here
-
-                            float damage = GetDamage(hitBox.bodyPart) * damageMulti * holster.stats.damageMulti;
-
-                            healths.Add(hitBox.health);
-                            if(!hitBox.health.dead)
-							holster.stats.GainPoints(GetPoints(hitBox.bodyPart));
-							if(hitBox.OnHit(damage, HitType.GUN))
-                            {
-                                holster.OnKill(hitBox.bodyPart);
-                            }
-                            
-                            holster.OnHit(damage, hitBox);
-                        }
-                        
-
-                    }
-
-                    SurfaceData surfaceData;
-                    Surface surface;
-                    if (hit.collider.TryGetComponent(out surface))
-                    {
-                        if (surface.Penetrable)
-                            penetrable = true;
-
-                        surfaceData = surface.data;
-                    }
-					else
-					{
-                        surfaceData = VfxSpawner.DefaultSurfaceData;
-					}
-                    surfaceData.PlayHitVfx(hit.point, Vector3.Lerp(-dir, hit.normal, .5f));
-
-                    damageMulti /= damageLossDivisor;
-                    if (!penetrable)
-                    {
-                        break;
-                    }
-                    completePens++;
-                }
-                if (visualiserPool.Enabled)
-                {
-                    visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin.position, hits[0].point, Vector3.Distance(origin.position, hits[0].point) / bulletVisualiserSpeed,dir);
-                }
-            }
-
-            else
-            {
-                if (visualiserPool.Enabled)
-                    visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin.position,origin.position + dir * 1000, 1000 / bulletVisualiserSpeed,dir);
-            }
-            
+            visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin.position, endPoint, Vector3.Distance(origin.position, endPoint) / bulletVisualiserSpeed, dir);
         }
         if(holster.consumeAmmo)
         ammoLeft--;
@@ -453,6 +368,49 @@ public class Gun : MonoBehaviour
             holster.playerInput.SetRecoil(new Vector3(-verticalRecoilSpreadCurve.Evaluate(recoil), horizontalRecoilSpreadCurve.Evaluate(recoil), 0));
 
     }
+
+
+    void RecursiveRaycast(Vector3 point, Vector3 dir, int depth, float range, ref Vector3 endPoint,List<Health> healths)
+    {
+        if (depth > maxPenetrations)
+            return;
+        if (Physics.Raycast(point, dir, out RaycastHit hit, bulletRange - range, hitMask))
+        {
+            
+            endPoint = hit.point;
+
+            if(hit.collider.TryGetComponent(out HitBox hitBox))
+            {
+                if (healths.Contains(hitBox.health))
+                {
+                    RecursiveRaycast(hit.point + dir * stepOffset, dir, depth, range + hit.distance, ref endPoint, healths);
+                    return;
+                }
+                else
+                {
+                    healths.Add(hitBox.health);
+                    hitBox.OnHit(GetDamage(hitBox.bodyPart) * holster.stats.damageMulti, HitType.GUN);
+                }
+            }
+
+
+
+            if(hit.collider.TryGetComponent(out Surface surface))
+            {
+                surface.data.PlayHitVfx(hit.point, hit.normal);
+                if (surface.Penetrable)
+                {
+                    RecursiveRaycast(hit.point + dir * stepOffset, dir, depth + 1, range + hit.distance, ref endPoint, healths);
+                }
+            }
+            else
+            {
+                VfxSpawner.DefaultSurfaceData.PlayHitVfx(hit.point, hit.normal);
+            }
+
+        }
+    }
+
 
     public void StartEquip()
     {

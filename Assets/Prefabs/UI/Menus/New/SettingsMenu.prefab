@@ -1064,7 +1064,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &712675144146901473
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5033,6 +5033,7 @@ GameObject:
   - component: {fileID: 712675144690047446}
   - component: {fileID: 712675144690047445}
   - component: {fileID: 712675144690047444}
+  - component: {fileID: 8982259793440909684}
   m_Layer: 5
   m_Name: Ambience Volume
   m_TagString: Untagged
@@ -5111,6 +5112,24 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &8982259793440909684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 712675144690047449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb95e6d508600c446834a44ebefe1a45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 0}
+  inputField: {fileID: 0}
+  setting:
+    volume: 0
+    slider: {fileID: 0}
+    mixerParam: 
 --- !u!1 &712675144690822287
 GameObject:
   m_ObjectHideFlags: 0
@@ -5741,6 +5760,7 @@ GameObject:
   - component: {fileID: 712675144798859284}
   - component: {fileID: 712675144798859291}
   - component: {fileID: 712675144798859290}
+  - component: {fileID: 8474689861167756826}
   m_Layer: 5
   m_Name: Music Volume
   m_TagString: Untagged
@@ -5819,6 +5839,24 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &8474689861167756826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 712675144798859295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb95e6d508600c446834a44ebefe1a45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 0}
+  inputField: {fileID: 0}
+  setting:
+    volume: 0
+    slider: {fileID: 0}
+    mixerParam: 
 --- !u!1 &712675144803413785
 GameObject:
   m_ObjectHideFlags: 0
@@ -9725,7 +9763,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &712675145538229039
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10126,6 +10164,7 @@ GameObject:
   m_Component:
   - component: {fileID: 712675145609706279}
   - component: {fileID: 712675145609706272}
+  - component: {fileID: 5912198558209495130}
   m_Layer: 5
   m_Name: Audio Settings
   m_TagString: Untagged
@@ -10183,6 +10222,35 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &5912198558209495130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 712675145609706278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bd941d647f040649bbfb71151e8e603, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  master:
+    volume: 0
+    slider: {fileID: 6642266706948631476}
+    mixerParam: MasterVolume
+  music:
+    volume: 0
+    slider: {fileID: 8474689861167756826}
+    mixerParam: MusicVolume
+  sfx:
+    volume: 0
+    slider: {fileID: 7079241841203482361}
+    mixerParam: SfxVolume
+  ambient:
+    volume: 0
+    slider: {fileID: 8982259793440909684}
+    mixerParam: AmbientVolume
+  mixerGroup: {fileID: 24100000, guid: 721a4b919c5aedf419f892e62f50ea7e, type: 2}
 --- !u!1 &712675145624192971
 GameObject:
   m_ObjectHideFlags: 0
@@ -11789,6 +11857,7 @@ GameObject:
   - component: {fileID: 712675146012673914}
   - component: {fileID: 712675146012673913}
   - component: {fileID: 712675146012673912}
+  - component: {fileID: 7079241841203482361}
   m_Layer: 5
   m_Name: SFX Volume
   m_TagString: Untagged
@@ -11867,6 +11936,24 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &7079241841203482361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 712675146012673917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb95e6d508600c446834a44ebefe1a45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 0}
+  inputField: {fileID: 0}
+  setting:
+    volume: 0
+    slider: {fileID: 0}
+    mixerParam: 
 --- !u!1 &712675146013606443
 GameObject:
   m_ObjectHideFlags: 0
@@ -13361,7 +13448,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 4096
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -14141,7 +14228,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 4096
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -14276,7 +14363,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 4096
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -14912,6 +14999,7 @@ GameObject:
   - component: {fileID: 4613196376821870716}
   - component: {fileID: 3895408533633128378}
   - component: {fileID: 4915872239996072682}
+  - component: {fileID: 6642266706948631476}
   m_Layer: 5
   m_Name: Master Volume
   m_TagString: Untagged
@@ -14990,6 +15078,24 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &6642266706948631476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4592739728019599684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb95e6d508600c446834a44ebefe1a45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 0}
+  inputField: {fileID: 0}
+  setting:
+    volume: 0
+    slider: {fileID: 0}
+    mixerParam: 
 --- !u!1 &4743152557799461788
 GameObject:
   m_ObjectHideFlags: 0

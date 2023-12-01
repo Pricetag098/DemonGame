@@ -26,8 +26,12 @@ public class SettingsManager : MonoBehaviour
 		fileHandler = new FileDataHandler<PlayerSettings>(Application.persistentDataPath, fileName, useEncryption);
 		LoadGame();
 	}
+    private void Start()
+    {
+        //LoadGame();
+    }
 
-	[ContextMenu("Open Thing")]
+    [ContextMenu("Open Thing")]
 	void OpenThing()
 	{
 		Application.OpenURL(Application.persistentDataPath);
@@ -36,6 +40,13 @@ public class SettingsManager : MonoBehaviour
 	public void NewGame()
 	{
 		playerSettings = new PlayerSettings();
+		playerSettings.masterVolume = 100;
+		playerSettings.musicVolume = 100;
+		playerSettings.ambientVolume = 100;
+		playerSettings.sfxVolume = 100;
+		playerSettings.fov = Camera.main.fieldOfView;
+		playerSettings.holdToSlide = false;
+		playerSettings.toggleSprint = true;
 	}
 
 	public void SaveGame()
@@ -59,6 +70,7 @@ public class SettingsManager : MonoBehaviour
 
 		foreach (IDataPersistance<PlayerSettings> persistanceObject in persistanceObjects)
 		{
+			//Debug.Log(persistanceObject);
 			persistanceObject.LoadData(playerSettings);
 		}
 
@@ -71,7 +83,7 @@ public class SettingsManager : MonoBehaviour
 
 	List<IDataPersistance<PlayerSettings>> FindAllDataPersistance()
 	{
-		IEnumerable<IDataPersistance<PlayerSettings>> list = FindObjectsOfType<MonoBehaviour>().OfType<IDataPersistance<PlayerSettings>>();
+		IEnumerable<IDataPersistance<PlayerSettings>> list = FindObjectsOfType<MonoBehaviour>(true).OfType<IDataPersistance<PlayerSettings>>();
 		return new List<IDataPersistance<PlayerSettings>>(list);
 	}
 }

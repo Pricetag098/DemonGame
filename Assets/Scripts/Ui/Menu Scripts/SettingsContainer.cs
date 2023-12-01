@@ -33,6 +33,18 @@ public class SettingsContainer : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        bool first = true;
+        foreach(GameObject go in pages)
+        {
+            if(!first)
+            go.SetActive(false);
+            first = false;
+        }
+        //gameObject.SetActive(false);
+    }
+
     public void ActiveList(int value)
     {
         switch (value)

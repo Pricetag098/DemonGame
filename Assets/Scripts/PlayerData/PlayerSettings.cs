@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class PlayerSettings
 {
     //gameplay settings
@@ -12,7 +8,7 @@ public class PlayerSettings
 
     //sound settings
     public float masterVolume = 0;
-    public float sfxvolume = 0;
+    public float sfxVolume = 0;
     public float musicVolume = 0;
     public float ambientVolume = 0;
 }

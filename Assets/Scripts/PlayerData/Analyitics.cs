@@ -23,7 +23,7 @@ public class Analyitics : MonoBehaviour
 		persistanceObjects = FindAllDataPersistance();
 
 		fileHandler = new FileDataHandler<PositionData>(Application.persistentDataPath, fileName, useEncryption);
-		//LoadGame();
+		LoadGame();
 	}
 
 	public void NewGame()

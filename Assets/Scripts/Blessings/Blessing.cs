@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Blessing : ScriptableObject
 {
@@ -9,7 +10,7 @@ public class Blessing : ScriptableObject
     public bool instantEffect = true;
     public string blessingName = "";
     public string blessingFontRef = null;
-
+    public TMP_FontAsset blessingFontAsset;
 
     /// <summary>
     /// Call to apply the effect

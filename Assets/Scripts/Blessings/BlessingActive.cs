@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class BlessingActive : MonoBehaviour
 {
     BlessingStatusHandler blessingStatusHandler;
     TextMeshProUGUI[] images;
 
-    private Color alphaOn = Color.white;
-    private Color alphaOff = new Color(0, 0, 0, 0);
-    // Start is called before the first frame update
     void Awake()
     {
         blessingStatusHandler = FindObjectOfType<BlessingStatusHandler>();
@@ -26,13 +24,16 @@ public class BlessingActive : MonoBehaviour
             if (i < blessingStatusHandler.activeBlessings.Count)
             {
                 images[i].gameObject.SetActive(true);
-                images[i].color = alphaOn;
+                images[i].DOFade(1, .3f);
                 images[i].text = blessingStatusHandler.activeBlessings[i].blessingFontRef;
+                images[i].font = blessingStatusHandler.activeBlessings[i].blessingFontAsset;
             }
             else
             {
-                images[i].gameObject.SetActive(false);
-                images[i].color = alphaOff;
+                images[i].DOFade(0, .3f).OnComplete(() =>
+                {
+                    images[i].gameObject.SetActive(false);
+                });
             }
         }
     }

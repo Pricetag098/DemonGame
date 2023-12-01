@@ -40,7 +40,7 @@ public class VolumeSettings : MonoBehaviour,IDataPersistance<PlayerSettings>
     }
     public void SetVolume(Setting setting,float value)
     {
-        Debug.Log(value + setting.mixerParam);
+        //Debug.Log(value + setting.mixerParam);
         setting.volume = value;
         value = Mathf.Log10((Mathf.Max(0.001f, value) / 100)) * 20;
         mixerGroup.SetFloat(setting.mixerParam, value);

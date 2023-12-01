@@ -45,7 +45,7 @@ public class SettingsManager : MonoBehaviour
 		playerSettings.ambientVolume = 100;
 		playerSettings.sfxVolume = 100;
 		playerSettings.fov = Camera.main.fieldOfView;
-		playerSettings.holdToSlide = false;
+		playerSettings.toggleSlide = false;
 		playerSettings.toggleSprint = true;
 	}
 

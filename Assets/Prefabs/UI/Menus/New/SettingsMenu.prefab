@@ -2263,6 +2263,7 @@ GameObject:
   - component: {fileID: 712675144300383208}
   - component: {fileID: 712675144300383215}
   - component: {fileID: 712675144300383213}
+  - component: {fileID: 2021591574472701229}
   m_Layer: 5
   m_Name: FOVContainer
   m_TagString: Untagged
@@ -2367,6 +2368,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &2021591574472701229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 712675144300382227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb95e6d508600c446834a44ebefe1a45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 0}
+  inputField: {fileID: 0}
 --- !u!1 &712675144304644022
 GameObject:
   m_ObjectHideFlags: 0
@@ -6481,8 +6496,8 @@ GameObject:
   - component: {fileID: 712675144857711883}
   - component: {fileID: 712675144857711882}
   - component: {fileID: 712675144857711881}
-  - component: {fileID: 712675144857711880}
   - component: {fileID: 712675144857711887}
+  - component: {fileID: 347995903996508541}
   m_Layer: 5
   m_Name: SensativityContainer
   m_TagString: Untagged
@@ -6561,23 +6576,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &712675144857711880
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 712675144857711885}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: addc7bac777f50f45a77ba9cddce5ee5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: {fileID: 0}
-  slider: {fileID: 712675144443195416}
-  maxValue: 100
-  minValue: 0
-  startValue: 50
 --- !u!114 &712675144857711887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6604,6 +6602,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &347995903996508541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 712675144857711885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb95e6d508600c446834a44ebefe1a45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 0}
+  inputField: {fileID: 0}
 --- !u!1 &712675144874116826
 GameObject:
   m_ObjectHideFlags: 0
@@ -10934,6 +10946,7 @@ GameObject:
   - component: {fileID: 712675145744076118}
   - component: {fileID: 712675145744076112}
   - component: {fileID: 712675145744076119}
+  - component: {fileID: 5608194086216868577}
   m_Layer: 5
   m_Name: Gameplay Settings
   m_TagString: Untagged
@@ -11002,6 +11015,22 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &5608194086216868577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 712675145744076117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc2bdab7a18df7948bfcb92240832331, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toggleSlide: {fileID: 712675144926245336}
+  toggleSprint: {fileID: 712675144386597714}
+  sensitivity: {fileID: 347995903996508541}
+  fovSlider: {fileID: 2021591574472701229}
 --- !u!1 &712675145771678317
 GameObject:
   m_ObjectHideFlags: 0

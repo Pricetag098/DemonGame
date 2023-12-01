@@ -3,7 +3,7 @@ public class PlayerSettings
     //gameplay settings
     public float sensitivity = 10;
     public float fov;
-    public bool holdToSlide = false;
+    public bool toggleSlide = false;
     public bool toggleSprint = false;
 
     //sound settings

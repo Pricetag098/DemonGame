@@ -116,7 +116,7 @@ namespace Movement
 			recoilVal.y = recoil.y;
 
 		}
-		public bool holdToSlide;
+		public bool toggleSlide;
 		public bool toggleSprint;
 		// Start is called before the first frame update
 		void Start()
@@ -217,7 +217,7 @@ namespace Movement
 			cam.localPosition = Vector3.LerpUnclamped(lastCamPos, targetCamPos, camMovementEasing.Evaluate(Mathf.Clamp01(camMovementTimer/camMovementTime)));
 
 			
-			if (holdToSlide)
+			if (!toggleSlide)
 			{
 				slideInput = crouchAction.action.IsPressed();
 			}
@@ -554,14 +554,14 @@ namespace Movement
 		void IDataPersistance<PlayerSettings>.LoadData(PlayerSettings data)
 		{
 			sensitivity = data.sensitivity;
-			holdToSlide = data.holdToSlide;
+			toggleSlide = data.toggleSlide;
 			toggleSprint = data.toggleSprint;
 		}
 
 		void IDataPersistance<PlayerSettings>.SaveData(ref PlayerSettings data)
 		{
 			data.sensitivity = sensitivity;
-			data.holdToSlide = holdToSlide;
+			data.toggleSlide = toggleSlide;
 			data.toggleSprint = toggleSprint;	
 		}
 	}

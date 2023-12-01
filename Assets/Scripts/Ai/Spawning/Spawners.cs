@@ -53,7 +53,7 @@ public class Spawners : MonoBehaviour
                 case Areas.CathedralHallLower:
                     AreaDictionary.Add(a.AreaId, a);
                     break;
-                case Areas.Tomb:
+                case Areas.OutsideTomb:
                     AreaDictionary.Add(a.AreaId, a);
                     break;
             }
@@ -165,6 +165,8 @@ public enum Areas
     BishopsQuarters,
     CathedralHallUpper,
     CathedralHallLower,
-    Tomb,
-    LibaryUpper
+    OutsideTomb,
+    LibaryUpper,
+    CathedralHallBack,
+    InsideTomb
 }

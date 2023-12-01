@@ -16,8 +16,10 @@ public class AreaLoaderGameObject : MonoBehaviour
     Areas BishopsQuaters = Areas.BishopsQuarters;
     Areas CathedralHallUpper = Areas.CathedralHallUpper;
     Areas CathedralHallLower = Areas.CathedralHallLower;
-    Areas Tomb = Areas.Tomb;
+    Areas OutsideTomb = Areas.OutsideTomb;
     Areas LibraryUpper = Areas.LibaryUpper;
+    Areas CathedralHallBack = Areas.CathedralHallBack;
+    Areas InsideTomb = Areas.InsideTomb;
 
     private AreaPriority LowPriority = AreaPriority.LOW_PRIORITY;
     private AreaPriority HighPriority = AreaPriority.HIGH_PRIORITY;
@@ -43,7 +45,7 @@ public class AreaLoaderGameObject : MonoBehaviour
                 LoadAll(Garden);
                 LoadAreaObjects(Graveyard, HighPriority);
                 LoadAreaObjects(Graveyard, Environment);
-                LoadAll(Tomb);
+                LoadAll(OutsideTomb);
 
                 // Areas To Unload
                 UnloadAreaObjects(Graveyard, LowPriority);
@@ -69,7 +71,7 @@ public class AreaLoaderGameObject : MonoBehaviour
                 UnloadAreaObjects(LibraryLower, Environment);
                 UnloadAll(LibraryUpper);
                 UnloadAreaObjects(LibraryUpper, Environment);
-                UnloadAll(Tomb);
+                UnloadAll(OutsideTomb);
                 break;
             case Areas.Courtyard:
                 // Areas To Load
@@ -91,7 +93,7 @@ public class AreaLoaderGameObject : MonoBehaviour
                 LoadAll(LibraryLower);
                 LoadAll(LibraryUpper);
                 LoadAll(CourtYard);
-                LoadAll(Tomb);
+                LoadAll(OutsideTomb);
                 LoadAreaObjects(MainEntrance, HighPriority);
                 LoadAreaObjects(MainEntrance, Environment);
 
@@ -102,7 +104,7 @@ public class AreaLoaderGameObject : MonoBehaviour
                 UnloadAreaObjects(Garden, Environment);
                 UnloadAreaObjects(CathedralHallLower, LowPriority);
                 break;
-            case Areas.Tomb:
+            case Areas.OutsideTomb:
                 // Areas To Load
                 LoadAll(Graveyard);
                 LoadAll(MainEntrance);
@@ -132,7 +134,7 @@ public class AreaLoaderGameObject : MonoBehaviour
                 UnloadAll(Garden);
                 UnloadAreaObjects(Garden, Environment);
                 UnloadAreaObjects(CathedralHallLower, LowPriority);
-                UnloadAll(Tomb);
+                UnloadAll(OutsideTomb);
                 UnloadAll(CourtYard);
                 break;
         }
@@ -147,7 +149,9 @@ public class AreaLoaderGameObject : MonoBehaviour
         LoadAll(LibraryLower);
         LoadAll(CathedralHallLower);
         LoadAll(LibraryUpper);
-        LoadAll(Tomb);
+        LoadAll(OutsideTomb);
+        LoadAll(CathedralHallBack);
+        LoadAll(InsideTomb);
     }
 
     #region DICTIONARY CREATION
@@ -162,8 +166,10 @@ public class AreaLoaderGameObject : MonoBehaviour
         AddArea(Areas.BishopsQuarters);
         AddArea(Areas.CathedralHallUpper);
         AddArea(Areas.CathedralHallLower);
-        AddArea(Areas.Tomb);
+        AddArea(Areas.OutsideTomb);
         AddArea(Areas.LibaryUpper);
+        AddArea(Areas.CathedralHallBack);
+        AddArea(Areas.InsideTomb);
     }
 
     private void AddArea(Areas area)

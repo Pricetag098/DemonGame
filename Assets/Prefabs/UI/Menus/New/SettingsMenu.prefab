@@ -3016,7 +3016,6 @@ GameObject:
   - component: {fileID: 712675144399884504}
   - component: {fileID: 712675144399884511}
   - component: {fileID: 712675144399884510}
-  - component: {fileID: 712675144399884509}
   m_Layer: 5
   m_Name: Brightness Border
   m_TagString: Untagged
@@ -3095,23 +3094,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &712675144399884509
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 712675144399884483}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: addc7bac777f50f45a77ba9cddce5ee5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: {fileID: 712675145401687301}
-  slider: {fileID: 712675144456917518}
-  maxValue: 100
-  minValue: 0
-  startValue: 50
 --- !u!1 &712675144401717635
 GameObject:
   m_ObjectHideFlags: 0
@@ -3402,10 +3384,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 7796807733236573807}
   m_HandleRect: {fileID: 712675144488432472}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 100
-  m_WholeNumbers: 1
-  m_Value: 50
+  m_MinValue: 0.01
+  m_MaxValue: 50
+  m_WholeNumbers: 0
+  m_Value: 10
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -10707,10 +10689,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 694992424853073909}
   m_HandleRect: {fileID: 712675145635272622}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 100
-  m_WholeNumbers: 1
-  m_Value: 50
+  m_MinValue: 60
+  m_MaxValue: 120
+  m_WholeNumbers: 0
+  m_Value: 90
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -13066,7 +13048,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.5
+  m_FillAmount: 0.19983996
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0

@@ -40,13 +40,7 @@ public class SettingsManager : MonoBehaviour
 	public void NewGame()
 	{
 		playerSettings = new PlayerSettings();
-		playerSettings.masterVolume = 100;
-		playerSettings.musicVolume = 100;
-		playerSettings.ambientVolume = 100;
-		playerSettings.sfxVolume = 100;
-		playerSettings.fov = Camera.main.fieldOfView;
-		playerSettings.toggleSlide = false;
-		playerSettings.toggleSprint = true;
+		
 	}
 
 	public void SaveGame()

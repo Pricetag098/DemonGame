@@ -1,6 +1,9 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
+using static UnityEngine.Rendering.DebugUI;
+using static VolumeSettings;
 
 
 public class VolumeSettings : MonoBehaviour,IDataPersistance<PlayerSettings>
@@ -18,25 +21,32 @@ public class VolumeSettings : MonoBehaviour,IDataPersistance<PlayerSettings>
     public class Setting
     {
         public float volume;
-        public VolumeSlider slider;
+        public TextSlider slider;
         public string mixerParam;
+
+        [HideInInspector] public VolumeSettings volumeSettings;
+        public void SetValue(float value)
+        {
+            volumeSettings.SetVolume(this, value);
+        }
     }
     void SetupVolume(Setting setting,float value)
     {
-        Debug.Log(value);
-        setting.slider.setting = setting;
-        setting.slider.SetValue(value);
-        SetVolume(setting,value);
+        
+        setting.volumeSettings = this;
+        setting.slider.SliderValueChanged += setting.SetValue;
+        
+        SetVolume(setting, value);
     }
     public void SetVolume(Setting setting,float value)
     {
+        //Debug.Log(value + setting.mixerParam);
         setting.volume = value;
         value = Mathf.Log10((Mathf.Max(0.001f, value) / 100)) * 20;
         mixerGroup.SetFloat(setting.mixerParam, value);
     }
     public void LoadData(PlayerSettings data)
     {
-        Debug.Log("Test");
         SetupVolume(master, data.masterVolume);
         SetupVolume(music, data.musicVolume);
         SetupVolume(sfx, data.sfxVolume);
@@ -44,6 +54,8 @@ public class VolumeSettings : MonoBehaviour,IDataPersistance<PlayerSettings>
 
     }
 
+
+  
     
 
     
@@ -56,12 +68,18 @@ public class VolumeSettings : MonoBehaviour,IDataPersistance<PlayerSettings>
         data.sfxVolume = sfx.volume;
         data.musicVolume = music.volume;
         data.ambientVolume = ambient.volume;
+
+        
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        master.slider.SetValue(master.volume);
+        music.slider.SetValue(music.volume);
+        sfx.slider.SetValue(sfx.volume);
+        ambient.slider.SetValue(ambient.volume);
+
     }
 
     // Update is called once per frame

@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 444802627}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.12, z: -0.33}
+  m_LocalPosition: {x: 0, y: -0.095, z: -0.33}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -42,12 +42,12 @@ Light:
   m_GameObject: {fileID: 444802627}
   m_Enabled: 1
   serializedVersion: 10
-  m_Type: 2
+  m_Type: 0
   m_Shape: 0
   m_Color: {r: 0.46226418, g: 0.24639553, b: 0.24639553, a: 1}
-  m_Intensity: 15.915494
+  m_Intensity: 3.7957563
   m_Range: 3
-  m_SpotAngle: 30
+  m_SpotAngle: 109
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
@@ -107,10 +107,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68c43fe1f2a47cfa234b5eeaa98012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Intensity: 200
+  m_Intensity: 10
   m_EnableSpotReflector: 1
   m_LuxAtDistance: 1
-  m_InnerSpotPercent: 0
+  m_InnerSpotPercent: 68
   m_SpotIESCutoffPercent: 100
   m_LightDimmer: 1
   m_VolumetricDimmer: 1
@@ -7267,6 +7267,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bodyPart: 0
   health: {fileID: 8339324333281444828}
+  rigidBody:
+    enabled: 0
+    val: {fileID: 0}
 --- !u!1 &3899720133027113965
 GameObject:
   m_ObjectHideFlags: 0
@@ -7738,6 +7741,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bodyPart: 0
   health: {fileID: 8339324333281444828}
+  rigidBody:
+    enabled: 0
+    val: {fileID: 0}
 --- !u!1 &3899720134046173351
 GameObject:
   m_ObjectHideFlags: 0

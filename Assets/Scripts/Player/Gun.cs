@@ -399,6 +399,7 @@ public class Gun : MonoBehaviour
                             hitBox.rigidBody.Value.AddForceAtPosition(dir * hitForce, hit.point);
                     }
                     holster.OnHit(damage, hitBox);
+                    holster.stats.GainPoints(GetPoints(hitBox.bodyPart));
                 }
             }
 

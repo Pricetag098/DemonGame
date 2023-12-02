@@ -35,7 +35,7 @@ public class SpawnerManager : MonoBehaviour
     public AnimationCurve spawnsEachTick;
 
     [Header("Display Stats")]
-    [Range(1, 10000)] public int currentRound;
+    [Range(1, 10000)] public static int currentRound;
     public int maxDemonsToSpawn;
     public int currentDemons;
     public bool EndOfRound;
@@ -69,6 +69,8 @@ public class SpawnerManager : MonoBehaviour
         //{
         //    Debug.Log((int)demonsToSpawn.Evaluate(i) + " Round " + i);
         //}
+
+        currentRound = GamePrefs.StartRound;
     }
     private void Start()
     {
@@ -247,5 +249,10 @@ public class SpawnerManager : MonoBehaviour
     public int DemonSpawnsEachTick
     {
         get { return HelperFuntions.EvaluateAnimationCuveInt(spawnsEachTick, currentRound); }
+    }
+
+    public static void SetRound(int round)
+    {
+        currentRound = round;
     }
 }

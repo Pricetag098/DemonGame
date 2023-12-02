@@ -72,7 +72,7 @@ public class ObjectPooler : MonoBehaviour
 	{
         if(activeObjects.Count > 0)
 		{
-            Despawn(activeObjects[0]);
+            activeObjects[0].Despawn();
 		}
 	}
 

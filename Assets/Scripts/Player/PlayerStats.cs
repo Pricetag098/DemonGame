@@ -14,8 +14,6 @@ public class PlayerStats : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
 	public float pointGainMulti = 1;
     public float abilityDamageMulti = 1;
 
-
-
 	public int points = 0;
     public int pointsSpent;
     public int pointsGained;
@@ -32,6 +30,8 @@ public class PlayerStats : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
 	{
         armMeshCombiner = FindObjectOfType<ArmMeshCombiner>();
 		gainUi = FindObjectOfType<PointGainUi>();
+
+        points = GamePrefs.StartPoints;
         gainUi.displayPoints = points;
 	}
 

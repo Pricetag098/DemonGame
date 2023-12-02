@@ -133,7 +133,7 @@ public class FlyingDemon : DemonFramework
 
         PlayAnimation("Spawn");
 
-        UpdateHealthToCurrentRound(_spawnerManager.currentRound);
+        UpdateHealthToCurrentRound(SpawnerManager.currentRound);
 
         SetHealth(_health.maxHealth);
 

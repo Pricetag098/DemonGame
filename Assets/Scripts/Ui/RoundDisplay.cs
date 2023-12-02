@@ -37,7 +37,7 @@ namespace DemonInfo
             roundText.DOColor(Color.white, colourChangeDuration).OnComplete(() => 
             {
                 ColourChangeRed();
-                roundText.text = manager.currentRound.ToString();
+                roundText.text = SpawnerManager.currentRound.ToString();
             });
         }
 

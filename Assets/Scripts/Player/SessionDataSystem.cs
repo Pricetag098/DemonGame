@@ -20,7 +20,7 @@ public class SessionDataSystem : MonoBehaviour
             Debug.LogError("cannot have two eventsystems at once");
         }
         instance = this;
-        fileName = System.Guid.NewGuid().ToString() + ".dat";
+        
         persistanceObjects = FindAllDataPersistance();
 
         fileHandler = new FileDataHandler<SessionData>(Application.persistentDataPath, fileName, useEncryption,false);

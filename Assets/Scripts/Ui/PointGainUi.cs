@@ -38,14 +38,21 @@ public class PointGainUi : MonoBehaviour
         TextMeshProUGUI tmp = go.GetComponent<TextMeshProUGUI>();
         tmp.text = (points < 0 ? "-" : "+") + Mathf.Abs(points).ToString();
         tmp.color = points < 0 ? lossColour : gainColour;
-		Sequence s = DOTween.Sequence(go);
+        PointGainObject point = go.GetComponent<PointGainObject>();
+        
+		Sequence s = DOTween.Sequence(go.GetComponent<PooledObject>());
         s.Append(t.DOScale(1,scaleTime));
         s.Append(t.DOAnchorPos(targetPoint.anchoredPosition, moveTime).SetEase(ease));
         s.AppendCallback(() => {
+            ChangePoints(points);
             go.GetComponent<PooledObject>().Despawn();
-            displayPoints += points;
-			pointText.text = displayPoints.ToString();
-		});
+
+        });
+    }
+    public void ChangePoints(int points)
+    {
+        displayPoints += points;
+        pointText.text = displayPoints.ToString();
     }
 
 	

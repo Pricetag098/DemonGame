@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1515276366518575206}
-  - component: {fileID: 394578379833541064}
+  - component: {fileID: 652082123117208116}
   m_Layer: 0
   m_Name: BrokenPillarMid
   m_TagString: Untagged
@@ -33,8 +33,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &394578379833541064
-BoxCollider:
+--- !u!136 &652082123117208116
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -43,9 +43,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.8207495, y: 3.676417, z: 0.820459}
-  m_Center: {x: 0, y: 0.0000076293945, z: 0}
+  m_Radius: 0.6
+  m_Height: 3.8
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &2016513320079739950
 PrefabInstance:
   m_ObjectHideFlags: 0

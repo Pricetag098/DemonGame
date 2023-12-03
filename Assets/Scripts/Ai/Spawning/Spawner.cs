@@ -103,6 +103,9 @@ public class Spawner : MonoBehaviour
 
     private void OnSpawn()
     {
-        spawnRequest.Play(position, up);
+        if(spawnRequest != null)
+        {
+            spawnRequest.Play(position, up);
+        }
     }
 }

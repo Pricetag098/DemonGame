@@ -29,17 +29,12 @@ public class GameplaySettings : MonoBehaviour
     }
     void SetFov(float fov)
     {
-        fovSpeedChanger.fov = fov;
+        fovSpeedChanger.fov = Mathf.Clamp(fov,60,120);
     }
 
     void SetSensitivity(float sensitivity)
     {
-        playerMovement.sensitivity = sensitivity;
+        playerMovement.sensitivity = Mathf.Max(0.001f, sensitivity);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

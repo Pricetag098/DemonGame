@@ -41,24 +41,31 @@ public class RitualSpawner : MonoBehaviour
     private Health playerHealth;
     private Timer ritualTimer;
 
-    private float timer;
+    //private float timer;
 
     private void Awake()
     {
         manager = FindObjectOfType<SpawnerManager>();
         spawnPoints = HelperFuntions.GetAllChildrenSpawnersFromParent(SpawnPoint);
         blockers = HelperFuntions.GetAllChildrenTransformsFromParent(BlockerObjects);
+
+        ritualComplete = GamePrefs.RitualsComplete;
     }
 
     private void Start()
     {
+        if(ritualComplete == true)
+        {
+            OnComplete(manager);
+        }
+
         BlockerObjects.gameObject.SetActive(false);
         demonSpawner = manager._DemonSpawner;
     }
 
     private void Update()
     {
-        if(RitualActive && ritual)
+        if(RitualActive == true && ritual == true)
         {
             if(playerHealth.dead == true)
             {
@@ -95,11 +102,11 @@ public class RitualSpawner : MonoBehaviour
 
     public void Spawning(DemonSpawner spawner, SpawnerManager sm)
     {
-        if(ritualTimer.TimeGreaterThan && RitualActive == true)
+        if(ritualTimer.TimeGreaterThan && RitualActive == true && ritualComplete == false)
         {
             if (HelperFuntions.IntGreaterThanOrEqual(ritual.MaxDemonsAtOnce, currentDemons))
             {
-                timer = 0;
+                //timer = 0;
 
                 if (demonsLeft <= 0 && currentDemons <= 0 && demonsToSpawn <= 0)
                 {

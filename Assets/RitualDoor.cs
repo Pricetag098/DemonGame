@@ -11,15 +11,12 @@ public class RitualDoor : MonoBehaviour
 
     private int ritualsCompleted;
 
-    private void OnTriggerEnter(Collider other)
+    public void AddRitual()
     {
-        if(other.gameObject.tag == "RitualBall")
+        ritualsCompleted++;
+        if (ritualsCompleted == 3)
         {
-            ritualsCompleted++;
-            if(ritualsCompleted == 3)
-            {
-                Open();
-            }
+            Open();
         }
     }
 

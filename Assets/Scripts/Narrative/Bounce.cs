@@ -11,8 +11,10 @@ public class Bounce : MonoBehaviour
     private float yPos;
     private float zPos;
 
-    private Vector3 targetPos;
-    private float speed;
+    [SerializeField] private Vector3 targetPos;
+    [SerializeField] private float speed;
+    [SerializeField] public float maxSpeed;
+    [SerializeField] private bool speedCheck;
 
     private AudioSource audioSource;
     [SerializeField] private List<AudioClip> clips;
@@ -32,7 +34,8 @@ public class Bounce : MonoBehaviour
         parent = transform.parent.gameObject;
         escaped = false;
         check= false;
-        SetTargetPos();
+        speedCheck = false;
+        targetPos = new Vector3(3, 4, 5);
     }
 
     // Update is called once per frame
@@ -47,7 +50,16 @@ public class Bounce : MonoBehaviour
                     initialDemonCount = ritualSpawner.demonsLeft;
                     check = true;
                 }
-                speed = (initialDemonCount - ritualSpawner.demonsLeft) / (float)initialDemonCount;
+                speed = maxSpeed / ((initialDemonCount - ritualSpawner.demonsLeft) / (float)initialDemonCount);
+/*                if (speed > 1000f)
+                {
+                    speed = 999;
+                }*/
+                if (!speedCheck && speed < 999)
+                {
+                    SetTargetPos();
+                    speedCheck = true;
+                }
             }
             //transform.DOLocalMove(targetPos, speed).SetSpeedBased(true).SetEase(Ease.OutQuart);
             if (transform.localPosition == targetPos)
@@ -55,12 +67,13 @@ public class Bounce : MonoBehaviour
                 SetTargetPos();
             }
         }
-        else if (escaped && escInt < escPos.Count)
+        else if (escaped && escInt < escPos.Count - 1)
         {
             //transform.DOMove(escPos[escInt].position, speed).SetSpeedBased(true).SetEase(Ease.OutQuart);
             if (transform.position == escPos[escInt].position)
             {
                 escInt++;
+                UpdateEscTween();
             }
         }
         if (escInt >= escPos.Count)
@@ -85,14 +98,20 @@ public class Bounce : MonoBehaviour
         audioSource.clip = clips[Random.Range(0, clips.Count)];
         audioSource.Play();
         targetPos = new Vector3(xPos, yPos, zPos);
+        transform.DOLocalMove(targetPos, speed).SetEase(Ease.Linear);
+    }
+    void UpdateEscTween()
+    {
+        transform.DOMove(escPos[escInt].position, 10f).SetEase(Ease.Linear);
     }
     public void Escape()
     {
         escaped = true;
+        UpdateEscTween();
         parent.GetComponent<MeshRenderer>().enabled = false;
     }
     public void Door()
     {
-        Destroy(this.gameObject);
+        //Destroy(this.gameObject);
     }
 }

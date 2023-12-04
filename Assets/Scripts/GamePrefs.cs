@@ -1,13 +1,13 @@
 public static class GamePrefs
 {
-    public static int StartRound = 1;
+    public static int StartRound = 1; // set this back to 1
 
     public static void SetStartRound(int round)
     {
         StartRound = round;
     }
 
-    public static int StartPoints = 500;
+    public static int StartPoints = 500; // set this back to 500
 
     public static void SetStartMoney(int amount)
     {

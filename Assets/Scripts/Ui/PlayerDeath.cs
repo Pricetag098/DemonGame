@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.Events;
+using Movement;
 
 public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersistance<SessionData>
 {
@@ -28,6 +29,8 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
     int deaths;
     [SerializeField] string onDeathText, onRegaintext, onLossText;
     ResurrectionBuy resurrectionBuy;
+    EndGameTweening endGameTweening;
+    PlayerInputt playerInputt;
     // Start is called before the first frame update
     void Awake()
     {
@@ -39,6 +42,8 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
         spawnerManager = FindObjectOfType<SpawnerManager>();
         text = canvasGroup.GetComponentInChildren<TextMeshProUGUI>();
         resurrectionBuy = FindObjectOfType<ResurrectionBuy>();
+        endGameTweening = FindObjectOfType<EndGameTweening>();
+        playerInputt = FindObjectOfType<PlayerInputt>();
     }
 
     PlayerBodyInteract body;
@@ -79,7 +84,8 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
         }
         else
 		{
-            SceneManager.LoadScene(0);
+            endGameTweening.TweenUI();
+            playerInputt.enabled = false;
 		}
         
 	}
@@ -96,6 +102,7 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
 
     IEnumerator DoReturnToBody(bool outOfTime)
     {
+        playerInputt.enabled = false;
         onRespawnEvents.Invoke();
         Time.timeScale = 0;
         while (respawnTimer < fadeTime)
@@ -108,7 +115,7 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
 
         if (outOfTime) transform.position = respawnPoint.position;
         else transform.position = body.body.transform.position;
-
+        playerInputt.enabled = true;
         SetWorldState(true);
         spawnerManager.RunDefaultSpawning = true;
         transform.rotation = body.body.transform.rotation;
@@ -123,6 +130,7 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
 
     IEnumerator DoDie()
 	{
+        playerInputt.enabled = false;
         Time.timeScale = 0;
         while (respawnTimer < fadeTime)
 		{
@@ -140,6 +148,7 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
         body.body.transform.position = transform.position;
         body.body.transform.rotation = transform.rotation;
         body.Show();
+        playerInputt.enabled = true;
         transform.position = respawnPoint.position;
         while (respawnTimer >=0)
         {

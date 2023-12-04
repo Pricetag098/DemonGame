@@ -78,7 +78,7 @@ public class Bounce : MonoBehaviour
                 UpdateEscTween();
             }
         }
-        if (escInt >= escPos.Count)
+        if (escInt >= escPos.Count - 1)
         {
             Door();
         }

@@ -11,10 +11,11 @@ public class Bounce : MonoBehaviour
     private float yPos;
     private float zPos;
 
-    [SerializeField] private Vector3 targetPos;
-    [SerializeField] private float speed;
-    [SerializeField] public float maxSpeed;
-    [SerializeField] private bool speedCheck;
+    private Vector3 targetPos;
+    private float speed;
+    public float maxSpeed;
+    private bool speedCheck;
+    public Transform doorParent;
 
     private AudioSource audioSource;
     [SerializeField] private List<AudioClip> clips;
@@ -25,6 +26,7 @@ public class Bounce : MonoBehaviour
     private int escInt;
 
     [SerializeField] private RitualSpawner ritualSpawner;
+    [SerializeField] private RitualDoor ritualDoor;
     public int initialDemonCount;
     private bool check;
     // Start is called before the first frame update
@@ -109,9 +111,11 @@ public class Bounce : MonoBehaviour
         escaped = true;
         UpdateEscTween();
         parent.GetComponent<MeshRenderer>().enabled = false;
+        transform.parent = doorParent;
     }
     public void Door()
     {
+        ritualDoor.AddRitual();
         //Destroy(this.gameObject);
     }
 }

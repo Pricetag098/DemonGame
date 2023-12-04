@@ -9,6 +9,17 @@ public class RitualDoor : MonoBehaviour
     [SerializeField] GameObject wall;
     [SerializeField] ArcaneLock arcaneLock;
 
+    private int ritualsCompleted;
+
+    public void AddRitual()
+    {
+        ritualsCompleted++;
+        if (ritualsCompleted == 3)
+        {
+            Open();
+        }
+    }
+
     [ContextMenu("Open")]
     public void Open()
     {

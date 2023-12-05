@@ -48,6 +48,7 @@ public class AreaLoaderGameObject : MonoBehaviour
                 LoadAll(OutsideTomb);
                 LoadAreaObjects(InsideTomb, Environment);
                 LoadAreaObjects(CathedralHallLower, HighPriority);
+                LoadAreaObjects(CathedralHallLower, Environment);
 
                 // Areas To Unload
                 UnloadAreaObjects(Graveyard, LowPriority);
@@ -111,6 +112,7 @@ public class AreaLoaderGameObject : MonoBehaviour
                 LoadAreaObjects(MainEntrance, Environment);
                 LoadAreaObjects(InsideTomb, Environment);
                 LoadAreaObjects(CathedralHallLower, HighPriority);
+                LoadAreaObjects(CathedralHallLower, Environment);
 
                 // Areas To Unload
                 UnloadAreaObjects(MainEntrance, LowPriority);

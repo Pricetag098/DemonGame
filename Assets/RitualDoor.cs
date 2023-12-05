@@ -8,6 +8,7 @@ public class RitualDoor : MonoBehaviour
     [SerializeField] Animator doorAnimator;
     [SerializeField] GameObject wall;
     [SerializeField] ArcaneLock arcaneLock;
+    [SerializeField] GameObject interactable;
 
     private int ritualsCompleted;
 
@@ -16,15 +17,21 @@ public class RitualDoor : MonoBehaviour
         ritualsCompleted++;
         if (ritualsCompleted == 3)
         {
-            Open();
+            Unlock();
         }
+    }
+
+    [ContextMenu("Unlock")]
+    void Unlock()
+    {
+        wall.SetActive(false);
+        interactable.SetActive(true);
     }
 
     [ContextMenu("Open")]
     public void Open()
     {
         book.SetActive(true);
-        wall.SetActive(false);
         doorAnimator.SetTrigger("Open");
         arcaneLock.DisolveLock();
     }

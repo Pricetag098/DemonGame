@@ -354,12 +354,12 @@ public class Gun : MonoBehaviour
         timeSinceLastShot = 0;
         shootSound.Play();
         holster.animator.SetTrigger(shootKey);
-        holster.animator.SetFloat(shootspeedKey,1/ fireTimer);
+        holster.animator.SetFloat(shootspeedKey,1/  (fireSelect == FireTypes.burst? burstTimer : fireTimer));
         if (animator.Enabled)
         {
             animator.Value.SetInteger(fireIndexKey,ammoLeft % fireAnimations);
             animator.Value.SetTrigger(shootKey);
-            animator.Value.SetFloat(shootspeedKey,1/ fireTimer);
+            animator.Value.SetFloat(shootspeedKey,1/ (fireSelect == FireTypes.burst ? burstTimer : fireTimer));
         }
             
         if (gunfire.Enabled)

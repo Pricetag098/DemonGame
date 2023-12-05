@@ -20,7 +20,8 @@ public class OptionSelector : MonoBehaviour
         index += value;
 
         if (index > roundSettings.Count - 1) { index = 0; }
-        if (index < 0) { index = roundSettings.Count - 1; }
+        else if (index < 0) { index = roundSettings.Count - 1; }
+
         text.text = roundSettings[index].round.ToString();
 
         GamePrefs.SetStartRound(roundSettings[index].round);

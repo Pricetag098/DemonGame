@@ -45,14 +45,14 @@ public class FadeInTween : MonoBehaviour
         if (moveIn)
         {
             rectTransform.transform.localPosition = startPosition;
-            rectTransform.DOAnchorPos(endPosition, moveDuration, false).SetEase(easeType).SetAutoKill(false);
+            rectTransform.DOAnchorPos(endPosition, moveDuration, false).SetEase(easeType);
         }
 
         if (single) { image.DOFade(1, fadeDuration); }
         else
         {
             canvasGroup.alpha = 0f;
-            canvasGroup.DOFade(1, fadeDuration).SetAutoKill(false);
+            canvasGroup.DOFade(1, fadeDuration).OnComplete(() => { canvasGroup.interactable = true; canvasGroup.blocksRaycasts = true; });
         }
     }
 }

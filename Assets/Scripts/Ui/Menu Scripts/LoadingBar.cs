@@ -87,9 +87,10 @@ public class LoadingBar : MonoBehaviour
 
     public void StartLoading()
     {
+        isLoading = true;
         operation = SceneManager.LoadSceneAsync(1);
         operation.allowSceneActivation = false;
-        isLoading = true;
+        
     }
 
     public void Loading()

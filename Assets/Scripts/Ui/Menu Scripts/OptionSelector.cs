@@ -11,29 +11,41 @@ public class OptionSelector : MonoBehaviour
 
     public TextMeshProUGUI text;
 
-    public List<string> options= new List<string>();
+    //public List<int> options= new List<int>();
 
-    void Update()
-    {
-        if (index > options.Count - 1) { index = 0; }
-        if (index < 0) { index = options.Count - 1; }
-        text.text = options[index];
-    }
+    [SerializeField] private List<RoundPoints> roundSettings = new List<RoundPoints>();
 
     public void ButtonClick(int value)
     {
         index += value;
+
+        if (index > roundSettings.Count - 1) { index = 0; }
+        if (index < 0) { index = roundSettings.Count - 1; }
+        text.text = roundSettings[index].round.ToString();
+
+        GamePrefs.SetStartRound(roundSettings[index].round);
+        GamePrefs.SetStartMoney(roundSettings[index].points);
     }
 
     public void CompleteAllRituals(bool toggle)
     {
-        Debug.Log("All rituals complete at start"  + toggle);
-        
+        //Debug.Log("All rituals complete at start"  + toggle);
+
+        GamePrefs.SetRitualsComplete(toggle);
     }
 
     public void UnlockAllAbilities(bool toggle)
     {
-        Debug.Log("All Abilities unlocked at start" + toggle);
+        //Debug.Log("All Abilities unlocked at start" + toggle);
+
+        GamePrefs.SetAbilitiesUnlocked(toggle);
+    }
+
+    [System.Serializable]
+    public class RoundPoints
+    {
+        public int round;
+        public int points;
     }
 
 }

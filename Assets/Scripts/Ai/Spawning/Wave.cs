@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DemonInfo;
+//using Palmmedia.ReportGenerator.Core.Logging;
+using static Unity.Collections.Unicode;
 
 /// <summary>
 /// percentage based spawning
@@ -31,4 +33,53 @@ public class Wave : ScriptableObject
     [Header("Extra Chaos Chance")]
     [Range(0,100)] public float ChanceToSpawnChaos;
     [Range(0,10)] public int MaxChoasToSpawn;
+
+    public static Queue<DemonType> GetWave(int DemonsToAdd, Wave wave)
+    {
+        List<DemonType> demons = new List<DemonType>();
+
+        int _base = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.BasePercentage, DemonsToAdd));
+        int _littleGuy = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.LittleGuyPercentage, DemonsToAdd));
+
+        int jogger = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.JoggerPercent, _base));
+        int runner = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.RunnerPercent, _base));
+
+        jogger += runner;
+
+        int counter = DemonsToAdd;
+
+        for (int i = 0; i < _base; i++)
+        {
+            DemonType tempBase = new DemonType();
+            tempBase.SpawnType = wave.Base.SpawnType;
+            tempBase.Id = wave.Base.Id;
+            tempBase.SpawnerType = wave.Base.SpawnerType;
+
+            if (i < runner) { tempBase.SpeedType = SpeedType.Runner; }
+            else if (i < jogger) { tempBase.SpeedType = SpeedType.Jogger; }
+            else { tempBase.SpeedType = SpeedType.Walker; }
+
+            demons.Add(tempBase);
+        }
+
+        counter -= _base;
+
+        AddTypeToList(wave.LittleGuy, _littleGuy, demons);
+
+        counter -= _littleGuy;
+
+        AddTypeToList(wave.Base, counter, demons);
+
+        demons = HelperFuntions.ShuffleList(demons);
+
+        return HelperFuntions.AddListToQueue(demons);
+    }
+
+    public static void AddTypeToList<T>(T type, int amount, List<T> list)
+    {
+        for (int i = 0; i < amount; i++)
+        {
+            list.Add(type);
+        }
+    }
 }

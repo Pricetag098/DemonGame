@@ -35,14 +35,14 @@ public class EventDemonSpawner : MonoBehaviour
     {
         get
         {
-            if (DemonWave != null)
+            if (demonQueue != null)
             {
                 Debug.Log("Wasnt null return value");
-                return DemonWave;
+                return demonQueue;
             }
 
             Debug.Log("Was null returning wave");
-            return DemonWave = Wave.GetWave(demonsToSpawn, wave);
+            return demonQueue = Wave.GetWave(demonsToSpawn, wave);
         }
 
         set

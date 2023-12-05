@@ -53,7 +53,11 @@ public class EndGameScreen : MonoBehaviour
     public void Open()
     {
         Time.timeScale = 0;
-        roundText.text = "you survived " + SpawnerManager.currentRound + " rounds";
+
+
+
+        // Chag
+        roundText.text = "you survived " + (SpawnerManager.currentRound -1) + " rounds";
         pointsText.text = stats.pointsGained.ToString();
         killsText.text = stats.kills.ToString();
         headShotsText.text = stats.headshotKills.ToString();

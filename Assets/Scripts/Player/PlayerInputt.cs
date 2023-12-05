@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 namespace Movement
 {
-	public class PlayerInputt : MonoBehaviour, IDataPersistance<PlayerSettings>
+	public class PlayerInputt : MonoBehaviour
 	{
 		[Header("Set this stuff pls")]
 		public Transform orientation;
@@ -551,19 +551,7 @@ namespace Movement
 			Gizmos.DrawLine(orientation.position,orientation.position + -orientation.up * surfaceCheckRange);
 		}
 
-		void IDataPersistance<PlayerSettings>.LoadData(PlayerSettings data)
-		{
-			sensitivity = data.sensitivity;
-			toggleSlide = data.toggleSlide;
-			toggleSprint = data.toggleSprint;
-		}
-
-		void IDataPersistance<PlayerSettings>.SaveData(ref PlayerSettings data)
-		{
-			data.sensitivity = sensitivity;
-			data.toggleSlide = toggleSlide;
-			data.toggleSprint = toggleSprint;	
-		}
+		
 	}
 }
 

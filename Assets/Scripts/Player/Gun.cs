@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using UnityEngine.VFX;
 
 public class Gun : MonoBehaviour
 {
@@ -93,7 +93,7 @@ public class Gun : MonoBehaviour
     [Header("Assign These")]
     public Transform origin;
     public SoundPlayer shootSound, reloadSound, emptySound;
-    public Optional<ParticleSystem> gunfire;
+    public Optional<VisualEffect> gunfire;
     public LayerMask hitMask = int.MaxValue;
     
     

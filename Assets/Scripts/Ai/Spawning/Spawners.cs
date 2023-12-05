@@ -56,6 +56,12 @@ public class Spawners : MonoBehaviour
                 case Areas.OutsideTomb:
                     AreaDictionary.Add(a.AreaId, a);
                     break;
+                case Areas.InsideTomb:
+                    AreaDictionary.Add(a.AreaId, a);
+                    break;
+                case Areas.CathedralHallBack:
+                    AreaDictionary.Add(a.AreaId, a);
+                    break;
             }
         }
     }

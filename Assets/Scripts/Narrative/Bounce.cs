@@ -23,12 +23,14 @@ public class Bounce : MonoBehaviour
     private bool escaped;
     [SerializeField] private List<Transform> escPos;
     private GameObject parent;
-    private int escInt;
+    [SerializeField] private int escInt;
 
     [SerializeField] private RitualSpawner ritualSpawner;
     [SerializeField] private RitualDoor ritualDoor;
     public int initialDemonCount;
     private bool check;
+    private bool finalCheck;
+    [SerializeField] private int oldInt;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,6 +39,7 @@ public class Bounce : MonoBehaviour
         escaped = false;
         check= false;
         speedCheck = false;
+        finalCheck = false;
         targetPos = new Vector3(3, 4, 5);
     }
 
@@ -69,18 +72,22 @@ public class Bounce : MonoBehaviour
                 SetTargetPos();
             }
         }
-        else if (escaped && escInt < escPos.Count - 1)
+        else if (escaped)
         {
             //transform.DOMove(escPos[escInt].position, speed).SetSpeedBased(true).SetEase(Ease.OutQuart);
-            if (transform.position == escPos[escInt].position)
+            if (transform.position == escPos[oldInt].position)
             {
-                escInt++;
-                UpdateEscTween();
+                if (oldInt >= escPos.Count - 1 && finalCheck == false)
+                {
+                    Door();
+                    return;
+                }
+                else
+                {
+                    UpdateEscTween();
+                    return;
+                }
             }
-        }
-        if (escInt >= escPos.Count - 1)
-        {
-            Door();
         }
 
     }
@@ -104,18 +111,26 @@ public class Bounce : MonoBehaviour
     }
     void UpdateEscTween()
     {
-        transform.DOMove(escPos[escInt].position, 10f).SetEase(Ease.Linear);
+        transform.DOMove(escPos[escInt].position, 5f).SetEase(Ease.Linear);
+        if(escInt != 0)
+        {
+            oldInt++;
+        }
+        escInt++;
     }
     public void Escape()
     {
         escaped = true;
         UpdateEscTween();
         parent.GetComponent<MeshRenderer>().enabled = false;
-        transform.parent = doorParent;
     }
     public void Door()
     {
+        Debug.Log("Call");
+        transform.parent = doorParent;
         ritualDoor.AddRitual();
+        finalCheck = true;
+        escaped = false;
         //Destroy(this.gameObject);
     }
 }

@@ -329,7 +329,7 @@ public class GunCreator : EditorWindow
 
                         vfx = Instantiate(vfx, currentGunModel.transform);
 
-                        gun.gunfire.Value = vfx.GetComponent<ParticleSystem>();
+                        //gun.gunfire.Value = vfx.GetComponent<ParticleSystem>();
 
                         vfx.transform.localPosition = Vector3.zero;
                         vfx.transform.localScale = oldVFXScale;

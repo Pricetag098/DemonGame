@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DemonInfo;
+using Palmmedia.ReportGenerator.Core.Logging;
+using static Unity.Collections.Unicode;
 
 /// <summary>
 /// percentage based spawning
@@ -39,9 +41,26 @@ public class Wave : ScriptableObject
         int _base = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.BasePercentage, DemonsToAdd));
         int _littleGuy = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.LittleGuyPercentage, DemonsToAdd));
 
+        int jogger = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.JoggerPercent, _base));
+        int runner = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.RunnerPercent, _base));
+
+        jogger += runner;
+
         int counter = DemonsToAdd;
 
-        AddTypeToList(wave.Base, _base, demons);
+        for (int i = 0; i < _base; i++)
+        {
+            DemonType tempBase = new DemonType();
+            tempBase.SpawnType = wave.Base.SpawnType;
+            tempBase.Id = wave.Base.Id;
+            tempBase.SpawnerType = wave.Base.SpawnerType;
+
+            if (i < runner) { tempBase.SpeedType = SpeedType.Runner; }
+            else if (i < jogger) { tempBase.SpeedType = SpeedType.Jogger; }
+            else { tempBase.SpeedType = SpeedType.Walker; }
+
+            demons.Add(tempBase);
+        }
 
         counter -= _base;
 

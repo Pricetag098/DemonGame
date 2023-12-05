@@ -21,14 +21,14 @@ public class Ritual : ScriptableObject
     {
         get
         {
-            if (DemonWave != null)
-            {
-                Debug.Log("Wasnt null return value");
-                return DemonWave;
-            }
+            //if (DemonWave != null)
+            //{
+            //    Debug.Log("Wasnt null return value");
+            //    return DemonWave;
+            //}
 
-            Debug.Log("Was null returning wave");
-            return DemonWave = Wave.GetWave(demonsToSpawn, ritualWave);
+            //Debug.Log("Was null returning wave");
+            return Wave.GetWave(demonsToSpawn, ritualWave);
         }
 
         private set

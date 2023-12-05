@@ -93,6 +93,7 @@ public class LesserDemon : DemonFramework
         {
             case SpawnType.Default:
                 _deathPoints.points = pointsOnDeath;
+                DemonMaterials.SetDefaultSpawningMaterial(_skinnedMeshRenderer);
                 break;
             case SpawnType.Ritual:
                 _deathPoints.points = 0;
@@ -107,7 +108,7 @@ public class LesserDemon : DemonFramework
 
         SetAllColliders(true);
 
-        DemonMaterials.SetDefaultSpawningMaterial(_skinnedMeshRenderer);
+        //DemonMaterials.SetDefaultSpawningMaterial(_skinnedMeshRenderer);
 
         DemonSpawner.ActiveDemons.Add(this);
 

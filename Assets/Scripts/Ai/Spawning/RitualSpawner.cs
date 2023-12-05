@@ -92,7 +92,7 @@ public class RitualSpawner : MonoBehaviour
             demonsLeft = count;
             demonsToSpawn = count;
 
-            if(playerHealth is null) playerHealth = manager.player.GetComponent<Health>();
+            if(playerHealth == null) playerHealth = manager.player.GetComponent<Health>();
 
             BlockerObjects.gameObject.SetActive(true);
 

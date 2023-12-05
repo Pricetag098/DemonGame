@@ -3292,8 +3292,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 712675145910252693}
   m_HandleRect: {fileID: 712675145910252692}
   m_Direction: 2
-  m_Value: 0.99999964
-  m_Size: 0.7660833
+  m_Value: 1
+  m_Size: 0.76608336
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5634,7 +5634,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.89411765}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -7284,7 +7284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startValue: 500
-  canvasGroup: {fileID: 0}
+  canvasGroup: {fileID: 4838866728239862493}
   rectTransform: {fileID: 712675145630564364}
   fadeDuration: 0.5
   moveDuration: 0.25
@@ -9190,13 +9190,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   index: 0
   text: {fileID: 712675144364969861}
-  options:
-  - 1920 x 1080
-  - 1366 x 768
-  - 360 x 640
-  - 414 x 864
-  - 1536 x 864
-  - 375 x 667
+  roundSettings: []
 --- !u!1 &712675145398607656
 GameObject:
   m_ObjectHideFlags: 0
@@ -9609,17 +9603,29 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 712675144965340884}
-        m_TargetAssemblyTypeName: SettingsMenu, Assembly-CSharp
-        m_MethodName: SetActive
-        m_Mode: 1
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.CanvasGroup, UnityEngine
+        m_MethodName: set_alpha
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 1
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.CanvasGroup, UnityEngine
+        m_MethodName: set_interactable
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &712675145445217402
 MonoBehaviour:
@@ -10151,12 +10157,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   index: 0
   text: {fileID: 712675145375958530}
-  options:
-  - Moderate
-  - Low
-  - Minimal
-  - Ultra
-  - High
+  roundSettings: []
 --- !u!1 &712675145582200878
 GameObject:
   m_ObjectHideFlags: 0
@@ -10514,11 +10515,11 @@ RectTransform:
   m_Father: {fileID: 712675144965340885}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -100, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 650, y: 600}
-  m_Pivot: {x: 1, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &712675145630564366
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11009,10 +11010,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc2bdab7a18df7948bfcb92240832331, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toggleSlide: {fileID: 712675144926245336}
-  toggleSprint: {fileID: 712675144386597714}
-  sensitivity: {fileID: 347995903996508541}
+  toggleSlideUi: {fileID: 712675144926245336}
+  toggleSprintUi: {fileID: 712675144386597714}
+  sensitivitySlider: {fileID: 347995903996508541}
   fovSlider: {fileID: 2021591574472701229}
+  sensitivity: 0
+  fov: 0
+  toggleSlide: 0
+  toggleSprint: 0
+  inGame: 0
 --- !u!1 &712675145771678317
 GameObject:
   m_ObjectHideFlags: 0

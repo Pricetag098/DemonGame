@@ -31,6 +31,8 @@ public class PlayerStats : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
         armMeshCombiner = FindObjectOfType<ArmMeshCombiner>();
 		gainUi = FindObjectOfType<PointGainUi>();
 
+        GamePrefs.SetStartMoney(99999);
+
         points = GamePrefs.StartPoints;
         gainUi.displayPoints = points;
 	}

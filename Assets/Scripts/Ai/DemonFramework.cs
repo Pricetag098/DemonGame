@@ -463,7 +463,7 @@ public class DemonFramework : MonoBehaviour
         get { return DemonInMap; }
     }
 
-    private float onNavmeshDistance = 0.7f;
+    private float onNavmeshDistance = 1f;
 
     public bool SampleNavmeshPosition()
     {

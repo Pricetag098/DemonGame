@@ -203,6 +203,8 @@ public class LesserDemon : DemonFramework
 
     public override bool CheckToDespawn()
     {
+        if(_spawnType == SpawnType.Ritual) { return false; }
+
         float dist = DistanceToTargetNavmesh;
 
         if (dist > 100000) dist = 0;
@@ -211,6 +213,7 @@ public class LesserDemon : DemonFramework
         {
             return true;
         }
+
         return false;
     }
     public override void OnAttack()

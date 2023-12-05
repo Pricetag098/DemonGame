@@ -1,10 +1,11 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class EndGameTweening : MonoBehaviour
+public class EndGameScreen : MonoBehaviour
 {
     [SerializeField] GameObject endTitle;
     [SerializeField] GameObject endStats;
@@ -24,12 +25,16 @@ public class EndGameTweening : MonoBehaviour
     CanvasGroup endStatsCanvas;
     CanvasGroup overlayCanvas;
 
+    PlayerStats stats;
+
+    [SerializeField] TextMeshProUGUI pointsText, killsText, headShotsText, bloodGainText, deathsText,roundText;
+
     private void Awake()
     {
         endTitleCanvas = endTitle.GetComponent<CanvasGroup>();
         endStatsCanvas = endStats.GetComponent<CanvasGroup>();
         overlayCanvas = overlay.GetComponent<CanvasGroup>();
-
+        stats = FindObjectOfType<PlayerStats>();
         titleRectTransform = endTitle.GetComponent<RectTransform>();
 
         titleOrigin = titleRectTransform.localPosition;
@@ -45,19 +50,31 @@ public class EndGameTweening : MonoBehaviour
     }
 
     [ContextMenu("Tween")]
-    public void TweenUI()
+    public void Open()
     {
+        Time.timeScale = 0;
+        roundText.text = "you survived " + SpawnerManager.currentRound + " rounds";
+        pointsText.text = stats.pointsGained.ToString();
+        killsText.text = stats.kills.ToString();
+        headShotsText.text = stats.headshotKills.ToString();
+        bloodGainText.text = stats.GetComponent<PlayerAbilityCaster>().bloodSpent.ToString();
+        deathsText.text = stats.deaths.ToString();
+
+
         Sequence on = DOTween.Sequence();
-        overlayCanvas.DOFade(1, titleFadeTime + titleMoveTime + titleOnScreenTime + statsFadeTime);
+        on.SetUpdate(true);
+        on.Append(overlayCanvas.DOFade(1, titleFadeTime + titleMoveTime + titleOnScreenTime + statsFadeTime).SetUpdate(true));
         on.Append(endTitleCanvas.DOFade(1, titleFadeTime));
         on.AppendInterval(titleOnScreenTime);
-        on.AppendCallback(() => titleRectTransform.DOLocalMove(titleEndPos, titleMoveTime));
+        on.AppendCallback(() => titleRectTransform.DOLocalMove(titleEndPos, titleMoveTime).SetUpdate(true));
         on.AppendInterval(titleMoveTime);
         on.Append(endStatsCanvas.DOFade(1, statsFadeTime));
         on.AppendCallback(() => 
         { 
             endStatsCanvas.interactable = true; 
-            endStatsCanvas.blocksRaycasts = false;
+            endStatsCanvas.blocksRaycasts = true;
+            endTitleCanvas.interactable = true;
+            endTitleCanvas.blocksRaycasts = true;
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
         });

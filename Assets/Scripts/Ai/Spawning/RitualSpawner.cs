@@ -85,12 +85,14 @@ public class RitualSpawner : MonoBehaviour
             RitualActive = true;
             ActiveDemons.Clear();
 
-            SetDemonQueue(ritual.ritualWave);
+            //SetDemonQueue(ritual.ritualWave);
 
-            demonsLeft = ritual.demonsToSpawn;
-            demonsToSpawn = ritual.demonsToSpawn;
+            DemonQueue = ritual.DemonWave;
+            int count = DemonQueue.Count;
+            demonsLeft = count;
+            demonsToSpawn = count;
 
-            if(playerHealth is null) playerHealth = manager.player.GetComponent<Health>();
+            if(playerHealth == null) playerHealth = manager.player.GetComponent<Health>();
 
             BlockerObjects.gameObject.SetActive(true);
 

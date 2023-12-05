@@ -13,7 +13,6 @@ public class RitualManager : MonoBehaviour
     [SerializeField] UnityEvent FinalCompletionObjects;
     [SerializeField] Optional<Transform> playerTpLocationStart;
     [SerializeField] Optional<Transform> playerTpLocationEnd;
-    
 
     private Transform player;
 

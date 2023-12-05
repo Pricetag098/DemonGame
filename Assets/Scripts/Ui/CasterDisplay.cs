@@ -37,7 +37,7 @@ public class CasterDisplay : MonoBehaviour
     {
         abilityIconIdentifier[0].text = caster.caster.abilities[caster.activeIndex].symbolText;
         abilityIconIdentifier[1].text = caster.caster.abilities[caster.previousActiveIndex].symbolText;
-        caster.caster.abilities.Count();
+        
 
         bloodMeter.value = dynamics.Update(Time.unscaledDeltaTime,caster.caster.blood / caster.caster.maxBlood);
         if(bloodMeter.value < 0.17f)

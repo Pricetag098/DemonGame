@@ -274,6 +274,7 @@ public class AreaLoaderGameObject : MonoBehaviour
         LoadAll(Garden);
         LoadAll(LibraryLower);
         LoadAll(CathedralHallLower);
+        LoadAll(CathedralHallUpper);
         LoadAll(LibraryUpper);
         LoadAll(OutsideTomb);
         LoadAll(CathedralHallBack);

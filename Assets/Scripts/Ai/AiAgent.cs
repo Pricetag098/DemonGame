@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Entities.UniversalDelegates;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -43,6 +44,8 @@ public class AiAgent : MonoBehaviour
     public float rayHeightOffset;
 	public AgentPath path = new AgentPath();
     public bool canMove = true;
+    public int drawIndex = 0;
+    public bool grounded = false;
 
     private Quaternion lastRotation = Quaternion.identity;
     private DemonFramework demon;
@@ -164,10 +167,12 @@ public class AiAgent : MonoBehaviour
         if (Physics.Raycast(GroundedPosition.position, -transform.up, out RaycastHit cast, groundingRange, wallLayers))
         {
             hit = cast;
+            grounded = true;
             return true;
         }
 
         hit = cast;
+        grounded = false;
         return false;
     }
 
@@ -388,12 +393,17 @@ public class AiAgent : MonoBehaviour
         //if (Objects.Count > 0)
         //    Gizmos.DrawRay(transform.position, GetPushForce());
         //Gizmos.color = Color.magenta;
+
+        //Gizmos.color = Color.red;
+
         //if (path.pathLength > 0)
         //{
-        //    for (int i = 0; i < path.pathLength; i++)
-        //    {
-        //        Gizmos.DrawWireSphere(path.corners[i], indexChangeDistance);
-        //    }
+            //for (int i = 0; i < path.pathLength; i++)
+            //{
+            //    Gizmos.DrawWireSphere(path.corners[i], indexChangeDistance);
+            //}
+
+            //Gizmos.DrawWireSphere(path.corners[drawIndex], 1);
         //}
 
         //Gizmos.color = Color.blue;
@@ -407,7 +417,7 @@ public class AiAgent : MonoBehaviour
 
 
         //Vector3 startpos = GroundedPosition.position;
-        //Vector3 endpos = GroundedPosition.position +  -transform.up * groundingRange;
+        //Vector3 endpos = GroundedPosition.position + -transform.up * groundingRange;
 
         //Gizmos.color = Color.blue;
         //Gizmos.DrawLine(startpos, endpos);

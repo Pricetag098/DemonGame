@@ -28,6 +28,8 @@ public class EmissionGlow : MonoBehaviour
 
     private void Update()
     {
+        if(Time.timeScale == 0f) { return; }
+
         Color newEmissionColor = originalColour * intensity;
 
         material.SetColor("_EmissionColour", newEmissionColor);

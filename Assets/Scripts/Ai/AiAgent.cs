@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Entities.UniversalDelegates;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -43,6 +44,7 @@ public class AiAgent : MonoBehaviour
     public float rayHeightOffset;
 	public AgentPath path = new AgentPath();
     public bool canMove = true;
+    public int drawIndex = 0;
 
     private Quaternion lastRotation = Quaternion.identity;
     private DemonFramework demon;
@@ -388,13 +390,15 @@ public class AiAgent : MonoBehaviour
         //if (Objects.Count > 0)
         //    Gizmos.DrawRay(transform.position, GetPushForce());
         //Gizmos.color = Color.magenta;
-        //if (path.pathLength > 0)
-        //{
-        //    for (int i = 0; i < path.pathLength; i++)
-        //    {
-        //        Gizmos.DrawWireSphere(path.corners[i], indexChangeDistance);
-        //    }
-        //}
+        if (path.pathLength > 0)
+        {
+            //for (int i = 0; i < path.pathLength; i++)
+            //{
+            //    Gizmos.DrawWireSphere(path.corners[i], indexChangeDistance);
+            //}
+
+            Gizmos.DrawWireSphere(path.corners[drawIndex], indexChangeDistance);
+        }
 
         //Gizmos.color = Color.blue;
         //float angle = 360 / scanRays;

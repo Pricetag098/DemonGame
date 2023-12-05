@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DemonInfo;
-using Palmmedia.ReportGenerator.Core.Logging;
+//using Palmmedia.ReportGenerator.Core.Logging;
 using static Unity.Collections.Unicode;
 
 /// <summary>

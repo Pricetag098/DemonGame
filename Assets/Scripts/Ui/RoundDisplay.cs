@@ -21,6 +21,8 @@ namespace DemonInfo
         {
             roundText = GetComponentInChildren<TextMeshProUGUI>();
             manager = FindObjectOfType<SpawnerManager>();
+
+            roundText.text = GamePrefs.StartRound.ToString();
         }
         
         public void ColourFlash()

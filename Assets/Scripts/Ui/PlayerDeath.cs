@@ -7,7 +7,7 @@ using TMPro;
 using UnityEngine.Events;
 using Movement;
 
-public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersistance<SessionData>
+public class PlayerDeath : MonoBehaviour
 {
     [SerializeField] CanvasGroup canvasGroup;
     TextMeshProUGUI text;
@@ -26,10 +26,10 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
     bool dead;
     PlayerStats stats;
     [Range(0,1)] public float pointLoss;
-    int deaths;
+    //public int deaths;
     [SerializeField] string onDeathText, onRegaintext, onLossText;
     ResurrectionBuy resurrectionBuy;
-    EndGameTweening endGameTweening;
+    EndGameScreen endGameTweening;
     PlayerInputt playerInputt;
     // Start is called before the first frame update
     void Awake()
@@ -42,7 +42,7 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
         spawnerManager = FindObjectOfType<SpawnerManager>();
         text = canvasGroup.GetComponentInChildren<TextMeshProUGUI>();
         resurrectionBuy = FindObjectOfType<ResurrectionBuy>();
-        endGameTweening = FindObjectOfType<EndGameTweening>();
+        endGameTweening = FindObjectOfType<EndGameScreen>();
         playerInputt = FindObjectOfType<PlayerInputt>();
     }
 
@@ -84,7 +84,7 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
         }
         else
 		{
-            endGameTweening.TweenUI();
+            endGameTweening.Open();
             playerInputt.enabled = false;
 		}
         
@@ -169,22 +169,5 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
         }
     }
 
-    void IDataPersistance<GameData>.SaveData(ref GameData data)
-	{
-        //data.deaths = deaths;
-	}
-    void IDataPersistance<GameData>.LoadData(GameData data)
-	{
-        deaths += data.deaths;
-	}
-
-    public void LoadData(SessionData data)
-    {
-        //throw new System.NotImplementedException();
-    }
-
-    public void SaveData(ref SessionData data)
-    {
-        data.deaths = deaths;
-    }
+   
 }

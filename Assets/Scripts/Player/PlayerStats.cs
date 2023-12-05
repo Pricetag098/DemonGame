@@ -13,12 +13,12 @@ public class PlayerStats : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
     public float bloodGainMulti = 1;
 	public float pointGainMulti = 1;
     public float abilityDamageMulti = 1;
-
+    public int deaths;
 	public int points = 0;
     public int pointsSpent;
     public int pointsGained;
-    int kills;
-    int headshotKills;
+    public int kills;
+    public int headshotKills;
     public int killStreak;
     [Tooltip("For Demon arm")]
     public int maxKillStreak = 15;
@@ -31,7 +31,7 @@ public class PlayerStats : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
         armMeshCombiner = FindObjectOfType<ArmMeshCombiner>();
 		gainUi = FindObjectOfType<PointGainUi>();
 
-        GamePrefs.SetStartMoney(99999);
+        //GamePrefs.SetStartMoney(99999);
 
         points = GamePrefs.StartPoints;
         gainUi.displayPoints = points;
@@ -72,6 +72,7 @@ public class PlayerStats : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
         data.pointsGained += pointsGained;
         data.kills += kills;
         data.headShotKills += headshotKills;
+        data.deaths += deaths;
 	}
 
     void IDataPersistance<GameData>.LoadData(GameData data)
@@ -93,5 +94,6 @@ public class PlayerStats : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
         data.pointsGained = pointsGained;
         data.kills = kills;
         data.headShotKills = headshotKills;
+        data.deaths = deaths;
     }
 }

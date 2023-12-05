@@ -17,6 +17,7 @@ public class SpinnyThingyAbility : Ability
 	[SerializeField] int points;
 	[SerializeField] int count;
 	[SerializeField] float spread,frequncey;
+	[SerializeField] float killForce;
 	GameObject[] obj;
 	float timer = -1;
 	float maxTimer =1;
@@ -107,7 +108,12 @@ public class SpinnyThingyAbility : Ability
 					{
 						healths.Add(hb.health);
 						if(hb.OnHit((damage.Evaluate(timer / maxTimer) * caster.DamageMulti), HitType.ABILITY))
-							caster.OnKill();
+						{
+                            caster.OnKill();
+                            if (hb.rigidBody.Enabled)
+                                hb.rigidBody.Value.AddForce(direction * killForce * stepDirection);
+                        }
+							
 						Vector3 point = hit.ClosestPoint(obj[i].transform.position);
 						vfx.Play(point, obj[i].transform.position - point);
 						OnHit(hb.health);

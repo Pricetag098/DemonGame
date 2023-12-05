@@ -28,7 +28,7 @@ public class BloodKnifeBounce : MonoBehaviour
 			float distance = Vector3.Distance(transform.position, target.position);
 			Vector3 mid = transform.position + distance * .5f * transform.forward;
 			
-			damageProjectiles.Shoot(transform.position, mid, target,damageProjectiles.offset, distance / postBounceSpeed,damageProjectiles.damage, damageProjectiles.ability,damageProjectiles.maxPenetrations - damageProjectiles.penetrations);
+			damageProjectiles.Shoot(transform.position, mid, target,damageProjectiles.offset, distance / postBounceSpeed,damageProjectiles.damage, damageProjectiles.ability,damageProjectiles.maxPenetrations - damageProjectiles.penetrations,0);
 		}
 	}
 }

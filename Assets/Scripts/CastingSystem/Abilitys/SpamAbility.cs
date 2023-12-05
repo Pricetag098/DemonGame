@@ -17,7 +17,7 @@ public class SpamAbility : Ability
 	float cooldown;
 	float timer;
 	[SerializeField] AimAssist aimAssist;
-
+	[SerializeField] float killForce;
 	bool startedCasting;
 	bool pressed;
 	
@@ -47,13 +47,13 @@ public class SpamAbility : Ability
 				float d = Vector3.Distance(origin, target.position);
 				Vector3 mid = origin + (direction * d / 2) ;
 
-				pool.Spawn().GetComponent<DamageProjectiles>().Shoot(origin + rand, mid + rand,target,rand, d/speed, damage, this, 1);
+				pool.Spawn().GetComponent<DamageProjectiles>().Shoot(origin + rand, mid + rand,target,rand, d/speed, damage, this, 1,killForce);
 			}
 			else
 			{
 				Vector3 end = origin + direction * 100;
 				Vector3 mid = Vector3.Lerp(origin, end, .5f);
-				pool.Spawn().GetComponent<DamageProjectiles>().Shoot(origin + rand, mid + rand,end + rand,100/speed, damage, this, 1);
+				pool.Spawn().GetComponent<DamageProjectiles>().Shoot(origin + rand, mid + rand,end + rand,100/speed, damage, this, 1,killForce);
 			}
 
 

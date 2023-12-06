@@ -1,7 +1,9 @@
+using RealtimeCSG;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using System;
 
 public static class HelperFuntions
 {
@@ -12,7 +14,7 @@ public static class HelperFuntions
 
         for (int i = 0; i < listCount; i++)
         {
-            var randomElementInList = Random.Range(0, list.Count);
+            var randomElementInList = UnityEngine.Random.Range(0, list.Count);
             newShuffledList.Add(list[randomElementInList]);
             list.Remove(list[randomElementInList]);
         }
@@ -95,7 +97,7 @@ public static class HelperFuntions
         float min = (minPercent / 100) * total;
         float max = (maxPercent / 100) * total;
 
-        return Random.Range(min, max);
+        return UnityEngine.Random.Range(min, max);
     }
 
     public static int EvaluateAnimationCuveInt(AnimationCurve curve, float num)

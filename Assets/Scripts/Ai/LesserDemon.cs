@@ -89,15 +89,32 @@ public class LesserDemon : DemonFramework
         _isSpawned = false;
         DemonInMap = inMap;
 
+        _attachments.ResetAllAttachments();
+        _attachments.RandomAttachments();
+
         switch (spawnType)
         {
             case SpawnType.Default:
                 _deathPoints.points = pointsOnDeath;
+
                 DemonMaterials.SetDefaultSpawningMaterial(_skinnedMeshRenderer);
+
+                foreach (var obj in _attachments.ReturnActiveObjects())
+                {
+                    DemonMaterials.SetDefaultAttachmentMaterial(obj);
+                }
+
                 break;
             case SpawnType.Ritual:
                 _deathPoints.points = 0;
+
                 DemonMaterials.SetRitualMaterial(_skinnedMeshRenderer);
+
+                foreach (var obj in _attachments.ReturnActiveObjects())
+                {
+                    DemonMaterials.SetRitualAttachmentMaterial(obj);
+                }
+
                 break;
         }
 
@@ -122,14 +139,6 @@ public class LesserDemon : DemonFramework
         SetMoveSpeed(type.SpeedType);
 
         _aiAgent.canRotate = true;
-
-        _attachments.ResetAllAttachments();
-        _attachments.RandomAttachments();
-
-        foreach (var obj in _attachments.ReturnActiveObjects())
-        {
-            DemonMaterials.SetDefaultAttachmentMaterial(obj);
-        }
     }
     public override void OnDeath()
     {
@@ -147,6 +156,9 @@ public class LesserDemon : DemonFramework
                 Transform t = transform;
                 t.position += new Vector3(0, 1, 0);
                 _spawnerManager.GetBlessingChance(t, GetDemonInMap);
+
+                _spawnerManager.DemonKilled();
+
                 break;
             case SpawnType.Ritual:
                 _spawnerManager.CurrentRitualOnDemonDeath();

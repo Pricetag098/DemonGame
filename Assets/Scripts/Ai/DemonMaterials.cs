@@ -1,3 +1,4 @@
+//using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ public class DemonMaterials : MonoBehaviour
 
     private static Material[] Ritual;
     private static Material[] RitualClothMaterials;
-    private static Material[] RitualAttachMaterials;
+    private static Material[] RitualAttachtmentMaterials;
 
     private void Awake()
     {
@@ -20,23 +21,10 @@ public class DemonMaterials : MonoBehaviour
         defaultAttachMaterials = LoadALlAssestsFromFolder<Material>("Materials/LesserDemonMaterialVarients/AttachmentMaterialVariations");
 
         Ritual = LoadALlAssestsFromFolder<Material>("Materials/LesserDemonMaterialVarients/RitualMaterialVariations");
-        RitualClothMaterials = LoadALlAssestsFromFolder<Material>("Materials/LesserDemonMaterialVarients/RitualMaterialVariations");
-        RitualAttachMaterials = LoadALlAssestsFromFolder<Material>("Materials/LesserDemonMaterialVarients/RitualMaterialVariations");
+        RitualClothMaterials = LoadALlAssestsFromFolder<Material>("Materials/LesserDemonMaterialVarients/RitualClothMaterialVariations");
+        RitualAttachtmentMaterials = LoadALlAssestsFromFolder<Material>("Materials/LesserDemonMaterialVarients/RitualAttatchmentmaterialVariations");
 
         Resources.UnloadUnusedAssets();
-    }
-
-    public static void SetDefaultClothMaterial(GameObject obj)
-    {
-        int num = Random.Range(0, defaultClothMaterials.Length);
-
-        if(obj.TryGetComponent<MeshRenderer>(out MeshRenderer meshRenderer))
-        {
-            Material[] mats = meshRenderer.materials;
-            mats[0] = defaultClothMaterials[num];
-
-            meshRenderer.materials = mats;
-        }
     }
 
     public static void SetDefaultAttachmentMaterial(GameObject obj)
@@ -54,24 +42,47 @@ public class DemonMaterials : MonoBehaviour
 
     public static void SetDefaultSpawningMaterial(SkinnedMeshRenderer meshRenderer)
     {
-        int num = Random.Range(0, defaultDemonMaterials.Length);
-
         Material[] mats = meshRenderer.materials;
 
-        mats[1] = defaultDemonMaterials[num]; // sets second material as first is not the demon material
+        int num = Random.Range(0, defaultClothMaterials.Length);
+
+        mats[0] = defaultClothMaterials[num]; // sets cloth
+
+        num = Random.Range(0, defaultDemonMaterials.Length);
+
+        mats[1] = defaultDemonMaterials[num]; // sets demon
 
         meshRenderer.materials = mats;
     }
 
     public static void SetRitualMaterial(SkinnedMeshRenderer meshRenderer)
     {
-        int num = Random.Range(0, Ritual.Length);
-
         Material[] mats = meshRenderer.materials;
 
-        mats[1] = Ritual[num]; // sets second material as first is not the demon material
+        int num = Random.Range(0, RitualClothMaterials.Length);
+
+        mats[0] = RitualClothMaterials[num]; // sets cloth
+
+        num = Random.Range(0, Ritual.Length);
+
+        mats[1] = Ritual[num]; // sets demon
 
         meshRenderer.materials = mats;
+    }
+
+    public static void SetRitualAttachmentMaterial(GameObject obj)
+    {
+        int num = Random.Range(0, RitualAttachtmentMaterials.Length);
+
+        if (obj.TryGetComponent<MeshRenderer>(out MeshRenderer meshRenderer))
+        {
+            Material[] mats = meshRenderer.materials;
+            mats[0] = RitualAttachtmentMaterials[num];
+
+            Debug.Log(RitualAttachtmentMaterials[num].name);
+
+            meshRenderer.materials = mats;
+        }
     }
 
     public T[] LoadALlAssestsFromFolder<T>(string FilePath)

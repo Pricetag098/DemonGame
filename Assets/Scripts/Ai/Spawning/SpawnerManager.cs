@@ -139,6 +139,11 @@ public class SpawnerManager : MonoBehaviour
         BlessingManager.GetBlessingChance(pos, currentRound, spawnDrop);
     }
 
+    public void SpawnBlessing(Transform pos)
+    {
+        BlessingManager.SpawnBlessingOfType(pos);
+    }
+
     public void UpdateSpawners(Areas Id, Areas CurrentArea)
     {
         _DemonSpawner.ActiveSpawners(Id, CurrentArea);

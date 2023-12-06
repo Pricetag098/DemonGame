@@ -7,42 +7,39 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ArcaneLock_MAT
-  m_Shader: {fileID: -6465566751694194690, guid: d30dbc2466710e84e9a110fd202f029e, type: 3}
+  m_Name: Shader Graphs_DissolveSymbol 1
+  m_Shader: {fileID: -6465566751694194690, guid: 7efdbda6c62a5ab43bfe961d3f07e656, type: 3}
   m_ValidKeywords:
   - _ALPHATEST_ON
-  - _DISABLE_SSR_TRANSPARENT
-  m_InvalidKeywords: []
+  - _ENABLE_FOG_ON_TRANSPARENT
+  - _SURFACE_TYPE_TRANSPARENT
+  m_InvalidKeywords:
+  - _DOUBLESIDED_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2475
+  m_DoubleSidedGI: 1
+  m_CustomRenderQueue: 3000
   stringTagMap:
     MotionVector: User
-    RenderType: TransparentCutout
+    RenderType: Transparent
   disabledShaderPasses:
   - TransparentDepthPrepass
   - TransparentDepthPostpass
   - TransparentBackface
-  - RayTracingPrepass
   - MOTIONVECTORS
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 91b282f49a384b04c9cc0761f7e81f87, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_367cf5ffb2534141bdfe3df1cbe4b916_Texture_1:
-        m_Texture: {fileID: 2800000, guid: bd42c9ec981985e479c769e1fb1637e9, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_f19dc756c4e34b63b76fdae9abe6300a_Texture_1:
+    - _SampleTexture2D_88226fd595944d95add563a115fefacf_Texture_1:
         m_Texture: {fileID: 2800000, guid: c59179c950b9a234081f307c2a70be03, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_f6db1215507248fcad65ad24addfe87b_Texture_1:
-        m_Texture: {fileID: 2800000, guid: f566f16d13c843846bfa3a07cacf3fa3, type: 3}
+    - _SampleTexture2D_de82804a44b34842a17f8cf753a8d781_Texture_1:
+        m_Texture: {fileID: 2800000, guid: c59179c950b9a234081f307c2a70be03, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -60,46 +57,38 @@ Material:
     m_Ints: []
     m_Floats:
     - _AddPrecomputedVelocity: 0
+    - _AlphaClip: 0
     - _AlphaCutoffEnable: 1
-    - _AlphaDstBlend: 0
+    - _AlphaDstBlend: 10
     - _AlphaSrcBlend: 1
     - _AlphaToMask: 0
     - _AlphaToMaskInspectorValue: 0
     - _BlendMode: 0
     - _ConservativeDepthOffsetEnable: 0
-    - _CullMode: 2
-    - _CullModeForward: 2
+    - _CullMode: 0
+    - _CullModeForward: 0
     - _DepthOffsetEnable: 0
-    - _Dissolve_Amount: -1
-    - _Dissolve_Width: 0.03
-    - _DoubleSidedEnable: 0
+    - _DissolveWidth: 0.1
+    - _DoubleSidedEnable: 1
     - _DoubleSidedGIMode: 0
     - _DoubleSidedNormalMode: 2
-    - _DstBlend: 0
-    - _EnableBlendModePreserveSpecularLighting: 1
+    - _DstBlend: 10
+    - _EnableBlendModePreserveSpecularLighting: 0
     - _EnableFogOnTransparent: 1
-    - _Fresnel_Power: 0
-    - _Metalic: 0
     - _OpaqueCullMode: 2
-    - _RayTracing: 0
-    - _ReceivesSSR: 1
-    - _ReceivesSSRTransparent: 0
-    - _RefractionModel: 0
-    - _RenderQueueType: 1
-    - _RequireSplitLighting: 0
+    - _RenderQueueType: 4
     - _SrcBlend: 1
     - _StencilRef: 0
-    - _StencilRefDepth: 8
+    - _StencilRefDepth: 0
     - _StencilRefDistortionVec: 4
-    - _StencilRefGBuffer: 10
-    - _StencilRefMV: 40
+    - _StencilRefGBuffer: 2
+    - _StencilRefMV: 32
     - _StencilWriteMask: 6
     - _StencilWriteMaskDepth: 8
     - _StencilWriteMaskDistortionVec: 4
     - _StencilWriteMaskGBuffer: 14
     - _StencilWriteMaskMV: 40
-    - _SupportDecals: 1
-    - _SurfaceType: 0
+    - _SurfaceType: 1
     - _TransparentBackfaceEnable: 0
     - _TransparentCullMode: 2
     - _TransparentDepthPostpassEnable: 0
@@ -108,22 +97,19 @@ Material:
     - _TransparentWritingMotionVec: 0
     - _TransparentZWrite: 0
     - _UseShadowThreshold: 0
-    - _UseTexture: 0
-    - _ZTestDepthEqualForOpaque: 3
+    - _ZTestDepthEqualForOpaque: 4
     - _ZTestGBuffer: 3
     - _ZTestTransparent: 4
-    - _ZWrite: 1
+    - _ZWrite: 0
+    - _in: 2
     m_Colors:
-    - _Colour: {r: 1.9766746, g: 0, b: 0, a: 0}
-    - _Colour_1: {r: 1, g: 0, b: 0, a: 1}
-    - _Colour_2: {r: 0, g: 0, b: 0, a: 0}
-    - _Dissolve_Colour: {r: 14.754423, g: 14.290933, b: 0, a: 0}
-    - _Dissolve_Scale: {r: 1, g: 1, b: 0, a: 0}
+    - _Colour: {r: 0, g: 0, b: 0, a: 0}
+    - _DissolveColour: {r: 1, g: 0.02617801, b: 0, a: 0}
+    - _DissolveScale: {r: 1, g: 1, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Emission_Colour: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &7666788205091609808
+--- !u!114 &3025031591205176837
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

@@ -71,6 +71,7 @@ public class AiAgent : MonoBehaviour
     {
         if(initalise == false)
         {
+            initalise = true;
             Initalise();
         }
     }

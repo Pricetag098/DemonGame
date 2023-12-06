@@ -10,6 +10,8 @@ public class DemonMaterials : MonoBehaviour
     private static Material[] defaultAttachMaterials;
 
     private static Material[] Ritual;
+    private static Material[] RitualClothMaterials;
+    private static Material[] RitualAttachMaterials;
 
     private void Awake()
     {
@@ -17,13 +19,14 @@ public class DemonMaterials : MonoBehaviour
         defaultClothMaterials = LoadALlAssestsFromFolder<Material>("Materials/LesserDemonMaterialVarients/ClothMaterialVariations");
         defaultAttachMaterials = LoadALlAssestsFromFolder<Material>("Materials/LesserDemonMaterialVarients/AttachmentMaterialVariations");
 
-        //Ritual1 = LoadALlAssestsFromFolder<Material>("Materials/LesserDemonMaterialVarients/1stRitualMaterialVariations");
         Ritual = LoadALlAssestsFromFolder<Material>("Materials/LesserDemonMaterialVarients/RitualMaterialVariations");
+        RitualClothMaterials = LoadALlAssestsFromFolder<Material>("Materials/LesserDemonMaterialVarients/RitualMaterialVariations");
+        RitualAttachMaterials = LoadALlAssestsFromFolder<Material>("Materials/LesserDemonMaterialVarients/RitualMaterialVariations");
 
         Resources.UnloadUnusedAssets();
     }
 
-    public static void SetClothMaterial(GameObject obj)
+    public static void SetDefaultClothMaterial(GameObject obj)
     {
         int num = Random.Range(0, defaultClothMaterials.Length);
 
@@ -36,7 +39,7 @@ public class DemonMaterials : MonoBehaviour
         }
     }
 
-    public static void SetAttachmentMaterial(GameObject obj)
+    public static void SetDefaultAttachmentMaterial(GameObject obj)
     {
         int num = Random.Range(0, defaultAttachMaterials.Length);
 

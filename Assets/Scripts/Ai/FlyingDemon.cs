@@ -148,7 +148,7 @@ public class FlyingDemon : DemonFramework
 
         foreach (var obj in _attachments.ReturnActiveObjects())
         {
-            DemonMaterials.SetAttachmentMaterial(obj);
+            DemonMaterials.SetDefaultAttachmentMaterial(obj);
         }
     }
     public override void OnDeath()

@@ -26,10 +26,12 @@ public class DetectArea : MonoBehaviour
 
     private void Update()
     {
-        if (timer.TimeGreaterThan)
-        {
-            GetArea();
-        }
+        //if (timer.TimeGreaterThan)
+        //{
+           
+        //}
+
+        GetArea();
     }
 
     void GetArea()

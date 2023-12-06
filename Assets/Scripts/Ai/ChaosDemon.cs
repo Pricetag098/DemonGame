@@ -183,6 +183,8 @@ public class ChaosDemon : DemonFramework
                 break;
         }
 
+        DemonMaterials.SetChaosMaterial(_skinnedMeshRenderer);
+
         _aiAgent.Initalised();
 
         GetAgent.Grid.cells.Insert(GetAgent);

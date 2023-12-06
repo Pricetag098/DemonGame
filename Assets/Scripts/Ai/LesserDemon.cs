@@ -186,7 +186,7 @@ public class LesserDemon : DemonFramework
 
         _ragdoll.ToggleRagdoll(true);
 
-        //MarkForRemoval();
+        _spawnerManager.DemonKilled();
     }
     public override void OnForcedDespawn()
     {
@@ -200,6 +200,8 @@ public class LesserDemon : DemonFramework
     }
     public override void OnDespawn()
     {
+        if(_isRemoved == true) { return; }
+
         _aiAgent.SetFollowSpeed(0);
 
         SetAllColliders(false);

@@ -190,7 +190,7 @@ public class RitualSpawner : MonoBehaviour
         sm.TpPlayerOnEnd();
 
         RitualActive = false;
-        ritual = null;
+        //ritual = null;
         currentDemons = 0;
         demonsLeft = 0;
         demonsToSpawn = 0;

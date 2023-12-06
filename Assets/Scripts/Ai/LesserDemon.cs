@@ -128,7 +128,7 @@ public class LesserDemon : DemonFramework
 
         foreach (var obj in _attachments.ReturnActiveObjects())
         {
-            DemonMaterials.SetAttachmentMaterial(obj);
+            DemonMaterials.SetDefaultAttachmentMaterial(obj);
         }
     }
     public override void OnDeath()
@@ -141,13 +141,16 @@ public class LesserDemon : DemonFramework
 
         _isDead = true;
 
-        Transform t = transform;
-        t.position += new Vector3(0, 1, 0);
-        _spawnerManager.GetBlessingChance(t, GetDemonInMap);
-
-        if (_spawnType == SpawnType.Ritual)
+        switch(_spawnType)
         {
-            _spawnerManager.CurrentRitualOnDemonDeath();
+            case SpawnType.Default:
+                Transform t = transform;
+                t.position += new Vector3(0, 1, 0);
+                _spawnerManager.GetBlessingChance(t, GetDemonInMap);
+                break;
+            case SpawnType.Ritual:
+                _spawnerManager.CurrentRitualOnDemonDeath();
+                break;
         }
 
         if (SoulBox != null)
@@ -165,11 +168,11 @@ public class LesserDemon : DemonFramework
 
         SetAllColliders(false);
 
-        //_spawner.AddDemonBackToPool(_type, _spawnerManager);
+        _isDead = true;
 
         if (_spawnType == SpawnType.Default) { _spawnerManager.DemonKilled(); }
 
-        MarkForRemoval();
+        //MarkForRemoval();
     }
     public override void OnForcedDespawn()
     {

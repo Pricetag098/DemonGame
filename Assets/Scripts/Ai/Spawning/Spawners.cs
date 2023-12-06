@@ -44,6 +44,9 @@ public class Spawners : MonoBehaviour
                 case Areas.LibraryLower:
                     AreaDictionary.Add(a.AreaId, a);
                     break;
+                case Areas.LibaryUpper:
+                    AreaDictionary.Add(a.AreaId, a);
+                    break;
                 case Areas.BishopsQuarters:
                     AreaDictionary.Add(a.AreaId, a);
                     break;

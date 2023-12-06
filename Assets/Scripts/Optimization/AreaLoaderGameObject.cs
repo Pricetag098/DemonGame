@@ -11,9 +11,9 @@ public class AreaLoaderGameObject : MonoBehaviour
     Areas Graveyard = Areas.Graveyard;
     Areas MainEntrance = Areas.MainEntrance;
     Areas Garden = Areas.Garden;
-    Areas Kitchen = Areas.Kitchen;
+    //Areas Kitchen = Areas.Kitchen;
     Areas LibraryLower = Areas.LibraryLower;
-    Areas BishopsQuaters = Areas.BishopsQuarters;
+    //Areas BishopsQuaters = Areas.BishopsQuarters;
     Areas CathedralHallUpper = Areas.CathedralHallUpper;
     Areas CathedralHallLower = Areas.CathedralHallLower;
     Areas OutsideTomb = Areas.OutsideTomb;
@@ -122,7 +122,8 @@ public class AreaLoaderGameObject : MonoBehaviour
                 UnloadAll(InsideTomb);
                 UnloadAll(CathedralHallBack);
                 UnloadAll(CathedralHallUpper);
-                UnloadAreaObjects(CathedralHallLower, LowPriority);
+                //UnloadAreaObjects(CathedralHallLower, Environment);
+                UnloadAll(CathedralHallLower);
                 break;
             case Areas.OutsideTomb:
                 // Areas To Load
@@ -318,7 +319,7 @@ public class AreaLoaderGameObject : MonoBehaviour
         foreach (AreaObject obj in objs) 
         {
             // Debug null objects
-            //if (obj.ObjectArea == Areas.Null || obj.ObjectPriority == AreaPriority.Null) { Debug.Log(obj.name); continue; }
+            if (obj.ObjectArea == Areas.Null || obj.ObjectPriority == AreaPriority.Null) { Debug.Log(obj.name); continue; }
 
             AreaObjects[obj.ObjectArea][obj.ObjectPriority].AreaObjects.Add(obj.transform.gameObject);
         }

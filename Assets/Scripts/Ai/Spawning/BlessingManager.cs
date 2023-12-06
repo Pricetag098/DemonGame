@@ -18,10 +18,17 @@ public class BlessingManager : MonoBehaviour
     private float min;
     private float max;
 
+    [SerializeField] Transform spawnpoint;
+
     private void Awake()
     {
         blessingSpawner = FindObjectOfType<BlessingSpawner>();
         MinAndMax(1);
+    }
+
+    private void Start()
+    {
+        SpawnBlessingOfType(spawnpoint, BlessingType.DivineSmite);
     }
 
     public void SpawnBlessingOfType(Transform pos, BlessingType type = BlessingType.Null)

@@ -44,6 +44,8 @@ public class LesserDemon : DemonFramework
     }
     public override void OnUpdate()
     {
+        DeathFade();
+
         if (IdleSoundTimer.TimeGreaterThan)
         {
             IdleSoundInterval(IdleSoundTimer);
@@ -59,8 +61,6 @@ public class LesserDemon : DemonFramework
             OnDespawn();
             return;
         }
-
-        DeathFade();
 
         if (DetectTarget() == false) { return; }
 
@@ -168,9 +168,11 @@ public class LesserDemon : DemonFramework
 
         SetAllColliders(false);
 
+        _animator.SetLayerWeight(_animator.GetLayerIndex("Upper"), 0);
+
         _isDead = true;
 
-        if (_spawnType == SpawnType.Default) { _spawnerManager.DemonKilled(); }
+        _ragdoll.ToggleRagdoll(true);
 
         //MarkForRemoval();
     }

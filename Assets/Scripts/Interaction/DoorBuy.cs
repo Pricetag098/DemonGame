@@ -15,6 +15,8 @@ public class DoorBuy : ShopInteractable
     [SerializeField] Optional<Area> AreaConnection2;
     [SerializeField] List<Optional<Area>> AreaConnections = new List<Optional<Area>>();
 
+    [SerializeField] Optional<SoundPlayer> diageticSound;
+
     private DetectArea DetectArea;
     private Spawners spawners;
 
@@ -30,8 +32,11 @@ public class DoorBuy : ShopInteractable
     protected override void DoBuy(Interactor interactor)
     {
         open = true;
-
-        foreach(Optional<Area> area in AreaConnections)
+        if (diageticSound.Enabled)
+        {
+            diageticSound.Value.Play();
+        }
+        foreach (Optional<Area> area in AreaConnections)
         {
             if(area.Enabled)
             {

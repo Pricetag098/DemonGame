@@ -9,10 +9,7 @@ public class DemonMaterials : MonoBehaviour
     private static Material[] defaultClothMaterials;
     private static Material[] defaultAttachMaterials;
 
-    private static Material[] Ritual1;
-    private static Material[] Ritual2;
-    private static Material[] Ritual3;
-    private static Material[] Ritual4;
+    private static Material[] Ritual;
 
     private void Awake()
     {
@@ -20,10 +17,8 @@ public class DemonMaterials : MonoBehaviour
         defaultClothMaterials = LoadALlAssestsFromFolder<Material>("Materials/LesserDemonMaterialVarients/ClothMaterialVariations");
         defaultAttachMaterials = LoadALlAssestsFromFolder<Material>("Materials/LesserDemonMaterialVarients/AttachmentMaterialVariations");
 
-        Ritual1 = LoadALlAssestsFromFolder<Material>("Materials/LesserDemonMaterialVarients/1stRitualMaterialVariations");
-        Ritual2 = LoadALlAssestsFromFolder<Material>("Materials/LesserDemonMaterialVarients/2stRitualMaterialVariations");
-        Ritual3 = LoadALlAssestsFromFolder<Material>("Materials/LesserDemonMaterialVarients/3stRitualMaterialVariations");
-        Ritual4 = LoadALlAssestsFromFolder<Material>("Materials/LesserDemonMaterialVarients/4stRitualMaterialVariations");
+        //Ritual1 = LoadALlAssestsFromFolder<Material>("Materials/LesserDemonMaterialVarients/1stRitualMaterialVariations");
+        Ritual = LoadALlAssestsFromFolder<Material>("Materials/LesserDemonMaterialVarients/RitualMaterialVariations");
 
         Resources.UnloadUnusedAssets();
     }
@@ -65,43 +60,15 @@ public class DemonMaterials : MonoBehaviour
         meshRenderer.materials = mats;
     }
 
-    public static void SetRitualMaterial(SkinnedMeshRenderer meshRenderer, int index)
+    public static void SetRitualMaterial(SkinnedMeshRenderer meshRenderer)
     {
-        switch(index)
-        {
-            case 1:
-                int num1 = Random.Range(0, Ritual1.Length);
+        int num = Random.Range(0, Ritual.Length);
 
-                Material[] mats1 = meshRenderer.materials;
-                mats1[1] = Ritual1[num1];
+        Material[] mats = meshRenderer.materials;
 
-                meshRenderer.materials = mats1;
-                break;
-            case 2:
-                int num2 = Random.Range(0, Ritual2.Length);
+        mats[1] = Ritual[num]; // sets second material as first is not the demon material
 
-                Material[] mats2 = meshRenderer.materials;
-                mats2[1] = Ritual2[num2];
-
-                meshRenderer.materials = mats2;
-                break;
-            case 3:
-                int num3 = Random.Range(0, Ritual3.Length);
-
-                Material[] mats3 = meshRenderer.materials;
-                mats3[1] = Ritual3[num3];
-
-                meshRenderer.materials = mats3;
-                break;
-            case 4:
-                int num4 = Random.Range(0, Ritual4.Length);
-
-                Material[] mats4 = meshRenderer.materials;
-                mats4[1] = Ritual3[num4];
-
-                meshRenderer.materials = mats4;
-                break;
-        }
+        meshRenderer.materials = mats;
     }
 
     public T[] LoadALlAssestsFromFolder<T>(string FilePath)

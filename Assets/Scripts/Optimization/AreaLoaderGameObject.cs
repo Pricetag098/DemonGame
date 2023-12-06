@@ -317,6 +317,9 @@ public class AreaLoaderGameObject : MonoBehaviour
 
         foreach (AreaObject obj in objs) 
         {
+            // Debug null objects
+            //if (obj.ObjectArea == Areas.Null || obj.ObjectPriority == AreaPriority.Null) { Debug.Log(obj.name); continue; }
+
             AreaObjects[obj.ObjectArea][obj.ObjectPriority].AreaObjects.Add(obj.transform.gameObject);
         }
     }

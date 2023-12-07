@@ -9,6 +9,7 @@ public class RitualDoor : MonoBehaviour
     [SerializeField] GameObject wall;
     [SerializeField] ArcaneLock arcaneLock;
     [SerializeField] GameObject interactable;
+    [SerializeField] GameObject hoverObj;
     [SerializeField] List<GameObject> torchParts;
 
     private int ritualsCompleted;
@@ -27,6 +28,7 @@ public class RitualDoor : MonoBehaviour
     {
         wall.SetActive(false);
         interactable.SetActive(true);
+        hoverObj.SetActive(false);
         foreach(GameObject obj in torchParts)
         {
             obj.SetActive(true);

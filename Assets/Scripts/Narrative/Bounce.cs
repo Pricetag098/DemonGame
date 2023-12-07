@@ -22,7 +22,7 @@ public class Bounce : MonoBehaviour
 
     private bool escaped;
     [SerializeField] private List<Transform> escPos;
-    private GameObject parent;
+    //private GameObject parent;
     [SerializeField] private int escInt;
 
     [SerializeField] private RitualSpawner ritualSpawner;
@@ -35,7 +35,7 @@ public class Bounce : MonoBehaviour
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        parent = transform.parent.gameObject;
+        //parent = transform.parent.gameObject;
         escaped = false;
         check= false;
         speedCheck = false;
@@ -46,33 +46,33 @@ public class Bounce : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!escaped)
-        {
-            if (ritualSpawner.RitualActive)
-            {
-                if(!check)
-                {
-                    initialDemonCount = ritualSpawner.demonsLeft;
-                    check = true;
-                }
-                speed = maxSpeed / ((initialDemonCount - ritualSpawner.demonsLeft) / (float)initialDemonCount);
-/*                if (speed > 1000f)
-                {
-                    speed = 999;
-                }*/
-                if (!speedCheck && speed < 999)
-                {
-                    SetTargetPos();
-                    speedCheck = true;
-                }
-            }
-            //transform.DOLocalMove(targetPos, speed).SetSpeedBased(true).SetEase(Ease.OutQuart);
-            if (transform.localPosition == targetPos)
-            {
-                SetTargetPos();
-            }
-        }
-        else if (escaped)
+//        if (!escaped)
+//        {
+//            if (ritualSpawner.RitualActive)
+//            {
+//                if(!check)
+//                {
+//                    initialDemonCount = ritualSpawner.demonsLeft;
+//                    check = true;
+//                }
+//                speed = maxSpeed / ((initialDemonCount - ritualSpawner.demonsLeft) / (float)initialDemonCount);
+///*                if (speed > 1000f)
+//                {
+//                    speed = 999;
+//                }*/
+//                if (!speedCheck && speed < 999)
+//                {
+//                    SetTargetPos();
+//                    speedCheck = true;
+//                }
+//            }
+//            //transform.DOLocalMove(targetPos, speed).SetSpeedBased(true).SetEase(Ease.OutQuart);
+//            if (transform.localPosition == targetPos)
+//            {
+//                SetTargetPos();
+//            }
+//        }
+        if (escaped)
         {
             //transform.DOMove(escPos[escInt].position, speed).SetSpeedBased(true).SetEase(Ease.OutQuart);
             if (transform.position == escPos[oldInt].position)
@@ -122,7 +122,7 @@ public class Bounce : MonoBehaviour
     {
         escaped = true;
         UpdateEscTween();
-        parent.GetComponent<MeshRenderer>().enabled = false;
+        //parent.GetComponent<MeshRenderer>().enabled = false;
     }
     public void Door()
     {

@@ -380,7 +380,7 @@ public class DemonFramework : MonoBehaviour
             DemonSpawner.ActiveDemonsToRemove.Add(this);
         }
     }
-    public void DeathFade()
+    public bool DeathFade()
     {
         if (_isDead == true)
         {
@@ -439,7 +439,11 @@ public class DemonFramework : MonoBehaviour
 
                 MarkForRemoval();
             }
+
+            return true;
         }
+
+        return false;
     }
     #endregion
 

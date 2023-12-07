@@ -327,13 +327,13 @@ public class AiAgent : MonoBehaviour
     }
     public bool CalculatePath(Vector3 end, NavMeshPath path)
     {
-        NavMesh.SamplePosition(transform.position, out NavMeshHit hitStart, 50, NavMesh.AllAreas);
-        NavMesh.SamplePosition(end, out NavMeshHit hitEnd, 50, NavMesh.AllAreas);
+        NavMesh.SamplePosition(transform.position, out NavMeshHit hitStart, 5, NavMesh.AllAreas);
+        NavMesh.SamplePosition(end, out NavMeshHit hitEnd, 2, NavMesh.AllAreas);
 
-        Vector3 startSampledPosition = hitStart.position;
-        Vector3 endSampledPosition = hitEnd.position;
+        //Vector3 startSampledPosition = hitStart.position;
+        //Vector3 endSampledPosition = hitEnd.position;
 
-        return NavMesh.CalculatePath(startSampledPosition, endSampledPosition, NavMesh.AllAreas, path);
+        return NavMesh.CalculatePath(hitStart.position, hitEnd.position, NavMesh.AllAreas, path);
     }
 
     public void SetPath(NavMeshPath navPath)
@@ -351,8 +351,8 @@ public class AiAgent : MonoBehaviour
 	{
         NavMeshPath path = new NavMeshPath();
 
-        NavMesh.SamplePosition(start, out NavMeshHit hitStart, 50, NavMesh.AllAreas);
-        NavMesh.SamplePosition(end, out NavMeshHit hitEnd, 50, NavMesh.AllAreas);
+        NavMesh.SamplePosition(start, out NavMeshHit hitStart, 5, NavMesh.AllAreas);
+        NavMesh.SamplePosition(end, out NavMeshHit hitEnd, 2, NavMesh.AllAreas);
 
         Vector3 startSampledPosition = hitStart.position;
         Vector3 endSampledPosition = hitEnd.position;
@@ -399,12 +399,12 @@ public class AiAgent : MonoBehaviour
 
         //if (path.pathLength > 0)
         //{
-            //for (int i = 0; i < path.pathLength; i++)
-            //{
-            //    Gizmos.DrawWireSphere(path.corners[i], indexChangeDistance);
-            //}
+        //for (int i = 0; i < path.pathLength; i++)
+        //{
+        //    Gizmos.DrawWireSphere(path.corners[i], indexChangeDistance);
+        //}
 
-            //Gizmos.DrawWireSphere(path.corners[drawIndex], 1);
+        //Gizmos.DrawWireSphere(path.corners[drawIndex], 1);
         //}
 
         //Gizmos.color = Color.blue;

@@ -260,7 +260,7 @@ public class AreaLoaderGameObject : MonoBehaviour
                 UnloadAll(MainEntrance);
                 UnloadAreaObjects(MainEntrance, Environment);
                 UnloadAll(OutsideTomb);
-                UnloadAreaObjects(OutsideTomb, Environment);
+                //UnloadAreaObjects(OutsideTomb, Environment);
                 UnloadAll(InsideTomb);
                 UnloadAreaObjects(InsideTomb, Environment);
                 UnloadAll(LibraryUpper);

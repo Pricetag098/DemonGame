@@ -24,16 +24,12 @@ public class BlessingActive : MonoBehaviour
             if (i < blessingStatusHandler.activeBlessings.Count)
             {
                 images[i].gameObject.SetActive(true);
-                //images[i].DOFade(1, .3f);
                 images[i].text = blessingStatusHandler.activeBlessings[i].blessingFontRef;
                 images[i].font = blessingStatusHandler.activeBlessings[i].blessingFontAsset;
             }
             else
             {
-                //images[i].DOFade(0, .3f).OnComplete(() =>
-                //{
-                    images[i].gameObject.SetActive(false);
-                //});
+                images[i].gameObject.SetActive(false);
             }
         }
     }

@@ -176,21 +176,23 @@ public class LesserDemon : DemonFramework
     }
     public override void OnForcedDeath(bool ignoreImmunity)
     {
-        if(IsAlive() == false) { return; }
+        //if(IsAlive() == false) { return; }
 
-        _aiAgent.SetFollowSpeed(0);
+        //_aiAgent.SetFollowSpeed(0);
 
-        _animator.SetLayerWeight(_animator.GetLayerIndex("Upper"), 0);
+        //_animator.SetLayerWeight(_animator.GetLayerIndex("Upper"), 0);
 
-        PlaySoundDeath();
+        //PlaySoundDeath();
 
-        _isDead = true;
+        //_isDead = true;
 
-        _aiAgent.canRotate = false;
+        //_aiAgent.canRotate = false;
 
-        _ragdoll.ToggleRagdoll(true);
+        //_ragdoll.ToggleRagdoll(true);
 
-        _spawnerManager.DemonKilled();
+        //_spawnerManager.DemonKilled();
+
+        _health.TakeDmg(float.PositiveInfinity, HitType.Null);
     }
     public override void OnForcedDespawn()
     {
@@ -201,6 +203,8 @@ public class LesserDemon : DemonFramework
         _spawner.AddDemonBackToPool(_type, _spawnerManager);
 
         MarkForRemoval();
+
+        
     }
     public override void OnDespawn()
     {

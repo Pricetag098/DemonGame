@@ -176,6 +176,8 @@ public class LesserDemon : DemonFramework
     }
     public override void OnForcedDeath(bool ignoreImmunity)
     {
+        if(IsAlive() == false) { return; }
+
         _aiAgent.SetFollowSpeed(0);
 
         _animator.SetLayerWeight(_animator.GetLayerIndex("Upper"), 0);

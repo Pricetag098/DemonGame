@@ -44,7 +44,7 @@ public class LesserDemon : DemonFramework
     }
     public override void OnUpdate()
     {
-        DeathFade();
+        if(DeathFade() == true) { return; } 
 
         if (IdleSoundTimer.TimeGreaterThan)
         {
@@ -191,6 +191,8 @@ public class LesserDemon : DemonFramework
         //_ragdoll.ToggleRagdoll(true);
 
         //_spawnerManager.DemonKilled();
+
+        DemonInMap = false;
 
         _health.TakeDmg(float.PositiveInfinity, HitType.Null);
     }

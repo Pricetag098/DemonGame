@@ -15,10 +15,10 @@ public class OptionSelector : MonoBehaviour
 
     [SerializeField] private List<RoundPoints> roundSettings = new List<RoundPoints>();
 
-    private void Awake()
+    private void Start()
     {
-        GamePrefs.SetStartRound(roundSettings[index].round);
-        GamePrefs.SetStartMoney(roundSettings[index].points);
+        GamePrefs.SetStartRound(1);
+        GamePrefs.SetStartMoney(500);
     }
 
     public void ButtonClick(int value)

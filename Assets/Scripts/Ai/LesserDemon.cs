@@ -178,11 +178,13 @@ public class LesserDemon : DemonFramework
     {
         _aiAgent.SetFollowSpeed(0);
 
-        SetAllColliders(false);
-
         _animator.SetLayerWeight(_animator.GetLayerIndex("Upper"), 0);
 
+        PlaySoundDeath();
+
         _isDead = true;
+
+        _aiAgent.canRotate = false;
 
         _ragdoll.ToggleRagdoll(true);
 

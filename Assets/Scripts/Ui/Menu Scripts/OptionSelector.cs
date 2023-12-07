@@ -7,13 +7,19 @@ using TMPro;
 
 public class OptionSelector : MonoBehaviour
 {
-    public int index;
+    public int index = 0;
 
     public TextMeshProUGUI text;
 
     //public List<int> options= new List<int>();
 
     [SerializeField] private List<RoundPoints> roundSettings = new List<RoundPoints>();
+
+    private void Awake()
+    {
+        GamePrefs.SetStartRound(roundSettings[index].round);
+        GamePrefs.SetStartMoney(roundSettings[index].points);
+    }
 
     public void ButtonClick(int value)
     {

@@ -88,8 +88,6 @@ public class EndGameScreen : MonoBehaviour
         { 
             endStatsCanvas.interactable = true; 
             endStatsCanvas.blocksRaycasts = true;
-            endTitleCanvas.interactable = true;
-            endTitleCanvas.blocksRaycasts = true;
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
         });

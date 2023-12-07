@@ -87,6 +87,7 @@ public class AreaLoaderGameObject : MonoBehaviour
                 // Areas To Load
                 LoadAll(Graveyard);
                 LoadAll(MainEntrance);
+                LoadAll(CourtYard);
                 LoadAreaObjects(Garden, HighPriority);
                 LoadAreaObjects(Garden, Environment);
                 LoadAll(CathedralHallLower);

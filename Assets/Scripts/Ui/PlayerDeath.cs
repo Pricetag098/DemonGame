@@ -5,8 +5,9 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.Events;
+using Movement;
 
-public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersistance<SessionData>
+public class PlayerDeath : MonoBehaviour
 {
     [SerializeField] CanvasGroup canvasGroup;
     TextMeshProUGUI text;
@@ -25,9 +26,11 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
     bool dead;
     PlayerStats stats;
     [Range(0,1)] public float pointLoss;
-    int deaths;
+    //public int deaths;
     [SerializeField] string onDeathText, onRegaintext, onLossText;
     ResurrectionBuy resurrectionBuy;
+    EndGameScreen endGameTweening;
+    PlayerInputt playerInputt;
     // Start is called before the first frame update
     void Awake()
     {
@@ -39,6 +42,8 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
         spawnerManager = FindObjectOfType<SpawnerManager>();
         text = canvasGroup.GetComponentInChildren<TextMeshProUGUI>();
         resurrectionBuy = FindObjectOfType<ResurrectionBuy>();
+        endGameTweening = FindObjectOfType<EndGameScreen>();
+        playerInputt = FindObjectOfType<PlayerInputt>();
     }
 
     PlayerBodyInteract body;
@@ -68,7 +73,7 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
 
     void Die()
 	{
-        
+        stats.deaths++;
         stats.ResetKillStreak();
         if(respawnsLeft > 0)
 		{
@@ -79,10 +84,17 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
         }
         else
 		{
-            SceneManager.LoadScene(0);
+            endGameTweening.Open(false);
+            playerInputt.enabled = false;
 		}
         
 	}
+
+    public void EndGame()
+    {
+        endGameTweening.Open(true);
+        playerInputt.enabled = false;
+    }
 
     public void ReturnToBody(bool outOfTime)
     {
@@ -96,6 +108,7 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
 
     IEnumerator DoReturnToBody(bool outOfTime)
     {
+        playerInputt.enabled = false;
         onRespawnEvents.Invoke();
         Time.timeScale = 0;
         while (respawnTimer < fadeTime)
@@ -108,7 +121,7 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
 
         if (outOfTime) transform.position = respawnPoint.position;
         else transform.position = body.body.transform.position;
-
+        playerInputt.enabled = true;
         SetWorldState(true);
         spawnerManager.RunDefaultSpawning = true;
         transform.rotation = body.body.transform.rotation;
@@ -123,6 +136,7 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
 
     IEnumerator DoDie()
 	{
+        playerInputt.enabled = false;
         Time.timeScale = 0;
         while (respawnTimer < fadeTime)
 		{
@@ -140,6 +154,7 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
         body.body.transform.position = transform.position;
         body.body.transform.rotation = transform.rotation;
         body.Show();
+        playerInputt.enabled = true;
         transform.position = respawnPoint.position;
         while (respawnTimer >=0)
         {
@@ -160,22 +175,5 @@ public class PlayerDeath : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
         }
     }
 
-    void IDataPersistance<GameData>.SaveData(ref GameData data)
-	{
-        //data.deaths = deaths;
-	}
-    void IDataPersistance<GameData>.LoadData(GameData data)
-	{
-        deaths += data.deaths;
-	}
-
-    public void LoadData(SessionData data)
-    {
-        //throw new System.NotImplementedException();
-    }
-
-    public void SaveData(ref SessionData data)
-    {
-        data.deaths = deaths;
-    }
+   
 }

@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BlessingManager : MonoBehaviour
@@ -18,10 +20,17 @@ public class BlessingManager : MonoBehaviour
     private float min;
     private float max;
 
+    [SerializeField] Transform spawnpoint;
+
     private void Awake()
     {
         blessingSpawner = FindObjectOfType<BlessingSpawner>();
         MinAndMax(1);
+    }
+
+    private void Start()
+    {
+        //SpawnBlessingOfType(spawnpoint, BlessingType.DivineSmite);
     }
 
     public void SpawnBlessingOfType(Transform pos, BlessingType type = BlessingType.Null)
@@ -33,7 +42,7 @@ public class BlessingManager : MonoBehaviour
     {
         min = minRound.Evaluate(currentRound);
         max = maxRound.Evaluate(currentRound);
-        SpawnNum = (int)Random.Range(min, max);
+        SpawnNum = (int)UnityEngine.Random.Range(min, max);
     }
 
     public void GetBlessingChance(Transform pos, int currentRound, bool spawnDrop = false)
@@ -54,7 +63,7 @@ public class BlessingManager : MonoBehaviour
 
     public void PercentChance(Transform pos)
     {
-        int rand = Random.Range(1, 101);
+        int rand = UnityEngine.Random.Range(1, 101);
 
         if(rand <= percentageChance)
         {

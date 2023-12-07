@@ -44,6 +44,9 @@ public class Spawners : MonoBehaviour
                 case Areas.LibraryLower:
                     AreaDictionary.Add(a.AreaId, a);
                     break;
+                case Areas.LibaryUpper:
+                    AreaDictionary.Add(a.AreaId, a);
+                    break;
                 case Areas.BishopsQuarters:
                     AreaDictionary.Add(a.AreaId, a);
                     break;
@@ -54,6 +57,12 @@ public class Spawners : MonoBehaviour
                     AreaDictionary.Add(a.AreaId, a);
                     break;
                 case Areas.OutsideTomb:
+                    AreaDictionary.Add(a.AreaId, a);
+                    break;
+                case Areas.InsideTomb:
+                    AreaDictionary.Add(a.AreaId, a);
+                    break;
+                case Areas.CathedralHallBack:
                     AreaDictionary.Add(a.AreaId, a);
                     break;
             }

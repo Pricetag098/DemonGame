@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
+using System.Linq;
+
 public class CasterDisplay : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI[] abilityIconIdentifier;
@@ -33,11 +35,10 @@ public class CasterDisplay : MonoBehaviour
 	// Update is called once per frame
 	void Update()
     {
-        for(int i = 0; i < abilityIconIdentifier.Length; i++)
-		{
-            abilityIconIdentifier[i].text = caster.caster.abilities[i].symbolText;
-            //abilityIconIdentifier[i].GetComponent<Outline>().enabled = i == caster.activeIndex;
-		}
+        abilityIconIdentifier[0].text = caster.caster.abilities[caster.activeIndex].symbolText;
+        abilityIconIdentifier[1].text = caster.caster.abilities[caster.previousActiveIndex].symbolText;
+        
+
         bloodMeter.value = dynamics.Update(Time.unscaledDeltaTime,caster.caster.blood / caster.caster.maxBlood);
         if(bloodMeter.value < 0.17f)
         {

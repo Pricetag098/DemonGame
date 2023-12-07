@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using UnityEngine.VFX;
 
 public class Gun : MonoBehaviour
 {
@@ -93,7 +93,7 @@ public class Gun : MonoBehaviour
     [Header("Assign These")]
     public Transform origin;
     public SoundPlayer shootSound, reloadSound, emptySound;
-    public Optional<ParticleSystem> gunfire;
+    public Optional<VisualEffect> gunfire;
     public LayerMask hitMask = int.MaxValue;
     
     
@@ -354,12 +354,12 @@ public class Gun : MonoBehaviour
         timeSinceLastShot = 0;
         shootSound.Play();
         holster.animator.SetTrigger(shootKey);
-        holster.animator.SetFloat(shootspeedKey,1/ fireTimer);
+        holster.animator.SetFloat(shootspeedKey,1/  (fireSelect == FireTypes.burst? burstTimer : fireTimer));
         if (animator.Enabled)
         {
             animator.Value.SetInteger(fireIndexKey,ammoLeft % fireAnimations);
             animator.Value.SetTrigger(shootKey);
-            animator.Value.SetFloat(shootspeedKey,1/ fireTimer);
+            animator.Value.SetFloat(shootspeedKey,1/ (fireSelect == FireTypes.burst ? burstTimer : fireTimer));
         }
             
         if (gunfire.Enabled)

@@ -29,6 +29,7 @@ public class PunchAbility : Ability
     float flightTime = 0;
     [SerializeField] float speedLinesDelay;
     ChargeStuff chargeStuff;
+    [SerializeField] float killForce;
 	protected override void OnEquip()
 	{
 		stats = caster.GetComponent<PlayerStats>();
@@ -127,7 +128,13 @@ public class PunchAbility : Ability
 
                             }
                             if(hitBox.OnHit(damageCurve.Evaluate(chargeTimer/flightTime), HitType.ABILITY))
+                            {
+                                Vector3 forceVector = -(hitBox.transform.position - caster.castOrigin.position).normalized;
                                 caster.OnKill();
+                                if (hitBox.rigidBody.Enabled)
+                                    hitBox.rigidBody.Value.AddForce(forceVector * killForce);
+                            }
+                                
                             healths.Add(hitBox.health);
                         }
                     }

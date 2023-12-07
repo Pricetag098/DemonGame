@@ -42,7 +42,7 @@ AudioSource:
   m_GameObject: {fileID: 328686889195114958}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -2184352670422988824, guid: 721a4b919c5aedf419f892e62f50ea7e, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -142,7 +142,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playOnAwake: 0
-  clips: []
+  clips:
+  - {fileID: 8300000, guid: 531527e47deb7ea468096262005fb346, type: 3}
   pitchRange: 0
   basePitch: 1
   looping: 0
@@ -748,10 +749,10 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 192
   DopplerLevel: 1
-  MinDistance: 0
-  MaxDistance: 15
+  MinDistance: 1
+  MaxDistance: 10
   Pan2D: 0
-  rolloffMode: 2
+  rolloffMode: 0
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -1034,7 +1035,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playOnAwake: 0
-  clips: []
+  clips:
+  - {fileID: 8300000, guid: c4999bb06f242d54abc156a98394eba0, type: 3}
   pitchRange: 0
   basePitch: 1
   looping: 0
@@ -1328,10 +1330,10 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 64
   DopplerLevel: 1
-  MinDistance: 0
+  MinDistance: 1
   MaxDistance: 10
   Pan2D: 0
-  rolloffMode: 2
+  rolloffMode: 0
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0

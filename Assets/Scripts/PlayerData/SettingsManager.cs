@@ -69,11 +69,12 @@ public class SettingsManager : MonoBehaviour
 		}
 
 	}
+    private void OnDestroy()
+    {
+        SaveGame();
+    }
 
-	private void OnApplicationQuit()
-	{
-		SaveGame();
-	}
+    
 
 	List<IDataPersistance<PlayerSettings>> FindAllDataPersistance()
 	{

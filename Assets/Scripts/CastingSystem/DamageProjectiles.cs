@@ -28,6 +28,8 @@ public class DamageProjectiles : MonoBehaviour
     Transform target;
     bool useTarget;
 
+    float killForce;
+
     public delegate void Action(Health health);
     public Action onPenetrate;
     // Start is called before the first frame update
@@ -38,7 +40,7 @@ public class DamageProjectiles : MonoBehaviour
         visualiser = GetComponentInChildren<ProjectileVisualiser>();
     }
 
-    public void Shoot(Vector3 origin,Vector3 mid,Vector3 end,float time,float dmg,Ability ability,int penetrations)
+    public void Shoot(Vector3 origin,Vector3 mid,Vector3 end,float time,float dmg,Ability ability,int penetrations,float killForce)
 	{
 
         damage = dmg;
@@ -55,9 +57,10 @@ public class DamageProjectiles : MonoBehaviour
         maxPenetrations = penetrations;
         healths.Clear();
         this.penetrations = 0;
+        this.killForce = killForce;
     }
 
-    public void Shoot(Vector3 origin, Vector3 mid, Transform end,Vector3 offset, float time, float dmg, Ability ability, int penetrations)
+    public void Shoot(Vector3 origin, Vector3 mid, Transform end,Vector3 offset, float time, float dmg, Ability ability, int penetrations, float killForce)
     {
         Debug.Log("AAA");
         damage = dmg;
@@ -74,7 +77,7 @@ public class DamageProjectiles : MonoBehaviour
         this.ability = ability;
         visualiser.Start(ability.caster.castOrigin, transform);
         maxPenetrations = penetrations;
-        
+        this.killForce = killForce;
     }
 
     
@@ -103,7 +106,12 @@ public class DamageProjectiles : MonoBehaviour
 				if (!healths.Contains(hb.health))
 				{
                     if (hb.OnHit(damage, HitType.ABILITY))
+                    {
                         ability.caster.OnKill();
+                        if (hb.rigidBody.Enabled)
+                            hb.rigidBody.Value.AddForce(transform.forward * killForce);
+                    }
+                        
 					healths.Add(hb.health);
 					ability.OnHit(hb.health);
 					penetrations++;

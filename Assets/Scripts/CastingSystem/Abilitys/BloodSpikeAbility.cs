@@ -20,7 +20,7 @@ public class BloodSpikeAbility : Ability
 	float timer;
 	[SerializeField, Range(0f, 1f)] float directionWeight;
 	[SerializeField] VfxSpawnRequest spawnVfx,spike;
-	
+	[SerializeField] float killForce;
 	protected override void OnEquip()
 	{
 		
@@ -64,7 +64,7 @@ public class BloodSpikeAbility : Ability
 		
 		Vector3 up = Vector3.Slerp(normal,aimDir,directionWeight);
 		spike.Play(pos,up,Vector3.one * scale);
-		Collider[] colliders = Physics.OverlapCapsule(pos, pos + normal * scale, 1,targetLayers);
+		Collider[] colliders = Physics.OverlapCapsule(pos, pos + up * scale, 1,targetLayers);
 		foreach(Collider collider in colliders)
 		{
 			HitBox hb;
@@ -75,7 +75,12 @@ public class BloodSpikeAbility : Ability
 					healths.Add(hb.health);
                     OnHit(hb.health);
                     if(hb.health.TakeDmg(distanceDamage.Evaluate(distance/range) * caster.DamageMulti, HitType.ABILITY))
-						caster.OnKill();
+					{
+                        caster.OnKill();
+                        if (hb.rigidBody.Enabled)
+                            hb.rigidBody.Value.AddForce(up * killForce);
+                    }
+						
 					
 				}
 			}

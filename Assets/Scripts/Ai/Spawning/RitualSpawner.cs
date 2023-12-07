@@ -41,24 +41,31 @@ public class RitualSpawner : MonoBehaviour
     private Health playerHealth;
     private Timer ritualTimer;
 
-    private float timer;
+    //private float timer;
 
     private void Awake()
     {
         manager = FindObjectOfType<SpawnerManager>();
         spawnPoints = HelperFuntions.GetAllChildrenSpawnersFromParent(SpawnPoint);
         blockers = HelperFuntions.GetAllChildrenTransformsFromParent(BlockerObjects);
+
+        ritualComplete = GamePrefs.RitualsComplete;
     }
 
     private void Start()
     {
+        if(ritualComplete == true)
+        {
+            OnComplete(manager);
+        }
+
         BlockerObjects.gameObject.SetActive(false);
         demonSpawner = manager._DemonSpawner;
     }
 
     private void Update()
     {
-        if(RitualActive && ritual)
+        if(RitualActive == true && ritual == true)
         {
             if(playerHealth.dead == true)
             {
@@ -78,12 +85,14 @@ public class RitualSpawner : MonoBehaviour
             RitualActive = true;
             ActiveDemons.Clear();
 
-            SetDemonQueue(ritual.ritualWave);
+            //SetDemonQueue(ritual.ritualWave);
 
-            demonsLeft = ritual.demonsToSpawn;
-            demonsToSpawn = ritual.demonsToSpawn;
+            DemonQueue = ritual.DemonWave;
+            int count = DemonQueue.Count;
+            demonsLeft = count;
+            demonsToSpawn = count;
 
-            if(playerHealth is null) playerHealth = manager.player.GetComponent<Health>();
+            if(playerHealth == null) playerHealth = manager.player.GetComponent<Health>();
 
             BlockerObjects.gameObject.SetActive(true);
 
@@ -95,11 +104,11 @@ public class RitualSpawner : MonoBehaviour
 
     public void Spawning(DemonSpawner spawner, SpawnerManager sm)
     {
-        if(ritualTimer.TimeGreaterThan && RitualActive == true)
+        if(ritualTimer.TimeGreaterThan && RitualActive == true && ritualComplete == false)
         {
             if (HelperFuntions.IntGreaterThanOrEqual(ritual.MaxDemonsAtOnce, currentDemons))
             {
-                timer = 0;
+                //timer = 0;
 
                 if (demonsLeft <= 0 && currentDemons <= 0 && demonsToSpawn <= 0)
                 {
@@ -181,7 +190,7 @@ public class RitualSpawner : MonoBehaviour
         sm.TpPlayerOnEnd();
 
         RitualActive = false;
-        ritual = null;
+        //ritual = null;
         currentDemons = 0;
         demonsLeft = 0;
         demonsToSpawn = 0;

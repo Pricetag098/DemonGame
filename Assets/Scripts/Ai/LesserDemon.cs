@@ -44,6 +44,8 @@ public class LesserDemon : DemonFramework
     }
     public override void OnUpdate()
     {
+        if(DeathFade() == true) { return; } 
+
         if (IdleSoundTimer.TimeGreaterThan)
         {
             IdleSoundInterval(IdleSoundTimer);
@@ -59,8 +61,6 @@ public class LesserDemon : DemonFramework
             OnDespawn();
             return;
         }
-
-        DeathFade();
 
         if (DetectTarget() == false) { return; }
 
@@ -89,13 +89,32 @@ public class LesserDemon : DemonFramework
         _isSpawned = false;
         DemonInMap = inMap;
 
+        _attachments.ResetAllAttachments();
+        _attachments.RandomAttachments();
+
         switch (spawnType)
         {
             case SpawnType.Default:
                 _deathPoints.points = pointsOnDeath;
+
+                DemonMaterials.SetDefaultSpawningMaterial(_skinnedMeshRenderer);
+
+                foreach (var obj in _attachments.ReturnActiveObjects())
+                {
+                    DemonMaterials.SetDefaultAttachmentMaterial(obj);
+                }
+
                 break;
             case SpawnType.Ritual:
                 _deathPoints.points = 0;
+
+                DemonMaterials.SetRitualMaterial(_skinnedMeshRenderer);
+
+                foreach (var obj in _attachments.ReturnActiveObjects())
+                {
+                    DemonMaterials.SetRitualAttachmentMaterial(obj);
+                }
+
                 break;
         }
 
@@ -106,8 +125,6 @@ public class LesserDemon : DemonFramework
         _animationOverrides.SelectController(_animator);
 
         SetAllColliders(true);
-
-        DemonMaterials.SetDefaultSpawningMaterial(_skinnedMeshRenderer);
 
         DemonSpawner.ActiveDemons.Add(this);
 
@@ -122,14 +139,6 @@ public class LesserDemon : DemonFramework
         SetMoveSpeed(type.SpeedType);
 
         _aiAgent.canRotate = true;
-
-        _attachments.ResetAllAttachments();
-        _attachments.RandomAttachments();
-
-        foreach (var obj in _attachments.ReturnActiveObjects())
-        {
-            DemonMaterials.SetAttachmentMaterial(obj);
-        }
     }
     public override void OnDeath()
     {
@@ -141,13 +150,19 @@ public class LesserDemon : DemonFramework
 
         _isDead = true;
 
-        Transform t = transform;
-        t.position += new Vector3(0, 1, 0);
-        _spawnerManager.GetBlessingChance(t, GetDemonInMap);
-
-        if (_spawnType == SpawnType.Ritual)
+        switch(_spawnType)
         {
-            _spawnerManager.CurrentRitualOnDemonDeath();
+            case SpawnType.Default:
+                Transform t = transform;
+                t.position += new Vector3(0, 1, 0);
+                _spawnerManager.GetBlessingChance(t, GetDemonInMap);
+
+                _spawnerManager.DemonKilled();
+
+                break;
+            case SpawnType.Ritual:
+                _spawnerManager.CurrentRitualOnDemonDeath();
+                break;
         }
 
         if (SoulBox != null)
@@ -161,15 +176,25 @@ public class LesserDemon : DemonFramework
     }
     public override void OnForcedDeath(bool ignoreImmunity)
     {
-        _aiAgent.SetFollowSpeed(0);
+        //if(IsAlive() == false) { return; }
 
-        SetAllColliders(false);
+        //_aiAgent.SetFollowSpeed(0);
 
-        //_spawner.AddDemonBackToPool(_type, _spawnerManager);
+        //_animator.SetLayerWeight(_animator.GetLayerIndex("Upper"), 0);
 
-        if (_spawnType == SpawnType.Default) { _spawnerManager.DemonKilled(); }
+        //PlaySoundDeath();
 
-        MarkForRemoval();
+        //_isDead = true;
+
+        //_aiAgent.canRotate = false;
+
+        //_ragdoll.ToggleRagdoll(true);
+
+        //_spawnerManager.DemonKilled();
+
+        DemonInMap = false;
+
+        _health.TakeDmg(float.PositiveInfinity, HitType.Null);
     }
     public override void OnForcedDespawn()
     {
@@ -180,9 +205,13 @@ public class LesserDemon : DemonFramework
         _spawner.AddDemonBackToPool(_type, _spawnerManager);
 
         MarkForRemoval();
+
+        
     }
     public override void OnDespawn()
     {
+        if(_isRemoved == true) { return; }
+
         _aiAgent.SetFollowSpeed(0);
 
         SetAllColliders(false);
@@ -202,6 +231,8 @@ public class LesserDemon : DemonFramework
 
     public override bool CheckToDespawn()
     {
+        if(_spawnType == SpawnType.Ritual) { return false; }
+
         float dist = DistanceToTargetNavmesh;
 
         if (dist > 100000) dist = 0;
@@ -210,6 +241,7 @@ public class LesserDemon : DemonFramework
         {
             return true;
         }
+
         return false;
     }
     public override void OnAttack()

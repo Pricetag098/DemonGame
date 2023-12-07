@@ -3,12 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking.Types;
+using UnityEngine.VFX;
 
 public class ArcaneLock : MonoBehaviour
 {
     public GameObject border;
 
     public GameObject key;
+
+    public VisualEffect lockedEffected;
+
+    public VisualEffect unlockedEffect;
 
     public float turnTime;
 
@@ -34,8 +39,10 @@ public class ArcaneLock : MonoBehaviour
 
     private void Start()
     {
-        borderMat.SetFloat("_Dissolve_Amount", 0);
-        keyMat.SetFloat("_Dissolve_Amount", 0);
+        borderMat.SetFloat("_AlphaClip", 1);
+        keyMat.SetFloat("_AlphaClip", 1);
+        unlockedEffect.Stop();
+        lockedEffected.Play();
     }
 
     public void DisolveLock()
@@ -44,8 +51,14 @@ public class ArcaneLock : MonoBehaviour
 
         dissolve.Append(border.transform.DOLocalRotate(new Vector3(0, 0, -45f), turnTime));
         dissolve.AppendInterval(turnTime);
-        dissolve.Append(DOTween.To(() => borderMat.GetFloat("_Dissolve_Amount"), x => borderMat.SetFloat("_Dissolve_Amount", x), 1, dissolveTime));
-        dissolve.Join(DOTween.To(() => keyMat.GetFloat("_Dissolve_Amount"), x => keyMat.SetFloat("_Dissolve_Amount", x), 1, dissolveTime));
+        dissolve.AppendCallback(() => 
+        {
+            unlockedEffect.Play();            
+            lockedEffected.Stop();
+        });
+        dissolve.Append(DOTween.To(() => borderMat.GetFloat("_AlphaClip"), x => borderMat.SetFloat("_AlphaClip", x), 0, dissolveTime));
+        dissolve.Join(DOTween.To(() => keyMat.GetFloat("_AlphaClip"), x => keyMat.SetFloat("_AlphaClip", x), 0, dissolveTime));
+        dissolve.AppendCallback(() => unlockedEffect.Stop());
     }
 
     public void NoBuy()

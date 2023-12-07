@@ -62,9 +62,9 @@ public class DemonFramework : MonoBehaviour
     protected bool _isRemoved;
     protected bool _isDead;
 
-    [SerializeField] private float deathFadeTime;
-    [SerializeField] private float fadeTimeMultiplier;
-    private Timer _deathFadeTimer;
+    [SerializeField] protected float deathFadeTime;
+    [SerializeField] protected float fadeTimeMultiplier;
+    protected Timer _deathFadeTimer;
     #endregion
 
     #region ANIMATION
@@ -380,14 +380,13 @@ public class DemonFramework : MonoBehaviour
             DemonSpawner.ActiveDemonsToRemove.Add(this);
         }
     }
-    public void DeathFade()
+    public bool DeathFade()
     {
         if (_isDead == true)
         {
             if (_isRagdolled == false)
             {
                 _isRagdolled = true;
-                //_ragdoll.ToggleRagdoll(true);
 
                 Transform t = transform;
                 t.position = t.position + new Vector3(0, -1, 0);
@@ -419,8 +418,6 @@ public class DemonFramework : MonoBehaviour
 
                 _deathFadeTimer.ResetTimer(deathFadeTime);
 
-                if (_spawnType == SpawnType.Default) { _spawnerManager.DemonKilled(); }
-
                 _ragdoll.ToggleRagdoll(false);
 
                 skinMats = _skinnedMeshRenderer.materials;
@@ -442,7 +439,11 @@ public class DemonFramework : MonoBehaviour
 
                 MarkForRemoval();
             }
+
+            return true;
         }
+
+        return false;
     }
     #endregion
 
@@ -463,7 +464,7 @@ public class DemonFramework : MonoBehaviour
         get { return DemonInMap; }
     }
 
-    private float onNavmeshDistance = 0.7f;
+    private float onNavmeshDistance = 2f;
 
     public bool SampleNavmeshPosition()
     {

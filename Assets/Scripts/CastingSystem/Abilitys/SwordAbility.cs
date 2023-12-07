@@ -18,7 +18,7 @@ public class SwordAbility : Ability
 	float timer;
 	Trail trail;
     [SerializeField] float swingDamageDelay = .1f;
-
+    [SerializeField] float killForce;
 	bool inputBuffered;
     int combo =0, comboLength = 3;
     [SerializeField, Range(0, 1)] float inputBufferPoint;
@@ -98,7 +98,12 @@ public class SwordAbility : Ability
                 healths.Add(hb.health);
                 OnHit(hb.health);
                 if (hb.health.TakeDmg(damage * caster.DamageMulti, HitType.ABILITY))
+                {
                     caster.OnKill();
+                    if (hb.rigidBody.Enabled)
+                        hb.rigidBody.Value.AddForce(direction * killForce);
+                }
+                    
                 if (hit.point == Vector3.zero)
                 {
                     Vector3 pos = hit.collider.ClosestPoint(origin);

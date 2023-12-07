@@ -65,11 +65,6 @@ public class SpawnerManager : MonoBehaviour
         spawnTimer = new Timer(timeBetweenSpawns);
         endRoundTimer = new Timer(timeBetweenRounds);
 
-        //for (int i = 0; i < 31; i++)
-        //{
-        //    Debug.Log((int)demonsToSpawn.Evaluate(i) + " Round " + i);
-        //}
-
         currentRound = GamePrefs.StartRound;
     }
     private void Start()
@@ -122,14 +117,17 @@ public class SpawnerManager : MonoBehaviour
                         {
                             if(_DemonSpawner.SpawnDemon(this))
                             {
-                                currentDemons++;
-                                maxDemonsToSpawn--;
+                                currentDemons = DemonSpawner.ActiveDemons.Count;
+                                maxDemonsToSpawn = _DemonSpawner.DemonCount;
                             }
                         }
                     }
                 }
             }
         }
+
+        currentDemons = DemonSpawner.ActiveDemons.Count;
+        maxDemonsToSpawn = _DemonSpawner.DemonCount;
 
         _DemonSpawner.UpdateCallToDemons();
     }
@@ -142,6 +140,11 @@ public class SpawnerManager : MonoBehaviour
     public void GetBlessingChance(Transform pos, bool spawnDrop = false)
     {
         BlessingManager.GetBlessingChance(pos, currentRound, spawnDrop);
+    }
+
+    public void SpawnBlessing(Transform pos)
+    {
+        BlessingManager.SpawnBlessingOfType(pos);
     }
 
     public void UpdateSpawners(Areas Id, Areas CurrentArea)

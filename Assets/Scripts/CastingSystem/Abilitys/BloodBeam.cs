@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 [CreateAssetMenu(menuName = "abilities/BEAM")]
 public class BloodBeam : Ability
 {
@@ -18,7 +19,7 @@ public class BloodBeam : Ability
 	SoundPlayer sound;
 	[SerializeField] LayerMask enemyLayers;
 	[SerializeField] LayerMask wallLayer;
-
+	[SerializeField] float killForce;
 	bool held,startedCasting;
 	GameObject endVFX;
 
@@ -77,7 +78,12 @@ public class BloodBeam : Ability
 						
 					}
 					if (hb.OnHit(damage * Time.deltaTime * caster.DamageMulti, HitType.ABILITY))
-						caster.OnKill();
+					{
+                        caster.OnKill();
+                        if (hb.rigidBody.Enabled)
+                            hb.rigidBody.Value.AddForce(direction * killForce);
+                    }
+						
 					healths.Add(hb.health);
 				}
 

@@ -12,6 +12,6 @@ public class Nuke : Blessing
 			d.OnForcedDeath(false);
 		}
 
-		DemonSpawner.ActiveDemons.Clear();
+		//DemonSpawner.ActiveDemons.Clear();
 	}
 }

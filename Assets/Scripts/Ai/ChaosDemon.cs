@@ -78,6 +78,8 @@ public class ChaosDemon : DemonFramework
     }
     public override void OnUpdate()
     {
+        Dissolve();
+
         if (IdleSoundTimer.TimeGreaterThan)
         {
             IdleSoundInterval(IdleSoundTimer);
@@ -94,11 +96,7 @@ public class ChaosDemon : DemonFramework
             return;
         }
 
-        //DeathFade();
-
         if (DetectTarget() == false) { return; }
-
-        //if (GetDemonInMap == false) { m_obstacle.Detection(); }
 
         SetAnimationVariables();
 
@@ -117,14 +115,6 @@ public class ChaosDemon : DemonFramework
         }
 
         EnrageState();
-
-        //if (!isEnraged && _health.health / _health.maxHealth < enragePoint)
-        //{
-        //    SetValues(enragedStats);
-        //    enrageSound.Play();
-        //    isEnraged = true;
-        //    Debug.Log("Demon is angy");
-        //}
 
         if(castTimer < 0)
         {
@@ -193,6 +183,8 @@ public class ChaosDemon : DemonFramework
                 break;
         }
 
+        DemonMaterials.SetChaosMaterial(_skinnedMeshRenderer);
+
         _aiAgent.Initalised();
 
         GetAgent.Grid.cells.Insert(GetAgent);
@@ -200,8 +192,6 @@ public class ChaosDemon : DemonFramework
         _animationOverrides.SelectController(_animator);
 
         SetAllColliders(true);
-
-        //DemonMaterials.SetDefaultSpawningMaterial(_skinnedMeshRenderer);
 
         DemonSpawner.ActiveDemons.Add(this);
 
@@ -217,14 +207,6 @@ public class ChaosDemon : DemonFramework
         SetValues(normalStats);
         castTimer = activeStats.castInterval.Evaluate(1);
         _aiAgent.canRotate = true;
-
-        //_attachments.ResetAllAttachments();
-        //_attachments.RandomAttachments();
-
-        //foreach (var obj in _attachments.ReturnActiveObjects())
-        //{
-        //    DemonMaterials.SetAttachmentMaterial(obj);
-        //}
     }
     public override void OnDeath()
     {
@@ -238,38 +220,17 @@ public class ChaosDemon : DemonFramework
 
         Transform t = transform;
         t.position += new Vector3(0, 1, 0);
-        _spawnerManager.GetBlessingChance(t, GetDemonInMap);
-
-        if (_spawnType == SpawnType.Ritual)
-        {
-            _spawnerManager.CurrentRitualOnDemonDeath();
-        }
-
-        if (SoulBox != null)
-        {
-            SoulBox.AddSoul();
-        }
+        _spawnerManager.SpawnBlessing(t);
 
         _aiAgent.canRotate = false;
 
-        if (_spawnType == SpawnType.Default) { _spawnerManager.DemonKilled(); }
+        _ragdoll.ToggleRagdoll(true);
 
-        MarkForRemoval();
+        if (_spawnType == SpawnType.Default) { _spawnerManager.DemonKilled(); }
     }
     public override void OnForcedDeath(bool ignoreImmunity)
     {
-        //if(!ignoreImmunity)
-        //{
-        //    return;
-        //}
-
-        //_aiAgent.SetFollowSpeed(0);
-
-        //SetAllColliders(false);
-
-        ////_spawner.AddDemonBackToPool(_type, _spawnerManager);
-
-        //MarkForRemoval();
+        
     }
 
     public override void OnForcedDespawn()
@@ -288,15 +249,7 @@ public class ChaosDemon : DemonFramework
 
         SetAllColliders(false);
 
-        switch (_spawnType)
-        {
-            case SpawnType.Default:
-                _spawner.AddDemonBackToPool(_type, _spawnerManager);
-                break;
-            case SpawnType.Ritual:
-                _spawnerManager.AddDemonBackToRitual(_type);
-                break;
-        }
+        _spawner.AddDemonBackToPool(_type, _spawnerManager);
 
         MarkForRemoval();
     }
@@ -419,6 +372,54 @@ public class ChaosDemon : DemonFramework
         }
     }
     #endregion
+
+    private void Dissolve()
+    {
+        if (_isDead == true)
+        {
+            if (_isRagdolled == false)
+            {
+                _isRagdolled = true;
+
+                Transform t = transform;
+                t.position = t.position + new Vector3(0, -1, 0);
+                transform.position = t.position;
+            }
+
+            float fade = _deathFadeTimer.Time * fadeTimeMultiplier;
+
+            Material[] skinMats = _skinnedMeshRenderer.materials;
+
+            foreach (Material m in skinMats)
+            {
+                m.SetFloat("_AlphaClip", fade);
+            }
+
+            _skinnedMeshRenderer.materials = skinMats;
+
+            if (_deathFadeTimer.TimeGreaterThan)
+            {
+                _isDead = false;
+
+                _deathFadeTimer.ResetTimer(deathFadeTime);
+
+                if (_spawnType == SpawnType.Default) { _spawnerManager.DemonKilled(); }
+
+                _ragdoll.ToggleRagdoll(false);
+
+                skinMats = _skinnedMeshRenderer.materials;
+
+                foreach (Material m in skinMats)
+                {
+                    m.SetFloat("AlphaClip", 0);
+                }
+
+                _skinnedMeshRenderer.materials = skinMats;
+
+                MarkForRemoval();
+            }
+        }
+    }
 
     #region MOVESPEED_FUNCTIONS
     private void SetMoveSpeed(SpeedType type)

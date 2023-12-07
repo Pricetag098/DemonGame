@@ -5,7 +5,6 @@ using DemonInfo;
 using System.Reflection;
 using Unity.Jobs;
 using UnityEngine.AI;
-using Assets.CaptainCatSparrow.SpellIconsVolume_2.Druid.Demo;
 
 public class DemonSpawner : MonoBehaviour
 {

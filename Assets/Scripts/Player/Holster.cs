@@ -165,6 +165,7 @@ public class Holster : MonoBehaviour
 
         animator.SetFloat(HeldGun.unEquipSpeedKey, 1 / HeldGun.holsterTime);
         animator.SetTrigger(holsterTigger);
+        HeldGun.holsterSound.Play();
         if (HeldGun.animator.Enabled)
         {
 			HeldGun.animator.Value.SetFloat(HeldGun.unEquipSpeedKey, 1 / HeldGun.holsterTime);
@@ -180,7 +181,8 @@ public class Holster : MonoBehaviour
 
 		animator.SetFloat(HeldGun.unEquipSpeedKey, 1 / HeldGun.holsterTime);
 		animator.SetTrigger(holsterTigger);
-		if (HeldGun.animator.Enabled)
+        HeldGun.holsterSound.Play();
+        if (HeldGun.animator.Enabled)
 		{
 			HeldGun.animator.Value.SetFloat(HeldGun.unEquipSpeedKey, 1 / HeldGun.holsterTime);
 			HeldGun.animator.Value.SetTrigger(holsterTigger);
@@ -192,6 +194,7 @@ public class Holster : MonoBehaviour
 		state = HolsterStates.drawing;
 
 		animator.SetFloat(HeldGun.equipSpeedKey, 1 / HeldGun.drawTime);
+        HeldGun.drawSound.Play();
 		animator.SetTrigger(drawTrigger);
 		if (HeldGun.animator.Enabled)
 		{

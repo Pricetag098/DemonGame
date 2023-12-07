@@ -92,7 +92,7 @@ public class Gun : MonoBehaviour
     
     [Header("Assign These")]
     public Transform origin;
-    public SoundPlayer shootSound, emptySound;
+    public SoundPlayer shootSound, emptySound, drawSound, holsterSound;
     public Optional<VisualEffect> gunfire;
     public LayerMask hitMask = int.MaxValue;
     

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GunSoundEvents : MonoBehaviour
+public class SoundEvents : MonoBehaviour
 {
     [System.Serializable]
     public class Event

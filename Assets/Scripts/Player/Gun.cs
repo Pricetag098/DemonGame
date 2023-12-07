@@ -92,7 +92,7 @@ public class Gun : MonoBehaviour
     
     [Header("Assign These")]
     public Transform origin;
-    public SoundPlayer shootSound, reloadSound, emptySound;
+    public SoundPlayer shootSound, emptySound;
     public Optional<VisualEffect> gunfire;
     public LayerMask hitMask = int.MaxValue;
     
@@ -449,7 +449,6 @@ public class Gun : MonoBehaviour
         holster.animator.SetTrigger(reloadKey);
         gunState = GunStates.reloading;
         reloadTimer = 0;
-        reloadSound.Play();
     }
     void Reload()
     {

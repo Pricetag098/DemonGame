@@ -17,6 +17,10 @@ public class EndGameScreen : MonoBehaviour
     [SerializeField] float statsFadeTime;
 
     [SerializeField] Vector3 titleEndPos;
+
+    [SerializeField] string deathText;
+    [SerializeField] string finishedGameText;
+
     Vector3 titleOrigin;
 
     RectTransform titleRectTransform;
@@ -27,7 +31,7 @@ public class EndGameScreen : MonoBehaviour
 
     PlayerStats stats;
 
-    [SerializeField] TextMeshProUGUI pointsText, killsText, headShotsText, bloodGainText, deathsText,roundText;
+    [SerializeField] TextMeshProUGUI pointsText, killsText, headShotsText, bloodGainText, deathsText,roundText, deadText;
 
     private void Awake()
     {
@@ -50,11 +54,18 @@ public class EndGameScreen : MonoBehaviour
     }
 
     [ContextMenu("Tween")]
-    public void Open()
+    public void Open(bool finishedGame)
     {
         Time.timeScale = 0;
 
-
+        if(finishedGame )
+        {
+            deadText.text = finishedGameText;
+        }
+        else
+        {
+            deadText.text = deathText;
+        }
 
         // Chag
         roundText.text = "you survived " + (SpawnerManager.currentRound -1) + " rounds";

@@ -84,11 +84,17 @@ public class PlayerDeath : MonoBehaviour
         }
         else
 		{
-            endGameTweening.Open();
+            endGameTweening.Open(false);
             playerInputt.enabled = false;
 		}
         
 	}
+
+    public void EndGame()
+    {
+        endGameTweening.Open(true);
+        playerInputt.enabled = false;
+    }
 
     public void ReturnToBody(bool outOfTime)
     {

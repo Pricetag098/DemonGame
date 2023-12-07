@@ -69,17 +69,13 @@ public class DoorBuy : ShopInteractable
         if (doorAnimator.Enabled)
         {
             doorAnimator.Value.SetTrigger(animationTrigger);
-            if (arcaneLock.Enabled)
-            {
-                for (int i = 0; i < arcaneLock.Value.Count; i++)
-                {
-                    arcaneLock.Value[i].DisolveLock();
-                }
-            }
         }
-        else
+        if (arcaneLock.Enabled)
         {
-            transform.parent.gameObject.SetActive(false);
+            for (int i = 0; i < arcaneLock.Value.Count; i++)
+            {
+                arcaneLock.Value[i].DisolveLock();
+            }
         }
         if (interactEvents.Enabled)
         {

@@ -85,7 +85,7 @@ public class GameplaySettings : MonoBehaviour, IDataPersistance<PlayerSettings>
     {
         data.sensitivity = sensitivity;
         data.toggleSlide = toggleSlide;
-        data.toggleSprint = toggleSprintUi;
+        data.toggleSprint = toggleSprint;
         data.fov = fov;
     }
 

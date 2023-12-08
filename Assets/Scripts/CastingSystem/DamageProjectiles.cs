@@ -100,7 +100,18 @@ public class DamageProjectiles : MonoBehaviour
         
         foreach(Collider other in colliders)
         {
-			HitBox hb;
+            SurfaceData data;
+            Surface hs;
+            if (other.gameObject.TryGetComponent(out hs))
+            {
+                data = hs.data;
+            }
+            else
+            {
+                data = VfxSpawner.DefaultSurfaceData;
+            }
+
+            HitBox hb;
 			if (other.gameObject.TryGetComponent(out hb))
 			{
 				if (!healths.Contains(hb.health))
@@ -117,21 +128,15 @@ public class DamageProjectiles : MonoBehaviour
 					penetrations++;
 					if (onPenetrate != null)
 						onPenetrate(hb.health);
-				}
-			}
-			SurfaceData data;
-			Surface hs;
-			if (other.gameObject.TryGetComponent(out hs))
-			{
-				data = hs.data;
-			}
-			else
-			{
-				data = VfxSpawner.DefaultSurfaceData;
-			}
-			data.PlayHitVfx(other.ClosestPoint(transform.position), -transform.forward);
+                    data.PlayHitVfx(other.ClosestPoint(transform.position), -transform.forward);
+                }
+            }
+            else
+            {
+                data.PlayHitVfx(other.ClosestPoint(transform.position), -transform.forward);
+            }
 
-			if (penetrations > maxPenetrations)
+            if (penetrations > maxPenetrations)
 			{
 				
 				GetComponent<PooledObject>().Despawn();

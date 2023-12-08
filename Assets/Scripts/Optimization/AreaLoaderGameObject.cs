@@ -252,7 +252,6 @@ public class AreaLoaderGameObject : MonoBehaviour
             case Areas.CathedralHallBack:
                 // Areas To Load
                 LoadAll(CourtYard);
-                LoadAll(Garden);
 
                 // Areas To Unload
                 UnloadAll(Graveyard);
@@ -266,6 +265,8 @@ public class AreaLoaderGameObject : MonoBehaviour
                 UnloadAll(LibraryUpper);
                 UnloadAll(LibraryLower);
                 UnloadAreaObjects(LibraryLower, Environment);
+                UnloadAll(Garden);
+                UnloadAreaObjects(Garden, Environment);
                 break;
         }
     }

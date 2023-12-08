@@ -63,7 +63,7 @@ public class SwordAbility : Ability
                 timer = 0;
                 inputBuffered = false;
                 didDamage = false;
-
+                slashVfx.Play(origin,direction);
                 caster.animator.SetTrigger("Cast");
             }
             else

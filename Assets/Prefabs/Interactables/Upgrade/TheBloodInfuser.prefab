@@ -251,7 +251,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 698987810539838780}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 2.5599995, z: 14.070002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -279,9 +279,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 15
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -368,7 +368,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playOnAwake: 0
   clips:
-  - {fileID: 8300000, guid: 109e4ed8363525f46bbdffe3ea0436da, type: 3}
+  - {fileID: 8300000, guid: 87f9badf65e72014a94f7db1b777144c, type: 3}
   pitchRange: 0
   basePitch: 1
   looping: 0
@@ -399,7 +399,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1748403954374232381}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 2.56, z: 14.07}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -427,9 +427,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 15
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -652,7 +652,7 @@ AudioSource:
   m_GameObject: {fileID: 2280597404097234720}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -2184352670422988824, guid: 721a4b919c5aedf419f892e62f50ea7e, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -753,7 +753,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playOnAwake: 0
   clips:
-  - {fileID: 8300000, guid: b80306c001f6ce54ab77d61bcf0251d3, type: 3}
+  - {fileID: 8300000, guid: 531527e47deb7ea468096262005fb346, type: 3}
   pitchRange: 0
   basePitch: 1
   looping: 0
@@ -1167,7 +1167,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playOnAwake: 0
-  clips: []
+  clips:
+  - {fileID: 8300000, guid: c4999bb06f242d54abc156a98394eba0, type: 3}
   pitchRange: 0
   basePitch: 1
   looping: 0
@@ -1292,7 +1293,7 @@ MonoBehaviour:
   buyMessage: to infuse spells
   buySound:
     enabled: 1
-    val: {fileID: 8373838721543925003}
+    val: {fileID: 6848587373978629956}
   tooExpensiveSound:
     enabled: 1
     val: {fileID: 8062278981808555740}
@@ -1496,7 +1497,7 @@ MonoBehaviour:
   Cost: 5000
   buyMessage: to infuse
   buySound:
-    enabled: 1
+    enabled: 0
     val: {fileID: 8373838721543925003}
   tooExpensiveSound:
     enabled: 1

@@ -87,7 +87,6 @@ public class EndGameScreen : MonoBehaviour
         on.AppendCallback(() => 
         { 
             endStatsCanvas.interactable = true; 
-            endStatsCanvas.blocksRaycasts = true;
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
         });

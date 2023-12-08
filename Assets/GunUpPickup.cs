@@ -39,8 +39,7 @@ public class GunUpPickup : Interactable
             Destroy(worldGunOld);
             GameObject gun = Instantiate(newGun.gameObject, interactor.holster.transform);
             Gun g = gun.GetComponent<Gun>();
-            interactor.holster.SetUpGun(g);
-            interactor.holster.ReplaceGun(g);
+            interactor.holster.HeldGun = g;
             g.gameObject.SetActive(false);
         }
     }

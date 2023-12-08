@@ -117,8 +117,8 @@ public class SpawnerManager : MonoBehaviour
                         {
                             if(_DemonSpawner.SpawnDemon(this))
                             {
-                                //currentDemons = DemonSpawner.ActiveDemons.Count;
-                                //maxDemonsToSpawn = _DemonSpawner.DemonCount;
+                                currentDemons = DemonSpawner.ActiveDemons.Count;
+                                maxDemonsToSpawn = _DemonSpawner.DemonCount;
                             }
                         }
                     }
@@ -126,15 +126,15 @@ public class SpawnerManager : MonoBehaviour
             }
         }
 
-        currentDemons = DemonSpawner.ActiveDemons.Count;
-        maxDemonsToSpawn = _DemonSpawner.DemonCount;
-
         _DemonSpawner.UpdateCallToDemons();
     }
 
     private void LateUpdate()
     {
         _DemonSpawner.RemoveActiveDemons();
+
+        currentDemons = DemonSpawner.ActiveDemons.Count;
+        maxDemonsToSpawn = _DemonSpawner.DemonCount;
     }
 
     public void GetBlessingChance(Transform pos, bool spawnDrop = false)

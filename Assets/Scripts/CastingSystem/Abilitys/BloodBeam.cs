@@ -11,6 +11,8 @@ public class BloodBeam : Ability
 	[SerializeField] int points;
 	[SerializeField] float pointFrequency;
 	[SerializeField] float vfxWaitTime;
+	[SerializeField] VfxSpawnRequest startSound, stopSound;
+
 	[SerializeField] VfxSpawnRequest endRequest;
 	float pointTimer;
     [SerializeField] float maxRange;
@@ -42,6 +44,7 @@ public class BloodBeam : Ability
             sound.Play();
             caster.animator.SetTrigger("Cast");
             caster.animator.SetBool("Held", true);
+			startSound.Play(origin, direction);	
         }
 
         float range = maxRange;
@@ -126,6 +129,7 @@ public class BloodBeam : Ability
 			{
 				caster.animator.SetBool("Held", false);
                 endVFX.GetComponent<PooledObject>().Despawn();
+				stopSound.Play(origin, direction);
             }
             sound.Stop();
 			startedCasting = false;

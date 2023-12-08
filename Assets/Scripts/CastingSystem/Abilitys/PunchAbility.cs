@@ -23,6 +23,7 @@ public class PunchAbility : Ability
     [SerializeField,Range(0,1)] float minChargePercent;
     [SerializeField] float hitCheckRadius;
     [SerializeField] LayerMask enemyLayer, wallLayer;
+    [SerializeField] VfxSpawnRequest onHitFx;
     
     [Tooltip("Subtracts from the moveSpeedModifier in player stats")]
     [SerializeField, Range(0, 1)] float chargeMoveSpeedModifier;
@@ -48,7 +49,7 @@ public class PunchAbility : Ability
                 stats.speedMulti -= chargeMoveSpeedModifier;
                 caster.animator.SetTrigger("Cast");
                 caster.animator.SetBool("Held", false);
-                
+                chargeStuff.soundPlayer.Play();
                 chargeStuff.ChargeStage1();
                 break;
                 
@@ -129,7 +130,9 @@ public class PunchAbility : Ability
                             }
                             if(hitBox.OnHit(damageCurve.Evaluate(chargeTimer/flightTime), HitType.ABILITY))
                             {
+
                                 Vector3 forceVector = -(hitBox.transform.position - caster.castOrigin.position).normalized;
+                                onHitFx.Play(hitBox.transform.position, -forceVector);
                                 caster.OnKill();
                                 if (hitBox.rigidBody.Enabled)
                                     hitBox.rigidBody.Value.AddForce(forceVector * killForce);
@@ -162,7 +165,7 @@ public class PunchAbility : Ability
         state = State.Release;
         healths.Clear();
         flightTime = distanceChargeCurve.Evaluate(chargeTimer / maxChargeTime) / chargeSpeed;
-        
+        chargeStuff.soundPlayer.Stop();
         caster.RemoveBlood(bloodCost);
 		chargeTimer = 0;
         chargeStuff.StopHand();

@@ -255,7 +255,7 @@ AudioSource:
   m_GameObject: {fileID: 2817337037285539155}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 6763619401144593340, guid: 721a4b919c5aedf419f892e62f50ea7e, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -267,9 +267,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 10
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -302,7 +302,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -354,12 +354,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16f05e2ba87802c43a201f318fbc996d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playOnAwake: 1
+  playOnAwake: 0
   clips:
   - {fileID: 8300000, guid: 873425597119040419a9154f6d347ead, type: 3}
   pitchRange: 0
   basePitch: 1
-  looping: 1
+  looping: 0
   isPlaying: 0
 --- !u!1 &3329122617220511721
 GameObject:
@@ -403,7 +403,7 @@ AudioSource:
   m_GameObject: {fileID: 3329122617220511721}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 6763619401144593340, guid: 721a4b919c5aedf419f892e62f50ea7e, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -415,9 +415,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 10
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -450,7 +450,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -594,7 +594,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4642288427be62b4080887eed0729ce3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitRadius: 2.5
+  hitRadius: 2.2
   targetLayers:
     serializedVersion: 2
     m_Bits: 64

@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -29,6 +30,8 @@ public class RitualSpawner : MonoBehaviour
     [SerializeField] SoundPlayer soundPlayerStart;
     [SerializeField] SoundPlayer soundPlayerFail;
     [SerializeField] SoundPlayer soundPlayerComplete;
+    [SerializeField] SoundPlayer soundPlayerMusic;
+    [SerializeField] float musicFadeOutTime;
 
     [Header("Ritual Completion")]
     [SerializeField] GameObject completion;
@@ -97,6 +100,8 @@ public class RitualSpawner : MonoBehaviour
             BlockerObjects.gameObject.SetActive(true);
 
             soundPlayerStart.Play();
+            soundPlayerMusic.Play();
+            soundPlayerMusic.looping = true;
 
             ritualTimer = new Timer(ritual.TimeBetweenSpawns);
         }
@@ -182,6 +187,13 @@ public class RitualSpawner : MonoBehaviour
 
         PlayerStats p = FindObjectOfType<PlayerStats>();
         p.GainPoints(completionPoints);
+
+        soundPlayerMusic.looping = false;
+
+        Sequence fade = DOTween.Sequence();
+        AudioSource musicSource = soundPlayerMusic.GetComponent<AudioSource>();
+        fade.Append(DOTween.To(() => musicSource.volume, x => musicSource.volume = x, 0, musicFadeOutTime));
+        fade.AppendCallback(() => soundPlayerMusic.Stop());
     }
 
     public void OnFailed(SpawnerManager sm)
@@ -198,6 +210,10 @@ public class RitualSpawner : MonoBehaviour
         BlockerObjects.gameObject.SetActive(false);
 
         soundPlayerFail.Play();
+
+        soundPlayerMusic.looping = false;
+
+        soundPlayerMusic.Stop();
 
         DespawnAllActiveDemons();
 

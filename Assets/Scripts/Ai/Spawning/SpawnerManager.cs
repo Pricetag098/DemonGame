@@ -117,8 +117,8 @@ public class SpawnerManager : MonoBehaviour
                         {
                             if(_DemonSpawner.SpawnDemon(this))
                             {
-                                currentDemons = DemonSpawner.ActiveDemons.Count;
-                                maxDemonsToSpawn = _DemonSpawner.DemonCount;
+                                //currentDemons = DemonSpawner.ActiveDemons.Count;
+                                //maxDemonsToSpawn = _DemonSpawner.DemonCount;
                             }
                         }
                     }

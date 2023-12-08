@@ -328,7 +328,7 @@ public class AiAgent : MonoBehaviour
     public bool CalculatePath(Vector3 end, NavMeshPath path)
     {
         NavMesh.SamplePosition(transform.position, out NavMeshHit hitStart, 5, NavMesh.AllAreas);
-        NavMesh.SamplePosition(end, out NavMeshHit hitEnd, 2, NavMesh.AllAreas);
+        NavMesh.SamplePosition(end, out NavMeshHit hitEnd, 5, NavMesh.AllAreas);
 
         //Vector3 startSampledPosition = hitStart.position;
         //Vector3 endSampledPosition = hitEnd.position;

@@ -14,6 +14,7 @@ public class ChargeStuff : MonoBehaviour
 
     public Volume speedScreen;
 
+    public SoundPlayer soundPlayer;
     private void Start()
     {
         handEffects.Stop();

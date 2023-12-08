@@ -126,6 +126,8 @@ public class SpawnerManager : MonoBehaviour
             }
         }
 
+        currentDemons = DemonSpawner.ActiveDemons.Count;
+        maxDemonsToSpawn = _DemonSpawner.DemonCount;
         _DemonSpawner.UpdateCallToDemons();
     }
 
@@ -133,8 +135,6 @@ public class SpawnerManager : MonoBehaviour
     {
         _DemonSpawner.RemoveActiveDemons();
 
-        currentDemons = DemonSpawner.ActiveDemons.Count;
-        maxDemonsToSpawn = _DemonSpawner.DemonCount;
     }
 
     public void GetBlessingChance(Transform pos, bool spawnDrop = false)

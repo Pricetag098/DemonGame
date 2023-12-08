@@ -8,6 +8,7 @@ public class LightningStrike : MonoBehaviour
     [SerializeField] LightningBoltPrefabScript strikeLightning;
     [SerializeField] SoundPlayer strikeSound;
     [SerializeField] float boltOriginHeight;
+    public float lastTime;
 
 
     public void Play()

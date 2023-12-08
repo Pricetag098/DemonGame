@@ -20,6 +20,11 @@ public class Spawner : MonoBehaviour
 
     Vector3 up;
 
+    private float lightingtime;
+
+    private bool spawnLightning = false;
+    private Timer lightningTimer;
+
     private void Awake()
     {
         position = transform.position;
@@ -29,6 +34,20 @@ public class Spawner : MonoBehaviour
         if(ParticleOnSpawn == true)
         {
             particleSpawnAction += OnSpawn;
+        }
+
+        lightningTimer = new Timer(1);
+    }
+
+    private void Update()
+    {
+        if(spawnLightning == true)
+        {
+            if(lightningTimer.TimeGreaterThan)
+            {
+                lightningTimer.ResetTimer(lightingtime);
+                spawnLightning = false;
+            }
         }
     }
 
@@ -106,6 +125,12 @@ public class Spawner : MonoBehaviour
         if(spawnRequest != null)
         {
             spawnRequest.Play(position, up);
+            if(spawnRequest.prefab.TryGetComponent<LightningStrike>(out LightningStrike lightningStrike))
+            {
+                lightningStrike.Play();
+                lightingtime = lightningStrike.lastTime;
+                spawnLightning = true;
+            }
         }
     }
 }

@@ -15,6 +15,7 @@ public class EndGameScreen : MonoBehaviour
     [SerializeField] float titleOnScreenTime;
     [SerializeField] float titleMoveTime;
     [SerializeField] float statsFadeTime;
+    [SerializeField] float statsOnScreenTime = 10;
 
     [SerializeField] Vector3 titleEndPos;
 
@@ -90,6 +91,8 @@ public class EndGameScreen : MonoBehaviour
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
         });
+        on.AppendInterval(statsOnScreenTime);
+        on.AppendCallback(() => { QuitToMenu(); });
     }
 
     public void QuitToMenu()

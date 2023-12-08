@@ -24,12 +24,16 @@ public class FadeCanvas : MonoBehaviour
         if (fadeIn)
         {
             canvasGroup.alpha = 1f;
-            canvasGroup.DOFade(0, duration);
+            Sequence on = DOTween.Sequence();
+            on.Append(canvasGroup.DOFade(0, duration));
+            on.AppendCallback(() => canvasGroup.blocksRaycasts = false);
 
         }
         else
         {
-            canvasGroup.DOFade(1, duration);
+            Sequence on = DOTween.Sequence();
+            on.Append(canvasGroup.DOFade(1, duration));
+            on.AppendCallback(() => canvasGroup.blocksRaycasts = false);
         }
     }
 }

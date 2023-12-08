@@ -8,7 +8,7 @@ public class DemonPoolers : MonoBehaviour
     [Header("Object Poolers")]
     [SerializeField] ObjectPooler baseDemonPooler;
     [SerializeField] ObjectPooler choasDemonPooler;
-    [SerializeField] ObjectPooler stalkerDemonPooler;
+    //[SerializeField] ObjectPooler stalkerDemonPooler;
 
     static public Dictionary<DemonID, ObjectPooler> demonPoolers;
 
@@ -17,6 +17,6 @@ public class DemonPoolers : MonoBehaviour
         demonPoolers = new Dictionary<DemonID, ObjectPooler>();
         demonPoolers.Add(DemonID.Base, baseDemonPooler);
         demonPoolers.Add(DemonID.Chaos, choasDemonPooler);
-        demonPoolers.Add(DemonID.LittleGuy, stalkerDemonPooler);
+        //demonPoolers.Add(DemonID.LittleGuy, stalkerDemonPooler);
     }
 }

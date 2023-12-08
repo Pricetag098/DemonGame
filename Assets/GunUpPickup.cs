@@ -40,7 +40,7 @@ public class GunUpPickup : Interactable
             GameObject gun = Instantiate(newGun.gameObject, interactor.holster.transform);
             Gun g = gun.GetComponent<Gun>();
             interactor.holster.HeldGun = g;
-            g.gameObject.SetActive(false);
+            //g.gameObject.SetActive(false);
         }
     }
 

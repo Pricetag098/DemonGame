@@ -111,6 +111,7 @@ public class PunchAbility : Ability
 
                 rb.velocity = aimDir * chargeSpeed;
                 chargeTimer += Time.deltaTime;
+                chargeStuff.soundPlayer.Stop();
 
                 Collider[] colliders = Physics.OverlapSphere(caster.castOrigin.position, hitCheckRadius, enemyLayer);
 				

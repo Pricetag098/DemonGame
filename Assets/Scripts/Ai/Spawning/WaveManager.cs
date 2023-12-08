@@ -69,29 +69,10 @@ public class WaveManager : MonoBehaviour
 
         DemonsToSpawn = HelperFuntions.ShuffleList(DemonsToSpawn);
 
-        //MaxToSpawn -= _base;
-
         for (int i = 0; i < _littleGuy; i++)
         {
             DemonsToSpawn.Add(wave.LittleGuy);
         }
-
-        //MaxToSpawn -= _littleGuy;
-
-        //Manager.maxDemonsToSpawn -= MaxToSpawn;
-        
-        //specialDemonTypes = HelperFuntions.ShuffleList(specialDemonTypes);
-        //int listSize = specialDemonTypes.Count;
-
-        //for (int i = 0; i < listSize; i++)
-        //{
-        //    // calculate at what position to add demon
-        //    int index = Mathf.RoundToInt(HelperFuntions.GetRandomIndexBetweenMinMax(Manager.minMax.x, Manager.minMax.y, DemonsToSpawn.Count));
-
-        //    //Debug.Log("Index to add: " + index + " Max Size is: " + DemonsToSpawn.Count);
-
-        //    DemonsToSpawn.Insert(index, specialDemonTypes[i]);
-        //}
 
         List<DemonType> choasToSpawn = new List<DemonType>();
 
@@ -108,7 +89,7 @@ public class WaveManager : MonoBehaviour
         for (int i = 0; i < wave.ChoasAmount; i++)
         {
             //choasToSpawn.Add(wave.Choas);
-
+            //Debug.Log(GetSpawnIndex(wave.WaveInsertPosition, DemonsToSpawn.Count));
             DemonsToSpawn.Insert(GetSpawnIndex(wave.WaveInsertPosition, DemonsToSpawn.Count), wave.Choas);
         }
 
@@ -164,7 +145,7 @@ public class WaveManager : MonoBehaviour
     }
     public int GetSpawnIndex(float percentage, int total)
     {
-        return Mathf.RoundToInt((percentage / 100) * total);
+        return Mathf.RoundToInt(percentage / 100 * total);
     }
 
     /// <summary>

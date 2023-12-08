@@ -226,7 +226,7 @@ public class ChaosDemon : DemonFramework
 
         _ragdoll.ToggleRagdoll(true);
 
-        if (_spawnType == SpawnType.Default) { _spawnerManager.DemonKilled(); }
+        _spawnerManager.DemonKilled();
     }
     public override void OnForcedDeath(bool ignoreImmunity)
     {
@@ -256,6 +256,8 @@ public class ChaosDemon : DemonFramework
 
     public override bool CheckToDespawn()
     {
+        if(_isSpawned == false) { return false; }
+
         float dist = DistanceToTargetNavmesh;
 
         if (dist > 100000) dist = 0;

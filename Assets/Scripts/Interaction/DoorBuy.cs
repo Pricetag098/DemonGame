@@ -93,4 +93,42 @@ public class DoorBuy : ShopInteractable
             }
         }
     }
+
+    public void SetOpen()
+    {
+        open = true;
+        if (diageticSound.Enabled)
+        {
+            diageticSound.Value.Play();
+        }
+        foreach (Optional<Area> area in AreaConnections)
+        {
+            if (area.Enabled)
+            {
+                area.Value.discovered = true;
+
+                Spawners.GetDictionaryArea(DetectArea.CurrentArea, out Area currentArea);
+
+                foreach (Optional<AreaConnect> areasInConnections in area.Value.OptionalAreas)
+                {
+                    if (areasInConnections.Enabled)
+                    {
+                        if (areasInConnections.Value.Area == currentArea)
+                        {
+                            areasInConnections.Value.Open = true;
+
+                            foreach (Optional<AreaConnect> AreasTouchingCurrentArea in areasInConnections.Value.Area.OptionalAreas) // all adjacent areas in main gate
+                            {
+                                if (AreasTouchingCurrentArea.Value.Area == AreaConnection1.Value) // if main gate contains courtyard
+                                {
+                                    AreasTouchingCurrentArea.Value.Open = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

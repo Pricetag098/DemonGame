@@ -93,8 +93,9 @@ public class EndGameScreen : MonoBehaviour
             endStatsCanvas.interactable = true; 
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
+            
         });
-        on.AppendCallback(() => DOTween.To(() => timeSlider.value, x => timeSlider.value = x, 1, statsOnScreenTime));
+        on.Append(DOTween.To(() => timeSlider.value, x => timeSlider.value = x, 100, statsOnScreenTime));
         on.AppendCallback(() => { QuitToMenu(); });
     }
 

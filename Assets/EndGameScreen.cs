@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class EndGameScreen : MonoBehaviour
 {
     [SerializeField] GameObject endTitle;
     [SerializeField] GameObject endStats;
     [SerializeField] GameObject overlay;
+    [SerializeField] Slider timeSlider;
 
     [SerializeField] float titleFadeTime;
     [SerializeField] float titleOnScreenTime;
@@ -67,6 +69,7 @@ public class EndGameScreen : MonoBehaviour
         {
             deadText.text = deathText;
         }
+        timeSlider.value = 0;
 
         // Chag
         roundText.text = "you survived " + (SpawnerManager.currentRound -1) + " rounds";
@@ -91,7 +94,7 @@ public class EndGameScreen : MonoBehaviour
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
         });
-        on.AppendInterval(statsOnScreenTime);
+        on.AppendCallback(() => DOTween.To(() => timeSlider.value, x => timeSlider.value = x, 1, statsOnScreenTime));
         on.AppendCallback(() => { QuitToMenu(); });
     }
 

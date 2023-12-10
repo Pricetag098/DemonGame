@@ -34,8 +34,11 @@ public class Melee : MonoBehaviour
 	{
 		input.action.Disable();
 	}
-
-	public void Cast(InputAction.CallbackContext context)
+    private void OnDestroy()
+    {
+        input.action.performed -= Cast;
+    }
+    public void Cast(InputAction.CallbackContext context)
 	{
 		Vector3 origin = Camera.main.transform.position;
 		Vector3 direction = Camera.main.transform.forward;

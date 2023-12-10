@@ -15,7 +15,6 @@ public class FileDataHandler<T>
 		this.dataPath = dataPath;
 		this.fileName = fileName;
 		this.logErrors = logErrors;
-		Debug.Log(Path.Combine(dataPath, fileName));
 		this.useEncryption = useEncryption;
 
 	}

@@ -159,7 +159,6 @@ public class DamageProjectiles : MonoBehaviour
 			}
 			data.PlayHitVfx(wallColliders[0].ClosestPoint(transform.position), -transform.forward);
 			
-			Debug.Log("Dead");
 			GetComponent<PooledObject>().Despawn();
 		}
 

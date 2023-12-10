@@ -76,7 +76,6 @@ public class Interactor : MonoBehaviour
 	{
 		if(!hasInteractable)
 			return;
-		Debug.Log("Interact");
 		interactable.Interact(this);
 	}
 

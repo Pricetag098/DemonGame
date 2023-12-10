@@ -46,7 +46,7 @@ public class AbilityUpgrade : ShopInteractable
             if (abilityCaster.abilities[i].tier > tier)
                 tier = abilityCaster.abilities[i].tier;
         }
-        if (tier > costs.Length)
+        if (tier > costs.Length -1)
         {
             interactor.display.DisplayMessage(false, cantBuy,"");
 

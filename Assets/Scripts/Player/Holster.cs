@@ -176,6 +176,16 @@ public class Holster : MonoBehaviour
 
     public void ReplaceGun(Gun gun)
     {
+        if(HeldGun.guid == "")
+        {
+            Destroy(HeldGun.gameObject);
+            gunCount--;
+            guns[heldGunIndex] = gun;
+            animator.runtimeAnimatorController = HeldGun.controller;
+            guns[heldGunIndex].gameObject.SetActive(true);
+            DrawGun();
+            return;
+        }
         replacingGun = gun;
         state = HolsterStates.replacing;
 
@@ -212,7 +222,7 @@ public class Holster : MonoBehaviour
 		gun.gameObject.SetActive(false);
 		for (int i=0; i < MaxGuns; i++)
 		{
-            if (guns[i] == null || guns[i].guid == "")
+            if (i!= slot && (guns[i] == null || guns[i].guid == ""))
 			{
                 slot = i;
 				SetUpGun(gun);

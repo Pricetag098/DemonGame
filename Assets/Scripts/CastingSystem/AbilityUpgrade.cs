@@ -5,7 +5,7 @@ using UnityEngine;
 public class AbilityUpgrade : ShopInteractable
 {
     SwordStuff swordStuff;
-
+    public string cantBuy;
     [SerializeField] int[] costs;
 
     private void Awake()
@@ -39,6 +39,19 @@ public class AbilityUpgrade : ShopInteractable
     {
         Ability current = interactor.caster.ActiveAbility;
         base.StartHover(interactor);
+        int tier = 0;
+        AbilityCaster abilityCaster = interactor.caster.caster;
+        for (int i = 0; i < abilityCaster.abilities.Length; i++)
+        {
+            if (abilityCaster.abilities[i].tier > tier)
+                tier = abilityCaster.abilities[i].tier;
+        }
+        if (tier > costs.Length)
+        {
+            interactor.display.DisplayMessage(false, cantBuy,"");
+
+        }
+        else
         interactor.display.DisplayMessage(true, buyMessage + " ", "[Cost: " + GetCost(interactor).ToString() + "]" );
 
     }

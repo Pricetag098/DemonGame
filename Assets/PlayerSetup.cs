@@ -12,7 +12,7 @@ public class PlayerSetup : MonoBehaviour
 
         if (GamePrefs.UnlockAllAbilities)
         {
-            PortalInteraction[] abilBuys = FindObjectsOfType<PortalInteraction>();
+            PortalInteraction[] abilBuys = FindObjectsOfType<PortalInteraction>(true);
 
             int points = playerStats.points;
             playerStats.points = 999999;

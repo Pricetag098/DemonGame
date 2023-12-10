@@ -6,6 +6,8 @@ public class AbilityUpgrade : ShopInteractable
 {
     SwordStuff swordStuff;
 
+    [SerializeField] int[] costs;
+
     private void Awake()
     {
         swordStuff = FindObjectOfType<SwordStuff>();
@@ -13,7 +15,7 @@ public class AbilityUpgrade : ShopInteractable
     protected override void DoBuy(Interactor interactor)
     {
         Ability current = interactor.caster.ActiveAbility;
-        AbilityCaster abilityCaster = interactor.GetComponent<AbilityCaster>();
+        AbilityCaster abilityCaster = interactor.caster.caster;
         swordStuff.UpdateMat(interactor.caster.ActiveAbility.tier + 1);
 
         for (int i = 0; i < abilityCaster.abilities.Length; i++)
@@ -41,6 +43,20 @@ public class AbilityUpgrade : ShopInteractable
 
     }
 
+
+    protected override int GetCost(Interactor interactor)
+    {
+        AbilityCaster abilityCaster = interactor.caster.caster;
+        
+
+        int tier = 0;
+        for (int i = 0; i < abilityCaster.abilities.Length; i++)
+        {
+            if(abilityCaster.abilities[i].tier > tier)
+                tier = abilityCaster.abilities[i].tier;
+        }
+        return costs[Mathf.Min(tier,costs.Length-1)];
+    }
 
     protected override bool CanBuy(Interactor interactor)
     {

@@ -37,7 +37,7 @@ public class LoadingBar : MonoBehaviour
 
     private void Awake()
     {
-        textObject.text = "Shooting demons grants you their blood, channel it to use powerful spells against them...";
+        textObject.text = "shooting demons grants you their blood, channel it to use powerful spells against them...";
         slider.value= 0;
         slider.maxValue = 1;
         inputAction.action.performed += DoLoad;

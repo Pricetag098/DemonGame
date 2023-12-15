@@ -19,6 +19,8 @@ public class OptionSelector : MonoBehaviour
     {
         GamePrefs.SetStartRound(1);
         GamePrefs.SetStartMoney(500);
+        GamePrefs.SetAbilitiesUnlocked(false);
+        GamePrefs.SetRitualsComplete(false);
     }
 
     public void ButtonClick(int value)

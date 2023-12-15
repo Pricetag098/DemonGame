@@ -16,7 +16,7 @@ MonoBehaviour:
   guid: 64ae8ef2-83bc-4606-98bb-529719f0aed0
   symbolText: 1
   caster: {fileID: 0}
-  bloodCost: 10
+  bloodCost: 250
   upgradePath:
     enabled: 1
     val: {fileID: 11400000, guid: 7bfa1b11a644a5841a0a449cb36212cb, type: 2}
@@ -31,7 +31,7 @@ MonoBehaviour:
   state: 0
   maxChargeTime: 3
   chargeSpeed: 30
-  hitForce: 500
+  hitForce: 3000
   damageCurve:
     serializedVersion: 2
     m_Curve:
@@ -81,13 +81,13 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   minChargePercent: 0.1
-  hitCheckRadius: 10
+  hitCheckRadius: 5
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
   wallLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
   onHitFx: {fileID: 11400000, guid: c0488ebac0ede8d4285afe4ad430d207, type: 2}
   chargeMoveSpeedModifier: 0.9
   speedLinesDelay: 0.3

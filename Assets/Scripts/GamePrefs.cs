@@ -1,6 +1,6 @@
 public static class GamePrefs
 {
-    public static int StartRound = 1; // set this back to 1
+    public static int StartRound = 25; // set this back to 1
 
     public static void SetStartRound(int round)
     {

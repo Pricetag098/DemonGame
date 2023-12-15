@@ -28,9 +28,10 @@ public class BlessingManager : MonoBehaviour
         MinAndMax(1);
     }
 
-    private void Start()
+    [ContextMenu("test")]
+    public void TestSpawn()
     {
-        //SpawnBlessingOfType(spawnpoint, BlessingType.DivineSmite);
+        SpawnBlessingOfType(spawnpoint);
     }
 
     public void SpawnBlessingOfType(Transform pos, BlessingType type = BlessingType.Null)

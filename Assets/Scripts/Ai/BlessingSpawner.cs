@@ -24,6 +24,8 @@ public class BlessingSpawner : MonoBehaviour
     [SerializeField] ObjectPooler instaKill;
     [SerializeField] ObjectPooler maxAmmo;
 
+    BlessingType lastBlessing;
+
     private Dictionary<BlessingType, ObjectPooler> blessingPooler = new Dictionary<BlessingType, ObjectPooler>();
 
     private void Awake()
@@ -39,7 +41,13 @@ public class BlessingSpawner : MonoBehaviour
 
     private BlessingType GetRandomEnum()
     {
-        return (BlessingType)Random.Range(1, System.Enum.GetValues(typeof(BlessingType)).Length);
+        BlessingType newBlessing = (BlessingType)Random.Range(1, System.Enum.GetValues(typeof(BlessingType)).Length);
+        while (newBlessing == lastBlessing)
+        {
+            newBlessing = (BlessingType)Random.Range(1, System.Enum.GetValues(typeof(BlessingType)).Length);
+        }
+        lastBlessing = newBlessing;
+        return newBlessing;
     }
 
     public void SpawnBlessing(Transform spawnPos, BlessingType type = BlessingType.Null)

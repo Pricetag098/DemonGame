@@ -30,14 +30,15 @@ public class PlayerStats : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
 	{
         armMeshCombiner = FindObjectOfType<ArmMeshCombiner>();
 		gainUi = FindObjectOfType<PointGainUi>();
+    }
 
-        //GamePrefs.SetStartMoney(99999);
+    private void Start()
+    {
+        points = 0;
+        GainPoints(GamePrefs.StartPoints);
+    }
 
-        points = GamePrefs.StartPoints;
-        gainUi.displayPoints = points;
-	}
-
-	public void GainPoints(int amount)
+    public void GainPoints(int amount)
 	{
         amount = (int)(amount * pointGainMulti);
         points += amount;

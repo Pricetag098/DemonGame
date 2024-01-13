@@ -86,7 +86,7 @@ public class AimAssist
             HitBox hb;
             if (colliders[i].TryGetComponent(out hb))
             {
-                if (healths.Contains(hb.health) || ignoreList.Contains(hb.health))
+                if (hb.health.dead || healths.Contains(hb.health) || ignoreList.Contains(hb.health))
                     continue;
                 if (hb.health.TryGetComponent(out VfxTargets target))
                 {

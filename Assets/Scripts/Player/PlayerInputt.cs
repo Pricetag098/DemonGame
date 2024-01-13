@@ -9,11 +9,11 @@ namespace Movement
 	{
 		[Header("Set this stuff pls")]
 		public Transform orientation;
-		public Transform cam;
+		public Transform cam,aimAssistGo,camGo;
 		public Vector3 gravityDir;
 		public float sensitivity =1;
 		public float minSurface = .5f;
-		
+		[SerializeField] AimAssist aimAssist;
 		public MoveStates moveState;
 		Rigidbody rb;
 		[SerializeField] CapsuleCollider standingCollider, crouchedCollider;
@@ -426,7 +426,11 @@ namespace Movement
 
                 camRotX = Mathf.Clamp(-camDir.y * sensitivity * Time.deltaTime + camRotX + recoilVal.x, -90, 90);
 
-                cam.rotation = Quaternion.Euler(camRotX, cam.rotation.eulerAngles.y + camDir.x * sensitivity * Time.deltaTime + recoilVal.y, cam.rotation.eulerAngles.z);
+
+
+                camGo.rotation = Quaternion.Euler(camRotX, camGo.rotation.eulerAngles.y + camDir.x * sensitivity * Time.deltaTime + recoilVal.y, camGo.rotation.eulerAngles.z);
+
+				cam.forward = aimAssist.GetAssistedAimDir(camGo.forward, cam.position, float.PositiveInfinity, new List<Health>());
             }
         }
 		[System.Serializable]

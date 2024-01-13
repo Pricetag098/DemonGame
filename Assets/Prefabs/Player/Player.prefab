@@ -6373,6 +6373,7 @@ Transform:
   - {fileID: 3899720133823062390}
   - {fileID: 3899720133021509132}
   - {fileID: 854750425877613786}
+  - {fileID: 1896447077623534234}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6609,9 +6610,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   orientation: {fileID: 3899720133027113966}
   cam: {fileID: 3899720134046173352}
+  aimAssistGo: {fileID: 0}
+  camGo: {fileID: 1896447077623534234}
   gravityDir: {x: 0, y: -30, z: 0}
   sensitivity: 10
   minSurface: 0.5
+  aimAssist:
+    maxRange: 100
+    aimAssistLayer:
+      serializedVersion: 2
+      m_Bits: 128
+    directionWeight: 1
+    distanceWeight: 1
+    minDistance: 0
+    minDirectionValue: 0.5
+    assistWeight: 0.5
+    priorityWeight: 1
   moveState: 0
   standingCollider: {fileID: 3899720133823062389}
   crouchedCollider: {fileID: 3899720133021509131}
@@ -12575,6 +12589,37 @@ Transform:
   - {fileID: 7214135482399788524}
   m_Father: {fileID: 1811931796469781234}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6278889741557825542
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1896447077623534234}
+  m_Layer: 6
+  m_Name: AimAssist
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1896447077623534234
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6278889741557825542}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3899720132604462369}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6288344164230419511
 GameObject:

@@ -104,9 +104,10 @@ public class AimAssist
 
                     Vector3 casterToTargetNorm = casterToTarget.normalized;
                     float directionValue = Vector3.Dot(aimDir, casterToTargetNorm) * directionWeight * target.size;
+                    float distance = casterToTarget.magnitude;
                     if (directionValue < minDirectionValue || distance < minDistance)
                         continue;
-                    float val = directionValue + (1 / casterToTarget.magnitude) * distanceWeight;
+                    float val = directionValue + (1 / distance) * distanceWeight;
                     if (val > bestVal)
                     {
                         bestVal = val;

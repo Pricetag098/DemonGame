@@ -83,15 +83,15 @@ public class AimAssist
         float bestVal = float.NegativeInfinity;
         for (int i = 0; i < colliders.Length; i++)
         {
-            HitBox hb;
-            if (colliders[i].TryGetComponent(out hb))
+            Health health;
+            if (colliders[i].TryGetComponent(out health))
             {
-                if (hb.health.dead || healths.Contains(hb.health) || ignoreList.Contains(hb.health))
+                if (health.dead || healths.Contains(health) || ignoreList.Contains(health))
                     continue;
-                if (hb.health.TryGetComponent(out VfxTargets target))
+                if (health.TryGetComponent(out VfxTargets target))
                 {
 
-                    healths.Add(hb.health);
+                    healths.Add(health);
 
 
                     Vector3 casterToTarget = target.core.position - origin;

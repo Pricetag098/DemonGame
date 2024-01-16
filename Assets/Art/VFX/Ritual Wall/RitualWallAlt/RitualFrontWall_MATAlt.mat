@@ -9,6 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: RitualFrontWall_MATAlt
   m_Shader: {fileID: -6465566751694194690, guid: 1564aa375bf3b1b4f9fb0505dd774a39, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ALPHATEST_ON
   - _ENABLE_FOG_ON_TRANSPARENT
@@ -27,6 +29,7 @@ Material:
   - TransparentDepthPostpass
   - TransparentBackface
   - MOTIONVECTORS
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -34,7 +37,15 @@ Material:
         m_Texture: {fileID: 2800000, guid: b1611712a29544549a880743126574ec, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_183470836fc34cc3b2692d45d94523c7_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: b1611712a29544549a880743126574ec, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_f84695b3318a409cbf2baada2cd0fde4_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 0cb06dfd274e8694d9862ae79d99cc6d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_f84695b3318a409cbf2baada2cd0fde4_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 0cb06dfd274e8694d9862ae79d99cc6d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -70,6 +81,7 @@ Material:
     - _DstBlend: 10
     - _EnableBlendModePreserveSpecularLighting: 0
     - _EnableFogOnTransparent: 1
+    - _ExcludeFromTUAndAA: 0
     - _GradientPosition: 1.2
     - _NoisePower: 5.5
     - _NoiseScale: 2
@@ -77,15 +89,15 @@ Material:
     - _RenderQueueType: 4
     - _SrcBlend: 1
     - _StencilRef: 0
-    - _StencilRefDepth: 0
+    - _StencilRefDepth: 1
     - _StencilRefDistortionVec: 4
     - _StencilRefGBuffer: 2
-    - _StencilRefMV: 32
+    - _StencilRefMV: 33
     - _StencilWriteMask: 6
-    - _StencilWriteMaskDepth: 8
+    - _StencilWriteMaskDepth: 9
     - _StencilWriteMaskDistortionVec: 4
     - _StencilWriteMaskGBuffer: 14
-    - _StencilWriteMaskMV: 40
+    - _StencilWriteMaskMV: 43
     - _SurfaceType: 1
     - _TransparentBackfaceEnable: 0
     - _TransparentCullMode: 2
@@ -121,7 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da692e001514ec24dbc4cca1949ff7e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 12
+  version: 13
   hdPluginSubTargetMaterialVersions:
     m_Keys: []
     m_Values: 

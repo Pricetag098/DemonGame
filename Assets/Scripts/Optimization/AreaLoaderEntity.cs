@@ -1,99 +1,99 @@
-using Unity.Entities;
-using UnityEngine;
-using Unity.Mathematics;
-using Unity.Scenes;
+//using Unity.Entities;
+//using UnityEngine;
+//using Unity.Mathematics;
+//using Unity.Scenes;
 
-public class AreaLoaderEntity : ComponentSystem
-{
-    private SceneSystem sceneSystem;
+//public class AreaLoaderEntity : ComponentSystem
+//{
+//    private SceneSystem sceneSystem;
 
-    protected override void OnCreate()
-    {
-        sceneSystem = World.GetOrCreateSystem<SceneSystem>();
+//    protected override void OnCreate()
+//    {
+//        sceneSystem = World.GetOrCreateSystem<SceneSystem>();
 
-        SubSceneLoader.AreaUpdate += OnAreaUpdate;
-    }
+//        SubSceneLoader.AreaUpdate += OnAreaUpdate;
+//    }
 
-    public void OnAreaUpdate()
-    {
-        switch (SubSceneLoader.CurrentArea)
-        {
-            case Areas.MainEntrance:
-                // Areas To Load
-                LoadSubScene(SubSceneReferences.Instance.Garden);
-                LoadSubScene(SubSceneReferences.Instance.Courtyard);
+//    public void OnAreaUpdate()
+//    {
+//        switch (SubSceneLoader.CurrentArea)
+//        {
+//            case Areas.MainEntrance:
+//                // Areas To Load
+//                LoadSubScene(SubSceneReferences.Instance.Garden);
+//                LoadSubScene(SubSceneReferences.Instance.Courtyard);
 
-                // Areas To Unload
-                UnloadSubScene(SubSceneReferences.Instance.Graveyard);
-                break;
-            case Areas.Garden:
-                // Areas To Load
+//                // Areas To Unload
+//                UnloadSubScene(SubSceneReferences.Instance.Graveyard);
+//                break;
+//            case Areas.Garden:
+//                // Areas To Load
 
-                // Areas To Unload
-                UnloadSubScene(SubSceneReferences.Instance.Graveyard);
-                UnloadSubScene(SubSceneReferences.Instance.Courtyard);
-                break;
-            case Areas.Courtyard:
-                // Areas To Load
-                LoadSubScene(SubSceneReferences.Instance.Graveyard);
+//                // Areas To Unload
+//                UnloadSubScene(SubSceneReferences.Instance.Graveyard);
+//                UnloadSubScene(SubSceneReferences.Instance.Courtyard);
+//                break;
+//            case Areas.Courtyard:
+//                // Areas To Load
+//                LoadSubScene(SubSceneReferences.Instance.Graveyard);
 
-                // Areas To Unload
-                UnloadSubScene(SubSceneReferences.Instance.Garden);
-                break;
-            case Areas.Graveyard:
-                // Areas To Load
+//                // Areas To Unload
+//                UnloadSubScene(SubSceneReferences.Instance.Garden);
+//                break;
+//            case Areas.Graveyard:
+//                // Areas To Load
 
-                // Areas To Unload
-                UnloadSubScene(SubSceneReferences.Instance.Garden);
-                break;
-        }
-    }
+//                // Areas To Unload
+//                UnloadSubScene(SubSceneReferences.Instance.Garden);
+//                break;
+//        }
+//    }
 
-    protected override void OnUpdate()
-    {
-        //if(SubSceneLoader.UpdateSubScenes()) // MAKE SURE THIS SYNCS UP WITH AREALOADER
-        //{
-        //    switch(SubSceneLoader.CurrentArea)
-        //    {
-        //        case Areas.MainEntrance:
-        //            // Areas To Load
-        //            LoadSubScene(SubSceneReferences.Instance.Garden);
-        //            LoadSubScene(SubSceneReferences.Instance.Courtyard);
+//    protected override void OnUpdate()
+//    {
+//        //if(SubSceneLoader.UpdateSubScenes()) // MAKE SURE THIS SYNCS UP WITH AREALOADER
+//        //{
+//        //    switch(SubSceneLoader.CurrentArea)
+//        //    {
+//        //        case Areas.MainEntrance:
+//        //            // Areas To Load
+//        //            LoadSubScene(SubSceneReferences.Instance.Garden);
+//        //            LoadSubScene(SubSceneReferences.Instance.Courtyard);
 
-        //            // Areas To Unload
-        //            UnloadSubScene(SubSceneReferences.Instance.Graveyard);
-        //            break;
-        //        case Areas.Garden:
-        //            // Areas To Load
+//        //            // Areas To Unload
+//        //            UnloadSubScene(SubSceneReferences.Instance.Graveyard);
+//        //            break;
+//        //        case Areas.Garden:
+//        //            // Areas To Load
 
-        //            // Areas To Unload
-        //            UnloadSubScene(SubSceneReferences.Instance.Graveyard);
-        //            UnloadSubScene(SubSceneReferences.Instance.Courtyard);
-        //            break;
-        //        case Areas.Courtyard:
-        //            // Areas To Load
-        //            LoadSubScene(SubSceneReferences.Instance.Graveyard);
+//        //            // Areas To Unload
+//        //            UnloadSubScene(SubSceneReferences.Instance.Graveyard);
+//        //            UnloadSubScene(SubSceneReferences.Instance.Courtyard);
+//        //            break;
+//        //        case Areas.Courtyard:
+//        //            // Areas To Load
+//        //            LoadSubScene(SubSceneReferences.Instance.Graveyard);
 
-        //            // Areas To Unload
-        //            UnloadSubScene(SubSceneReferences.Instance.Garden);
-        //            break;
-        //        case Areas.Graveyard:
-        //            // Areas To Load
+//        //            // Areas To Unload
+//        //            UnloadSubScene(SubSceneReferences.Instance.Garden);
+//        //            break;
+//        //        case Areas.Graveyard:
+//        //            // Areas To Load
 
-        //            // Areas To Unload
-        //            UnloadSubScene(SubSceneReferences.Instance.Garden);
-        //            break;
-        //    }
-        //}
-    }
+//        //            // Areas To Unload
+//        //            UnloadSubScene(SubSceneReferences.Instance.Garden);
+//        //            break;
+//        //    }
+//        //}
+//    }
 
-    private void LoadSubScene(SubScene subScene)
-    {
-        sceneSystem.LoadSceneAsync(subScene.SceneGUID);
-    }
+//    private void LoadSubScene(SubScene subScene)
+//    {
+//        sceneSystem.LoadSceneAsync(subScene.SceneGUID);
+//    }
 
-    private void UnloadSubScene(SubScene subScene)
-    {
-        sceneSystem.UnloadScene(subScene.SceneGUID);
-    }
-}
+//    private void UnloadSubScene(SubScene subScene)
+//    {
+//        sceneSystem.UnloadScene(subScene.SceneGUID);
+//    }
+//}

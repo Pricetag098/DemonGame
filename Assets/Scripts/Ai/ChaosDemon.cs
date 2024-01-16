@@ -120,13 +120,13 @@ public class ChaosDemon : DemonFramework
         {
             //Cast
 
-            Vector3 randVal = UnityEngine.Random.insideUnitSphere * activeStats.spellRadius;
-            randVal.y = MathF.Abs(randVal.y);
-            Vector3 point = CurrentTarget.position + CurrentTarget.GetComponent<Rigidbody>().velocity * activeStats.strikeWarmUp + randVal;
+            //Vector3 randVal = UnityEngine.Random.insideUnitSphere * activeStats.spellRadius;
+            //randVal.y = MathF.Abs(randVal.y);
+            //Vector3 point = CurrentTarget.position + CurrentTarget.GetComponent<Rigidbody>().velocity * activeStats.strikeWarmUp + randVal;
 
-            pooler.Spawn().GetComponent<ChaosDemonSpell>().Spawn(activeStats.strikeWarmUp,point,activeStats.spellDamage);
+            //pooler.Spawn().GetComponent<ChaosDemonSpell>().Spawn(activeStats.strikeWarmUp,point,activeStats.spellDamage);
 
-            castTimer = activeStats.castInterval.Evaluate(_health.health / _health.maxHealth);
+            //castTimer = activeStats.castInterval.Evaluate(_health.health / _health.maxHealth);
 
         }
         castTimer -= Time.deltaTime;

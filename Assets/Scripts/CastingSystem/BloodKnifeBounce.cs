@@ -23,7 +23,7 @@ public class BloodKnifeBounce : MonoBehaviour
 	{
 		hits.Add(health);
 		Transform target;
-		if (aimAssist.GetAssistedAimDir(transform.forward, transform.position, 1, out target, hits))
+		if (aimAssist.GetAssistedAimTarget(transform.forward, transform.position, 1, out target, hits))
 		{
 			float distance = Vector3.Distance(transform.position, target.position);
 			Vector3 mid = transform.position + distance * .5f * transform.forward;

@@ -6,7 +6,7 @@ public class RitualDoor : MonoBehaviour
 {
     [SerializeField] GameObject book;
     [SerializeField] Animator doorAnimator;
-    [SerializeField] GameObject wall;
+    [SerializeField] RitualWall wall;
     [SerializeField] ArcaneLock arcaneLock;
     [SerializeField] GameObject interactable;
     [SerializeField] GameObject hoverObj;
@@ -26,7 +26,7 @@ public class RitualDoor : MonoBehaviour
     [ContextMenu("Unlock")]
     void Unlock()
     {
-        wall.SetActive(false);
+        wall.Fall();
         interactable.SetActive(true);
         hoverObj.SetActive(false);
         foreach(GameObject obj in torchParts)

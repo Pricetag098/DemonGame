@@ -25,6 +25,7 @@ public class RitualSpawner : MonoBehaviour
     [Header("Blockers")]
     [SerializeField] Transform BlockerObjects;
     private List<Transform> blockers = new List<Transform>();
+    private List<RitualWall> blockerWalls = new List<RitualWall>();
 
     [Header("Audio")]
     [SerializeField] SoundPlayer soundPlayerStart;
@@ -52,6 +53,11 @@ public class RitualSpawner : MonoBehaviour
         spawnPoints = HelperFuntions.GetAllChildrenSpawnersFromParent(SpawnPoint);
         blockers = HelperFuntions.GetAllChildrenTransformsFromParent(BlockerObjects);
 
+        foreach (Transform t in blockers)
+        {
+            blockerWalls.Add(t.GetComponent<RitualWall>());
+        }
+
         ritualComplete = GamePrefs.RitualsComplete;
     }
 
@@ -62,7 +68,10 @@ public class RitualSpawner : MonoBehaviour
             OnComplete(manager);
         }
 
-        BlockerObjects.gameObject.SetActive(false);
+        foreach(RitualWall wall in blockerWalls)
+        {
+            wall.Fall();
+        }
         demonSpawner = manager._DemonSpawner;
     }
 
@@ -97,7 +106,10 @@ public class RitualSpawner : MonoBehaviour
 
             if(playerHealth == null) playerHealth = manager.player.GetComponent<Health>();
 
-            BlockerObjects.gameObject.SetActive(true);
+            foreach (RitualWall wall in blockerWalls)
+            {
+                wall.Rise();
+            }
 
             soundPlayerStart.Play();
             soundPlayerMusic.Play();
@@ -165,8 +177,11 @@ public class RitualSpawner : MonoBehaviour
     {
         ritualComplete = true;
         RitualActive = false;
-        
-        BlockerObjects.gameObject.SetActive(false);
+
+        foreach (RitualWall wall in blockerWalls)
+        {
+            wall.Fall();
+        }
 
         soundPlayerComplete.Play();
 
@@ -207,7 +222,10 @@ public class RitualSpawner : MonoBehaviour
         demonsLeft = 0;
         demonsToSpawn = 0;
 
-        BlockerObjects.gameObject.SetActive(false);
+        foreach (RitualWall wall in blockerWalls)
+        {
+            wall.Fall();
+        }
 
         soundPlayerFail.Play();
 

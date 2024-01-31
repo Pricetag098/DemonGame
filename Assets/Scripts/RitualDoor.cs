@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,9 +11,21 @@ public class RitualDoor : MonoBehaviour
     [SerializeField] ArcaneLock arcaneLock;
     [SerializeField] GameObject interactable;
     [SerializeField] GameObject hoverObj;
-    [SerializeField] List<GameObject> torchParts;
+    [SerializeField] List<Light> torchLights;
+    [SerializeField] float lightIntensity;
+    [SerializeField] float lightTime;
+    [SerializeField] List<GameObject> torchFlames;
+
 
     private int ritualsCompleted;
+
+    private void Start()
+    {
+        foreach (Light obj in torchLights)
+        {
+            obj.intensity = 0;
+        }
+    }
 
     public void AddRitual()
     {
@@ -29,9 +42,13 @@ public class RitualDoor : MonoBehaviour
         wall.Fall();
         interactable.SetActive(true);
         hoverObj.SetActive(false);
-        foreach(GameObject obj in torchParts)
+        foreach(GameObject obj in torchFlames)
         {
             obj.SetActive(true);
+        }
+        foreach (Light obj in torchLights)
+        {
+            DOTween.To(() => obj.intensity, x => obj.intensity = x, lightIntensity, lightTime);
         }
     }
 

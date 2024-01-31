@@ -126,7 +126,6 @@ public class Bounce : MonoBehaviour
     }
     public void Door()
     {
-        Debug.Log("Call");
         transform.parent = doorParent;
         ritualDoor.AddRitual();
         finalCheck = true;

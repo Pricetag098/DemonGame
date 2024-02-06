@@ -118,7 +118,7 @@ public class AimAssist
             }
         
         }
-        return Vector3.Lerp(aimDir, bestTarget, assistWeight).normalized;
+        return Vector3.Lerp(aimDir, bestTarget, assistWeight * Vector3.Dot(aimDir,bestTarget)).normalized;
     }
 
 }

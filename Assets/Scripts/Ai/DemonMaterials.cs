@@ -84,7 +84,7 @@ public class DemonMaterials : MonoBehaviour
             Material[] mats = meshRenderer.materials;
             mats[0] = RitualAttachtmentMaterials[num];
 
-            Debug.Log(RitualAttachtmentMaterials[num].name);
+            //Debug.Log(RitualAttachtmentMaterials[num].name);
 
             meshRenderer.materials = mats;
         }

@@ -66,6 +66,11 @@ public class SpawnerManager : MonoBehaviour
         endRoundTimer = new Timer(timeBetweenRounds);
 
         currentRound = GamePrefs.StartRound;
+
+        for(int i = 0; i < 11; i++)
+        {
+            Debug.Log("Wave "+ i + " " + demonsToSpawn.Evaluate(i));
+        }
     }
     private void Start()
     {

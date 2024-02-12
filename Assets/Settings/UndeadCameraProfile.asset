@@ -18,19 +18,19 @@ MonoBehaviour:
     m_Value: 0
   color:
     m_OverrideState: 1
-    m_Value: {r: 0.13363294, g: 0.18876031, b: 0.3679245, a: 1}
+    m_Value: {r: 0, g: 0.917171, b: 1, a: 1}
   center:
     m_OverrideState: 1
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.252
+    m_Value: 0.548
   smoothness:
     m_OverrideState: 1
-    m_Value: 0.471
-  roundness:
-    m_OverrideState: 0
     m_Value: 1
+  roundness:
+    m_OverrideState: 1
+    m_Value: 0.776
   rounded:
     m_OverrideState: 0
     m_Value: 0
@@ -120,7 +120,7 @@ MonoBehaviour:
     m_Value: {fileID: 2800000, guid: 42183971d24cfe443a346e7ec6e83bbb, type: 3}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.285
+    m_Value: 0.305
   m_MaxSamples:
     m_OverrideState: 1
     m_Value: 3
@@ -136,7 +136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b51a78e223a2e504bb88a059b55229ea, type: 3}
   m_Name: WhiteBalance
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   temperature:
     m_OverrideState: 1
     m_Value: -86
@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bff652df78c97c4f963064ad1f34619, type: 3}
   m_Name: ColorCurves
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   master:
     m_OverrideState: 1
     m_Value:
@@ -732,21 +732,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c1bfcd0f0fa7b8468f281d6bbbaf320, type: 3}
   m_Name: LensDistortion
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   intensity:
     m_OverrideState: 1
-    m_Value: -0.25
+    m_Value: 0.487
   xMultiplier:
-    m_OverrideState: 1
-    m_Value: 1
+    m_OverrideState: 0
+    m_Value: 0
   yMultiplier:
-    m_OverrideState: 1
-    m_Value: 1
+    m_OverrideState: 0
+    m_Value: 0
   center:
     m_OverrideState: 0
     m_Value: {x: 0.5, y: 0.5}
   scale:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0.8
 --- !u!114 &11400000
 MonoBehaviour:
@@ -761,7 +761,6 @@ MonoBehaviour:
   m_Name: UndeadCameraProfile
   m_EditorClassIdentifier: 
   components:
-  - {fileID: 8301632299339680002}
   - {fileID: -5264382706022576311}
   - {fileID: 7025746035801529688}
   - {fileID: -7033637463918235741}
@@ -769,8 +768,9 @@ MonoBehaviour:
   - {fileID: -9170121644319747666}
   - {fileID: 1736018856978764356}
   - {fileID: -1647794892521288292}
-  - {fileID: 5496301807462918740}
+  - {fileID: 4845247294474915145}
   - {fileID: -7807775329397186784}
+  - {fileID: 8301632299339680002}
 --- !u!114 &1736018856978764356
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -795,13 +795,13 @@ MonoBehaviour:
     m_Value: 0
   color:
     m_OverrideState: 1
-    m_Value: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    m_Value: {r: 0.017577427, g: 0.04048141, b: 0.047169805, a: 1}
   tint:
     m_OverrideState: 1
     m_Value: {r: 1, g: 1, b: 1, a: 1}
   maxFogDistance:
-    m_OverrideState: 1
-    m_Value: 1200
+    m_OverrideState: 0
+    m_Value: 2154.3
   mipFogMaxMip:
     m_OverrideState: 0
     m_Value: 0.5
@@ -813,13 +813,13 @@ MonoBehaviour:
     m_Value: 1000
   baseHeight:
     m_OverrideState: 1
-    m_Value: 200
+    m_Value: -252
   maximumHeight:
     m_OverrideState: 1
-    m_Value: 500
+    m_Value: 1353.1
   meanFreePath:
     m_OverrideState: 1
-    m_Value: 5000
+    m_Value: 9388.6
   enableVolumetricFog:
     m_OverrideState: 0
     m_Value: 0
@@ -859,6 +859,28 @@ MonoBehaviour:
   directionalLightsOnly:
     m_OverrideState: 0
     m_Value: 0
+--- !u!114 &4845247294474915145
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da5ab44aadfb1804db5fd470983ac1b8, type: 3}
+  m_Name: LiftGammaGain
+  m_EditorClassIdentifier: 
+  active: 1
+  lift:
+    m_OverrideState: 0
+    m_Value: {x: 1, y: 1, z: 1, w: 0}
+  gamma:
+    m_OverrideState: 1
+    m_Value: {x: 0.6981622, y: 0.94948304, z: 1, w: 0}
+  gain:
+    m_OverrideState: 0
+    m_Value: {x: 0.9596335, y: 1, z: 0.99704057, w: 0}
 --- !u!114 &5386103759754956829
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -878,28 +900,6 @@ MonoBehaviour:
   tint:
     m_OverrideState: 1
     m_Value: 100
---- !u!114 &5496301807462918740
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da5ab44aadfb1804db5fd470983ac1b8, type: 3}
-  m_Name: LiftGammaGain
-  m_EditorClassIdentifier: 
-  active: 1
-  lift:
-    m_OverrideState: 1
-    m_Value: {x: 0.61, y: 1, z: 0.8895, w: 0.038784742}
-  gamma:
-    m_OverrideState: 1
-    m_Value: {x: 0.992, y: 1, z: 0.88, w: -0.15513897}
-  gain:
-    m_OverrideState: 1
-    m_Value: {x: 0.6713333, y: 1, z: 0.65999997, w: 0.24563673}
 --- !u!114 &5685734068936355332
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -958,7 +958,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b24b200358312b4fa1004e2431c2f1f, type: 3}
   m_Name: ShadowsMidtonesHighlights
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   shadows:
     m_OverrideState: 1
     m_Value: {x: 0.41000003, y: 0.5575, z: 1, w: 0.08508232}
@@ -995,19 +995,19 @@ MonoBehaviour:
   active: 1
   postExposure:
     m_OverrideState: 1
-    m_Value: 0.8
+    m_Value: 0.84
   contrast:
-    m_OverrideState: 1
-    m_Value: -35.6
+    m_OverrideState: 0
+    m_Value: -22.2
   colorFilter:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: {r: 0.56781775, g: 0.7124709, b: 0.8301887, a: 1}
   hueShift:
-    m_OverrideState: 1
-    m_Value: -33
+    m_OverrideState: 0
+    m_Value: 1
   saturation:
     m_OverrideState: 1
-    m_Value: -56.6
+    m_Value: -48.2
 --- !u!114 &8654945842836915205
 MonoBehaviour:
   m_ObjectHideFlags: 3

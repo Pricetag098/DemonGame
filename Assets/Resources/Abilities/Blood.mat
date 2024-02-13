@@ -134,6 +134,7 @@ Material:
     - _ATDistance: 1
     - _AddPrecomputedVelocity: 0
     - _AlbedoAffectEmissive: 0
+    - _AlphaClip: 0
     - _AlphaCutoff: 0.5
     - _AlphaCutoffEnable: 0
     - _AlphaCutoffPostpass: 0.5
@@ -145,6 +146,8 @@ Material:
     - _AlphaToMaskInspectorValue: 0
     - _Anisotropy: 0
     - _BlendMode: 0
+    - _Blood_Metallic: 0
+    - _Blood_Smoothness: 0
     - _CoatMask: 0
     - _ConservativeDepthOffsetEnable: 0
     - _CullMode: 2
@@ -163,6 +166,7 @@ Material:
     - _DoubleSidedGIMode: 0
     - _DoubleSidedNormalMode: 1
     - _DstBlend: 0
+    - _Emission_Intensity: 1
     - _EmissiveColorMode: 1
     - _EmissiveExposureWeight: 1
     - _EmissiveIntensity: 1
@@ -171,6 +175,8 @@ Material:
     - _EnableFogOnTransparent: 1
     - _EnableGeometricSpecularAA: 0
     - _EnergyConservingSpecularColor: 1
+    - _ExcludeFromTUAndAA: 0
+    - _FresnelPower: 1
     - _HeightAmplitude: 0.02
     - _HeightCenter: 0.5
     - _HeightMapParametrization: 0
@@ -186,6 +192,9 @@ Material:
     - _IridescenceThickness: 1
     - _LinkDetailsWithBase: 1
     - _MaterialID: 1
+    - _Material_2_Emission_Intensity: 1
+    - _Material_2_Metalic: 0
+    - _Material_2_Smoothness: 0
     - _Metallic: 0
     - _MetallicRemapMax: 1
     - _MetallicRemapMin: 0
@@ -218,15 +227,17 @@ Material:
     - _StencilRefGBuffer: 10
     - _StencilRefMV: 40
     - _StencilWriteMask: 6
-    - _StencilWriteMaskDepth: 8
+    - _StencilWriteMaskDepth: 9
     - _StencilWriteMaskDistortionVec: 4
-    - _StencilWriteMaskGBuffer: 14
-    - _StencilWriteMaskMV: 40
+    - _StencilWriteMaskGBuffer: 15
+    - _StencilWriteMaskMV: 41
     - _SubsurfaceMask: 1
     - _SupportDecals: 1
     - _SurfaceType: 0
     - _TexWorldScale: 1
     - _TexWorldScaleEmissive: 1
+    - _Texture_1_Scale: 10
+    - _Texture_2_Scale: 10
     - _Thickness: 1
     - _Tile1: 2.89
     - _Tile_2: 4.87
@@ -254,19 +265,29 @@ Material:
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _BloodFlowDirection: {r: 0, g: 1, b: 0, a: 0}
     - _BloodFlowDirection_1: {r: 0, g: 1, b: 0, a: 0}
+    - _Blood_Colour_1: {r: 1, g: 0, b: 0, a: 0}
+    - _Blood_Colour_2: {r: 0.19811317, g: 0, b: 0, a: 0}
+    - _Blood_Direction_Texture_1: {r: 0, g: 0, b: 0, a: 0}
+    - _Blood_Direction_Texture_2: {r: 0, g: 0, b: 0, a: 0}
+    - _Blood_Position: {r: 0.6, g: 0.4, b: 0, a: 0}
     - _Color: {r: 0.41509432, g: 0.06069775, b: 0.06069775, a: 1}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Emission_Colour: {r: 0, g: 0, b: 0, a: 0}
     - _EmissiveColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissiveColorLDR: {r: 0, g: 0, b: 0, a: 1}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _Material_2_Colour: {r: 0, g: 0, b: 0, a: 0}
+    - _Material_2_Emission: {r: 0, g: 0, b: 0, a: 0}
     - _MinMax: {r: 0.5, g: 1, b: 0, a: 0}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _ThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
     - _Tile1: {r: 4.02, g: 3.36, b: 0, a: 0}
     - _Tile2: {r: 1.61, g: 1, b: 0, a: 0}
+    - _Tilling_Texture_1: {r: 1, g: 0.5, b: 0, a: 0}
+    - _Tilling_Texture_2: {r: 1, g: 1, b: 0, a: 0}
     - _TransmittanceColor: {r: 1, g: 1, b: 1, a: 1}
     - _UVDetailsMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMask: {r: 1, g: 0, b: 0, a: 0}

@@ -1055,6 +1055,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 243542884626591425}
+  - component: {fileID: 5033113792741050448}
   - component: {fileID: 758352623466650054}
   - component: {fileID: 7011524162294808223}
   m_Layer: 9
@@ -1079,6 +1080,100 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1903782244791030237}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &5033113792741050448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8025095309820058980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a7b43dd957b58e4bbbb2667541e9200, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hovered: 0
+  Cost: 2500
+  buyMessage: 'to open gate  '
+  buySound:
+    enabled: 1
+    val: {fileID: 2237779257400725580}
+  tooExpensiveSound:
+    enabled: 1
+    val: {fileID: 6660168266053159892}
+  open: 0
+  animationTrigger: OpenBack
+  interactEvents:
+    enabled: 1
+    val:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8025095309820058980}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 5045576240237255961}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1887243285484545027}
+          m_TargetAssemblyTypeName: DeathStateToggler, Assembly-CSharp
+          m_MethodName: Destroy
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 7011524162294808223}
+          m_TargetAssemblyTypeName: DeathStateToggler, Assembly-CSharp
+          m_MethodName: Destroy
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  doorAnimator:
+    enabled: 1
+    val: {fileID: 7698867968529719376}
+  arcaneLock:
+    enabled: 1
+    val:
+    - {fileID: 8518252797065773803}
+    - {fileID: 1958571545254020548}
+  AreaConnection1:
+    enabled: 0
+    val: {fileID: 0}
+  AreaConnection2:
+    enabled: 0
+    val: {fileID: 0}
+  AreaConnections: []
+  diageticSound:
+    enabled: 1
+    val: {fileID: 7706186361093518424}
 --- !u!65 &758352623466650054
 BoxCollider:
   m_ObjectHideFlags: 0

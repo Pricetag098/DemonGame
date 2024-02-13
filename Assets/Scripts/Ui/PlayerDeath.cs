@@ -22,7 +22,8 @@ public class PlayerDeath : MonoBehaviour
     public int respawnsLeft;
     public float deathStateTimeSeconds;
     public Slider deathStateSlider;
-    DeathStateToggler[] togglers;
+    DeathStateToggler[] togglersA;
+    public List<DeathStateToggler> togglersL;
     bool dead;
     PlayerStats stats;
     [Range(0,1)] public float pointLoss;
@@ -50,7 +51,10 @@ public class PlayerDeath : MonoBehaviour
 
     private void Start()
     {
-        togglers = FindObjectsOfType<DeathStateToggler>(true);
+        togglersA = FindObjectsOfType<DeathStateToggler>(true);
+
+        togglersL.AddRange(togglersA);
+
         SetWorldState(true);
     }
 
@@ -169,7 +173,7 @@ public class PlayerDeath : MonoBehaviour
 
     public void SetWorldState(bool alive)
     {
-        foreach(DeathStateToggler toggler in togglers)
+        foreach(DeathStateToggler toggler in togglersL)
         {
             toggler.Toggle(alive);
         }

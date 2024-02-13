@@ -14,8 +14,11 @@ public class DeathStateToggler : MonoBehaviour
     private Material oldMat;
     private Renderer objRenderer;
 
+    PlayerDeath playerDeath;
+
     private void Awake()
     {
+        playerDeath = FindObjectOfType<PlayerDeath>();
         if (deathStateMat)
         {
             objRenderer = objToChangeMat.GetComponent<Renderer>();
@@ -35,5 +38,11 @@ public class DeathStateToggler : MonoBehaviour
         {
             if (deathStateMatChange) objRenderer.material = deathStateMat;
         }
+    }
+
+    public void Destroy()
+    {
+        playerDeath.togglersL.Remove(this);
+        Destroy(this);
     }
 }

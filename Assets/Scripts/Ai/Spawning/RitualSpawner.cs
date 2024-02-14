@@ -32,6 +32,7 @@ public class RitualSpawner : MonoBehaviour
     [SerializeField] SoundPlayer soundPlayerFail;
     [SerializeField] SoundPlayer soundPlayerComplete;
     [SerializeField] SoundPlayer soundPlayerMusic;
+    [SerializeField] SoundPlayer soundAmbienceMusic;
     [SerializeField] float musicFadeOutTime;
 
     [Header("Ritual Completion")]
@@ -183,6 +184,7 @@ public class RitualSpawner : MonoBehaviour
             wall.Fall();
         }
 
+        soundAmbienceMusic.Stop();
         soundPlayerComplete.Play();
 
         completion.SetActive(false);

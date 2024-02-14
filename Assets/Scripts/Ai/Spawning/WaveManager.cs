@@ -101,7 +101,7 @@ public class WaveManager : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
-            if (i % BossWaveIncrement == 0 && i != IgnoreFirstIncrement)
+            if (i % BossWaveIncrement == 0 && i > IgnoreFirstIncrement)
             {
                 WavesContainer[i] = BossWave;
             }

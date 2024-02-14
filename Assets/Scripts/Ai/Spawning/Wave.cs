@@ -23,24 +23,14 @@ public class Wave : ScriptableObject
     public float JoggerPercent;
     public float RunnerPercent;
 
-    public DemonType LittleGuy;
-    public float LittleGuyPercentage;
-
     public DemonType Choas;
-    public int ChoasAmount;
-    public float WaveInsertPosition;
-
-    [Header("Extra Chaos Chance")]
-    [Range(0,100)] public float ChanceToSpawnChaos;
-    [Range(0,10)] public int MaxChoasToSpawn;
+    public List<float> WavePositions = new List<float>();
 
     public static Queue<DemonType> GetWave(int DemonsToAdd, Wave wave)
     {
         List<DemonType> demons = new List<DemonType>();
 
         int _base = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.BasePercentage, DemonsToAdd));
-        int _littleGuy = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.LittleGuyPercentage, DemonsToAdd));
-
         int jogger = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.JoggerPercent, _base));
         int runner = Mathf.RoundToInt(HelperFuntions.GetPercentageOf(wave.RunnerPercent, _base));
 
@@ -63,10 +53,6 @@ public class Wave : ScriptableObject
         }
 
         counter -= _base;
-
-        AddTypeToList(wave.LittleGuy, _littleGuy, demons);
-
-        counter -= _littleGuy;
 
         AddTypeToList(wave.Base, counter, demons);
 

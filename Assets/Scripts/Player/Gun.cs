@@ -330,7 +330,7 @@ public class Gun : MonoBehaviour
     }
     protected virtual void Shoot()
     {
-
+        List<Health> healths = new List<Health>();
        
         for (int i = 0; i < shotsPerFiring; i++)
         {
@@ -341,7 +341,7 @@ public class Gun : MonoBehaviour
             Debug.DrawRay(holster.aimTarget.position, dir * 10, Color.green);
 
             Vector3 endPoint = holster.aimTarget.position + dir * bulletRange;
-            RecursiveRaycast(holster.aimTarget.position, dir, 0, 0, ref endPoint, new List<Health>());
+            RecursiveRaycast(holster.aimTarget.position, dir, 0, 0, ref endPoint, healths);
 
             visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin.position, endPoint, Vector3.Distance(origin.position, endPoint) / bulletVisualiserSpeed, dir);
         }
@@ -399,7 +399,15 @@ public class Gun : MonoBehaviour
                             hitBox.rigidBody.Value.AddForceAtPosition(dir * hitForce, hit.point);
                     }
                     holster.OnHit(damage, hitBox);
-                    holster.stats.GainPoints(GetPoints(hitBox.bodyPart));
+                    //TODO Make u not get points in rituals
+                    if(hitBox.health.TryGetComponent(out DemonFramework demon))
+                    {
+                        if(demon._spawnType != DemonInfo.SpawnType.Ritual)
+                        {
+                            holster.stats.GainPoints(GetPoints(hitBox.bodyPart));
+                        }
+                    }
+                    
                 }
             }
 

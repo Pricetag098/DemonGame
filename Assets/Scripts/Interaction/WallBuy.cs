@@ -47,6 +47,7 @@ public class WallBuy : ShopInteractable
 
 	protected override int GetCost(Interactor interactor)
 	{
-		return interactor.holster.HasGun(prefab.GetComponent<Gun>()) ? prefab.GetComponent<Gun>().refillCost : Cost;
+		bool hasGun = interactor.holster.HasGun(prefab.GetComponent<Gun>(),out Gun returnedGun);
+		return hasGun ? returnedGun.refillCost : Cost;
 	}
 }

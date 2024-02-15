@@ -430,7 +430,7 @@ namespace Movement
 
                 camGo.rotation = Quaternion.Euler(camRotX, camGo.rotation.eulerAngles.y + camDir.x * sensitivity * Time.deltaTime + recoilVal.y, camGo.rotation.eulerAngles.z);
 
-				cam.forward = aimAssist.GetAssistedAimDir(camGo.forward, cam.position, float.PositiveInfinity, new List<Health>());
+				cam.rotation = camGo.rotation;//.forward = aimAssist.GetAssistedAimDir(camGo.forward, cam.position, float.PositiveInfinity, new List<Health>());
             }
         }
 		[System.Serializable]

@@ -50,7 +50,7 @@ public class DemonFramework : MonoBehaviour
     /// <summary>
     /// Spawn Type
     /// </summary>
-    protected SpawnType _spawnType;
+    [HideInInspector]public SpawnType _spawnType;
 
     protected bool _isSpawned;
     #endregion

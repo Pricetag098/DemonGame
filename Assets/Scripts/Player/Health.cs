@@ -73,7 +73,7 @@ public class Health : MonoBehaviour
 
         bool grantPoints = false;
 
-        if(gameObject.TryGetComponent<GrantPointsOnDeath>(out GrantPointsOnDeath points))
+        if(gameObject.TryGetComponent(out GrantPointsOnDeath points))
         {
             grantPoints = true;
 

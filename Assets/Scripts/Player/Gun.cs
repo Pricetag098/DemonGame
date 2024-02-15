@@ -330,7 +330,7 @@ public class Gun : MonoBehaviour
     }
     protected virtual void Shoot()
     {
-        List<Health> healths = new List<Health>();
+        
        
         for (int i = 0; i < shotsPerFiring; i++)
         {
@@ -341,10 +341,11 @@ public class Gun : MonoBehaviour
             Debug.DrawRay(holster.aimTarget.position, dir * 10, Color.green);
 
             Vector3 endPoint = holster.aimTarget.position + dir * bulletRange;
-            RecursiveRaycast(holster.aimTarget.position, dir, 0, 0, ref endPoint, healths);
+            RecursiveRaycast(holster.aimTarget.position, dir, 0, 0, ref endPoint, new List<Health>());
 
             visualiserPool.Value.Spawn().GetComponent<BulletVisualiser>().Shoot(origin.position, endPoint, Vector3.Distance(origin.position, endPoint) / bulletVisualiserSpeed, dir);
         }
+
         if(holster.consumeAmmo)
         ammoLeft--;
         fireTimer = 1/(roundsPerMin/60);

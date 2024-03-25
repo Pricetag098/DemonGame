@@ -12,6 +12,8 @@ public class PauseMenu : MonoBehaviour
 	[SerializeField] CanvasGroup playerHUDCanvas;
     public bool open {  get; private set; }
     CanvasGroup canvasGroup;
+	[SerializeField] private SettingsMenu settingsMenu;
+	[SerializeField] private CanvasGroup pauseMenuParent;
     [SerializeField] float openTime;
 
     [SerializeField] InputActionProperty openAction;
@@ -24,7 +26,7 @@ public class PauseMenu : MonoBehaviour
     {
         if (open)
             return;
-		DOTween.Kill(this,true);
+        DOTween.Kill(this,true);
 		open = true;
 		Sequence s = DOTween.Sequence(this);
 		s.SetUpdate(true);
@@ -51,6 +53,7 @@ public class PauseMenu : MonoBehaviour
     {
         if(!open) 
             return;
+		CloseSettingsMenu();
         DOTween.Kill(this,true);
         open = false;
         Sequence s = DOTween.Sequence(this);
@@ -112,6 +115,12 @@ public class PauseMenu : MonoBehaviour
     {
         
     }
+	void CloseSettingsMenu()
+	{
+        pauseMenuParent.alpha = 1;
+        pauseMenuParent.interactable = true;
+        settingsMenu.Close();
+	}
 
 	public void Quit()
 	{

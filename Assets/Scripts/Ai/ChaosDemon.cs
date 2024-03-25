@@ -9,7 +9,7 @@ public class ChaosDemon : DemonFramework
 {
     [SerializeField] float meleeStopingDistance;
     [SerializeField] ChaosStats normalStats, enragedStats;
-    ObjectPooler pooler;
+    //ObjectPooler pooler;
     [SerializeField, Range(0, 1)] float enragePoint;
 
     float castTimer;
@@ -63,7 +63,7 @@ public class ChaosDemon : DemonFramework
         base.OnAwakened();
 
         m_obstacle = GetComponent<DestroyObstacle>();
-        pooler = GetComponent<ObjectPooler>();
+        //pooler = GetComponent<ObjectPooler>();
     }
     public override void OnStart()
     {

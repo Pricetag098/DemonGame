@@ -5634,9 +5634,6 @@ PrefabInstance:
       addedObject: {fileID: 6105143748303895074}
     - targetCorrespondingSourceObject: {fileID: 6675286441573099688, guid: 9ffce472bccea6a4697d2bf06a3a4082, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7438785430297300844}
-    - targetCorrespondingSourceObject: {fileID: 6675286441573099688, guid: 9ffce472bccea6a4697d2bf06a3a4082, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 8990972491674890974}
   m_SourcePrefab: {fileID: 100100000, guid: 9ffce472bccea6a4697d2bf06a3a4082, type: 3}
 --- !u!114 &175586103585419776 stripped
@@ -5898,22 +5895,6 @@ MonoBehaviour:
     openTime: 0.3
     closeTime: 0.3
   circle: {fileID: 4642842560685214183}
---- !u!114 &7438785430297300844
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 309035431686838580}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df5b4a59829e3604b874842283b3d83f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefabToPool: {fileID: 4503077899859779925, guid: 676d1073db2cba84997a5efe2ad96f5f, type: 3}
-  poolSize: 10
-  autoRefillPool: 0
-  poolContainer: {fileID: 0}
 --- !u!114 &8990972491674890974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5927,6 +5908,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _skinnedMeshRenderer: {fileID: 964377352193247684}
+  _spawnType: 0
   deathFadeTime: 2
   fadeTimeMultiplier: 1
   pointsOnDeath: 500

@@ -27,6 +27,8 @@ public class InitaliseRitual : RitualBase
 
             manager.SetCurrentRitual(spawner);
 
+            EndHover(interactor);
+
             //manager.TpPlayerOnStart();
         }
     }

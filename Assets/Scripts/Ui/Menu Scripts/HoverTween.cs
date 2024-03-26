@@ -25,15 +25,20 @@ public class HoverTween : MonoBehaviour, IPointerEnterHandler, ISelectHandler, I
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        hoverSFX.Play();
+        if (hoverSFX!= null) 
+        {
+            hoverSFX.Play();
+        }
         transform.DOKill();
         TweenScale(tweenScale);    
     }
 
     public void OnSelect(BaseEventData eventData)
     {
-
-        confirmSFX.Play();
+        if (confirmSFX!= null)
+        {
+            confirmSFX.Play();
+        }
         transform.DOKill();
         TweenSelect();
     }

@@ -395,22 +395,22 @@ public class DemonFramework : MonoBehaviour
 
             float fade = _deathFadeTimer.Time * fadeTimeMultiplier;
 
-            //Material[] skinMats = _skinnedMeshRenderer.materials;
+            Material[] skinMats = _skinnedMeshRenderer.materials;
 
-            //foreach (Material m in skinMats)
-            //{
-            //    m.SetFloat("_AlphaClip", fade);
-            //}
+            foreach (Material m in skinMats)
+            {
+                m.SetFloat("_AlphaClip", fade);
+            }
 
-            //_skinnedMeshRenderer.materials = skinMats;
+            _skinnedMeshRenderer.materials = skinMats;
 
-            //foreach (GameObject g in _attachments.ReturnActiveObjects())
-            //{
-            //    if (g.TryGetComponent<MeshRenderer>(out MeshRenderer renderer))
-            //    {
-            //        renderer.material.SetFloat("_AlphaClip", fade);
-            //    }
-            //}
+            foreach (GameObject g in _attachments.ReturnActiveObjects())
+            {
+                if (g.TryGetComponent<MeshRenderer>(out MeshRenderer renderer))
+                {
+                    renderer.material.SetFloat("_AlphaClip", fade);
+                }
+            }
 
             if (_deathFadeTimer.TimeGreaterThan)
             {
@@ -420,22 +420,22 @@ public class DemonFramework : MonoBehaviour
 
                 _ragdoll.ToggleRagdoll(false);
 
-                //skinMats = _skinnedMeshRenderer.materials;
+                skinMats = _skinnedMeshRenderer.materials;
 
-                //foreach (Material m in skinMats)
-                //{
-                //    m.SetFloat("AlphaClip", 0);
-                //}
+                foreach (Material m in skinMats)
+                {
+                    m.SetFloat("AlphaClip", 0);
+                }
 
-                //_skinnedMeshRenderer.materials = skinMats;
+                _skinnedMeshRenderer.materials = skinMats;
 
-                //foreach (GameObject g in _attachments.ReturnActiveObjects())
-                //{
-                //    if (g.TryGetComponent<MeshRenderer>(out MeshRenderer renderer))
-                //    {
-                //        renderer.material.SetFloat("_AlphaClip", 0);
-                //    }
-                //}
+                foreach (GameObject g in _attachments.ReturnActiveObjects())
+                {
+                    if (g.TryGetComponent<MeshRenderer>(out MeshRenderer renderer))
+                    {
+                        renderer.material.SetFloat("_AlphaClip", 0);
+                    }
+                }
 
                 MarkForRemoval();
             }

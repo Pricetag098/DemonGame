@@ -34,7 +34,6 @@ public class DemonMaterials : MonoBehaviour
 
     public static void SetDefaultAttachmentMaterial(GameObject obj)
     {
-        return;
         int num = Random.Range(0, defaultAttachMaterials.Length);
 
         if (obj.TryGetComponent<MeshRenderer>(out MeshRenderer meshRenderer))
@@ -48,7 +47,6 @@ public class DemonMaterials : MonoBehaviour
 
     public static void SetDefaultSpawningMaterial(SkinnedMeshRenderer meshRenderer)
     {
-        return;
         Material[] mats = meshRenderer.sharedMaterials;
 
         int num = Random.Range(0, defaultClothMaterials.Length);
@@ -64,7 +62,6 @@ public class DemonMaterials : MonoBehaviour
 
     public static void SetRitualMaterial(SkinnedMeshRenderer meshRenderer)
     {
-        return;
         Material[] mats = meshRenderer.sharedMaterials;
 
         int num = Random.Range(0, RitualClothMaterials.Length);
@@ -80,7 +77,6 @@ public class DemonMaterials : MonoBehaviour
 
     public static void SetRitualAttachmentMaterial(GameObject obj)
     {
-        return;
         int num = Random.Range(0, RitualAttachtmentMaterials.Length);
 
         if (obj.TryGetComponent<MeshRenderer>(out MeshRenderer meshRenderer))
@@ -90,13 +86,12 @@ public class DemonMaterials : MonoBehaviour
 
             //Debug.Log(RitualAttachtmentMaterials[num].name);
 
-            meshRenderer.sharedMaterials[0] = RitualAttachtmentMaterials[num];
+            meshRenderer.sharedMaterials = mats;
         }
     }
 
     public static void SetChaosMaterial(SkinnedMeshRenderer meshRenderer)
     {
-        return;
         Material[] mats = meshRenderer.sharedMaterials;
 
         int num = Random.Range(0, chaosMaterials.Length);

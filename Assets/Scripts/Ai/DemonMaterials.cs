@@ -4,11 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-//28-3-24
-//So it looks like the memory leak is being caused by getting meshRenderer.materials, which is giving us instances of the materials
-//each time it's called. Since we immediately change the materials in the array after getting it, there should be no reason
-//not to just create a new array and assign it?
-
 public class DemonMaterials : MonoBehaviour
 {
     private static Material[] defaultDemonMaterials;
@@ -43,16 +38,16 @@ public class DemonMaterials : MonoBehaviour
 
         if (obj.TryGetComponent<MeshRenderer>(out MeshRenderer meshRenderer))
         {
-            Material[] mats = new Material[1];
+            Material[] mats = meshRenderer.sharedMaterials;
             mats[0] = defaultAttachMaterials[num];
 
-            meshRenderer.materials = mats;
+            meshRenderer.sharedMaterials = mats;
         }
     }
 
     public static void SetDefaultSpawningMaterial(SkinnedMeshRenderer meshRenderer)
     {
-        Material[] mats = new Material[2];
+        Material[] mats = meshRenderer.sharedMaterials;
 
         int num = Random.Range(0, defaultClothMaterials.Length);
 
@@ -62,12 +57,12 @@ public class DemonMaterials : MonoBehaviour
 
         mats[1] = defaultDemonMaterials[num]; // sets demon
 
-        meshRenderer.materials = mats;
+        meshRenderer.sharedMaterials = mats;
     }
 
     public static void SetRitualMaterial(SkinnedMeshRenderer meshRenderer)
     {
-        Material[] mats = new Material[2];
+        Material[] mats = meshRenderer.sharedMaterials;
 
         int num = Random.Range(0, RitualClothMaterials.Length);
 
@@ -77,7 +72,7 @@ public class DemonMaterials : MonoBehaviour
 
         mats[1] = Ritual[num]; // sets demon
 
-        meshRenderer.materials = mats;
+        meshRenderer.sharedMaterials = mats;
     }
 
     public static void SetRitualAttachmentMaterial(GameObject obj)
@@ -86,24 +81,24 @@ public class DemonMaterials : MonoBehaviour
 
         if (obj.TryGetComponent<MeshRenderer>(out MeshRenderer meshRenderer))
         {
-            Material[] mats = new Material[1];
+            Material[] mats = meshRenderer.sharedMaterials;
             mats[0] = RitualAttachtmentMaterials[num];
 
             //Debug.Log(RitualAttachtmentMaterials[num].name);
 
-            meshRenderer.materials = mats;
+            meshRenderer.sharedMaterials = mats;
         }
     }
 
     public static void SetChaosMaterial(SkinnedMeshRenderer meshRenderer)
     {
-        Material[] mats = new Material[1];
+        Material[] mats = meshRenderer.sharedMaterials;
 
         int num = Random.Range(0, chaosMaterials.Length);
 
         mats[0] = chaosMaterials[num]; // sets choas material
 
-        meshRenderer.materials = mats;
+        meshRenderer.sharedMaterials = mats;
     }
 
     public T[] LoadALlAssestsFromFolder<T>(string FilePath)

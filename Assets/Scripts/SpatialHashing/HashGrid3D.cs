@@ -69,7 +69,6 @@ namespace BlakesSpatialHash
         /// <param name="obj"></param>
         public void Insert(T obj)
         {
-            return;
             uint index = obj.Index = GetIndex(obj.GetPosition, out Vector3Int cellPos);
 
             //if (!cells.ContainsKey(index)) // PERFORMANCE CAN BE GAINED BY GETTING REF TO DICTIONARY VALUE (dont think unity allows unsafe methods)
@@ -95,7 +94,6 @@ namespace BlakesSpatialHash
         /// <param name="obj"></param>
         public void Remove(T obj)
         {
-            return;
             cells[obj.Index].Remove(obj);
         }
 

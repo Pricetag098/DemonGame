@@ -4,6 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+//28-3-24
+//So it looks like the memory leak is being caused by getting meshRenderer.materials, which is giving us instances of the materials
+//each time it's called. Since we immediately change the materials in the array after getting it, there should be no reason
+//not to just create a new array and assign it?
+
 public class DemonMaterials : MonoBehaviour
 {
     private static Material[] defaultDemonMaterials;
@@ -38,7 +43,7 @@ public class DemonMaterials : MonoBehaviour
 
         if (obj.TryGetComponent<MeshRenderer>(out MeshRenderer meshRenderer))
         {
-            Material[] mats = meshRenderer.materials;
+            Material[] mats = new Material[1];
             mats[0] = defaultAttachMaterials[num];
 
             meshRenderer.materials = mats;
@@ -47,7 +52,7 @@ public class DemonMaterials : MonoBehaviour
 
     public static void SetDefaultSpawningMaterial(SkinnedMeshRenderer meshRenderer)
     {
-        Material[] mats = meshRenderer.materials;
+        Material[] mats = new Material[2];
 
         int num = Random.Range(0, defaultClothMaterials.Length);
 
@@ -62,7 +67,7 @@ public class DemonMaterials : MonoBehaviour
 
     public static void SetRitualMaterial(SkinnedMeshRenderer meshRenderer)
     {
-        Material[] mats = meshRenderer.materials;
+        Material[] mats = new Material[2];
 
         int num = Random.Range(0, RitualClothMaterials.Length);
 
@@ -81,7 +86,7 @@ public class DemonMaterials : MonoBehaviour
 
         if (obj.TryGetComponent<MeshRenderer>(out MeshRenderer meshRenderer))
         {
-            Material[] mats = meshRenderer.materials;
+            Material[] mats = new Material[1];
             mats[0] = RitualAttachtmentMaterials[num];
 
             //Debug.Log(RitualAttachtmentMaterials[num].name);
@@ -92,7 +97,7 @@ public class DemonMaterials : MonoBehaviour
 
     public static void SetChaosMaterial(SkinnedMeshRenderer meshRenderer)
     {
-        Material[] mats = meshRenderer.materials;
+        Material[] mats = new Material[1];
 
         int num = Random.Range(0, chaosMaterials.Length);
 

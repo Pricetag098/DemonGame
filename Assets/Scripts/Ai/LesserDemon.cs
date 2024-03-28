@@ -72,7 +72,8 @@ public class LesserDemon : DemonFramework
 
         PathFinding();
 
-        UpdateAgentNearby(GetAgent.Grid.cells.UpdateObjectAndGetSurroudingObjects(GetAgent));
+        //UpdateAgentNearby(GetAgent.Grid.cells.UpdateObjectAndGetSurroudingObjects(GetAgent));
+        UpdateAgentNearby(new List<AiAgent>());
     }
     public override void OnSpawn(DemonType type, Transform target, SpawnType spawnType, bool inMap)
     {

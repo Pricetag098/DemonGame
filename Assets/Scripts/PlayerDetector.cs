@@ -7,13 +7,19 @@ public class PlayerDetector : MonoBehaviour
 {
     public UnityEvent enter;
     public UnityEvent exit;
+	private bool check = true;
 
-	private void OnTriggerEnter(Collider other)
+	private void OnTriggerStay(Collider other)
 	{
-		enter.Invoke();
+		if (check)
+		{
+			enter.Invoke();
+			check = false;
+		}
 	}
 	private void OnTriggerExit(Collider other)
 	{
 		exit.Invoke();
+		check = true;
 	}
 }

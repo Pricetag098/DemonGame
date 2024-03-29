@@ -58,6 +58,14 @@ public class AiAgent : MonoBehaviour
 
     [HideInInspector] public SpatialHashGrid3D Grid;
 
+    [Header("Unstuck stats")]
+    [SerializeField] private float despawnCheckCooldown;
+    [Tooltip("How far the AI needs to move to reset the despawn timer")]
+    [SerializeField] private float despawnDistance;
+    private Vector3 lastUnstuckPosition;
+    private float despawnTimer;
+
+
     public void Initalise()
     {
         Grid = SpatialHashGrid3D.Instance;
@@ -96,6 +104,8 @@ public class AiAgent : MonoBehaviour
         if(Time.timeScale == 0.0f || Time.fixedDeltaTime == 0.0f) { return; }
 
         Vector3 idealVel = Vector3.zero;
+
+
 
    //     if (Physics.Raycast(transform.position + transform.up * rayHeightOffset, -transform.up, out RaycastHit hit, groundingRange, wallLayers))
    //     {
@@ -161,6 +171,27 @@ public class AiAgent : MonoBehaviour
         {
             rb.AddForce(Vector3.down * gravityScale * Time.fixedDeltaTime * Time.timeScale);
         }
+
+        //stuck fixing
+        if(Time.time - despawnTimer > despawnCheckCooldown)
+        {
+            //if the ai has moved less than despawnDistance, probably stuck and despawn them
+            if (Vector3.Distance(GetPosition, lastUnstuckPosition) < despawnDistance)
+            {
+                GetComponent<Health>().TakeDmg(9999999, HitType.ABILITY);
+            }
+            else
+            {
+                ResetStuckTimer();
+            }
+            lastUnstuckPosition = transform.position;
+        }
+
+    }
+
+    public void ResetStuckTimer()
+    {
+        despawnTimer = Time.time;
     }
 
     private bool isGrounded(out RaycastHit hit)

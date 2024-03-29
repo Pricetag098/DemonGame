@@ -283,6 +283,9 @@ public class ChaosDemon : DemonFramework
                 damageIndicator.Indicate(transform);
             }
         }
+
+        //unstuck resetting
+        GetComponent<AiAgent>().ResetStuckTimer();
     }
     public override void OnHit()
     {

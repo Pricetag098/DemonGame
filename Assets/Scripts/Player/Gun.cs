@@ -395,15 +395,15 @@ public class Gun : MonoBehaviour
                     float damage = GetDamage(hitBox.bodyPart) * holster.stats.damageMulti;
                     if (hitBox.OnHit(damage, HitType.GUN))
                     {
-                        //holster.OnKill(hitBox.bodyPart);
-                        //if (hitBox.rigidBody.Enabled)
-                        //    hitBox.rigidBody.Value.AddForceAtPosition(dir * hitForce, hit.point);
+                        holster.OnKill(hitBox.bodyPart);
+                        if (hitBox.rigidBody.Enabled)
+                            hitBox.rigidBody.Value.AddForceAtPosition(dir * hitForce, hit.point);
                     }
-                    //holster.OnHit(damage, hitBox);
-                    ////TODO Make u not get points in rituals
-                    //if(hitBox.health.TryGetComponent(out DemonFramework demon))
+                    holster.OnHit(damage, hitBox);
+                    //TODO Make u not get points in rituals
+                    //if (hitBox.health.TryGetComponent(out DemonFramework demon))
                     //{
-                    //    if(demon._spawnType != DemonInfo.SpawnType.Ritual)
+                    //    if (demon._spawnType != DemonInfo.SpawnType.Ritual)
                     //    {
                     //        holster.stats.GainPoints(GetPoints(hitBox.bodyPart));
                     //    }

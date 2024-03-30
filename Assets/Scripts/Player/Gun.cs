@@ -338,7 +338,7 @@ public class Gun : MonoBehaviour
             Vector3 randVal = GetSpread(UnityEngine.Random.insideUnitSphere);
             Vector3 dir = holster.aimTarget.rotation *  (Quaternion.Euler(randVal) * Vector3.forward);
 
-            Debug.DrawRay(holster.aimTarget.position, dir * 10, Color.green);
+            
 
             Vector3 endPoint = holster.aimTarget.position + dir * bulletRange;
             RecursiveRaycast(holster.aimTarget.position, dir, 0, 0, ref endPoint, new List<Health>());
@@ -395,20 +395,20 @@ public class Gun : MonoBehaviour
                     float damage = GetDamage(hitBox.bodyPart) * holster.stats.damageMulti;
                     if (hitBox.OnHit(damage, HitType.GUN))
                     {
-                        holster.OnKill(hitBox.bodyPart);
-                        if (hitBox.rigidBody.Enabled)
-                            hitBox.rigidBody.Value.AddForceAtPosition(dir * hitForce, hit.point);
+                        //holster.OnKill(hitBox.bodyPart);
+                        //if (hitBox.rigidBody.Enabled)
+                        //    hitBox.rigidBody.Value.AddForceAtPosition(dir * hitForce, hit.point);
                     }
-                    holster.OnHit(damage, hitBox);
-                    //TODO Make u not get points in rituals
-                    if(hitBox.health.TryGetComponent(out DemonFramework demon))
-                    {
-                        if(demon._spawnType != DemonInfo.SpawnType.Ritual)
-                        {
-                            holster.stats.GainPoints(GetPoints(hitBox.bodyPart));
-                        }
-                    }
-                    
+                    //holster.OnHit(damage, hitBox);
+                    ////TODO Make u not get points in rituals
+                    //if(hitBox.health.TryGetComponent(out DemonFramework demon))
+                    //{
+                    //    if(demon._spawnType != DemonInfo.SpawnType.Ritual)
+                    //    {
+                    //        holster.stats.GainPoints(GetPoints(hitBox.bodyPart));
+                    //    }
+                    //}
+
                 }
             }
 

@@ -52,6 +52,7 @@ public class BlessingSpawner : MonoBehaviour
 
     public void SpawnBlessing(Transform spawnPos, BlessingType type = BlessingType.Null)
     {
+        return;
         if (type == BlessingType.Null) { type = GetRandomEnum(); }
 
         GameObject blessing = blessingPooler[type].Spawn();

@@ -28,16 +28,9 @@ public class Hitmarkers : MonoBehaviour
 
     void SpawnHitMarker(GameObject go)
     {
-        DOTween.Kill(go,true);
-        go.GetComponent<SoundPlayer>().Play();
-        RectTransform rectTransform = go.GetComponent<RectTransform>();
+        go.GetComponent<HitmarkerUi>().Spawn(showTime,decayTime,punchScale);
         
-        CanvasGroup group = go.GetComponent<CanvasGroup>();
-        group.alpha = 1.0f;
-
-        Sequence s = DOTween.Sequence(go);
-        s.Append(rectTransform.DOPunchScale(Vector3.one * punchScale, showTime));
-        s.Append(group.DOFade(0,decayTime));
+        
 
     }
 }

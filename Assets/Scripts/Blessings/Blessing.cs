@@ -19,8 +19,8 @@ public class Blessing : ScriptableObject
     public void Equip(BlessingStatusHandler handler)
     {
         this.handler = handler;
-        handler.DisplayBlessing(this);
-        OnEquip();
+        
+        
         if (!instantEffect)
         {
             foreach(Blessing b in handler.activeBlessings)
@@ -28,13 +28,18 @@ public class Blessing : ScriptableObject
                 if(b.GetType() == GetType())
                 {
                     b.ReEquip();
+                    Destroy(this);
                     return;
                 }
             }
+            OnEquip();
+            handler.DisplayBlessing(this);
             handler.activeBlessings.Add(this);
         }
         else
         {
+            OnEquip();
+            handler.DisplayBlessing(this);
             OnRemove();
         }
     }

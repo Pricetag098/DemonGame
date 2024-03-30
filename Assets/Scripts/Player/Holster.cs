@@ -271,9 +271,9 @@ public class Holster : MonoBehaviour
 	{
         
         abilityCaster.AddBlood(Mathf.Clamp01(damage/hitBox.health.maxHealth) * HeldGun.bloodGainMulti * stats.bloodGainMulti);
-        //if(OnDealDamage != null)
-        //    OnDealDamage(damage,hitBox);
-	}
+        if (OnDealDamage != null)
+            OnDealDamage(damage, hitBox);
+    }
 
 	int GetOffHandIndex()
     {

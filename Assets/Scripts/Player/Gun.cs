@@ -401,13 +401,13 @@ public class Gun : MonoBehaviour
                     }
                     holster.OnHit(damage, hitBox);
                     //TODO Make u not get points in rituals
-                    //if (hitBox.health.TryGetComponent(out DemonFramework demon))
-                    //{
-                    //    if (demon._spawnType != DemonInfo.SpawnType.Ritual)
-                    //    {
-                    //        holster.stats.GainPoints(GetPoints(hitBox.bodyPart));
-                    //    }
-                    //}
+                    if (hitBox.health.TryGetComponent(out DemonFramework demon))
+                    {
+                        if (demon._spawnType != DemonInfo.SpawnType.Ritual)
+                        {
+                            holster.stats.GainPoints(GetPoints(hitBox.bodyPart));
+                        }
+                    }
 
                 }
             }

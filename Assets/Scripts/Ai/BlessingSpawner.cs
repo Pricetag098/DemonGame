@@ -56,5 +56,7 @@ public class BlessingSpawner : MonoBehaviour
 
         GameObject blessing = blessingPooler[type].Spawn();
         blessing.transform.position = spawnPos.position;
+        //Sets start pos in RotateAndBobObject to prevent blessings being displaced
+        blessing.GetComponent<RotateAndBobObject>().SetStartPos();
     }
 }

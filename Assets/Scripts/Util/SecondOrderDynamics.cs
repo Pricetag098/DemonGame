@@ -45,8 +45,8 @@ public class SecondOrderDynamics
         y = y + T * yd;
         if (float.IsNaN(y))
         {
-            Debug.Log("NAN");
-            Debug.Log(x);
+            //Debug.Log("NAN");
+            //Debug.Log(x);
 			xp = x;
 			y = x;
 			yd = 0;

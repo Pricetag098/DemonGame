@@ -30,6 +30,10 @@ public class LesserDemonRagdoll : MonoBehaviour
         foreach (Collider col in colliders)
         {
             col.enabled = state;
+            if (state == false)
+            {
+
+            }
         }
     }
 }

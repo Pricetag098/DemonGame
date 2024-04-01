@@ -21,9 +21,9 @@ public class BlessingObject : MonoBehaviour
         {
             GameObject target = other.GetComponentInParent<PlayerInputt>().gameObject;
 
-		 Activate(target);
+		    Activate(target);
             if(vfx.Enabled)
-            vfx.Value.Play(transform.position, target.transform.position - transform.position);
+                vfx.Value.Play(transform.position, target.transform.position - transform.position);
             Delete();
         }
     }

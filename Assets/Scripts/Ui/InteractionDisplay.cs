@@ -25,6 +25,7 @@ public class InteractionDisplay : MonoBehaviour
 	}
 	public void DisplayMessage(bool canInteract, string displayText, string costAmount)
 	{
+		DOTween.Kill(canvasGroup);
 		canvasGroup.DOFade(1, 0.2f);
 		interactText.enabled = canInteract;
 		icon.enabled = canInteract;

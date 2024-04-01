@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 public class Melee : MonoBehaviour
@@ -19,12 +20,13 @@ public class Melee : MonoBehaviour
 	float timer;
 	[SerializeField] Animator animator;
 	[SerializeField] string animationKey = "Melee";
-
+	PlayerDeath playerDeath;
 	protected void Awake()
 	{
 		cooldown = 1 / (swingsPerMin / 60);
 		playerStats = GetComponent<PlayerStats>();
 		input.action.performed += Cast;
+		playerDeath = GetComponent<PlayerDeath>();
 	}
 	private void OnEnable()
 	{
@@ -38,8 +40,14 @@ public class Melee : MonoBehaviour
     {
         input.action.performed -= Cast;
     }
+    bool IsLocked()
+    {
+        bool locked = playerDeath.dead;
+        return locked || Time.timeScale == 0;
+    }
     public void Cast(InputAction.CallbackContext context)
 	{
+		if (IsLocked()) return;
 		Vector3 origin = Camera.main.transform.position;
 		Vector3 direction = Camera.main.transform.forward;
 

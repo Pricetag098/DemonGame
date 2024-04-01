@@ -24,7 +24,7 @@ public class PlayerDeath : MonoBehaviour
     public Slider deathStateSlider;
     DeathStateToggler[] togglersA;
     public List<DeathStateToggler> togglersL;
-    bool dead;
+    public bool dead { private set; get; }
     PlayerStats stats;
     [Range(0,1)] public float pointLoss;
     //public int deaths;

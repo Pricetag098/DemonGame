@@ -24,7 +24,7 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
     public float bloodGained = 0;
 
     WeaponWheel abilityWheel;
-
+    PlayerDeath playerDeath;
 	enum State
 	{
 		normal,
@@ -41,6 +41,7 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
 
 	private void Awake()
 	{
+        playerDeath = GetComponent<PlayerDeath>();
         caster = GetComponent<AbilityCaster>();
         swapAction.action.performed += Swap;
         setAbility1Action.action.performed += SelectAbility1;
@@ -90,6 +91,12 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
         quickSwap.action.Disable();
     }
 
+    bool IsLocked()
+    {
+        bool locked = playerDeath.dead;
+        return locked || Time.timeScale == 0;
+    }
+
 	// Update is called once per frame
 	void Update()
     {
@@ -97,9 +104,11 @@ public class PlayerAbilityCaster : MonoBehaviour,IDataPersistance<GameData>,IDat
         switch (state)
         {
             case State.normal:
-                if ((useAction.action.IsPressed() && caster.abilities[activeIndex].castMode == Ability.CastModes.hold) ||
+                if (IsLocked())
+                    break;
+                if (((useAction.action.IsPressed() && caster.abilities[activeIndex].castMode == Ability.CastModes.hold) ||
 			(useAction.action.WasPerformedThisFrame() && caster.abilities[activeIndex].castMode == Ability.CastModes.press) ||
-			 caster.abilities[activeIndex].castMode == Ability.CastModes.passive)
+			 caster.abilities[activeIndex].castMode == Ability.CastModes.passive))
 				{
 					caster.Cast(activeIndex, Camera.main.transform.position, Camera.main.transform.forward);
 				}

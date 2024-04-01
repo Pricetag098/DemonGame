@@ -21,7 +21,6 @@ public class RotateAndBobObject : MonoBehaviour
     private Vector3 startPosition;
 
 
-
     private void Start()
 
     {
@@ -58,6 +57,11 @@ public class RotateAndBobObject : MonoBehaviour
 
         transform.localPosition = startPosition + bobAxis * bobOffset;
 
+    }
+    //Added function to set start pos for pickups
+    public void SetStartPos()
+    {
+        startPosition = transform.localPosition;
     }
 
 }

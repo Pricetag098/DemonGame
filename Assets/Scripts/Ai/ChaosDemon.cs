@@ -270,6 +270,9 @@ public class ChaosDemon : DemonFramework
     }
     public override void OnAttack()
     {
+        if (!_isSpawned)
+            return;
+
         base.OnAttack();
 
         // deal damage
@@ -285,7 +288,7 @@ public class ChaosDemon : DemonFramework
         }
 
         //unstuck resetting
-        GetComponent<AiAgent>().ResetStuckTimer();
+        _aiAgent.ResetStuckTimer();
     }
     public override void OnHit()
     {
@@ -340,6 +343,7 @@ public class ChaosDemon : DemonFramework
     public override void OnFinishedSpawnAnimation()
     {
         _aiAgent.SetFollowSpeed(_moveSpeed);
+        _aiAgent.SetIsSpawned(true);
         SetValues(normalStats);
         _rb.isKinematic = false;
         _animator.applyRootMotion = false;

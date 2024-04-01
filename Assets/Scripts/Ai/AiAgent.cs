@@ -59,12 +59,17 @@ public class AiAgent : MonoBehaviour
     [HideInInspector] public SpatialHashGrid3D Grid;
 
     [Header("Unstuck stats")]
+    private bool isSpawned;
     [SerializeField] private float despawnCheckCooldown;
     [Tooltip("How far the AI needs to move to reset the despawn timer")]
     [SerializeField] private float despawnDistance;
     private Vector3 lastUnstuckPosition;
     private float despawnTimer;
 
+    public void SetIsSpawned(bool spawned)
+    {
+        isSpawned = spawned;
+    }
 
     public void Initalise()
     {
@@ -173,6 +178,8 @@ public class AiAgent : MonoBehaviour
         }
 
         //stuck fixing
+        if (!isSpawned)
+            return;
         if(Time.time - despawnTimer > despawnCheckCooldown)
         {
             //if the ai has moved less than despawnDistance, probably stuck and despawn them
@@ -251,7 +258,6 @@ public class AiAgent : MonoBehaviour
         }
     }
 
-    
     void UpdateRadius()
     {
         radius = scanRadius;

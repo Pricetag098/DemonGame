@@ -72,7 +72,10 @@ public class Melee : MonoBehaviour
 				if (healths.Contains(hb.health))
 					continue;
 				healths.Add(hb.health);
-				playerStats.GainPoints(points);
+
+				if(hb.health.pointsOnHit)
+					playerStats.GainPoints(points);
+
 				hb.health.TakeDmg(damage * playerStats.damageMulti, HitType.GUN);
 				
 				

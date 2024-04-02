@@ -13,6 +13,7 @@ public class Health : MonoBehaviour
     public Action OnRespawn;
     public float damageLimit = float.PositiveInfinity;
 
+    //used by abilities and melee attack to determine point gain
     public bool pointsOnHit = true;
 
     // Start is called before the first frame update

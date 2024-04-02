@@ -107,6 +107,7 @@ public class LesserDemon : DemonFramework
                 break;
             case SpawnType.Ritual:
                 _deathPoints.points = 0;
+                _health.pointsOnHit = false;
 
                 DemonMaterials.SetRitualMaterial(_skinnedMeshRenderer);
 

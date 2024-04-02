@@ -121,6 +121,9 @@ public class SwordAbility : Ability
 	{
         if (health.dead)
             return;
+        if (!health.pointsOnHit)
+            return;
+
         if (caster.playerStats.Enabled)
 			caster.playerStats.Value.GainPoints(points);
 	}

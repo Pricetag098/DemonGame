@@ -83,7 +83,11 @@ public class SpamAbility : Ability
 	{
         if (health.dead)
             return;
-        if (caster.playerStats.Enabled)
+
+		if (!health.pointsOnHit)
+			return;
+
+		if (caster.playerStats.Enabled)
 			caster.playerStats.Value.GainPoints(points);
 	}
 }

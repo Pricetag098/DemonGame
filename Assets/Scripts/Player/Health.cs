@@ -13,6 +13,8 @@ public class Health : MonoBehaviour
     public Action OnRespawn;
     public float damageLimit = float.PositiveInfinity;
 
+    public bool pointsOnHit = true;
+
     // Start is called before the first frame update
     public float regenPerSecond = 0;
     public float regenDelay = 0;

@@ -180,6 +180,7 @@ public class ChaosDemon : DemonFramework
                 break;
             case SpawnType.Ritual:
                 _deathPoints.points = 0;
+                _health.pointsOnHit = false;
                 break;
         }
 

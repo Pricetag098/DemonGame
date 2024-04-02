@@ -78,6 +78,9 @@ public class BloodKnifeAbility : Ability
     }
     public override void OnHit(Health health)
     {
+        if (!health.pointsOnHit)
+            return;
+
         if (caster.playerStats.Enabled)
             caster.playerStats.Value.GainPoints(points);
     }

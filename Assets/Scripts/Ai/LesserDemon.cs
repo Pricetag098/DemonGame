@@ -246,6 +246,9 @@ public class LesserDemon : DemonFramework
                 damageIndicator.Indicate(transform);
             }
         }
+
+        //unstuck resetting
+        _aiAgent.ResetStuckTimer();
     }
     public override void OnHit()
     {
@@ -300,6 +303,7 @@ public class LesserDemon : DemonFramework
     public override void OnFinishedSpawnAnimation()
     {
         _aiAgent.SetFollowSpeed(_moveSpeed);
+        _aiAgent.SetIsSpawned(true);
         _rb.isKinematic = false;
         _animator.applyRootMotion = false;
         _isSpawned = true;

@@ -77,6 +77,7 @@ public class LesserDemon : DemonFramework
     public override void OnSpawn(DemonType type, Transform target, SpawnType spawnType, bool inMap)
     {
         _aiAgent.SetFollowSpeed(0);
+        _aiAgent.SetIsSpawned(false);
         CurrentTarget = target;
         _spawnType = spawnType;
         _type = type;
@@ -96,6 +97,7 @@ public class LesserDemon : DemonFramework
         {
             case SpawnType.Default:
                 _deathPoints.points = pointsOnDeath;
+                _health.pointsOnHit = true;
 
                 DemonMaterials.SetDefaultSpawningMaterial(_skinnedMeshRenderer);
 

@@ -160,6 +160,7 @@ public class ChaosDemon : DemonFramework
     public override void OnSpawn(DemonType type, Transform target, SpawnType spawnType, bool inMap)
     {
         _aiAgent.SetFollowSpeed(0);
+        _aiAgent.SetIsSpawned(false);
         CurrentTarget = target;
         _spawnType = spawnType;
         _type = type;
@@ -177,6 +178,7 @@ public class ChaosDemon : DemonFramework
         {
             case SpawnType.Default:
                 _deathPoints.points = pointsOnDeath;
+                _health.pointsOnHit = true;
                 break;
             case SpawnType.Ritual:
                 _deathPoints.points = 0;

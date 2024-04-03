@@ -69,6 +69,7 @@ public class AiAgent : MonoBehaviour
     public void SetIsSpawned(bool spawned)
     {
         isSpawned = spawned;
+        ResetStuckTimer();
     }
 
     public void Initalise()

@@ -310,6 +310,7 @@ public class LesserDemon : DemonFramework
     {
         _aiAgent.SetFollowSpeed(_moveSpeed);
         _aiAgent.SetIsSpawned(true);
+        _aiAgent.canMove = true;
         _rb.isKinematic = false;
         _animator.applyRootMotion = false;
         _isSpawned = true;

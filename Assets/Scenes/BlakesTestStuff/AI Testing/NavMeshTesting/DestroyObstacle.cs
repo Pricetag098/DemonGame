@@ -27,6 +27,13 @@ public class DestroyObstacle : MonoBehaviour
     private bool foundObject;
     private DestrcutibleObject obj;
 
+    //resets all variables when demon returns from pool
+    public void SpawnReset()
+    {
+        foundObject = false;
+        obj = null;
+    }
+
     public void Detection()
     {
         if(foundObject == false)
@@ -61,7 +68,7 @@ public class DestroyObstacle : MonoBehaviour
             }
         }
     }
-
+    
     private bool CheckForDistructibleObjects()
     {
         RaycastHit hit;

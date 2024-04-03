@@ -90,6 +90,8 @@ public class LesserDemon : DemonFramework
         _isSpawned = false;
         DemonInMap = inMap;
 
+        m_obstacle.SpawnReset();
+
         _attachments.ResetAllAttachments();
         _attachments.RandomAttachments();
 

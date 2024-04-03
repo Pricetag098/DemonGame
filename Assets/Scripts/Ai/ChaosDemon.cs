@@ -174,6 +174,8 @@ public class ChaosDemon : DemonFramework
         isEnraged = false;
         DemonInMap = inMap;
 
+        m_obstacle.SpawnReset();
+
         switch (spawnType)
         {
             case SpawnType.Default:

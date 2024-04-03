@@ -144,6 +144,8 @@ public class LesserDemon : DemonFramework
         SetMoveSpeed(type.SpeedType);
 
         _aiAgent.canRotate = true;
+
+        _aiAgent.ResetStuckTimer();
     }
     public override void OnDeath()
     {

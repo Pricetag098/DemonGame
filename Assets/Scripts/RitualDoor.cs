@@ -37,7 +37,7 @@ public class RitualDoor : MonoBehaviour
     }
 
     [ContextMenu("Unlock")]
-    void Unlock()
+    public void Unlock()
     {
         wall.Fall();
         interactable.SetActive(true);

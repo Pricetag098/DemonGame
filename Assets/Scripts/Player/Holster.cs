@@ -159,6 +159,11 @@ public class Holster : MonoBehaviour
         
 	}
 
+    public void SetSprint(bool sprint)
+    {
+        animator.SetBool("Sprinting", sprint);
+    }
+
     void HolsterGun()
     {
         state = HolsterStates.holstering;

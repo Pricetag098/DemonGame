@@ -6604,6 +6604,7 @@ MonoBehaviour:
   maxHealth: 150
   dead: 0
   damageLimit: Infinity
+  pointsOnHit: 1
   regenPerSecond: 25
   regenDelay: 2.5
   vfxTarget:
@@ -6716,29 +6717,41 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: -2300504524100981507, guid: b5b5fd5d1836ae549b2c0e6bb6d5cf61, type: 3}
+  castAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Cast
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: ebbccd93-2756-47d9-b85b-372633eda4c4
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 1297926457830254427, guid: b5b5fd5d1836ae549b2c0e6bb6d5cf61, type: 3}
   groundingPoint: {fileID: 3899720132956419847}
   groundingRadius: 0.15
   groundingLayer:
     serializedVersion: 2
     m_Bits: 1
   walkData:
-    speed: 5.85
+    speed: 4.85
     accleration: 8
   runData:
-    speed: 8.5
+    speed: 7.5
     accleration: 10
   crouchData:
     speed: 3
     accleration: 6
   airData:
-    speed: 5.85
+    speed: 4.85
     accleration: 0.5
   jumpHeight: 2
-  slideLaunchVel: 4
+  slideLaunchVel: 3
   slideGravityModifier: 0.1
-  slideSlowForce: 0.75
-  maxSlideSpeed: 8.5
-  slideMinVel: 6.5
+  slideSlowForce: 0.8
+  maxSlideSpeed: 7.5
+  slideMinVel: 5.5
   slideHorizontalAcceleration: 4
   camMovementEasing:
     serializedVersion: 2
@@ -6922,6 +6935,7 @@ MonoBehaviour:
   respawnsLeft: 0
   deathStateTimeSeconds: 30
   deathStateSlider: {fileID: 0}
+  togglersL: []
   pointLoss: 0.3
   onDeathText: Run swiftly, retake your soul in the spirit realm...
   onRegaintext: Essence reclaimed, the fountain calls

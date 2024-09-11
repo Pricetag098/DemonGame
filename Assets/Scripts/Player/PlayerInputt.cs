@@ -25,9 +25,10 @@ namespace Movement
 		[SerializeField] InputActionProperty crouchAction;
 		[SerializeField] InputActionProperty jumpAction;
 		[SerializeField] InputActionProperty mouseAction;
-		[SerializeField] InputActionProperty fireAction; //trust me
+		[SerializeField] InputActionProperty fireAction;
+        [SerializeField] InputActionProperty castAction; //trust me
 
-		[Header("Grounding")]
+        [Header("Grounding")]
 		public Transform groundingPoint;
 		[SerializeField] protected float groundingRadius;
 		[SerializeField] protected LayerMask groundingLayer;
@@ -118,6 +119,8 @@ namespace Movement
 		}
 		public bool toggleSlide;
 		public bool toggleSprint;
+
+		Holster holster;
 		// Start is called before the first frame update
 		void Start()
 		{
@@ -128,6 +131,8 @@ namespace Movement
 			rb = GetComponent<Rigidbody>();
 			playerStats = GetComponent<PlayerStats>();
 			camRotX = 0;
+
+			holster = FindObjectOfType<Holster>();
 		}
 		private void OnDestroy()
 		{
@@ -143,6 +148,7 @@ namespace Movement
 			crouchAction.action.Enable();
 			jumpAction.action.Enable();
 			fireAction.action.Enable();
+			castAction.action.Enable();
 		}
 		private void OnDisable()
 		{
@@ -152,6 +158,7 @@ namespace Movement
 			crouchAction.action.Disable();
 			jumpAction.action.Disable();
 			fireAction.action.Disable();
+			castAction.action.Disable();
 		}
 
 		void Jump(InputAction.CallbackContext context)
@@ -241,13 +248,12 @@ namespace Movement
 				case MoveStates.walk:
 
 					SetCollider(0);
-					if (sprintInput && inputDir.y > 0 && !fireAction.action.IsPressed())
+					if (sprintInput && inputDir.y > 0 && (!fireAction.action.IsPressed() || !castAction.action.IsPressed() || holster.HeldGun.gunState != Gun.GunStates.reloading))
 					{
 						moveState = MoveStates.run;
 						lastCamPos = cam.localPosition;
 						targetCamPos = camStandingPos;
 						camMovementTimer = 0;
-
 						return;
 					}
 					if (crouchAction.action.IsPressed() && grounded)
@@ -256,13 +262,13 @@ namespace Movement
 						lastCamPos = cam.localPosition;
 						targetCamPos = camCrouchingPos;
 						camMovementTimer = 0;
-						return;
+                        return;
 					}
 
 					break;
 				case MoveStates.run:
 					SetCollider(0);
-					if (!sprintInput || inputDir.y <= 0 || (fireAction.action.IsPressed() && !canSprintAndShoot))
+					if (!sprintInput || inputDir.y <= 0 || (fireAction.action.IsPressed() && !canSprintAndShoot) || (castAction.action.IsPressed() && !canSprintAndShoot) || holster.HeldGun.gunState == Gun.GunStates.reloading)
 					{
 						sprintInput = false;
 						moveState = MoveStates.walk;
@@ -278,7 +284,7 @@ namespace Movement
 						lastCamPos = cam.localPosition;
 						targetCamPos = camCrouchingPos;
 						camMovementTimer = 0;
-						slideEntryVel = rb.velocity;
+                        slideEntryVel = rb.velocity;
 						if (Vector3.Dot(rb.velocity, orientation.forward) < maxSlideSpeed && grounded)
 						{
 							RaycastHit hit;
@@ -375,16 +381,16 @@ namespace Movement
 
 					case MoveStates.walk:
 						Move(walkData);
-						break;
+                        break;
 					case MoveStates.run:
 						Move(runData);
-						break;
+                        break;
 					case MoveStates.crouch:
 						Move(crouchData);
-						break;
+                        break;
 					case MoveStates.slide:
-						//Move(crouchMaxSpeed, crouchAcceleration, crouchSlowForce);
-						if (grounded)
+                        //Move(crouchMaxSpeed, crouchAcceleration, crouchSlowForce);
+                        if (grounded)
 						{
 							rb.AddForce(gravityDir * slideGravityModifier, ForceMode.Acceleration);
 						}
@@ -451,7 +457,16 @@ namespace Movement
 			{
 				rb.AddForce(gravityDir);
 			}
-		}
+
+			if (data == runData)
+			{
+                //holster.SetSprint(true);
+            }
+			else
+			{
+                //holster.SetSprint(false);
+            }
+        }
 
 
 

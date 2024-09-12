@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LesserDemonRagdoll : MonoBehaviour
 {
+    public GameObject collider;
+
     private Animator animator;
 
     private Rigidbody[] ragdollRigidbodies;
@@ -20,7 +22,10 @@ public class LesserDemonRagdoll : MonoBehaviour
     public void ToggleRagdoll(bool state)
     {
         animator.enabled = !state;
-
+        if (collider != null)
+        {
+            collider.SetActive(!state);
+        }
         foreach (Rigidbody rb in ragdollRigidbodies)
         {
             rb.isKinematic = !state;

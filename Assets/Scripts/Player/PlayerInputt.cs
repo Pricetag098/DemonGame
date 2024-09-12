@@ -63,15 +63,18 @@ namespace Movement
 		//[SerializeField] float airSlowForce = 10;
 		//[SerializeField] float airControlForce = 10;
 		[SerializeField] float jumpHeight = 100;
+		[SerializeField] float jumpForwadBoost = 2;
 		//[SerializeField] float airOppositeVelMulti = 2;
 
 		[Header("Slide Settings")]
 		[SerializeField] float slideLaunchVel;
-		[SerializeField] float slideGravityModifier = 2;
+        [SerializeField] float jumpSlideLaunchVel;
+        [SerializeField] float slideGravityModifier = 2;
 		[SerializeField] float slideSlowForce = 2;
 		[SerializeField] float maxSlideSpeed = float.PositiveInfinity;
 		[SerializeField] float slideMinVel = 2;
 		[SerializeField] float slideHorizontalAcceleration;
+		[SerializeField] float minSpeedToSlide;
 		
 
 
@@ -177,8 +180,11 @@ namespace Movement
 					lastCamPos = cam.localPosition;
 					targetCamPos = camStandingPos;
 					camMovementTimer = 0;
-				}
-				else
+
+                    Vector3 force = jumpForwadBoost * orientation.forward;
+                    rb.AddForce(force, ForceMode.VelocityChange);
+                }
+                else
 				{
 					moveState = MoveStates.crouch;
 					lastCamPos = cam.localPosition;
@@ -279,22 +285,34 @@ namespace Movement
 					}
 					if (slideInput)
 					{
-						sprintInput = false;
-						moveState = MoveStates.slide;
-						lastCamPos = cam.localPosition;
-						targetCamPos = camCrouchingPos;
-						camMovementTimer = 0;
-                        slideEntryVel = rb.velocity;
-						if (Vector3.Dot(rb.velocity, orientation.forward) < maxSlideSpeed && grounded)
+						if(rb.velocity.magnitude >= minSpeedToSlide)
 						{
-							RaycastHit hit;
-							Vector3 force = slideLaunchVel * orientation.forward;
-							if (Physics.Raycast(orientation.position, -orientation.up, out hit, 5, groundingLayer))
-							{
-								force = Vector3.ProjectOnPlane(force, hit.normal);
-							}
-							rb.AddForce(force, ForceMode.VelocityChange);
-						}
+                            sprintInput = false;
+                            moveState = MoveStates.slide;
+                            lastCamPos = cam.localPosition;
+                            targetCamPos = camCrouchingPos;
+                            camMovementTimer = 0;
+                            slideEntryVel = rb.velocity;
+                            if (Vector3.Dot(rb.velocity, orientation.forward) < maxSlideSpeed && grounded)
+                            {
+                                RaycastHit hit;
+                                Vector3 force = slideLaunchVel * orientation.forward;
+                                if (Physics.Raycast(orientation.position, -orientation.up, out hit, 5, groundingLayer))
+                                {
+                                    force = Vector3.ProjectOnPlane(force, hit.normal);
+                                }
+                                rb.AddForce(force, ForceMode.VelocityChange);
+                            }
+                        }
+						else
+						{
+                            sprintInput = false;
+                            moveState = MoveStates.crouch;
+                            lastCamPos = cam.localPosition;
+                            targetCamPos = camCrouchingPos;
+                            camMovementTimer = 0;
+                        }
+
 
 						return;
 					}
@@ -317,7 +335,7 @@ namespace Movement
 					{
 						if (CanStopCrouch())
 						{
-							moveState = MoveStates.run;
+							moveState = MoveStates.walk;
 							lastCamPos = cam.localPosition;
 							targetCamPos = camStandingPos;
 							camMovementTimer = 0;
@@ -348,7 +366,7 @@ namespace Movement
 					if (Vector3.Dot(rb.velocity, orientation.forward) < maxSlideSpeed)
 					{
 						RaycastHit hit;
-						Vector3 force = slideLaunchVel * orientation.forward;
+						Vector3 force = jumpSlideLaunchVel * orientation.forward;
 						if (Physics.Raycast(orientation.position, -orientation.up, out hit, 5, groundingLayer))
 						{
 							force = Vector3.ProjectOnPlane(force, hit.normal);
@@ -457,6 +475,7 @@ namespace Movement
 			{
 				rb.AddForce(gravityDir);
 			}
+			Debug.Log(vel.magnitude);
 
 			if (data == runData)
 			{

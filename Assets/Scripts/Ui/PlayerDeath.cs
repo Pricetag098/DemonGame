@@ -77,6 +77,7 @@ public class PlayerDeath : MonoBehaviour
 
     void Die()
 	{
+        playerInputt.IDied();
         stats.deaths++;
         stats.ResetKillStreak();
         if(respawnsLeft > 0)

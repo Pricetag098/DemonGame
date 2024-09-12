@@ -62,6 +62,7 @@ public class Holster : MonoBehaviour
     public string holsterTigger;
     public bool consumeAmmo = true;
     public float drawTimer = 0;
+
 	private void OnEnable()
 	{
 		input.action.Enable();

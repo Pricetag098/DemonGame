@@ -103,6 +103,8 @@ namespace Movement
 		Vector3 slideEntryVel;
 		Vector3 surfaceNormal;
 
+		PlayerDeath playerDeath;
+
 		public bool tabing = false;
 
 		public enum MoveStates
@@ -116,10 +118,18 @@ namespace Movement
 
 		public void SetRecoil(Vector3 recoil)
 		{
-			recoilVal.x = recoil.x;
-			recoilVal.y = recoil.y;
+			if (!playerDeath.dead)
+			{
+                recoilVal.x = recoil.x;
+                recoilVal.y = recoil.y;
+            }
+        }
 
-		}
+		public void IDied()
+		{
+            recoilVal.x = 0f;
+            recoilVal.y = 0f;
+        }
 		public bool toggleSlide;
 		public bool toggleSprint;
 
@@ -134,6 +144,8 @@ namespace Movement
 			rb = GetComponent<Rigidbody>();
 			playerStats = GetComponent<PlayerStats>();
 			camRotX = 0;
+
+			playerDeath = FindObjectOfType<PlayerDeath>();
 
 			holster = FindObjectOfType<Holster>();
 		}

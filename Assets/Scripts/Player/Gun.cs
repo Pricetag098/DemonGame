@@ -299,18 +299,17 @@ public class Gun : MonoBehaviour
             recoil = Mathf.Clamp(recoil - Time.deltaTime * maxAmmo, 0, maxAmmo);
             
         }
-
-        if(timeSinceLastShot > recoilEffectDuration)
-		{
-            if(Time.timeScale != 0)
+        if (timeSinceLastShot > recoilEffectDuration)
+        {
+            if (Time.timeScale != 0)
             {
-				holster.playerInput.SetRecoil(
-				new Vector3(
-					holster.verticalRecoilDynamics.Update(Time.deltaTime, 0),
-					holster.horizontalRecoilDynamics.Update(Time.deltaTime, 0)
-					, 0));
-			}
-            
+                holster.playerInput.SetRecoil(
+                new Vector3(
+                    holster.verticalRecoilDynamics.Update(Time.deltaTime, 0),
+                    holster.horizontalRecoilDynamics.Update(Time.deltaTime, 0)
+                    , 0));
+            }
+
         }
         else
         {
@@ -322,7 +321,7 @@ public class Gun : MonoBehaviour
                     holster.horizontalRecoilDynamics.Update(Time.deltaTime, horizontalRecoilSpreadCurve.Evaluate(recoil))
                     , 0));
             }
-		}
+        }
     }
     public void OnKill()
     {
@@ -369,7 +368,6 @@ public class Gun : MonoBehaviour
         }
         if(!smoothRecoil)
             holster.playerInput.SetRecoil(new Vector3(-verticalRecoilSpreadCurve.Evaluate(recoil), horizontalRecoilSpreadCurve.Evaluate(recoil), 0));
-
     }
 
 

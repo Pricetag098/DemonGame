@@ -475,7 +475,6 @@ namespace Movement
 			{
 				rb.AddForce(gravityDir);
 			}
-			Debug.Log(vel.magnitude);
 
 			if (data == runData)
 			{

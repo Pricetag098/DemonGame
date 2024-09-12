@@ -49,16 +49,12 @@ public class SwordStuff : MonoBehaviour
 
     public void UnEquipSword()
     {
-        Sequence unEquip = DOTween.Sequence();
-        unEquip.Append(sword.transform.DOLocalMove(unEquipPos, moveTime));
-        unEquip.AppendCallback(() => 
-        {
-            DOTween.To(() => dissolve.GetFloat("_Alpha_Clip"), x => dissolve.SetFloat("_Alpha_Clip", x), 1, dissolveTime);
-            DOTween.To(() => hiltMaterial.GetFloat("_Alpha_Clip"), x => hiltMaterial.SetFloat("_Alpha_Clip", x), 1, dissolveTime);
-        });
-        unEquip.AppendInterval(dissolveTime);
-        unEquip.AppendCallback(() => sword.transform.localPosition = originalPos);
-        unEquip.AppendCallback(() => sword.SetActive(false));
+        //Sequence unEquip = DOTween.Sequence();
+        //unEquip.Append(sword.transform.DOLocalMove(unEquipPos, moveTime));
+        //unEquip.AppendCallback(() => sword.transform.localPosition = originalPos);
+        //unEquip.AppendCallback(() => sword.SetActive(false));
+        sword.SetActive(false);
+        sword.transform.localPosition = originalPos;
     }
 
 
@@ -69,15 +65,6 @@ public class SwordStuff : MonoBehaviour
         {
             child.sharedMaterial = swordMaterials[tier];
         }
-        if (dissolve.GetFloat("_Alpha_Clip") == 1)
-        {
-            swordMaterials[tier].SetFloat("_Alpha_Clip", 1);
-        }
-        else
-        {
-            swordMaterials[tier].SetFloat("_Alpha_Clip", -1);
-        }
         dissolve = swordMaterials[tier];
-
     }
 }

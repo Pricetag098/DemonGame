@@ -34,6 +34,7 @@ public class RitualSpawner : MonoBehaviour
     [SerializeField] SoundPlayer soundPlayerMusic;
     [SerializeField] SoundPlayer soundAmbienceMusic;
     [SerializeField] float musicFadeOutTime;
+    [SerializeField] RecordItem record;
 
     [Header("Ritual Completion")]
     [SerializeField] GameObject completion;
@@ -45,6 +46,8 @@ public class RitualSpawner : MonoBehaviour
     private DemonSpawner demonSpawner;
     private Health playerHealth;
     private Timer ritualTimer;
+
+    private RecordManager recordManager;
 
     //private float timer;
 
@@ -60,6 +63,8 @@ public class RitualSpawner : MonoBehaviour
         }
 
         ritualComplete = GamePrefs.RitualsComplete;
+
+        recordManager = FindObjectOfType<RecordManager>();
     }
 
     private void Start()
@@ -114,6 +119,7 @@ public class RitualSpawner : MonoBehaviour
 
             soundPlayerStart.Play();
             soundPlayerMusic.Play();
+            recordManager.StopPlaying();
             soundPlayerMusic.looping = true;
 
             ritualTimer = new Timer(ritual.TimeBetweenSpawns);
@@ -186,6 +192,8 @@ public class RitualSpawner : MonoBehaviour
 
         soundAmbienceMusic.Stop();
         soundPlayerComplete.Play();
+
+        record.ReplaceItem();
 
         completion.SetActive(false);
         book.SetActive(false);

@@ -53,6 +53,16 @@ public class SoundPlayer : MonoBehaviour
         isPlaying = true;
     }
 
+    public void PlayClip(AudioClip clip)
+    {
+        float rand = (Random.value - .5f) * 2;
+        rand *= pitchRange;
+        source.pitch = basePitch + rand;
+        source.clip = clip;
+        source.Play();
+        isPlaying = true;
+    }
+
     public void Stop()
 	{
         isPlaying = false;

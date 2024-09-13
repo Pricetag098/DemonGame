@@ -7,11 +7,11 @@ public static class GamePrefs
         StartRound = round;
     }
 
-    public static int StartPoints = 999999; // set this back to 500
+    public static int StartPoints = 500; // set this back to 500
 
     public static void SetStartMoney(int amount)
     {
-        StartPoints = 999999;
+        StartPoints = amount;
     }
 
     public static bool RitualsComplete = false;

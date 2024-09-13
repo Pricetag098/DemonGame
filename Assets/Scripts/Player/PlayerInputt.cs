@@ -75,11 +75,13 @@ namespace Movement
 		[SerializeField] float slideMinVel = 2;
 		[SerializeField] float slideHorizontalAcceleration;
 		[SerializeField] float minSpeedToSlide;
-		
+		[SerializeField] float slideJumpCounterTime = 0.1f;
 
+		float slideTimer;
+        float jumpTimer;
+		bool jumped;
 
-
-		[Header("CameraFollowSettings")]
+        [Header("CameraFollowSettings")]
 		[SerializeField] AnimationCurve camMovementEasing = AnimationCurve.Linear(0,0,1,1);
 		[SerializeField] Vector3 camStandingPos;
 		[SerializeField] Vector3 camCrouchingPos;
@@ -183,8 +185,13 @@ namespace Movement
 				return;
 			}
 
+            Debug.Log("Jump");
 
-			if (moveState == MoveStates.slide)
+			jumpTimer = 0f;
+
+			jumped = true;
+
+            if (moveState == MoveStates.slide)
 			{
 				if (CanStopCrouch())
 				{
@@ -193,8 +200,18 @@ namespace Movement
 					targetCamPos = camStandingPos;
 					camMovementTimer = 0;
 
-                    Vector3 force = jumpForwadBoost * orientation.forward;
-                    rb.AddForce(force, ForceMode.VelocityChange);
+					if(slideTimer > slideJumpCounterTime)
+					{
+                        Vector3 force = jumpForwadBoost * orientation.forward;
+                        rb.AddForce(force, ForceMode.VelocityChange);
+                    }
+					else
+					{
+                        Vector3 force = -jumpSlideLaunchVel * orientation.forward;
+                        rb.AddForce(force, ForceMode.VelocityChange);
+                        Debug.Log("Bad Slide Hop");
+                    }
+					
                 }
                 else
 				{
@@ -202,10 +219,9 @@ namespace Movement
 					lastCamPos = cam.localPosition;
 					targetCamPos = camCrouchingPos;
 					camMovementTimer = 0;
-				}
+                }
 				slideInput = false;
-
-			}
+            }
 			
 
 			float a = (Vector3.Dot(orientation.up,gravityDir) * jumpHeight) / (-0.5f);
@@ -232,6 +248,16 @@ namespace Movement
 		// Update is called once per frame
 		void Update()
 		{
+
+			if(moveState == MoveStates.slide)
+			{
+				slideTimer += Time.deltaTime;
+			}
+
+			if (jumped)
+			{
+				jumpTimer += Time.deltaTime;
+			}
 			
 			DoCamRot();
 			orientation.eulerAngles = new Vector3(orientation.eulerAngles.x, cam.eulerAngles.y, orientation.eulerAngles.z);
@@ -301,19 +327,27 @@ namespace Movement
 						{
                             sprintInput = false;
                             moveState = MoveStates.slide;
+                            slideTimer = 0;
                             lastCamPos = cam.localPosition;
                             targetCamPos = camCrouchingPos;
                             camMovementTimer = 0;
                             slideEntryVel = rb.velocity;
                             if (Vector3.Dot(rb.velocity, orientation.forward) < maxSlideSpeed && grounded)
                             {
-                                RaycastHit hit;
-                                Vector3 force = slideLaunchVel * orientation.forward;
-                                if (Physics.Raycast(orientation.position, -orientation.up, out hit, 5, groundingLayer))
-                                {
-                                    force = Vector3.ProjectOnPlane(force, hit.normal);
+								if(jumpTimer > slideJumpCounterTime)
+								{
+                                    RaycastHit hit;
+                                    Vector3 force = slideLaunchVel * orientation.forward;
+                                    if (Physics.Raycast(orientation.position, -orientation.up, out hit, 5, groundingLayer))
+                                    {
+                                        force = Vector3.ProjectOnPlane(force, hit.normal);
+                                    }
+                                    rb.AddForce(force, ForceMode.VelocityChange);
                                 }
-                                rb.AddForce(force, ForceMode.VelocityChange);
+								else
+								{
+									Debug.Log("Bad Slide Hop 2");
+								}
                             }
                         }
 						else

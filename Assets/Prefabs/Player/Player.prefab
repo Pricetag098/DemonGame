@@ -2916,7 +2916,7 @@ MonoBehaviour:
       data1: 493128782970880
       data2: 13835058075683684352
   defaultFrameSettings: 0
-  m_Version: 8
+  m_Version: 9
   m_ObsoleteRenderingPath: 0
   m_ObsoleteFrameSettings:
     overrides: 0
@@ -6361,6 +6361,7 @@ GameObject:
   - component: {fileID: 1860591200}
   - component: {fileID: 8649781143819589252}
   - component: {fileID: 6579652854151676686}
+  - component: {fileID: 752466348113263684}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -6389,6 +6390,7 @@ Transform:
   - {fileID: 3899720133021509132}
   - {fileID: 854750425877613786}
   - {fileID: 1896447077623534234}
+  - {fileID: 2884370004484056739}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7993373105473173447
@@ -6642,6 +6644,7 @@ MonoBehaviour:
     assistWeight: 0
     priorityWeight: 1
   moveState: 0
+  rb: {fileID: 0}
   standingCollider: {fileID: 3899720133823062389}
   crouchedCollider: {fileID: 3899720133021509131}
   canSprintAndShoot: 0
@@ -7281,6 +7284,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5ba3f97b2e1dc0458a8a5db9046b60e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &752466348113263684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3899720132604462811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07d30a8f0660c0f418bb5238fa002e9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Head: {fileID: 4991638437948706459}
 --- !u!1 &3899720132956419846
 GameObject:
   m_ObjectHideFlags: 0
@@ -7671,7 +7687,7 @@ MonoBehaviour:
       data1: 493128782970880
       data2: 13835058075683684352
   defaultFrameSettings: 0
-  m_Version: 8
+  m_Version: 9
   m_ObsoleteRenderingPath: 0
   m_ObsoleteFrameSettings:
     overrides: 0
@@ -10152,6 +10168,37 @@ Transform:
   m_Children:
   - {fileID: 5200135633375391937}
   m_Father: {fileID: 6978491386624704960}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4991638437948706459
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2884370004484056739}
+  m_Layer: 6
+  m_Name: HeadPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2884370004484056739
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4991638437948706459}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.75, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3899720132604462369}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5031917812595504026
 GameObject:

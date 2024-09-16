@@ -1,8 +1,10 @@
 using DemonInfo;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.Mail;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public class LesserDemon : DemonFramework
 {
@@ -24,6 +26,10 @@ public class LesserDemon : DemonFramework
     [Header("ObstacleDetection")]
     private DestroyObstacle m_obstacle;
 
+    public RigBuilder rigBuilder;
+    public  GameObject rigLayersBodyAim;
+
+
     #region OVERRIDE_FUNCTIONS
     public override void OnAwakened()
     {
@@ -41,6 +47,9 @@ public class LesserDemon : DemonFramework
         _health.OnHit += OnHit;
 
         _aiAgent.stopingDistance = _stoppingDistance;
+
+        _animator.updateMode = AnimatorUpdateMode.Normal;
+        _animator.cullingMode = AnimatorCullingMode.CullUpdateTransforms;
     }
     public override void OnUpdate()
     {
@@ -79,6 +88,7 @@ public class LesserDemon : DemonFramework
         _aiAgent.SetFollowSpeed(0);
         _aiAgent.SetIsSpawned(false);
         CurrentTarget = target;
+        SetLookAtTarget(CurrentTarget);
         _spawnType = spawnType;
         _type = type;
         _rb.isKinematic = true;
@@ -147,10 +157,42 @@ public class LesserDemon : DemonFramework
 
         _aiAgent.ResetStuckTimer();
     }
+
+    private void ResetLookAtTarget()
+    {
+        foreach (MultiAimConstraint contraint in rigLayersBodyAim.GetComponentsInChildren<MultiAimConstraint>())
+        {
+                var data = contraint.data.sourceObjects;
+                data.Clear();
+        }
+        rigBuilder.Build();
+    }
+    private void SetLookAtTarget(Transform target)
+    {
+        if(target.TryGetComponent<HeadPosSetter>(out HeadPosSetter headPosSetter))
+        {
+            Transform newTarget = headPosSetter.Head.transform;
+
+            foreach (MultiAimConstraint contraint in rigLayersBodyAim.GetComponentsInChildren<MultiAimConstraint>())
+            {
+
+                    var data = contraint.data.sourceObjects;
+                    data.Clear();
+                    data.Add(new WeightedTransform(newTarget, 1));
+                    contraint.data.sourceObjects = data;
+                    Debug.Log(newTarget.gameObject.name + "Found");
+
+            }
+            rigBuilder.Build();
+        }
+
+    }
+
+
     public override void OnDeath()
     {
         _aiAgent.SetFollowSpeed(0);
-
+        ResetLookAtTarget();
         _animator.SetLayerWeight(_animator.GetLayerIndex("Upper"), 0);
 
         PlaySoundDeath();

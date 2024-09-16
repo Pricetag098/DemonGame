@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,7 +16,7 @@ namespace Movement
 		public float minSurface = .5f;
 		[SerializeField] AimAssist aimAssist;
 		public MoveStates moveState;
-		Rigidbody rb;
+		[HideInInspector] public Rigidbody rb;
 		[SerializeField] CapsuleCollider standingCollider, crouchedCollider;
 
 		public bool canSprintAndShoot = false;
@@ -82,6 +83,7 @@ namespace Movement
 		[SerializeField] float slideJumpCounterTime = 0.1f;
         [SerializeField] float slideDelayTime = 0.1f;
 
+
         float slideTimer;
         float jumpTimer;
 		bool jumped;
@@ -132,7 +134,7 @@ namespace Movement
             }
         }
 
-		public void IDied()
+        public void IDied()
 		{
             recoilVal.x = 0f;
             recoilVal.y = 0f;
@@ -141,14 +143,18 @@ namespace Movement
 		public bool toggleSprint;
 
 		Holster holster;
-		// Start is called before the first frame update
-		void Start()
+
+        private void Awake()
+        {
+            rb = GetComponent<Rigidbody>();
+        }
+        // Start is called before the first frame update
+        void Start()
 		{
 			lastCamPos = camStandingPos;
 			targetCamPos = camStandingPos;
 			jumpAction.action.performed += Jump;
 			Cursor.lockState = CursorLockMode.Locked;
-			rb = GetComponent<Rigidbody>();
 			playerStats = GetComponent<PlayerStats>();
 			camRotX = 0;
 

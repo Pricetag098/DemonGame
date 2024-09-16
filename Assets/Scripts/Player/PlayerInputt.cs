@@ -64,9 +64,13 @@ namespace Movement
 		//[SerializeField] float airControlForce = 10;
 		[SerializeField] float jumpHeight = 100;
 		[SerializeField] float jumpForwadBoost = 2;
+        [SerializeField] float onHitSlowTime = 1;
 		//[SerializeField] float airOppositeVelMulti = 2;
 
-		[Header("Slide Settings")]
+		bool hasBeenHit;
+		float onHitTimer;
+
+        [Header("Slide Settings")]
 		[SerializeField] float slideLaunchVel;
         [SerializeField] float jumpSlideLaunchVel;
         [SerializeField] float slideGravityModifier = 2;
@@ -76,8 +80,9 @@ namespace Movement
 		[SerializeField] float slideHorizontalAcceleration;
 		[SerializeField] float minSpeedToSlide;
 		[SerializeField] float slideJumpCounterTime = 0.1f;
+        [SerializeField] float slideDelayTime = 0.1f;
 
-		float slideTimer;
+        float slideTimer;
         float jumpTimer;
 		bool jumped;
 
@@ -185,8 +190,6 @@ namespace Movement
 				return;
 			}
 
-            Debug.Log("Jump");
-
 			jumpTimer = 0f;
 
 			jumped = true;
@@ -204,12 +207,12 @@ namespace Movement
 					{
                         Vector3 force = jumpForwadBoost * orientation.forward;
                         rb.AddForce(force, ForceMode.VelocityChange);
+                        slideTimer = 0;
                     }
-					else
+                    else
 					{
                         Vector3 force = -jumpSlideLaunchVel * orientation.forward;
                         rb.AddForce(force, ForceMode.VelocityChange);
-                        Debug.Log("Bad Slide Hop");
                     }
 					
                 }
@@ -245,9 +248,38 @@ namespace Movement
 			return moveState == MoveStates.run && !canSprintAndShoot;
 		}
 
+		public void GotHit()
+		{
+			hasBeenHit = true;
+			onHitTimer = 0f;
+
+			Debug.Log("Got Hit");
+
+			if(moveState == MoveStates.slide)
+			{
+                Vector3 force = -jumpSlideLaunchVel * orientation.forward;
+                rb.AddForce(force, ForceMode.VelocityChange);
+
+                sprintInput = false;
+                moveState = MoveStates.crouch;
+                lastCamPos = cam.localPosition;
+                targetCamPos = camCrouchingPos;
+                camMovementTimer = 0;
+            }
+		}
+
 		// Update is called once per frame
 		void Update()
 		{
+			if(hasBeenHit)
+			{
+				onHitTimer += Time.deltaTime;
+				if (onHitTimer > onHitSlowTime) 
+				{
+					hasBeenHit = false;
+				}
+			}
+
 
 			if(moveState == MoveStates.slide)
 			{
@@ -292,7 +324,7 @@ namespace Movement
 				case MoveStates.walk:
 
 					SetCollider(0);
-					if (sprintInput && inputDir.y > 0 && (!fireAction.action.IsPressed() || !castAction.action.IsPressed() || holster.HeldGun.gunState != Gun.GunStates.reloading))
+					if (sprintInput && inputDir.y > 0 && (!fireAction.action.IsPressed() || !castAction.action.IsPressed() || holster.HeldGun.gunState != Gun.GunStates.reloading) && !hasBeenHit)
 					{
 						moveState = MoveStates.run;
 						lastCamPos = cam.localPosition;
@@ -312,7 +344,7 @@ namespace Movement
 					break;
 				case MoveStates.run:
 					SetCollider(0);
-					if (!sprintInput || inputDir.y <= 0 || (fireAction.action.IsPressed() && !canSprintAndShoot) || (castAction.action.IsPressed() && !canSprintAndShoot) || holster.HeldGun.gunState == Gun.GunStates.reloading)
+					if (!sprintInput || inputDir.y <= 0 || (fireAction.action.IsPressed() && !canSprintAndShoot) || (castAction.action.IsPressed() && !canSprintAndShoot) || holster.HeldGun.gunState == Gun.GunStates.reloading || hasBeenHit)
 					{
 						sprintInput = false;
 						moveState = MoveStates.walk;
@@ -323,7 +355,7 @@ namespace Movement
 					}
 					if (slideInput)
 					{
-						if(rb.velocity.magnitude >= minSpeedToSlide)
+						if(rb.velocity.magnitude >= minSpeedToSlide || !hasBeenHit && slideTimer > slideDelayTime)
 						{
                             sprintInput = false;
                             moveState = MoveStates.slide;

@@ -1,3 +1,4 @@
+using Movement;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,10 +24,19 @@ public class Health : MonoBehaviour
     public Optional<VfxTargets> vfxTarget;
     public HitType LastHitType;
 
+    PlayerInputt playerInput;
+    bool isPlayer;
+
 	private void Awake()
 	{
         vfxTarget.Value = GetComponent<VfxTargets>();
         vfxTarget.Enabled = !(vfxTarget.Value is null);
+
+        if(TryGetComponent<PlayerInputt>(out PlayerInputt player))
+        {
+            playerInput = player;
+            isPlayer = true;
+        }
 	}
 	public bool TakeDmg(float dmg, HitType damageType)
     {
@@ -34,6 +44,11 @@ public class Health : MonoBehaviour
             dmg = damageLimit;
 
         health = Mathf.Clamp(health -dmg, 0, maxHealth);
+
+        if (isPlayer)
+        {
+            playerInput.GotHit();
+        }
 
         if(OnHit != null)
         {

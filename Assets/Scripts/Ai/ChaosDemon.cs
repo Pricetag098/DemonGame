@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public class ChaosDemon : DemonFramework
 {
@@ -35,6 +36,10 @@ public class ChaosDemon : DemonFramework
 
     [Header("Enrage Stats")]
     public int DemonEnrageAmount;
+
+    [Header("RigIK")]
+    public RigBuilder rigBuilder;
+    public GameObject rigLayersBodyAim;
 
     ChaosStats activeStats;
     bool isEnraged;
@@ -162,6 +167,7 @@ public class ChaosDemon : DemonFramework
         _aiAgent.SetFollowSpeed(0);
         _aiAgent.SetIsSpawned(false);
         CurrentTarget = target;
+        SetLookAtTarget(CurrentTarget);
         _spawnType = spawnType;
         _type = type;
         _rb.isKinematic = true;
@@ -212,6 +218,27 @@ public class ChaosDemon : DemonFramework
         SetValues(normalStats);
         castTimer = activeStats.castInterval.Evaluate(1);
         _aiAgent.canRotate = true;
+    }
+
+    private void SetLookAtTarget(Transform target)
+    {
+        if (target.TryGetComponent<HeadPosSetter>(out HeadPosSetter headPosSetter))
+        {
+            Transform newTarget = headPosSetter.Head.transform;
+
+            foreach (MultiAimConstraint contraint in rigLayersBodyAim.GetComponentsInChildren<MultiAimConstraint>())
+            {
+
+                var data = contraint.data.sourceObjects;
+                data.Clear();
+                data.Add(new WeightedTransform(newTarget, 1));
+                contraint.data.sourceObjects = data;
+                Debug.Log(newTarget.gameObject.name + "Found");
+
+            }
+            rigBuilder.Build();
+        }
+
     }
     public override void OnDeath()
     {

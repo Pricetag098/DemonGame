@@ -8,8 +8,8 @@ public class ShieldBuy : Interactable
 	protected int Cost;
 	[SerializeField] protected string buyMessage = "To buy ";
 	[SerializeField] string hasMaxShieldText;
-	[SerializeField] Optional<SoundPlayer> buySound;
-	[SerializeField] Optional<SoundPlayer> tooExpensiveSound;
+	[SerializeField] SoundPlayer buySound;
+	[SerializeField] SoundPlayer tooExpensiveSound;
 
 	private ShieldTracker shieldTracker;
 
@@ -30,14 +30,12 @@ public class ShieldBuy : Interactable
 			if (interactor.playerStats.points >= GetCost(interactor))
 			{
 				interactor.playerStats.SpendPoints(GetCost(interactor));
-				if (buySound.Enabled)
-					buySound.Value.Play();
+				buySound.Play();
 				DoBuy(interactor);
 			}
 			else
 			{
-				if (tooExpensiveSound.Enabled)
-					tooExpensiveSound.Value.Play();
+				tooExpensiveSound.Play();
 				interactor.display.CantBuy();
 				CantBuy(interactor);
 			}

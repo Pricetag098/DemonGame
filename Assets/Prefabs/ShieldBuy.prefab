@@ -53,12 +53,8 @@ MonoBehaviour:
   costs: f4010000e8030000dc050000c4090000ac0d000094110000701700004c1d00001027000010270000
   buyMessage: to refill shields
   hasMaxShieldText: max shields
-  buySound:
-    enabled: 1
-    val: {fileID: 4968802073550444948}
-  tooExpensiveSound:
-    enabled: 1
-    val: {fileID: 7147251215464875445}
+  buySound: {fileID: 4968802073550444948}
+  tooExpensiveSound: {fileID: 7147251215464875445}
 --- !u!65 &6446651220966252728
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -107,7 +103,7 @@ Transform:
   m_GameObject: {fileID: 2213749577613770221}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000019073484}
-  m_LocalPosition: {x: 16.201996, y: 1.7339993, z: 14.446999}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -125,7 +121,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: -2184352670422988824, guid: 721a4b919c5aedf419f892e62f50ea7e, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.9
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -169,7 +165,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -223,7 +219,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playOnAwake: 0
   clips:
-  - {fileID: 8300000, guid: 531527e47deb7ea468096262005fb346, type: 3}
+  - {fileID: 8300000, guid: 0941a8177e590de45a6d68a24191717a, type: 3}
   pitchRange: 0
   basePitch: 1
   looping: 0
@@ -289,7 +285,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d3d4e67cc9cb851409ee1e6637b06796, type: 2}
+  - {fileID: 2100000, guid: ef9b69260bd710c48927e9f041d59474, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -338,7 +334,7 @@ Transform:
   m_GameObject: {fileID: 8165469827264714338}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000019073484}
-  m_LocalPosition: {x: 16.201996, y: 1.7339993, z: 14.446999}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -400,7 +396,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0

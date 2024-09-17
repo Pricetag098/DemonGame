@@ -25,7 +25,9 @@ public class Health : MonoBehaviour
     public HitType LastHitType;
 
     PlayerInputt playerInput;
+    ShieldTracker shieldTracker;
     bool isPlayer;
+    bool canUseShield;
 
 	private void Awake()
 	{
@@ -35,20 +37,26 @@ public class Health : MonoBehaviour
         if(TryGetComponent<PlayerInputt>(out PlayerInputt player))
         {
             playerInput = player;
+            shieldTracker = GetComponent<ShieldTracker>();
             isPlayer = true;
         }
 	}
 	public bool TakeDmg(float dmg, HitType damageType)
     {
-        if(dmg > damageLimit)
-            dmg = damageLimit;
-
-        health = Mathf.Clamp(health -dmg, 0, maxHealth);
-
         if (isPlayer)
         {
             playerInput.GotHit();
+            canUseShield = false;
+            if (health > 1)
+            {
+                canUseShield = true;
+            }
         }
+
+        if (dmg > damageLimit)
+            dmg = damageLimit;
+
+        health = Mathf.Clamp(health -dmg, 0, maxHealth);
 
         if(OnHit != null)
         {
@@ -57,8 +65,20 @@ public class Health : MonoBehaviour
         timeSinceLastHit = 0;
         if (health <= 0 && !dead)
 		{
+            if (isPlayer)
+            {
+                if(canUseShield)
+                {
+                    if (shieldTracker.SpendShield())
+                    {
+                        health++;
+                        return false;
+                    }
+                }
+            }
+
             LastHitType = damageType;
-            
+
             Die();
             return true;
         }

@@ -382,10 +382,6 @@ namespace Movement
                                     }
                                     rb.AddForce(force, ForceMode.VelocityChange);
                                 }
-								else
-								{
-									Debug.Log("Bad Slide Hop 2");
-								}
                             }
                         }
 						else

@@ -82,7 +82,7 @@ public class PlayerDeath : MonoBehaviour
         stats.ResetKillStreak();
         if(respawnsLeft > 0)
 		{
-            text.text = onDeathText;
+            //text.text = onDeathText;
             StopAllCoroutines();
             StartCoroutine(DoDie());
             respawnsLeft--;
@@ -105,7 +105,7 @@ public class PlayerDeath : MonoBehaviour
     {
         dead = false;
         body.Hide();
-        text.text = onRegaintext;
+        //text.text = onRegaintext;
         StopAllCoroutines();
         StartCoroutine(DoReturnToBody(outOfTime));
         resurrectionBuy.EnableEmission();

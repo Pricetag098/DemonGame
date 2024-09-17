@@ -19,6 +19,7 @@ public class DestrcutibleObject : Interactable
     private List<WardFragment> activeParts = new List<WardFragment>();
 
     [SerializeField] private float rebuildInterval;
+    [SerializeField] private float firstRebuildInterval;
 
     private bool canRebuild;
 
@@ -27,6 +28,8 @@ public class DestrcutibleObject : Interactable
 
     private Interactor InteractionHandler;
 
+    private BarrierTracker barrierTracker;
+
     private void Awake()
     {
         activeParts.AddRange(partList);
@@ -34,6 +37,8 @@ public class DestrcutibleObject : Interactable
         player = FindObjectOfType<PlayerStats>();
 
         timer = new Timer(rebuildInterval);
+
+        barrierTracker = player.GetComponent<BarrierTracker>();
     }
 
     public void TakeDamage(int Damage)
@@ -69,9 +74,14 @@ public class DestrcutibleObject : Interactable
             audioSource.Play();
         }
 
-        player.GainPoints(pointsToGain);
+        barrierTracker.Rebuilt();
 
-        if(Health >= maxHealth) { InteractionHandler.display.HideText(); }
+        if(barrierTracker.CanRebuild())
+        {
+            player.GainPoints(pointsToGain);
+        }
+
+        if (Health >= maxHealth) { InteractionHandler.display.HideText(); }
     }
     public void RestoreHealthToMax()
     {
@@ -95,6 +105,7 @@ public class DestrcutibleObject : Interactable
             if(timer.TimeGreaterThan)
             {
                 RestoreHealth(1);
+                Debug.Log(timer.TimeInterval + " Rebuild Time");
             }
         }
     }
@@ -105,6 +116,15 @@ public class DestrcutibleObject : Interactable
         if(Health < maxHealth) interactor.display.DisplayMessage(true, interactMessage, null);
 
         InteractionHandler = interactor;
+
+        if (Health > 0)
+        {
+            timer.SetTimeInterval(rebuildInterval);
+        }
+        else
+        {
+            timer.SetTimeInterval(firstRebuildInterval);
+        }
     }
 
     public override void EndHover(Interactor interactor)

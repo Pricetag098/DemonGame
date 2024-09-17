@@ -6362,6 +6362,7 @@ GameObject:
   - component: {fileID: 8649781143819589252}
   - component: {fileID: 6579652854151676686}
   - component: {fileID: 752466348113263684}
+  - component: {fileID: 4520640713743863690}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -6575,6 +6576,7 @@ MonoBehaviour:
   kills: 0
   headshotKills: 0
   killStreak: 0
+  barrierLimit: 0
   maxKillStreak: 150
 --- !u!114 &5858707596002619737
 MonoBehaviour:
@@ -7297,6 +7299,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Head: {fileID: 4991638437948706459}
+--- !u!114 &4520640713743863690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3899720132604462811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 487825e04fe5e9343b111ae913ef852f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  barrierLimit: 5
 --- !u!1 &3899720132956419846
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,6 +18,10 @@ public class PauseMenu : MonoBehaviour
 
     [SerializeField] InputActionProperty openAction;
 
+	[SerializeField] List<AudioSource> musicSources;
+
+	AudioSource activeSource;
+
 	PlayerInputt playerInput;
 	
 
@@ -37,6 +41,8 @@ public class PauseMenu : MonoBehaviour
 			playerHUDCanvas.blocksRaycasts = false;
 			playerHUDCanvas.alpha = 0;
 
+			activeSource = null;
+
             canvasGroup.interactable = true;
 			canvasGroup.blocksRaycasts = true;
 			Time.timeScale = 0;
@@ -44,6 +50,15 @@ public class PauseMenu : MonoBehaviour
 			Time.fixedDeltaTime = 0;
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
+
+			foreach (AudioSource source in musicSources)
+			{
+				if (source.isPlaying)
+				{
+					source.Pause();
+					activeSource = source;
+				}
+			}
 			
 			playerInput.enabled = false;
 		});
@@ -70,6 +85,11 @@ public class PauseMenu : MonoBehaviour
             Time.fixedDeltaTime = 0.01f;
             Cursor.visible = false;
 			Cursor.lockState = CursorLockMode.Locked;
+
+			if(activeSource != null)
+			{
+				activeSource.UnPause();
+			}
 
             playerInput.enabled = true;
         });

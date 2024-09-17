@@ -6,6 +6,8 @@ public class RecordManager : MonoBehaviour
 {
     [HideInInspector] public RecordItem currentRecord;
 
+    [SerializeField] SoundPlayer recordSound;
+
     SoundPlayer musicPlayer;
 
     public List<GameObject> discs;
@@ -29,6 +31,8 @@ public class RecordManager : MonoBehaviour
     public void Interact()
     {
         musicPlayer.PlayClip(currentRecord.song);
+
+        recordSound.Play();
 
         discToDisable.SetActive(false);
 

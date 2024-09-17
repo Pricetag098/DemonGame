@@ -20,6 +20,7 @@ public class PlayerStats : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
     public int kills;
     public int headshotKills;
     public int killStreak;
+    public int barrierLimit;
     [Tooltip("For Demon arm")]
     public int maxKillStreak = 15;
 
@@ -87,7 +88,10 @@ public class PlayerStats : MonoBehaviour,IDataPersistance<GameData>,IDataPersist
         //throw new System.NotImplementedException();
     }
 
-    
+    public void ResetBarrierLimit()
+    {
+        
+    }
 
     public void SaveData(ref SessionData data)
     {

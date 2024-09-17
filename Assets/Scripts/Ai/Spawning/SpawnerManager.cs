@@ -49,7 +49,9 @@ public class SpawnerManager : MonoBehaviour
     [Header("Sound Players")]
     [SerializeField] private SoundPlayer OnWaveEnd;
     [SerializeField] private SoundPlayer OnWaveStart;
-    
+
+    private BarrierTracker barrierTracker;
+
     //[Header("Spawn Particle")]
     //[HideInInspector] public ObjectPooler ParticleSpawner;
 
@@ -61,6 +63,8 @@ public class SpawnerManager : MonoBehaviour
         BlessingManager = GetComponent<BlessingManager>();
         //ParticleSpawner = GetComponent<ObjectPooler>();
         roundDisplay = FindObjectOfType<RoundDisplay>();
+
+        barrierTracker = FindObjectOfType<BarrierTracker>();
 
         spawnTimer = new Timer(timeBetweenSpawns);
         endRoundTimer = new Timer(timeBetweenRounds);
@@ -200,6 +204,8 @@ public class SpawnerManager : MonoBehaviour
         _DemonSpawner.DemonQueue = WaveManager.GetDemonToSpawn(maxDemonsToSpawn);
 
         OnWaveStart.Play();
+
+        barrierTracker.ResetCount();
     }
 
     void WaveEnd()

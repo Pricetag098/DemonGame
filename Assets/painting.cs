@@ -9,6 +9,8 @@ public class painting : MonoBehaviour
 
     [SerializeField] CanvasGroup sigil;
 
+    public string sigilLetter;
+
     BoxCollider boxCollider;
 
     private void Awake()

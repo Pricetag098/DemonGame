@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
@@ -12,33 +13,68 @@ public class EasterEggTracker : MonoBehaviour
     [SerializeField] List<GameObject> bellCompleteObjects;
 
     [SerializeField] bool bellsDone;
-    [SerializeField] int bellsShot;
+    int bellsShot;
     float bellTimer;
     bool shotBell;
 
     [Header("Knife Step")]
     [SerializeField] GameObject shovel;
+    [SerializeField] GameObject finalKnife;
 
     [SerializeField] bool hasKnife;
 
     [Header("Painting Step")]
     [SerializeField] List<GameObject> paintings;
+    [SerializeField] List<GameObject> paintingsCompleteObjects;
 
-    [SerializeField] int paintingInteracted;
+    int paintingInteracted;
 
     [SerializeField] bool paintingsDone;
 
+    [SerializeField] TextMeshProUGUI textMeshProUGUI;
+
     [Header("Skull Step")]
     [SerializeField] GameObject skullInteractable;
+    [SerializeField] GameObject finalSkull;
 
 
     [SerializeField] bool hasSkull;
+
+    [Header("Final Ritual")]
+    [SerializeField] GameObject placeInteractable;
+    [SerializeField] GameObject ritualInteractable;
 
     private static System.Random rng = new System.Random();
 
     private void Start()
     {
         RandomizeListInPlace(paintings);
+
+        string first = null;
+        string second = null;
+        string third = null;
+        string fourth = null;
+
+        for (int i = 0; i < paintings.Count; i++)
+        {
+            switch (i)
+            {
+                case 0:
+                    first = paintings[i].GetComponent<painting>().sigilLetter;
+                break;
+                case 1:
+                    second = paintings[i].GetComponent<painting>().sigilLetter;
+                    break;
+                case 2:
+                    third = paintings[i].GetComponent<painting>().sigilLetter;
+                    break;
+                case 3:
+                    fourth = paintings[i].GetComponent<painting>().sigilLetter;
+                    break;
+            }
+        }
+
+        textMeshProUGUI.text = first + second + third + fourth;
     }
 
     [ContextMenu("Enable Easter Egg")]
@@ -62,6 +98,13 @@ public class EasterEggTracker : MonoBehaviour
     public void ComepletedPaintingPuzzle()
     {
         paintingsDone = true;
+
+        foreach (GameObject obj in paintingsCompleteObjects)
+        {
+            obj.SetActive(true);
+        }
+
+        CheckComplete();
     }
 
     public void InteractWithPainting(GameObject paintingObj)
@@ -88,6 +131,31 @@ public class EasterEggTracker : MonoBehaviour
         }
     }
 
+    void CheckComplete()
+    {
+        if (paintingsDone)
+        {
+            if (bellsDone)
+            {
+                placeInteractable.SetActive(true);
+            }
+        }
+    }
+
+    public void TryPlaceItem()
+    {
+        if (finalSkull.activeInHierarchy)
+        {
+            finalKnife.SetActive(true);
+            ritualInteractable.SetActive(true);
+            placeInteractable.SetActive(false);
+        }
+        if (hasSkull)
+        {
+            finalSkull.SetActive(true);
+        }
+    }
+
     public void PickupSkull()
     {
         hasSkull = true;
@@ -108,7 +176,7 @@ public class EasterEggTracker : MonoBehaviour
             obj.SetActive(true);
         }
 
-        //Change Skybox
+        CheckComplete();
     }
 
     public void ShotBell()

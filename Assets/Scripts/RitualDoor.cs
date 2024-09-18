@@ -16,8 +16,15 @@ public class RitualDoor : MonoBehaviour
     [SerializeField] float lightTime;
     [SerializeField] List<GameObject> torchFlames;
 
+    EasterEggTracker easterEggTracker;
+
 
     private int ritualsCompleted;
+
+    private void Awake()
+    {
+        easterEggTracker = FindObjectOfType<EasterEggTracker>();
+    }
 
     private void Start()
     {
@@ -58,5 +65,7 @@ public class RitualDoor : MonoBehaviour
         book.SetActive(true);
         doorAnimator.SetTrigger("Open");
         arcaneLock.DisolveLock();
+
+        easterEggTracker.EnableEasterEgg();
     }
 }

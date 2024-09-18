@@ -6354,7 +6354,6 @@ GameObject:
   - component: {fileID: 7341937550542610733}
   - component: {fileID: 1103269352}
   - component: {fileID: 116509865606457605}
-  - component: {fileID: 2926755773238881301}
   - component: {fileID: 2544734031600949377}
   - component: {fileID: 7933145787309644705}
   - component: {fileID: 5771499887212647862}
@@ -6364,6 +6363,7 @@ GameObject:
   - component: {fileID: 752466348113263684}
   - component: {fileID: 4520640713743863690}
   - component: {fileID: 8907130848410240246}
+  - component: {fileID: 3531821751284942322}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -7004,30 +7004,6 @@ MonoBehaviour:
   playerStats: {fileID: 0}
   destrcutibleObjects: []
   abilityCaster: {fileID: 0}
---- !u!114 &2926755773238881301
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3899720132604462811}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: faffb00b050eeab4cbb39a83a0afc497, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hasArm: 0
-  hasKnife: 0
-  hasFalseKnife: 0
-  hasShovel: 0
-  hasSalt: 0
-  paintings:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  finishedObelisks: 0
-  divineSmite: {fileID: 0}
 --- !u!114 &2544734031600949377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7329,6 +7305,29 @@ MonoBehaviour:
   maxShield: 3
   player: {fileID: 9005652397375101679}
   shieldOnIcons: []
+--- !u!114 &3531821751284942322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3899720132604462811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54005847c4d7fc64a8c85741fe081bca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeBetweenBells: 4
+  bellsToShoot: 4
+  bells: []
+  bellCompleteObjects: []
+  bellsDone: 0
+  shovel: {fileID: 0}
+  hasKnife: 0
+  paintings: []
+  paintingsDone: 0
+  skullInteractable: {fileID: 0}
+  hasSkull: 0
 --- !u!1 &3899720132956419846
 GameObject:
   m_ObjectHideFlags: 0

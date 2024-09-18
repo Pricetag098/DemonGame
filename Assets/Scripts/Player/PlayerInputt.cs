@@ -259,8 +259,6 @@ namespace Movement
 			hasBeenHit = true;
 			onHitTimer = 0f;
 
-			Debug.Log("Got Hit");
-
 			if(moveState == MoveStates.slide)
 			{
                 Vector3 force = -jumpSlideLaunchVel * orientation.forward;

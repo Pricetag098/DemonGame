@@ -233,7 +233,7 @@ public class ChaosDemon : DemonFramework
                 data.Clear();
                 data.Add(new WeightedTransform(newTarget, 1));
                 contraint.data.sourceObjects = data;
-                Debug.Log(newTarget.gameObject.name + "Found");
+                //Debug.Log(newTarget.gameObject.name + "Found");
 
             }
             rigBuilder.Build();

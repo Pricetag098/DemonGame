@@ -34,7 +34,7 @@ public class RecordManager : MonoBehaviour
 
         recordSound.Play();
 
-        discToDisable.SetActive(false);
+        discToDisable?.SetActive(false);
 
         discs[currentRecord.discNum].SetActive(true);
 

@@ -20,6 +20,7 @@ public class Health : MonoBehaviour
     // Start is called before the first frame update
     public float regenPerSecond = 0;
     public float regenDelay = 0;
+    public float invisTime = 0.1f;
     float timeSinceLastHit;
     public Optional<VfxTargets> vfxTarget;
     public HitType LastHitType;
@@ -28,6 +29,10 @@ public class Health : MonoBehaviour
     ShieldTracker shieldTracker;
     bool isPlayer;
     bool canUseShield;
+    bool hasBeenHit;
+    bool cantBeHit;
+
+    float invisTimer;
 
 	private void Awake()
 	{
@@ -56,7 +61,17 @@ public class Health : MonoBehaviour
         if (dmg > damageLimit)
             dmg = damageLimit;
 
-        health = Mathf.Clamp(health -dmg, 0, maxHealth);
+        if (!cantBeHit)
+        {
+            health = Mathf.Clamp(health - dmg, 0, maxHealth);
+        }
+
+        if (isPlayer)
+        {
+            hasBeenHit = true;
+            invisTimer = 0;
+            cantBeHit = true;
+        }
 
         if(OnHit != null)
         {
@@ -101,6 +116,16 @@ public class Health : MonoBehaviour
         timeSinceLastHit += Time.deltaTime;
         if(timeSinceLastHit > regenDelay)
         health = Mathf.Clamp(health + regenPerSecond * Time.deltaTime, 0, maxHealth);
+
+        if (hasBeenHit)
+        {
+            invisTimer += Time.deltaTime;
+            if(invisTimer > invisTime)
+            {
+                hasBeenHit = false;
+                cantBeHit = false;
+            }
+        }
     }
 
 	void Die()

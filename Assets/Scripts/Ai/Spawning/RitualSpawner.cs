@@ -177,21 +177,21 @@ public class RitualSpawner : MonoBehaviour
 
                 if (ritual.ritualWave.WavePositions.Count > 0)
                 {
-                    if (demonsLeft > ritual.demonsToSpawn / ritual.ritualWave.WavePositions[0] && chaosSpawned == 0)
+                    if ((ritual.demonsToSpawn - demonsToSpawn) > ritual.demonsToSpawn * (ritual.ritualWave.WavePositions[0] / 100)&& chaosSpawned == 0)
                     {
                         if (spawner.SpawnChaosRitual(spawnPoints, this, sm, chaosDemon, isFinalRitual))
                         {
                             chaosSpawned++;
                         }
                     }
-                    else if (demonsLeft > ritual.demonsToSpawn / ritual.ritualWave.WavePositions[1] && chaosSpawned == 1)
+                    else if ((ritual.demonsToSpawn - demonsToSpawn) > ritual.demonsToSpawn * (ritual.ritualWave.WavePositions[1] / 100) && chaosSpawned == 1)
                     {
                         if (spawner.SpawnChaosRitual(spawnPoints, this, sm, chaosDemon, isFinalRitual))
                         {
                             chaosSpawned++;
                         }
                     }
-                    else if (demonsLeft > ritual.demonsToSpawn / ritual.ritualWave.WavePositions[2] && chaosSpawned == 2)
+                    else if ((ritual.demonsToSpawn - demonsToSpawn) > ritual.demonsToSpawn * (ritual.ritualWave.WavePositions[2] / 100) && chaosSpawned == 2)
                     {
                         if (spawner.SpawnChaosRitual(spawnPoints, this, sm, chaosDemon, isFinalRitual))
                         {

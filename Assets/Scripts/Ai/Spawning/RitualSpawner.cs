@@ -80,6 +80,8 @@ public class RitualSpawner : MonoBehaviour
             wall.Fall();
         }
         demonSpawner = manager._DemonSpawner;
+
+        completion.SetActive(false);
     }
 
     private void Update()
@@ -199,8 +201,11 @@ public class RitualSpawner : MonoBehaviour
 
         record.ReplaceItem();
 
-        completion.SetActive(false);
-        book.SetActive(false);
+        completion.SetActive(true);
+        if (book != null)
+        {
+            book.SetActive(false);
+        }
         if (orbHolder != null)
         {
             orbHolder.GetComponent<Bounce>().Escape();

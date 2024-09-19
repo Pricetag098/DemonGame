@@ -126,11 +126,23 @@ public class LesserDemon : DemonFramework
                     _health.pointsOnHit = false;
 
                     DemonMaterials.SetRitualMaterial(_skinnedMeshRenderer);
-                }
 
-                foreach (var obj in _attachments.ReturnActiveObjects())
+                    foreach (var obj in _attachments.ReturnActiveObjects())
+                    {
+                        DemonMaterials.SetRitualAttachmentMaterial(obj);
+                    }
+                }
+                else
                 {
-                    DemonMaterials.SetRitualAttachmentMaterial(obj);
+                    _deathPoints.points = pointsOnDeath;
+                    _health.pointsOnHit = true;
+
+                    DemonMaterials.SetDefaultSpawningMaterial(_skinnedMeshRenderer);
+
+                    foreach (var obj in _attachments.ReturnActiveObjects())
+                    {
+                        DemonMaterials.SetDefaultAttachmentMaterial(obj);
+                    }
                 }
 
                 break;

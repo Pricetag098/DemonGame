@@ -143,7 +143,7 @@ public class DemonSpawner : MonoBehaviour
 
                         if (spawner == null) { DemonQueue.Enqueue(demon); return false; }
 
-                        return spawner.RequestSpawn(demon, sm, SpawnType.Default);
+                        return spawner.RequestSpawn(demon, sm, SpawnType.Default, false);
                     }
                     else
                     {
@@ -169,7 +169,7 @@ public class DemonSpawner : MonoBehaviour
 
                         if (spawner == null) { DemonQueue.Enqueue(demon); return false; }
 
-                        return spawner.RequestSpawn(demon, sm, SpawnType.Default);
+                        return spawner.RequestSpawn(demon, sm, SpawnType.Default, false);
                     }
                     else
                     {
@@ -188,7 +188,7 @@ public class DemonSpawner : MonoBehaviour
         return false;
     }
 
-    public bool SpawnDemonRitual(List<Spawner> spawnPoints, RitualSpawner ritual, SpawnerManager sm, List<DemonFramework> list)
+    public bool SpawnDemonRitual(List<Spawner> spawnPoints, RitualSpawner ritual, SpawnerManager sm, List<DemonFramework> list, bool isFinalRitual)
     {
         DemonType demon = null;
 
@@ -209,7 +209,7 @@ public class DemonSpawner : MonoBehaviour
 
         if (spawner == null) { ritual.DemonQueue.Enqueue(demon); return false; }
 
-        return spawner.RequestSpawn(demon, sm, list, SpawnType.Ritual); ;
+        return spawner.RequestSpawn(demon, sm, list, SpawnType.Ritual, isFinalRitual); ;
     }
 
     /// <summary>

@@ -95,6 +95,15 @@ public class EasterEggTracker : MonoBehaviour
         skullInteractable.SetActive(true);
     }
 
+    [ContextMenu("Complete Easter Egg")]
+    public void CompleteEasterEgg()
+    {
+        ComepletedPaintingPuzzle();
+        CompletedBells();
+        PickupKnife();
+        PickupSkull();
+    }
+
     public void ComepletedPaintingPuzzle()
     {
         paintingsDone = true;

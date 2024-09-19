@@ -162,7 +162,7 @@ public class ChaosDemon : DemonFramework
         Debug.Log("Demon is angy");
     }
     
-    public override void OnSpawn(DemonType type, Transform target, SpawnType spawnType, bool inMap)
+    public override void OnSpawn(DemonType type, Transform target, SpawnType spawnType, bool inMap, bool isFinalRitual)
     {
         _aiAgent.SetFollowSpeed(0);
         _aiAgent.SetIsSpawned(false);

@@ -21,6 +21,7 @@ public class RitualSpawner : MonoBehaviour
     [Header("Demons")]
     public Queue<DemonType> DemonQueue = new Queue<DemonType>();
     private List<DemonFramework> ActiveDemons = new List<DemonFramework>();
+    [SerializeField] bool isFinalRitual;
 
     [Header("Blockers")]
     [SerializeField] Transform BlockerObjects;
@@ -97,8 +98,11 @@ public class RitualSpawner : MonoBehaviour
 
     public void InitaliseRitual()
     {
-        book.SetActive(true);
-        if(RitualActive == false && ritualComplete == false)
+        if(book != null)
+        {
+            book.SetActive(true);
+        }
+        if (RitualActive == false && ritualComplete == false)
         {
             RitualActive = true;
             ActiveDemons.Clear();
@@ -157,7 +161,7 @@ public class RitualSpawner : MonoBehaviour
                 {
                     for (int i = 0; i < toSpawn; i++)
                     {
-                        if (spawner.SpawnDemonRitual(spawnPoints, this, sm, ActiveDemons))
+                        if (spawner.SpawnDemonRitual(spawnPoints, this, sm, ActiveDemons, isFinalRitual))
                         {
                             currentDemons++;
                             demonsToSpawn--;

@@ -58,11 +58,11 @@ public class Spawner : MonoBehaviour
     /// <param name="spawner"></param>
     /// <param name="sm"></param>
     /// <returns></returns>
-    public bool RequestSpawn(DemonType demon, SpawnerManager sm, SpawnType type)
+    public bool RequestSpawn(DemonType demon, SpawnerManager sm, SpawnType type, bool isFinalRitual)
     {
         if(CanSpawn == true)
         {
-            SpawnDemon(demon, sm, type);
+            SpawnDemon(demon, sm, type, isFinalRitual);
             particleSpawnAction?.Invoke();
             return true;
         }
@@ -78,11 +78,11 @@ public class Spawner : MonoBehaviour
     /// <param name="list"></param>
     /// <param name="type"></param>
     /// <returns></returns>
-    public bool RequestSpawn(DemonType demon, SpawnerManager sm, List<DemonFramework> list, SpawnType type)
+    public bool RequestSpawn(DemonType demon, SpawnerManager sm, List<DemonFramework> list, SpawnType type, bool isFinalRitual)
     {
         if (CanSpawn == true)
         {
-            SpawnDemon(demon, sm, list, type);
+            SpawnDemon(demon, sm, list, type, isFinalRitual);
             particleSpawnAction?.Invoke();
             return true;
         }
@@ -96,11 +96,11 @@ public class Spawner : MonoBehaviour
     /// <param name="demon"></param>
     /// <param name="pool"></param>
     /// <param name="target"></param>
-    private void SpawnDemon(DemonType demon, SpawnerManager sm, SpawnType type)
+    private void SpawnDemon(DemonType demon, SpawnerManager sm, SpawnType type, bool isFinalRitual)
     {
         GameObject demonTemp = DemonPoolers.demonPoolers[demon.Id].Spawn();
         DemonFramework demonBase = demonTemp.GetComponent<DemonFramework>();
-        demonBase.OnSpawn(demon, sm.player, type, SpawnerInMap);
+        demonBase.OnSpawn(demon, sm.player, type, SpawnerInMap, isFinalRitual);
         demonTemp.transform.position = position;
     }
 
@@ -111,11 +111,11 @@ public class Spawner : MonoBehaviour
     /// <param name="target"></param>
     /// <param name="list"></param>
     /// <param name="type"></param>
-    private void SpawnDemon(DemonType demon, SpawnerManager sm, List<DemonFramework> list, SpawnType type)
+    private void SpawnDemon(DemonType demon, SpawnerManager sm, List<DemonFramework> list, SpawnType type, bool isFinalRitual)
     {
         GameObject demonTemp = DemonPoolers.demonPoolers[demon.Id].Spawn();
         DemonFramework demonBase = demonTemp.GetComponent<DemonFramework>();
-        demonBase.OnSpawn(demon, sm.player, type, SpawnerInMap);
+        demonBase.OnSpawn(demon, sm.player, type, SpawnerInMap, isFinalRitual);
         demonTemp.transform.position = position;
         list.Add(demonBase);
     }

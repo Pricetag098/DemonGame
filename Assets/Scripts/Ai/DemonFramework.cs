@@ -201,7 +201,7 @@ public class DemonFramework : MonoBehaviour
     {
        
     }
-    public virtual void OnSpawn(DemonType type, Transform target, SpawnType spawnType, bool inMap)
+    public virtual void OnSpawn(DemonType type, Transform target, SpawnType spawnType, bool inMap, bool isFinalRitual)
     {
         
     }

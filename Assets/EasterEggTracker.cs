@@ -11,6 +11,7 @@ public class EasterEggTracker : MonoBehaviour
     [SerializeField] int bellsToShoot;
     [SerializeField] List<GameObject> bells;
     [SerializeField] List<GameObject> bellCompleteObjects;
+    [SerializeField] GameObject oldSky;
     [SerializeField] SoundPlayer bellDoneSound;
 
     [SerializeField] bool bellsDone;
@@ -193,6 +194,8 @@ public class EasterEggTracker : MonoBehaviour
         {
             obj.SetActive(true);
         }
+
+        oldSky.SetActive(false);
 
         CheckComplete();
     }

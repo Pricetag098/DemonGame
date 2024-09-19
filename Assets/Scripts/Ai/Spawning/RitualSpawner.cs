@@ -1,3 +1,4 @@
+using DemonInfo;
 using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,6 +22,7 @@ public class RitualSpawner : MonoBehaviour
     [Header("Demons")]
     public Queue<DemonType> DemonQueue = new Queue<DemonType>();
     private List<DemonFramework> ActiveDemons = new List<DemonFramework>();
+    [SerializeField] DemonType chaosDemon;
     [SerializeField] bool isFinalRitual;
 
     [Header("Blockers")]
@@ -49,6 +51,8 @@ public class RitualSpawner : MonoBehaviour
     private Timer ritualTimer;
 
     private RecordManager recordManager;
+
+    int chaosSpawned = 0;
 
     //private float timer;
 
@@ -170,6 +174,31 @@ public class RitualSpawner : MonoBehaviour
                         }
                     }
                 }
+
+                if (ritual.ritualWave.WavePositions.Count > 0)
+                {
+                    if (demonsLeft > ritual.demonsToSpawn / ritual.ritualWave.WavePositions[0] && chaosSpawned == 0)
+                    {
+                        if (spawner.SpawnChaosRitual(spawnPoints, this, sm, chaosDemon, isFinalRitual))
+                        {
+                            chaosSpawned++;
+                        }
+                    }
+                    else if (demonsLeft > ritual.demonsToSpawn / ritual.ritualWave.WavePositions[1] && chaosSpawned == 1)
+                    {
+                        if (spawner.SpawnChaosRitual(spawnPoints, this, sm, chaosDemon, isFinalRitual))
+                        {
+                            chaosSpawned++;
+                        }
+                    }
+                    else if (demonsLeft > ritual.demonsToSpawn / ritual.ritualWave.WavePositions[2] && chaosSpawned == 2)
+                    {
+                        if (spawner.SpawnChaosRitual(spawnPoints, this, sm, chaosDemon, isFinalRitual))
+                        {
+                            chaosSpawned++;
+                        }
+                    }
+                }
             }
         }
     }
@@ -240,6 +269,7 @@ public class RitualSpawner : MonoBehaviour
         currentDemons = 0;
         demonsLeft = 0;
         demonsToSpawn = 0;
+        chaosSpawned = 0;
 
         foreach (RitualWall wall in blockerWalls)
         {

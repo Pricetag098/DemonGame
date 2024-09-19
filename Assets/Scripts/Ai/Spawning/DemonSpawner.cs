@@ -212,6 +212,26 @@ public class DemonSpawner : MonoBehaviour
         return spawner.RequestSpawn(demon, sm, list, SpawnType.Ritual, isFinalRitual); ;
     }
 
+    public bool SpawnChaosRitual(List<Spawner> spawnPoints, RitualSpawner ritual, SpawnerManager sm, DemonType demon, bool isFinalRitual)
+    {
+        Spawner spawner = null;
+
+        foreach (Spawner s in spawnPoints)
+        {
+            if (s.Visited == false)
+            {
+                s.Visited = true;
+                spawner = s;
+
+                break;
+            }
+        }
+
+        if (spawner == null) { ritual.DemonQueue.Enqueue(demon); return false; }
+
+        return spawner.RequestSpawn(demon, sm, SpawnType.Ritual, isFinalRitual); ;
+    }
+
     /// <summary>
     /// Returns the Count of the DemonQueue
     /// </summary>

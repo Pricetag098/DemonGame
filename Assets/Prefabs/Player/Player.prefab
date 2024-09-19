@@ -6755,7 +6755,7 @@ MonoBehaviour:
     accleration: 0.5
   jumpHeight: 2
   jumpForwadBoost: 1
-  onHitSlowTime: 1
+  onHitSlowTime: 0.8
   slideLaunchVel: 3.25
   jumpSlideLaunchVel: 3.75
   slideGravityModifier: 0.1
@@ -7321,13 +7321,21 @@ MonoBehaviour:
   bellsToShoot: 4
   bells: []
   bellCompleteObjects: []
+  bellDoneSound: {fileID: 0}
   bellsDone: 0
   shovel: {fileID: 0}
+  finalKnife: {fileID: 0}
   hasKnife: 0
   paintings: []
+  paintingsCompleteObjects: []
+  paintingDoneSound: {fileID: 0}
   paintingsDone: 0
+  textMeshProUGUI: {fileID: 0}
   skullInteractable: {fileID: 0}
+  finalSkull: {fileID: 0}
   hasSkull: 0
+  placeInteractable: {fileID: 0}
+  ritualInteractable: {fileID: 0}
 --- !u!1 &3899720132956419846
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,6 +11,7 @@ public class EasterEggTracker : MonoBehaviour
     [SerializeField] int bellsToShoot;
     [SerializeField] List<GameObject> bells;
     [SerializeField] List<GameObject> bellCompleteObjects;
+    [SerializeField] SoundPlayer bellDoneSound;
 
     [SerializeField] bool bellsDone;
     int bellsShot;
@@ -26,6 +27,7 @@ public class EasterEggTracker : MonoBehaviour
     [Header("Painting Step")]
     [SerializeField] List<GameObject> paintings;
     [SerializeField] List<GameObject> paintingsCompleteObjects;
+    [SerializeField] SoundPlayer paintingDoneSound;
 
     int paintingInteracted;
 
@@ -43,6 +45,7 @@ public class EasterEggTracker : MonoBehaviour
     [Header("Final Ritual")]
     [SerializeField] GameObject placeInteractable;
     [SerializeField] GameObject ritualInteractable;
+    [SerializeField] SoundPlayer placeSound;
 
     private static System.Random rng = new System.Random();
 
@@ -108,6 +111,8 @@ public class EasterEggTracker : MonoBehaviour
     {
         paintingsDone = true;
 
+        paintingDoneSound.Play();
+
         foreach (GameObject obj in paintingsCompleteObjects)
         {
             obj.SetActive(true);
@@ -158,10 +163,12 @@ public class EasterEggTracker : MonoBehaviour
             finalKnife.SetActive(true);
             ritualInteractable.SetActive(true);
             placeInteractable.SetActive(false);
+            placeSound.Play();
         }
         if (hasSkull)
         {
             finalSkull.SetActive(true);
+            placeSound.Play();
         }
     }
 
@@ -174,6 +181,8 @@ public class EasterEggTracker : MonoBehaviour
     {
         bellsDone = true;
         shotBell = false;
+
+        bellDoneSound.Play();
 
         foreach(GameObject bell in bells)
         {

@@ -22,6 +22,7 @@ public class ChaosDemon : DemonFramework
     [SerializeField] DemonSpeedProfile runner;
     DemonSpeedProfile speedProfile;
     [HideInInspector] public SpeedType SpeedType;
+    public float stopTime;
 
     [Header("Demon Health Algorithm")]
     [SerializeField] int m_xAmountOfRounds;
@@ -41,6 +42,8 @@ public class ChaosDemon : DemonFramework
     public RigBuilder rigBuilder;
     public GameObject rigLayersBodyAim;
 
+    float stopTimer = 0.5f;
+    bool isStopped;
     ChaosStats activeStats;
     bool isEnraged;
     [Serializable]
@@ -84,6 +87,15 @@ public class ChaosDemon : DemonFramework
     public override void OnUpdate()
     {
         Dissolve();
+
+        if (isStopped)
+        {
+            stopTimer += Time.deltaTime;
+            if (stopTimer > stopTime)
+            {
+                ResetMovement();
+            }
+        }
 
         if (IdleSoundTimer.TimeGreaterThan)
         {
@@ -141,17 +153,17 @@ public class ChaosDemon : DemonFramework
     {
         if(isEnraged == true) { return; }
 
-        if (!isEnraged && _health.health / _health.maxHealth < enragePoint)
+        if (!isEnraged && _health.health < (_health.maxHealth * enragePoint))
         {
             SetEnrageState();
             return;
         }
 
-        if(_spawner.GetDemonQueueCount + _spawner.GetActiveDemonCount <= DemonEnrageAmount)
-        {
-            SetEnrageState();
-            return;
-        }
+        //if(_spawner.GetDemonQueueCount + _spawner.GetActiveDemonCount <= DemonEnrageAmount)
+        //{
+        //    SetEnrageState();
+        //    return;
+        //}
     }
 
     private void SetEnrageState()
@@ -321,7 +333,27 @@ public class ChaosDemon : DemonFramework
 
         //unstuck resetting
         _aiAgent.ResetStuckTimer();
+
+        _moveSpeed = 0;
+        _aiAgent.SetFollowSpeed(_moveSpeed);
+        isStopped = true;
+        stopTimer = 0;
     }
+
+    public void ResetMovement()
+    {
+        isStopped = false;
+
+        if (isEnraged)
+        {
+            _aiAgent.SetFollowSpeed(enragedStats.moveSpeed);
+        }
+        else
+        {
+            _aiAgent.SetFollowSpeed(normalStats.moveSpeed);
+        }
+    }
+
     public override void OnHit()
     {
         base.OnHit();

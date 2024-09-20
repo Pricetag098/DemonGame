@@ -21,6 +21,13 @@ public static class GamePrefs
         RitualsComplete = complete;
     }
 
+    public static bool roundLimit = false;
+
+    public static void SetRoundLimit(bool hasRoundLimit)
+    {
+        roundLimit = hasRoundLimit;
+    }
+
     public static bool UnlockAllAbilities = false;
 
     public static void SetAbilitiesUnlocked(bool unlocked)

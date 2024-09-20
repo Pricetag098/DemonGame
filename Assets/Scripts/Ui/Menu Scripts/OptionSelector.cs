@@ -21,6 +21,7 @@ public class OptionSelector : MonoBehaviour
         GamePrefs.SetStartMoney(500);
         GamePrefs.SetAbilitiesUnlocked(false);
         GamePrefs.SetRitualsComplete(false);
+        GamePrefs.SetRoundLimit(false);
     }
 
     public void ButtonClick(int value)
@@ -48,6 +49,13 @@ public class OptionSelector : MonoBehaviour
         //Debug.Log("All Abilities unlocked at start" + toggle);
 
         GamePrefs.SetAbilitiesUnlocked(toggle);
+    }
+
+    public void AddRoundLimit(bool toggle)
+    {
+        //Debug.Log("All Abilities unlocked at start" + toggle);
+
+        GamePrefs.SetRoundLimit(toggle);
     }
 
     [System.Serializable]

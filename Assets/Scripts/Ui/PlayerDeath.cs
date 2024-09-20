@@ -32,6 +32,8 @@ public class PlayerDeath : MonoBehaviour
     ResurrectionBuy resurrectionBuy;
     EndGameScreen endGameTweening;
     PlayerInputt playerInputt;
+
+    bool hasRoundLimit;
     // Start is called before the first frame update
     void Awake()
     {
@@ -45,6 +47,8 @@ public class PlayerDeath : MonoBehaviour
         resurrectionBuy = FindObjectOfType<ResurrectionBuy>();
         endGameTweening = FindObjectOfType<EndGameScreen>();
         playerInputt = FindObjectOfType<PlayerInputt>();
+
+        hasRoundLimit = GamePrefs.roundLimit;
     }
 
     PlayerBodyInteract body;

@@ -41,6 +41,7 @@ public class SpawnerManager : MonoBehaviour
     public bool EndOfRound;
     public bool StartOfRound;
     public bool RunDefaultSpawning;
+    public float roundLimit;
 
     [Header("Timers")]
     private Timer spawnTimer;
@@ -51,6 +52,10 @@ public class SpawnerManager : MonoBehaviour
     [SerializeField] private SoundPlayer OnWaveStart;
 
     private BarrierTracker barrierTracker;
+
+    bool hasRoundLimit;
+
+    PlayerDeath playerDeath;
 
     //[Header("Spawn Particle")]
     //[HideInInspector] public ObjectPooler ParticleSpawner;
@@ -66,10 +71,14 @@ public class SpawnerManager : MonoBehaviour
 
         barrierTracker = FindObjectOfType<BarrierTracker>();
 
+        playerDeath = FindObjectOfType<PlayerDeath>();
+
         spawnTimer = new Timer(timeBetweenSpawns);
         endRoundTimer = new Timer(timeBetweenRounds);
 
         currentRound = GamePrefs.StartRound;
+
+        hasRoundLimit = GamePrefs.roundLimit;
     }
     private void Start()
     {
@@ -211,6 +220,14 @@ public class SpawnerManager : MonoBehaviour
     void WaveEnd()
     {
         roundDisplay.ColourFlash();
+
+        if(currentRound >= roundLimit)
+        {
+            if (hasRoundLimit)
+            {
+                playerDeath.EndGame();
+            }
+        }
 
         OnWaveEnd.Play();
 

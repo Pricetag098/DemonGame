@@ -10,7 +10,11 @@ public class ShieldTracker : MonoBehaviour
 
     [SerializeField] List<GameObject> shieldOnIcons;
 
+    [SerializeField] CanvasGroup shieldCanvasGroup;
+
     private int shields;
+
+    bool firstShield = true;
 
     public bool SpendShield()
     {
@@ -38,6 +42,12 @@ public class ShieldTracker : MonoBehaviour
         {
             item.SetActive(true);
         }
+        if (firstShield)
+        {
+            shieldCanvasGroup.alpha = 1.0f;
+            firstShield = false;
+        }
+
         shields = maxShield;
     }
 }

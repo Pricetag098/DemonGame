@@ -11,6 +11,9 @@ public class BlessingStatusHandler : MonoBehaviour
 	[HideInInspector]public DestrcutibleObject[] destrcutibleObjects;
 	[HideInInspector] public AbilityCaster abilityCaster;
 	BlessingPopup popup;
+
+	[SerializeField] SoundPlayer pickupPlayer;
+
 	private void Awake()
 	{
 		destrcutibleObjects= FindObjectsOfType<DestrcutibleObject>();
@@ -32,5 +35,6 @@ public class BlessingStatusHandler : MonoBehaviour
 	public void DisplayBlessing(Blessing blessing)
 	{
 		popup.Display(blessing);
+		pickupPlayer.PlayClip(blessing.pickupSound);
 	}
 }

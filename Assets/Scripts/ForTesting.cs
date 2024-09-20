@@ -8,6 +8,8 @@ public class ForTesting : MonoBehaviour
     public float flashTime;
     public float maxTimeBetweenFlash;
     public float minTimeBetweenFlash;
+
+    public AudioClip PickupSound;
     public GameObject model;
     PooledObject _pooledObject;
     Timer _timer;

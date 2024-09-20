@@ -11,6 +11,7 @@ public class Blessing : ScriptableObject
     public string blessingName = "";
     public string blessingFontRef = null;
     public TMP_FontAsset blessingFontAsset;
+    public AudioClip pickupSound;
 
     /// <summary>
     /// Call to apply the effect

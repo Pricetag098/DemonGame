@@ -1,6 +1,7 @@
 using DemonInfo;
 using DG.Tweening;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RitualSpawner : MonoBehaviour
@@ -83,6 +84,12 @@ public class RitualSpawner : MonoBehaviour
         {
             wall.Fall();
         }
+
+        foreach (Transform tran in blockers)
+        {
+            tran.gameObject.SetActive(false);
+        }
+
         demonSpawner = manager._DemonSpawner;
 
         completion.SetActive(false);
@@ -121,6 +128,11 @@ public class RitualSpawner : MonoBehaviour
             demonsToSpawn = count;
 
             if(playerHealth == null) playerHealth = manager.player.GetComponent<Health>();
+
+            foreach(Transform tran in blockers)
+            {
+                tran.gameObject.SetActive(true);
+            }
 
             foreach (RitualWall wall in blockerWalls)
             {
@@ -253,7 +265,7 @@ public class RitualSpawner : MonoBehaviour
 
         soundPlayerMusic.looping = false;
 
-        Sequence fade = DOTween.Sequence();
+        DG.Tweening.Sequence fade = DOTween.Sequence();
         AudioSource musicSource = soundPlayerMusic.GetComponent<AudioSource>();
         fade.Append(DOTween.To(() => musicSource.volume, x => musicSource.volume = x, 0, musicFadeOutTime));
         fade.AppendCallback(() => soundPlayerMusic.Stop());

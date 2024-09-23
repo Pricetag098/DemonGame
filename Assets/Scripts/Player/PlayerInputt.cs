@@ -138,6 +138,10 @@ namespace Movement
 		{
             recoilVal.x = 0f;
             recoilVal.y = 0f;
+
+            hasBeenHit = false;
+
+
         }
 		public bool toggleSlide;
 		public bool toggleSprint;
@@ -328,7 +332,7 @@ namespace Movement
 				case MoveStates.walk:
 
 					SetCollider(0);
-					if (sprintInput && inputDir.y > 0 && (!fireAction.action.IsPressed() || !castAction.action.IsPressed() || holster.HeldGun.gunState != Gun.GunStates.reloading) && !hasBeenHit)
+					if (sprintInput && inputDir.y > 0 && ((!fireAction.action.IsPressed() || !castAction.action.IsPressed() || holster.HeldGun.gunState != Gun.GunStates.reloading) || playerDeath.dead) && !hasBeenHit)
 					{
 						moveState = MoveStates.run;
 						lastCamPos = cam.localPosition;
@@ -348,7 +352,7 @@ namespace Movement
 					break;
 				case MoveStates.run:
 					SetCollider(0);
-					if (!sprintInput || inputDir.y <= 0 || (fireAction.action.IsPressed() && !canSprintAndShoot) || (castAction.action.IsPressed() && !canSprintAndShoot) || holster.HeldGun.gunState == Gun.GunStates.reloading || hasBeenHit)
+					if (!sprintInput || inputDir.y <= 0 || (fireAction.action.IsPressed() && !canSprintAndShoot && !playerDeath.dead) || (castAction.action.IsPressed() && !canSprintAndShoot && !playerDeath.dead) || (holster.HeldGun.gunState == Gun.GunStates.reloading && !playerDeath.dead) || hasBeenHit)
 					{
 						sprintInput = false;
 						moveState = MoveStates.walk;

@@ -68,54 +68,6 @@ public class EndGameScreen : MonoBehaviour
         overlayCanvas.alpha = 0;
     }
 
-    void Update()
-    {
-        // First, check if the mouse is over a UI element
-        if (IsPointerOverUIObject())
-        {
-            Debug.Log("Hovering over UI element: " + GetUIElementUnderCursor());
-        }
-        else
-        {
-            // If not over UI, then do a raycast to detect 3D objects
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-            {
-                Debug.Log("Hovering over GameObject: " + hit.collider.gameObject.name);
-            }
-            else
-            {
-                Debug.Log("No object under the cursor.");
-            }
-        }
-    }
-
-    // Function to check if the pointer is over a UI object
-    private bool IsPointerOverUIObject()
-    {
-        return EventSystem.current.IsPointerOverGameObject();
-    }
-
-    // Function to get the UI element under the cursor (optional, for additional info)
-    private string GetUIElementUnderCursor()
-    {
-        PointerEventData pointerData = new PointerEventData(EventSystem.current)
-        {
-            position = Input.mousePosition
-        };
-
-        var results = new System.Collections.Generic.List<RaycastResult>();
-        EventSystem.current.RaycastAll(pointerData, results);
-
-        if (results.Count > 0)
-        {
-            return results[0].gameObject.name;  // Return the first UI element's name
-        }
-
-        return "None";
-    }
-
     [ContextMenu("Tween")]
     public void Open(bool finishedGame)
     {

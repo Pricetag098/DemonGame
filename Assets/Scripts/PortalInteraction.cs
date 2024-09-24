@@ -5,6 +5,7 @@ using Sequence = DG.Tweening.Sequence;
 public class PortalInteraction : ShopInteractable
 {
     [SerializeField] Transform body;
+    [SerializeField] Collider interactableCollider;
 
     [SerializeField] float minPortalSize;
 
@@ -39,13 +40,14 @@ public class PortalInteraction : ShopInteractable
 	{
 		interactor.caster.SetAbility(Instantiate(ability.upgradePath.Value.abilities[interactor.caster.upgradeNum]));
 		notification.Notify(ability);
-		Close(true);
+        interactableCollider.enabled = false;
+        Close(true);
 	}
 
 	public override void StartHover(Interactor interactor)
 	{
 		base.StartHover(interactor);
-		interactor.display.DisplayMessage(true, buyMessage + " " + ability.abilityName + " ", "[Cost: " + GetCost(interactor).ToString() + "]");
+		interactor.display.DisplayMessage(true, buyMessage + " " + ability.abilityName + " ", "[cost: " + GetCost(interactor).ToString() + "]");
 	}
 
 	public void Open()

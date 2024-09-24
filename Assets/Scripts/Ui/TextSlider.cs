@@ -26,7 +26,7 @@ public class TextSlider : MonoBehaviour
 
     public void SliderChange(float value)
     {
-        inputField.text = value.ToString("F1");
+        inputField.text = value.ToString("F0");
         //volumeSettings.SetVolume(setting, value);
         ChangeValue(value);
     }
@@ -43,7 +43,7 @@ public class TextSlider : MonoBehaviour
         if(value < slider.minValue || value > slider.maxValue)
         {
             value = Mathf.Clamp(value, slider.minValue, slider.maxValue);
-            inputField.text = value.ToString("F1");
+            inputField.text = value.ToString("F0");
         }
         slider.value = value;
         ChangeValue(value);
@@ -54,6 +54,6 @@ public class TextSlider : MonoBehaviour
     public void SetValue(float value)
     {
         slider.value = value;
-        inputField.text = value.ToString("F1");
+        inputField.text = value.ToString("F0");
     }
 }

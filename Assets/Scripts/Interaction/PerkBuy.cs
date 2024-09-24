@@ -39,7 +39,7 @@ public class PerkBuy : ShopInteractable
     public override void StartHover(Interactor interactor)
     {
         base.StartHover(interactor);
-		interactor.display.DisplayMessage(true, " " + buyMessage + " " + perk.perkName + " ", "[Cost: " + GetCost(interactor).ToString() + "]" ); 
+		interactor.display.DisplayMessage(true, " " + buyMessage + " " + perk.perkName + " ", "[cost: " + GetCost(interactor).ToString() + "]" ); 
     }
 
     public void Upgrade(PerkManager perkManager)

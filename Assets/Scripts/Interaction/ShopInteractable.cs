@@ -15,7 +15,7 @@ public class ShopInteractable : Interactable
 	{
 		if (!CanBuy(interactor))
 		{
-            Debug.Log("cant buy");
+            //Debug.Log("cant buy");
             return;
         }
 			
@@ -58,7 +58,7 @@ public class ShopInteractable : Interactable
 	public override void StartHover(Interactor interactor)
 	{
 		base.StartHover(interactor);
-		interactor.display.DisplayMessage(true, buyMessage + " ", "[Cost: " + GetCost(interactor).ToString() + "]" );
+		interactor.display.DisplayMessage(true, buyMessage + " ", "[cost: " + GetCost(interactor).ToString() + "]" );
 	}
 	protected virtual string GetBuyMessage(Interactor interactor)
 	{

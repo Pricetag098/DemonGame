@@ -34,11 +34,11 @@ public class WallBuy : ShopInteractable
 		Gun g = prefab.GetComponent<Gun>();
         if (interactor.holster.HasGun(g))
         {
-			interactor.display.DisplayMessage(true, refillAmmoText + " " + g.gunName + " ", "[Cost: " + GetCost(interactor).ToString()+ "]");
+			interactor.display.DisplayMessage(true, refillAmmoText + " " + g.gunName + " ", "[cost: " + GetCost(interactor).ToString()+ "]");
 		}
         else
         {
-			interactor.display.DisplayMessage(true, buyMessage + " " + g.gunName + " ", "[Cost: " + GetCost(interactor).ToString() + "]");
+			interactor.display.DisplayMessage(true, buyMessage + " " + g.gunName + " ", "[cost: " + GetCost(interactor).ToString() + "]");
 
 		}
 		//interactor.display.DisplayMessage(true, interactor.holster.HasGun(g) ? (refillAmmoText + " " + g.gunName + ": ", GetCost(interactor).ToString()) : (buyMessage + " " + g.gunName + ": ", GetCost(interactor).ToString()));

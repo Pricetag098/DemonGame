@@ -192,6 +192,10 @@ public class EasterEggTracker : MonoBehaviour
 
         foreach (GameObject obj in bellCompleteObjects)
         {
+            if (obj == bellCompleteObjects[0]) 
+            {
+                obj.GetComponent<RitualWall>().Rise(); 
+            }
             obj.SetActive(true);
         }
 

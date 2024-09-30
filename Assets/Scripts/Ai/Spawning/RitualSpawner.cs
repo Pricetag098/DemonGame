@@ -28,7 +28,7 @@ public class RitualSpawner : MonoBehaviour
 
     [Header("Blockers")]
     [SerializeField] Transform BlockerObjects;
-    private List<Transform> blockers = new List<Transform>();
+    [SerializeField]private List<Transform> blockers = new List<Transform>();
     private List<RitualWall> blockerWalls = new List<RitualWall>();
 
     [Header("Audio")]
@@ -80,10 +80,10 @@ public class RitualSpawner : MonoBehaviour
             OnComplete(manager);
         }
 
-        foreach(RitualWall wall in blockerWalls)
-        {
-            wall.Fall();
-        }
+        //foreach(RitualWall wall in blockerWalls)
+        //{
+        //    wall.Fall();
+        //}
 
         foreach (Transform tran in blockers)
         {

@@ -21,11 +21,26 @@ public class RitualWall : MonoBehaviour
     [SerializeField] float middleFlame;
     [SerializeField] float backFlame;
 
+    [Header("Final Ritual Check box i know this is scuff")]
+
+    [SerializeField] bool finalRitualDome = false;
+
+    [SerializeField] Material finalFrontMaterial;
+    [SerializeField] Material finalMiddleMaterial;
+    [SerializeField] Material finalBackMaterial;
+
     void Start()
     {
         frontMaterial = front.sharedMaterial;
         middleMaterial = middle.sharedMaterial;
         backMaterial = back.sharedMaterial;
+
+        if(finalRitualDome)
+        {
+            finalFrontMaterial.SetFloat("_WallRise", 3);
+            finalMiddleMaterial.SetFloat("_WallRise", 3);
+            finalBackMaterial.SetFloat("_WallRise", 3);
+        }
     }
 
     public void Rise()

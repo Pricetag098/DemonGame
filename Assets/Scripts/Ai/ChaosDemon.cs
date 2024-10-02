@@ -28,6 +28,7 @@ public class ChaosDemon : DemonFramework
     [SerializeField] int m_xAmountOfRounds;
     [SerializeField] float m_HealthToAdd;
     [SerializeField] float m_HealthMultiplier;
+    [SerializeField] float m_MaxMaxHealth;
 
     [Header("SoulBox")]
     public SoulBox SoulBox;
@@ -368,7 +369,13 @@ public class ChaosDemon : DemonFramework
         {
             _health.maxHealth += m_HealthToAdd;
         }
-        else { _health.maxHealth = _health.maxHealth * m_HealthMultiplier; }
+        else 
+        {
+            if (_health.maxHealth < m_MaxMaxHealth)
+            {
+                _health.maxHealth = _health.maxHealth * m_HealthMultiplier;
+            }
+        }
     }
     public override bool DetectTarget()
     {

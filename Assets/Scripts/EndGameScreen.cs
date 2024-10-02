@@ -43,6 +43,8 @@ public class EndGameScreen : MonoBehaviour
 
     EventSystem eventSystem;
 
+    TimeTracker timeTracker;
+
     [SerializeField] TextMeshProUGUI pointsText, killsText, headShotsText, bloodGainText, deathsText,roundText, deadText;
 
     private void Awake()
@@ -53,6 +55,8 @@ public class EndGameScreen : MonoBehaviour
         overlayCanvas = overlay.GetComponent<CanvasGroup>();
         stats = FindObjectOfType<PlayerStats>();
         titleRectTransform = endTitle.GetComponent<RectTransform>();
+
+        timeTracker = FindObjectOfType<TimeTracker>();
 
         titleOrigin = titleRectTransform.localPosition;
 
@@ -72,6 +76,8 @@ public class EndGameScreen : MonoBehaviour
     public void Open(bool finishedGame)
     {
         Time.timeScale = 0;
+
+        timeTracker.DisplayTime(true);
 
         pauseMenu.gameObject.SetActive(false);
 

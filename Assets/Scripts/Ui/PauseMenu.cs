@@ -23,7 +23,8 @@ public class PauseMenu : MonoBehaviour
 	AudioSource activeSource;
 
 	PlayerInputt playerInput;
-	
+
+	TimeTracker timeTracker;
 
     [ContextMenu("Open")]
     public void Open()
@@ -47,7 +48,8 @@ public class PauseMenu : MonoBehaviour
 			canvasGroup.blocksRaycasts = true;
 			Time.timeScale = 0;
             Time.timeScale = 0;
-			Time.fixedDeltaTime = 0;
+            timeTracker.DisplayTime(false);
+            Time.fixedDeltaTime = 0;
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
 
@@ -82,6 +84,7 @@ public class PauseMenu : MonoBehaviour
             canvasGroup.interactable = false;
 			canvasGroup.blocksRaycasts = false;
 			Time.timeScale = 1;
+            timeTracker.ContinueTracking();
             Time.fixedDeltaTime = 0.01f;
             Cursor.visible = false;
 			Cursor.lockState = CursorLockMode.Locked;
@@ -94,8 +97,7 @@ public class PauseMenu : MonoBehaviour
             playerInput.enabled = true;
         });
 		s.Append(canvasGroup.DOFade(0, openTime));
-        
-	}
+    }
 
     public void Toggle()
     {
@@ -116,6 +118,8 @@ public class PauseMenu : MonoBehaviour
         Close();
         openAction.action.performed += ToggleAction;
 		playerInput = FindObjectOfType<PlayerInputt>();
+
+		timeTracker = FindObjectOfType<TimeTracker>();
 	}
 	private void OnEnable()
 	{

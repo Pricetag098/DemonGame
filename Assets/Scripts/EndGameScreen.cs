@@ -13,6 +13,7 @@ public class EndGameScreen : MonoBehaviour
     [SerializeField] GameObject endStats;
     [SerializeField] GameObject overlay;
     [SerializeField] Slider timeSlider;
+    [SerializeField] GameObject confirmButton;
 
     [SerializeField] float titleFadeTime;
     [SerializeField] float titleOnScreenTime;
@@ -98,7 +99,7 @@ public class EndGameScreen : MonoBehaviour
         headShotsText.text = stats.headshotKills.ToString();
         bloodGainText.text = stats.GetComponent<PlayerAbilityCaster>().bloodSpent.ToString();
         deathsText.text = stats.deaths.ToString();
-
+        eventSystem.SetSelectedGameObject(confirmButton);
 
         Sequence on = DOTween.Sequence();
         on.SetUpdate(true);

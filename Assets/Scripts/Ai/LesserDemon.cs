@@ -14,6 +14,7 @@ public class LesserDemon : DemonFramework
     [SerializeField] DemonSpeedProfile runner;
     DemonSpeedProfile speedProfile;
     [HideInInspector] public SpeedType SpeedType;
+    [SerializeField] List<float> startingRoundSpeeds;
 
     [Header("Demon Health Algorithm")]
     [SerializeField] int m_xAmountOfRounds;
@@ -363,7 +364,22 @@ public class LesserDemon : DemonFramework
     }
     public override void OnFinishedSpawnAnimation()
     {
-        _aiAgent.SetFollowSpeed(_moveSpeed);
+        if(SpawnerManager.currentRound - 1 < startingRoundSpeeds.Count)
+        {
+            if(speedProfile == walker)
+            {
+                _aiAgent.SetFollowSpeed(startingRoundSpeeds[SpawnerManager.currentRound - 1]);
+            }
+            else
+            {
+                _aiAgent.SetFollowSpeed(_moveSpeed);
+            }
+        }
+        else
+        {
+            _aiAgent.SetFollowSpeed(_moveSpeed);
+        }
+
         _aiAgent.SetIsSpawned(true);
         _aiAgent.canMove = true;
         _rb.isKinematic = false;

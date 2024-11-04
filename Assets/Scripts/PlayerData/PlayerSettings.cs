@@ -11,4 +11,7 @@ public class PlayerSettings
     public float sfxVolume = 100;
     public float musicVolume = 100;
     public float ambientVolume = 100;
+
+    //menu tracking
+    public bool hasOpened = false;
 }

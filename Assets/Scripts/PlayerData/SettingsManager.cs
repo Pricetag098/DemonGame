@@ -8,7 +8,7 @@ public class SettingsManager : MonoBehaviour
 	public static SettingsManager instance { get; private set; }
 	[SerializeField] string fileName = "Settings.cfg";
 	[SerializeField] bool useEncryption = false;
-	PlayerSettings playerSettings;
+	public PlayerSettings playerSettings;
 	FileDataHandler<PlayerSettings> fileHandler;
 	List<IDataPersistance<PlayerSettings>> persistanceObjects;
 
@@ -53,7 +53,12 @@ public class SettingsManager : MonoBehaviour
 		fileHandler.Save(playerSettings);
 	}
 
-	public void LoadGame()
+	public void ClosedMenu()
+	{
+		playerSettings.hasOpened = true;
+    }
+
+    public void LoadGame()
 	{
 		playerSettings = fileHandler.Load();
 

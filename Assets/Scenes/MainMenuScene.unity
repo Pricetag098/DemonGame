@@ -2632,6 +2632,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 555624648}
   m_CullTransparentMesh: 1
+--- !u!114 &570617218 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3935805933403908259, guid: baa481c6317a3d74c99a042c175621fc, type: 3}
+  m_PrefabInstance: {fileID: 314794114}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 983904789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5baee49037de9b45b0eee261f184584, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &612828291
 GameObject:
   m_ObjectHideFlags: 0
@@ -3293,6 +3304,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 980917484}
   m_CullTransparentMesh: 1
+--- !u!1 &983904789 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5592769811447700279, guid: baa481c6317a3d74c99a042c175621fc, type: 3}
+  m_PrefabInstance: {fileID: 314794114}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1001628756
 GameObject:
   m_ObjectHideFlags: 0
@@ -3664,13 +3680,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1135299877}
+  - component: {fileID: 1135299878}
   m_Layer: 0
   m_Name: Demo Preface
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1135299877
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3695,6 +3712,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 2290.3413, y: 1249.2772}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1135299878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1135299876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 210986760042d5643b47cbfe332aefc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SettingsManager: {fileID: 983904789}
 --- !u!1 &1189557503
 GameObject:
   m_ObjectHideFlags: 0
@@ -4052,6 +4082,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 570617218}
+        m_TargetAssemblyTypeName: SettingsManager, Assembly-CSharp
+        m_MethodName: ClosedMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1135299876}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
@@ -4622,22 +4664,20 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "This version is in no way complete or indicitive of the final game. \n\nThe
-    demo functions as a taste of what Blood Reaver will be, it exisits as the result
-    of a gradute project that grew far faster than we could've ever expected - those
-    of you who have supported us thus far are the reason we are able to continue
-    development towards building up the game to be better.\n\nCONTROLLER SUPPORT:
-    While this demo has the ability to be played with a controller, we recommend
-    using keyboard and mouse as not all features are fully supported.\n\nDEMO CONTENT:\n\n-
-    Our 1st map; 'The Beginning of the End' is set in an expansive cathedral overtaken
-    by cultists who have sacrifieced the entire clergy through a ritual to begin
-    a demonic takeover\n- 6 weapons of majesty from Bartov's personal gallery.\n-
-    6 blood magic spells that will grant you the necessary ability to escape certain
-    death and deal with the demonic invasion more efficiently.\n- 2 vicious demon
-    variants; the Imps and the Abomination.\n- Countless secrets to uncover...\n\nFor
-    more info, join our discord to stay up to date and have a sneak peek at the content
-    that we'll be working on for the next year in preparation for our late 2025 Early
-    Access launch.\n\n~ Hell Byte Studios Team"
+  m_text: "This demo is an early glimpse of Blood Reaver and does not represent the
+    final version of the game.\r\n\r\nOriginally conceived as a graduate project,
+    Blood Reaver has grown well beyond our initial expectations. Thanks to the support
+    of our community, we are excited to continue building the game to its fullest
+    potential.\r\n\r\nController Support\r\nThis demo supports controllers, but we
+    recommend using a keyboard and mouse for the best experience, as some features
+    may not yet be fully compatible.\r\n\r\nDemo Content\r:\n\r\nMap: Our first level,
+    The Beginning of the End, takes place in a vast cathedral overtaken by cultists,
+    where the clergy has been sacrificed in a dark ritual to initiate a demonic incursion.\r\nWeapons:
+    Six distinct weapons from Bartov's gallery.\r\nBlood Magic: Wield six powerful
+    blood magic spells.\r\nEnemies: Face two types of demons, the Imps and the Banshee.\r\nExploration:
+    Discover countless hidden secrets throughout the level.\r\n\nFor updates and
+    exclusive content previews as we work towards our Early Access launch in late
+    2025, join us on Discord!\r\n\r\n- The Hell Byte Studios Team"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: eeb95cbb08e12fd49bf389a0db2a614f, type: 2}
   m_sharedMaterial: {fileID: 6300371522001370472, guid: eeb95cbb08e12fd49bf389a0db2a614f, type: 2}
